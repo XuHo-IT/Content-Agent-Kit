@@ -1,0 +1,22 @@
+# sources.yaml — crawl4ai discovery config (see docs/10-crawl-discovery.md)
+# The crawler scans each `list_url` INDEX page, extracts article links matching
+# `link_pattern`, drops URLs the server already knows, and crawls the new ones.
+# COPYRIGHT: excerpt-only (<=1500 chars) + link. Prefer public-domain / permitted sources.
+
+max_per_run: 6            # total NEW items pulled per run (quality + cost control)
+
+web:
+  - name: "{{Source display name}}"        # becomes source_name / author on publish
+    list_url: "{{https://example.com/news}}"  # INDEX / listing page to scan
+    link_pattern: "{{/article/[^/]+$}}"    # REQUIRED regex selecting ARTICLE urls (not nav)
+    lang: "{{en}}"                          # vi | en | ko | ja
+    max_per_run: 2                          # optional per-source cap
+    enabled: true
+
+  # - name: "Another source"
+  #   list_url: "https://…"
+  #   link_pattern: "…"
+  #   lang: en
+
+# Tip: run `python scripts/crawl/crawl.py --dry-run` to verify link_pattern catches
+# the right URLs before pushing anything to the queue.

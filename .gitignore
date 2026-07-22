@@ -1,0 +1,32 @@
+# Secrets — NEVER commit
+.env
+.env.local
+.env.*.local
+
+# Agent state / ledger / dedup (regenerated at runtime)
+state/*.json
+!state/*.example.json
+**/queue.json
+**/ledger.json
+**/history.json
+**/posted_history.json
+**/daily_posts_queue.json
+**/long_in_progress.json
+suutam_raw.json
+audit_input.json
+
+# Per-run scratch + generated assets + brain reports
+scratch/
+brain/
+output/
+*.log
+
+# Python / Node
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db

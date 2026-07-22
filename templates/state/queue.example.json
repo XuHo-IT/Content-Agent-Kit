@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "type": "social",
+    "scheduledTime": "2026-01-01T02:30:00.000Z",
+    "status": "queued",
+    "post": "Full post text goes here…",
+    "comment": "First-comment / engagement text with #hashtags",
+    "mediaUrl": "scratch/post_1.png"
+  },
+  {
+    "id": 2,
+    "type": "publish",
+    "scheduledTime": "2026-01-01T06:15:00.000Z",
+    "status": "queued",
+    "payload": "scratch/item_2.json"
+  }
+]

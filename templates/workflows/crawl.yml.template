@@ -1,0 +1,36 @@
+# .github/workflows/crawl.yml — daily crawl4ai discovery on GitHub Actions cron.
+# Copy to your project's .github/workflows/. Add secrets in repo Settings → Secrets.
+name: daily-crawl
+
+on:
+  schedule:
+    - cron: "0 22 * * *"     # 22:00 UTC daily — adjust to your timezone
+  workflow_dispatch: {}       # manual "Run workflow" button
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: scripts/crawl   # where crawl.py + sources.yaml live
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: |
+          pip install -r requirements.txt
+          crawl4ai-setup          # installs Chromium/Playwright (heavy)
+      - name: Crawl → idea queue
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+          INGEST_API_TOKEN: ${{ secrets.INGEST_API_TOKEN }}
+        run: python crawl.py
+      - name: Debug artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: queue_raw
+          path: scripts/crawl/queue_raw.json
+          if-no-files-found: ignore

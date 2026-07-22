@@ -1,0 +1,4 @@
+[
+  { "id": "item-abc123", "title": "A serialized long piece", "targetParts": 20, "partsWritten": 6 },
+  { "id": "item-def456", "title": "Another in progress", "targetParts": 24, "partsWritten": 3 }
+]
