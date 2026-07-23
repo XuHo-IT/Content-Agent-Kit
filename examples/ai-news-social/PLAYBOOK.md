@@ -7,7 +7,13 @@ Discover AI-news sources, write original Vietnamese articles + engagement commen
 generate a 16:9 image each, and post to social (Make.com) — optionally also to the web.
 
 ## 0b. Voice & language
+> 📖 **BẮT BUỘC đọc `WRITING_CRAFT.md` trước khi viết** — §1 nguyên tắc, §2 giọng BÀI VIẾT,
+> §3 giọng COMMENT (khác hẳn nhau), §4 danh sách sáo rỗng CẤM, §5 ví dụ trước/sau, §6 tự kiểm.
+> Review chấm theo **§7**.
+
 - **Vietnamese, full diacritics.** Clear, engaging, credible tech-journalism tone.
+- Cụ thể thắng chung chung: mọi tính từ mạnh phải kèm **con số/dẫn chứng**; mỗi bài bắt buộc
+  có **≥1 đoạn nói về giới hạn/mặt trái** (bài chỉ khen = mất uy tín).
 - No `##`-style headings inside the post body. Never brand as "(AI)".
 - Outro line: `Thế bạn nghĩ sao về: <hook question>?`
 - A GitHub/product link (if any) goes in the COMMENT, never in the post body.
@@ -21,9 +27,16 @@ One subagent per article (4+), run in parallel. Each: research from the idea/exc
 write → propose image prompt.
 
 ## 2b. REVIEW gate (mandatory — docs/07)
-Independent review subagent per article: facts sane, 800–1500 words, VN diacritics, no
-plagiarism of the source (original phrasing), image on-topic 16:9 not distorted, hashtags
-valid, Meta/Slug present. Pass → publish. Fail → fix (2–3 rounds) → drop + log.
+Independent review subagent per article:
+- **Craft — chấm theo `WRITING_CRAFT.md` §7** (10 tiêu chí có ngưỡng: mật độ sáo rỗng · lặp
+  cấu trúc mở đoạn · số dẫn chứng · có đoạn mặt trái · câu mở bài · thuật ngữ được giải thích ·
+  tính từ rỗng · comment khác giọng bài · hashtag · độ dài/Meta/Slug).
+  **FAIL NGAY:** chỉ khen không nêu mặt trái · bài không có dữ kiện · sai sự thật.
+  `fixes` phải **trích đúng câu sai** + gợi ý viết lại.
+- Facts sane, 800–1500 words, VN diacritics, no plagiarism of the source (original phrasing),
+  image on-topic 16:9 not distorted, hashtags valid, Meta/Slug present.
+
+Pass → publish. Fail → fix (2–3 rounds) → drop + log.
 
 ## 3. Images
 Generate one **16:9** illustration per article (integrated image model). One distinct

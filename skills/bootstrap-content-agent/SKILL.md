@@ -25,11 +25,22 @@ Ask (batch related questions; propose sensible defaults):
    source index pages + the article-link pattern. (Copyright: excerpt+link only.)
 6. **Social** — post to Make.com/n8n/Zapier? Which platforms? Image host (Cloudinary/Catbox)?
 7. **Scheduling** — GitHub Actions cron / Windows schtasks / manual?
-8. **Access tiers & voice** — free/login/paid split; language; tone; anything forbidden.
+8. **Access tiers** — free/login/paid split; anything forbidden.
+9. **Voice & craft (do not skip — this is what makes output not read like AI):**
+   - Publication language + tone; who is the implied author?
+   - **One register per content type** — how should each *sound*, and how do they differ?
+   - Which clichés/phrases are overused in this language & genre? (get 5–10 concrete ones)
+   - Any hard genre contract? (e.g. mystery fair-play, journalism sourcing, brand rules)
+   - Ask for **1–2 samples they consider good** — you'll mine them for the before/after pairs.
 
 ## Phase 3 — Scaffold (generate into the user's project)
 From `templates/` + `scripts/`, produce:
 - **`PLAYBOOK.md`** — fill `templates/PLAYBOOK.template.md` with the interview answers.
+- **`WRITING_CRAFT.md`** — fill `templates/WRITING_CRAFT.template.md` (see `docs/12-writing-craft.md`).
+  **Write it in the publication language**, one register section per content type, a concrete
+  banned-cliché list, and **2–3 BEFORE/AFTER pairs you author yourself** (never copy copyrighted
+  prose). End with the §7 rubric using **countable fail thresholds**. This file is what stops
+  the output from reading like AI — do not skip or stub it.
 - **`KNOWLEDGE.md`** — fill `templates/KNOWLEDGE.template.md` with the real API contracts.
 - **`.env.example`** — only the env keys this agent needs (copy from kit `.env.example`, trim).
 - **State**: `history.json`, `ledger.json` (if serialized), `queue.json` — start from the

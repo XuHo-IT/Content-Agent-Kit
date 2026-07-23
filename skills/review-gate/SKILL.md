@@ -6,7 +6,27 @@ description: Independently review one generated content item before it is publis
 # Review gate (independent, pre-publish)
 
 You are a SEPARATE reviewer from whoever generated the item. Be strict. Grade against
-this checklist and return `{ ok: true|false, issues: [...] }`.
+this checklist and return `{ ok: true|false, issues: [...], fixes: [...] }`.
+
+**Craft comes first.** If the project has a `WRITING_CRAFT.md`, score its **§7 rubric**
+before anything else — those criteria are measurable, so count them:
+
+| # | Criterion | FAIL threshold |
+|---|---|---|
+| 1 | Cliché phrases from the banned list (§4) | > 1 per 1000 words |
+| 2 | Consecutive paragraphs opening with the same structure | > 2 |
+| 3 | Concrete sensory details per major scene | < 3 |
+| 4 | POV / forms of address | changes mid-piece |
+| 5 | Peak moments | told (stated emotion) instead of shown |
+| 6 | Character voices | main characters sound identical |
+| 7 | Cheap transitions ("suddenly"…) | > 2 per 1000 words |
+| 8 | Register hard rule (e.g. mystery fair-play: every clue needed for the solution appears in the body) | violated |
+
+**FAIL IMMEDIATELY** on: register hard rule violated · POV/address broken · cliché density at
+double threshold · nothing shown, only told.
+
+Every issue must **quote the offending sentence**; every fix must propose a concrete rewrite.
+Never return vague feedback like "make the prose better".
 
 **Images**
 - Correct subject + on-topic + not distorted / not offensive.

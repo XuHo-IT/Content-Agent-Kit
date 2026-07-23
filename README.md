@@ -30,9 +30,10 @@ crawl-discovery pipeline, social posting, scheduling, and a pre-publish review g
 1. **Playbook = single source of truth.** The agent re-reads `PLAYBOOK.md` every run — never relies on chat memory.
 2. **Flat-file state.** `queue.json` (schedule), `ledger.json` (in-progress work), `history.json` (dedup). Operations are **idempotent** (a `409 = already done`).
 3. **Review gate.** Every item passes an **independent review subagent** before publishing; fail → fix (2–3 rounds) → drop + report.
-4. **Discovery (optional).** A `crawl4ai` crawler feeds an **idea queue**; the server is the dedup memory (CI runners are ephemeral).
-5. **Scheduling.** `cron` (GitHub Actions) is the default; Windows `schtasks` / in-process are alternatives.
-6. **Env-only secrets.** No token/webhook/URL is ever hardcoded. `.env` is git-ignored.
+4. **Craft is enforced.** A `WRITING_CRAFT.md` (per-genre voice, banned clichés, before/after examples) is read *before* writing, and its **measurable rubric** is scored *before* publishing — that's what keeps output from reading like AI.
+5. **Discovery (optional).** A `crawl4ai` crawler feeds an **idea queue**; the server is the dedup memory (CI runners are ephemeral).
+6. **Scheduling.** `cron` (GitHub Actions) is the default; Windows `schtasks` / in-process are alternatives.
+7. **Env-only secrets.** No token/webhook/URL is ever hardcoded. `.env` is git-ignored.
 
 ---
 
@@ -56,8 +57,8 @@ Then day-to-day: run **`/daily-run`** (or your generated `schedule-prompt.md` on
 
 | Path | Purpose |
 |---|---|
-| `docs/` | The methodology (bilingual EN + VI), 11 short docs. |
-| `templates/` | Fill-in scaffolds: `PLAYBOOK`, `KNOWLEDGE`, `sources.yaml`, state, cron workflow. |
+| `docs/` | The methodology (bilingual EN + VI), 12 short docs — incl. **`12-writing-craft.md`**. |
+| `templates/` | Fill-in scaffolds: `PLAYBOOK`, **`WRITING_CRAFT`**, `KNOWLEDGE`, `sources.yaml`, state, cron workflow. |
 | `scripts/` | Generic **working** CLI: publish/append/update, queue client, `social/make-post`, `crawl/crawl.py`, scheduler. All env-only. |
 | `skills/` | Claude Code skills: **`bootstrap-content-agent`** (the meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`. |
 | `examples/ai-news-social/` | A complete worked example: an AI-news social agent (crawl → write → image → web + Make.com → cron). |

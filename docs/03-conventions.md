@@ -21,6 +21,9 @@ These rules apply to *every* agent built with this kit.
   is distinct — never reuse one image for multiple slots.
 - **Language discipline.** Write in the target language with correct diacritics; do
   not mix scripts or leave machine-translation artifacts in titles.
+- **Craft is enforced, not hoped for.** "Write well" is unenforceable. Every agent ships a
+  `WRITING_CRAFT.md` (registers + banned clichés + before/after examples) that the writer reads
+  first, ending in a **measurable rubric** the reviewer scores. See `12-writing-craft.md`.
 - **Copyright.** When crawling, keep excerpts only (≤1500 chars) + a source link, and
   write ORIGINAL text. Prefer public-domain sources. See `10-crawl-discovery.md`.
 
@@ -45,5 +48,8 @@ These rules apply to *every* agent built with this kit.
 - **Mỗi thực thể 1 ảnh riêng.** Không dùng lại 1 ảnh cho nhiều chỗ.
 - **Kỷ luật ngôn ngữ.** Viết đúng ngôn ngữ đích, đủ dấu; không lẫn chữ, không để rác
   dịch máy trong tiêu đề.
+- **Văn chương phải ÉP được, không "hy vọng".** "Viết hay" là thứ không ép được. Mỗi agent
+  phải có `WRITING_CRAFT.md` (register + danh sách sáo rỗng cấm + ví dụ trước/sau) để subagent
+  viết đọc trước, kết bằng **rubric đo được** cho review chấm. Xem `12-writing-craft.md`.
 - **Bản quyền.** Crawl chỉ lấy excerpt (≤1500 ký tự) + link; viết NGUYÊN TÁC; ưu tiên
   public-domain. Xem `10-crawl-discovery.md`.

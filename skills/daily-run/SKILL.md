@@ -10,8 +10,10 @@ description: Execute today's content run for an agent built with content-agent-k
 2. **Determine today's phase** = (day-of-year mod N) per §1, and do exactly that phase.
 3. **(If crawling)** pull fresh ideas first: `node scripts/queue-client.mjs pull` → work
    from `queue_raw.json`.
-4. **Fan out** one subagent per item (§2). Each produces content + images + metadata per
-   the §4 schema. Check `history.json` — skip duplicates.
+4. **Fan out** one subagent per item (§2). **Each writer MUST read `WRITING_CRAFT.md` first**
+   (§1 universal principles + its register §2/§3 + the banned-cliché list §4) and self-check
+   against §6 before submitting. Each produces content + images + metadata per the §4 schema.
+   Check `history.json` — skip duplicates.
 5. **Review gate (mandatory, §2b)** — invoke the `review-gate` skill / an independent
    review subagent on every item. Pass → continue. Fail → fix (2–3 rounds) → drop + log.
    Reject any forbidden output on sight.

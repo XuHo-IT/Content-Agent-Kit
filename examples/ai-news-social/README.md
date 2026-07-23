@@ -29,6 +29,8 @@ crawl.py (crawl4ai) ── reads sources.yaml ── GET /api/queue?known=1 (ded
 
 ## Files here
 - `PLAYBOOK.md` — the daily SOP (cadence, format rules, review gate, publish, cron).
+- `WRITING_CRAFT.md` — **the craft guide**: two registers (article vs comment), banned Vietnamese
+  clichés, 3 before/after pairs, and the measurable review rubric (§7).
 - `KNOWLEDGE.md` — API + webhook contracts + article schema.
 - `sources.yaml` — AI-news index pages to crawl.
 - `schedule-prompt.md` — the daily trigger prompt.
