@@ -15,9 +15,13 @@ protected by a Bearer token (`INGEST_API_TOKEN`). Adapt paths via flags/env.
 `409` duplicate (title/content/source already exists — client treats as done), `400`
 validation error (client should NOT retry blindly).
 
-**Images.** If you pass `--image local.png`, the script uploads it to your image host
-(Cloudinary unsigned preset or Catbox — see `11-social-posting.md`) and sets the
-returned URL on the payload. Your ingest API can also re-host it server-side.
+**Images — the re-host pipeline.** Recommended end-to-end path so URLs stay stable and on
+your own domain: **local file → temp image host (Cloudinary unsigned preset / Catbox) →
+ingest API downloads it → your storage bucket (e.g. Supabase `covers`) → permanent URL** on
+the item. If you pass `--image local.png`, the script does the upload and sets the returned
+URL; a well-built ingest API then re-hosts that URL into your bucket (an already-bucket URL
+is left as-is). Why via a temp host at all: **fan-out subagents can't call the native
+image-gen tool** (sandbox), so the parent generates/uploads — see `13-permissions.md`.
 
 **No ingest API?** Point `publish.mjs --path` at whatever POST endpoint you have, or
 skip web publishing entirely and use only the social step (`make-post.mjs`).

@@ -39,8 +39,11 @@ Never return vague feedback like "make the prose better".
 - Not a duplicate (cross-check `history.json`).
 
 **Logic** (for structured items — puzzles, cases, multi-part):
-- Every referenced id (nextId, clueId, answerId, …) points to something that exists.
+- Every referenced id (nextId, answerId, revealsIds, …) points to something that exists.
 - The answer is derivable from the given information (no guessing, no dead ends).
+- 🔴 **No internal-id leak**: no logic id (`q1`, `o2`, `n3`, `s1`…) appears in any
+  reader-visible text (`content`/`revealText`/titles/labels), even as `(q1)`/`[o2]`. Scan
+  for `([a-z]\d+)` tokens → any hit is `ok:false` (see `docs/03-conventions.md`).
 
 **SEO / metadata**
 - Title + subtitle/description are compelling and accurate; slug/tags sane.

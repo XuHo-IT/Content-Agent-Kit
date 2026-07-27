@@ -10,8 +10,9 @@ single most important quality mechanism.
 2. A *separate* review subagent scores it against a checklist:
    - Images: correct subject, on-topic, not distorted, **not reused** across slots, complete (none missing).
    - Content: coherent, correct length, target language + diacritics, no machine-translation artifacts.
-   - Logic (for structured items like puzzles/cases): every referenced id exists; the
-     answer is derivable from the given clues; no dead ends.
+   - Logic (structured items: quiz/puzzle/case/multi-part): every referenced id exists; the
+     answer is derivable from the public data; no dead ends. **No id leak** — no logic id
+     (`q1`/`o2`/`n3`…) in any reader-visible text; scan `([a-z]\d+)`, any hit fails.
    - SEO: title + subtitle/description are compelling and correct.
 3. **Pass →** publish. **Fail →** send it back to fix (regenerate the bad part / new
    image), re-review. Max 2–3 rounds. Still failing → **drop it** and record why.
@@ -33,8 +34,9 @@ quan trọng nhất.
 2. Subagent review *riêng* chấm theo checklist:
    - Ảnh: đúng chủ thể, đúng chủ đề, không méo, **không dùng lại**, đủ (không thiếu).
    - Nội dung: mạch lạc, đủ độ dài, đúng ngôn ngữ + dấu, không rác dịch máy.
-   - Logic (item có cấu trúc như vụ án): mọi id tham chiếu có thật; đáp án suy ra được
-     từ manh mối; không bế tắc.
+   - Logic (item có cấu trúc: quiz/câu đố/vụ án/nhiều phần): mọi id tham chiếu có thật;
+     đáp án suy ra được từ dữ kiện công khai; không bế tắc. **Không lộ id** — không id logic
+     (`q1`/`o2`/`n3`…) nào lọt vào text người đọc thấy; rà `([a-z]\d+)`, có token là fail.
    - SEO: tiêu đề + mô tả cuốn + đúng.
 3. **Đạt →** đăng. **Fail →** trả về sửa (tạo lại phần lỗi / ảnh mới), review lại. Tối
    đa 2–3 vòng. Vẫn fail → **bỏ** + ghi lý do.

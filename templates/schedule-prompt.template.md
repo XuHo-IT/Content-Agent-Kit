@@ -18,5 +18,11 @@ Read and execute **{{PATH}}/PLAYBOOK.md** for today.
   randomly. {{Social highlights → make-post.mjs; never post {{restricted type}}.}}
 - Clean up per-run scratch files at the end.
 - Write the report to `brain/<id>/report.md`.
+- **Scoped auto-accept**: only do today's playbook tasks; run ONLY allow-listed scripts;
+  never run destructive/out-of-scope commands (file deletes, `git push --force`/`reset --hard`,
+  `DROP`/`DELETE`, `psql`, arbitrary `curl`) or edit anything outside today's items — if a task
+  needs one, STOP and log it. (See `docs/13-permissions.md`.)
+- **No internal-id leak**: never put logic ids ({{`c1`/`s2`/`w1`…}}) into reader-visible text;
+  scan `([a-z]\d+)` in body/reveal before publishing.
 
 ⚠️ Never create: {{removed features / forbidden types}}.

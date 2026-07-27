@@ -17,8 +17,11 @@ These rules apply to *every* agent built with this kit.
 - **Clean up each run.** Delete per-run scratch files (payloads, temp images) at the
   end. Keep only state files (`queue`/`ledger`/`history`) and reports.
 - **No AI self-branding.** Author = a random human pen-name. Never append "(AI)".
-- **One asset per entity.** If an item has N images (e.g. clue/suspect cards), each
-  is distinct — never reuse one image for multiple slots.
+- **One asset per entity — globally.** If an item has N images (e.g. per-entity cards),
+  each is distinct; and never reuse an image **across different items** either. Generate a
+  fresh asset per entity instead of borrowing a similar one from an older item (a common
+  failure when the writer subagent can't gen images and grabs an existing URL). The
+  `audit-quality.mjs` `duplicate-images` rule flags reuse both within and across items.
 - **Language discipline.** Write in the target language with correct diacritics; do
   not mix scripts or leave machine-translation artifacts in titles.
 - **Craft is enforced, not hoped for.** "Write well" is unenforceable. Every agent ships a
@@ -26,6 +29,12 @@ These rules apply to *every* agent built with this kit.
   first, ending in a **measurable rubric** the reviewer scores. See `12-writing-craft.md`.
 - **Copyright.** When crawling, keep excerpts only (≤1500 chars) + a source link, and
   write ORIGINAL text. Prefer public-domain sources. See `10-crawl-discovery.md`.
+- **No internal-id leakage.** For structured/interactive content, machine ids of logic
+  entities (`q1`, `o2`, `n3`, `s1`…) belong ONLY in logic fields — never in any
+  reader-visible text (`content`/`revealText`/titles/labels), not even as `(q1)`/`[o2]`.
+  Refer to things by name/description in prose. Pre-publish scan strips any `([a-z]\d+)`
+  token (the `audit-quality.mjs` `id-leak` rule enforces it). A leak reads as broken and
+  spoils a hidden answer step-by-step. See `KNOWLEDGE.template.md` (structured content).
 
 ---
 
@@ -53,3 +62,8 @@ These rules apply to *every* agent built with this kit.
   viết đọc trước, kết bằng **rubric đo được** cho review chấm. Xem `12-writing-craft.md`.
 - **Bản quyền.** Crawl chỉ lấy excerpt (≤1500 ký tự) + link; viết NGUYÊN TÁC; ưu tiên
   public-domain. Xem `10-crawl-discovery.md`.
+- **KHÔNG lộ id nội bộ.** Với nội dung cấu trúc/tương tác, id máy của thực thể logic
+  (`q1`, `o2`, `n3`, `s1`…) CHỈ ở field logic — không bao giờ xuất hiện trong text
+  người đọc thấy (`content`/`revealText`/title/label), kể cả dạng `(q1)`/`[o2]`. Trong văn
+  gọi bằng tên/mô tả. Rà trước khi đăng, xoá token `([a-z]\d+)` (rule `id-leak` trong
+  `audit-quality.mjs` ép việc này). Lộ id vừa hỏng văn vừa **lộ đáp án theo từng bước**.

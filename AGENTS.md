@@ -23,6 +23,9 @@ determine today's phase, fan out, **review-gate before publish**, schedule, repo
 - **Idempotent** — treat `409 Conflict` as "already done", mark it done, move on.
 - **Clean up** — delete per-run scratch files at the end; keep only state files.
 - **Copyright** — crawl = excerpts + link only; write original text.
+- **Scoped auto-accept** — a scheduled run uses `acceptEdits` + a tight allow-list (never
+  `bypassPermissions`); no destructive/out-of-scope commands. See `docs/13-permissions.md`.
+- **No internal-id leak** — logic ids never appear in reader-visible text. See `docs/03`.
 
 ## Map of the kit
 - `docs/` — methodology (bilingual). Start at `01-architecture.md`.

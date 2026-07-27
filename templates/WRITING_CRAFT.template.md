@@ -50,6 +50,14 @@ No walking, door-opening, tea-pouring unless it means something.
 
 > ⚠️ §2 and §3 are **different voices**. Never write both in the same tone.
 
+> 🔴 **NO INTERNAL-ID LEAKAGE (structured/interactive content).** If your items carry machine
+> ids for logic entities (options, steps, nodes, cards — e.g. `q1`, `o2`, `n3`…), those ids live
+> ONLY in logic fields — NEVER write them, not even as `(q1)`/`[o2]`/`` `n3` ``, in any
+> reader-visible text (`content`, `revealText`, titles, labels). In prose, refer to things **by
+> name or description**, never by id. A leaked id reads as broken and, for anything with a hidden
+> answer, **spoils it step-by-step**. Pre-publish scan: strip any `([a-z]\d+)` token.
+> See `docs/03-conventions.md` + `KNOWLEDGE.template.md` (structured content).
+
 ---
 
 ## §4. BANNED — clichés & "AI smell"
@@ -103,6 +111,7 @@ No walking, door-opening, tea-pouring unless it means something.
 - [ ] Each main character has ≥1 distinct voice marker.
 - [ ] {{Register-specific check A}}
 - [ ] {{Register-specific check B — e.g. fair-play clue rule}}
+- [ ] (structured content) Zero internal-id token `([a-z]\d+)` in any reader-visible text.
 
 ---
 
@@ -123,9 +132,10 @@ offending sentence**; every fix must suggest a concrete rewrite.
 | 8 | {{Register-B hard rule, e.g. fair-play}} | violated |
 | 9 | {{Register-B secondary rule}} | missing |
 | 10 | {{Serial rule — installment ends on tension}} | ends on a recap/summary |
+| 11 | (structured content) Internal-id token in reader-visible text | ≥ 1 `([a-z]\d+)` present |
 
 **FAIL IMMEDIATELY:** {{list the violations that stop the review — e.g. #8 violated · #4 broken ·
-#1 at double threshold · nothing shown, only told}}.
+#1 at double threshold · nothing shown, only told}} · **#11 any id leak**.
 
 > Not passing → return specific `fixes`; the writer revises and re-submits. Max 2–3 rounds,
 > then drop the item and log why (see `PLAYBOOK.md` §2b).

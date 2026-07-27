@@ -57,9 +57,9 @@ Then day-to-day: run **`/daily-run`** (or your generated `schedule-prompt.md` on
 
 | Path | Purpose |
 |---|---|
-| `docs/` | The methodology (bilingual EN + VI), 12 short docs — incl. **`12-writing-craft.md`**. |
+| `docs/` | The methodology (bilingual EN + VI), 13 short docs — incl. **`12-writing-craft.md`**, **`13-permissions.md`** (scoped auto-accept). |
 | `templates/` | Fill-in scaffolds: `PLAYBOOK`, **`WRITING_CRAFT`**, `KNOWLEDGE`, `sources.yaml`, state, cron workflow. |
-| `scripts/` | Generic **working** CLI: publish/append/update, queue client, `social/make-post`, `crawl/crawl.py`, scheduler. All env-only. |
+| `scripts/` | Generic **working** CLI: publish/append/update, queue client, `social/make-post`, `crawl/crawl.py`, **`audit-quality`** (rule-based audit), scheduler. All env-only. |
 | `skills/` | Claude Code skills: **`bootstrap-content-agent`** (the meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`. |
 | `examples/ai-news-social/` | A complete worked example: an AI-news social agent (crawl → write → image → web + Make.com → cron). |
 
