@@ -39,6 +39,10 @@ Anthropic's Claude Fable 5 announcement — became **two formats**:
 **[▶️ Download the mp4 (15.5 MB)](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0)**
 · or regenerate it yourself: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
 
+The same story also exists as a **[white-canvas, ocean-blue cut](examples/ai-video-social/sample-output-paper-blue/)**
+— 16 scenes across all 14 templates, one line of difference (`"theme": "paper-blue"`) and not
+a single forked template.
+
 ## The operating model
 
 ```
@@ -133,6 +137,17 @@ every clip came from. Guide: **[`docs/15-media-sources.md`](docs/15-media-source
 image. Four defects reached a finished video that no rule could catch — off-topic B-roll, a
 doubled headline, a repeated comparison label, a word broken mid-syllable — and all four were
 obvious in one glance.
+
+**One palette for the whole video.** Almost every template ships dark. Adding
+`"theme": "paper-blue"` recolours all of them to a white canvas with ocean-blue ink — in a
+**throwaway copy**, leaving the vendored templates untouched. Accents are darkened until they
+clear 3:1 against the canvas, and `mix-blend-mode: screen` flips to `multiply` (screen over
+white paints white, so the effect would vanish without an error). Which way to flip is
+**measured with Chrome**, not guessed from CSS:
+
+```bash
+node scripts/video/theme-probe.mjs --preview paper-blue   # 14 before/after stills, ~40s
+```
 
 **More visual variety.** `node scripts/video/add-template.mjs --preset news` pulls transitions,
 animated captions, lower-thirds and charts from the upstream

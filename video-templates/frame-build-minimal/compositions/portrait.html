@@ -132,7 +132,9 @@
                 font-weight: 800;
                 font-size: 195px;
                 letter-spacing: -4px;
-                line-height: 0.98;
+                /* 0.98 clipped the tilde off "Ỡ" — a Vietnamese vowel can carry a horn AND
+                   a tone mark, which sit above the Latin cap height the line box assumes. */
+                line-height: 1.16;
                 text-align: center;
             }
             .hero .ch {
@@ -366,15 +368,19 @@
                         hero.appendChild(span);
                     });
 
-                    /* Auto-scale hero to fit container width */
+                    /* Auto-scale hero to fit container width.
+                       nowrap STAYS ON afterwards. Every character here is its own
+                       inline-block, so without it the browser may break between any two
+                       of them — and a floor()ed size that is a pixel too wide is enough
+                       to split a word down the middle ("NGƯỠNG" rendered as "NGƯỠ / G").
+                       The 0.97 margin absorbs letter-spacing rounding. */
                     var maxPx = 195, minPx = 60;
                     hero.style.whiteSpace = "nowrap";
                     hero.style.fontSize = maxPx + "px";
                     if (hero.scrollWidth > hero.offsetWidth) {
-                        var sized = Math.max(minPx, Math.floor(maxPx * hero.offsetWidth / hero.scrollWidth));
+                        var sized = Math.max(minPx, Math.floor(maxPx * hero.offsetWidth / hero.scrollWidth * 0.97));
                         hero.style.fontSize = sized + "px";
                     }
-                    hero.style.whiteSpace = "";
                 }
             })();
             window.__timelines = window.__timelines || {};

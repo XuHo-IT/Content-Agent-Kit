@@ -39,6 +39,10 @@ của Anthropic — cho ra **hai định dạng**:
 **[▶️ Tải video mp4 (15,5 MB)](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0)**
 · hoặc render lại chính nó: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
 
+Cùng chủ đề đó còn có **[bản nền trắng chữ xanh biển](examples/ai-video-social/sample-output-paper-blue/)**
+— 16 scene, dùng hết 14 template, khác đúng một dòng `"theme": "paper-blue"` chứ không fork
+template nào.
+
 ## Mô hình vận hành
 
 ```
@@ -133,6 +137,16 @@ luôn cho ra cùng một video — và file đó đồng thời là sổ ghi ngu
 ảnh duy nhất. Bốn lỗi đã lọt vào video hoàn chỉnh mà không luật nào chặn được — B-roll lạc đề,
 tiêu đề in hai lần, headline lặp nhãn, một từ bị vỡ dòng — và **cả bốn đều lộ ra trong một cái
 nhìn**.
+
+**Một bảng màu cho cả video.** Gần như mọi template đều nền tối. Thêm `"theme": "paper-blue"`
+là cả bộ đổi sang nền trắng chữ xanh biển — trên **bản sao tạm**, template gốc không đổi một
+dòng nào. Màu nhấn được làm tối tới khi đạt tương phản 3:1 với nền, và `mix-blend-mode:
+screen` tự lật thành `multiply` (screen trên nền trắng thì tô ra trắng — hiệu ứng biến mất
+mà không báo lỗi). Chiều lật là **đo bằng Chrome**, không đoán từ CSS:
+
+```bash
+node scripts/video/theme-probe.mjs --preview paper-blue   # 14 ảnh trước/sau, ~40 giây
+```
 
 **Muốn sinh động hơn.** `node scripts/video/add-template.mjs --preset news` kéo về hiệu ứng
 chuyển cảnh, caption động, lower-third và biểu đồ từ

@@ -1,0 +1,81 @@
+{
+  "stripe": {
+    "source": "pexels",
+    "id": "4884235",
+    "url": "https://videos.pexels.com/video-files/4884235/4884235-hd_1080_1920_30fps.mp4",
+    "author": "Artem Podrez",
+    "authorUrl": "https://www.pexels.com/@artempodrez",
+    "pageUrl": "https://www.pexels.com/video/laptop-computer-on-white-surface-against-white-background-4884235/",
+    "license": "Pexels License",
+    "request": {
+      "kind": "video",
+      "source": "pexels",
+      "id": "4884235",
+      "query": null,
+      "url": null,
+      "ref": null,
+      "fit": "cover"
+    },
+    "file": "media/stripe.mp4",
+    "resolvedAt": "2026-08-02T09:56:51.892Z"
+  },
+  "nguon": {
+    "source": "screenshot",
+    "id": null,
+    "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+    "author": "",
+    "pageUrl": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+    "license": "screenshot of a public page",
+    "request": {
+      "kind": "screenshot",
+      "source": "pexels",
+      "id": null,
+      "query": null,
+      "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+      "ref": null,
+      "fit": "cover"
+    },
+    "file": "media/nguon.png",
+    "resolvedAt": "2026-08-02T09:56:59.191Z"
+  },
+  "tac-vu-dai": {
+    "source": "pexels",
+    "id": "12893579",
+    "url": "https://videos.pexels.com/video-files/12893579/12893579-hd_1080_1920_24fps.mp4",
+    "author": "Mizuno K",
+    "authorUrl": "https://www.pexels.com/@mizunokozuki",
+    "pageUrl": "https://www.pexels.com/video/hands-typing-on-laptop-keyboard-12893579/",
+    "license": "Pexels License",
+    "request": {
+      "kind": "video",
+      "source": "pexels",
+      "id": "12893579",
+      "query": null,
+      "url": null,
+      "ref": null,
+      "fit": "cover"
+    },
+    "file": "media/tac-vu-dai.mp4",
+    "resolvedAt": "2026-08-02T09:57:03.837Z"
+  },
+  "lenh-dung": {
+    "source": "pexels",
+    "id": "32913728",
+    "url": "https://videos.pexels.com/video-files/32913728/14027383_1080_1920_25fps.mp4",
+    "author": "Efrem  Efre",
+    "authorUrl": "https://www.pexels.com/@efrem-efre-2786187",
+    "pageUrl": "https://www.pexels.com/video/city-street-traffic-with-red-light-signal-32913728/",
+    "license": "Pexels License",
+    "request": {
+      "kind": "video",
+      "source": "pexels",
+      "id": "32913728",
+      "query": null,
+      "url": null,
+      "ref": null,
+      "fit": "cover"
+    },
+    "file": "media/lenh-dung.mp4",
+    "resolvedAt": "2026-08-02T09:57:09.105Z"
+  }
+}

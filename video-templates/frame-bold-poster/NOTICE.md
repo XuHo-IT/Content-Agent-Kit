@@ -13,3 +13,4 @@ This template is vendored and adapted from:
 - **Vietnamese-capable type stack** (upstream Shrikhand / Libre Baskerville / Space Grotesk lack Vietnamese glyphs and dropped diacritics): display + figures → **Alfa Slab One**, serif standfirst → **Lora** italic, labels/chrome → **Be Vietnam Pro**.
 - Added a **9:16 portrait** composition at `compositions/portrait.html` (1080×1920), re-laid-out vertically. `index.html` is the 16:9 landscape canvas.
 - CSS `@keyframes` timeline and palette are unchanged from upstream.
+- **Headline `line-height` raised** from `0.98` (9:16) / `0.92` (16:9) to `1.2` / `1.18`, and the portrait block moved from `top: 840px` to `800px`. The three headline lines are tilted up to 4°, so their ends swing ~30px vertically; combined with Vietnamese stacked marks (Ầ Ỡ) and descenders (g y), "ngày" rendered on top of "rồi tắt". Upstream is Latin-only and never hit it.

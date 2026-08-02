@@ -58,6 +58,41 @@ A complete, validator-clean reference lives at `templates/VIDEO_SCRIPT.template.
 The authoring rules live in `templates/VIDEO_CRAFT.template.md`; per-template slots and
 character limits in `video-templates/CATALOG.md`.
 
+### One palette for the whole video — `theme`
+
+Almost every template ships a dark canvas. An optional `theme` recolours all of them into a
+**throwaway copy** at render time, so the vendored templates keep their own design:
+
+```json
+{ "aspect": "9:16", "theme": "paper-blue" }
+```
+
+`paper-blue` (white canvas, ocean-blue ink) · `paper-ink` (white, near-black) ·
+`paper-forest` (off-white, green). Any field of a preset can be overridden:
+
+```json
+"theme": { "preset": "paper-blue", "ink": "#123a5f", "hue": 208, "spread": 14 }
+```
+
+Every colour is mapped into a band around `hue` **keeping its original ordering**, so two
+accents that differed still differ. Accents are then darkened until they clear 3:1 against
+the canvas — a mid-tone accent that read well on near-black is invisible on near-white, and
+flipping lightness alone does not fix that. `validate-script.mjs` rejects a `bg`/`ink` pair
+below 4.5:1 before you spend a render on it.
+
+Which direction to flip is **measured, not guessed** — a light template must not be
+inverted, and two compositions of one template can disagree:
+
+```bash
+node scripts/video/theme-probe.mjs                      # write video-templates/theme-map.json
+node scripts/video/theme-probe.mjs --preview paper-blue  # before/after stills, ~40s
+node scripts/video/theme-probe.mjs --selftest            # the colour rules, no Chrome needed
+```
+
+Changing `theme` invalidates the cached scene clips, so a re-render actually re-renders
+instead of quietly returning the previous palette. Full details and the shipped-bug list:
+`video-templates/CATALOG.md`.
+
 ### The gate — `validate-script.mjs`
 
 ```bash
@@ -253,6 +288,40 @@ provider không có thì xử lý bằng ffmpeg sau đó — kết quả như nh
 
 Bản mẫu sạch (pass `--strict`): `templates/VIDEO_SCRIPT.template.json`. Luật soạn:
 `templates/VIDEO_CRAFT.template.md`. Slot + giới hạn ký tự từng template: `video-templates/CATALOG.md`.
+
+### Một bảng màu cho cả video — `theme`
+
+Gần như mọi template đều nền tối. Khoá `theme` (tuỳ chọn) đổi màu tất cả chúng trên một **bản
+sao tạm** lúc render, nên template gốc vẫn giữ nguyên thiết kế của nó:
+
+```json
+{ "aspect": "9:16", "theme": "paper-blue" }
+```
+
+`paper-blue` (nền trắng, chữ xanh biển) · `paper-ink` (trắng, chữ gần đen) · `paper-forest`
+(trắng ngà, chữ xanh lá). Ghi đè được từng trường của preset:
+
+```json
+"theme": { "preset": "paper-blue", "ink": "#123a5f", "hue": 208, "spread": 14 }
+```
+
+Mọi màu bị ép vào một dải quanh `hue` nhưng **giữ nguyên thứ tự gốc**, nên hai màu nhấn vốn
+khác nhau thì sau khi đổi vẫn khác nhau. Sau đó màu nhấn bị làm tối đến khi đạt tương phản
+3:1 với nền — một màu tầm trung đọc tốt trên nền gần đen sẽ mất hút trên nền gần trắng, và
+chỉ lật độ sáng thì không giải quyết được. `validate-script.mjs` chặn ngay cặp `bg`/`ink`
+dưới 4,5:1 trước khi bạn tốn một lượt render.
+
+Lật theo chiều nào là **đo chứ không đoán** — template vốn đã sáng thì không được lật, và hai
+composition của cùng một template có thể khác nhau:
+
+```bash
+node scripts/video/theme-probe.mjs                      # ghi video-templates/theme-map.json
+node scripts/video/theme-probe.mjs --preview paper-blue  # ảnh trước/sau, khoảng 40 giây
+node scripts/video/theme-probe.mjs --selftest            # kiểm luật màu, không cần Chrome
+```
+
+Đổi `theme` sẽ vô hiệu hoá clip đã cache, nên render lại là render thật chứ không lặng lẽ trả
+về bảng màu cũ. Chi tiết và danh sách lỗi từng gặp: `video-templates/CATALOG.md`.
 
 ### Cổng chặn `validate-script.mjs`
 

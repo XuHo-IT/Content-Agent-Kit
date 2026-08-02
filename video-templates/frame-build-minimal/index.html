@@ -141,7 +141,8 @@
                 font-size: 240px;
                 letter-spacing: -5px;
                 color: #fbf6ec;
-                line-height: 0.96;
+                /* see compositions/portrait.html — Vietnamese horn + tone mark sit above cap height */
+                line-height: 1.14;
                 text-align: center;
                 text-shadow:
                     0 0 80px rgba(255, 150, 46, 0.4),
@@ -374,15 +375,17 @@
                         hero.appendChild(span);
                     });
 
-                    /* Auto-scale hero to fit container width */
+                    /* Auto-scale hero to fit container width.
+                       nowrap STAYS ON afterwards — see the note in
+                       compositions/portrait.html. Each character is its own inline-block,
+                       so dropping it lets the browser break a word in half. */
                     var maxPx = 240, minPx = 60;
                     hero.style.whiteSpace = "nowrap";
                     hero.style.fontSize = maxPx + "px";
                     if (hero.scrollWidth > hero.offsetWidth) {
-                        var sized = Math.max(minPx, Math.floor(maxPx * hero.offsetWidth / hero.scrollWidth));
+                        var sized = Math.max(minPx, Math.floor(maxPx * hero.offsetWidth / hero.scrollWidth * 0.97));
                         hero.style.fontSize = sized + "px";
                     }
-                    hero.style.whiteSpace = "";
                 }
             })();
             window.__timelines = window.__timelines || {};

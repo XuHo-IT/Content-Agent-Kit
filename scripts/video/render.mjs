@@ -29,6 +29,7 @@ import { fitClipToDuration, concatVideos, muxAudioOntoVideo, getVideoSize } from
 import { indexSfxLibrary, pickSfxForScene, defaultPlayback } from "./lib/sfx.mjs";
 import { composeTemplate } from "./lib/compose.mjs";
 import { sfxDir } from "./lib/paths.mjs";
+import { resolveTheme, themeKey } from "./lib/theme.mjs";
 import { resolveSceneMedia } from "../media/lib/resolve.mjs";
 
 const argv = process.argv.slice(2);
@@ -246,6 +247,18 @@ try {
   await mkdir(clipsDir, { recursive: true });
   const fittedClips = [];
 
+  // Cached clips are keyed by the palette they were rendered with. Without this, editing
+  // `theme` and re-running silently returns the previous colours — the reuse rule that
+  // makes re-renders cheap would quietly make them wrong.
+  const theme = resolveTheme(script.theme);
+  const keyFile = path.join(clipsDir, ".theme-key");
+  const wantKey = themeKey(theme);
+  const haveKey = fs.existsSync(keyFile) ? fs.readFileSync(keyFile, "utf8").trim() : null;
+  const themeChanged = haveKey !== null && haveKey !== wantKey;
+  if (themeChanged) info(`theme changed (${haveKey} → ${wantKey}) — re-rendering every clip`);
+  await writeFile(keyFile, `${wantKey}\n`, "utf8");
+  if (theme) info(`theme: ${theme.id} — canvas ${theme.bg}, ink ${theme.ink}`);
+
   for (let i = 0; i < scenes.length; i++) {
     const scene = scenes[i];
     const dur = sceneAudio.find((a) => a.id === scene.id).durationSec;
@@ -256,7 +269,7 @@ try {
     const rawClip = path.join(clipsDir, `scene-${scene.id}.mp4`);
     const fitClip = path.join(clipsDir, `scene-${scene.id}-fit.mp4`);
 
-    if (fs.existsSync(rawClip)) {
+    if (fs.existsSync(rawClip) && !themeChanged) {
       info(`scene ${scene.id}: reuse clip — delete it to force a re-render`);
     } else {
       const media = sceneMedia[scene.id];
@@ -272,6 +285,8 @@ try {
         outputPath: rawClip,
         fps: RENDER_FPS,
         mediaFile: media?.file,
+        theme,
+        log: (m) => console.warn(`[video] ! ${m}`),
       });
     }
     await fitClipToDuration(rawClip, visualDur, fitClip, RENDER_FPS);
