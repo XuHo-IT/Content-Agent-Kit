@@ -24,6 +24,21 @@ truth), state files, publish scripts, an optional crawl-discovery pipeline, soci
 scheduling, a pre-publish review gate — and, if you want them, **9:16 videos with real
 narration, stock footage and web screenshots**.
 
+## See the output first
+
+Before deciding whether to build an agent, look at what one produces. **One source** —
+Anthropic's Claude Fable 5 announcement — became **two formats**:
+
+| | |
+|---|---|
+| 📄 **[Sample article](examples/ai-news-social/sample-output/)** | 990 Vietnamese words with SEO Meta/Slug and an engagement comment, plus how it scores against all 10 rubric criteria |
+| 🎬 **[Sample video](examples/ai-video-social/sample-output/)** | 2 min 12 s · 1080×1920 · real Vbee narration · Pexels B-roll · live screenshot of the source page |
+
+[![All 15 scenes of the sample video](examples/ai-video-social/sample-output/contact-sheet.jpg)](examples/ai-video-social/sample-output/)
+
+**[▶️ Download the mp4 (15.5 MB)](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0)**
+· or regenerate it yourself: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
+
 ## The operating model
 
 ```

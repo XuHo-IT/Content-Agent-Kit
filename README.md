@@ -24,6 +24,21 @@ thái, script đăng bài, pipeline crawl tìm ý tưởng, đăng mạng xã h�
 trước khi đăng — và nếu bạn cần, **video dọc 9:16 có giọng đọc thật, cảnh quay stock và ảnh
 chụp trang web**.
 
+## Xem thử đầu ra trước đã
+
+Trước khi bỏ công dựng agent, hãy xem thứ nó làm ra. Cùng **một nguồn** — công bố Claude Fable 5
+của Anthropic — cho ra **hai định dạng**:
+
+| | |
+|---|---|
+| 📄 **[Bài viết mẫu](examples/ai-news-social/sample-output/)** | 990 từ tiếng Việt, có Meta/Slug SEO, comment engagement, kèm bảng đối chiếu 10 tiêu chí rubric |
+| 🎬 **[Video mẫu](examples/ai-video-social/sample-output/)** | 2 phút 12 giây · 1080×1920 · giọng Vbee thật · B-roll Pexels · ảnh chụp trang gốc |
+
+[![15 scene của video mẫu](examples/ai-video-social/sample-output/contact-sheet.jpg)](examples/ai-video-social/sample-output/)
+
+**[▶️ Tải video mp4 (15,5 MB)](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0)**
+· hoặc render lại chính nó: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
+
 ## Mô hình vận hành
 
 ```

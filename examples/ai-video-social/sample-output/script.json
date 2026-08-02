@@ -1,0 +1,305 @@
+{
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "metadata": {
+    "title": "Claude Fable 5 — mô hình mạnh nhất Anthropic từng phát hành rộng rãi",
+    "source": {
+      "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+      "domain": "anthropic.com",
+      "image": null
+    },
+    "channel": "AI Fable"
+  },
+  "voice": {
+    "provider": "vbee",
+    "voiceId": "hn_female_ngochuyen_full_48k-fhg",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "voiceText": "Anthropic vừa phát hành mô hình mạnh nhất của họ. Ba ngày sau, chính phủ Mỹ buộc nó phải gỡ xuống. Đây là câu chuyện về Claude Fable năm.",
+      "templateId": "frame-broll",
+      "inputs": {
+        "chip": "🔥 Tin nóng",
+        "kicker": "Claude Fable 5",
+        "headline": "Mạnh nhất, rồi biến mất",
+        "subheadline": "Ba ngày sau khi ra mắt"
+      },
+      "media": {
+        "kind": "video",
+        "source": "pexels",
+        "id": "28709421"
+      }
+    },
+    {
+      "id": "body-1",
+      "type": "body",
+      "voiceText": "Ngày mùng chín tháng sáu năm hai nghìn không trăm hai mươi sáu, Anthropic công bố Claude Fable năm. Đây là mô hình đầu tiên thuộc hạng Mythos, một bậc đứng trên dòng Opus.",
+      "templateId": "frame-glitch-title",
+      "inputs": {
+        "title": "Hạng Mythos",
+        "subtitle": "Bậc đứng trên Opus — lần đầu tiên"
+      }
+    },
+    {
+      "id": "body-2",
+      "type": "body",
+      "voiceText": "Nó được xây cho những việc khó nhất. Suy luận phức tạp, và các tác vụ agent kéo dài nhiều ngày mà những mô hình trước không thể duy trì nổi.",
+      "templateId": "frame-build-minimal",
+      "inputs": {
+        "eyebrow": "Được xây cho",
+        "hero": "BỀN BỈ",
+        "desc": "Tác vụ agent kéo dài nhiều ngày mà mô hình trước không duy trì nổi.",
+        "side_left": "AI Fable",
+        "side_right": "2026"
+      }
+    },
+    {
+      "id": "body-3",
+      "type": "body",
+      "voiceText": "Con số ấn tượng nhất đến từ Stripe. Họ dùng nó để chuyển đổi một kho mã Ruby năm mươi triệu dòng, nén công việc kỹ thuật nhiều tháng xuống còn vài ngày.",
+      "templateId": "frame-pentagram-stat",
+      "inputs": {
+        "label": "Stripe · Migration",
+        "headline": "50 triệu",
+        "subtitle": "Dòng mã Ruby được chuyển đổi — nhiều tháng rút còn vài ngày",
+        "anchor": "50",
+        "footer_left": "AI Fable",
+        "footer_right": "anthropic.com"
+      }
+    },
+    {
+      "id": "body-3b",
+      "type": "body",
+      "voiceText": "Trên bộ bài kiểm tra lập trình FrontierCode, nó dẫn đầu nhóm mô hình tiên tiến ngay cả khi chạy ở mức nỗ lực trung bình. Bài kiểm tra tài chính cũng cho điểm cao nhất từ trước tới nay.",
+      "templateId": "frame-vignelli",
+      "inputs": {
+        "kicker": "FrontierCode",
+        "number": "#1",
+        "label": "Trong nhóm mô hình tiên tiến",
+        "note": "Ngay cả ở mức nỗ lực trung bình",
+        "brand": "AI Fable"
+      }
+    },
+    {
+      "id": "body-4",
+      "type": "body",
+      "voiceText": "Trên các bài kiểm tra năng lực, Anthropic nói nó đạt mức tốt nhất ở gần như toàn bộ. Nó cũng là mô hình đầu tiên vượt mốc chín mươi phần trăm trên bài phân tích lõi.",
+      "templateId": "frame-screenshot",
+      "inputs": {
+        "kicker": "Nguồn gốc",
+        "headline": "Công bố chính thức",
+        "url": "anthropic.com/news/claude-fable-5-mythos-5",
+        "caption": "Anthropic: đạt mức tốt nhất ở gần như toàn bộ bài kiểm tra năng lực.",
+        "source": "anthropic.com"
+      },
+      "media": {
+        "kind": "screenshot",
+        "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+        "width": 1280,
+        "height": 860
+      }
+    },
+    {
+      "id": "body-5",
+      "type": "body",
+      "voiceText": "Nhưng sức mạnh đó đi kèm lớp chắn an toàn mạnh nhất mà Anthropic từng đặt lên một bản phát hành rộng rãi. Và đây là phần đáng chú ý.",
+      "templateId": "frame-creative-voltage",
+      "inputs": {
+        "meta": "Mặt còn lại",
+        "display_lines": [
+          "Mạnh hơn",
+          "nhưng bị",
+          "chặn nhiều hơn"
+        ],
+        "accent_index": 2,
+        "script": "an toàn",
+        "caption": "Lớp chắn mạnh nhất Anthropic từng dùng"
+      }
+    },
+    {
+      "id": "body-6",
+      "type": "body",
+      "voiceText": "Ở các lĩnh vực rủi ro cao như an ninh mạng, sinh học và hoá học, mô hình từ chối trả lời và tự chuyển câu hỏi xuống cho Claude Opus bốn chấm tám xử lý thay.",
+      "templateId": "frame-aicoding-comparison",
+      "inputs": {
+        "badge": "Cơ chế chặn",
+        "pre": "Câu hỏi rủi ro",
+        "vs": "chuyển sang",
+        "post": "bản an toàn hơn",
+        "left": {
+          "label": "Fable 5",
+          "from": "#a855f7",
+          "to": "#6366f1",
+          "icon": "🧠",
+          "bullets": [
+            "Năng lực cao nhất",
+            "Chặn ở vùng rủi ro"
+          ],
+          "stat": "<5%",
+          "stat_label": "Phiên bị chặn"
+        },
+        "right": {
+          "label": "Opus 4.8",
+          "from": "#f59e0b",
+          "to": "#ef4444",
+          "icon": "🛡️",
+          "bullets": [
+            "Nhận phần bị chuyển",
+            "An toàn hơn"
+          ],
+          "stat": "An ninh mạng",
+          "stat_label": "Sinh học · Hoá học",
+          "win": true
+        }
+      }
+    },
+    {
+      "id": "body-7",
+      "type": "body",
+      "voiceText": "Anthropic nói cơ chế này chỉ kích hoạt ở dưới năm phần trăm số phiên làm việc. Nhưng chính họ cũng thừa nhận lớp chắn hiện còn quá rộng, chặn nhầm cả việc vô hại.",
+      "templateId": "frame-bold-poster",
+      "inputs": {
+        "kicker": "AI Fable",
+        "date": "09 · 06 · 2026",
+        "figure": "5%",
+        "headline": [
+          "Chặn dưới",
+          "5% số",
+          "phiên chạy"
+        ],
+        "standfirst": "Anthropic thừa nhận lớp chắn hiện còn quá rộng — chặn nhầm cả việc vô hại.",
+        "footer_left": "AI Fable",
+        "footer_right": "anthropic.com"
+      }
+    },
+    {
+      "id": "body-8",
+      "type": "body",
+      "voiceText": "Song song với nó là Claude Mythos năm. Cùng một mô hình bên dưới, nhưng được gỡ bớt lớp chắn, và chỉ mở cho đối tác hạ tầng cùng một số nhà nghiên cứu được xét duyệt.",
+      "templateId": "frame-aicoding-list",
+      "inputs": {
+        "title": "Hai bản, ",
+        "accent": "một mô hình",
+        "accent_from": "#a855f7",
+        "accent_to": "#ec4899",
+        "subtitle": "Khác nhau ở lớp chắn",
+        "items": [
+          {
+            "icon": "🌐",
+            "title": "Fable 5",
+            "desc": "Công khai — API, ứng dụng, Bedrock",
+            "tag": "Mở",
+            "level": "good"
+          },
+          {
+            "icon": "🔒",
+            "title": "Mythos 5",
+            "desc": "Gỡ lớp chắn, chỉ đối tác được duyệt",
+            "tag": "Hạn chế",
+            "level": "warn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "body-9",
+      "type": "body",
+      "voiceText": "Rồi chuyện bất ngờ xảy ra. Chỉ ba ngày sau khi ra mắt, một chỉ thị kiểm soát xuất khẩu của chính phủ Mỹ buộc Fable năm phải tạm thời ngừng hoạt động.",
+      "templateId": "frame-broll",
+      "inputs": {
+        "chip": "⚠️ Diễn biến",
+        "kicker": "Ba ngày sau",
+        "headline": "Bị buộc gỡ xuống",
+        "subheadline": "Chỉ thị kiểm soát xuất khẩu của Mỹ"
+      },
+      "media": {
+        "kind": "video",
+        "source": "pexels",
+        "id": "5523892"
+      }
+    },
+    {
+      "id": "body-10",
+      "type": "body",
+      "voiceText": "Đến cuối tháng sáu, lệnh kiểm soát được dỡ bỏ và mô hình quay lại. Về giá, mỗi triệu token đầu vào tốn mười đô la, còn đầu ra là năm mươi đô la.",
+      "templateId": "frame-pentagram-stat",
+      "inputs": {
+        "label": "Giá · Mỗi triệu token",
+        "headline": "$10 / $50",
+        "subtitle": "Đầu vào 10 đô — đầu ra 50 đô. Đắt hơn hẳn các bậc dưới.",
+        "anchor": "50",
+        "footer_left": "AI Fable",
+        "footer_right": "anthropic.com"
+      }
+    },
+    {
+      "id": "body-10b",
+      "type": "body",
+      "voiceText": "Về nơi dùng được, nó có mặt trên API, trên các ứng dụng Claude, và trên Amazon Bedrock. Các gói thuê bao được dùng miễn phí trong hai tuần đầu, sau đó tính theo tín dụng sử dụng.",
+      "templateId": "frame-aicoding-list",
+      "inputs": {
+        "title": "Dùng được ",
+        "accent": "ở đâu?",
+        "accent_from": "#38bdf8",
+        "accent_to": "#a855f7",
+        "subtitle": "Ba kênh chính",
+        "items": [
+          {
+            "icon": "🔌",
+            "title": "Claude API",
+            "desc": "Sẵn sàng ngay từ ngày ra mắt",
+            "tag": "Có",
+            "level": "good"
+          },
+          {
+            "icon": "💬",
+            "title": "Ứng dụng Claude",
+            "desc": "Pro, Max, Team, Enterprise",
+            "tag": "Có",
+            "level": "good"
+          },
+          {
+            "icon": "☁️",
+            "title": "Amazon Bedrock",
+            "desc": "Cho hạ tầng doanh nghiệp",
+            "tag": "Có",
+            "level": "info"
+          }
+        ]
+      }
+    },
+    {
+      "id": "body-11",
+      "type": "body",
+      "voiceText": "Vậy có nên dùng không? Nếu việc của bạn là tác vụ dài, nhiều bước, cần suy luận sâu thì đáng. Còn việc thường ngày, các bậc rẻ hơn vẫn dư sức làm tốt.",
+      "templateId": "frame-media-inset",
+      "inputs": {
+        "kicker": "Kết luận",
+        "headline": "Có nên dùng?",
+        "caption": "Việc dài nhiều bước thì đáng. Việc thường ngày, bậc rẻ hơn vẫn dư sức.",
+        "footer_left": "AI Fable",
+        "footer_right": "2026"
+      },
+      "media": {
+        "kind": "video",
+        "source": "pexels",
+        "id": "5495899"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Theo dõi AI Fable để không bỏ lỡ bản tin công nghệ mới mỗi ngày.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Theo dõi để xem bản tin AI mới mỗi ngày",
+        "channel": "AI Fable",
+        "source": "Nguồn: anthropic.com"
+      }
+    }
+  ]
+}
