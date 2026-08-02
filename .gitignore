@@ -21,6 +21,23 @@ brain/
 output/
 *.log
 
+# Video: rendered artifacts + the SFX library (fetched with scripts/video/sfx-*.mjs).
+# video-templates/ IS committed — it is the kit's template library.
+assets/sfx/
+assets/sfx-raw/
+**/video.mp4
+**/video-silent.mp4
+**/voice.mp3
+**/voice-raw.mp3
+**/clips/
+**/voice/
+
+# Downloaded B-roll and screenshots. media-lock.json is deliberately NOT ignored: it is
+# what makes a render reproducible, and it is the record of where every clip came from.
+**/media/
+!**/media-lock.json
+stock-sources.yaml
+
 # Python / Node
 __pycache__/
 *.pyc

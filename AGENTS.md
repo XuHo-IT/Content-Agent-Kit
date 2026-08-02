@@ -11,11 +11,31 @@
 3. Produce, in the user's target project: `PLAYBOOK.md`, `KNOWLEDGE.md`,
    `.env.example`, state JSON, (optional) `sources.yaml` + crawl workflow, wired
    scripts, a `schedule-prompt.md`, and — on Claude Code — the runtime skills
-   (`daily-run`, `review-gate`, `crawl-and-queue`, `audit-and-fix`).
+   (`daily-run`, `review-gate`, `crawl-and-queue`, `audit-and-fix`, plus
+   `create-video` + `video-and-post` if the agent makes videos).
 
 ## When the user says "run today" / "tạo nội dung hôm nay"
 Follow `skills/daily-run/SKILL.md` (or the generated project's `PLAYBOOK.md`):
 determine today's phase, fan out, **review-gate before publish**, schedule, report.
+
+## When the user says "tạo video" / "make a video" / "làm short/reel"
+Follow `skills/create-video/SKILL.md` — read `templates/VIDEO_CRAFT.template.md` **and**
+`video-templates/CATALOG.md` first, write `script.json`, then:
+```bash
+node scripts/video/validate-script.mjs <dir>/script.json --strict   # seconds — never skip
+node scripts/video/render.mjs          <dir>/script.json            # ~3–5 min
+```
+To also publish it, use `skills/video-and-post/SKILL.md`. Method: `docs/14-video-generation.md`.
+
+## When the user wants footage, screenshots or more visual variety
+Follow `skills/research-and-capture/SKILL.md` — research the topic, capture the pages worth
+showing, pick B-roll, and write `media` blocks into the scenes:
+```bash
+node scripts/media/stock-search.mjs --query "data center servers"   # read WHAT EACH CLIP IS
+node scripts/media/screenshot.mjs --url "https://…" --out shot.png
+node scripts/video/add-template.mjs --preset news                   # transitions, captions, charts
+```
+Method: `docs/15-media-sources.md` and `docs/16-template-registry.md`.
 
 ## Non-negotiable conventions (see `docs/03-conventions.md`)
 - **Env-only secrets** — never hardcode a token, webhook, or key. If env is missing, stop with a clear message.
@@ -26,10 +46,17 @@ determine today's phase, fan out, **review-gate before publish**, schedule, repo
 - **Scoped auto-accept** — a scheduled run uses `acceptEdits` + a tight allow-list (never
   `bypassPermissions`); no destructive/out-of-scope commands. See `docs/13-permissions.md`.
 - **No internal-id leak** — logic ids never appear in reader-visible text. See `docs/03`.
+- **Validate video scripts before rendering** — `validate-script.mjs` costs seconds, a render
+  costs 3–5 minutes. Never pass `--skip-validate` to save time.
+- **Keep the attribution** — `NOTICE.md` at the root and every `video-templates/*/NOTICE.md`
+  are licence conditions of the vendored code. Never delete or "tidy" them.
 
 ## Map of the kit
 - `docs/` — methodology (bilingual). Start at `01-architecture.md`.
 - `templates/` — fill-in scaffolds.
-- `scripts/` — generic working CLIs (env-only).
+- `scripts/` — generic working CLIs (env-only), incl. `scripts/video/`.
+- `video-templates/` — the 11 video templates + `CATALOG.md` (slots + character limits).
 - `skills/` — Claude Code skills; also readable as plain instructions.
 - `examples/ai-news-social/` — a complete reference agent to copy from.
+- `examples/ai-video-social/` — the video version of the same.
+- `NOTICE.md` — third-party attribution for the vendored video pipeline and templates.

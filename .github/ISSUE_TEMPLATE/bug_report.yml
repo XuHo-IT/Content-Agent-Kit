@@ -1,0 +1,85 @@
+name: Báo lỗi
+description: Có thứ gì đó chạy sai
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Cảm ơn bạn đã báo. Vài chi tiết dưới đây giúp tìm ra nguyên nhân nhanh hơn nhiều.
+
+        **Nếu là lỗi bảo mật, đừng mở issue** — xem [SECURITY.md](../blob/main/SECURITY.md).
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Phần nào
+      options:
+        - Video — validate / render pipeline
+        - Video — template hiển thị sai
+        - Giọng đọc (TTS provider)
+        - Media — B-roll / ảnh chụp web
+        - Media — host upload (R2 / Cloudinary / Catbox)
+        - Đăng social (Make.com webhook)
+        - Crawl / idea queue
+        - Scheduler / queue
+        - Skills (bootstrap, daily-run, review-gate…)
+        - Tài liệu
+        - Khác
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: Chuyện gì xảy ra
+      description: Bạn mong đợi gì, và thực tế nhận được gì?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Cách tái hiện
+      description: |
+        Lệnh chính xác bạn đã chạy, kèm output. **Nhớ xoá token/URL webhook/API key** trước khi dán.
+      placeholder: |
+        1. node scripts/video/validate-script.mjs brain/x/script.json --strict
+        2. node scripts/video/render.mjs brain/x/script.json
+        3. Ở bước 6 nó báo …
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: script
+    attributes:
+      label: script.json liên quan (nếu là lỗi video)
+      description: Chỉ cần scene gây lỗi là đủ, không cần cả file.
+      render: json
+
+  - type: textarea
+    id: env
+    attributes:
+      label: Môi trường
+      placeholder: |
+        OS:            Windows 11 / Ubuntu 24.04 / macOS 15
+        node -v:       v22.19.0
+        ffmpeg:        8.1  (chạy `ffmpeg -version | head -1`)
+        TTS provider:  vbee / elevenlabs / omnivoice / …
+        MEDIA_HOST:    r2 / cloudinary / catbox
+      render: text
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Đã thử chưa
+      options:
+        - label: Đã chạy `node scripts/video/validate-script.mjs <script> --strict` và nó sạch
+        - label: Đã xem contact sheet (`node scripts/video/contact-sheet.mjs <video.mp4>`) nếu là lỗi hiển thị
+        - label: Đã chạy `node scripts/media/host-check.mjs` nếu là lỗi upload
+        - label: Đã chạy `node scripts/video/tts-check.mjs` nếu là lỗi giọng đọc
+        - label: Output tôi dán **không chứa** token, API key hay URL webhook
+          required: true

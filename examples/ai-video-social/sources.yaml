@@ -1,0 +1,26 @@
+# AI/tech news sources for the video agent. Point these at real index/listing pages and
+# tune each link_pattern. Verify with: python scripts/crawl/crawl.py --dry-run
+# COPYRIGHT: crawler stores excerpt(<=1500) + link only; the agent writes ORIGINAL narration.
+
+# Lower than the article agent on purpose: this agent makes 1–2 videos/day and each render
+# costs 3–5 minutes, so a big queue just goes stale.
+max_per_run: 3
+
+web:
+  - name: "Example AI News"
+    list_url: "https://example.com/ai"          # <-- replace with a real listing page
+    link_pattern: "/ai/[^/]+$"                   # <-- regex for ARTICLE urls (not nav)
+    lang: en
+    max_per_run: 2
+
+  - name: "Example Product Blog"
+    list_url: "https://research.example.org/blog"
+    link_pattern: "/blog/[0-9]{4}/[^/]+$"
+    lang: en
+    max_per_run: 1
+
+# Tips:
+# - Prefer official blogs / press pages / permitted feeds. Respect robots.txt + ToS.
+# - A too-loose link_pattern will grab menu/footer links — always dry-run first.
+# - Stories with a hard NUMBER in them (a benchmark, a price, a spec) make the best videos —
+#   half the templates are built around landing one figure.

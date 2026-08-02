@@ -14,6 +14,10 @@ description: Execute today's content run for an agent built with content-agent-k
    (§1 universal principles + its register §2/§3 + the banned-cliché list §4) and self-check
    against §6 before submitting. Each produces content + images + metadata per the §4 schema.
    Check `history.json` — skip duplicates.
+4b. **Video items (if the PLAYBOOK calls for any)** — invoke `create-video` (writer reads
+   `VIDEO_CRAFT.md` + `video-templates/CATALOG.md`, writes `script.json`, validates with
+   `--strict`, renders). **Render now, not at the posting slot**: a render takes 3–5 minutes,
+   so doing it here keeps the scheduled post instant. Keep the resulting `videoPath`.
 5. **Review gate (mandatory, §2b)** — invoke the `review-gate` skill / an independent
    review subagent on every item. Pass → continue. Fail → fix (2–3 rounds) → drop + log.
    Reject any forbidden output on sight.
@@ -22,6 +26,8 @@ description: Execute today's content run for an agent built with content-agent-k
    `ledger.json` / titles in `history.json`.
 7. **Schedule social** (if any): `node scripts/scheduler/build-queue.mjs items.json` →
    register/run per `docs/06`. Never post restricted types (see PLAYBOOK).
+   Video items go in as `type:"video"` carrying `videoPath` + `post` / `comment` / `title` /
+   `hashtags` / `platforms` — see `templates/state/queue.example.json`.
 8. **Access tiers, author, language** per §3b/§3c/§0b. Never brand as "(AI)".
 9. **Clean up** per-run scratch files (§7).
 10. **Report** → `brain/<id>/report.md` (§7b): made / reviewed / published / dropped.

@@ -1,0 +1,43 @@
+# Daily discovery for the AI Video Social Agent (crawl4ai on GitHub Actions cron).
+# Add secrets in repo Settings → Secrets: SITE_URL, INGEST_API_TOKEN.
+name: ai-video-daily-crawl
+
+on:
+  schedule:
+    - cron: "0 22 * * *"     # 22:00 UTC daily (≈ 05:00 Asia/Ho_Chi_Minh)
+  workflow_dispatch: {}
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: scripts/crawl
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install crawl4ai
+        run: |
+          pip install -r requirements.txt
+          crawl4ai-setup
+      - name: Crawl AI/tech news → idea queue
+        env:
+          SITE_URL: ${{ secrets.SITE_URL }}
+          INGEST_API_TOKEN: ${{ secrets.INGEST_API_TOKEN }}
+        run: python crawl.py --sources ../../examples/ai-video-social/sources.yaml
+      - name: Upload debug artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: queue_raw
+          path: scripts/crawl/queue_raw.json
+          if-no-files-found: ignore
+
+# ⚠️ Crawl ONLY. Rendering deliberately does not run here.
+#
+# A video render needs FFmpeg, Chrome/Chromium AND a local OmniVoice TTS server, and takes
+# 3–5 minutes per video — a hosted runner has none of that. Scripting, rendering and posting
+# run on your own machine (daily-run / video-and-post skill, scheduled with schtasks).
+# See docs/06-scheduling.md. A self-hosted runner with those prerequisites would also work.

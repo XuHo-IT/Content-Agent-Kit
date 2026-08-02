@@ -1,0 +1,17 @@
+{
+  "_comment": "Worked example of a ready-to-send video post — the Claude Fable 5 video. Send it with: node scripts/social/make-post.mjs --json <this file> --dry-run (then drop --dry-run). `video` is a LOCAL path: make-post uploads it to $MEDIA_HOST and puts the resulting public URL in the payload. Point it at your own render before sending.",
+
+  "video": "brain/claude-fable-5/video.mp4",
+
+  "title": "Claude Fable 5: mạnh nhất, rồi bị gỡ sau 3 ngày",
+
+  "post": "Anthropic ra mắt mô hình mạnh nhất của họ — rồi ba ngày sau chính phủ Mỹ buộc gỡ xuống. 🤯\n\nClaude Fable 5, hạng Mythos, đứng trên cả dòng Opus:\n\n📊 Stripe dùng nó chuyển đổi kho mã Ruby 50 triệu dòng — nhiều tháng rút còn vài ngày\n🥇 Mô hình đầu tiên vượt mốc 90% trên bài phân tích lõi của Anthropic\n🛡️ Nhưng ở vùng rủi ro cao, nó tự từ chối và đẩy câu hỏi xuống Opus 4.8\n💸 Giá: 10 đô vào / 50 đô ra, mỗi triệu token\n\nĐáng dùng nếu việc của bạn là tác vụ dài nhiều bước. Còn việc thường ngày thì các bậc rẻ hơn vẫn dư sức.\n\nBạn đã thử chưa?",
+
+  "comment": "Nguồn: công bố chính thức của Anthropic — https://www.anthropic.com/news/claude-fable-5-mythos-5\n\nLệnh kiểm soát xuất khẩu được dỡ bỏ cuối tháng 6, mô hình đã quay lại trên API, ứng dụng Claude và Amazon Bedrock.",
+
+  "hashtags": "#ai #claude #anthropic #congnghe #aicoding",
+
+  "platforms": ["tiktok", "youtube_shorts", "facebook_reels", "instagram_reels"],
+
+  "durationSec": 133
+}

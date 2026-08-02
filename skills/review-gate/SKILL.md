@@ -33,6 +33,55 @@ Never return vague feedback like "make the prose better".
 - **Not reused**: if the item has multiple images (e.g. one per entity), each is distinct.
 - Complete: no required image is missing.
 
+**Video** (items with a `script.json` — score the project's `VIDEO_CRAFT.md` §7 rubric)
+
+Run the machine checks yourself before judging by eye:
+```bash
+node scripts/video/validate-script.mjs <dir>/script.json --strict
+```
+
+| # | Criterion | FAIL threshold |
+|---|---|---|
+| 1 | Validator | any error → **fail immediately**; any warning at `--strict` |
+| 2 | Hook | first sentence is context or a greeting instead of the surprise |
+| 3 | Pacing | any body scene outside 25–40 words |
+| 4 | Total length | outside 270–360 words (≈90–120s) |
+| 5 | Narration clean | any digit, emoji, URL or `→ & % $ # + =` in `voiceText` → **fail immediately** |
+| 6 | Numbers spoken | read each `voiceText` aloud — any figure that comes out wrong |
+| 7 | Template variety | one template used > 2× |
+| 8 | Template fit | a list scene not on a list template; a 2-way compare not on the comparison template |
+| 9 | On-screen text | any `inputs` field over its limit in `video-templates/CATALOG.md` |
+| 10 | Outro | wrong brand / wrong URL / not the last scene → **fail immediately** |
+
+Also check the **rendered file** when one exists: `video.mp4` is 1080×1920, its duration is
+roughly `voice.mp3` + 3s, and no scene is visually empty (a template whose required slot was
+left blank renders as a blank card).
+
+**Look at the frames. This is not optional.**
+
+```bash
+node scripts/video/contact-sheet.mjs <dir>/video.mp4
+```
+
+One labelled thumbnail per scene, with `*` marking the ones carrying footage or a screenshot.
+Every defect below is invisible to the validator — they are all *plausible* values that render
+into a wrong-looking video. Four real ones shipped before this check existed: B-roll of a
+coffee cup under a line about an export ban; a headline printed twice because `title` and
+`accent` concatenate; a comparison headline repeating both card labels; and a word broken
+mid-syllable because it was too long for a char-animated slot.
+
+| # | Criterion | Fails when |
+|---|---|---|
+| a | B-roll matches the line | the clip shows something unrelated to what is being said → **fail immediately** |
+| b | Text readable over footage | a bright clip swallows the headline |
+| c | Screenshot is evidence | a generic homepage instead of the page actually being cited |
+| d | Screenshot is clean | a cookie/consent wall in frame, or the page headline cropped away → **fail immediately** |
+| e | No B-roll under a statistic | a scene whose point is a number uses `frame-broll` |
+| f | Footage is seasoning | more than a third of scenes are B-roll — it stops being a news video |
+| g | Text fits its slot | any word wrapped or clipped, especially in char-animated slots |
+| h | Media host is durable | `media-lock.json` or the post points at `catbox` → the link will die → **fail immediately** |
+| i | `media-lock.json` committed | missing → the video cannot be reproduced anywhere else |
+
 **Content**
 - Coherent, correct length, target language with correct diacritics.
 - No machine-translation artifacts or mixed scripts in the title/body.

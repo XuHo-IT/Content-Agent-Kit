@@ -1,5 +1,4 @@
 // http.mjs — tiny fetch helpers with Bearer auth + a timeout. Node 18+ (global fetch).
-import { optionalEnv } from "./env.mjs";
 
 /** POST JSON with optional Bearer token. Returns { status, ok, json, text }. */
 export async function postJson(url, body, { token, timeoutMs = 60000, headers = {} } = {}) {
@@ -72,40 +71,50 @@ export async function patchJson(url, body, { token, timeoutMs = 60000 } = {}) {
   }
 }
 
-/** Upload a local image to an image host, return a public URL. */
-export async function uploadImage(localPathOrUrl) {
+const VIDEO_EXT = /\.(mp4|mov|webm|m4v|avi|mkv)$/i;
+
+/**
+ * Upload a local image OR video to the configured media host, return a public URL.
+ * Already a URL → returned untouched.
+ *
+ * `kind` is inferred from the file extension; pass it explicitly to override.
+ * Which host is used comes from MEDIA_HOST — see scripts/lib/media-hosts/.
+ */
+export async function uploadMedia(localPathOrUrl, { kind, host: hostName } = {}) {
   const fs = await import("node:fs");
   if (/^https?:\/\//i.test(localPathOrUrl)) return localPathOrUrl; // already a URL
-  const host = (optionalEnv("IMAGE_HOST", "cloudinary") || "").toLowerCase();
+  if (!fs.existsSync(localPathOrUrl)) throw new Error(`Media file not found: ${localPathOrUrl}`);
+
+  const { getHost } = await import("./media-hosts/index.mjs");
+  const host = getHost(hostName);
+
+  const mediaKind = kind ?? (VIDEO_EXT.test(localPathOrUrl) ? "video" : "image");
   const bytes = fs.readFileSync(localPathOrUrl);
-  const name = localPathOrUrl.split(/[\\/]/).pop() || "image.png";
+  const name = localPathOrUrl.split(/[\\/]/).pop() || (mediaKind === "video" ? "video.mp4" : "image.png");
 
-  if (host === "catbox") {
-    const form = new FormData();
-    form.append("reqtype", "fileupload");
-    form.append("fileToUpload", new Blob([bytes]), name);
-    const res = await fetch("https://catbox.moe/user/api.php", { method: "POST", body: form });
-    const url = (await res.text()).trim();
-    if (!/^https?:\/\//.test(url)) throw new Error(`Catbox upload failed: ${url}`);
-    return url;
+  const miss = host.missing();
+  if (miss.length) {
+    throw new Error(
+      `Media host "${host.id}" needs ${miss.join(", ")} in your .env (see .env.example). ` +
+        `This kit is env-only — there are no hardcoded fallbacks.`,
+    );
   }
 
-  // Cloudinary unsigned upload (client-safe preset).
-  const cloud = optionalEnv("CLOUDINARY_CLOUD_NAME");
-  const preset = optionalEnv("CLOUDINARY_UNSIGNED_PRESET");
-  if (!cloud || !preset) {
-    throw new Error("Cloudinary needs CLOUDINARY_CLOUD_NAME + CLOUDINARY_UNSIGNED_PRESET (or set IMAGE_HOST=catbox).");
+  // Fail before a doomed upload rather than during one.
+  const cap = host.limitMb?.[mediaKind];
+  const sizeMb = bytes.length / (1024 * 1024);
+  if (cap && sizeMb > cap) {
+    throw new Error(
+      `${name} is ${sizeMb.toFixed(1)} MB — over the ${cap} MB limit for ${host.id} ${mediaKind}. ` +
+        `Shorten the video, lower the bitrate, switch to MEDIA_HOST=r2 (no such cap), ` +
+        `or upload it yourself and pass the URL instead.`,
+    );
   }
-  const form = new FormData();
-  form.append("file", new Blob([bytes]), name);
-  form.append("upload_preset", preset);
-  const folder = optionalEnv("CLOUDINARY_FOLDER");
-  if (folder) form.append("folder", folder);
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloud}/image/upload`, {
-    method: "POST",
-    body: form,
-  });
-  const j = await res.json();
-  if (!j.secure_url) throw new Error(`Cloudinary upload failed: ${JSON.stringify(j).slice(0, 200)}`);
-  return j.secure_url;
+
+  return host.upload(bytes, name, mediaKind);
+}
+
+/** Upload a local image, return a public URL. Thin wrapper over uploadMedia. */
+export async function uploadImage(localPathOrUrl) {
+  return uploadMedia(localPathOrUrl, { kind: "image" });
 }

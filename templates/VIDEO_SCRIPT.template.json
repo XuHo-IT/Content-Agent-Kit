@@ -1,0 +1,156 @@
+{
+  "_comment": "Reference script.json — 9 scenes (1 hook + 7 body + 1 outro). Copy it, replace the text, delete this _comment. Validate with: node scripts/video/validate-script.mjs <file>. Slot reference: video-templates/CATALOG.md. Craft rules: templates/VIDEO_CRAFT.template.md. RULE: voiceText spells every number out in Vietnamese words and carries no emoji/URL; inputs keep pretty numbers and MAY use emoji.",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "metadata": {
+    "title": "Apple ra mắt iPhone 17 với camera 200MP",
+    "source": {
+      "url": "https://example.com/iphone-17-camera-200mp",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "AI Coding"
+  },
+  "voice": { "provider": "omnivoice", "speed": 1.0 },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "voiceText": "Apple vừa ra mắt iPhone mười bảy với camera hai trăm megapixel. Đây là cảm biến lớn nhất họ từng đưa lên một chiếc điện thoại, và nó thay đổi khá nhiều thứ mà bạn nên biết trước khi xuống tiền.",
+      "templateId": "frame-liquid-bg-hero",
+      "inputs": {
+        "kicker": "🔥 Tin nóng",
+        "headline": "iPhone 17",
+        "subheadline": "Camera 200MP",
+        "cta": "Theo dõi ngay →",
+        "brand": "AI Coding"
+      }
+    },
+    {
+      "id": "body-1",
+      "type": "body",
+      "voiceText": "Cảm biến mới thu được nhiều ánh sáng hơn hẳn thế hệ trước. Ảnh chụp ban đêm sắc nét hơn rõ rệt, ít nhiễu hạt hơn, và bạn không cần bật chế độ chụp đêm mỗi lần trời tối nữa.",
+      "templateId": "frame-pentagram-stat",
+      "inputs": {
+        "label": "Camera · Cảm biến",
+        "headline": "200MP",
+        "subtitle": "Cảm biến lớn nhất Apple từng dùng trên iPhone",
+        "anchor": "200",
+        "footer_left": "AI Coding",
+        "footer_right": "example.com"
+      }
+    },
+    {
+      "id": "body-2",
+      "type": "body",
+      "voiceText": "Chip xử lý ảnh cũng được nâng cấp cùng lúc. Tốc độ lấy nét nhanh gấp đôi, gần như không còn độ trễ khi bạn chụp liên tiếp nhiều tấm hay bắt khoảnh khắc đang chuyển động.",
+      "templateId": "frame-vignelli",
+      "inputs": {
+        "kicker": "Hiệu năng",
+        "number": "2x",
+        "label": "Tốc độ lấy nét",
+        "note": "So với thế hệ trước",
+        "brand": "AI Coding"
+      }
+    },
+    {
+      "id": "body-3",
+      "type": "body",
+      "voiceText": "Vậy ai nên nâng cấp, và ai thì chưa cần vội? Thực tế có ba nhóm người dùng rất khác nhau, và câu trả lời cho mỗi nhóm cũng khác nhau hoàn toàn.",
+      "templateId": "frame-aicoding-list",
+      "inputs": {
+        "title": "Ai nên nâng cấp?",
+        "accent": "nâng cấp",
+        "accent_from": "#f59e0b",
+        "accent_to": "#ef4444",
+        "subtitle": "Ba nhóm người dùng",
+        "items": [
+          { "icon": "📸", "title": "Người chụp ảnh", "desc": "Khác biệt thấy rõ ngay", "tag": "Nên", "level": "good" },
+          { "icon": "🎬", "title": "Người quay video", "desc": "Chống rung tốt hơn nhiều", "tag": "Nên", "level": "good" },
+          { "icon": "💬", "title": "Dùng cơ bản", "desc": "Máy cũ vẫn dư sức dùng", "tag": "Chưa", "level": "info" }
+        ]
+      }
+    },
+    {
+      "id": "body-4",
+      "type": "body",
+      "voiceText": "So với iPhone mười sáu, khác biệt lớn nhất nằm ở cảm biến chứ không phải ở thiết kế bên ngoài. Cầm trên tay, hai máy gần như giống hệt nhau về kiểu dáng.",
+      "templateId": "frame-aicoding-comparison",
+      "inputs": {
+        "badge": "So sánh",
+        "pre": "iPhone 16",
+        "vs": "VS",
+        "post": "iPhone 17",
+        "left": {
+          "label": "iPhone 16",
+          "from": "#64748b",
+          "to": "#334155",
+          "icon": "📱",
+          "bullets": ["Cảm biến 48MP", "Lấy nét chuẩn"],
+          "stat": "48MP",
+          "stat_label": "Camera chính"
+        },
+        "right": {
+          "label": "iPhone 17",
+          "from": "#14b8a6",
+          "to": "#0ea5e9",
+          "icon": "🚀",
+          "bullets": ["Cảm biến 200MP", "Lấy nét nhanh gấp đôi"],
+          "stat": "200MP",
+          "stat_label": "Camera chính",
+          "win": true
+        }
+      }
+    },
+    {
+      "id": "body-5",
+      "type": "body",
+      "voiceText": "Giá bán khởi điểm là hai mươi tám triệu đồng cho bản dung lượng thấp nhất, cao hơn thế hệ trước khoảng hai triệu. Bản dung lượng cao nhất thì đắt hơn đáng kể.",
+      "templateId": "frame-bold-poster",
+      "inputs": {
+        "kicker": "AI Coding",
+        "date": "01 · 01 · 2026",
+        "figure": "28",
+        "headline": ["Giá khởi", "điểm 28", "triệu đồng"],
+        "standfirst": "Cao hơn thế hệ trước khoảng 2 triệu đồng cho bản dung lượng thấp nhất.",
+        "footer_left": "AI Coding",
+        "footer_right": "example.com"
+      }
+    },
+    {
+      "id": "body-6",
+      "type": "body",
+      "voiceText": "Nhưng có một điểm đáng lo mà ít ai nhắc tới. Dung lượng mỗi tấm ảnh tăng gấp ba, nên bộ nhớ máy sẽ đầy nhanh hơn nhiều so với những gì bạn quen.",
+      "templateId": "frame-glitch-title",
+      "inputs": {
+        "title": "Bộ nhớ đầy nhanh",
+        "subtitle": "Ảnh 200MP nặng gấp 3 lần"
+      }
+    },
+    {
+      "id": "body-7",
+      "type": "body",
+      "voiceText": "Tóm lại, đây là bản nâng cấp đáng giá nếu bạn thực sự chụp ảnh nhiều mỗi ngày. Còn nếu không, chiếc máy đang dùng vẫn đủ tốt để chờ thêm một thế hệ nữa.",
+      "templateId": "frame-build-minimal",
+      "inputs": {
+        "eyebrow": "Kết luận",
+        "hero": "CHỜ",
+        "desc": "Nếu bạn không chụp ảnh nhiều, máy cũ vẫn dư sức dùng thêm một năm nữa.",
+        "side_left": "AI Coding",
+        "side_right": "2026"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Theo dõi AI Coding để xem bản tin công nghệ mới mỗi ngày.",
+      "templateId": "frame-logo-outro",
+      "inputs": {
+        "brand_name": "AI Coding",
+        "tagline": "Tin công nghệ mỗi ngày",
+        "primary_url": "https://example.com/"
+      }
+    }
+  ]
+}

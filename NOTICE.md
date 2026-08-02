@@ -1,0 +1,127 @@
+# NOTICE — third-party attribution
+
+`content-agent-kit` is MIT (see `LICENSE`). The **video generation** capability
+(`scripts/video/`, `video-templates/`) is derived from third-party open-source
+work. This file records that lineage as those licenses require.
+
+> Bản kit là MIT. Riêng phần **tạo video** được kế thừa từ mã nguồn mở của bên
+> thứ ba — file này ghi công theo đúng yêu cầu giấy phép. **Đừng xoá** file này
+> hay các `NOTICE.md` trong từng thư mục template.
+
+---
+
+## 1. Video pipeline — `scripts/video/`
+
+**Source:** [huytranvan2010/AI-auto-generate-video](https://github.com/huytranvan2010/AI-auto-generate-video)
+**License:** MIT — © 2026 AI Coding, © 2026 Ho Quang Hai
+**Itself derived from:** [hoquanghai/Auto-Create-Video](https://github.com/hoquanghai/Auto-Create-Video)
+
+The 8-step pipeline (TTS per scene → concatenate with gaps → mix SFX → render
+each template to MP4 → fit each clip to its narration → concatenate → mux) and
+the `script.json` contract come from that project.
+
+**Changes made in this kit** (the port is a rewrite, not a copy):
+
+- Rewritten from TypeScript (`src/**/*.ts`, run via `tsx`) to dependency-free
+  ESM `.mjs`, so the kit keeps needing **no `package.json` and no `npm install`**.
+  `zod` → a hand-written validator, `axios` → global `fetch`, `p-limit` → a small
+  inline semaphore, `dotenv` → the kit's existing `scripts/lib/env.mjs`.
+- The SFX directory is no longer resolved as `outputDir/../../assets/sfx`
+  (upstream `src/render/template-pipeline.ts:85`, which assumed a fixed output
+  depth). It now resolves from the module location, overridable via `VIDEO_SFX_DIR`.
+- The templates directory is no longer `<src>/../../templates`
+  (upstream `src/render/template-composer.ts:10`). It resolves to
+  `<kit>/video-templates`, overridable via `VIDEO_TEMPLATES_DIR`.
+- Added `scripts/video/validate-script.mjs` — a pre-render gate enforcing both the
+  schema and the Vietnamese-TTS / pacing craft rules that upstream documented in
+  prose only.
+- Dropped upstream dead code (`src/assets/image-fetcher.ts`, and the unused
+  `src/utils/slug.ts` wiring).
+- Added social publishing, which upstream deliberately does not do.
+
+The upstream MIT license text is reproduced in full at the bottom of this file.
+
+## 2. Video templates — `video-templates/frame-*/`
+
+Eight templates are vendored from
+[nexu-io/html-video](https://github.com/nexu-io/html-video) under **Apache-2.0**
+(attribution required, commercial use allowed):
+
+`frame-bold-poster` · `frame-build-minimal` · `frame-creative-voltage` ·
+`frame-glitch-title` · `frame-liquid-bg-hero` · `frame-logo-outro` ·
+`frame-pentagram-stat` · `frame-vignelli`
+
+Three are original to AI-auto-generate-video (MIT, same copyright as §1):
+
+`frame-aicoding-list` · `frame-aicoding-comparison` · `frame-statement-outro`
+
+**Per-template `NOTICE.md` files record each template's own design lineage and
+the exact modifications made** (e.g. replacing the Tailwind CDN runtime with
+plain CSS for deterministic offline rendering, dropping CJK fonts, adding the
+9:16 portrait composition). Apache-2.0 §4 requires those notices to travel with
+the work — keep them.
+
+Three are original to content-agent-kit (MIT, same as this repo):
+
+`frame-broll` · `frame-media-inset` · `frame-screenshot`
+
+Some templates further credit MIT-licensed design lineage:
+[zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)
+(© Zara Zhang) and huashu-design (© alchaincyf). See the individual `NOTICE.md`.
+
+## 2b. Templates pulled from the HyperFrames registry
+
+`scripts/video/add-template.mjs` fetches items from
+[heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) — **Apache-2.0**. Each
+fetch writes a `NOTICE.md` into the item's folder recording its source, licence, description
+and native size. Apache-2.0 §4 requires those notices to travel with the work and
+modifications to be stated, so **keep them**. See `docs/16-template-registry.md`.
+
+## 2c. Stock footage in rendered videos
+
+Clips come from Pexels and/or Pixabay, whose licences allow commercial use and modification
+and **do not require attribution** — which is why nothing appears on screen. Source, author,
+page and licence for every clip used are recorded in the `media-lock.json` beside each
+script, so any clip stays traceable. See `docs/15-media-sources.md`.
+
+## 3. Runtime tools (not redistributed)
+
+These are invoked, not bundled — no license obligation for this repo, listed so
+you know what the render step reaches for:
+
+| Tool | Role | License |
+|---|---|---|
+| [hyperframes](https://www.npmjs.com/package/hyperframes) `0.6.94` | HTML → MP4 via headless Chromium; fetched by `npx -y` at render time | see package |
+| FFmpeg / ffprobe | all audio & video processing; must be on `PATH` | LGPL/GPL depending on build |
+| [OmniVoice](https://github.com/k2-fsa/OmniVoice) | Vietnamese TTS; **runs locally**, no API key, no third-party service | see project |
+| Google Fonts | `<link>`-ed by the templates at render time | SIL OFL |
+| [myinstants.com](https://www.myinstants.com/) | optional SFX source for `scripts/video/sfx-download.mjs` | see site terms |
+
+---
+
+## Upstream MIT license (AI-auto-generate-video)
+
+```
+MIT License
+
+Copyright (c) 2026 AI Coding
+Copyright (c) 2026 Ho Quang Hai
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```

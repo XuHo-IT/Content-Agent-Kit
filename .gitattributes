@@ -1,0 +1,22 @@
+# Normalise line endings. The kit is written on Windows and run on Linux CI, and a CRLF
+# sneaking into a shell-ish file or a template is the kind of bug that wastes an afternoon.
+* text=auto eol=lf
+
+# Binary — never touch these.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.mp4 binary
+*.mov binary
+*.webm binary
+*.mp3 binary
+*.wav binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.glb binary
+
+# Vendored video templates: keep them out of diff noise on GitHub, but still searchable.
+video-templates/** linguist-vendored

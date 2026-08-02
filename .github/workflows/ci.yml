@@ -1,0 +1,105 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Cancel superseded runs on the same branch to keep queues short.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Scripts (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["18", "20", "22"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      # There is deliberately no `npm ci` step: this kit ships no package.json and no
+      # dependencies. Everything below runs on a bare Node install, offline, with no keys.
+
+      - name: Every script parses
+        run: |
+          fail=0
+          for f in $(find scripts -name "*.mjs" | sort); do
+            node -c "$f" || { echo "::error file=$f::syntax error"; fail=1; }
+          done
+          exit $fail
+
+      - name: Every CLI loads and answers --help
+        run: |
+          fail=0
+          for f in scripts/*.mjs scripts/*/*.mjs; do
+            case "$f" in scripts/lib/*|*/lib/*) continue ;; esac
+            node "$f" --help >/dev/null 2>&1 || { echo "::error file=$f::--help failed"; fail=1; }
+          done
+          exit $fail
+
+      # The reference script is what the AI copies. If it stops being clean, every agent
+      # scaffolded from this kit starts from a bad example.
+      - name: Reference script.json is clean in strict mode
+        run: node scripts/video/validate-script.mjs templates/VIDEO_SCRIPT.template.json --strict
+
+      # Hand-written AWS SigV4. Checked against AWS's own published vector — no bucket,
+      # no credentials, no network.
+      - name: R2 signer matches the AWS reference vector
+        run: node scripts/media/host-check.mjs --selftest
+
+      - name: Registries load and agree with the validator
+        run: |
+          node -e "
+            const p = await import('./scripts/video/lib/tts.mjs');
+            const s = await import('./scripts/media/lib/sources/index.mjs');
+            const h = await import('./scripts/lib/media-hosts/index.mjs');
+            const t = await import('./scripts/video/lib/paths.mjs');
+            if (!p.PROVIDERS.length || !s.SOURCE_IDS.length || !h.HOST_IDS.length) throw new Error('empty registry');
+            if (t.listTemplateIds().length < 11) throw new Error('templates missing');
+            console.log('tts:', p.PROVIDERS.join(','));
+            console.log('stock:', s.SOURCE_IDS.join(','));
+            console.log('hosts:', h.HOST_IDS.join(','));
+            console.log('scene templates:', t.listTemplateIds().length);
+          " --input-type=module
+
+      # Apache-2.0 requires the notice to travel with the work. A template folder without
+      # one is a licence violation, not a style nit.
+      - name: Every vendored template keeps its NOTICE
+        run: |
+          fail=0
+          for d in video-templates/*/; do
+            [ -f "$d/NOTICE.md" ] || { echo "::error::missing NOTICE.md in $d"; fail=1; }
+          done
+          [ -f NOTICE.md ] || { echo "::error::missing root NOTICE.md"; fail=1; }
+          exit $fail
+
+      - name: No secrets committed
+        run: |
+          if git grep -nE "hook\.(eu|us)[0-9]*\.make\.com/[a-z0-9]|Bearer [A-Za-z0-9_-]{16,}|R2_SECRET_ACCESS_KEY[[:space:]]*=[[:space:]]*.|xi-api-key: [A-Za-z0-9]{12,}" -- . ':!*.example' ':!SECURITY.md' ':!CONTRIBUTING.md' ':!.github/workflows'; then
+            echo "::error::a credential-shaped string is committed"
+            exit 1
+          fi
+          echo "clean"
+
+  crawler:
+    name: Python crawler
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: crawl.py compiles
+        run: python -m py_compile scripts/crawl/crawl.py
