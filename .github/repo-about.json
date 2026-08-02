@@ -1,0 +1,28 @@
+{
+  "_comment": "The repo's About box — description, website and topics. GitHub stores these as repo settings, not as files, so this is the source of truth for what they should be. Apply with: node .github/apply-about.mjs (needs `gh` authenticated).",
+
+  "description": "Bộ kit để IDE agentic (Claude Code, Antigravity) tự dựng agent nội dung: crawl → viết → review gate → đăng social qua Make.com, kèm pipeline video 9:16 có giọng đọc, B-roll và ảnh chụp web. Zero dependency, env-only, MIT.",
+
+  "homepage": "",
+
+  "topics": [
+    "ai-agents",
+    "agentic-workflow",
+    "claude-code",
+    "content-automation",
+    "content-marketing",
+    "social-media-automation",
+    "video-generation",
+    "text-to-speech",
+    "tts",
+    "ffmpeg",
+    "tiktok",
+    "youtube-shorts",
+    "make-com",
+    "automation",
+    "vietnamese",
+    "zero-dependency",
+    "nodejs",
+    "open-source-kit"
+  ]
+}
