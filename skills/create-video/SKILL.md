@@ -52,6 +52,19 @@ The rules that break a render if you get them wrong:
 - Colours (`accent_from`/`accent_to`, per-side `from`/`to`) and item `icon` emoji are yours to
   pick per scene.
 
+**Does the whole video want a different palette?** Almost every template is dark by default.
+One top-level key recolours all of them at render time:
+
+```json
+{ "aspect": "9:16", "theme": "paper-blue" }
+```
+
+`paper-blue` (white canvas, ocean-blue ink) · `paper-ink` · `paper-forest`, or an object that
+overrides any field of one. Ask before choosing — a palette is the user's call, not yours.
+Two consequences worth knowing: emoji keep their own colours (a red 🚫 stays red on a blue
+frame), and a new template must be measured with `theme-probe.mjs` before it themes correctly.
+See `video-templates/CATALOG.md`.
+
 **Does any scene want real footage?** A scene can carry a `media` block — a stock clip, or a
 screenshot of the page you are citing:
 

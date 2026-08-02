@@ -74,6 +74,34 @@ jobs:
       - name: R2 signer matches the AWS reference vector
         run: node scripts/media/host-check.mjs --selftest
 
+      # Theming rewrites colours inside every template. A runner has no Chrome and no
+      # ffmpeg, but the rules are pure arithmetic and string rewriting — and each case
+      # here is a bug that shipped once, so they are worth pinning.
+      - name: Theme recolour rules hold
+        run: node scripts/video/theme-probe.mjs --selftest
+
+      # Every composition must have a measured canvas, or a themed render silently flips
+      # the wrong way. Adding a template means re-running theme-probe.mjs.
+      - name: Every template has a measured canvas
+        run: |
+          node -e "
+            const fs = require('node:fs');
+            const map = JSON.parse(fs.readFileSync('video-templates/theme-map.json','utf8')).canvases;
+            const missing = [];
+            for (const id of fs.readdirSync('video-templates', {withFileTypes:true})
+                               .filter(d => d.isDirectory()).map(d => d.name)) {
+              for (const f of ['index.html','compositions/portrait.html']) {
+                if (fs.existsSync(\`video-templates/\${id}/\${f}\`) && !map[\`\${id}/\${f}\`]) missing.push(\`\${id}/\${f}\`);
+              }
+            }
+            if (missing.length) {
+              console.error('::error::not in theme-map.json: ' + missing.join(', ') +
+                            ' — run: node scripts/video/theme-probe.mjs');
+              process.exit(1);
+            }
+            console.log('all ' + Object.keys(map).length + ' compositions measured');
+          "
+
       - name: Registries load and agree with the validator
         run: |
           node -e "

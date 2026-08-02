@@ -1,0 +1,31 @@
+Một mô hình mạnh tới mức chính phủ Mỹ phải ra lệnh dừng. Chỉ ba ngày sau khi nó ra mắt. Đây là câu chuyện của Claude Fable năm.
+
+Stripe đưa cho nó một kho mã Ruby năm mươi triệu dòng và bảo chuyển đổi hết. Việc mà đội kỹ thuật của họ dự trù vài tháng, mô hình làm xong trong vài ngày.
+
+Ba ngày. Đó là quãng thời gian mô hình mạnh nhất Anthropic từng phát hành rộng rãi được phép hoạt động, trước khi một lệnh kiểm soát xuất khẩu buộc nó ngừng.
+
+Anthropic nói đây là mô hình đầu tiên vượt mốc chín mươi phần trăm trên bài kiểm tra phân tích lõi của chính họ. Trên bộ bài lập trình, nó dẫn đầu cả ở mức nỗ lực trung bình.
+
+Đây là trang công bố gốc. Không phải tin đồn. Anthropic đặt Fable vào một hạng mới tên là Mythos, nằm trên cả dòng Opus vốn đang là đỉnh của họ.
+
+Cùng lúc đó họ phát hành một bản thứ hai tên Mythos năm. Cùng một mô hình bên dưới, nhưng gỡ bớt lớp chắn. Bản này không mở công khai cho bất kỳ ai.
+
+Cơ chế an toàn của nó khá lạ. Gặp câu hỏi rủi ro cao, Fable không tự trả lời mà đẩy xuống cho Opus bốn chấm tám. Bạn vẫn có đáp án, chỉ là từ mô hình yếu hơn.
+
+Thứ Anthropic nhấn mạnh không phải điểm số, mà là tác vụ kéo dài nhiều ngày. Loại việc mà mô hình phải tự lập kế hoạch, tự chạy, tự sửa qua hàng trăm bước.
+
+Lớp chắn đó kích hoạt ở dưới năm phần trăm số phiên. Nghe nhỏ. Nhưng chính Anthropic thừa nhận nó còn quá rộng, chặn nhầm cả câu hỏi vô hại chỉ vì nằm gần chủ đề nhạy cảm.
+
+Vậy ai nên đổi. Nếu việc của bạn là tác vụ dài nhiều bước thì khoảng cách năng lực là thật. Còn nếu chỉ viết lách, tóm tắt, hỏi đáp, bậc rẻ hơn vẫn dư sức.
+
+Rồi chính phủ Mỹ can thiệp. Một chỉ thị kiểm soát xuất khẩu buộc Fable tạm ngừng. Cuối tháng sáu lệnh được dỡ, nhưng chi tiết đàm phán thì không ai công bố.
+
+Điều đáng để ý không phải bản thân sự cố. Mà là năng lực mô hình đã chạm mức khiến chính phủ coi nó là mặt hàng cần kiểm soát, không còn là phần mềm.
+
+Giá thì không rẻ. Mỗi triệu token đầu vào tốn mười đô la, đầu ra năm mươi đô. Với loại tác vụ nhiều bước mà nó được thiết kế cho, lượng token tiêu thụ không hề nhỏ.
+
+Nó có mặt trên Claude API, trên ứng dụng Claude và trên Amazon Bedrock. Các gói Pro, Max, Team và Enterprise được dùng miễn phí trong hai tuần đầu, sau đó tính theo tín dụng sử dụng.
+
+Vậy câu hỏi không phải Fable năm có mạnh không. Mà là việc của bạn có đủ dài, đủ nhiều bước để cần tới nó không. Nếu không, bạn trả tiền cho phần mình không dùng.
+
+Nếu thấy hữu ích, theo dõi AI Fable để xem bản tin mới mỗi ngày.

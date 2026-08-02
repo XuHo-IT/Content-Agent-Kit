@@ -1,0 +1,307 @@
+{
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "paper-blue",
+  "metadata": {
+    "title": "Claude Fable 5 — mạnh nhất, rồi bị lệnh kiểm soát xuất khẩu buộc dừng",
+    "source": {
+      "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+      "domain": "anthropic.com",
+      "image": null
+    },
+    "channel": "AI Fable"
+  },
+  "voice": {
+    "provider": "vbee",
+    "voiceId": "hn_female_ngochuyen_full_48k-fhg",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "voiceText": "Một mô hình mạnh tới mức chính phủ Mỹ phải ra lệnh dừng. Chỉ ba ngày sau khi nó ra mắt. Đây là câu chuyện của Claude Fable năm.",
+      "templateId": "frame-liquid-bg-hero",
+      "inputs": {
+        "kicker": "AI FABLE",
+        "headline": "Mạnh quá cũng thành vấn đề",
+        "subheadline": "Claude Fable 5: ra mắt, rồi bị buộc dừng sau đúng 3 ngày",
+        "cta": "Xem tiếp",
+        "brand": "anthropic.com"
+      }
+    },
+    {
+      "id": "stripe",
+      "type": "body",
+      "voiceText": "Stripe đưa cho nó một kho mã Ruby năm mươi triệu dòng và bảo chuyển đổi hết. Việc mà đội kỹ thuật của họ dự trù vài tháng, mô hình làm xong trong vài ngày.",
+      "templateId": "frame-broll",
+      "inputs": {
+        "chip": "Ví dụ thật",
+        "kicker": "STRIPE",
+        "headline": "Năm mươi triệu dòng mã",
+        "subheadline": "Dự trù vài tháng. Làm xong trong vài ngày."
+      },
+      "media": {
+        "kind": "video",
+        "source": "pexels",
+        "id": "4884235"
+      }
+    },
+    {
+      "id": "ba-ngay",
+      "type": "body",
+      "voiceText": "Ba ngày. Đó là quãng thời gian mô hình mạnh nhất Anthropic từng phát hành rộng rãi được phép hoạt động, trước khi một lệnh kiểm soát xuất khẩu buộc nó ngừng.",
+      "templateId": "frame-bold-poster",
+      "inputs": {
+        "kicker": "Dòng thời gian",
+        "date": "09 · 06 · 2026",
+        "figure": "3",
+        "headline": [
+          "Ba",
+          "ngày",
+          "rồi tắt"
+        ],
+        "standfirst": "Từ bản phát hành mạnh nhất đến lệnh dừng, gọn trong một tuần đầu tiên.",
+        "footer_left": "AI Fable",
+        "footer_right": "anthropic.com"
+      }
+    },
+    {
+      "id": "diem-so",
+      "type": "body",
+      "voiceText": "Anthropic nói đây là mô hình đầu tiên vượt mốc chín mươi phần trăm trên bài kiểm tra phân tích lõi của chính họ. Trên bộ bài lập trình, nó dẫn đầu cả ở mức nỗ lực trung bình.",
+      "templateId": "frame-pentagram-stat",
+      "inputs": {
+        "label": "Hiệu năng · Phân tích lõi",
+        "headline": "90%",
+        "subtitle": "Mô hình đầu tiên vượt mốc này trên bài kiểm tra nội bộ của Anthropic",
+        "anchor": "90",
+        "footer_left": "AI Fable",
+        "footer_right": "anthropic.com"
+      }
+    },
+    {
+      "id": "nguon",
+      "type": "body",
+      "voiceText": "Đây là trang công bố gốc. Không phải tin đồn. Anthropic đặt Fable vào một hạng mới tên là Mythos, nằm trên cả dòng Opus vốn đang là đỉnh của họ.",
+      "templateId": "frame-screenshot",
+      "inputs": {
+        "kicker": "Nguồn gốc",
+        "headline": "Công bố chính thức",
+        "url": "anthropic.com/news/claude-fable-5",
+        "caption": "Hạng Mythos được đặt trên dòng Opus — lần đầu Anthropic thêm một bậc mới lên trên cùng.",
+        "source": "ANTHROPIC · 09/06/2026"
+      },
+      "media": {
+        "kind": "screenshot",
+        "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+        "width": 1280,
+        "height": 860
+      }
+    },
+    {
+      "id": "mythos",
+      "type": "body",
+      "voiceText": "Cùng lúc đó họ phát hành một bản thứ hai tên Mythos năm. Cùng một mô hình bên dưới, nhưng gỡ bớt lớp chắn. Bản này không mở công khai cho bất kỳ ai.",
+      "templateId": "frame-glitch-title",
+      "inputs": {
+        "title": "MYTHOS 5",
+        "subtitle": "Cùng mô hình · ít lớp chắn hơn · không mở công khai"
+      }
+    },
+    {
+      "id": "dinh-tuyen",
+      "type": "body",
+      "voiceText": "Cơ chế an toàn của nó khá lạ. Gặp câu hỏi rủi ro cao, Fable không tự trả lời mà đẩy xuống cho Opus bốn chấm tám. Bạn vẫn có đáp án, chỉ là từ mô hình yếu hơn.",
+      "templateId": "frame-aicoding-comparison",
+      "inputs": {
+        "badge": "Cơ chế",
+        "pre": "Câu hỏi rủi ro",
+        "vs": "đẩy sang",
+        "post": "bản an toàn hơn",
+        "left": {
+          "label": "Fable 5",
+          "from": "#38bdf8",
+          "to": "#7c5cff",
+          "icon": "🧠",
+          "bullets": [
+            "Trả lời trực tiếp mọi việc thường",
+            "Vùng rủi ro cao / không tự trả lời"
+          ],
+          "stat": "90%",
+          "stat_label": "Phân tích lõi"
+        },
+        "right": {
+          "label": "Opus 4.8",
+          "from": "#34e0c0",
+          "to": "#22d3ee",
+          "icon": "🛡️",
+          "bullets": [
+            "Nhận lại câu hỏi bị chặn",
+            "Yếu hơn, nhưng vẫn có đáp án"
+          ],
+          "stat": "<5%",
+          "stat_label": "Số phiên bị đẩy sang"
+        }
+      }
+    },
+    {
+      "id": "tac-vu-dai",
+      "type": "body",
+      "voiceText": "Thứ Anthropic nhấn mạnh không phải điểm số, mà là tác vụ kéo dài nhiều ngày. Loại việc mà mô hình phải tự lập kế hoạch, tự chạy, tự sửa qua hàng trăm bước.",
+      "templateId": "frame-media-inset",
+      "inputs": {
+        "kicker": "Tác vụ dài",
+        "headline": "Chạy hàng trăm bước",
+        "caption": "Thế hệ trước giải tốt một bài khó trong một lượt, nhưng mất mạch khi việc kéo dài nhiều ngày.",
+        "footer_left": "AI Fable",
+        "footer_right": "2026"
+      },
+      "media": {
+        "kind": "video",
+        "source": "pexels",
+        "id": "12893579"
+      }
+    },
+    {
+      "id": "lop-chan",
+      "type": "body",
+      "voiceText": "Lớp chắn đó kích hoạt ở dưới năm phần trăm số phiên. Nghe nhỏ. Nhưng chính Anthropic thừa nhận nó còn quá rộng, chặn nhầm cả câu hỏi vô hại chỉ vì nằm gần chủ đề nhạy cảm.",
+      "templateId": "frame-vignelli",
+      "inputs": {
+        "kicker": "Lớp chắn · Anthropic tự nhận",
+        "number": "<5%",
+        "label": "SỐ PHIÊN BỊ CHẶN",
+        "note": "Nghe nhỏ. Nhưng nếu bạn làm bảo mật, năm phần trăm đó dồn hết vào việc của bạn.",
+        "brand": "AI Fable"
+      }
+    },
+    {
+      "id": "ai-nen-doi",
+      "type": "body",
+      "voiceText": "Vậy ai nên đổi. Nếu việc của bạn là tác vụ dài nhiều bước thì khoảng cách năng lực là thật. Còn nếu chỉ viết lách, tóm tắt, hỏi đáp, bậc rẻ hơn vẫn dư sức.",
+      "templateId": "frame-aicoding-list",
+      "inputs": {
+        "title": "Nên đổi hay ",
+        "accent": "nên chờ",
+        "accent_from": "#38bdf8",
+        "accent_to": "#7c5cff",
+        "subtitle": "Bốn nhóm công việc, bốn câu trả lời khác nhau",
+        "items": [
+          {
+            "icon": "🔁",
+            "title": "Di trú kho mã",
+            "desc": "Hàng nghìn thay đổi phải nhất quán",
+            "tag": "Đổi",
+            "level": "good"
+          },
+          {
+            "icon": "🤖",
+            "title": "Quy trình agent dài",
+            "desc": "Hàng trăm bước, không người kèm",
+            "tag": "Đổi",
+            "level": "good"
+          },
+          {
+            "icon": "✍️",
+            "title": "Viết, tóm tắt, hỏi đáp",
+            "desc": "Bậc rẻ hơn vẫn dư sức",
+            "tag": "Chờ",
+            "level": "info"
+          },
+          {
+            "icon": "🔐",
+            "title": "Bảo mật, sinh học",
+            "desc": "Lớp chắn chặn nhầm nhiều",
+            "tag": "Thử kỹ",
+            "level": "danger"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lenh-dung",
+      "type": "body",
+      "voiceText": "Rồi chính phủ Mỹ can thiệp. Một chỉ thị kiểm soát xuất khẩu buộc Fable tạm ngừng. Cuối tháng sáu lệnh được dỡ, nhưng chi tiết đàm phán thì không ai công bố.",
+      "templateId": "frame-broll",
+      "inputs": {
+        "chip": "🛑 Bị dừng",
+        "kicker": "KIỂM SOÁT XUẤT KHẨU",
+        "headline": "Đèn đỏ từ phía chính phủ",
+        "subheadline": "Dỡ lệnh cuối tháng 6. Chi tiết đàm phán không công bố."
+      },
+      "media": {
+        "kind": "video",
+        "source": "pexels",
+        "id": "32913728"
+      }
+    },
+    {
+      "id": "nguong",
+      "type": "body",
+      "voiceText": "Điều đáng để ý không phải bản thân sự cố. Mà là năng lực mô hình đã chạm mức khiến chính phủ coi nó là mặt hàng cần kiểm soát, không còn là phần mềm.",
+      "templateId": "frame-build-minimal",
+      "inputs": {
+        "eyebrow": "MỘT MỨC MỚI",
+        "hero": "NGƯỠNG",
+        "desc": "Đủ mạnh để bị coi là mặt hàng cần kiểm soát, không còn là phần mềm.",
+        "side_left": "AI Fable",
+        "side_right": "Fable 5"
+      }
+    },
+    {
+      "id": "gia",
+      "type": "body",
+      "voiceText": "Giá thì không rẻ. Mỗi triệu token đầu vào tốn mười đô la, đầu ra năm mươi đô. Với loại tác vụ nhiều bước mà nó được thiết kế cho, lượng token tiêu thụ không hề nhỏ.",
+      "templateId": "frame-pentagram-stat",
+      "inputs": {
+        "label": "Giá · Mỗi triệu token",
+        "headline": "$50",
+        "subtitle": "Đầu ra 50 đô, đầu vào 10 đô — chi phí thật của một tác vụ dài vượt xa cảm giác ban đầu",
+        "anchor": "50",
+        "footer_left": "AI Fable",
+        "footer_right": "anthropic.com"
+      }
+    },
+    {
+      "id": "dung-o-dau",
+      "type": "body",
+      "voiceText": "Nó có mặt trên Claude API, trên ứng dụng Claude và trên Amazon Bedrock. Các gói Pro, Max, Team và Enterprise được dùng miễn phí trong hai tuần đầu, sau đó tính theo tín dụng sử dụng.",
+      "templateId": "frame-creative-voltage",
+      "inputs": {
+        "meta": "// PHAT_HANH · DA_MO",
+        "display_lines": [
+          "Claude",
+          "API",
+          "Bedrock"
+        ],
+        "accent_index": 2,
+        "script": "có mặt cả ba",
+        "caption": "Miễn phí hai tuần đầu cho Pro, Max, Team, Enterprise"
+      }
+    },
+    {
+      "id": "chot",
+      "type": "body",
+      "voiceText": "Vậy câu hỏi không phải Fable năm có mạnh không. Mà là việc của bạn có đủ dài, đủ nhiều bước để cần tới nó không. Nếu không, bạn trả tiền cho phần mình không dùng.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Việc của bạn có đủ dài để cần tới nó không?",
+        "channel": "AI Fable",
+        "source": "Nguồn: anthropic.com"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Nếu thấy hữu ích, theo dõi AI Fable để xem bản tin mới mỗi ngày.",
+      "templateId": "frame-logo-outro",
+      "inputs": {
+        "brand_name": "AI Fable",
+        "tagline": "Bản tin AI mỗi ngày — ngắn, có số, có mặt trái",
+        "primary_url": "anthropic.com/news"
+      }
+    }
+  ]
+}

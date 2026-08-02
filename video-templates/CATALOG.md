@@ -335,6 +335,69 @@ cluttering the list a script can choose from. See `docs/16-template-registry.md`
 
 ---
 
+## Recolouring every template at once: `theme`
+
+Almost every template here ships a dark canvas. Wanting a light one used to mean forking
+fourteen templates and maintaining fourteen more. Instead, name a palette once in
+`script.json` and each template is recoloured into a **throwaway copy** at render time —
+the files in this folder keep the palette they were authored with.
+
+```json
+{ "aspect": "9:16", "theme": "paper-blue" }
+```
+
+| preset | canvas | ink |
+| --- | --- | --- |
+| `paper-blue` | white | ocean blue |
+| `paper-ink` | white | near-black, print-like |
+| `paper-forest` | off-white | forest green |
+
+Or state your own — any field overrides the preset it names:
+
+```json
+"theme": { "preset": "paper-blue", "ink": "#123a5f", "hue": 208, "spread": 14 }
+```
+
+`hue` is the centre of the band every colour is squeezed into and `spread` its half-width.
+The squeeze **preserves the original ordering**, so a comparison card's two sides still
+differ from each other while both read as one family. A blanket "make everything #0a4a7a"
+would flatten them into a single colour.
+
+Three things are handled that a naive find-and-replace gets wrong, each of which shipped as
+a bug once:
+
+- **Colours written inside JS and `data-composition-variables` are recoloured too** — that is
+  where a template keeps its caller-facing colours, so skipping them left a themed
+  comparison card with one orange side and one teal one.
+- **`mix-blend-mode: screen` flips to `multiply`** when a dark canvas goes light. Screen over
+  white paints white, so an aurora blob or a glitch layer would silently disappear.
+- **Accents are darkened until they clear 3:1 against the canvas.** Flipping lightness alone
+  leaves a mid-tone accent at ~1.5:1 on white — perfectly readable before, invisible after.
+
+Emoji are the one thing a theme cannot touch: they are colour glyphs, not CSS. A red 🚫 stays
+red on a blue-and-white frame. Choose them with that in mind, or leave the slot empty.
+
+### Which way to flip is measured, not guessed
+
+```bash
+node scripts/video/theme-probe.mjs                       # write video-templates/theme-map.json
+node scripts/video/theme-probe.mjs --preview paper-blue   # 14 before/after stills in ~40s
+node scripts/video/theme-probe.mjs --selftest             # the colour rules, offline
+```
+
+A dark canvas needs its lightness flipped; a light one only needs re-hueing. Reading that
+out of the CSS does not work — the canvas is painted by a full-bleed child as often as by
+`body`, and **two compositions of the same template can disagree**: `frame-bold-poster` is
+light at 16:9 and dark at 9:16. So Chrome screenshots each composition and ffmpeg measures
+it. Add a template, re-run the probe, commit `theme-map.json`.
+
+`--preview` is worth the forty seconds before committing to a five-minute render. It cannot
+show everything: `frame-broll`, `frame-media-inset`, `frame-screenshot` and
+`frame-pentagram-stat` reveal their content through the hyperframes animation driver, so
+those four preview as bare canvases. Judge them from the contact sheet after a render.
+
+---
+
 ## Two slot contracts that are easy to get wrong
 
 Both of these render *something* when misused, so a broken value survives all the way to
@@ -358,3 +421,28 @@ short (`"LMS"`, `"AI"`, `"Fable 5"`).
 |---|---|
 | ✗ | `pre:"Fable 5"`, `vs:"→"`, `post:"Opus 4.8"` with the same names as labels → each name twice |
 | ✓ | `pre:"Câu hỏi rủi ro"`, `vs:"chuyển sang"`, `post:"bản an toàn hơn"` |
+
+---
+
+## Vietnamese breaks layouts that Latin text does not
+
+Two templates shipped with `line-height` below 1 — comfortable for Latin capitals, and wrong
+here. A Vietnamese vowel can carry a **horn and a tone mark stacked above** it (Ư, Ỡ, Ầ) and
+still have a descender below (g, y). Both were found by looking at a contact sheet; neither
+validator rule could have caught them, because the text was the right length and the render
+exited 0.
+
+| template | was | is | what went wrong |
+| --- | --- | --- | --- |
+| `frame-bold-poster` | `.head` `line-height: 0.98` / `0.92` | `1.2` / `1.18` | the three headline lines are tilted up to 4°, so their ends swing ~30px vertically — "ngày" landed on top of "rồi tắt" |
+| `frame-build-minimal` | `.hero` `line-height: 0.98` / `0.96` | `1.16` / `1.14` | the tilde was clipped off "Ỡ" |
+
+`frame-build-minimal` also had a subtler one. Its hero is split into one `inline-block` per
+character for the letter-by-letter reveal, which makes **every character a line-break
+opportunity** — ordinary text never breaks inside a word, but this does. The auto-fit shrank
+the word to fit on one line, then set `white-space` back to its default, and a size that was
+one pixel too wide rendered "NGƯỠNG" as **"NGƯỠ / G"**. The fit now keeps `nowrap` and leaves
+a 3% margin for letter-spacing rounding.
+
+If you author a template: use `line-height: 1.15` or more on any large Vietnamese display
+text, and never re-enable wrapping on per-character spans.

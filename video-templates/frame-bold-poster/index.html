@@ -52,8 +52,11 @@
   @keyframes figureIn { to { opacity: 1; transform: translateY(0) rotate(-6deg); } }
 
   /* three-line headline, each line its own tilt, rising in sequence */
+  /* See the note in compositions/portrait.html — 0.92 lets tilted Vietnamese lines
+     overlap. This block is bottom-anchored, so the extra height grows upward, away from
+     the standfirst. */
   .head { position: absolute; left: 110px; bottom: 300px; font-family: 'Alfa Slab One', cursive;
-    line-height: 0.92; }
+    line-height: 1.18; }
   .head .ln { display: block; font-size: 132px; opacity: 0; transform: translateY(40px); }
   .head .ln1 { color: #1C1410; transform-origin: left bottom; animation: lineUp 0.7s cubic-bezier(0.16,1,0.3,1) 1.15s forwards; }
   .head .ln2 { color: #D8000F; animation: lineUpTilt 0.7s cubic-bezier(0.16,1,0.3,1) 1.35s forwards; }

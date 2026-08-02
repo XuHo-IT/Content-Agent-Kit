@@ -9,6 +9,7 @@
 import { listTemplateIds } from "./paths.mjs";
 import { PROVIDERS, PROVIDER_SPECS } from "./tts.mjs";
 import { SOURCE_IDS } from "../../media/lib/sources/index.mjs";
+import { resolveTheme, loadThemeMap, THEME_IDS } from "./theme.mjs";
 
 // ── tunables (all overridable by the caller) ────────────────────────────────
 export const CRAFT_DEFAULTS = {
@@ -52,6 +53,19 @@ const quote = (s, n = 80) => {
 };
 const isObj = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
 
+/** WCAG relative luminance + contrast ratio, for the theme's bg/ink pair. */
+const relLum = (hex) => {
+  const c = [1, 3, 5].map((i) => {
+    const v = parseInt(hex.slice(i, i + 2), 16) / 255;
+    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+};
+const contrast = (a, b) => {
+  const [hi, lo] = [relLum(a), relLum(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+};
+
 /**
  * Validate a parsed script object.
  * @returns {{ errors: string[], warnings: string[], stats: object }}
@@ -77,6 +91,30 @@ export function validateScript(script, opts = {}) {
   const aspect = script.aspect ?? "9:16";
   if (!ASPECTS.includes(aspect))
     E(`aspect must be one of ${ASPECTS.join(" | ")}, got ${JSON.stringify(script.aspect)}`);
+
+  // ── theme (optional) ─────────────────────────────────────────────────────
+  // A bad palette is only visible after a full render, so the cheap checks happen here.
+  let theme = null;
+  if (script.theme != null) {
+    try {
+      theme = resolveTheme(script.theme);
+    } catch (err) {
+      E(`theme: ${err.message} (presets: ${THEME_IDS.join(", ")})`);
+    }
+  }
+  if (theme) {
+    // Themed text on themed canvas has to stay readable — this is the one contrast
+    // failure the eye forgives on a still and hates in motion.
+    const ratio = contrast(theme.bg, theme.ink);
+    if (ratio < 4.5) {
+      E(
+        `theme: bg ${theme.bg} on ink ${theme.ink} is contrast ${ratio.toFixed(1)}:1 — ` +
+          `below the 4.5:1 floor, the narration text will be hard to read`,
+      );
+    } else if (ratio < 7) {
+      W(`theme: contrast ${ratio.toFixed(1)}:1 is legible but not comfortable at phone size`);
+    }
+  }
 
   // ── metadata ─────────────────────────────────────────────────────────────
   const md = script.metadata;
@@ -292,6 +330,20 @@ export function validateScript(script, opts = {}) {
       W(`"${tpl}" is used ${count}× — vary body templates so the video doesn't look repetitive.`);
   }
 
+  // A themed template that was never probed gets flipped on a guess. That renders — wrongly
+  // and silently — so it is worth a warning while it still costs nothing to fix.
+  if (theme) {
+    const entry = aspect === "16:9" ? "index.html" : "compositions/portrait.html";
+    const map = loadThemeMap();
+    const unmeasured = [...templateUse.keys()].filter((t) => !map[`${t}/${entry}`]);
+    if (unmeasured.length)
+      W(
+        `theme is set but ${unmeasured.join(", ")} ${unmeasured.length > 1 ? "are" : "is"} ` +
+          `not in theme-map.json — the light/dark flip will be guessed. ` +
+          `Fix: node scripts/video/theme-probe.mjs`,
+      );
+  }
+
   return {
     errors,
     warnings,
@@ -301,6 +353,7 @@ export function validateScript(script, opts = {}) {
       estSec: Math.round(totalWords / 3),
       templates: Object.fromEntries(templateUse),
       aspect,
+      theme: theme?.id ?? null,
     },
   };
 }

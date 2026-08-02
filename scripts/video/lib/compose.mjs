@@ -4,11 +4,12 @@
 // HyperFrames is invoked through `npx -y` rather than being an npm dependency —
 // that is how upstream does it, and it is what lets this kit stay install-free.
 // The version is PINNED so renders stay deterministic.
-import { cpSync, existsSync, mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { extname, isAbsolute, join, resolve } from "node:path";
 import { runInherit } from "./proc.mjs";
 import { templatesDir } from "./paths.mjs";
+import { applyTheme, canvasOf } from "./theme.mjs";
 
 export const HYPERFRAMES_VERSION = "0.6.94";
 
@@ -28,13 +29,15 @@ const ASPECT_ENTRY = {
 /**
  * @param {{templateId:string, inputs:object, outputPath:string,
  *          aspect?:"9:16"|"16:9", fps?:number, quality?:"draft"|"standard"|"high",
- *          mediaFile?:string}} args
+ *          mediaFile?:string, theme?:object, log?:Function}} args
  *   mediaFile — a resolved clip or still for this ONE scene. Templates reference it at the
  *   fixed path `assets/media.mp4` / `assets/media.png`.
+ *   theme — a resolved theme (lib/theme.mjs). Recolours a COPY; the vendored template
+ *   keeps the palette it was authored with.
  * @returns {Promise<string>} absolute path of the rendered mp4
  */
 export async function composeTemplate(args) {
-  const { templateId, inputs, fps = 30, quality = "standard", aspect, mediaFile } = args;
+  const { templateId, inputs, fps = 30, quality = "standard", aspect, mediaFile, theme, log } = args;
   const vendored = join(templatesDir(), templateId);
   if (!existsSync(join(vendored, "index.html"))) {
     throw new Error(
@@ -43,31 +46,51 @@ export async function composeTemplate(args) {
     );
   }
 
-  // A scene with its own footage gets a THROWAWAY COPY of the template with the media
-  // dropped in. Writing into the vendored folder instead would make two scenes using the
-  // same template overwrite each other's clip, and would leave junk in a git-tracked dir.
+  const entry = aspect ? (ASPECT_ENTRY[aspect] ?? "index.html") : "index.html";
+  const entryFile = existsSync(join(vendored, entry)) ? entry : "index.html";
+
+  // A scene with its own footage, or a theme, gets a THROWAWAY COPY of the template.
+  // Writing into the vendored folder instead would make two scenes using the same template
+  // overwrite each other's clip, and would leave junk in a git-tracked dir.
   let templateDir = vendored;
   let scratch = null;
-  if (mediaFile) {
-    if (!existsSync(mediaFile)) throw new Error(`Media file not found: ${mediaFile}`);
+  if (mediaFile || theme) {
     scratch = mkdtempSync(join(tmpdir(), "cak-tpl-"));
     templateDir = join(scratch, templateId);
     cpSync(vendored, templateDir, { recursive: true });
+  }
+
+  if (mediaFile) {
+    if (!existsSync(mediaFile)) throw new Error(`Media file not found: ${mediaFile}`);
     const ext = extname(mediaFile).toLowerCase() === ".png" ? ".png" : ".mp4";
     mkdirSync(join(templateDir, "assets"), { recursive: true });
     cpSync(mediaFile, join(templateDir, "assets", `media${ext}`));
   }
 
+  if (theme) {
+    // Only the entry actually being rendered is rewritten — theming the other composition
+    // would double the work for a file hyperframes never opens.
+    const target = join(templateDir, entryFile);
+    writeFileSync(
+      target,
+      applyTheme(readFileSync(target, "utf8"), theme, {
+        invert: canvasOf(templateId, entryFile, log) === "dark",
+        templateId,
+      }),
+      "utf8",
+    );
+  }
+
   try {
-    return await renderWith(templateDir, { inputs, fps, quality, aspect, outputPath: args.outputPath });
+    return await renderWith(templateDir, {
+      inputs, fps, quality, entryFile, outputPath: args.outputPath,
+    });
   } finally {
     if (scratch) rmSync(scratch, { recursive: true, force: true });
   }
 }
 
-async function renderWith(templateDir, { inputs, fps, quality, aspect, outputPath: requested }) {
-  const entry = aspect ? (ASPECT_ENTRY[aspect] ?? "index.html") : "index.html";
-  const entryFile = existsSync(join(templateDir, entry)) ? entry : "index.html";
+async function renderWith(templateDir, { inputs, fps, quality, entryFile, outputPath: requested }) {
 
   const outputPath = isAbsolute(requested) ? requested : resolve(process.cwd(), requested);
 
