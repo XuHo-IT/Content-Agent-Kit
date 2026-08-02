@@ -1,5 +1,5 @@
 # Generic crawl4ai discovery pipeline.
 # After install, run ONCE: crawl4ai-setup   (installs Chromium/Playwright)
 crawl4ai>=0.4.0
-pyyaml>=6.0
+pyyaml>=6.0.3
 requests>=2.34.2
