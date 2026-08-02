@@ -1,0 +1,13 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Hỏi đáp & ý tưởng
+    url: https://github.com/XuHo-IT/Content-Agent-Kit/discussions
+    about: Câu hỏi cách dùng, khoe agent bạn đã dựng, hoặc bàn ý tưởng chưa rõ hình hài.
+
+  - name: 🔐 Báo lỗi bảo mật
+    url: https://github.com/XuHo-IT/Content-Agent-Kit/security/advisories/new
+    about: Đừng mở issue công khai cho lỗi bảo mật — báo riêng ở đây.
+
+  - name: 📖 Đọc tài liệu trước
+    url: https://github.com/XuHo-IT/Content-Agent-Kit/tree/main/docs
+    about: 16 doc song ngữ. Lỗi render video thường đã có lời giải ở docs/14, media ở docs/15.

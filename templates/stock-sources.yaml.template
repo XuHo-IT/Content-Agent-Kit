@@ -1,0 +1,50 @@
+# Hand-picked stock clips — for sites that have NO public API.
+#
+# Copy to `stock-sources.yaml` at your project root (or point STOCK_SOURCES_FILE at it).
+#
+# WHY THIS FILE EXISTS. Probed 2026-08:
+#   Pexels   200  — real API, supports portrait search      -> source: "pexels"
+#   Pixabay  200  — real API, landscape renditions only     -> source: "pixabay"
+#   Coverr   401  — API exists, needs a key
+#   Unsplash 401  — API exists, needs a key — and it is PHOTOS, not video
+#   Videvo   403  · Mixkit 404 · Videezy 404 · Lifecoach —  no public API at all
+#
+# Scraping the last four would break their terms and their markup. So instead: download
+# the clip from the site yourself (their licences allow that), drop the direct file URL
+# here, and the pipeline treats it exactly like an API source.
+#
+# Use it from a scene:
+#   "media": { "kind": "video", "source": "manual", "ref": "mixkit-abstract-network" }
+
+clips:
+  - ref: mixkit-abstract-network
+    url: https://assets.mixkit.co/videos/preview/mixkit-XXXX-large.mp4
+    site: Mixkit
+    license: Mixkit Free License
+    tags: abstract, network, technology
+    # optional, only used for reporting:
+    author: ""
+    page: https://mixkit.co/free-stock-video/XXXX/
+    width: 1920
+    height: 1080
+    duration: 12
+
+  - ref: videvo-server-room
+    url: https://cdn.videvo.net/videvo_files/video/free/XXXX.mp4
+    site: Videvo
+    license: Videvo Standard License
+    tags: server room, data center
+
+  # A local file works too — no download, no network.
+  - ref: my-own-footage
+    url: C:/footage/office-b-roll.mp4
+    site: self
+    license: owned
+    tags: office, typing
+
+# Notes
+# - `ref` is what the scene refers to. Keep it stable; changing it re-resolves the scene.
+# - Anything not 9:16 is centre-cropped to 1080×1920, and clips shorter than the scene are
+#   looped rather than frozen. Prefer sources at least 1080 on the short side.
+# - Record the licence. Nobody needs it on screen, but you want it on file if a clip is
+#   ever questioned — `media-lock.json` carries it through to every video that uses it.

@@ -14,5 +14,20 @@
     "scheduledTime": "2026-01-01T06:15:00.000Z",
     "status": "queued",
     "payload": "scratch/item_2.json"
+  },
+  {
+    "id": 3,
+    "type": "video",
+    "scheduledTime": "2026-01-01T11:00:00.000Z",
+    "status": "queued",
+    "scriptPath": "brain/iphone-17-camera/script.json",
+    "videoPath": "brain/iphone-17-camera/video.mp4",
+    "renderedAt": "2026-01-01T04:12:00.000Z",
+    "post": "Caption for the video…",
+    "comment": "First-comment / engagement text",
+    "title": "Title for platforms that need one (YouTube)",
+    "hashtags": "#ai #coding",
+    "durationSec": 96,
+    "platforms": ["tiktok", "youtube_shorts", "facebook_reels", "instagram_reels"]
   }
 ]

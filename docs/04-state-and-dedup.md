@@ -21,9 +21,24 @@ Created on first publish, incremented on each `append`, removed when `partsWritt
    "status": "queued", "post": "...", "comment": "...", "mediaUrl": "..." }]
 ```
 `status`: `queued → posted | failed` (+ `postedAt` / `error`).
+`type`: `social` | `video` | `publish` | `append` — `scripts/scheduler/run-item.mjs` dispatches on it.
+
+A **video** item carries the render alongside the caption, because rendering happens ahead of
+the scheduled slot (see `docs/06-scheduling.md`):
+```json
+[{ "id": 3, "type": "video", "scheduledTime": "2026-01-01T11:00:00Z", "status": "queued",
+   "scriptPath": "brain/<id>/script.json", "videoPath": "brain/<id>/video.mp4",
+   "renderedAt": "2026-01-01T04:12:00Z", "post": "...", "comment": "...",
+   "title": "...", "hashtags": "#ai", "durationSec": 96,
+   "platforms": ["tiktok", "youtube_shorts"] }]
+```
+`videoPath` absent + `scriptPath` present → `run-item.mjs` renders first, writes `videoPath`
+and `renderedAt` back, then posts. That write is what makes a retry post immediately instead
+of re-rendering.
 
 **Idempotency.** All writes are safe to repeat. `409` from publish = duplicate = mark
 done. The queue API keeps `posted` rows as tombstones so a source is never re-picked.
+Video rendering is idempotent per scene — an interrupted render resumes rather than restarts.
 
 ---
 
@@ -35,7 +50,12 @@ Ba file JSON phẳng (gitignore, dựng lại lúc chạy). Helper ở `scripts/
 - **`ledger.json`** — việc nhiều kỳ đang dở: `{id,title,targetParts,partsWritten}`; tạo
   khi publish lần đầu, +1 mỗi `append`, xoá khi `partsWritten >= targetParts`.
 - **`queue.json`** — lịch đăng hôm nay: `{id,type,scheduledTime,status,...}`;
-  `status: queued → posted|failed`.
+  `status: queued → posted|failed`; `type: social | video | publish | append`.
+  Item **video** mang thêm `scriptPath`, `videoPath`, `renderedAt`, `title`, `hashtags`,
+  `durationSec`, `platforms[]` (xem khối JSON bản EN). Thiếu `videoPath` mà có `scriptPath`
+  → `run-item.mjs` render trước, ghi ngược `videoPath` + `renderedAt` vào queue, rồi mới đăng
+  — nhờ vậy lần retry đăng luôn thay vì render lại.
 
 **Idempotent:** ghi lặp lại đều an toàn. `409` = trùng = đánh dấu xong. Queue giữ row
-`posted` làm bia mộ để không lấy lại nguồn.
+`posted` làm bia mộ để không lấy lại nguồn. Render video idempotent theo từng scene — render
+bị ngắt giữa chừng thì chạy lại là *tiếp tục*, không phải làm lại từ đầu.

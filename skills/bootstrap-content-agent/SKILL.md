@@ -23,7 +23,15 @@ Ask (batch related questions; propose sensible defaults):
    is it social-only?
 5. **Discovery** — should it crawl sources for ideas (crawl4ai)? If yes, list a few
    source index pages + the article-link pattern. (Copyright: excerpt+link only.)
-6. **Social** — post to Make.com/n8n/Zapier? Which platforms? Image host (Cloudinary/Catbox)?
+6. **Social** — post to Make.com/n8n/Zapier? Which platforms (tiktok / youtube_shorts /
+   facebook_reels / instagram_reels / plain page posts)? Media host (Cloudinary/Catbox)?
+6b. **Video** — does this agent make **short videos** as well as (or instead of) text+image?
+   If yes: how many per week; channel name + brand URL for the outro; **which TTS provider**
+   (a cloud key is enough — only `omnivoice` needs a local server); **whether scenes should
+   use real footage** (needs a Pexels or Pixabay key) and **screenshots** (needs nothing extra
+   — Chrome is already required); and **where finished video is hosted** (`r2` is the default;
+   never `catbox` for anything published). Confirm the render machine has **FFmpeg and
+   Chrome** — GitHub Actions cannot do this step at all (`docs/06-scheduling.md`).
 7. **Scheduling** — GitHub Actions cron / Windows schtasks / manual?
 8. **Access tiers** — free/login/paid split; anything forbidden.
 9. **Voice & craft (do not skip — this is what makes output not read like AI):**
@@ -48,12 +56,31 @@ From `templates/` + `scripts/`, produce:
 - **Scripts**: copy the needed ones from `scripts/` (publish/append/update/queue-client/
   social/scheduler/crawl). Adjust default endpoint paths (`--path` / `QUEUE_PATH`) to the
   user's API. Do NOT hardcode secrets — env-only.
+- **Video** (if chosen in 6b):
+  - **`VIDEO_CRAFT.md`** — fill `templates/VIDEO_CRAFT.template.md`, written in the
+    publication language. §5 (voice + banned narration clichés) is the part only the user can
+    answer; §2's number table stays as-is for Vietnamese, and must be rewritten for any other
+    TTS language.
+  - Copy **`scripts/video/`** AND **`scripts/media/`** (whole folders, including their
+    `lib/`), plus **`video-templates/`** (all templates **and every `NOTICE.md`** —
+    attribution is a licence condition — and the root `NOTICE.md` too).
+    Without `scripts/media/` the render cannot resolve B-roll or screenshots and cannot
+    upload anything.
+  - Copy `templates/VIDEO_SCRIPT.template.json` as the writer's starting point, and
+    `templates/stock-sources.yaml.template` if they want clips from sites with no API.
+  - Add to the generated `.env.example`: `TTS_PROVIDER` + that provider's key,
+    `MEDIA_HOST` (default `r2`) + its keys, `PEXELS_API_KEY` / `PIXABAY_API_KEY` if using
+    B-roll, and `SOCIAL_PLATFORMS`.
+  - Tell them to run `node scripts/media/host-check.mjs` and
+    `node scripts/video/tts-check.mjs` **before** the first real render — both fail loudly
+    on a misconfigured key, which is much cheaper than finding out mid-render.
 - **Discovery** (if chosen): `sources.yaml` from the template + `crawl.py` + the cron
   workflow from `templates/workflows/crawl.yml.template`.
 - **`schedule-prompt.md`** — from the template, wired to this agent's phases.
 - **On Claude Code**: copy the runtime skills into `.claude/skills/`: `daily-run`,
-  `review-gate`, `crawl-and-queue` (if crawling), `audit-and-fix`. On Antigravity, tell
-  the user the scheduled task should say "Read PLAYBOOK.md and execute today's phase".
+  `review-gate`, `crawl-and-queue` (if crawling), `audit-and-fix`, plus `create-video` and
+  `video-and-post` if the agent makes videos. On Antigravity, tell the user the scheduled task
+  should say "Read PLAYBOOK.md and execute today's phase".
 
 ## Phase 4 — Wire & verify
 - `node -c` each generated `.mjs`; `python -m py_compile crawl.py` if present.

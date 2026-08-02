@@ -1,0 +1,27 @@
+version: 2
+
+# No npm entry on purpose: this kit ships no package.json and no dependencies. The only
+# npm package it touches is `hyperframes`, fetched by `npx` at render time and pinned in
+# scripts/video/lib/compose.mjs — Dependabot cannot see that, so bumping it is a manual,
+# deliberate decision (a new version can change how templates render).
+
+updates:
+  # The workflow action versions are the one real dependency surface here.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "ci"
+    labels:
+      - dependencies
+
+  # crawl4ai and friends — the crawler is the only part with installed packages.
+  - package-ecosystem: pip
+    directory: /scripts/crawl
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "deps"
+    labels:
+      - dependencies

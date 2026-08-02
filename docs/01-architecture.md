@@ -13,7 +13,9 @@ An agent built with this kit has **six moving parts**:
    (in-progress serialized work), `history.json` (dedup by title). Flat JSON,
    git-ignored, rebuilt at runtime.
 4. **Scripts.** Small env-only CLIs: publish / append / update / list, the queue
-   client, the social poster, the crawler, and the scheduler.
+   client, the social poster, the crawler, the scheduler, the **video pipeline**
+   (`scripts/video/` — validate a `script.json`, then render it to a 9:16 MP4) and the
+   **media layer** (`scripts/media/` — stock B-roll, web screenshots, upload hosts).
 5. **Discovery (optional).** `crawl.py` (crawl4ai) reads `sources.yaml`, dedups
    against the queue API, and pushes fresh ideas. The **server is the dedup memory**
    because CI runners are ephemeral.
@@ -30,6 +32,12 @@ An agent built with this kit has **six moving parts**:
      → fan-out subagents write items → REVIEW gate (independent subagent)
        → publish (ingest API) + social (webhook) → mark queue posted → report
    state: queue.json / ledger.json / history.json
+
+   a video item takes two extra hops before the review gate:
+     script.json → validate-script.mjs → resolve media ──► render.mjs → video.mp4
+     (AI writes)   schema + craft rules   Pexels/Pixabay    TTS · SFX · templates
+                                          + screenshots     · ffmpeg
+                                          pinned in media-lock.json
 ```
 
 **Two platforms.** On **Claude Code** the skills in `skills/` are real
@@ -51,7 +59,9 @@ Một agent dựng bằng kit này có **sáu bộ phận**:
 3. **File trạng thái.** `queue.json` (lịch đăng hôm nay), `ledger.json` (việc nhiều
    kỳ đang dở), `history.json` (chống trùng theo tiêu đề). JSON phẳng, gitignore.
 4. **Scripts.** CLI nhỏ env-only: publish / append / update / list, queue client,
-   social poster, crawler, scheduler.
+   social poster, crawler, scheduler, **pipeline video** (`scripts/video/` — kiểm
+   `script.json` rồi render ra MP4 dọc 9:16) và **tầng media** (`scripts/media/` —
+   B-roll kho mở, ảnh chụp web, host upload).
 5. **Discovery (tuỳ chọn).** `crawl.py` (crawl4ai) đọc `sources.yaml`, dedup qua
    queue API, đẩy ý tưởng mới. **Server là bộ nhớ dedup** (CI runner phù du).
 6. **Lịch chạy.** Cron (GitHub Actions) kích hoạt lượt chạy; trong lượt, agent

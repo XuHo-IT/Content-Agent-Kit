@@ -1,0 +1,70 @@
+name: Đề xuất tính năng
+description: Thêm nhà cung cấp, template, luật craft, hoặc khả năng mới
+title: "[FEAT] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Ý tưởng lớn hoặc chưa rõ hình hài thì mở [Discussion](../discussions) trước sẽ hợp hơn.
+        Issue này dành cho đề xuất đã tương đối cụ thể.
+
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Loại đề xuất
+      options:
+        - Nhà cung cấp giọng đọc mới (TTS)
+        - Nguồn video/ảnh mới
+        - Host upload mới
+        - Template video mới
+        - Luật craft mới cho validator
+        - Hỗ trợ ngôn ngữ khác (ngoài tiếng Việt)
+        - Nền tảng đăng bài mới
+        - Khác
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Vấn đề đang gặp
+      description: Bạn đang cố làm gì mà kit hiện chưa làm được? Mô tả tình huống thật, không phải giải pháp.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Đề xuất
+      description: |
+        Nếu là nhà cung cấp mới, dán **hợp đồng API thật**: endpoint, header, thân request,
+        và phản hồi trả về bytes hay JSON kèm link. Đó là phần quyết định adapter viết thế nào.
+      placeholder: |
+        POST https://api.example.com/v1/tts
+        Authorization: Bearer <key>
+        { "text": "...", "voice": "..." }
+        -> audio/mpeg bytes
+    validations:
+      required: true
+
+  - type: dropdown
+    id: shape
+    attributes:
+      label: (TTS/nguồn media) API trả về kiểu gì
+      description: Kit có sẵn ba khuôn — biết khuôn nào thì thường chỉ cần thêm một file dữ liệu.
+      options:
+        - "bytes — phản hồi chính là file"
+        - "asyncUrl — JSON chứa link, tải sau"
+        - "asyncJob — trả job id, poll rồi mới có link"
+        - Không rõ / không áp dụng
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Ràng buộc của kit
+      description: Đề xuất cần hợp với những điều này — xem CONTRIBUTING.md
+      options:
+        - label: Không cần thêm npm dependency (kit zero-dependency, không có package.json)
+        - label: Mọi bí mật đọc từ env, không hardcode
+        - label: Tôi sẵn sàng gửi PR cho việc này
