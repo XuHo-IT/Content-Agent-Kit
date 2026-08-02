@@ -32,9 +32,18 @@ assets/sfx-raw/
 **/clips/
 **/voice/
 
-# Downloaded B-roll and screenshots. media-lock.json is deliberately NOT ignored: it is
-# what makes a render reproducible, and it is the record of where every clip came from.
+# Downloaded B-roll and screenshots — these land next to the script.json that uses them.
+# media-lock.json is deliberately NOT ignored: it is what makes a render reproducible, and
+# it is the record of where every clip came from.
+#
+# ⚠️ A bare `**/media/` also swallows `scripts/media/` — the SOURCE directory for the whole
+# media layer. It did exactly that once: nine files were silently left out of a commit and
+# CI failed on every Node version because render.mjs could not import them. Keep the
+# negations, and keep them in this order (git cannot re-include a file whose parent
+# directory is still excluded, so the directory has to be un-ignored first).
 **/media/
+!scripts/media/
+!scripts/media/**
 !**/media-lock.json
 stock-sources.yaml
 

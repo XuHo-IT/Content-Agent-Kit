@@ -32,6 +32,21 @@ jobs:
       # There is deliberately no `npm ci` step: this kit ships no package.json and no
       # dependencies. Everything below runs on a bare Node install, offline, with no keys.
 
+      # A .gitignore rule meant for build artifacts once swallowed scripts/media/ — the
+      # source directory for the whole media layer. Nine files were silently left out of a
+      # commit and every job below failed with "module not found". Locally everything
+      # worked, because the files were there. This catches that class of bug at the source.
+      - name: No source file is gitignored
+        run: |
+          missing=$(git ls-files --others --ignored --exclude-standard \
+                    -- 'scripts/**' 'video-templates/**' 'templates/**' 'docs/**' 'skills/**' 'examples/**')
+          if [ -n "$missing" ]; then
+            echo "::error::these source files exist but .gitignore excludes them:"
+            echo "$missing"
+            exit 1
+          fi
+          echo "clean"
+
       - name: Every script parses
         run: |
           fail=0
