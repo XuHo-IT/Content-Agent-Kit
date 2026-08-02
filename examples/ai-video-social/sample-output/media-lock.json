@@ -1,0 +1,81 @@
+{
+  "hook": {
+    "source": "pexels",
+    "id": "28709421",
+    "url": "https://videos.pexels.com/video-files/28709421/12457750_1080_1920_30fps.mp4",
+    "author": "Kuiyibo Campos",
+    "authorUrl": "https://www.pexels.com/@kuiyibo",
+    "pageUrl": "https://www.pexels.com/video/digital-data-display-on-screen-28709421/",
+    "license": "Pexels License",
+    "request": {
+      "kind": "video",
+      "source": "pexels",
+      "id": "28709421",
+      "query": null,
+      "url": null,
+      "ref": null,
+      "fit": "cover"
+    },
+    "file": "media/hook.mp4",
+    "resolvedAt": "2026-08-02T05:41:32.030Z"
+  },
+  "body-4": {
+    "source": "screenshot",
+    "id": null,
+    "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+    "author": "",
+    "pageUrl": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+    "license": "screenshot of a public page",
+    "request": {
+      "kind": "screenshot",
+      "source": "pexels",
+      "id": null,
+      "query": null,
+      "url": "https://www.anthropic.com/news/claude-fable-5-mythos-5",
+      "ref": null,
+      "fit": "cover"
+    },
+    "file": "media/body-4.png",
+    "resolvedAt": "2026-08-02T05:41:40.487Z"
+  },
+  "body-9": {
+    "source": "pexels",
+    "id": "5523892",
+    "url": "https://videos.pexels.com/video-files/5523892/5523892-hd_1080_1920_30fps.mp4",
+    "author": "Mohammed   Abdul Khaliq",
+    "authorUrl": "https://www.pexels.com/@bizavatar",
+    "pageUrl": "https://www.pexels.com/video/flashing-red-light-5523892/",
+    "license": "Pexels License",
+    "request": {
+      "kind": "video",
+      "source": "pexels",
+      "id": "5523892",
+      "query": null,
+      "url": null,
+      "ref": null,
+      "fit": "cover"
+    },
+    "file": "media/body-9.mp4",
+    "resolvedAt": "2026-08-02T05:51:09.077Z"
+  },
+  "body-11": {
+    "source": "pexels",
+    "id": "5495899",
+    "url": "https://videos.pexels.com/video-files/5495899/5495899-hd_1080_1920_30fps.mp4",
+    "author": "Pavel Danilyuk",
+    "authorUrl": "https://www.pexels.com/@pavel-danilyuk",
+    "pageUrl": "https://www.pexels.com/video/a-person-busy-working-on-his-laptop-5495899/",
+    "license": "Pexels License",
+    "request": {
+      "kind": "video",
+      "source": "pexels",
+      "id": "5495899",
+      "query": null,
+      "url": null,
+      "ref": null,
+      "fit": "cover"
+    },
+    "file": "media/body-11.mp4",
+    "resolvedAt": "2026-08-02T05:41:51.488Z"
+  }
+}

@@ -1,0 +1,29 @@
+Anthropic vừa phát hành mô hình mạnh nhất của họ. Ba ngày sau, chính phủ Mỹ buộc nó phải gỡ xuống. Đây là câu chuyện về Claude Fable năm.
+
+Ngày mùng chín tháng sáu năm hai nghìn không trăm hai mươi sáu, Anthropic công bố Claude Fable năm. Đây là mô hình đầu tiên thuộc hạng Mythos, một bậc đứng trên dòng Opus.
+
+Nó được xây cho những việc khó nhất. Suy luận phức tạp, và các tác vụ agent kéo dài nhiều ngày mà những mô hình trước không thể duy trì nổi.
+
+Con số ấn tượng nhất đến từ Stripe. Họ dùng nó để chuyển đổi một kho mã Ruby năm mươi triệu dòng, nén công việc kỹ thuật nhiều tháng xuống còn vài ngày.
+
+Trên bộ bài kiểm tra lập trình FrontierCode, nó dẫn đầu nhóm mô hình tiên tiến ngay cả khi chạy ở mức nỗ lực trung bình. Bài kiểm tra tài chính cũng cho điểm cao nhất từ trước tới nay.
+
+Trên các bài kiểm tra năng lực, Anthropic nói nó đạt mức tốt nhất ở gần như toàn bộ. Nó cũng là mô hình đầu tiên vượt mốc chín mươi phần trăm trên bài phân tích lõi.
+
+Nhưng sức mạnh đó đi kèm lớp chắn an toàn mạnh nhất mà Anthropic từng đặt lên một bản phát hành rộng rãi. Và đây là phần đáng chú ý.
+
+Ở các lĩnh vực rủi ro cao như an ninh mạng, sinh học và hoá học, mô hình từ chối trả lời và tự chuyển câu hỏi xuống cho Claude Opus bốn chấm tám xử lý thay.
+
+Anthropic nói cơ chế này chỉ kích hoạt ở dưới năm phần trăm số phiên làm việc. Nhưng chính họ cũng thừa nhận lớp chắn hiện còn quá rộng, chặn nhầm cả việc vô hại.
+
+Song song với nó là Claude Mythos năm. Cùng một mô hình bên dưới, nhưng được gỡ bớt lớp chắn, và chỉ mở cho đối tác hạ tầng cùng một số nhà nghiên cứu được xét duyệt.
+
+Rồi chuyện bất ngờ xảy ra. Chỉ ba ngày sau khi ra mắt, một chỉ thị kiểm soát xuất khẩu của chính phủ Mỹ buộc Fable năm phải tạm thời ngừng hoạt động.
+
+Đến cuối tháng sáu, lệnh kiểm soát được dỡ bỏ và mô hình quay lại. Về giá, mỗi triệu token đầu vào tốn mười đô la, còn đầu ra là năm mươi đô la.
+
+Về nơi dùng được, nó có mặt trên API, trên các ứng dụng Claude, và trên Amazon Bedrock. Các gói thuê bao được dùng miễn phí trong hai tuần đầu, sau đó tính theo tín dụng sử dụng.
+
+Vậy có nên dùng không? Nếu việc của bạn là tác vụ dài, nhiều bước, cần suy luận sâu thì đáng. Còn việc thường ngày, các bậc rẻ hơn vẫn dư sức làm tốt.
+
+Theo dõi AI Fable để không bỏ lỡ bản tin công nghệ mới mỗi ngày.
