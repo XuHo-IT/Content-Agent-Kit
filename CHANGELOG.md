@@ -12,6 +12,21 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Added
 
+- **Campaign visuals through Canva's own MCP server**, plus `skills/design-campaign/`. The
+  kit could put an image on a post and inside a video frame but could not make one — stock
+  search finds photographs and screenshots capture a page; neither is a branded visual.
+
+  The skill hands back a file on disk, not a Canva link, because everything downstream takes
+  a path or a URL and a design link is neither — it fails at the webhook rather than where
+  the mistake was made. Brand comes from `PLAYBOOK.md`, then `theme-map.json`, then the
+  brandkit skill, stopping at the first that answers: if the video side already has a theme,
+  an image that disagrees turns one post into two visual identities.
+
+  Written for the **free** Canva plan. Resize needs Pro and autofill needs Enterprise, so
+  autofill is an accelerator and never a required step — a workflow depending on Enterprise
+  is one most readers of this repo cannot run. That also means deciding the canvas before
+  opening Canva, since producing the wrong size costs a redo.
+
 - **Ad performance can now feed back into what gets written.** `.mcp.json` declares five
   hosted Pipeboard servers (Meta, Google, TikTok, Snap, Reddit) and `skills/ads-report/`
   turns what they report into queue items rather than a dashboard — a report ending at
