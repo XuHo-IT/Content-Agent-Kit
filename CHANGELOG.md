@@ -10,6 +10,38 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Fixed
+
+- **Two per-template notices named the wrong owner by implication.**
+  `frame-aicoding-comparison` and `frame-aicoding-list` read "Original template authored for
+  this repo (AI Coding)" while three templates genuinely owned by this kit read "authored for
+  content-agent-kit". A reader holding only the folder would take "this repo" to mean this
+  one. They are MIT © AI Coding / Ho Quang Hai, exactly as the root NOTICE has always said.
+
+  Nothing in the licence chain was broken — the root file was always right — but the notice
+  that actually *travels* when someone copies a folder is the per-template one, which is
+  precisely what Apache-2.0 §4 asks to be kept.
+
+- **The root NOTICE accounted for 14 of 20 template folders.** Missing: the four added in
+  0.3.0, and `caption-kinetic-slam` / `transitions-blur` — both **vendored Apache-2.0**. The
+  obligation does not depend on whether the code can use them, and it cannot: upstream ships
+  them as a component and a block.
+
+- **SECURITY.md predated three new attack surfaces.** MCP connections that write to live ad
+  accounts, a video backend that spends money per second, and a skill installer that writes
+  third-party code into the folder your agent reads and obeys. All three are now written
+  down, including the one that only bites unattended runs: the api backend's confirmation
+  prompt protects a person at a keyboard, not a cron job — set a ceiling.
+
+### Added
+
+- **Six attribution tests.** Every template folder has a NOTICE; every NOTICE names an owner
+  without needing the root file beside it; third-party ones name a licence; the Apache-2.0
+  text ships and is pointed at; the root NOTICE accounts for every folder; and LICENSE stays
+  plain MIT with nothing appended — appending prose is what makes GitHub report NOASSERTION
+  and drop the licence badge.
+
+
 ## [0.3.0] — 2026-08-03
 
 Thirteen changes across the output the kit produces, the tooling around it, and the checks

@@ -77,9 +77,20 @@ plain CSS for deterministic offline rendering, dropping CJK fonts, adding the
 9:16 portrait composition). Apache-2.0 §4 requires those notices to travel with
 the work — keep them.
 
-Three are original to content-agent-kit (MIT, same as this repo):
+Two more folders are vendored from
+[heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), also **Apache-2.0**:
 
-`frame-broll` · `frame-media-inset` · `frame-screenshot`
+`caption-kinetic-slam` · `transitions-blur`
+
+Neither is usable as a scene template — upstream ships them as a *component* and a *block*
+respectively, so `listTemplateIds()` skips them and `validate.mjs` rejects them by name. The
+attribution obligation does not depend on whether the code uses them, so their `NOTICE.md`
+files stay; each says plainly that deleting the folder is a reasonable call.
+
+Seven are original to content-agent-kit (MIT, same as this repo):
+
+`frame-broll` · `frame-media-inset` · `frame-screenshot` · `frame-review-verdict` ·
+`frame-quote-testimonial` · `frame-chart-bars` · `frame-step-list`
 
 Some templates further credit MIT-licensed design lineage:
 [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)
