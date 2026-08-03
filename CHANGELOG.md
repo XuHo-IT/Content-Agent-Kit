@@ -129,6 +129,35 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Fixed
 
+- **`.env.example` named a variable the code does not read, and omitted the one it does.**
+  vbee needs `VBEE_TOKEN`; the file declared `VBEE_API_KEY`. Anyone following the documented
+  setup for the Vietnamese TTS provider, in a Vietnamese-first kit, could not make it work —
+  and the error message sent them back to the file that had given them the wrong name.
+
+  Also dead: `AUDIT_ID_FIELD`, and `COVERR_API_KEY` / `UNSPLASH_ACCESS_KEY`, which no source
+  module has ever read. Also missing: `GITHUB_TOKEN`, `VBEE_BITRATE`, `VBEE_WEBHOOK_URL`,
+  `AUDIT_KIND_FIELD` and the `PEXELS_API` / `PIXABAY_API` aliases.
+
+  Five tests now hold `.env.example` and the code to each other in both directions, including
+  a direct cross-check against the provider key lists in `tts.mjs` and the `needs` arrays in
+  the media hosts. This is env-only software: `.env.example` is not documentation about the
+  setup, it **is** the setup.
+
+- **The meta-skill did not know about anything added recently.**
+  `bootstrap-content-agent` scaffolds every new agent, and it mentioned none of
+  `validate-post`, `install-skills`, the skill registry, `ads-report`, `design-campaign`,
+  `VIDEO_BACKEND`, `profiles/`, `VIDEO_GENRES` or `.mcp.json` — so no generated agent would
+  have had any of it. It also never copied `research-and-capture`, leaving generated video
+  agents without the skill that resolves B-roll and takes screenshots.
+
+  Its Phase 1 said to skim `docs/02,05,06,07,10,11`, which names no file and links nowhere;
+  three of those documents were reachable from nothing else in the repo.
+
+  `ads-report` and `design-campaign` shipped without appearing in either README, and
+  `review-gate` — the pre-publish review — never mentioned the caption gate.
+
+  Seven tests now check that things which exist are reachable from where people look.
+
 - **Three more templates still defaulted to "AI Coding".** `frame-build-minimal`,
   `frame-creative-voltage` and `frame-vignelli` carried the upstream author's channel name
   in a slot value. The earlier sweep removed the URLs and the test that guards it checks for

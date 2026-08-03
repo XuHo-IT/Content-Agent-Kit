@@ -96,6 +96,10 @@ mid-syllable because it was too long for a char-animated slot.
 
 **SEO / metadata**
 - Title + subtitle/description are compelling and accurate; slug/tags sane.
+- **Social text is plain text.** Run `node scripts/social/validate-post.mjs <file> --strict`.
+  Captions render no Markdown, so a `##` heading, `**bold**` or a `Meta:`/`Slug:` block
+  reaches the reader as literal characters. `make-post.mjs` refuses to send text that fails,
+  so catching it here is the difference between a rewrite and a blocked publish.
 
 **Policy**
 - If the item is a forbidden type or uses a removed feature (per PLAYBOOK "never do") →

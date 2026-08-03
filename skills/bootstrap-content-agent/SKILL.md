@@ -9,7 +9,12 @@ You are turning this kit into a working, project-specific content agent. Work in
 phases. Do not skip the interview — the answers drive everything you generate.
 
 ## Phase 1 — Read the method
-Read `docs/01-architecture.md`, `docs/03-conventions.md`, and skim `docs/02,05,06,07,10,11`.
+Read `docs/01-architecture.md` and `docs/03-conventions.md` in full. Then skim
+`docs/02-playbook-spec.md`, `docs/05-publishing.md`, `docs/06-scheduling.md`,
+`docs/07-review-gate.md`, `docs/08-audit-maintain.md`, `docs/10-crawl-discovery.md` and
+`docs/11-social-posting.md`.
+If the agent will make video, also read `docs/20-video-backends.md`; if it will use skills or
+connectors from elsewhere, `docs/17-skills-registry.md` and `docs/18-ads-and-marketing.md`.
 Internalize the six parts (playbook / knowledge / state / scripts / discovery / schedule)
 and the non-negotiable conventions (env-only, review-gate, idempotent, cleanup).
 
@@ -32,8 +37,20 @@ Ask (batch related questions; propose sensible defaults):
    — Chrome is already required); and **where finished video is hosted** (`r2` is the default;
    never `catbox` for anything published). Confirm the render machine has **FFmpeg and
    Chrome** — GitHub Actions cannot do this step at all (`docs/06-scheduling.md`).
+6c. **Personal or business?** This picks a profile (`VIDEO_BACKEND` plus `profiles/personal.json` or
+   `profiles/business.json`): backend, voice, palette, brand slots and a **spend ceiling**.
+   Both default to the free `html` backend — only move to `api` for a deliberate hero video,
+   never for a daily queue (Veo bills $0.40/s, so a 60-second video is $24).
 7. **Scheduling** — GitHub Actions cron / Windows schtasks / manual?
 8. **Access tiers** — free/login/paid split; anything forbidden.
+8b. **Measurement (optional)** — do they run ads for this content? If yes, `.mcp.json` has
+   Pipeboard servers for Meta/Google/TikTok/Snap/Reddit and the `ads-report` skill turns
+   what they report into next week's queue. Warn them those connections are **read AND
+   write** on live accounts.
+8c. **Images (optional)** — do they need campaign visuals rather than stock photos? Canva's
+   MCP is declared in `.mcp.json`, and the `design-campaign` skill exports a **file**, not a
+   Canva link. Ask which plan they are on: resize needs Pro, autofill needs Enterprise, so
+   the canvas size has to be decided before designing.
 9. **Voice & craft (do not skip — this is what makes output not read like AI):**
    - Publication language + tone; who is the implied author?
    - **One register per content type** — how should each *sound*, and how do they differ?
@@ -66,9 +83,17 @@ From `templates/` + `scripts/`, produce:
     attribution is a licence condition — and the root `NOTICE.md` too).
     Without `scripts/media/` the render cannot resolve B-roll or screenshots and cannot
     upload anything.
-  - Copy `templates/VIDEO_SCRIPT.template.json` as the writer's starting point, and
-    `templates/stock-sources.yaml.template` if they want clips from sites with no API.
-  - Add to the generated `.env.example`: `TTS_PROVIDER` + that provider's key,
+  - Copy `templates/VIDEO_SCRIPT.template.json` as the writer's starting point,
+    **`templates/VIDEO_GENRES.template.json`** (scene sequences for review / tutorial / news /
+    listicle / testimonial — it answers "which frames, in what order", which the catalogue
+    does not), and `templates/stock-sources.yaml.template` if they want clips from sites with
+    no API.
+  - Copy the chosen **profile** from `profiles/` and set its `brand` fields from the
+    interview. Leave a brand field EMPTY rather than guessing — an empty slot is dropped,
+    a guessed one is published.
+  - Add to the generated `.env.example`: `TTS_PROVIDER` + that provider's key **copied
+    verbatim from the kit's `.env.example`** (vbee's is `VBEE_TOKEN`, not `VBEE_API_KEY` —
+    this exact mismatch shipped once and made vbee unusable for anyone following the docs),
     `MEDIA_HOST` (default `r2`) + its keys, `PEXELS_API_KEY` / `PIXABAY_API_KEY` if using
     B-roll, and `SOCIAL_PLATFORMS`.
   - Tell them to run `node scripts/media/host-check.mjs` and
@@ -79,12 +104,21 @@ From `templates/` + `scripts/`, produce:
 - **`schedule-prompt.md`** — from the template, wired to this agent's phases.
 - **On Claude Code**: copy the runtime skills into `.claude/skills/`: `daily-run`,
   `review-gate`, `crawl-and-queue` (if crawling), `audit-and-fix`, plus `create-video` and
-  `video-and-post` if the agent makes videos. On Antigravity, tell the user the scheduled task
+  `video-and-post` and `research-and-capture` if the agent makes videos, `ads-report` if they
+  run ads, and
+  `design-campaign` if Canva is connected.
+- **Skills from elsewhere** (optional): `node scripts/install-skills.mjs --list` shows an SEO
+  auditor, design skills and six marketing skills, all MIT and fetched on demand rather than
+  vendored. Suggest `seo` and `mkt-context` as the two with the broadest payoff. On Antigravity, tell the user the scheduled task
   should say "Read PLAYBOOK.md and execute today's phase".
 
 ## Phase 4 — Wire & verify
 - `node -c` each generated `.mjs`; `python -m py_compile crawl.py` if present.
 - Run each script with `--help` to confirm it loads (env-only; missing env → clear error).
+- **Check one real caption** through `node scripts/social/validate-post.mjs <file> --strict`.
+  Captions render no Markdown, so a `##` heading or a `Meta:`/`Slug:` block reaches the reader
+  verbatim. `make-post.mjs` refuses to send text that fails, so a writer who does not know
+  this will hit the wall at publish time rather than at write time.
 - Grep the generated project for accidental secrets (see `docs/09-security.md`).
 - Show the user: the file tree created, how to fill `.env`, and how to trigger the first run.
 
@@ -93,6 +127,12 @@ From `templates/` + `scripts/`, produce:
   `.env.example`.
 - **Always include the review gate** in the generated PLAYBOOK §2b.
 - **Copyright**: if crawling, excerpt-only + original writing; prefer public-domain.
+- **Never leave someone else's brand in a slot default.** Templates ship with empty brand
+  fields on purpose: an empty slot is removed, a leftover one is published on the user's
+  video. This has been fixed twice; do not reintroduce it.
+- **Look at the output.** After the first render, run `contact-sheet.mjs` and actually look.
+  Two templates once rendered landscape inside a 9:16 video with the render succeeding and
+  the validator passing — only the contact sheet caught it.
 - Keep it "little but high quality" — a tight cadence beats volume.
 
 > Antigravity note: this file is also a plain instruction doc. Follow the phases directly;
