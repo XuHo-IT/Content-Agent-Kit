@@ -12,6 +12,26 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Added
 
+- **Ad performance can now feed back into what gets written.** `.mcp.json` declares five
+  hosted Pipeboard servers (Meta, Google, TikTok, Snap, Reddit) and `skills/ads-report/`
+  turns what they report into queue items rather than a dashboard — a report ending at
+  "CTR was 1.4%" leaves the reader where they started.
+
+  It writes a "not enough data" section and a "do not repeat" section, which matter more
+  than the metrics: the first stops a losing angle being blindly re-tested next week, the
+  second stops it being re-run at all. It proposes `queue.json` entries and then stops and
+  asks, because a skill that can see an account spending real money does not get to set
+  the content plan by itself.
+
+  No credentials in the repo — OAuth in your client. Two things stated rather than implied:
+  Pipeboard's own code is BSL 1.1, not open source like the rest of the tree; and the
+  servers are read **and write**, so the connection that reads spend can pause a campaign.
+
+- **Six marketing skills** in the registry, selected from ai-business-skills (MIT, 63 of
+  them) — the ones that plug into this kit's loop: context, content calendar, video script,
+  ad copy, ads audit, campaign design. Its default branch is `master`, which is exactly why
+  `ref` is per-entry.
+
 - **Skills from other projects, fetched on demand rather than vendored.**
   `skills/registry.json` catalogues them; `node scripts/install-skills.mjs --list` shows
   what is available and what is already installed. The first four are an SEO auditor and

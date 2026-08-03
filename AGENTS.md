@@ -61,6 +61,8 @@ Method: `docs/15-media-sources.md` and `docs/16-template-registry.md`.
 - `skills/` — Claude Code skills; also readable as plain instructions. `registry.json`
   lists skills from other projects, fetched on demand by `scripts/install-skills.mjs` —
   none of them are vendored. Method: `docs/17-skills-registry.md`.
+- `.mcp.json` — optional ad-platform servers (OAuth in your client, no credentials in the
+  repo). They are READ-AND-WRITE on live accounts. Method: `docs/18-ads-and-marketing.md`.
 - `examples/ai-news-social/` — a complete reference agent to copy from.
 - `examples/ai-video-social/` — the video version of the same.
 - `NOTICE.md` — third-party attribution for the vendored video pipeline and templates.
