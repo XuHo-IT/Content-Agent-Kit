@@ -112,6 +112,9 @@ No walking, door-opening, tea-pouring unless it means something.
 - [ ] {{Register-specific check A}}
 - [ ] {{Register-specific check B — e.g. fair-play clue rule}}
 - [ ] (structured content) Zero internal-id token `([a-z]\d+)` in any reader-visible text.
+- [ ] (social) Nothing from the model itself: no `oaicite`, no "As of my last update", no
+      "Sure, here's the post:" wrapper, no `[Your Name]` left unfilled. `validate-post.mjs`
+      blocks these, but a writer should never hand one over in the first place.
 - [ ] (social) Body is plain text: no `##` headings, no `**bold**`, no `[text](url)`, and no
       `Meta:` / `Slug:` block at the top. Captions render none of it — the reader sees the
       raw characters. Metadata goes in its own fields.

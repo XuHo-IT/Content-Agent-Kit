@@ -139,6 +139,10 @@ const defaultRules = [
     // for a machine reaching a human. A social caption renders no Markdown, so a heading
     // arrives as "### Heading" and a CMS metadata block becomes the opening two lines.
     //
+    // findLeaks() also covers model leakage now — `oaicite`, "As of my last update", an
+    // unfilled `[Tên kênh]`. Those need no change here: same function, same contract. The
+    // rule id stays `markup-leak` so existing AUDIT_RULES_PATH overrides keep working.
+    //
     // `social/validate-post.mjs` blocks this before publishing; this rule finds what
     // already went out. Only the shared checker's ERRORS are reported — its warnings
     // cover cases like a leading "- ", which is dialogue as often as it is a bullet, and

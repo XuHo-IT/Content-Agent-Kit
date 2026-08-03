@@ -41,6 +41,21 @@ That is not hypothetical — it is what this repo's own reference sample shipped
 was fixed. Metadata is useful; it just belongs in its own fields (`title`, `metaDescription`,
 `slug`), never inside the body.
 
+**It also catches the model exposing itself.** A separate tier flags `oaicite` and other
+tool markers, "As of my last update", the assistant's own reply wrapper ("Sure! Here's the
+post:"), and unfilled placeholders like `[Your Name]`. Publishing one of those is worse than
+publishing a stray `##`: the first looks careless, the second announces that a machine wrote
+it and nobody read it back. None of it is language-specific, so it is on for everyone.
+
+Placeholders warn rather than block, because Vietnamese editorial prose uses square brackets
+legitimately — `[đã lược một đoạn]`, `[nguyên văn]`. Only bracket contents shaped like a form
+field are flagged.
+
+**Em dashes are not flagged, deliberately.** The upstream catalogue this tier is adapted from
+calls them the biggest AI tell; this repo's own reference article uses thirteen of them in
+ordinary Vietnamese prose and reads well. A gate that fails good writing is a gate people
+switch off.
+
 `make-post.mjs` refuses to send text that fails this check. To inspect or repair it:
 
 ```bash

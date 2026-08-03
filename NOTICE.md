@@ -57,6 +57,20 @@ the `script.json` contract come from that project.
 
 The upstream MIT license text is reproduced in full at the bottom of this file.
 
+## 1b. Model-leakage catalogue — `scripts/social/lib/clean-text.mjs`
+
+The FORENSIC_RULES catalogue (tool markers, knowledge-cutoff disclaimers, assistant
+preambles, unfilled placeholders) is **adapted** from the "forensic tier" of
+[sergebulaev/facebook-skills](https://github.com/sergebulaev/facebook-skills), MIT
+© 2026 Sergey Bulaev. No code was copied — the patterns were rewritten as JavaScript
+regexes against this kit's own `findLeaks` contract — but the idea and the catalogue of
+what to look for came from there, and that is worth saying.
+
+Its *strict* tier is deliberately not adopted: it bans em dashes and swaps English
+vocabulary, and this kit publishes Vietnamese prose where both rules would fail good
+writing. `skills/registry.json` lists the upstream skills for anyone who wants the full
+English-language version.
+
 ## 2. Video templates — `video-templates/frame-*/`
 
 Eight templates are vendored from

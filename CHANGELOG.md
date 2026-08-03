@@ -10,6 +10,31 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added
+
+- **A forensic tier: the post gate now catches the model exposing itself.** `validate-post.mjs`
+  checked *formatting* leakage — `##`, `**bold**`, a `Meta:` block. It never checked for the
+  model leaking its own scaffolding: `oaicite` and other tool markers, "As of my last update",
+  the assistant's reply wrapper ("Sure! Here's the post:"), or an unfilled `[Your Name]`.
+
+  That is the worse failure. A stray `##` looks careless; "As of my last update" in a
+  published caption announces that a machine wrote it and nobody read it back. All of it is
+  language-agnostic, so it ships switched on.
+
+  Placeholders warn rather than block: Vietnamese editorial prose uses square brackets
+  legitimately — `[đã lược một đoạn]`, `[nguyên văn]` — so only bracket contents shaped like a
+  form field are flagged.
+
+  **Em dashes are deliberately not flagged.** The catalogue this is adapted from calls them
+  the biggest AI tell of 2026, and for English social copy that may hold. This repo's own
+  reference article uses thirteen in ordinary Vietnamese prose and reads well; adopting the
+  rule would fail good writing, and a gate that cries wolf is a gate people switch off. The
+  same goes for the English vocabulary swaps (leverage → use).
+
+  Adapted from the forensic tier of facebook-skills (MIT © Sergey Bulaev) — credited in
+  NOTICE.md. No code was copied; the patterns were rewritten against this kit's `findLeaks`
+  contract, so `audit-quality.mjs` covers already-published items with no change at all.
+
 ### Changed
 
 - **Repo features are settings-as-code too.** Wiki is off — an empty wiki tab is a dead end

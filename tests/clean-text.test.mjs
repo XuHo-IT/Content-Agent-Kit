@@ -105,6 +105,66 @@ test("empty and non-string input is not an error here", () => {
   assert.deepEqual(findLeaks(undefined), { errors: [], warnings: [] });
 });
 
+// ── forensic tier: the model exposing its own scaffolding ────────────────────
+//
+// A different bug class from Markdown, and a worse one. A stray `##` looks careless;
+// "As of my last update" or an unfilled `[Tên kênh]` announces that a machine wrote it and
+// nobody read it back.
+
+test("catches tool markers that leaked out of the model's plumbing", () => {
+  assert.match(errs("Mô hình ra mắt hôm qua oaicite và gây chú ý.")[0], /tool-marker/);
+  assert.match(errs("Chi tiết turn0search1 ở phần mô tả.")[0], /tool-marker/);
+  assert.match(errs("Xem contentReference để rõ hơn.")[0], /tool-marker/);
+});
+
+test("catches the model talking about itself", () => {
+  assert.match(errs("As of my last update, chưa có thông tin nào.")[0], /knowledge-cutoff/);
+  assert.match(errs("I cannot browse the internet để kiểm tra.")[0], /knowledge-cutoff/);
+  assert.match(errs("I am an AI language model, nên tôi không chắc.")[0], /knowledge-cutoff/);
+});
+
+test("catches the assistant's reply wrapper pasted along with the post", () => {
+  assert.match(errs("Chắc chắn rồi, đây là bài viết:\nMô hình mới ra mắt.")[0], /assistant-preamble/);
+  assert.match(errs("Sure! Here's the post:\nA new model launched.")[0], /assistant-preamble/);
+});
+
+test("unfilled placeholders warn rather than block", () => {
+  // Warning because Vietnamese editorial prose uses square brackets legitimately. The
+  // discriminator is shape: a form field looks like [Your Name], an aside looks like
+  // [đã lược một đoạn].
+  assert.deepEqual(errs("Theo dõi [Your Name] để xem thêm."), []);
+  assert.match(warns("Theo dõi [Your Name] để xem thêm.")[0], /placeholder/);
+  assert.match(warns("Kênh {{channel_name}} xin chào.")[0], /placeholder/);
+});
+
+test("does NOT flag Vietnamese editorial brackets", () => {
+  // These are the cases that would make the gate cry wolf, and a gate that cries wolf on
+  // ordinary editing is a gate people switch off.
+  for (const text of [
+    "Ảnh: Reuters [đã lược một đoạn]. Chi tiết ở phần mô tả.",
+    "Ông ấy nói [nguyên văn]: chuyện này chưa từng xảy ra.",
+    "Bản dịch [của người viết] có thể khác bản gốc.",
+  ]) {
+    assert.deepEqual(findLeaks(text), { errors: [], warnings: [] }, text);
+  }
+});
+
+test("does NOT ban em dashes — this kit's own reference article uses thirteen", () => {
+  // facebook-skills calls the em dash "the biggest AI tell in 2026", and for English social
+  // copy that may hold. Vietnamese prose uses it normally, and the sample article in this
+  // repo is full of them and reads well. Adopting that rule would fail good writing.
+  const text = "Đó là hai tuần đầu — mô hình công bố ngày 9 tháng 6 — rồi bị gỡ xuống.";
+  assert.deepEqual(findLeaks(text), { errors: [], warnings: [] });
+});
+
+test("does NOT flag ordinary English vocabulary", () => {
+  // The strict tier's vocabulary swaps (leverage → use) are an English style opinion, not a
+  // correctness rule, and this kit publishes Vietnamese. Deliberately not adopted.
+  assert.deepEqual(findLeaks("Chúng tôi leverage công nghệ mới để streamline quy trình."), {
+    errors: [], warnings: [],
+  });
+});
+
 // ── stripLeaks ───────────────────────────────────────────────────────────────
 
 test("stripLeaks removes the metadata block and its blank separator", () => {
