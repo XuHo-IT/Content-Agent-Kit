@@ -113,6 +113,36 @@
       "licenseFile": "LICENSE",
       "summary": "One design skill covering eight output types — logo, campaign visual, infographic, social post.",
       "why": "Covers the image side that `imagegen-web` and `brandkit` do not: campaign assets rather than interfaces."
+    },
+    "fb-humanizer": {
+      "repo": "sergebulaev/facebook-skills",
+      "ref": "main",
+      "path": "skills/fb-humanizer",
+      "installAs": "fb-humanizer",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Strips AI tells from a post and audits it against a Facebook checklist.",
+      "why": "The English half this kit deliberately left out: em-dash rules and vocabulary swaps (leverage → use). Its forensic tier is built in already; install this when you write English, where those style rules apply."
+    },
+    "fb-hook-extractor": {
+      "repo": "sergebulaev/facebook-skills",
+      "ref": "main",
+      "path": "skills/fb-hook-extractor",
+      "installAs": "fb-hook-extractor",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Reverse-engineers the hook from a post that already performed.",
+      "why": "VIDEO_GENRES states hook principles; this dissects real posts against ten named formulas. Studying what worked beats reasoning about what should."
+    },
+    "fb-repurposer": {
+      "repo": "sergebulaev/facebook-skills",
+      "ref": "main",
+      "path": "skills/fb-repurposer",
+      "installAs": "fb-repurposer",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Rewrites a LinkedIn post, X thread, blog or newsletter as a native Facebook Page post.",
+      "why": "The reference behind this kit's own `repurpose` skill. Useful directly if Facebook Pages are a channel you actually publish to."
     }
   },
   "_marketing": [
@@ -123,5 +153,18 @@
     "",
     "To add another: copy an entry, change `path` to skills/vi/<folder> or skills/en/<folder>.",
     "Note `ref` is `master` there, not `main`."
+  ],
+  "_facebook": [
+    "The three fb-* entries come from sergebulaev/facebook-skills (MIT, 8 skills, part of a family that also",
+    "covers LinkedIn, Instagram, X, YouTube, TikTok and Threads).",
+    "",
+    "Two things to know before installing any of them:",
+    "",
+    "1. They are written for FACEBOOK PAGES IN ENGLISH. The voice rules, the under-80",
+    "   character sweet spot and the vocabulary lists are English-language conventions. This",
+    "   kit publishes Vietnamese, so treat them as a second opinion rather than as house rules.",
+    "2. Two skills NOT listed here — fb-audience-insights and fb-engagement-drafter — need a",
+    "   paid Apify token to read real Page data. They are left out on purpose: everything in",
+    "   this registry should be runnable without a subscription."
   ]
 }

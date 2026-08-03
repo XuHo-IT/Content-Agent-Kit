@@ -12,6 +12,16 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Added
 
+- **Three facebook-skills in the registry**, fetched on demand like everything else there:
+  `fb-humanizer` (the English style rules the forensic tier deliberately left out),
+  `fb-hook-extractor` (dissects hooks from posts that actually performed, where VIDEO_GENRES
+  only states principles), and `fb-repurposer`.
+
+  Two of the eight upstream skills are deliberately **not** listed: `fb-audience-insights` and
+  `fb-engagement-drafter` need a paid Apify token, and everything in this registry should run
+  without a subscription. `docs/17` says so rather than letting someone find out after
+  installing.
+
 - **A forensic tier: the post gate now catches the model exposing itself.** `validate-post.mjs`
   checked *formatting* leakage — `##`, `**bold**`, a `Meta:` block. It never checked for the
   model leaking its own scaffolding: `oaicite` and other tool markers, "As of my last update",

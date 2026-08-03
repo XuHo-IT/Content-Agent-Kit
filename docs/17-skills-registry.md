@@ -41,6 +41,26 @@ and a sha can still be diffed a year later.
 
 Delete the folder to uninstall. Nothing else changes.
 
+### The `fb-*` entries need a caveat
+
+Three come from [facebook-skills](https://github.com/sergebulaev/facebook-skills) (MIT, part
+of a family covering LinkedIn, Instagram, X, YouTube, TikTok and Threads). Two things to know
+before installing one:
+
+**They are written for Facebook Pages, in English.** The voice rules, the under-80-character
+sweet spot and the vocabulary lists are English-language conventions. This kit publishes
+Vietnamese, so treat them as a second opinion rather than as house rules. Concretely: their
+catalogue calls the em dash the biggest AI tell of 2026, and this repo's own reference article
+uses thirteen of them and reads well.
+
+**Two skills are deliberately not listed.** `fb-audience-insights` and `fb-engagement-drafter`
+need a paid Apify token to read real Page data. Everything in this registry should be runnable
+without a subscription, so they are left out — install them from upstream directly if you have
+an Apify account.
+
+The forensic half of `fb-humanizer` is already built into `validate-post.mjs`; install the
+skill when you want the English style rules on top.
+
 ### Rules the installer enforces
 
 - **No licence, no install.** If the upstream has no licence file at that commit it refuses,
