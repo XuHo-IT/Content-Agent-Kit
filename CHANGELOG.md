@@ -12,6 +12,15 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Added
 
+- **A gallery in the README**, so the output is visible without cloning: the sample article's
+  cover image, and a labelled strip of the four newest templates linking into `CATALOG.md`.
+
+  The cover ships as PNG because that is what was asked for. Worth knowing before copying the
+  choice: the source was a 241 KB JPEG, so the PNG is 1.6 MB for pixel-identical output — the
+  compression damage is already baked into the pixels, and re-encoding only freezes it in a
+  larger file. PNG earns its size when an image is generated straight to PNG; converting a
+  JPEG to it does not.
+
 - **Four new scene templates, and genre presets that say which frames to use in what order.**
   `frame-review-verdict` (score ring + verdict + pros/cons), `frame-quote-testimonial`,
   `frame-chart-bars` and `frame-step-list` — 14 templates to 18, two dark canvases and two
