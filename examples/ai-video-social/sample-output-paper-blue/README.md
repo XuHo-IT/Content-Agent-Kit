@@ -1,14 +1,17 @@
 # Video mẫu 2 — nền trắng, chữ xanh biển
 
-> Cùng nguồn, cùng chủ đề, cùng bộ template với
-> [`sample-output/`](../sample-output/) — chỉ khác **một dòng** trong `script.json`:
+> Cùng nguồn, cùng chủ đề, cùng bộ template với [`sample-output/`](../sample-output/).
+> Toàn bộ bảng màu do đúng một khoá trong `script.json` quyết định:
 >
 > ```json
 > "theme": "paper-blue"
 > ```
 >
-> Đặt hai video cạnh nhau là thấy `theme` làm được gì: không fork template nào, không sửa
-> một dòng CSS nào trong `video-templates/`.
+> Đặt hai video cạnh nhau là thấy `theme` làm được gì: **không fork template nào, không sửa
+> một dòng CSS nào trong `video-templates/`.**
+>
+> Hai bản khác nhau nhiều hơn một dòng — kịch bản được viết lại (15 scene so với 16, lời đọc
+> khác hẳn). Riêng phần **màu** thì chỉ có `theme`.
 
 ## ▶️ Xem video
 

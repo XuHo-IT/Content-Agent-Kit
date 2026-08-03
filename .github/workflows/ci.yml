@@ -128,6 +128,14 @@ jobs:
           [ -f NOTICE.md ] || { echo "::error::missing root NOTICE.md"; fail=1; }
           exit $fail
 
+      # §4(a) goes further than attribution: a copy of the licence itself has to
+      # ship with the work. Attribution without the licence text is still a breach.
+      - name: Apache-2.0 text ships with the vendored templates
+        run: |
+          f=LICENSES/Apache-2.0.txt
+          [ -f "$f" ] || { echo "::error::missing $f — Apache-2.0 §4(a) requires it"; exit 1; }
+          grep -q "TERMS AND CONDITIONS FOR USE" "$f" || { echo "::error::$f is not the Apache-2.0 text"; exit 1; }
+
       - name: No secrets committed
         run: |
           if git grep -nE "hook\.(eu|us)[0-9]*\.make\.com/[a-z0-9]|Bearer [A-Za-z0-9_-]{16,}|R2_SECRET_ACCESS_KEY[[:space:]]*=[[:space:]]*.|xi-api-key: [A-Za-z0-9]{12,}" -- . ':!*.example' ':!SECURITY.md' ':!CONTRIBUTING.md' ':!.github/workflows'; then

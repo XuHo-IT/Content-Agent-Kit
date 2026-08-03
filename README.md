@@ -40,8 +40,8 @@ của Anthropic — cho ra **hai định dạng**:
 · hoặc render lại chính nó: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
 
 Cùng chủ đề đó còn có **[bản nền trắng chữ xanh biển](examples/ai-video-social/sample-output-paper-blue/)**
-— 16 scene, dùng hết 14 template, khác đúng một dòng `"theme": "paper-blue"` chứ không fork
-template nào.
+— 16 scene, dùng hết 14 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
+**không fork template nào, không sửa một dòng CSS nào trong `video-templates/`.**
 
 ## Mô hình vận hành
 
@@ -210,5 +210,6 @@ Pipeline video và các template kế thừa từ mã nguồn mở MIT / Apache-
 ([AI-auto-generate-video](https://github.com/huytranvan2010/AI-auto-generate-video),
 [nexu-io/html-video](https://github.com/nexu-io/html-video),
 [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes)). Phần ghi công nằm ở
-**[`NOTICE.md`](NOTICE.md)** và trong từng `video-templates/*/NOTICE.md` — hãy giữ nguyên các
+**[`NOTICE.md`](NOTICE.md)** và trong từng `video-templates/*/NOTICE.md`, bản đầy đủ của
+Apache-2.0 nằm ở [`LICENSES/Apache-2.0.txt`](LICENSES/Apache-2.0.txt) — hãy giữ nguyên các
 file đó, chúng là **điều kiện giấy phép** chứ không phải phép lịch sự.
