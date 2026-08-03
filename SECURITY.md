@@ -59,6 +59,49 @@ Riêng khoá R2 dùng để **ký AWS SigV4**, nghĩa là secret không bao gi�
 được gửi đi. Bộ ký được kiểm chứng bằng vector chuẩn của AWS
 (`node scripts/media/host-check.mjs --selftest`).
 
+### Kết nối MCP: đọc **và ghi** trên tài khoản thật
+
+`.mcp.json` khai báo sáu server tuỳ chọn — năm cho quảng cáo (Meta, Google, TikTok, Snap,
+Reddit qua Pipeboard) và một cho Canva. Nối cái nào là quyền của bạn; kit chạy đủ mà không nối
+cái nào.
+
+Ba điều cần biết trước khi nối:
+
+- **Chúng ghi được, không chỉ đọc.** Cùng một kết nối đọc được chi phí thì cũng tạm dừng được
+  chiến dịch, đổi được ngân sách, đăng được creative. Skill `ads-report` cố ý **không** đụng vào
+  bất cứ thứ gì khi làm báo cáo, và bắt xác nhận trước mọi thay đổi — nhưng đó là kỷ luật của
+  skill, không phải giới hạn kỹ thuật. Một agent chạy `bypassPermissions` thì không có gì chặn.
+- **Không credential nào nằm trong repo.** Đăng nhập bằng OAuth ngay trong client (`/mcp` với
+  Claude Code). Pipeboard và Canva không nhận mật khẩu nền tảng của bạn, và không có token nào
+  được ghi vào file mà git nhìn thấy.
+- **Mã nguồn Pipeboard dùng Business Source License 1.1**, không phải open source như phần còn
+  lại của kit (đến 2029 mới thành Apache-2.0). Điều này không hạn chế bạn khi dùng dịch vụ, nhưng
+  nó là bên thứ ba mà bạn đang trao quyền vào tài khoản quảng cáo — hãy đánh giá như với mọi
+  nhà cung cấp khác. Xoá khối server nào bạn không dùng.
+
+### Backend `api` tiêu tiền thật, tính theo giây
+
+`VIDEO_BACKEND=api` gọi Veo và Imagen của Google. Veo 3.1 tính **$0,40 mỗi giây** — một video 60
+giây là **$24**, chạy hằng ngày một tuần là **$168**.
+
+Kit đặt ba cửa chặn trước khi tiêu đồng nào: luôn in ước tính kèm model và đơn giá; trần chi phí
+(`costCeilingUsd` trong profile hoặc `VIDEO_COST_CEILING_USD`) từ chối thẳng; và quá $1 mà không
+đặt trần thì dừng lại hỏi. `profiles/personal.json` đặt trần bằng `0`, nghĩa là từ chối mọi thứ
+tốn tiền.
+
+**Nếu bạn để agent chạy tự động, hãy đặt trần.** Ba cửa trên bảo vệ người ngồi trước máy; một
+vòng lặp không người trông coi chỉ dừng ở cửa thứ hai.
+
+### `install-skills.mjs` tải mã của người khác về máy bạn
+
+Nó lấy file từ GitHub và ghi vào `~/.claude/skills/` hoặc `./.claude/skills/`, tức là thư mục mà
+agent của bạn **đọc và làm theo**. Đó là bề mặt tin cậy thật, không phải chuyện nhỏ.
+
+Kit ghim commit sha, chép nguyên văn giấy phép upstream vào cạnh skill, và ghi `NOTICE.md` nói rõ
+nó đến từ đâu. Nó từ chối cài nếu upstream không có file giấy phép. Nhưng nó **không** kiểm nội
+dung skill — `--dry-run` in ra từng file sẽ ghi, và `registry.json` chỉ chứa những mục đã được
+xem qua. Thêm mục mới thì hãy đọc skill đó trước.
+
 ### Chạy tự động: quyền hạn có giới hạn
 
 Agent chạy theo lịch phải dùng `acceptEdits` với danh sách lệnh cho phép hẹp — **không bao giờ

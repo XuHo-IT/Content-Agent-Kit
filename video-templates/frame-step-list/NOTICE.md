@@ -1,6 +1,7 @@
 # Attribution — frame-step-list
 
-**Original template** written for content-agent-kit. Not vendored from anywhere.
+**Original template** authored for content-agent-kit (MIT, same as this repo).
+Not vendored from anywhere.
 
 ## Design
 
