@@ -1,6 +1,6 @@
 ---
 name: ads-report
-description: Read ad performance from the connected ads MCP servers (Meta, Google, TikTok, Snap, Reddit) and turn it into a decision about what content to make next, for an agent built with content-agent-kit. Use weekly, or when the user asks "how did the ads do", "what should we post next", or "which campaigns are wasting money". Writes a short report and proposes concrete queue items.
+description: Read ad performance from the connected ads MCP servers (Meta, Google, TikTok, Snap, Reddit) and turn it into a decision about what content to make next, for an agent built with content-agent-kit. Also works with no ad spend at all: paste the numbers the platform shows you and it reports the same way. Use weekly, or when the user asks "how did the ads do", "how did last week do", "what should we post next", or "which campaigns are wasting money". Writes a short report and proposes concrete queue items.
 ---
 
 # Ads report → next week's content
@@ -13,10 +13,26 @@ schedules content, but nothing tells it which content was worth publishing.
 
 ## Before you start
 
-You need at least one ads MCP server connected — see `.mcp.json` and
-`docs/18-ads-and-marketing.md`. If none is connected, say so and stop. Do **not** invent
-plausible numbers to fill the report; a fabricated benchmark is worse than no report,
-because someone will spend money on it.
+Do **not** invent plausible numbers to fill a report. A fabricated benchmark is worse than no
+report, because someone will spend money on it. That rule holds in both modes below.
+
+**Paid mode.** At least one ads MCP server connected — see `.mcp.json` and
+`docs/18-ads-and-marketing.md`.
+
+**Organic mode.** No ads server, which is where most people start and where this skill used to
+simply stop — leaving anyone not yet buying reach with nothing at all, even though they have
+the same question. Ask the user to paste what the platform shows them: views, reach, shares,
+comments, saves, watch-through, per post, for a period they choose.
+
+Everything below works the same way on pasted numbers, with three differences worth stating in
+the report itself:
+
+- **Say the numbers are self-reported.** They came from a screen, not an API. That does not
+  make them wrong; it makes them worth labelling.
+- **Shares and saves matter more than views here.** Without spend data there is no cost per
+  anything, so the useful signal is what people did deliberately rather than what scrolled past.
+- **The sample is smaller, so the bar for calling something is higher.** Two posts are not a
+  trend. Be readier to write "not enough data" than in paid mode.
 
 If `mkt-ads-audit` is installed (`node scripts/install-skills.mjs mkt-ads-audit`), read it
 first — it covers account-level diagnosis in more depth than this does. This skill's job is

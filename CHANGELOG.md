@@ -12,6 +12,37 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Added
 
+- **`skills/repurpose/` — one published item becomes several.** The kit was good at making
+  things and had no answer for making more from what it already made. For one person that is
+  the difference between three posts a week and twelve: not writing more, getting more out of
+  what is written.
+
+  The capability was already here — `examples/ai-video-social/` holds the same source as both
+  an article and a video — but nothing connected "I made this once" to "make five more from
+  it".
+
+  An angle is **a different thing the source says**, not the same thing reworded; five
+  rewordings is spam, five ideas from one piece of research is a week of content. The skill
+  pulls them from the source (the counterintuitive bit, the number, the cost, the how, the
+  disagreement, the aside) and refuses to pad to hit a count. It also refuses outright when
+  the source is thin: five variants of something nobody engaged with is five times the work
+  for the same silence.
+
+  Used angles live in a new `brain/repurposed.json`, not in `history.json`. That file is a
+  flat list of published titles — it dedups by identity and cannot say which angle you used —
+  and its shape is load-bearing for `append.mjs` and every generated agent, so changing it
+  would break running projects for a feature they may not use. An angle is recorded only
+  **after** it publishes, so a rejected draft does not burn it.
+
+### Changed
+
+- **`ads-report` works without ad spend.** It used to stop when no ads MCP server was
+  connected, which left everyone who has not started buying reach with nothing — despite
+  having exactly the same question. Organic mode takes pasted platform numbers and reports the
+  same way, while saying they are self-reported, leaning on shares and saves rather than
+  views, and holding a higher bar before calling a trend on a small sample. The refusal to
+  invent numbers is unchanged and now covers both modes.
+
 - **Three facebook-skills in the registry**, fetched on demand like everything else there:
   `fb-humanizer` (the English style rules the forensic tier deliberately left out),
   `fb-hook-extractor` (dissects hooks from posts that actually performed, where VIDEO_GENRES
