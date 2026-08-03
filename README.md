@@ -32,6 +32,7 @@ của Anthropic — cho ra **hai định dạng**:
 | | |
 |---|---|
 | 📄 **[Bài viết mẫu](examples/ai-news-social/sample-output/)** | 951 từ tiếng Việt — thân bài là **văn bản thuần**, meta/slug nằm ở trường riêng; kèm comment engagement và bảng đối chiếu 10 tiêu chí rubric |
+| 🖼️ **[Ảnh cover](examples/ai-news-social/sample-output/cover.png)** | 1024×1024, đi kèm bài viết trên |
 | 🎬 **[Video mẫu](examples/ai-video-social/sample-output/)** | 2 phút 12 giây · 1080×1920 · giọng Vbee thật · B-roll Pexels · ảnh chụp trang gốc |
 
 [![15 scene của video mẫu](examples/ai-video-social/sample-output/contact-sheet.jpg)](examples/ai-video-social/sample-output/)
@@ -42,6 +43,18 @@ của Anthropic — cho ra **hai định dạng**:
 Cùng chủ đề đó còn có **[bản nền trắng chữ xanh biển](examples/ai-video-social/sample-output-paper-blue/)**
 — 16 scene, dùng 14 trong số 18 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
 **không fork template nào, không sửa một dòng CSS nào trong `video-templates/`.**
+
+### Mười tám template, bốn cái mới nhất
+
+[![Bốn template mới](examples/gallery/new-templates.jpg)](video-templates/CATALOG.md)
+
+Trái sang phải, trên xuống dưới: **review có điểm số**, **biểu đồ cột**, **danh sách bước**,
+**trích dẫn**. Mỗi cái đều vẽ từ dữ liệu chứ không phải từ giá trị gõ tay — vòng cung điểm
+tính từ `score`/`maxScore`, độ dài cột tính từ chính con số, nên hình không thể mâu thuẫn với
+chữ. Slot và giới hạn ký tự từng cái ở **[`CATALOG.md`](video-templates/CATALOG.md)**.
+
+Không biết dùng khung nào cho loại video nào? **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**
+có sẵn trình tự cho năm thể loại: review, hướng dẫn, bản tin, listicle, testimonial.
 
 ## Mô hình vận hành
 
