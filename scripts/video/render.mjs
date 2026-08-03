@@ -31,6 +31,8 @@ import { composeTemplate } from "./lib/compose.mjs";
 import { sfxDir } from "./lib/paths.mjs";
 import { resolveTheme, themeKey } from "./lib/theme.mjs";
 import { resolveSceneMedia } from "../media/lib/resolve.mjs";
+import { loadProfile, resolveSettings } from "./lib/profile.mjs";
+import { assertBackend, loadBackend, describeBackends } from "./lib/backends/index.mjs";
 
 const argv = process.argv.slice(2);
 if (argv.includes("--help") || argv.length === 0) {
@@ -42,10 +44,25 @@ if (argv.includes("--help") || argv.length === 0) {
       `  --skip-preflight    skip the ffmpeg/TTS host check\n` +
       `  --strict            craft warnings block the render\n` +
       `  --refresh-media     re-resolve B-roll/screenshots, ignoring media-lock.json\n` +
-      `env: TTS_PROVIDER, TTS_VOICE_ID, TTS_SPEED, TTS_CONCURRENCY, VIDEO_TEMPLATES_DIR,\n` +
-      `     VIDEO_SFX_DIR, PEXELS_API_KEY, PIXABAY_API_KEY (+ the TTS provider's API key)`,
+      `  --backend <id>      html (default) | api | remotion — see --list-backends\n` +
+      `  --profile <name>    a profile in profiles/ (personal, business), or a path\n` +
+      `  --cost-ceiling <n>  refuse an api render estimated above this many USD\n` +
+      `  --list-backends     what each backend costs and needs, then stop\n` +
+      `env: VIDEO_BACKEND, VIDEO_PROFILE, TTS_PROVIDER, TTS_VOICE_ID, TTS_SPEED,\n` +
+      `     TTS_CONCURRENCY, VIDEO_TEMPLATES_DIR, VIDEO_SFX_DIR, PEXELS_API_KEY,\n` +
+      `     PIXABAY_API_KEY, GEMINI_API_KEY (api backend, + the TTS provider's key)`,
   );
   process.exit(argv.length === 0 ? 1 : 0);
+}
+
+const flagValue = (name) => (argv.includes(name) ? argv[argv.indexOf(name) + 1] : undefined);
+const numberFlag = (name) => (flagValue(name) === undefined ? undefined : Number(flagValue(name)));
+
+if (argv.includes("--list-backends")) {
+  console.log(`render.mjs — available backends (VIDEO_BACKEND, or --backend)\n`);
+  console.log(describeBackends());
+  console.log(`\nDefault: html. Method: docs/20-video-backends.md`);
+  process.exit(0);
 }
 
 const scriptPath = argv.find((a) => a.endsWith(".json") && !a.startsWith("--"));
@@ -66,6 +83,27 @@ const t0 = Date.now();
 try {
   const outputDir = path.dirname(path.resolve(scriptPath));
   const script = JSON.parse(await readFile(scriptPath, "utf8"));
+
+  // ── backend selection ──────────────────────────────────────────────────────
+  // `html` is this file's own body, and everything below this block is exactly the code
+  // that has always run. The other backends are modules and return before reaching it.
+  //
+  // Extracting the html pipeline into a module for symmetry would mean moving ~250 lines
+  // of the one path that definitely works, for no behaviour change. Adding a branch above
+  // it is the smaller, verifiable option: with VIDEO_BACKEND unset, nothing changed.
+  const settings = resolveSettings({
+    script,
+    profile: loadProfile(flagValue("--profile")),
+    flags: { backend: flagValue("--backend"), costCeilingUsd: numberFlag("--cost-ceiling") },
+  });
+  assertBackend(settings.backend);
+  if (settings.profileName) info(`profile: ${settings.profileName}`);
+
+  if (settings.backend !== "html") {
+    const mod = await loadBackend(settings.backend);
+    await mod.render({ script, scriptPath, outputDir, argv, settings });
+    process.exit(0);
+  }
 
   // The script's own voice block wins over env, so one .env can serve many scripts.
   const cfg = ttsConfig({

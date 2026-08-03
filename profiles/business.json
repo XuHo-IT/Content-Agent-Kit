@@ -1,0 +1,47 @@
+{
+  "_comment": [
+    "A profile is the answers you would otherwise retype into every script.json: which",
+    "backend renders, which voice reads, which palette, how much you are willing to spend.",
+    "",
+    "Select with VIDEO_PROFILE=business or --profile business.",
+    "",
+    "Precedence, narrowest wins:  script.json  >  --flags  >  profile  >  .env  >  defaults.",
+    "A profile never overrides something the script states explicitly."
+  ],
+
+  "name": "business",
+  "description": "Client or company work. Consistent brand, paid voice, a budget that someone signs off.",
+
+  "backend": "html",
+  "_backend": [
+    "Still html by default, on purpose. The api backend bills per second of video: Veo 3.1",
+    "at $0.40/s means a 60-second video is $24, and a week of dailies is $168. Switch to",
+    "api for one hero video, not for the daily queue — and set costCeilingUsd first."
+  ],
+
+  "aspect": "9:16",
+
+  "voice": {
+    "provider": "elevenlabs",
+    "speed": 1.0
+  },
+  "_voice": "A paid provider is the honest default here: client work is where a synthetic-sounding read costs more than the API bill. Set ELEVENLABS_API_KEY and TTS_VOICE_ID in .env — never here, this file is committed.",
+
+  "theme": "paper-blue",
+  "_theme": "A key from video-templates/theme-map.json. One value repaints every template, which is how a queue of videos ends up looking like one brand rather than fourteen.",
+
+  "brand": {
+    "name": "",
+    "url": "",
+    "tagline": ""
+  },
+  "_brand": "Fill these once. An empty field drops its slot instead of filling it with a placeholder — the templates used to default to the upstream author's channel, and a video published with someone else's URL is worse than one with no URL.",
+
+  "costCeilingUsd": 25,
+  "_costCeilingUsd": [
+    "Per render. The api backend prints its estimate and refuses to start above this,",
+    "before spending anything. 25 is roughly one 60-second Veo 3.1 clip — high enough to",
+    "let a deliberate hero video through, low enough that a queue misconfigured to use",
+    "api stops on the first item instead of the fiftieth."
+  ]
+}

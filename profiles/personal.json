@@ -1,0 +1,39 @@
+{
+  "_comment": [
+    "A profile is the answers you would otherwise retype into every script.json: which",
+    "backend renders, which voice reads, which palette, how much you are willing to spend.",
+    "",
+    "Select with VIDEO_PROFILE=personal or --profile personal.",
+    "",
+    "Precedence, narrowest wins:  script.json  >  --flags  >  profile  >  .env  >  defaults.",
+    "A profile never overrides something the script states explicitly — the script is about",
+    "one video and knows more than a profile that covers all of them."
+  ],
+
+  "name": "personal",
+  "description": "One person, own channel. Free tools, no invoices, occasional videos.",
+
+  "backend": "html",
+  "_backend": "html renders locally with Chrome + FFmpeg and costs nothing per video. api costs real money per second — see profiles/business.json.",
+
+  "aspect": "9:16",
+
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1.0
+  },
+  "_voice": "omnivoice runs on your own machine, so there is no per-character bill and no API key. Set TTS_VOICE_ID in .env if you switch to a paid provider.",
+
+  "theme": null,
+  "_theme": "null = each template keeps its own palette. Put a theme-map.json key here to repaint every template the same way.",
+
+  "brand": {
+    "name": "",
+    "url": "",
+    "tagline": ""
+  },
+  "_brand": "Fills the brand slots templates expose. Leave a field empty and the slot is dropped rather than filled with a placeholder — an empty string beats someone else's URL.",
+
+  "costCeilingUsd": 0,
+  "_costCeilingUsd": "0 = refuse anything that would be billed. The html backend never bills, so this ceiling only ever fires if you switch backend without meaning to. That is the point of it."
+}

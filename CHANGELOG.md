@@ -12,6 +12,38 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Added
 
+- **Two more video backends, and profiles to choose between them.**
+  `VIDEO_BACKEND=html | api | remotion`, defaulting to `html`. `script.json` does not change
+  shape between them — a scene is a scene; the backend decides how the pixels get made.
+
+  `html` is verifiably unchanged, not just intended to be: the branch was added *above* the
+  existing pipeline and the ~250 lines below it were not moved, so `--estimate` output is
+  byte-identical before and after. Extracting that pipeline into a module for symmetry would
+  have meant moving the one path that definitely works, for no behaviour change.
+
+  `api` calls Veo and Imagen, and bills **per second**: $0.40/s means a 60-second video is
+  $24. Three gates run before any money moves — the estimate always prints first with the
+  rate it used, a ceiling refuses outright, and over $1 with no ceiling set it stops and
+  asks. `profiles/personal.json` sets that ceiling to `0`. Generated clips are kept and
+  reused because each one was paid for.
+
+  Its wire format has **not** been run against a live account and says so, in the module
+  header and in the docs, the same way `media-hosts/r2.mjs` does about its S3 wiring.
+  `--dry-run` prints every request without sending one.
+
+  `remotion` scaffolds an npm project beside your script and prints two commands rather than
+  running `npm install` for you — installing hundreds of packages is a decision the person at
+  the keyboard makes, not a side effect of asking for a render. Nothing is added to this kit.
+
+  Profiles hold what you would otherwise retype into every script. Precedence is
+  `script.json > flags > profile > .env > default`: a profile never overrides what a script
+  states explicitly, because the script is about one video and knows more.
+
+  One bug found by testing rather than reading: `pick()` drops a trailing `null`, so an unset
+  ceiling resolved to `undefined` and the "would bill $X and no ceiling is set" guard compared
+  against `null` and never fired — a render could have started spending with no confirmation
+  at all. Fixed, and pinned by a regression test.
+
 - **Campaign visuals through Canva's own MCP server**, plus `skills/design-campaign/`. The
   kit could put an image on a post and inside a video frame but could not make one — stock
   search finds photographs and screenshots capture a page; neither is a branded visual.
