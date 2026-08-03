@@ -1,10 +1,7 @@
 {
-  "_comment": "The repo's About box — description, website and topics. GitHub stores these as repo settings, not as files, so this is the source of truth for what they should be. Apply with: node .github/apply-about.mjs (needs `gh` authenticated).",
-
-  "description": "Bộ kit để IDE agentic (Claude Code, Antigravity) tự dựng agent nội dung: crawl → viết → review gate → đăng social qua Make.com, kèm pipeline video 9:16 có giọng đọc, B-roll và ảnh chụp web. Zero dependency, env-only, MIT.",
-
+  "_comment": "The repo's About box — description, website and topics. GitHub stores these as repo settings, not as files, so this is the source of truth for what they should be. Apply with: node .github/apply-about.mjs --apply (needs `gh` authenticated). Topics are capped at 20 by GitHub; the list is full, so adding one means arguing another out.",
+  "description": "Bộ kit để IDE agentic (Claude Code, Antigravity) tự dựng agent nội dung: crawl → viết → cổng duyệt → đăng social. Kèm pipeline video 9:16 với 18 template và 3 backend (HTML/Chrome · Veo · Remotion), kho skill SEO-marketing cài theo yêu cầu, và MCP cho quảng cáo + Canva. Zero dependency, env-only, MIT.",
   "homepage": "",
-
   "topics": [
     "ai-agents",
     "agentic-workflow",
@@ -23,6 +20,8 @@
     "vietnamese",
     "zero-dependency",
     "nodejs",
-    "open-source-kit"
+    "open-source-kit",
+    "mcp",
+    "remotion"
   ]
 }
