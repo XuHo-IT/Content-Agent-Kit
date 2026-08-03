@@ -40,7 +40,12 @@ Anthropic's Claude Fable 5 announcement — became **two formats**:
 **[▶️ Download the mp4 (15.5 MB)](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0)**
 · or regenerate it yourself: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
 
-The same story also exists as a **[white-canvas, ocean-blue cut](examples/ai-video-social/sample-output-paper-blue/)**
+There is also a **[review-genre sample](examples/ai-video-social/sample-review-rag/)** — 8 scenes,
+80 seconds, every number measured from [RAG-EVAL-VN](https://github.com/XuHo-IT/RAG-EVAL-VN), with a
+whole scene given to **the cost**: a review that lists only upsides is an advertisement, and
+viewers can tell.
+
+The same news story also exists as a **[white-canvas, ocean-blue cut](examples/ai-video-social/sample-output-paper-blue/)**
 — 16 scenes across 14 of the 18 templates, repainted entirely by `"theme": "paper-blue"`:
 **no forked template, and not one line of CSS edited in `video-templates/`.**
 

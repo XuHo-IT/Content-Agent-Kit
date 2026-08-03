@@ -40,7 +40,11 @@ của Anthropic — cho ra **hai định dạng**:
 **[▶️ Tải video mp4 (15,5 MB)](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0)**
 · hoặc render lại chính nó: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
 
-Cùng chủ đề đó còn có **[bản nền trắng chữ xanh biển](examples/ai-video-social/sample-output-paper-blue/)**
+Và một **[mẫu thể loại review](examples/ai-video-social/sample-review-rag/)** — 8 scene, 80 giây,
+mọi con số đều đo thật từ [RAG-EVAL-VN](https://github.com/XuHo-IT/RAG-EVAL-VN), dành hẳn một
+scene cho **cái giá phải trả**: review chỉ liệt kê điểm tốt là quảng cáo, người xem nhận ra ngay.
+
+Cùng chủ đề tin tức còn có **[bản nền trắng chữ xanh biển](examples/ai-video-social/sample-output-paper-blue/)**
 — 16 scene, dùng 14 trong số 18 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
 **không fork template nào, không sửa một dòng CSS nào trong `video-templates/`.**
 
