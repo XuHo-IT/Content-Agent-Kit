@@ -8,6 +8,22 @@ work. This file records that lineage as those licenses require.
 > thứ ba — file này ghi công theo đúng yêu cầu giấy phép. **Đừng xoá** file này
 > hay các `NOTICE.md` trong từng thư mục template.
 
+### Full license texts
+
+| File | Applies to |
+|---|---|
+| [`LICENSE`](LICENSE) — MIT | the kit itself |
+| [`LICENSES/Apache-2.0.txt`](LICENSES/Apache-2.0.txt) | the vendored templates in §2 and §2b |
+
+Apache-2.0 §4(a) requires a copy of the license to travel with the work, so
+`LICENSES/Apache-2.0.txt` must ship with any redistribution of this repository.
+`LICENSE` is left as unmodified MIT so licence scanners still identify the kit
+correctly — the scope split is recorded here instead.
+
+> Bản đầy đủ của các giấy phép nằm trong [`LICENSES/`](LICENSES/). `LICENSE` (MIT)
+> áp cho phần kit, `LICENSES/Apache-2.0.txt` áp cho các template vendor ở §2 và §2b.
+> Apache-2.0 §4(a) bắt buộc file này đi kèm khi phát hành lại repo.
+
 ---
 
 ## 1. Video pipeline — `scripts/video/`

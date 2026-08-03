@@ -40,8 +40,8 @@ Anthropic's Claude Fable 5 announcement — became **two formats**:
 · or regenerate it yourself: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
 
 The same story also exists as a **[white-canvas, ocean-blue cut](examples/ai-video-social/sample-output-paper-blue/)**
-— 16 scenes across all 14 templates, one line of difference (`"theme": "paper-blue"`) and not
-a single forked template.
+— 16 scenes across all 14 templates, repainted entirely by `"theme": "paper-blue"`:
+**no forked template, and not one line of CSS edited in `video-templates/`.**
 
 ## The operating model
 
@@ -211,5 +211,6 @@ The video pipeline and templates derive from MIT / Apache-2.0 open source
 ([AI-auto-generate-video](https://github.com/huytranvan2010/AI-auto-generate-video),
 [nexu-io/html-video](https://github.com/nexu-io/html-video),
 [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes)). Attribution lives in
-**[`NOTICE.md`](NOTICE.md)** and in each `video-templates/*/NOTICE.md` — keep those files, they
-are a licence condition rather than a courtesy.
+**[`NOTICE.md`](NOTICE.md)** and in each `video-templates/*/NOTICE.md`, and the full Apache-2.0
+text is at [`LICENSES/Apache-2.0.txt`](LICENSES/Apache-2.0.txt) — keep those files, they are a
+licence condition rather than a courtesy.
