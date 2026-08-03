@@ -60,7 +60,7 @@ Method: `docs/15-media-sources.md` and `docs/16-template-registry.md`.
   (`caption-kinetic-slam`, `transitions-blur`) do not, so 20 folders means 18 usable.
 - `templates/VIDEO_GENRES.template.json` — scene sequences for review, tutorial, news,
   listicle and testimonial. Answers 'which frames, in what order' rather than 'what
-  shape is a script'.
+  shape is a script'. Method: `docs/21-video-genres.md`.
 - `skills/` — Claude Code skills; also readable as plain instructions. `registry.json`
   lists skills from other projects, fetched on demand by `scripts/install-skills.mjs` —
   none of them are vendored. Method: `docs/17-skills-registry.md`.

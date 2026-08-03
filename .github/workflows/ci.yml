@@ -36,16 +36,28 @@ jobs:
       # source directory for the whole media layer. Nine files were silently left out of a
       # commit and every job below failed with "module not found". Locally everything
       # worked, because the files were there. This catches that class of bug at the source.
-      - name: No source file is gitignored
+      #
+      # This step used `git ls-files --others`, which only sees UNTRACKED files present on
+      # disk. A CI checkout has none, so it reported "clean" on every run and could never
+      # have caught the bug it was written for. Verified by deleting the `!scripts/media/`
+      # negations: the old form still said 0.
+      #
+      # Asking the opposite question works on a clean checkout, because tracked files ARE
+      # present: is anything we track currently matched by an ignore rule? If so, the next
+      # person to `git add` it drops it silently. `--no-index` is what makes check-ignore
+      # answer for tracked paths rather than skipping them. Same deletion test: 10 files.
+      - name: No tracked source file is matched by .gitignore
         run: |
-          missing=$(git ls-files --others --ignored --exclude-standard \
-                    -- 'scripts/**' 'video-templates/**' 'templates/**' 'docs/**' 'skills/**' 'examples/**')
-          if [ -n "$missing" ]; then
-            echo "::error::these source files exist but .gitignore excludes them:"
-            echo "$missing"
+          bad=$(git ls-files -- 'scripts/**' 'video-templates/**' 'templates/**' 'docs/**' \
+                                'skills/**' 'examples/**' 'profiles/**' 'tests/**' \
+                | git check-ignore --stdin --no-index || true)
+          if [ -n "$bad" ]; then
+            echo "::error::these files are tracked but .gitignore matches them — a fresh"
+            echo "::error::clone plus a later 'git add' would drop them:"
+            echo "$bad"
             exit 1
           fi
-          echo "clean"
+          echo "clean — no tracked source file is ignored"
 
       - name: Every script parses
         run: |

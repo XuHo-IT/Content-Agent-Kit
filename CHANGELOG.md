@@ -10,6 +10,28 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+## [0.3.0] — 2026-08-03
+
+Thirteen changes across the output the kit produces, the tooling around it, and the checks
+that keep both honest. The theme running through them: **most of these were found by running
+the thing, not by reading it.**
+
+The kit went from **no tests to 108**. Six of the fixes below were invisible to a passing
+build — a render that succeeded, a validator that passed, a documented setup that could not
+work, a meta-skill that had stopped mentioning half the repo.
+
+### Highlights
+
+| | |
+|---|---|
+| **Posts are plain text** | `Meta:` / `Slug:` blocks and Markdown reached readers verbatim, including in the repo's own reference sample. `make-post.mjs` now refuses to send it. |
+| **Skills, fetched not vendored** | An SEO auditor, three design skills and six marketing skills, on demand, each with its licence and a NOTICE recording the commit. |
+| **Ads feed back into content** | Five Pipeboard MCP servers plus an `ads-report` skill that produces queue items rather than a dashboard. |
+| **Campaign visuals via Canva** | Hands back a file, not a design link, because everything downstream takes a path. |
+| **Three video backends** | `html` (free, default, unchanged), `api` (Veo/Imagen — bills per second, three gates before spending), `remotion` (scaffolds, does not install). |
+| **18 templates, 5 genres** | Four new frames that draw from their data, and sequences answering "which frames, in what order". |
+
+
 ### Added
 
 - **The video validator is tested in the direction that matters.** CI already proved it
@@ -318,6 +340,7 @@ video pipeline.
 - Open-source scaffolding: licence, notices, contributing guide, security policy, code of
   conduct, issue and pull-request templates, CI.
 
-[Unreleased]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.2.0
 [0.1.0]: https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0
