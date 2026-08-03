@@ -16,5 +16,10 @@ Slots: `cta` (≤60), `channel` (≤24), `source` (≤40) — see `../CATALOG.md
 
 ## Changes in content-agent-kit
 
-None. Vendored as-is; only the containing folder was renamed from `templates/`
-to `video-templates/`. See the root `NOTICE.md`.
+The design, markup and CSS are untouched; the containing folder was renamed from
+`templates/` to `video-templates/`. See the root `NOTICE.md`.
+
+- **Cleared the branded default slot values.** `channel` defaulted to the original
+  author's channel name and `source` to their site. Defaults render whenever a caller
+  leaves a slot empty, so a forgotten slot published someone else's brand on your
+  video. `channel` is a placeholder now and `source` is empty.

@@ -227,7 +227,7 @@
             data-duration="5"
             data-width="1080"
             data-height="1920"
-            data-composition-variables='{"brand_name":"AI Coding","tagline":"Bản tin mới mỗi ngày","primary_url":"https://aicodingvn.vercel.app/"}'
+            data-composition-variables='{"brand_name":"Tên kênh của bạn","tagline":"Một dòng mô tả","primary_url":"","corner_left":"Theo dõi","corner_right":"Hết"}'
         >
             <!-- brand-bar removed in content-agent-kit — see the hero template's note. -->
 
@@ -264,8 +264,14 @@
             <p class="tagline"></p>
             <div class="meta"><span class="meta-url"></span></div>
 
-            <div class="corner left">Theo dõi</div>
-            <div class="corner right">Hết</div>
+            <!--
+              Corners are slots now rather than fixed text. The 9:16 pair defaults to the
+              generic "Theo dõi" / "Hết" it always showed — no brand in it, so keeping the
+              default is safe — while 16:9 defaults to empty because its corners carried
+              the upstream author's channel name and sign-off.
+            -->
+            <div class="corner left"></div>
+            <div class="corner right"></div>
         </div>
 
         <script>
@@ -279,9 +285,24 @@
                     var el = document.querySelector(sel);
                     if (el && text != null) el.textContent = String(text);
                 };
+                // Optional slots: fill `sel`, but drop `dropSel` entirely when there is
+                // nothing to show. Leaving the element in place would keep its margin and
+                // shift the layout for a line the viewer never sees.
+                var optional = function (sel, text, dropSel) {
+                    var el = document.querySelector(sel);
+                    if (!el) return;
+                    if (text == null || String(text).trim() === "") {
+                        var drop = dropSel ? document.querySelector(dropSel) : el;
+                        if (drop) drop.remove();
+                    } else {
+                        el.textContent = String(text);
+                    }
+                };
                 set(".brand .shimmer", v.brand_name);
                 set(".tagline", v.tagline);
-                set(".meta-url", v.primary_url);
+                optional(".meta-url", v.primary_url, ".meta");
+                optional(".corner.left", v.corner_left);
+                optional(".corner.right", v.corner_right);
             })();
             window.__timelines = window.__timelines || {};
             window.__timelines["main"] = {

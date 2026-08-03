@@ -44,22 +44,33 @@ try {
     throw new Error("Not logged in. Run: gh auth login   (scopes: repo)");
   }
 
-  const repo = run(["repo", "view", "--json", "nameWithOwner,description,hasDiscussionsEnabled,repositoryTopics"], { json: true });
+  const repo = run(
+    ["repo", "view", "--json", "nameWithOwner,description,homepageUrl,hasDiscussionsEnabled,repositoryTopics"],
+    { json: true },
+  );
   const slug = repo.nameWithOwner;
   const current = {
     description: repo.description ?? "",
+    homepage: repo.homepageUrl ?? "",
     discussions: !!repo.hasDiscussionsEnabled,
     topics: (repo.repositoryTopics ?? []).map((t) => t.name ?? t).sort(),
   };
-  const wanted = { description: cfg.description, discussions: true, topics: [...cfg.topics].sort() };
+  const wanted = {
+    description: cfg.description,
+    homepage: cfg.homepage ?? "",
+    discussions: true,
+    topics: [...cfg.topics].sort(),
+  };
 
   const changes = [];
   if (current.description !== wanted.description) changes.push("description");
+  if (current.homepage !== wanted.homepage) changes.push("homepage");
   if (current.discussions !== wanted.discussions) changes.push("discussions");
   if (current.topics.join(",") !== wanted.topics.join(",")) changes.push("topics");
 
   console.log(`[about] ${slug}`);
   console.log(`[about]   description : ${current.description ? current.description.slice(0, 60) + "…" : "(none)"}`);
+  console.log(`[about]   homepage    : ${current.homepage || "(none)"}`);
   console.log(`[about]   discussions : ${current.discussions}`);
   console.log(`[about]   topics      : ${current.topics.length ? current.topics.join(", ") : "(none)"}`);
 
@@ -74,11 +85,16 @@ try {
     process.exit(0);
   }
 
-  if (changes.includes("description") || changes.includes("discussions")) {
-    const args = ["api", "-X", "PATCH", `repos/${slug}`, "-f", `description=${cfg.description}`, "-F", "has_discussions=true"];
-    if (cfg.homepage) args.push("-f", `homepage=${cfg.homepage}`);
-    run(args);
-    console.log(`[about] ✓ description + discussions`);
+  if (["description", "homepage", "discussions"].some((k) => changes.includes(k))) {
+    // homepage is sent even when empty: that is how the link is cleared, and skipping it
+    // would make an intentional "" in repo-about.json silently unenforceable.
+    run([
+      "api", "-X", "PATCH", `repos/${slug}`,
+      "-f", `description=${wanted.description}`,
+      "-f", `homepage=${wanted.homepage}`,
+      "-F", "has_discussions=true",
+    ]);
+    console.log(`[about] ✓ description + homepage + discussions`);
   }
 
   if (changes.includes("topics")) {

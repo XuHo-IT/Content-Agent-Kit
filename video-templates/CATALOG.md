@@ -35,7 +35,7 @@ uses `compositions/portrait.html`) or **`"16:9"`** (1920×1080 — uses `index.h
 
 | slot           | type     | limit                    | notes                                                |
 | -------------- | -------- | ------------------------ | ---------------------------------------------------- |
-| `kicker`       | string   | ≤24                      | small uppercase label, top-left (e.g. "AI Coding")   |
+| `kicker`       | string   | ≤24                      | small uppercase label, top-left (e.g. "Chuyên mục")  |
 | `date`         | string   | ≤24                      | top-right metadata (e.g. "12 · 06 · 2026")           |
 | `figure`       | string   | ≤4                       | giant red figure — a number/stat (e.g. "5.5", "200") |
 | `headline`     | string[] | ≤3 lines, ≤14 chars/line | line 2 renders red                                   |
@@ -55,7 +55,7 @@ name, muted source, ink rule.
 | --------- | ------ | ----- | ---------------------------------------------------------------------- |
 | `cta`     | string | ≤60   | uppercase call-to-action (e.g. "Theo dõi để xem bản tin mới mỗi ngày") |
 | `channel` | string | ≤24   | channel name (giant red)                                               |
-| `source`  | string | ≤40   | "Nguồn: <domain>"                                                      |
+| `source`  | string | ≤40   | "Nguồn: <domain>"; leave empty and the line is omitted                 |
 
 ---
 
@@ -127,7 +127,9 @@ sweep, tagline, and a footer URL.
 | ------------- | ------ | ----- | ----------------------------------------------------------- |
 | `brand_name`  | string | ≤60   | channel/brand name (big, shimmering)                        |
 | `tagline`     | string | ≤120  | one line under the name                                     |
-| `primary_url` | string | ≤40   | footer URL / source (e.g. "https://aicodingvn.vercel.app/") |
+| `primary_url`  | string | ≤40   | footer URL / source; **empty removes the footer line**       |
+| `corner_left`  | string | ≤24   | small corner label, bottom-left; **empty removes it**        |
+| `corner_right` | string | ≤24   | small corner label, bottom-right; **empty removes it**       |
 
 ---
 
@@ -140,7 +142,7 @@ subheadline and a rounded CTA pill.
 
 | slot          | type   | limit | notes                                              |
 | ------------- | ------ | ----- | -------------------------------------------------- |
-| `kicker`        | string | ≤24  | small uppercase label, top-left (e.g. "AI Coding")            |
+| `kicker`        | string | ≤24  | small uppercase label, top-left (e.g. "Chuyên mục")           |
 | `headline`      | string | ≤60  | the hook line (keep punchy, ~2 short lines) — shown in a vivid gradient |
 | `headline_from` | string | hex  | headline gradient start (optional; default vivid gold→purple) |
 | `headline_to`   | string | hex  | headline gradient end (optional)                              |

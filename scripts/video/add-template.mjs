@@ -188,8 +188,17 @@ try {
 
   console.log(`\n[video] ${added} added, ${skipped} already present → ${dest}`);
   if (added) {
-    console.log(`[video]   they are picked up automatically — the validator reads the folder.`);
-    console.log(`[video]   render one before trusting it; not every item suits a 9:16 news video.`);
+    // This used to say the new folders "are picked up automatically". They are not, and
+    // never were: listTemplateIds() only counts a folder that has an index.html, and this
+    // script writes the upstream compositions plus meta.json/hyperframes.json — never an
+    // index.html. So a freshly vendored item is invisible to the validator and to
+    // compose.mjs until someone writes one. Saying otherwise sent people looking for a
+    // bug in the validator instead of at the missing file.
+    console.log(`[video]   NOT usable yet. A scene template needs index.html (16:9) and`);
+    console.log(`[video]   compositions/portrait.html (9:16); vendoring writes neither.`);
+    console.log(`[video]   Check which folders are actually live with:`);
+    console.log(`[video]     node -e "import('./scripts/video/lib/paths.mjs').then(m=>console.log(m.listTemplateIds()))"`);
+    console.log(`[video]   Render one before trusting it; not every item suits a 9:16 news video.`);
   }
 } catch (e) {
   console.error(`[video] ✗ ${e.message}`);

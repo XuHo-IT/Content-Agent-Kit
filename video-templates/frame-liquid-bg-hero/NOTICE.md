@@ -19,3 +19,8 @@ Vendored and adapted from:
   rendered from this template; branding belongs in the caller's text slots.
 - **Deleted `assets/logo.svg`** (899 KB) once nothing referenced it. Keeping another
   project's brand mark in this repo served no purpose and accounted for a third of its size.
+- **Cleared the branded default slot values.** `brand` defaulted to the upstream
+  author's site and `kicker` to their channel name. Defaults are what render when a
+  caller leaves a slot empty, so anyone who forgot one published someone else's URL on
+  their own video. `brand` is empty now and `kicker` is a generic label — the same
+  reasoning that removed the `brand-bar` above, applied to the text slots it missed.
