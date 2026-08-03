@@ -32,7 +32,7 @@ Anthropic's Claude Fable 5 announcement — became **two formats**:
 | | |
 |---|---|
 | 📄 **[Sample article](examples/ai-news-social/sample-output/)** | 951 Vietnamese words — the body is **plain text**, meta and slug live in their own fields; plus an engagement comment and how it scores against all 10 rubric criteria |
-| 🖼️ **[Cover image](examples/ai-news-social/sample-output/cover.png)** | 1024×1024, made for the article above |
+| 🖼️ **[Cover image](examples/ai-news-social/sample-output/cover.jpg)** | 1024×1024, made for the article above |
 | 🎬 **[Sample video](examples/ai-video-social/sample-output/)** | 2 min 12 s · 1080×1920 · real Vbee narration · Pexels B-roll · live screenshot of the source page |
 
 [![All 15 scenes of the sample video](examples/ai-video-social/sample-output/contact-sheet.jpg)](examples/ai-video-social/sample-output/)

@@ -32,7 +32,7 @@ của Anthropic — cho ra **hai định dạng**:
 | | |
 |---|---|
 | 📄 **[Bài viết mẫu](examples/ai-news-social/sample-output/)** | 951 từ tiếng Việt — thân bài là **văn bản thuần**, meta/slug nằm ở trường riêng; kèm comment engagement và bảng đối chiếu 10 tiêu chí rubric |
-| 🖼️ **[Ảnh cover](examples/ai-news-social/sample-output/cover.png)** | 1024×1024, đi kèm bài viết trên |
+| 🖼️ **[Ảnh cover](examples/ai-news-social/sample-output/cover.jpg)** | 1024×1024, đi kèm bài viết trên |
 | 🎬 **[Video mẫu](examples/ai-video-social/sample-output/)** | 2 phút 12 giây · 1080×1920 · giọng Vbee thật · B-roll Pexels · ảnh chụp trang gốc |
 
 [![15 scene của video mẫu](examples/ai-video-social/sample-output/contact-sheet.jpg)](examples/ai-video-social/sample-output/)

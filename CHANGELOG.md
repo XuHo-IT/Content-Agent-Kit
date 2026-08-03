@@ -10,6 +10,27 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Changed
+
+- **Repo features are settings-as-code too.** Wiki is off — an empty wiki tab is a dead end
+  for anyone who clicks it, and everything it could hold already lives in `docs/`, where it is
+  versioned, reviewed and searchable beside the code. Projects is off for the same reason.
+  Issues and Discussions stay on: those are where people talk to you.
+
+  `apply-about.mjs` manages them now rather than leaving it a manual click a fork or a reset
+  would silently undo. It reads them through the REST endpoint, because `gh repo view --json`
+  has no field for `has_wiki`, and writes with `-F` rather than `-f` — `-f has_wiki=false`
+  sends the *string* "false", which the API reads as true.
+
+- **The sample cover ships as JPEG again, 1.6 MB → 241 KB.** It was converted to PNG on
+  request; the honest arithmetic did not support keeping it. The source was a JPEG, so the
+  PNG was pixel-identical output at 6.7× the size — the compression damage is already in the
+  pixels and re-encoding only freezes it into a bigger file. It was 42% of the whole repo for
+  no gain, and now sits in the same weight class as the four contact sheets (82–254 KB).
+
+  The rule the kit documents still stands and is unchanged: generate straight to PNG when an
+  image has text in it. Converting *to* PNG afterwards is a different thing and buys nothing.
+
 ### Fixed
 
 - **Two per-template notices named the wrong owner by implication.**

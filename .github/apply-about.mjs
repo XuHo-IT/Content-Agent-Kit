@@ -49,17 +49,24 @@ try {
     { json: true },
   );
   const slug = repo.nameWithOwner;
+  // Features are read through the REST endpoint: `gh repo view --json` has no field for
+  // has_wiki or has_projects, so the GraphQL-backed call above cannot see them.
+  const rest = run(["api", `repos/${repo.nameWithOwner}`], { json: true });
+
+  const wanted_features = cfg.features ?? {};
   const current = {
     description: repo.description ?? "",
     homepage: repo.homepageUrl ?? "",
     discussions: !!repo.hasDiscussionsEnabled,
     topics: (repo.repositoryTopics ?? []).map((t) => t.name ?? t).sort(),
+    features: Object.fromEntries(Object.keys(wanted_features).map((k) => [k, !!rest[`has_${k}`]])),
   };
   const wanted = {
     description: cfg.description,
     homepage: cfg.homepage ?? "",
     discussions: true,
     topics: [...cfg.topics].sort(),
+    features: wanted_features,
   };
 
   const changes = [];
@@ -67,12 +74,16 @@ try {
   if (current.homepage !== wanted.homepage) changes.push("homepage");
   if (current.discussions !== wanted.discussions) changes.push("discussions");
   if (current.topics.join(",") !== wanted.topics.join(",")) changes.push("topics");
+  if (JSON.stringify(current.features) !== JSON.stringify(wanted.features)) changes.push("features");
 
   console.log(`[about] ${slug}`);
   console.log(`[about]   description : ${current.description ? current.description.slice(0, 60) + "…" : "(none)"}`);
   console.log(`[about]   homepage    : ${current.homepage || "(none)"}`);
   console.log(`[about]   discussions : ${current.discussions}`);
   console.log(`[about]   topics      : ${current.topics.length ? current.topics.join(", ") : "(none)"}`);
+  if (Object.keys(wanted_features).length) {
+    console.log(`[about]   features    : ${Object.entries(current.features).map(([k, v]) => `${k}=${v}`).join(" ")}`);
+  }
 
   if (changes.length === 0) {
     console.log(`[about] ✓ already matches repo-about.json`);
@@ -95,6 +106,14 @@ try {
       "-F", "has_discussions=true",
     ]);
     console.log(`[about] ✓ description + homepage + discussions`);
+  }
+
+  if (changes.includes("features")) {
+    // -F sends a real boolean; -f would send the string "false", which is truthy to the API.
+    const args = ["api", "-X", "PATCH", `repos/${slug}`];
+    for (const [k, v] of Object.entries(wanted_features)) args.push("-F", `has_${k}=${v}`);
+    run(args);
+    console.log(`[about] ✓ features: ${Object.entries(wanted_features).map(([k, v]) => `${k}=${v}`).join(" ")}`);
   }
 
   if (changes.includes("topics")) {
