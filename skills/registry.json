@@ -13,7 +13,6 @@
     "whose upstream has no licence file, because a skill with no licence is a skill nobody",
     "is legally allowed to reuse — the same reason RAG-EVAL-VN needed one."
   ],
-
   "skills": {
     "seo": {
       "repo": "aevans-eng/seo-skill",
@@ -25,7 +24,6 @@
       "summary": "Audits and fixes on-page SEO: meta tags, Open Graph, JSON-LD, sitemap, robots.txt.",
       "why": "Markdown only — no API keys, no MCP server, no subscription. Everything it does, it does by reading and editing files, which is why it fits a kit that installs nothing."
     },
-
     "taste": {
       "repo": "Leonxlnx/taste-skill",
       "ref": "main",
@@ -36,7 +34,6 @@
       "summary": "Design judgement for generated interfaces — layout, type, spacing, motion.",
       "why": "Video templates in this kit are HTML and CSS, so the same judgement applies to a 9:16 frame as to a web page."
     },
-
     "imagegen-web": {
       "repo": "Leonxlnx/taste-skill",
       "ref": "main",
@@ -47,7 +44,6 @@
       "summary": "Prompts for generating design comps and interface imagery.",
       "why": "For the cover and in-frame images a post or video needs, when a stock search returns nothing usable."
     },
-
     "brandkit": {
       "repo": "Leonxlnx/taste-skill",
       "ref": "main",
@@ -57,6 +53,75 @@
       "licenseFile": "LICENSE",
       "summary": "Builds a consistent brand kit — palette, type scale, logo direction.",
       "why": "Feeds the theme system: a palette decided once becomes a `theme` entry every template reads."
+    },
+    "mkt-context": {
+      "repo": "minhnv0807/ai-business-skills",
+      "ref": "master",
+      "path": "skills/vi/product-marketing-context",
+      "installAs": "mkt-context",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Foundation context: product, audience, positioning. Upstream says run this first.",
+      "why": "Every other marketing skill reads it, and it is the same information a PLAYBOOK.md already asks for — fill it once."
+    },
+    "mkt-calendar": {
+      "repo": "minhnv0807/ai-business-skills",
+      "ref": "master",
+      "path": "skills/vi/01-lich-noi-dung",
+      "installAs": "mkt-calendar",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Builds a content calendar from a goal and a channel mix.",
+      "why": "Feeds the queue this kit already schedules from, instead of deciding topics one post at a time."
+    },
+    "mkt-video-script": {
+      "repo": "minhnv0807/ai-business-skills",
+      "ref": "master",
+      "path": "skills/vi/04-script-video",
+      "installAs": "mkt-video-script",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Video scripts with hook, beats and CTA.",
+      "why": "The narrative half of a script.json — the kit already handles the render half."
+    },
+    "mkt-ad-copy": {
+      "repo": "minhnv0807/ai-business-skills",
+      "ref": "master",
+      "path": "skills/vi/05-copy-quang-cao",
+      "installAs": "mkt-ad-copy",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Ad copy: headlines, primary text, variants to test.",
+      "why": "What actually goes into the campaigns the Pipeboard MCP servers manage."
+    },
+    "mkt-ads-audit": {
+      "repo": "minhnv0807/ai-business-skills",
+      "ref": "master",
+      "path": "skills/vi/21-audit-ads-performance",
+      "installAs": "mkt-ads-audit",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Audits a live ad account and says what to cut, keep or scale.",
+      "why": "Pairs directly with the ads MCP: it reads the numbers, this reads the meaning."
+    },
+    "mkt-design": {
+      "repo": "minhnv0807/ai-business-skills",
+      "ref": "master",
+      "path": "skills/vi/30-thiet-ke-master",
+      "installAs": "mkt-design",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "One design skill covering eight output types — logo, campaign visual, infographic, social post.",
+      "why": "Covers the image side that `imagegen-web` and `brandkit` do not: campaign assets rather than interfaces."
     }
-  }
+  },
+  "_marketing": [
+    "The six mkt-* entries are a selection from minhnv0807/ai-business-skills, which ships 63 skills across",
+    "marketing, personal branding and design, in Vietnamese (skills/vi) and English",
+    "(skills/en). Only the ones that plug into this kit's loop are listed — content",
+    "calendar in, ad copy out, ads audit back into what to write next.",
+    "",
+    "To add another: copy an entry, change `path` to skills/vi/<folder> or skills/en/<folder>.",
+    "Note `ref` is `master` there, not `main`."
+  ]
 }

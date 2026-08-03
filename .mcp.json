@@ -1,0 +1,52 @@
+{
+  "_comment": [
+    "MCP servers this kit knows how to work with. Claude Code reads this file when it",
+    "starts in this directory; other clients want the same block under a different name.",
+    "",
+    "Nothing here is required. The kit runs end to end — crawl, write, review, publish,",
+    "render video — with none of it connected. These servers add the measurement half:",
+    "what the published work actually did once it was out.",
+    "",
+    "NO CREDENTIALS LIVE HERE. Every server below authenticates over OAuth in your client",
+    "(`/mcp` in Claude Code). Pipeboard never receives your Meta, Google or TikTok password,",
+    "and this repo never sees a token. That is the same env-only rule the scripts follow:",
+    "no secret is ever written to a file that git can see.",
+    "",
+    "Remove a block you do not use. An unreachable server is one more thing failing at",
+    "startup for no benefit."
+  ],
+
+  "mcpServers": {
+    "_note_ads": [
+      "Pipeboard — hosted remote MCP for ad platforms. Free plan, OAuth, badged Meta",
+      "Business Partner. Its own code is Business Source License 1.1 (becomes Apache-2.0",
+      "in 2029), i.e. source-available rather than open source. That does not affect you",
+      "as a user of the hosted service, but this kit says so rather than implying every",
+      "connection it suggests is MIT like the rest.",
+      "",
+      "These are READ-AND-WRITE: the same connection that reads spend can change a budget",
+      "or pause a campaign. Ask for a plan before letting an agent act on a live account."
+    ],
+
+    "meta-ads": {
+      "type": "http",
+      "url": "https://meta-ads.mcp.pipeboard.co/"
+    },
+    "google-ads": {
+      "type": "http",
+      "url": "https://google-ads.mcp.pipeboard.co/"
+    },
+    "tiktok-ads": {
+      "type": "http",
+      "url": "https://tiktok-ads.mcp.pipeboard.co/"
+    },
+    "snap-ads": {
+      "type": "http",
+      "url": "https://snap-ads.mcp.pipeboard.co/"
+    },
+    "reddit-ads": {
+      "type": "http",
+      "url": "https://reddit-ads.mcp.pipeboard.co/"
+    }
+  }
+}
