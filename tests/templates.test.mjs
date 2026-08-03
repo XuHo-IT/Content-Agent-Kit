@@ -117,6 +117,11 @@ test("no template defaults to a brand that is not the caller's", () => {
       for (const [k, v] of Object.entries(vars)) {
         assert.ok(!/aicodingvn|\.vercel\.app|https?:\/\/(?!example)/i.test(String(v)),
           `${id}/${f}: slot "${k}" defaults to a real URL — ${v}`);
+        // A bare channel name leaks just as effectively as a URL, and reads as deliberate
+        // rather than as a leftover — three templates still carried "AI Coding" after the
+        // URL sweep, because that sweep only looked for links.
+        assert.ok(!/AI\s*Coding/i.test(String(v)),
+          `${id}/${f}: slot "${k}" defaults to someone else's channel name — ${v}`);
       }
     }
   }

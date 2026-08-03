@@ -120,6 +120,12 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Fixed
 
+- **Three more templates still defaulted to "AI Coding".** `frame-build-minimal`,
+  `frame-creative-voltage` and `frame-vignelli` carried the upstream author's channel name
+  in a slot value. The earlier sweep removed the URLs and the test that guards it checks for
+  links — a bare channel name leaks just as effectively, and reads as deliberate rather than
+  as a leftover. The test checks for the name now too.
+
 - **Two new templates rendered landscape inside a 9:16 video.** `frame-chart-bars` and
   `frame-step-list` shipped in the previous change with correct CSS, a correct viewport meta
   and stale `data-width="1920" data-height="1080"` on `#root` — and `data-*` is what the
