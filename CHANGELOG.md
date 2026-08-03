@@ -10,6 +10,32 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-08-03
+
+Two threads. The first is a pre-release audit that found four things wrong with how this repo
+presents itself — none of which broke a build. The second is what came out of reading
+[facebook-skills](https://github.com/sergebulaev/facebook-skills): one real gap in the post
+gate, and a skill the kit had been missing since the beginning.
+
+### Highlights
+
+| | |
+|---|---|
+| **The gate catches the model, not just Markdown** | `oaicite`, "As of my last update", an unfilled `[Your Name]`. Publishing one of those is worse than a stray `##`. |
+| **`repurpose`** | One published item → several more, each from a *different angle the source already contains*. For one person that is 3 posts a week versus 12. |
+| **`ads-report` without ad spend** | It used to stop when no ads server was connected, leaving everyone who has not started buying reach with nothing. |
+| **Attribution that stands alone** | Two notices named the wrong owner by implication; the root NOTICE covered 14 of 20 folders, missing two vendored Apache-2.0 ones. |
+| **Repo features as code** | Wiki off, recorded in `repo-about.json` rather than clicked once and forgotten. |
+
+### What was deliberately not taken
+
+facebook-skills calls the em dash "the biggest AI tell of 2026". This repo's own reference
+article uses thirteen of them in ordinary Vietnamese prose and reads well. Adopting the rule
+would have failed good writing, and a gate that cries wolf is a gate people switch off. Same
+for the English vocabulary swaps. Both are one command away in the registry for anyone writing
+English.
+
+
 ### Added
 
 - **`skills/repurpose/` — one published item becomes several.** The kit was good at making
@@ -459,7 +485,8 @@ video pipeline.
 - Open-source scaffolding: licence, notices, contributing guide, security policy, code of
   conduct, issue and pull-request templates, CI.
 
-[Unreleased]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.2.0
 [0.1.0]: https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0
