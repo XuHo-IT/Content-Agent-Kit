@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Chart Bars · 16:9</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Be+Vietnam+Pro:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            /*
+   * frame-chart-bars — a comparison the viewer can read in two seconds.
+   * Original work for this repo. 16:9; 9:16 at compositions/portrait.html.
+   *
+   * Bars are drawn from real numbers, not from hand-set widths, and every bar carries its
+   * value as text. A chart whose bars disagree with its labels is worse than no chart —
+   * and it is the easiest possible mistake when the widths are typed by hand.
+   *
+   * `bars` is "label:value|label:value|…". The scale is the largest value, so the tallest
+   * bar always fills the track and the shape is a comparison rather than an absolute.
+   * `highlight` marks one bar in the accent colour, which is how a chart in a video makes
+   * its point without narration.
+   */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                width: 1920px;
+                height: 1080px;
+                overflow: hidden;
+                background: #101418;
+            }
+            #root {
+                position: relative;
+                width: 1920px;
+                height: 1080px;
+                background: #101418;
+                color: #eef2f6;
+                font-family: "Be Vietnam Pro", sans-serif;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 0 140px;
+            }
+            .title {
+                font-family: "Alfa Slab One", cursive;
+                font-size: 74px;
+                line-height: 1.1;
+                max-width: 1400px;
+                opacity: 0;
+                animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+            }
+            .unit {
+                font-size: 28px;
+                font-weight: 500;
+                letter-spacing: 4px;
+                text-transform: uppercase;
+                color: rgba(238, 242, 246, 0.45);
+                margin-top: 14px;
+                opacity: 0;
+                animation: fade 0.5s ease-out 0.5s forwards;
+            }
+            .bars {
+                margin-top: 62px;
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+            }
+            .bar {
+                display: grid;
+                grid-template-columns: 380px 1fr 190px;
+                align-items: center;
+                gap: 32px;
+                opacity: 0;
+                animation: fade 0.4s ease-out forwards;
+            }
+            .bar .label {
+                font-size: 34px;
+                font-weight: 500;
+                text-align: right;
+                color: rgba(238, 242, 246, 0.8);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .bar .track {
+                height: 56px;
+                background: rgba(238, 242, 246, 0.07);
+                border-radius: 6px;
+                overflow: hidden;
+            }
+            .bar .fill {
+                height: 100%;
+                width: 0;
+                background: rgba(238, 242, 246, 0.28);
+                border-radius: 6px;
+                animation: grow 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            .bar.hi .fill {
+                background: #ffd23f;
+            }
+            .bar.hi .label,
+            .bar.hi .value {
+                color: #ffd23f;
+            }
+            .bar .value {
+                font-family: "Alfa Slab One", cursive;
+                font-size: 44px;
+                color: #eef2f6;
+            }
+            .source {
+                font-size: 24px;
+                font-weight: 400;
+                color: rgba(238, 242, 246, 0.4);
+                margin-top: 52px;
+                opacity: 0;
+                animation: fade 0.5s ease-out 1.8s forwards;
+            }
+            @keyframes grow {
+                to {
+                    width: var(--w, 0%);
+                }
+            }
+            @keyframes fade {
+                to {
+                    opacity: 1;
+                }
+            }
+            @keyframes rise {
+                from {
+                    opacity: 0;
+                    transform: translateY(24px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="7"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"title":"Thời gian xử lý mỗi bài","unit":"phút · thấp hơn là tốt hơn","bars":"Làm tay:42|Có script:18|Có agent:6","highlight":"Có agent","source":""}'
+        >
+            <div class="title"></div>
+            <div class="unit"></div>
+            <div class="bars"></div>
+            <div class="source"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes &&
+                    typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null) el.textContent = String(text);
+                };
+                var dropIfEmpty = function (sel, value) {
+                    var el = document.querySelector(sel);
+                    if (el && !String(value || "").trim()) el.remove();
+                };
+
+                set(".title", v.title);
+                set(".unit", v.unit);
+                set(".source", v.source);
+                dropIfEmpty(".unit", v.unit);
+                dropIfEmpty(".source", v.source);
+
+                // "label:value|label:value". rsplit on the LAST colon so a label may
+                // contain one — "Q1: doanh thu:120" reads the way it looks.
+                var rows = String(v.bars || "")
+                    .split("|")
+                    .map(function (s) {
+                        var t = s.trim();
+                        if (!t) return null;
+                        var i = t.lastIndexOf(":");
+                        if (i < 1) return null;
+                        var num = Number(t.slice(i + 1).replace(/[^\d.-]/g, ""));
+                        if (!isFinite(num)) return null;
+                        return { label: t.slice(0, i).trim(), raw: t.slice(i + 1).trim(), value: num };
+                    })
+                    .filter(Boolean)
+                    .slice(0, 5);
+
+                var wrap = document.querySelector(".bars");
+                if (!rows.length) {
+                    // No parseable data means the frame has nothing to say. Better an empty
+                    // panel than five zero-width bars implying every value is nothing.
+                    if (wrap) wrap.remove();
+                    return;
+                }
+
+                // Scale to the largest value, so the tallest bar fills its track and the
+                // frame reads as a comparison. Guard against all-zero data.
+                var max = Math.max.apply(
+                    null,
+                    rows.map(function (r) {
+                        return Math.abs(r.value);
+                    }),
+                );
+                if (!max) max = 1;
+
+                var hi = String(v.highlight || "").trim().toLowerCase();
+                rows.forEach(function (r, i) {
+                    var el = document.createElement("div");
+                    el.className = "bar" + (hi && r.label.toLowerCase() === hi ? " hi" : "");
+                    el.style.animationDelay = 0.7 + i * 0.14 + "s";
+
+                    var label = document.createElement("div");
+                    label.className = "label";
+                    label.textContent = r.label;
+
+                    var track = document.createElement("div");
+                    track.className = "track";
+                    var fill = document.createElement("div");
+                    fill.className = "fill";
+                    fill.style.setProperty("--w", (Math.abs(r.value) / max) * 100 + "%");
+                    fill.style.animationDelay = 0.8 + i * 0.14 + "s";
+                    track.appendChild(fill);
+
+                    var value = document.createElement("div");
+                    value.className = "value";
+                    value.textContent = r.raw;
+
+                    el.appendChild(label);
+                    el.appendChild(track);
+                    el.appendChild(value);
+                    wrap.appendChild(el);
+                });
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () {
+                    return true;
+                },
+            };
+        </script>
+    </body>
+</html>

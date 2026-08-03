@@ -1,0 +1,85 @@
+{
+  "_comment": [
+    "Scene sequences for five video genres. A genre is a starting skeleton, not a rule —",
+    "copy the `scenes` array of the one you want into your script.json and fill the inputs.",
+    "",
+    "Why this file exists: VIDEO_SCRIPT.template.json shows the SHAPE of a script, and the",
+    "catalogue shows what each template does, but neither answers the question someone",
+    "actually has — 'I want to make a review, which frames and in what order?'. Picking a",
+    "sequence from scratch every time is how every video ends up looking the same, because",
+    "the first three templates in the list are the ones that get used.",
+    "",
+    "Each genre names its templates and the beat each one carries. Durations come from the",
+    "narration at render time; `voiceText` is what you write."
+  ],
+
+  "genres": {
+    "review": {
+      "label": "Review sản phẩm / dịch vụ",
+      "whenToUse": "You tried something and have a verdict. The score frame is the payload; everything before it is setup.",
+      "beats": [
+        { "templateId": "frame-liquid-bg-hero", "type": "hook", "beat": "The verdict, spoiled. Nobody watches a review to be kept in suspense." },
+        { "templateId": "frame-broll", "type": "body", "beat": "What it is, in one line, over footage of the thing." },
+        { "templateId": "frame-chart-bars", "type": "body", "beat": "The number that justifies the verdict — speed, price, battery, whatever you measured." },
+        { "templateId": "frame-review-verdict", "type": "body", "beat": "Score, verdict, pros and cons. The frame people screenshot." },
+        { "templateId": "frame-statement-outro", "type": "outro", "beat": "Who it is for, who it is not for." }
+      ]
+    },
+
+    "tutorial": {
+      "label": "Hướng dẫn từng bước",
+      "whenToUse": "Someone wants to do the thing. Show the steps, then show it working.",
+      "beats": [
+        { "templateId": "frame-bold-poster", "type": "hook", "beat": "The outcome, not the topic. 'Agent tự đăng bài' beats 'Hôm nay nói về automation'." },
+        { "templateId": "frame-step-list", "type": "body", "beat": "Three to five steps. More than five, split into a second scene." },
+        { "templateId": "frame-screenshot", "type": "body", "beat": "The hardest step, on screen, so it is not just described." },
+        { "templateId": "frame-logo-outro", "type": "outro", "beat": "Where to get it, and the one thing to try first. A tutorial that ends without a next step gets watched and forgotten." }
+      ]
+    },
+
+    "news": {
+      "label": "Bản tin",
+      "whenToUse": "Something happened. Say what, then why it matters.",
+      "beats": [
+        { "templateId": "frame-glitch-title", "type": "hook", "beat": "The event in one sentence." },
+        { "templateId": "frame-pentagram-stat", "type": "body", "beat": "The one number that makes it news." },
+        { "templateId": "frame-media-inset", "type": "body", "beat": "Context — what was true before this." },
+        { "templateId": "frame-vignelli", "type": "body", "beat": "What changes for the viewer specifically." },
+        { "templateId": "frame-statement-outro", "type": "outro", "beat": "A question worth answering in the comments." }
+      ]
+    },
+
+    "listicle": {
+      "label": "Danh sách N thứ",
+      "whenToUse": "A ranked or grouped set. The count is the promise; keep it.",
+      "beats": [
+        { "templateId": "frame-bold-poster", "type": "hook", "beat": "The count and the category. '5 công cụ' — and then deliver five." },
+        { "templateId": "frame-step-list", "type": "body", "beat": "The list itself, numbered, arriving one at a time." },
+        { "templateId": "frame-aicoding-comparison", "type": "body", "beat": "The two that are hardest to choose between, side by side." },
+        { "templateId": "frame-logo-outro", "type": "outro", "beat": "The one you would pick, and why." }
+      ]
+    },
+
+    "testimonial": {
+      "label": "Câu chuyện khách hàng",
+      "whenToUse": "Someone else's result. Their words carry it; yours frame it.",
+      "beats": [
+        { "templateId": "frame-liquid-bg-hero", "type": "hook", "beat": "The result, as a number or a before/after." },
+        { "templateId": "frame-quote-testimonial", "type": "body", "beat": "Their words, credited. Do not paraphrase — a cleaned-up quote sounds written." },
+        { "templateId": "frame-chart-bars", "type": "body", "beat": "The before and after, measured." },
+        { "templateId": "frame-statement-outro", "type": "outro", "beat": "The invitation. One action, not three." }
+      ]
+    }
+  },
+
+  "_notes": [
+    "Two rules that hold across every genre, both learned from watching these render:",
+    "",
+    "1. The hook is not a title card. A frame that names the topic without giving anything",
+    "   away is a frame people scroll past. Lead with the verdict, the number or the result.",
+    "",
+    "2. Do not use the same template twice in a row. validate-script.mjs already warns about",
+    "   template variety, and the reason is that two identical frames read as a stall — the",
+    "   viewer assumes the video has repeated itself and leaves."
+  ]
+}

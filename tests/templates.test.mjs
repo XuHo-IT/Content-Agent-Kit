@@ -1,0 +1,133 @@
+// templates.test.mjs — the template library and the genre presets have to agree with
+// what is actually on disk.
+//
+// The failure this prevents is quiet: a genre preset names `frame-review-verdict`, someone
+// renames the folder, and nothing breaks until a render five minutes in throws "template
+// not found". Cross-checking the two here turns that into a failed test.
+import test from "node:test";
+import assert from "node:assert/strict";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { listTemplateIds, templatesDir } from "../scripts/video/lib/paths.mjs";
+
+const KIT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const ids = listTemplateIds();
+const genres = JSON.parse(fs.readFileSync(path.join(KIT, "templates", "VIDEO_GENRES.template.json"), "utf8")).genres;
+const themeMap = JSON.parse(fs.readFileSync(path.join(templatesDir(), "theme-map.json"), "utf8")).canvases;
+const catalog = fs.readFileSync(path.join(templatesDir(), "CATALOG.md"), "utf8");
+
+const compositions = (id) =>
+  ["index.html", "compositions/portrait.html"].filter((f) => fs.existsSync(path.join(templatesDir(), id, f)));
+
+// ── the library ──────────────────────────────────────────────────────────────
+
+test("every template has both a 16:9 and a 9:16 composition", () => {
+  // A template with only index.html renders 16:9 into a 9:16 video: letterboxed, or
+  // cropped through the subject. Neither is a decision anyone made.
+  for (const id of ids) {
+    assert.equal(compositions(id).length, 2, `${id} is missing one of its two compositions`);
+  }
+});
+
+test("every composition has a measured canvas", () => {
+  // Without one, theming flips the wrong way — light text recoloured as if the canvas
+  // were dark. Re-run: node scripts/video/theme-probe.mjs --template <id>
+  for (const id of ids) {
+    for (const f of compositions(id)) {
+      assert.ok(themeMap[`${id}/${f}`], `${id}/${f} not in theme-map.json — run theme-probe.mjs`);
+    }
+  }
+});
+
+test("every template keeps a NOTICE, vendored or not", () => {
+  for (const id of ids) {
+    assert.ok(fs.existsSync(path.join(templatesDir(), id, "NOTICE.md")), `${id} has no NOTICE.md`);
+  }
+});
+
+test("every composition's default variables parse as JSON", () => {
+  // A malformed block means the frame renders with no text at all, and the render
+  // succeeds — an empty video, no error.
+  for (const id of ids) {
+    for (const f of compositions(id)) {
+      const html = fs.readFileSync(path.join(templatesDir(), id, f), "utf8");
+      const m = html.match(/data-composition-variables='([^']*)'/);
+      assert.ok(m, `${id}/${f} has no data-composition-variables`);
+      assert.doesNotThrow(() => JSON.parse(m[1]), `${id}/${f} variables are not valid JSON`);
+    }
+  }
+});
+
+test("both compositions of a template expose the same slots", () => {
+  // Divergent slots mean a script that renders in 16:9 silently drops text in 9:16.
+  for (const id of ids) {
+    const files = compositions(id);
+    if (files.length !== 2) continue;
+    const slots = files.map((f) => {
+      const html = fs.readFileSync(path.join(templatesDir(), id, f), "utf8");
+      return Object.keys(JSON.parse(html.match(/data-composition-variables='([^']*)'/)[1])).sort();
+    });
+    assert.deepEqual(slots[0], slots[1], `${id}: 16:9 and 9:16 expose different slots`);
+  }
+});
+
+test("no template defaults to a brand that is not the caller's", () => {
+  // Defaults are what render when a slot is left empty. Shipping someone else's URL there
+  // publishes it on a stranger's video — fixed once already, so it stays checked.
+  for (const id of ids) {
+    for (const f of compositions(id)) {
+      const html = fs.readFileSync(path.join(templatesDir(), id, f), "utf8");
+      const vars = JSON.parse(html.match(/data-composition-variables='([^']*)'/)[1]);
+      for (const [k, v] of Object.entries(vars)) {
+        assert.ok(!/aicodingvn|\.vercel\.app|https?:\/\/(?!example)/i.test(String(v)),
+          `${id}/${f}: slot "${k}" defaults to a real URL — ${v}`);
+      }
+    }
+  }
+});
+
+test("every template is documented in CATALOG.md", () => {
+  for (const id of ids) {
+    assert.ok(catalog.includes(`## ${id}`), `${id} has no CATALOG.md entry`);
+  }
+});
+
+// ── genre presets ────────────────────────────────────────────────────────────
+
+test("every genre names templates that exist", () => {
+  for (const [name, g] of Object.entries(genres)) {
+    for (const beat of g.beats) {
+      assert.ok(ids.includes(beat.templateId), `genre "${name}" names missing template ${beat.templateId}`);
+    }
+  }
+});
+
+test("every genre opens on a hook and closes on an outro", () => {
+  for (const [name, g] of Object.entries(genres)) {
+    assert.equal(g.beats[0].type, "hook", `genre "${name}" does not open on a hook`);
+    assert.equal(g.beats.at(-1).type, "outro", `genre "${name}" does not close on an outro`);
+  }
+});
+
+test("no genre repeats a template back to back", () => {
+  // validate-script.mjs warns about this at render time; a preset should not ship with
+  // the warning already baked in. Two identical frames read as a stall.
+  for (const [name, g] of Object.entries(genres)) {
+    for (let i = 1; i < g.beats.length; i++) {
+      assert.notEqual(g.beats[i].templateId, g.beats[i - 1].templateId,
+        `genre "${name}" uses ${g.beats[i].templateId} twice in a row`);
+    }
+  }
+});
+
+test("every beat explains what it is for", () => {
+  // A preset without reasoning is a list of template names, which is what CATALOG.md
+  // already is. The `beat` line is the part that makes it a starting point.
+  for (const [name, g] of Object.entries(genres)) {
+    assert.ok(g.label && g.whenToUse, `genre "${name}" needs a label and whenToUse`);
+    for (const beat of g.beats) {
+      assert.ok(beat.beat && beat.beat.length > 20, `genre "${name}" has a beat with no reasoning`);
+    }
+  }
+});

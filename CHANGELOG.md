@@ -12,6 +12,30 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Added
 
+- **Four new scene templates, and genre presets that say which frames to use in what order.**
+  `frame-review-verdict` (score ring + verdict + pros/cons), `frame-quote-testimonial`,
+  `frame-chart-bars` and `frame-step-list` — 14 templates to 18, two dark canvases and two
+  light, so a themed video has both to work with.
+
+  All four draw from their data rather than from hand-set values. The review arc is computed
+  from `score`/`maxScore`, and the chart bars from the numbers, scaled to the largest: a
+  frame whose drawing disagrees with its printed number contradicts itself on screen, and
+  that is the easiest mistake to make when widths are typed by hand.
+
+  Each one removes what it cannot fill instead of leaving a placeholder — an empty pros
+  column, an unattributed quote, a chart with no parseable data. A heading with nothing
+  under it reads as missing data rather than as a deliberate omission.
+
+  `templates/VIDEO_GENRES.template.json` answers the question the catalogue does not: not
+  "what shape is a script" but "I want to make a review — which frames, in what order?".
+  Five genres, each beat carrying the reason it is there. Without it, every video ends up
+  using the first three templates in the list.
+
+  11 new tests cross-check the library against what is on disk: both compositions present,
+  both exposing the same slots, every canvas measured, every genre naming a template that
+  exists, and no default anywhere pointing at a real URL — the regression that shipped
+  someone else's brand on other people's videos stays checked rather than remembered.
+
 - **Two more video backends, and profiles to choose between them.**
   `VIDEO_BACKEND=html | api | remotion`, defaulting to `html`. `script.json` does not change
   shape between them — a scene is a scene; the backend decides how the pixels get made.

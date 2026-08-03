@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Quote Testimonial · 16:9</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Be+Vietnam+Pro:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            /*
+   * frame-quote-testimonial — someone else's words, credited.
+   * Original work for this repo. 16:9; the 9:16 layout is at compositions/portrait.html.
+   *
+   * The quote is the only large thing on screen. Attribution is deliberately small and
+   * below it: a testimonial frame that leads with the logo reads as an advert, and a
+   * viewer scrolling past skips it.
+   *
+   * Font size steps down as the quote gets longer, in code rather than CSS. A single
+   * `font-size` that fits 200 characters looks timid at 60, and one that suits 60
+   * overflows at 200 — and an overflowing quote is a broken frame, not a small flaw.
+   */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                width: 1920px;
+                height: 1080px;
+                overflow: hidden;
+                background: #faf7f2;
+            }
+            #root {
+                position: relative;
+                width: 1920px;
+                height: 1080px;
+                background: #faf7f2;
+                color: #1a1613;
+                font-family: "Be Vietnam Pro", sans-serif;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 0 180px;
+            }
+            .mark {
+                font-family: "Alfa Slab One", cursive;
+                font-size: 260px;
+                line-height: 0.7;
+                color: #c8452e;
+                opacity: 0;
+                animation: dropIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+            }
+            .quote {
+                font-size: 76px;
+                font-weight: 500;
+                line-height: 1.28;
+                max-width: 1480px;
+                margin-top: -30px;
+                opacity: 0;
+                animation: rise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+            }
+            .who {
+                display: flex;
+                align-items: center;
+                gap: 26px;
+                margin-top: 64px;
+                opacity: 0;
+                animation: rise 0.6s ease-out 1.2s forwards;
+            }
+            .avatar {
+                width: 84px;
+                height: 84px;
+                border-radius: 50%;
+                background: #c8452e;
+                color: #faf7f2;
+                display: grid;
+                place-items: center;
+                font-family: "Alfa Slab One", cursive;
+                font-size: 40px;
+                flex-shrink: 0;
+            }
+            .who-text .name {
+                font-size: 34px;
+                font-weight: 700;
+            }
+            .who-text .role {
+                font-size: 27px;
+                font-weight: 400;
+                color: rgba(26, 22, 19, 0.6);
+                margin-top: 4px;
+            }
+            .rule {
+                width: 0;
+                height: 4px;
+                background: #1a1613;
+                margin-top: 46px;
+                animation: ruleW 0.7s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
+            }
+            @keyframes ruleW {
+                to {
+                    width: 300px;
+                }
+            }
+            @keyframes dropIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes rise {
+                from {
+                    opacity: 0;
+                    transform: translateY(26px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"quote":"Chúng tôi cắt được hơn nửa thời gian làm thủ công chỉ trong tháng đầu.","name":"Tên người nói","role":"Chức danh · Công ty"}'
+        >
+            <div class="mark">&ldquo;</div>
+            <div class="quote"></div>
+            <div class="who">
+                <div class="avatar"></div>
+                <div class="who-text">
+                    <div class="name"></div>
+                    <div class="role"></div>
+                </div>
+            </div>
+            <div class="rule"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes &&
+                    typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null) el.textContent = String(text);
+                };
+
+                var quote = String(v.quote || "");
+                set(".quote", quote);
+                set(".name", v.name);
+                set(".role", v.role);
+
+                // Step down rather than scale continuously: three sizes are predictable and
+                // stay on the type scale, where a computed size lands anywhere and stops
+                // matching the rest of the deck.
+                var q = document.querySelector(".quote");
+                if (q) q.style.fontSize = quote.length > 180 ? "54px" : quote.length > 110 ? "64px" : "76px";
+
+                // The avatar is the first letter of the name, so a testimonial works with no
+                // photo — which is the normal case for a quote pulled from a review.
+                var av = document.querySelector(".avatar");
+                var name = String(v.name || "").trim();
+                if (av) {
+                    if (name) av.textContent = name.charAt(0).toUpperCase();
+                    else av.remove();
+                }
+
+                // No attribution at all means an unattributed quote, which is worse than no
+                // quote — drop the whole row rather than showing an empty circle.
+                if (!name && !String(v.role || "").trim()) {
+                    var who = document.querySelector(".who");
+                    if (who) who.remove();
+                }
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () {
+                    return true;
+                },
+            };
+        </script>
+    </body>
+</html>
