@@ -12,6 +12,33 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Fixed
 
+- **Post text is checked for leftover markup before it goes out.** No caption on Facebook,
+  Instagram, TikTok or YouTube renders Markdown, so a heading arrived as the literal
+  `### Heading`, `**bold**` kept its asterisks, and a CMS metadata block a writer left at
+  the top of a draft became the opening two lines a reader saw:
+
+  ```
+  Meta: Claude Fable 5 đạt điểm cao nhất ở gần như mọi bài kiểm tra…
+  Slug: claude-fable-5-ra-mat-roi-bi-go-sau-ba-ngay
+  ```
+
+  That is quoted from this repo's own reference sample, which shipped that way — so every
+  agent scaffolded from the kit learned the habit from the example it was told to copy.
+  `make-post.mjs` now refuses to send it, `validate-post.mjs --fix` repairs a copy without
+  touching the original, and `audit-quality.mjs` gained a `markup-leak` rule for what has
+  already been published. `Meta` and `Slug` were useful — they are `metaDescription` and
+  `slug` fields on the sample now, out of the body.
+
+  Ambiguous cases are warnings rather than errors on purpose: a line starting `- ` is a
+  bullet in Markdown and a dialogue dash in Vietnamese prose, and a gate that fails on
+  dialogue is a gate people switch off.
+
+- **The repo has tests.** 22 of them, on `node:test` so nothing was added to install.
+  Half assert what must *not* be flagged — `#AI` hashtags at the end of a caption, `2 * 3`,
+  a sentence about Meta the company — because a checker that cries wolf protects nothing.
+
+### Fixed
+
 - **Templates no longer default to someone else's brand.** `data-composition-variables`
   are what render when a caller leaves a slot empty, and five templates defaulted to the
   upstream author's channel name and website — so a forgotten slot published their URL on

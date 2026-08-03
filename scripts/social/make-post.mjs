@@ -11,6 +11,7 @@ import fs from "node:fs";
 import { requireEnv, optionalEnv } from "../lib/env.mjs";
 import { postJson, uploadMedia } from "../lib/http.mjs";
 import { queueSetStatus } from "../lib/state.mjs";
+import { validatePost } from "./lib/clean-text.mjs";
 
 const argv = process.argv.slice(2);
 if (argv.includes("--help") || argv.length === 0) {
@@ -27,6 +28,7 @@ if (argv.includes("--help") || argv.length === 0) {
       `  --json <file>            {post, comment, image|video|mediaUrl, title, …}\n` +
       `  --queue <file> --id <n>  send one queued item (sets status posted|failed)\n` +
       `  --dry-run                print the payload instead of sending it\n` +
+      `  --no-validate            skip the plain-text check (captions render no Markdown)\n` +
       `env: MAKE_WEBHOOK_URL, SOCIAL_PLATFORMS, MEDIA_HOST`,
   );
   process.exit(argv.length === 0 ? 1 : 0);
@@ -88,6 +90,25 @@ if (queueFile && id != null) {
 }
 
 if (!post) throw new Error("Missing post text.");
+
+// Captions render no Markdown, so whatever is in `post` is what a human sees — heading
+// hashes, bold asterisks and all. This used to go out unchecked, which is how the repo's
+// own reference sample shipped with a "Meta:" / "Slug:" block as its opening two lines.
+// Errors block the send; ambiguous cases are warnings, because "- Chào anh." is dialogue
+// in Vietnamese prose, not a bullet.
+if (!argv.includes("--no-validate")) {
+  const { errors, warnings } = validatePost({ title, post, comment });
+  for (const w of warnings) console.warn(`[social] ! ${w}`);
+  if (errors.length) {
+    for (const e of errors) console.error(`[social] ✗ ${e}`);
+    console.error(
+      `[social] ✗ not sending. Fix the text, or:\n` +
+        `[social]     node scripts/social/validate-post.mjs <file> --fix   # writes a cleaned copy\n` +
+        `[social]     ...or pass --no-validate if you really mean to publish it as is.`,
+    );
+    process.exit(1);
+  }
+}
 
 if (!Array.isArray(platforms)) platforms = parsePlatforms(platforms);
 if (platforms.length === 0) platforms = parsePlatforms(optionalEnv("SOCIAL_PLATFORMS"));
