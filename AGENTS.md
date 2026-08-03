@@ -67,6 +67,9 @@ Method: `docs/15-media-sources.md` and `docs/16-template-registry.md`.
 - `.mcp.json` — optional ad-platform servers (OAuth in your client, no credentials in the
   repo). They are READ-AND-WRITE on live accounts. Method: `docs/18-ads-and-marketing.md`.
   Canva is there too, for campaign visuals: `docs/19-design-canva.md`.
+- `skills/repurpose/` — one published item → several more, each from a DIFFERENT angle the
+  source already contains. Tracks used angles in `brain/repurposed.json`, because
+  `history.json` dedups by title and cannot answer that. Method: `docs/22-repurposing.md`.
 - `profiles/` — backend, voice, palette and spend ceiling per context (personal,
   business). `script.json` always wins over a profile. Method: `docs/20-video-backends.md`.
 - `examples/ai-news-social/` — a complete reference agent to copy from.

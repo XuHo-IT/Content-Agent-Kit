@@ -104,8 +104,8 @@ From `templates/` + `scripts/`, produce:
 - **`schedule-prompt.md`** — from the template, wired to this agent's phases.
 - **On Claude Code**: copy the runtime skills into `.claude/skills/`: `daily-run`,
   `review-gate`, `crawl-and-queue` (if crawling), `audit-and-fix`, plus `create-video` and
-  `video-and-post` and `research-and-capture` if the agent makes videos, `ads-report` if they
-  run ads, and
+  `video-and-post` and `research-and-capture` if the agent makes videos, `ads-report` (it works with no ad spend too — pasted numbers), `repurpose` if they publish
+  to more than one channel, and
   `design-campaign` if Canva is connected.
 - **Skills from elsewhere** (optional): `node scripts/install-skills.mjs --list` shows an SEO
   auditor, design skills and six marketing skills, all MIT and fetched on demand rather than
