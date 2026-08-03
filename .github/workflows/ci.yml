@@ -64,10 +64,26 @@ jobs:
           done
           exit $fail
 
+      - name: Unit tests
+        run: node --test tests/*.test.mjs
+
       # The reference script is what the AI copies. If it stops being clean, every agent
       # scaffolded from this kit starts from a bad example.
       - name: Reference script.json is clean in strict mode
         run: node scripts/video/validate-script.mjs templates/VIDEO_SCRIPT.template.json --strict
+
+      # Same reasoning, for the written output. The sample post shipped for months with a
+      # "Meta:" / "Slug:" block and Markdown headings in the caption body — text a reader
+      # sees verbatim, because no social platform renders Markdown. An agent copying that
+      # sample copies the bug, so the sample has to stay clean under --strict.
+      - name: Sample posts are plain text in strict mode
+        run: |
+          fail=0
+          for f in examples/ai-news-social/sample-output/post.json \
+                   examples/ai-video-social/sample-post/post.json; do
+            node scripts/social/validate-post.mjs "$f" --strict || { echo "::error file=$f::not plain text"; fail=1; }
+          done
+          exit $fail
 
       # Hand-written AWS SigV4. Checked against AWS's own published vector — no bucket,
       # no credentials, no network.

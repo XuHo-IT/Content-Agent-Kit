@@ -17,6 +17,9 @@
 //                           (default: coverUrl,cover_url,image) — set empty to disable
 //   AUDIT_TEXT_FIELDS       csv of READER-VISIBLE text fields scanned for id-leak
 //                           (default: content,body,text,revealText,reveal_text)
+//   AUDIT_MARKUP_FIELDS     csv of fields that must be PLAIN TEXT — no Markdown, no
+//                           CMS metadata block (default: title,post,comment,caption)
+//                           set empty to disable
 //   AUDIT_KIND_FIELD        item field holding the kind/type (default: kind)
 //   AUDIT_RULES_PATH        path to a .mjs exporting `export const rules = [...]` to
 //                           ADD/OVERRIDE rules (see "Pluggable rules" below)
@@ -27,6 +30,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { pathToFileURL } from "node:url";
 import { optionalEnv } from "./lib/env.mjs";
+import { findLeaks } from "./social/lib/clean-text.mjs";
 
 const argv = process.argv.slice(2);
 if (argv.includes("--help")) {
@@ -86,6 +90,7 @@ const BODY_FIELDS = csv("AUDIT_BODY_FIELDS", "content,body,text");
 const REQUIRED_FIELDS = csv("AUDIT_REQUIRED_FIELDS", "title");
 const IMAGE_FIELDS = csv("AUDIT_IMAGE_FIELDS", "coverUrl,cover_url,image");
 const TEXT_FIELDS = csv("AUDIT_TEXT_FIELDS", "content,body,text,revealText,reveal_text");
+const MARKUP_FIELDS = csv("AUDIT_MARKUP_FIELDS", "title,post,comment,caption");
 
 const defaultRules = [
   {
@@ -125,6 +130,26 @@ const defaultRules = [
         if (it[f] == null) continue;
         const hits = [...new Set((asText(it[f]).match(ID_LEAK) || []).map((s) => s.trim()))];
         if (hits.length) out.push(`🔴 Internal id leaked into \`${f}\`: ${hits.join(" ")}`);
+      }
+      return out;
+    },
+  },
+  {
+    // The same class of leak as `id-leak`, one step earlier in the pipeline: text meant
+    // for a machine reaching a human. A social caption renders no Markdown, so a heading
+    // arrives as "### Heading" and a CMS metadata block becomes the opening two lines.
+    //
+    // `social/validate-post.mjs` blocks this before publishing; this rule finds what
+    // already went out. Only the shared checker's ERRORS are reported — its warnings
+    // cover cases like a leading "- ", which is dialogue as often as it is a bullet, and
+    // an audit report full of maybes stops being read.
+    id: "markup-leak",
+    when: () => MARKUP_FIELDS.length > 0,
+    check: (it) => {
+      const out = [];
+      for (const f of MARKUP_FIELDS) {
+        if (it[f] == null) continue;
+        out.push(...findLeaks(asText(it[f]), f).errors);
       }
       return out;
     },

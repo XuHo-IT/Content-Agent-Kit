@@ -27,6 +27,33 @@ sends a normalized payload.
 }
 ```
 
+**`post` and `comment` are PLAIN TEXT.** No caption on Facebook, Instagram, TikTok or YouTube
+renders Markdown, so a heading arrives as the literal characters `### Heading`, `**bold**`
+keeps its asterisks, and a metadata block a writer left at the top of the draft becomes the
+first thing anyone reads:
+
+```
+Meta: Claude Fable 5 đạt điểm cao nhất ở gần như mọi bài kiểm tra…
+Slug: claude-fable-5-ra-mat-roi-bi-go-sau-ba-ngay
+```
+
+That is not hypothetical — it is what this repo's own reference sample shipped with until it
+was fixed. Metadata is useful; it just belongs in its own fields (`title`, `metaDescription`,
+`slug`), never inside the body.
+
+`make-post.mjs` refuses to send text that fails this check. To inspect or repair it:
+
+```bash
+node scripts/social/validate-post.mjs post.json            # what a reader would see wrong
+node scripts/social/validate-post.mjs post.json --strict    # ambiguous cases fail too
+node scripts/social/validate-post.mjs post.json --fix       # writes post.clean.json, never overwrites
+node scripts/social/make-post.mjs --json post.json --no-validate   # publish as is anyway
+```
+
+Errors block the send. Warnings do not, because they cover text that is ambiguous in
+Vietnamese prose — a line beginning `- ` is a bullet in Markdown and a dialogue dash in a
+story, and a gate that fails on dialogue is a gate people switch off.
+
 **Back-compatible.** An image post still carries exactly `{mediaUrl, image_url, post, comment}`
 with the same meanings as before — `kind`, `title`, `hashtags` and `platforms` are additions.
 An existing scenario reading the old four keys keeps working untouched.
