@@ -1,0 +1,22 @@
+{
+  "body-1": {
+    "source": "pexels",
+    "id": "8720746",
+    "url": "https://videos.pexels.com/video-files/8720746/8720746-hd_1080_2048_25fps.mp4",
+    "author": "cottonbro studio",
+    "authorUrl": "https://www.pexels.com/@cottonbro",
+    "pageUrl": "https://www.pexels.com/video/a-person-encoding-on-a-laptop-8720746/",
+    "license": "Pexels License",
+    "request": {
+      "kind": "video",
+      "source": "pexels",
+      "id": null,
+      "query": "data server room blue light",
+      "url": null,
+      "ref": null,
+      "fit": "cover"
+    },
+    "file": "media/body-1.mp4",
+    "resolvedAt": "2026-08-03T07:43:00.701Z"
+  }
+}

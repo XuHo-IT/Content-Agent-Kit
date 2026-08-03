@@ -1,0 +1,15 @@
+Ai cũng nghĩ thêm bước rerank vào RAG thì sẽ đắt hơn. Tôi đo thử trên tài liệu tiếng Việt, và kết quả ngược lại hoàn toàn: vừa chính xác hơn, vừa rẻ hơn gần bảy mươi phần trăm.
+
+Bối cảnh: bốn cấu hình RAG chạy trên cùng một tài liệu nội quy nhân sự, cùng một câu hỏi. Khác nhau ở cách cắt đoạn, mô hình embedding, và có bật rerank hay không.
+
+Đây là chi phí token của từng cấu hình. Cấu hình A không rerank tốn một nghìn sáu trăm tám mươi chín token. Cấu hình C có rerank chỉ tốn năm trăm bốn mươi.
+
+Lý do đơn giản hơn bạn nghĩ. Rerank lọc bỏ các đoạn nhiễu, chỉ đưa ba đoạn đúng nhất vào mô hình thay vì năm đoạn thô. Prompt ngắn lại, nên vừa rẻ hơn vừa sinh nhanh hơn.
+
+Nhưng có một cái giá ẩn. Riêng bước tìm kiếm của cấu hình C mất mười bốn giây, so với không phẩy mười sáu giây của A, vì cross-encoder phải chấm lại tám đoạn trên CPU.
+
+Điều thú vị là tổng thời gian không tăng. Ba mươi bảy giây có rerank, ba mươi bảy phẩy ba giây không rerank. Phần sinh câu trả lời nhanh hơn đã bù lại.
+
+Vậy có nên bật rerank không? Với tài liệu tiếng Việt và mô hình chạy trên CPU, câu trả lời của tôi là có. Tám phẩy năm trên mười.
+
+Nhưng đây mới là một tài liệu và một câu hỏi. Hãy tự đo trên tài liệu của bạn trước khi tin. Công cụ để đo là mã nguồn mở, link ở phần mô tả.

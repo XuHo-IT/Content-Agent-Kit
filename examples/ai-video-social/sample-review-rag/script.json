@@ -1,0 +1,126 @@
+{
+  "_comment": "Review-genre sample. Subject: reranking in a Vietnamese RAG pipeline. Every number is a real measurement from RAG-EVAL-VN, not an illustration. Rendered with Vbee narration and a pinned Pexels clip — see README.md beside this file.",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "metadata": {
+    "title": "Rerank trong RAG tiếng Việt — vừa chính xác hơn vừa rẻ hơn",
+    "source": {
+      "url": "https://github.com/XuHo-IT/RAG-EVAL-VN",
+      "domain": "github.com",
+      "image": null
+    },
+    "channel": "XuHo-IT"
+  },
+  "voice": {
+    "provider": "vbee",
+    "voiceId": "hn_female_ngochuyen_full_48k-fhg",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "voiceText": "Ai cũng nghĩ thêm bước rerank vào RAG thì sẽ đắt hơn. Tôi đo thử trên tài liệu tiếng Việt, và kết quả ngược lại hoàn toàn: vừa chính xác hơn, vừa rẻ hơn gần bảy mươi phần trăm.",
+      "templateId": "frame-liquid-bg-hero",
+      "inputs": {
+        "kicker": "Đo thật",
+        "headline": "Rerank rẻ hơn",
+        "subheadline": "Ngược với điều ai cũng tưởng",
+        "cta": "Xem số liệu →",
+        "brand": ""
+      }
+    },
+    {
+      "id": "body-1",
+      "type": "body",
+      "voiceText": "Bối cảnh: bốn cấu hình RAG chạy trên cùng một tài liệu nội quy nhân sự, cùng một câu hỏi. Khác nhau ở cách cắt đoạn, mô hình embedding, và có bật rerank hay không.",
+      "templateId": "frame-broll",
+      "inputs": {
+        "chip": "Bối cảnh",
+        "kicker": "Bốn cấu hình",
+        "headline": "Cùng tài liệu, cùng câu hỏi",
+        "subheadline": "Chỉ khác cách xử lý"
+      },
+      "media": {
+        "kind": "video",
+        "source": "pexels",
+        "id": "8720746"
+      }
+    },
+    {
+      "id": "body-2",
+      "type": "body",
+      "voiceText": "Đây là chi phí token của từng cấu hình. Cấu hình A không rerank tốn một nghìn sáu trăm tám mươi chín token. Cấu hình C có rerank chỉ tốn năm trăm bốn mươi.",
+      "templateId": "frame-chart-bars",
+      "inputs": {
+        "title": "Chi phí mỗi câu trả lời",
+        "unit": "token · thấp hơn là rẻ hơn",
+        "bars": "A · fixed 256:1689|B · fixed 512:1849|D · recursive:1301|C · có rerank:540",
+        "highlight": "C · có rerank",
+        "source": "Đo trên RAG-EVAL-VN, 1 tài liệu · 1 câu hỏi"
+      }
+    },
+    {
+      "id": "body-3",
+      "type": "body",
+      "voiceText": "Lý do đơn giản hơn bạn nghĩ. Rerank lọc bỏ các đoạn nhiễu, chỉ đưa ba đoạn đúng nhất vào mô hình thay vì năm đoạn thô. Prompt ngắn lại, nên vừa rẻ hơn vừa sinh nhanh hơn.",
+      "templateId": "frame-step-list",
+      "inputs": {
+        "kicker": "Vì sao",
+        "title": "Ba bước rerank làm được điều đó",
+        "steps": "Lấy về tám đoạn thay vì năm|Cross-encoder chấm lại từng đoạn|Chỉ giữ ba đoạn điểm cao nhất"
+      }
+    },
+    {
+      "id": "body-4",
+      "type": "body",
+      "voiceText": "Nhưng có một cái giá ẩn. Riêng bước tìm kiếm của cấu hình C mất mười bốn giây, so với không phẩy mười sáu giây của A, vì cross-encoder phải chấm lại tám đoạn trên CPU.",
+      "templateId": "frame-pentagram-stat",
+      "inputs": {
+        "label": "Chi phí ẩn",
+        "headline": "14,2s",
+        "subtitle": "Riêng bước retrieval của cấu hình có rerank, so với 0,16 giây khi không rerank",
+        "anchor": "14",
+        "footer_left": "",
+        "footer_right": ""
+      }
+    },
+    {
+      "id": "body-5",
+      "type": "body",
+      "voiceText": "Điều thú vị là tổng thời gian không tăng. Ba mươi bảy giây có rerank, ba mươi bảy phẩy ba giây không rerank. Phần sinh câu trả lời nhanh hơn đã bù lại.",
+      "templateId": "frame-quote-testimonial",
+      "inputs": {
+        "quote": "Đo độ trễ phải tách retrieval và generation ra mới thấy đúng bức tranh.",
+        "name": "Bài học rút ra",
+        "role": "Từ 4 lần chạy đo thật"
+      }
+    },
+    {
+      "id": "verdict",
+      "type": "body",
+      "voiceText": "Vậy có nên bật rerank không? Với tài liệu tiếng Việt và mô hình chạy trên CPU, câu trả lời của tôi là có. Tám phẩy năm trên mười.",
+      "templateId": "frame-review-verdict",
+      "inputs": {
+        "subject": "Rerank cho RAG tiếng Việt",
+        "score": "8.5",
+        "maxScore": "10",
+        "verdict": "Nên bật, trừ khi bạn cần độ trễ retrieval cực thấp",
+        "pros": "Precision cao nhất|Rẻ hơn 68% token|Tổng độ trễ không tăng",
+        "cons": "Retrieval chậm hơn|Cần thêm một model"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Nhưng đây mới là một tài liệu và một câu hỏi. Hãy tự đo trên tài liệu của bạn trước khi tin. Công cụ để đo là mã nguồn mở, link ở phần mô tả.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Tự đo trên tài liệu của bạn trước khi tin",
+        "channel": "XuHo-IT",
+        "source": ""
+      }
+    }
+  ]
+}
