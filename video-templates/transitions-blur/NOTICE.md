@@ -11,6 +11,19 @@ Showcase of blur-based transitions between scenes
 
 **Tags:** transition, showcase
 
+## Not usable as a scene template
+
+This folder has no `index.html`, and `listTemplateIds()` counts only folders that
+have one — so `validate.mjs` rejects it as an unknown `templateId` and `compose.mjs`
+throws if a script names it. That is correct, not a bug: upstream ships this as a *block* demonstrating
+transitions between scenes, at 1920x1080 landscape. This kit renders 9:16 and
+stitches scenes itself, so it would need both a portrait composition and a way to
+sit between two frames.
+
+It is kept as reference material for whoever writes that composition. Until then it
+contributes nothing to a render while still carrying an Apache-2.0 obligation, so
+deleting the folder is a perfectly reasonable call.
+
 ## Changes in content-agent-kit
 
 Vendored unmodified by `scripts/video/add-template.mjs`; only `meta.json` and

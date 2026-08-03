@@ -207,7 +207,7 @@
             data-duration="5"
             data-width="1920"
             data-height="1080"
-            data-composition-variables='{"brand_name":"AI Coding","tagline":"Bản tin mới mỗi ngày","primary_url":"https://aicodingvn.vercel.app/"}'
+            data-composition-variables='{"brand_name":"Tên kênh của bạn","tagline":"Một dòng mô tả","primary_url":"","corner_left":"","corner_right":""}'
         >
             <div class="ribbon"></div>
 
@@ -244,8 +244,15 @@
             <p class="tagline"></p>
             <div class="meta"><span class="meta-url"></span></div>
 
-            <div class="corner left">AI Coding</div>
-            <div class="corner right">Bye Các Con Vợ</div>
+            <!--
+              Both corners used to be hardcoded to the upstream author's channel name and
+              sign-off phrase, with no variable behind them: whatever the caller passed,
+              every render burned that text into the frame. They are slots now, and empty
+              by default — a corner with nothing in it is removed rather than left as a
+              blank strip.
+            -->
+            <div class="corner left"></div>
+            <div class="corner right"></div>
         </div>
 
         <script>
@@ -259,9 +266,24 @@
                     var el = document.querySelector(sel);
                     if (el && text != null) el.textContent = String(text);
                 };
+                // Optional slots: fill `sel`, but drop `dropSel` entirely when there is
+                // nothing to show. Leaving the element in place would keep its margin and
+                // shift the layout for a line the viewer never sees.
+                var optional = function (sel, text, dropSel) {
+                    var el = document.querySelector(sel);
+                    if (!el) return;
+                    if (text == null || String(text).trim() === "") {
+                        var drop = dropSel ? document.querySelector(dropSel) : el;
+                        if (drop) drop.remove();
+                    } else {
+                        el.textContent = String(text);
+                    }
+                };
                 set(".brand .shimmer", v.brand_name);
                 set(".tagline", v.tagline);
-                set(".meta-url", v.primary_url);
+                optional(".meta-url", v.primary_url, ".meta");
+                optional(".corner.left", v.corner_left);
+                optional(".corner.right", v.corner_right);
             })();
             window.__timelines = window.__timelines || {};
             window.__timelines["main"] = {

@@ -19,3 +19,11 @@ Vendored and adapted from:
   `assets/logo.svg`** (899 KB) once nothing referenced it. The assembling `</>` glyph — the
   template's actual design, drawn inline as SVG — is untouched. For a fully mark-free
   ending, use `frame-statement-outro` instead.
+- **Made the two bottom corners real slots, and cleared the branded defaults.** The
+  corners were fixed text in the markup — the upstream author's channel name and
+  sign-off phrase — with no variable behind them, so every render burned them in no
+  matter what the caller passed. They are `corner_left`/`corner_right` now, empty by
+  default in 16:9, and an empty corner is removed rather than left as a blank strip.
+  `brand_name`, `tagline` and `primary_url` lost their branded defaults for the same
+  reason; an empty `primary_url` now drops the footer line instead of showing nothing
+  in a row that still takes up space.
