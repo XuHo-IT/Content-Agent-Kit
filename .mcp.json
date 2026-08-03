@@ -47,6 +47,29 @@
     "reddit-ads": {
       "type": "http",
       "url": "https://reddit-ads.mcp.pipeboard.co/"
+    },
+
+    "_note_canva": [
+      "Canva's own MCP server — design creation, editing, library search, brand assets and",
+      "export to PNG/JPG/PDF/PPTX/MP4. Each person authenticates with their own Canva",
+      "account; nothing is shared through this repo.",
+      "",
+      "Declared as remote HTTP, which Claude Code speaks natively. A client that cannot do",
+      "remote OAuth needs the shim Canva documents instead:",
+      "",
+      "    npx -y mcp-remote@latest https://mcp.canva.com/mcp",
+      "",
+      "That form is not used here because it would put an npx download in the startup path",
+      "of a kit whose whole premise is that it installs nothing.",
+      "",
+      "PLAN LIMITS, so a workflow is not designed around something you cannot run:",
+      "generate, edit, search, upload, comment and export work on every plan. Resizing a",
+      "design needs Canva Pro. Template autofill needs Enterprise — the skill treats it as",
+      "an accelerator, never a required step."
+    ],
+    "canva": {
+      "type": "http",
+      "url": "https://mcp.canva.com/mcp"
     }
   }
 }
