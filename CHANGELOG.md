@@ -177,6 +177,21 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Changed
 
+- **README trimmed from 215 lines to 180, in both languages.** The Video section was 54 lines
+  of prose restating what `docs/14` and `docs/20` already say; it is 25 now, as a table. The
+  eight core ideas were eight paragraphs; they are eight table rows.
+
+  Two things the trim surfaced rather than caused: the heading said "Bảy ý tưởng cốt lõi"
+  above a list of **eight**, and the sample-article line still described meta and slug as
+  living *in* the article — which stopped being true when they moved to their own fields. The
+  word count moved with them, 990 to 951, verified against the file rather than adjusted by
+  eye.
+
+  The "Zero dependencies" badge pointed at a `### Zero-dependency là cố ý` heading that the
+  trim folded into Requirements. A badge that scrolls nowhere is worse than one that links
+  out, so both language versions now point at Requirements — checked by slugifying every
+  heading and every in-page link.
+
 - README no longer calls the video templates "self-contained". Each is a single file with
   its own CSS and animation, but 29 of the 30 compositions `<link>` fonts from Google
   Fonts and two load GSAP from jsDelivr — on a bad connection that means a silent font

@@ -6,7 +6,7 @@
 
 [![CI](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml/badge.svg)](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg?style=flat-square)](LICENSE)
-[![Zero dependencies](https://img.shields.io/badge/dependencies-zero-0ea5e9?style=flat-square)](#zero-dependency-l%C3%A0-c%E1%BB%91-%C3%BD)
+[![Zero dependencies](https://img.shields.io/badge/dependencies-zero-0ea5e9?style=flat-square)](#y%C3%AAu-c%E1%BA%A7u)
 [![Node](https://img.shields.io/badge/Node-%E2%89%A518-339933?style=flat-square&logo=node.js&logoColor=white)](#y%C3%AAu-c%E1%BA%A7u)
 [![Discussions](https://img.shields.io/badge/Discussions-join-a855f7?style=flat-square&logo=github)](https://github.com/XuHo-IT/Content-Agent-Kit/discussions)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-f59e0b?style=flat-square)](CONTRIBUTING.md)
@@ -31,7 +31,7 @@ của Anthropic — cho ra **hai định dạng**:
 
 | | |
 |---|---|
-| 📄 **[Bài viết mẫu](examples/ai-news-social/sample-output/)** | 990 từ tiếng Việt, có Meta/Slug SEO, comment engagement, kèm bảng đối chiếu 10 tiêu chí rubric |
+| 📄 **[Bài viết mẫu](examples/ai-news-social/sample-output/)** | 951 từ tiếng Việt — thân bài là **văn bản thuần**, meta/slug nằm ở trường riêng; kèm comment engagement và bảng đối chiếu 10 tiêu chí rubric |
 | 🎬 **[Video mẫu](examples/ai-video-social/sample-output/)** | 2 phút 12 giây · 1080×1920 · giọng Vbee thật · B-roll Pexels · ảnh chụp trang gốc |
 
 [![15 scene của video mẫu](examples/ai-video-social/sample-output/contact-sheet.jpg)](examples/ai-video-social/sample-output/)
@@ -62,16 +62,18 @@ Cùng chủ đề đó còn có **[bản nền trắng chữ xanh biển](exampl
                                           + ảnh chụp        · ffmpeg
 ```
 
-**Bảy ý tưởng cốt lõi**, rút ra từ những agent chạy thật:
+**Tám ý tưởng cốt lõi**, rút ra từ những agent chạy thật — chi tiết ở [`docs/`](docs/):
 
-1. **Playbook là nguồn sự thật duy nhất.** Agent đọc lại `PLAYBOOK.md` mỗi lượt chạy — không bao giờ dựa vào trí nhớ hội thoại.
-2. **Trạng thái là file phẳng.** `queue.json` (lịch), `ledger.json` (việc đang dở), `history.json` (chống trùng). Mọi thao tác **idempotent** — `409` nghĩa là "đã xong rồi".
-3. **Cổng review.** Mọi item phải qua một **subagent review độc lập** trước khi đăng; trượt → sửa (2–3 vòng) → bỏ và ghi log.
-4. **Chất lượng viết được cưỡng chế, không phải trông chờ.** File `WRITING_CRAFT.md` (giọng theo thể loại, danh sách sáo rỗng cấm, cặp trước/sau) được đọc *trước khi* viết, và **rubric đo được** của nó được chấm *trước khi* đăng. Đó mới là thứ khiến nội dung không đọc ra mùi AI.
-5. **Tìm ý tưởng (tuỳ chọn).** Crawler `crawl4ai` nạp vào **hàng đợi ý tưởng**; server chính là bộ nhớ chống trùng, vì máy CI là phù du.
-6. **Lịch chạy.** Mặc định là `cron` của GitHub Actions; `schtasks` trên Windows và scheduler in-process là hai lựa chọn thay thế.
-7. **Bí mật chỉ nằm trong env.** Không token, webhook hay URL nào bị hardcode. `.env` đã gitignore, và thiếu biến thì báo lỗi rõ ràng chứ không âm thầm dùng giá trị thay thế.
-8. **Video (tuỳ chọn).** AI viết *nội dung* (`script.json` — lời đọc và chọn template); code tất định lo *pixel*. Một validator chạy trước khi render biến luật soạn thảo thành lỗi máy kiểm được, nên script sai hỏng trong vài giây thay vì sau năm phút render.
+| | |
+|---|---|
+| **Playbook là nguồn sự thật** | Agent đọc lại `PLAYBOOK.md` mỗi lượt, không dựa vào trí nhớ hội thoại |
+| **Trạng thái là file phẳng** | `queue` · `ledger` · `history`. Mọi thao tác idempotent — `409` nghĩa là "xong rồi" |
+| **Cổng review** | Một subagent độc lập duyệt trước khi đăng; trượt → sửa 2–3 vòng → bỏ và ghi log |
+| **Chất lượng viết được cưỡng chế** | `WRITING_CRAFT.md` đọc *trước khi* viết, rubric đo được chấm *trước khi* đăng |
+| **Bài đăng là văn bản thuần** | Caption không render markdown; `validate-post.mjs` chặn trước khi gửi |
+| **Bí mật chỉ nằm trong env** | Không token hay URL nào hardcode; thiếu biến thì báo lỗi rõ, không âm thầm thay thế |
+| **Lịch chạy** | `cron` GitHub Actions, `schtasks` Windows, hoặc scheduler in-process |
+| **Video: AI viết, code dựng** | AI lo `script.json`; validator biến luật soạn thảo thành lỗi máy kiểm được, nên script sai hỏng trong vài giây thay vì sau năm phút render |
 
 ## Bắt đầu nhanh
 
@@ -103,57 +105,28 @@ Hằng ngày thì chạy **`/daily-run`** — hoặc `schedule-prompt.md` đư�
 
 ## Video
 
-Tuỳ chọn, và **nằm hoàn toàn trong repo này** — không gọi dịch vụ ngoài, không phụ thuộc repo khác.
+Tuỳ chọn. Ba bộ dựng — `html` (mặc định, miễn phí, Chrome + FFmpeg), `api` (Veo/Imagen, **tính
+tiền theo giây**), `remotion`. `script.json` giữ nguyên định dạng cho cả ba.
 
 ```bash
-node scripts/video/tts-check.mjs                                          # nghe thử giọng trước
-node scripts/video/validate-script.mjs brain/<slug>/script.json --strict  # vài giây
-node scripts/video/render.mjs          brain/<slug>/script.json           # ~3–5 phút
-node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4             # rồi NHÌN nó
-node scripts/social/make-post.mjs --video brain/<slug>/video.mp4 \
-     --post caption.txt --platforms tiktok,youtube_shorts --dry-run
+node scripts/video/tts-check.mjs                                          # nghe thử giọng
+node scripts/video/validate-script.mjs brain/<slug>/script.json --strict   # vài giây
+node scripts/video/render.mjs          brain/<slug>/script.json            # ~3–5 phút
+node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4              # rồi NHÌN nó
 ```
 
-**Giọng đọc.** `omnivoice` (local, miễn phí) · `elevenlabs` · `vbee` · `fptai` · `viettel` ·
-`http` (adapter tổng quát, mô tả bất kỳ API TTS nào hoàn toàn bằng biến env). Chỉ cái local mới
-cần dựng server — **những cái còn lại chỉ cần một API key**. `tts-check.mjs --providers` liệt kê
-offline. Lời đọc được đánh vân tay theo provider, giọng, tốc độ và nội dung, nên đổi giọng thì
-chỉ đọc lại đúng phần cần đọc lại; `render.mjs --estimate` cho biết số ký tự bị tính tiền trước
-khi bạn tiêu.
+| | |
+|---|---|
+| **6 nhà cung cấp giọng** | `omnivoice` (local, miễn phí) · elevenlabs · vbee · fptai · viettel · `http` (adapter env-only). Lời đọc được đánh vân tay nên đổi giọng chỉ đọc lại phần cần |
+| **Cảnh quay và ảnh chụp thật** | Pexels/Pixabay + Chrome headless. Ghim vào `media-lock.json` → cùng script cho ra cùng video |
+| **18 template, 5 thể loại** | `VIDEO_GENRES.template.json` trả lời "làm review thì dùng khung nào, theo thứ tự nào" |
+| **Một bảng màu cho cả video** | `"theme": "paper-blue"` sơn lại toàn bộ trên **bản sao tạm**; chiều lật sáng/tối là **đo bằng Chrome**, không đoán từ CSS |
+| **Nhìn lại thứ vừa làm ra** | `contact-sheet.mjs` gom mỗi scene một khung vào một ảnh. Bốn lỗi từng lọt qua mọi luật đều lộ ra trong một cái nhìn |
 
-**Cảnh quay thật và ảnh chụp thật**, để video thôi là mấy slide chữ đọc lên. Mỗi scene có thể
-mang một khối `media` — clip stock từ Pexels/Pixabay, hoặc một trang web chụp lại làm bằng chứng:
-
-```bash
-node scripts/media/stock-search.mjs --query "data center servers"   # in ra clip đó QUAY GÌ
-node scripts/media/screenshot.mjs --url "https://…" --out shot.png  # Chrome headless, zero-dep
-```
-
-Một lần tìm kiếm được giải rồi ghim vào `media-lock.json` cạnh script, nên cùng một `script.json`
-luôn cho ra cùng một video — và file đó đồng thời là sổ ghi nguồn từng clip. Xem
-**[`docs/15-media-sources.md`](docs/15-media-sources.md)**.
-
-**Nhìn lại thứ mình vừa làm ra.** `contact-sheet.mjs` gom mỗi scene một khung có nhãn vào một
-ảnh duy nhất. Bốn lỗi đã lọt vào video hoàn chỉnh mà không luật nào chặn được — B-roll lạc đề,
-tiêu đề in hai lần, headline lặp nhãn, một từ bị vỡ dòng — và **cả bốn đều lộ ra trong một cái
-nhìn**.
-
-**Một bảng màu cho cả video.** Gần như mọi template đều nền tối. Thêm `"theme": "paper-blue"`
-là cả bộ đổi sang nền trắng chữ xanh biển — trên **bản sao tạm**, template gốc không đổi một
-dòng nào. Màu nhấn được làm tối tới khi đạt tương phản 3:1 với nền, và `mix-blend-mode:
-screen` tự lật thành `multiply` (screen trên nền trắng thì tô ra trắng — hiệu ứng biến mất
-mà không báo lỗi). Chiều lật là **đo bằng Chrome**, không đoán từ CSS:
-
-```bash
-node scripts/video/theme-probe.mjs --preview paper-blue   # 14 ảnh trước/sau, ~40 giây
-```
-
-**Muốn sinh động hơn.** `node scripts/video/add-template.mjs --preset news` kéo về hiệu ứng
-chuyển cảnh, caption động, lower-third và biểu đồ từ
-[HyperFrames registry](https://github.com/heygen-com/hyperframes) (146 mục, Apache-2.0).
-Xem **[`docs/16-template-registry.md`](docs/16-template-registry.md)**.
-
-Hướng dẫn đầy đủ: **[`docs/14-video-generation.md`](docs/14-video-generation.md)**.
+Render cần máy thật — **GitHub Actions không làm được**.
+Chi tiết: [`docs/14-video-generation.md`](docs/14-video-generation.md) ·
+[`docs/20-video-backends.md`](docs/20-video-backends.md) ·
+[`docs/16-template-registry.md`](docs/16-template-registry.md)
 
 ## Yêu cầu
 
@@ -162,20 +135,12 @@ Hướng dẫn đầy đủ: **[`docs/14-video-generation.md`](docs/14-video-gen
 | **Node ≥ 18** | luôn luôn |
 | Python 3.12 + `scripts/crawl/requirements.txt` | chỉ khi crawl tìm ý tưởng |
 | **FFmpeg + ffprobe** và **Chrome/Chromium** | chỉ khi dùng pipeline video |
-| Một API key TTS *hoặc* server OmniVoice local | chỉ khi render video thật |
+| API key TTS *hoặc* server OmniVoice local | chỉ khi render video thật |
 
-Render cần máy thật — **GitHub Actions không làm được**. Xem
-[`docs/06-scheduling.md`](docs/06-scheduling.md).
-
-### Zero-dependency là cố ý
-
-**Không có `package.json`, không có `node_modules`.** Mọi thứ chạy trên một bản Node trần —
-đó chính là lý do kit copy được vào bất kỳ dự án nào và đọc được bởi bất kỳ IDE agentic nào mà
-không cần bước cài đặt. Thứ duy nhất không thể tự viết lại — engine HTML→MP4 — được `npx` tải về
-lúc render và đã ghim phiên bản.
-
-Ràng buộc này chịu lực thật chứ không phải để làm màu: chẳng hạn phần ký AWS SigV4 cho
-Cloudflare R2 được viết bằng `node:crypto` và đối chiếu với chính vector chuẩn AWS công bố
+**Không `package.json`, không `node_modules`** — đó là lý do kit copy được vào bất kỳ dự án nào
+mà không cần bước cài. Thứ duy nhất không tự viết lại được, engine HTML→MP4, do `npx` tải lúc
+render và đã ghim phiên bản. Ràng buộc này chịu lực thật: phần ký AWS SigV4 cho Cloudflare R2
+viết bằng `node:crypto` và đối chiếu với chính vector chuẩn AWS công bố
 (`node scripts/media/host-check.mjs --selftest`).
 
 ## An toàn
@@ -188,19 +153,19 @@ Mô hình đầy đủ và cách báo lỗi bảo mật: **[`SECURITY.md`](SECUR
 
 ## Đóng góp
 
-Đóng góp giá trị nhất thường đến từ người đã thực sự chạy nó — một nhà cung cấp giọng ở nước
-bạn, một template mới, hay một luật craft mà bạn thấy AI hay vi phạm. **Không có bước cài đặt**:
-clone rồi chạy. CI cũng chạy offline, không cần key nào.
+Đóng góp giá trị nhất đến từ người đã thực sự chạy nó — một nhà cung cấp giọng ở nước bạn, một
+template mới, một luật craft mà bạn thấy AI hay vi phạm. **Không có bước cài đặt**: clone rồi
+chạy; CI cũng chạy offline, không cần key nào.
 
-- 🐛 Lỗi và đề xuất → [Issues](https://github.com/XuHo-IT/Content-Agent-Kit/issues)
-- 💬 Hỏi đáp, khoe agent bạn dựng, bàn ý tưởng chưa rõ hình hài → [Discussions](https://github.com/XuHo-IT/Content-Agent-Kit/discussions)
-- 📋 Quy ước và các lệnh kiểm chứng → [`CONTRIBUTING.md`](CONTRIBUTING.md)
-- 🔐 Lỗi bảo mật → **đừng mở issue**, xem [`SECURITY.md`](SECURITY.md)
+[Issues](https://github.com/XuHo-IT/Content-Agent-Kit/issues) ·
+[Discussions](https://github.com/XuHo-IT/Content-Agent-Kit/discussions) ·
+[`CONTRIBUTING.md`](CONTRIBUTING.md) · lỗi bảo mật thì **đừng mở issue**, xem
+[`SECURITY.md`](SECURITY.md)
 
-**Adapter chưa kiểm chứng.** Cloudflare R2, Cloudinary và Viettel AI được viết theo tài liệu
-chính thức nhưng **chưa từng chạy với credential thật**. Chúng tự khai điều đó trong
-`host-check.mjs --hosts` và `tts-check.mjs --providers`. Nếu bạn có tài khoản và xác nhận được
-một trong số đó chạy, PR đổi cờ ấy là đóng góp rất được việc.
+**Adapter chưa kiểm chứng:** Cloudflare R2, Cloudinary, Viettel AI và backend video `api` viết
+theo tài liệu chính thức nhưng **chưa từng chạy với credential thật**. Chúng tự khai điều đó
+(`host-check.mjs --hosts`, `tts-check.mjs --providers`, `docs/20`). Có tài khoản và xác nhận
+được một cái chạy? PR đổi cờ ấy là đóng góp rất được việc.
 
 ## Giấy phép
 

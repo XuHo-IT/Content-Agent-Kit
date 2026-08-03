@@ -6,7 +6,7 @@
 
 [![CI](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml/badge.svg)](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg?style=flat-square)](LICENSE)
-[![Zero dependencies](https://img.shields.io/badge/dependencies-zero-0ea5e9?style=flat-square)](#zero-dependencies-on-purpose)
+[![Zero dependencies](https://img.shields.io/badge/dependencies-zero-0ea5e9?style=flat-square)](#requirements)
 [![Node](https://img.shields.io/badge/Node-%E2%89%A518-339933?style=flat-square&logo=node.js&logoColor=white)](#requirements)
 [![Discussions](https://img.shields.io/badge/Discussions-join-a855f7?style=flat-square&logo=github)](https://github.com/XuHo-IT/Content-Agent-Kit/discussions)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-f59e0b?style=flat-square)](CONTRIBUTING.md)
@@ -31,7 +31,7 @@ Anthropic's Claude Fable 5 announcement — became **two formats**:
 
 | | |
 |---|---|
-| 📄 **[Sample article](examples/ai-news-social/sample-output/)** | 990 Vietnamese words with SEO Meta/Slug and an engagement comment, plus how it scores against all 10 rubric criteria |
+| 📄 **[Sample article](examples/ai-news-social/sample-output/)** | 951 Vietnamese words — the body is **plain text**, meta and slug live in their own fields; plus an engagement comment and how it scores against all 10 rubric criteria |
 | 🎬 **[Sample video](examples/ai-video-social/sample-output/)** | 2 min 12 s · 1080×1920 · real Vbee narration · Pexels B-roll · live screenshot of the source page |
 
 [![All 15 scenes of the sample video](examples/ai-video-social/sample-output/contact-sheet.jpg)](examples/ai-video-social/sample-output/)
@@ -62,16 +62,18 @@ The same story also exists as a **[white-canvas, ocean-blue cut](examples/ai-vid
                                           + screenshots     · ffmpeg
 ```
 
-**Core ideas**, extracted from real running agents:
+**Eight core ideas**, extracted from real running agents — the reasoning is in [`docs/`](docs/):
 
-1. **Playbook = single source of truth.** The agent re-reads `PLAYBOOK.md` every run — it never relies on chat memory.
-2. **Flat-file state.** `queue.json` (schedule), `ledger.json` (in-progress work), `history.json` (dedup). Every operation is **idempotent** — a `409` means "already done".
-3. **Review gate.** Every item passes an **independent review subagent** before publishing; fail → fix (2–3 rounds) → drop and report.
-4. **Craft is enforced, not hoped for.** A `WRITING_CRAFT.md` (per-genre voice, banned clichés, before/after pairs) is read *before* writing, and its **measurable rubric** is scored *before* publishing. That is what keeps output from reading like AI.
-5. **Discovery (optional).** A `crawl4ai` crawler feeds an **idea queue**; the server is the dedup memory, because CI runners are ephemeral.
-6. **Scheduling.** GitHub Actions `cron` is the default; Windows `schtasks` and an in-process scheduler are alternatives.
-7. **Env-only secrets.** No token, webhook or URL is ever hardcoded. `.env` is git-ignored, and a missing variable fails loudly instead of falling back.
-8. **Video (optional).** The AI writes *content* (`script.json` — narration plus template choices); deterministic code renders *pixels*. A pre-render validator turns the authoring rules into machine-checked errors, so a bad script fails in seconds instead of after a five-minute render.
+| | |
+|---|---|
+| **Playbook is the source of truth** | The agent re-reads `PLAYBOOK.md` every run; it never relies on chat memory |
+| **Flat-file state** | `queue` · `ledger` · `history`. Every operation idempotent — a `409` means "already done" |
+| **Review gate** | An independent subagent approves before publishing; fail → fix 2–3 rounds → drop and report |
+| **Craft is enforced, not hoped for** | `WRITING_CRAFT.md` is read *before* writing; its measurable rubric is scored *before* publishing |
+| **Posts are plain text** | Captions render no Markdown; `validate-post.mjs` blocks it before it is sent |
+| **Env-only secrets** | Nothing hardcoded; a missing variable fails loudly instead of falling back |
+| **Scheduling** | GitHub Actions `cron`, Windows `schtasks`, or an in-process scheduler |
+| **Video: AI writes, code renders** | The AI owns `script.json`; a validator turns authoring rules into machine-checked errors, so a bad script fails in seconds instead of after a five-minute render |
 
 ## Quickstart
 
@@ -103,80 +105,42 @@ Day to day, run **`/daily-run`** — or your generated `schedule-prompt.md` on a
 
 ## Video
 
-Optional, and **entirely inside this repo** — no external service, no sibling project.
+Optional. Three backends — `html` (default, free, Chrome + FFmpeg), `api` (Veo/Imagen, **bills
+per second**), `remotion`. `script.json` keeps one shape across all three.
 
 ```bash
-node scripts/video/tts-check.mjs                                          # hear the voice first
-node scripts/video/validate-script.mjs brain/<slug>/script.json --strict  # seconds
-node scripts/video/render.mjs          brain/<slug>/script.json           # ~3–5 min
-node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4             # then look at it
-node scripts/social/make-post.mjs --video brain/<slug>/video.mp4 \
-     --post caption.txt --platforms tiktok,youtube_shorts --dry-run
+node scripts/video/tts-check.mjs                                          # audition voices
+node scripts/video/validate-script.mjs brain/<slug>/script.json --strict   # seconds
+node scripts/video/render.mjs          brain/<slug>/script.json            # ~3–5 minutes
+node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4              # then LOOK at it
 ```
 
-**Voices.** `omnivoice` (local, free) · `elevenlabs` · `vbee` · `fptai` · `viettel` · `http`
-(a generic adapter that describes any other HTTP TTS API purely through env vars). Only the
-local one needs a server — **the rest need just an API key**. `tts-check.mjs --providers`
-lists them offline. Narration is fingerprinted by provider, voice, speed and text, so changing
-voice regenerates exactly what it should and nothing more; `render.mjs --estimate` shows
-billable characters before you spend them.
+| | |
+|---|---|
+| **6 voice providers** | `omnivoice` (local, free) · elevenlabs · vbee · fptai · viettel · `http` (env-only adapter). Narration is fingerprinted, so changing a voice re-reads only what changed |
+| **Real footage and screenshots** | Pexels/Pixabay + headless Chrome. Pinned in `media-lock.json`, so the same script gives the same video |
+| **18 templates, 5 genres** | `VIDEO_GENRES.template.json` answers "for a review, which frames and in what order" |
+| **One palette for the whole video** | `"theme": "paper-blue"` repaints everything on a **temporary copy**; the light/dark flip is **measured in Chrome**, not guessed from CSS |
+| **Look at what you made** | `contact-sheet.mjs` puts one labelled frame per scene in a single image. Four bugs that passed every rule were all visible at a glance |
 
-**Real footage and real screenshots**, so a video is not text slides read aloud. A scene can
-carry a `media` block — a stock clip from Pexels or Pixabay, or a captured web page as evidence:
-
-```bash
-node scripts/media/stock-search.mjs --query "data center servers"   # shows what each clip IS
-node scripts/media/screenshot.mjs --url "https://…" --out shot.png  # headless Chrome, no deps
-```
-
-A search resolves once and is pinned in `media-lock.json` beside the script, so the same
-`script.json` keeps producing the same video — and that file doubles as the record of where
-every clip came from. Guide: **[`docs/15-media-sources.md`](docs/15-media-sources.md)**.
-
-**Look at what came out.** `contact-sheet.mjs` puts one labelled frame per scene in a single
-image. Four defects reached a finished video that no rule could catch — off-topic B-roll, a
-doubled headline, a repeated comparison label, a word broken mid-syllable — and all four were
-obvious in one glance.
-
-**One palette for the whole video.** Almost every template ships dark. Adding
-`"theme": "paper-blue"` recolours all of them to a white canvas with ocean-blue ink — in a
-**throwaway copy**, leaving the vendored templates untouched. Accents are darkened until they
-clear 3:1 against the canvas, and `mix-blend-mode: screen` flips to `multiply` (screen over
-white paints white, so the effect would vanish without an error). Which way to flip is
-**measured with Chrome**, not guessed from CSS:
-
-```bash
-node scripts/video/theme-probe.mjs --preview paper-blue   # 14 before/after stills, ~40s
-```
-
-**More visual variety.** `node scripts/video/add-template.mjs --preset news` pulls transitions,
-animated captions, lower-thirds and charts from the upstream
-[HyperFrames registry](https://github.com/heygen-com/hyperframes) (146 items, Apache-2.0).
-Guide: **[`docs/16-template-registry.md`](docs/16-template-registry.md)**.
-
-Full guide: **[`docs/14-video-generation.md`](docs/14-video-generation.md)**.
+Rendering needs a real machine — **GitHub Actions cannot do it**.
+Detail: [`docs/14-video-generation.md`](docs/14-video-generation.md) ·
+[`docs/20-video-backends.md`](docs/20-video-backends.md) ·
+[`docs/16-template-registry.md`](docs/16-template-registry.md)
 
 ## Requirements
 
 | | When |
 |---|---|
 | **Node ≥ 18** | always |
-| Python 3.12 + `scripts/crawl/requirements.txt` | only if you crawl for ideas |
+| Python 3.12 + `scripts/crawl/requirements.txt` | only for crawl discovery |
 | **FFmpeg + ffprobe** and **Chrome/Chromium** | only for the video pipeline |
 | A TTS API key *or* a local OmniVoice server | only to render a real video |
 
-Rendering needs a real machine — **GitHub Actions cannot do it**. See
-[`docs/06-scheduling.md`](docs/06-scheduling.md).
-
-### Zero dependencies, on purpose
-
-There is **no `package.json` and no `node_modules`**. Everything runs on a bare Node install,
-which is what lets the kit be copied into any project and read by any agentic IDE without a
-setup step. The one piece that cannot reasonably be reimplemented — the HTML→MP4 renderer —
-is fetched by `npx` at render time and pinned to a version.
-
-That constraint is load-bearing, not decorative: AWS SigV4 signing for Cloudflare R2, for
-instance, is written against `node:crypto` and verified against AWS's own published test
+**No `package.json`, no `node_modules`** — which is why the kit drops into any project with no
+install step. The one thing that cannot be rewritten here, the HTML→MP4 engine, is fetched by
+`npx` at render time and version-pinned. The constraint carries real weight: the AWS SigV4
+signer for Cloudflare R2 is written with `node:crypto` and checked against AWS's own published
 vector (`node scripts/media/host-check.mjs --selftest`).
 
 ## Safety
@@ -190,18 +154,18 @@ Full model, and how to report a vulnerability: **[`SECURITY.md`](SECURITY.md)**.
 ## Contributing
 
 The most useful contributions come from people who have actually run it — a voice provider in
-your country, a new template, or a craft rule you keep seeing the AI break. **There is no setup
-step**: clone and run. CI runs offline with no keys.
+your country, a new template, a craft rule you keep seeing the AI break. **There is no install
+step**: clone and run. CI runs offline too, with no keys.
 
-- 🐛 Bugs and proposals → [Issues](https://github.com/XuHo-IT/Content-Agent-Kit/issues)
-- 💬 Questions, show off the agent you built, half-formed ideas → [Discussions](https://github.com/XuHo-IT/Content-Agent-Kit/discussions)
-- 📋 Conventions and the verification commands → [`CONTRIBUTING.md`](CONTRIBUTING.md)
-- 🔐 Security issues → **do not open an issue**, see [`SECURITY.md`](SECURITY.md)
+[Issues](https://github.com/XuHo-IT/Content-Agent-Kit/issues) ·
+[Discussions](https://github.com/XuHo-IT/Content-Agent-Kit/discussions) ·
+[`CONTRIBUTING.md`](CONTRIBUTING.md) · for a security bug **do not open an issue**, see
+[`SECURITY.md`](SECURITY.md)
 
-**Unverified adapters.** Cloudflare R2, Cloudinary and Viettel AI were written from official
-documentation but have **never been run against real credentials**. They say so themselves in
-`host-check.mjs --hosts` and `tts-check.mjs --providers`. If you have an account and can confirm
-one works, a PR flipping that flag is a genuinely valuable contribution.
+**Unverified adapters:** Cloudflare R2, Cloudinary, Viettel AI and the `api` video backend are
+written from official documentation but have **never been run with real credentials**. They say
+so themselves (`host-check.mjs --hosts`, `tts-check.mjs --providers`, `docs/20`). If you have an
+account and can confirm one works, a PR flipping that flag is a genuinely useful contribution.
 
 ## License
 
