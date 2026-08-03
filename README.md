@@ -57,7 +57,7 @@ Trái sang phải, trên xuống dưới: **review có điểm số**, **biểu 
 tính từ `score`/`maxScore`, độ dài cột tính từ chính con số, nên hình không thể mâu thuẫn với
 chữ. Slot và giới hạn ký tự từng cái ở **[`CATALOG.md`](video-templates/CATALOG.md)**.
 
-Không biết dùng khung nào cho loại video nào? **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**
+Không biết dùng khung nào cho loại video nào? **[`docs/21-video-genres.md`](docs/21-video-genres.md)** và **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**
 có sẵn trình tự cho năm thể loại: review, hướng dẫn, bản tin, listicle, testimonial.
 
 ## Mô hình vận hành
@@ -112,7 +112,7 @@ Hằng ngày thì chạy **`/daily-run`** — hoặc `schedule-prompt.md` đư�
 
 | Đường dẫn | Nội dung |
 |---|---|
-| `docs/` | Phương pháp luận, song ngữ EN + VI, 20 tài liệu ngắn — gồm **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll và ảnh chụp), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`** và **`20-video-backends.md`**. |
+| `docs/` | Phương pháp luận, song ngữ EN + VI, 21 tài liệu ngắn — gồm **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll và ảnh chụp), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`**, **`20-video-backends.md`** và **`21-video-genres.md`**. |
 | `templates/` | Khung điền sẵn: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, file trạng thái, workflow cron. |
 | `scripts/` | CLI **chạy được thật**: publish/append/update, queue client, `social/make-post` (ảnh **hoặc video**, đa nền tảng), `crawl/crawl.py`, `audit-quality`, scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) và **`media/`** (B-roll kho mở, ảnh chụp web, host upload). Tất cả env-only. |
 | `video-templates/` | 18 template video HTML một-file cùng **`CATALOG.md`** — đủ slot và giới hạn ký tự từng cái. Mỗi file tự chứa CSS và animation, nhưng vẫn `<link>` font từ Google Fonts nên lúc render cần mạng. 146 template nữa chỉ cách một câu lệnh. |

@@ -60,7 +60,7 @@ the text. Slots and character limits for every one are in
 **[`CATALOG.md`](video-templates/CATALOG.md)**.
 
 Not sure which frames a given kind of video needs?
-**[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)** has sequences for
+**[`docs/21-video-genres.md`](docs/21-video-genres.md)** and **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)** have sequences for
 five: review, tutorial, news, listicle, testimonial.
 
 ## The operating model
@@ -115,7 +115,7 @@ Day to day, run **`/daily-run`** — or your generated `schedule-prompt.md` on a
 
 | Path | Purpose |
 |---|---|
-| `docs/` | The methodology, bilingual EN + VI, 20 short documents — including **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll and screenshots), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`** and **`20-video-backends.md`**. |
+| `docs/` | The methodology, bilingual EN + VI, 21 short documents — including **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll and screenshots), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`**, **`20-video-backends.md`** and **`21-video-genres.md`**. |
 | `templates/` | Fill-in scaffolds: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, state files, cron workflow. |
 | `scripts/` | Generic **working** CLIs: publish/append/update, queue client, `social/make-post` (image **or video**, multi-platform), `crawl/crawl.py`, `audit-quality`, the scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) and **`media/`** (stock B-roll, web screenshots, upload hosts). All env-only. |
 | `video-templates/` | 18 single-file HTML video templates plus **`CATALOG.md`** — every slot and character limit. Each carries its own CSS and animation, but still `<link>`s its fonts from Google Fonts, so rendering needs network. 146 more are one command away. |
