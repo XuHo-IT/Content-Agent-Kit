@@ -27,6 +27,72 @@ uses `compositions/portrait.html`) or **`"16:9"`** (1920×1080 — uses `index.h
 
 ---
 
+## frame-review-verdict
+
+**Role:** the frame a review video is built around. Score ring that sweeps to the number,
+verdict in one line, then pros and cons. Dark canvas, green accent.
+**Best for:** `type: "body"`, usually right before the outro of a review.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `subject`  | string | ≤40  | what is being reviewed, small caps above the verdict |
+| `score`    | number | —    | drives BOTH the printed number and the arc |
+| `maxScore` | number | —    | default 10 |
+| `verdict`  | string | ≤80  | the one-line answer to "so is it good?" |
+| `pros`     | string | 4 max | `"a\|b\|c"` — pipe-separated; empty removes the column |
+| `cons`     | string | 4 max | same; 9:16 shows 3 per column |
+
+---
+
+## frame-quote-testimonial
+
+**Role:** someone else's words, credited. Paper canvas, red accent, oversized quote mark.
+**Best for:** `type: "body"` — social proof, a pulled review, an expert line.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `quote` | string | ≤200 | type steps down in 3 sizes as it lengthens |
+| `name`  | string | ≤40  | its first letter becomes the avatar |
+| `role`  | string | ≤60  | job title · company |
+
+Empty `name` **and** `role` removes the whole attribution row — an unattributed quote is
+worse than no quote.
+
+---
+
+## frame-chart-bars
+
+**Role:** a comparison readable in two seconds. Up to five horizontal bars, each printing
+its own value, one optionally highlighted. Dark canvas, amber accent.
+**Best for:** `type: "body"` — before/after, us vs them, a trend in five points.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `title`     | string | ≤60 | |
+| `unit`      | string | ≤40 | e.g. "phút · thấp hơn là tốt hơn"; empty removes the line |
+| `bars`      | string | 5 max | `"label:value\|label:value"` — split on the LAST colon, so a label may contain one |
+| `highlight` | string | — | the label to paint in the accent colour |
+| `source`    | string | ≤60 | empty removes the line |
+
+Widths are computed from the numbers and scaled to the largest, so the bars cannot
+disagree with the labels. Unparseable `bars` removes the chart rather than drawing zeros.
+
+---
+
+## frame-step-list
+
+**Role:** numbered steps that arrive one at a time, in narration order. Paper canvas,
+green accent.
+**Best for:** `type: "body"` — tutorial, listicle, "how it works".
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤24 | small label above the title; empty removes it |
+| `title`  | string | ≤60 | |
+| `steps`  | string | **5 max** | `"a\|b\|c"` — a sixth overflows; split into two scenes |
+
+---
+
 ## frame-bold-poster
 
 **Role:** hook / strong statement. 1970s editorial poster — giant red figure,

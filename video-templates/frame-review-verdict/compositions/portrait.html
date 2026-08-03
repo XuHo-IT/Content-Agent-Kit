@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Review Verdict · Portrait 9:16</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Be+Vietnam+Pro:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            /*
+   * frame-review-verdict — 9:16. Same slots as index.html, stacked.
+   *
+   * Not a scaled-down 16:9: the two-column pros/cons grid becomes one column,
+   * because two columns 400px wide on a phone give four words a line. The ring
+   * also shrinks less than the frame does — the score is the thing a viewer
+   * scrolling past has to catch, so it keeps its share of the screen.
+   */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                width: 1080px;
+                height: 1920px;
+                overflow: hidden;
+                background: #10131a;
+            }
+            #root {
+                position: relative;
+                width: 1080px;
+                height: 1920px;
+                background: #10131a;
+                color: #f2f4f8;
+                font-family: "Be Vietnam Pro", sans-serif;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 46px;
+                padding: 110px 90px;
+                text-align: center;
+            }
+            .subject {
+                font-size: 34px;
+                font-weight: 500;
+                letter-spacing: 6px;
+                text-transform: uppercase;
+                color: #37e2a0;
+                opacity: 0;
+                animation: rise 0.6s ease-out 0.2s forwards;
+            }
+            .ring {
+                position: relative;
+                width: 560px;
+                height: 560px;
+                display: grid;
+                place-items: center;
+                flex-shrink: 0;
+            }
+            .ring svg {
+                position: absolute;
+                inset: 0;
+                transform: rotate(-90deg);
+            }
+            .ring .track {
+                fill: none;
+                stroke: rgba(242, 244, 248, 0.08);
+                stroke-width: 28;
+            }
+            .ring .arc {
+                fill: none;
+                stroke: #37e2a0;
+                stroke-width: 28;
+                stroke-linecap: round;
+                stroke-dasharray: 1583;
+                stroke-dashoffset: 1583;
+                animation: sweep 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+            }
+            .score {
+                font-family: "Alfa Slab One", cursive;
+                font-size: 230px;
+                line-height: 1;
+                opacity: 0;
+                animation: pop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
+            }
+            .outof {
+                font-size: 32px;
+                font-weight: 500;
+                letter-spacing: 4px;
+                text-transform: uppercase;
+                color: rgba(242, 244, 248, 0.45);
+                margin-top: 18px;
+                opacity: 0;
+                animation: fade 0.5s ease-out 0.95s forwards;
+            }
+            .verdict {
+                font-family: "Alfa Slab One", cursive;
+                font-size: 74px;
+                line-height: 1.12;
+                max-width: 900px;
+                opacity: 0;
+                animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+            }
+            .lists {
+                display: flex;
+                flex-direction: column;
+                gap: 30px;
+                width: 100%;
+                text-align: left;
+                margin-top: 8px;
+            }
+            .col h4 {
+                font-size: 24px;
+                font-weight: 700;
+                letter-spacing: 4px;
+                text-transform: uppercase;
+                margin-bottom: 14px;
+            }
+            .col.pro h4 {
+                color: #37e2a0;
+            }
+            .col.con h4 {
+                color: #ff6b6b;
+            }
+            .col li {
+                list-style: none;
+                font-size: 32px;
+                line-height: 1.45;
+                color: rgba(242, 244, 248, 0.82);
+                padding-left: 38px;
+                position: relative;
+                margin-bottom: 10px;
+                opacity: 0;
+                animation: rise 0.5s ease-out forwards;
+            }
+            .col li::before {
+                position: absolute;
+                left: 0;
+                top: 0;
+                font-weight: 700;
+            }
+            .col.pro li::before {
+                content: "+";
+                color: #37e2a0;
+            }
+            .col.con li::before {
+                content: "−";
+                color: #ff6b6b;
+            }
+            @keyframes sweep {
+                to {
+                    stroke-dashoffset: var(--arc-offset, 475);
+                }
+            }
+            @keyframes pop {
+                to {
+                    opacity: 1;
+                }
+            }
+            @keyframes fade {
+                to {
+                    opacity: 1;
+                }
+            }
+            @keyframes rise {
+                from {
+                    opacity: 0;
+                    transform: translateY(22px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"subject":"Tên sản phẩm","score":"8.5","maxScore":"10","verdict":"Đáng mua nếu bạn cần đúng thứ nó làm tốt","pros":"Pin trâu|Màn hình sáng|Giá hợp lý","cons":"Sạc chậm|Loa yếu"}'
+        >
+            <div class="subject"></div>
+
+            <div class="ring">
+                <svg viewBox="0 0 560 560">
+                    <circle class="track" cx="280" cy="280" r="252" />
+                    <circle class="arc" cx="280" cy="280" r="252" />
+                </svg>
+                <div style="display: grid; place-items: center">
+                    <div class="score"></div>
+                    <div class="outof"></div>
+                </div>
+            </div>
+
+            <div class="verdict"></div>
+
+            <div class="lists">
+                <div class="col pro">
+                    <h4>Điểm cộng</h4>
+                    <ul></ul>
+                </div>
+                <div class="col con">
+                    <h4>Điểm trừ</h4>
+                    <ul></ul>
+                </div>
+            </div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes &&
+                    typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null) el.textContent = String(text);
+                };
+
+                set(".subject", v.subject);
+                set(".verdict", v.verdict);
+                set(".score", v.score);
+
+                var max = Number(v.maxScore) || 10;
+                set(".outof", "trên " + max);
+
+                var score = Number(v.score);
+                var ratio = isFinite(score) && max > 0 ? Math.max(0, Math.min(score / max, 1)) : 0;
+                var C = 1583; // 2πr, r = 252
+                var arc = document.querySelector(".arc");
+                if (arc) arc.style.setProperty("--arc-offset", String(C * (1 - ratio)));
+
+                var fill = function (sel, raw) {
+                    var ul = document.querySelector(sel);
+                    if (!ul) return;
+                    var items = String(raw || "")
+                        .split("|")
+                        .map(function (s) {
+                            return s.trim();
+                        })
+                        .filter(Boolean);
+                    if (!items.length) {
+                        var col = ul.parentElement;
+                        if (col) col.remove();
+                        return;
+                    }
+                    // Three per column here, not four: a phone frame that already carries
+                    // a 560px ring runs out of vertical room before it runs out of points.
+                    items.slice(0, 3).forEach(function (text, i) {
+                        var li = document.createElement("li");
+                        li.textContent = text;
+                        li.style.animationDelay = 0.9 + i * 0.12 + "s";
+                        ul.appendChild(li);
+                    });
+                };
+                fill(".col.pro ul", v.pros);
+                fill(".col.con ul", v.cons);
+                if (!document.querySelector(".col")) {
+                    var lists = document.querySelector(".lists");
+                    if (lists) lists.remove();
+                }
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () {
+                    return true;
+                },
+            };
+        </script>
+    </body>
+</html>

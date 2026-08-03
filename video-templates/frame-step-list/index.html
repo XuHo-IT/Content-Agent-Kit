@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Step List · 16:9</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Be+Vietnam+Pro:wght@400;500;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            /*
+   * frame-step-list — numbered steps for a tutorial or a listicle.
+   * Original work for this repo. 16:9; 9:16 at compositions/portrait.html.
+   *
+   * Steps arrive one at a time, tied to the order they are narrated in. That stagger is
+   * the whole reason this is a template rather than a bullet list on a slide: a viewer
+   * reading all five at once has stopped listening by step two.
+   *
+   * `steps` is "|"-separated. Five is the cap, deliberately — a sixth step at this size
+   * either overflows the frame or forces type small enough to be unreadable on a phone.
+   * Split into two scenes instead; the pacing is better anyway.
+   */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                width: 1920px;
+                height: 1080px;
+                overflow: hidden;
+                background: #f6f4ef;
+            }
+            #root {
+                position: relative;
+                width: 1920px;
+                height: 1080px;
+                background: #f6f4ef;
+                color: #17140f;
+                font-family: "Be Vietnam Pro", sans-serif;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 0 150px;
+            }
+            .kicker {
+                font-size: 28px;
+                font-weight: 700;
+                letter-spacing: 6px;
+                text-transform: uppercase;
+                color: #2f6f4e;
+                opacity: 0;
+                animation: fade 0.5s ease-out 0.15s forwards;
+            }
+            .title {
+                font-family: "Alfa Slab One", cursive;
+                font-size: 82px;
+                line-height: 1.08;
+                margin-top: 16px;
+                max-width: 1450px;
+                opacity: 0;
+                animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+            }
+            .steps {
+                margin-top: 60px;
+                display: flex;
+                flex-direction: column;
+                gap: 26px;
+            }
+            .step {
+                display: grid;
+                grid-template-columns: 92px 1fr;
+                align-items: start;
+                gap: 30px;
+                opacity: 0;
+                animation: slide 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            .step .n {
+                width: 92px;
+                height: 92px;
+                border-radius: 50%;
+                background: #2f6f4e;
+                color: #f6f4ef;
+                display: grid;
+                place-items: center;
+                font-family: "Alfa Slab One", cursive;
+                font-size: 44px;
+                flex-shrink: 0;
+            }
+            .step .text {
+                font-size: 42px;
+                font-weight: 500;
+                line-height: 1.35;
+                padding-top: 18px;
+                max-width: 1350px;
+            }
+            @keyframes slide {
+                from {
+                    opacity: 0;
+                    transform: translateX(-34px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            @keyframes fade {
+                to {
+                    opacity: 1;
+                }
+            }
+            @keyframes rise {
+                from {
+                    opacity: 0;
+                    transform: translateY(24px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="8"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"Hướng dẫn","title":"Bốn bước để agent tự đăng bài","steps":"Viết playbook cho dự án của bạn|Nối nguồn crawl và hàng đợi ý tưởng|Bật cổng duyệt trước khi đăng|Đặt lịch chạy hằng ngày"}'
+        >
+            <div class="kicker"></div>
+            <div class="title"></div>
+            <div class="steps"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes &&
+                    typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null) el.textContent = String(text);
+                };
+
+                set(".kicker", v.kicker);
+                set(".title", v.title);
+
+                var k = document.querySelector(".kicker");
+                if (k && !String(v.kicker || "").trim()) k.remove();
+
+                var items = String(v.steps || "")
+                    .split("|")
+                    .map(function (s) {
+                        return s.trim();
+                    })
+                    .filter(Boolean)
+                    .slice(0, 5);
+
+                var wrap = document.querySelector(".steps");
+                if (!wrap) return;
+                if (!items.length) {
+                    // A step list with no steps is a title card. Remove the container so
+                    // the title centres properly instead of sitting above dead space.
+                    wrap.remove();
+                    return;
+                }
+
+                // Type steps down as the list grows: five steps at 42px overflow a 1080px
+                // frame, and a step that runs off screen is not a step anyone can follow.
+                var size = items.length >= 5 ? "34px" : items.length === 4 ? "38px" : "42px";
+                var gap = items.length >= 5 ? "18px" : "26px";
+                wrap.style.gap = gap;
+
+                items.forEach(function (text, i) {
+                    var row = document.createElement("div");
+                    row.className = "step";
+                    row.style.animationDelay = 0.8 + i * 0.35 + "s";
+
+                    var n = document.createElement("div");
+                    n.className = "n";
+                    n.textContent = String(i + 1);
+
+                    var t = document.createElement("div");
+                    t.className = "text";
+                    t.style.fontSize = size;
+                    t.textContent = text;
+
+                    row.appendChild(n);
+                    row.appendChild(t);
+                    wrap.appendChild(row);
+                });
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () {
+                    return true;
+                },
+            };
+        </script>
+    </body>
+</html>

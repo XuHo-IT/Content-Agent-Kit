@@ -40,7 +40,7 @@ của Anthropic — cho ra **hai định dạng**:
 · hoặc render lại chính nó: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
 
 Cùng chủ đề đó còn có **[bản nền trắng chữ xanh biển](examples/ai-video-social/sample-output-paper-blue/)**
-— 16 scene, dùng hết 14 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
+— 16 scene, dùng 14 trong số 18 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
 **không fork template nào, không sửa một dòng CSS nào trong `video-templates/`.**
 
 ## Mô hình vận hành
@@ -96,7 +96,7 @@ Hằng ngày thì chạy **`/daily-run`** — hoặc `schedule-prompt.md` đư�
 | `docs/` | Phương pháp luận, song ngữ EN + VI, 20 tài liệu ngắn — gồm **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll và ảnh chụp), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`** và **`20-video-backends.md`**. |
 | `templates/` | Khung điền sẵn: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, file trạng thái, workflow cron. |
 | `scripts/` | CLI **chạy được thật**: publish/append/update, queue client, `social/make-post` (ảnh **hoặc video**, đa nền tảng), `crawl/crawl.py`, `audit-quality`, scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) và **`media/`** (B-roll kho mở, ảnh chụp web, host upload). Tất cả env-only. |
-| `video-templates/` | 14 template video HTML một-file cùng **`CATALOG.md`** — đủ slot và giới hạn ký tự từng cái. Mỗi file tự chứa CSS và animation, nhưng vẫn `<link>` font từ Google Fonts nên lúc render cần mạng. 146 template nữa chỉ cách một câu lệnh. |
+| `video-templates/` | 18 template video HTML một-file cùng **`CATALOG.md`** — đủ slot và giới hạn ký tự từng cái. Mỗi file tự chứa CSS và animation, nhưng vẫn `<link>` font từ Google Fonts nên lúc render cần mạng. 146 template nữa chỉ cách một câu lệnh. |
 | `skills/` | Skill cho Claude Code: **`bootstrap-content-agent`** (meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**. |
 | `examples/ai-news-social/` | Một agent mẫu hoàn chỉnh: agent tin AI (crawl → viết → ảnh → web + Make.com → cron). |
 | `examples/ai-video-social/` | Bản video của agent đó: crawl → `script.json` → render 9:16 → TikTok / Shorts / Reels. |
