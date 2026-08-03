@@ -120,6 +120,31 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Fixed
 
+- **Two new templates rendered landscape inside a 9:16 video.** `frame-chart-bars` and
+  `frame-step-list` shipped in the previous change with correct CSS, a correct viewport meta
+  and stale `data-width="1920" data-height="1080"` on `#root` — and `data-*` is what the
+  renderer actually sizes the canvas from. Caught by rendering a real video and looking at
+  the contact sheet, which failed to build because two tiles came out 16:9.
+
+  Nothing else could have caught it: the render succeeded, and a screenshot harness that
+  forces the window size shows the layout the CSS intends. Two tests now pin the canvas
+  attributes per aspect and check the viewport meta agrees with them.
+
+- **`frame-liquid-bg-hero` burned an aspect-ratio label and "Bản tin" into every render.**
+  Both were fixed text in the markup with no slot behind them, so the finished video said
+  "9:16" in the corner. Same class of bug as the two `frame-logo-outro` corners fixed
+  earlier, missed because the search then was for brand strings rather than for literal
+  text. They are `chip_top` and `chip_bot` slots now, empty by default, and a chip with
+  nothing in either half is removed rather than left as a floating separator.
+
+  A test now asserts that no template contains literal caller-facing text at all.
+  `frame-glitch-title` is exempt by name — its broadcast furniture is the design — and
+  naming the exception is the point: the next one has to be argued for, not added quietly.
+
+- **`frame-review-verdict` had untranslatable column headings.** "Điểm cộng" and "Điểm trừ"
+  were fixed markup. The kit is Vietnamese-first so they stay the defaults, but a heading no
+  slot can reach means the template cannot be used in another language at all.
+
 - **Post text is checked for leftover markup before it goes out.** No caption on Facebook,
   Instagram, TikTok or YouTube renders Markdown, so a heading arrived as the literal
   `### Heading`, `**bold**` kept its asterisks, and a CMS metadata block a writer left at

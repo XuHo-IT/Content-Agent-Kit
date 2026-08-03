@@ -41,6 +41,8 @@ verdict in one line, then pros and cons. Dark canvas, green accent.
 | `verdict`  | string | ≤80  | the one-line answer to "so is it good?" |
 | `pros`     | string | 4 max | `"a\|b\|c"` — pipe-separated; empty removes the column |
 | `cons`     | string | 4 max | same; 9:16 shows 3 per column |
+| `prosLabel` | string | ≤16 | column heading, default "Điểm cộng" |
+| `consLabel` | string | ≤16 | column heading, default "Điểm trừ" |
 
 ---
 

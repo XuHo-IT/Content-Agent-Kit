@@ -30,6 +30,41 @@ test("every template has both a 16:9 and a 9:16 composition", () => {
   }
 });
 
+test("each composition declares the canvas its aspect needs", () => {
+  // `data-width` / `data-height` on #root is what the renderer sizes the canvas from —
+  // NOT the CSS and NOT the viewport meta. Two templates shipped with correct CSS, a
+  // correct viewport, and stale 1920x1080 data-* attributes, so they rendered landscape
+  // inside a 9:16 video. Nothing caught it: a screenshot harness that forces the window
+  // size looks right, and the render succeeds.
+  const EXPECT = {
+    "index.html": { w: 1920, h: 1080 },
+    "compositions/portrait.html": { w: 1080, h: 1920 },
+  };
+  for (const id of ids) {
+    for (const f of compositions(id)) {
+      const html = fs.readFileSync(path.join(templatesDir(), id, f), "utf8");
+      const w = Number(html.match(/data-width="(\d+)"/)?.[1]);
+      const h = Number(html.match(/data-height="(\d+)"/)?.[1]);
+      assert.equal(w, EXPECT[f].w, `${id}/${f}: data-width is ${w}, expected ${EXPECT[f].w}`);
+      assert.equal(h, EXPECT[f].h, `${id}/${f}: data-height is ${h}, expected ${EXPECT[f].h}`);
+    }
+  }
+});
+
+test("the viewport meta agrees with the canvas attributes", () => {
+  // When these disagree, the browser lays out at one size and the renderer captures at
+  // another — which is how the bug above stayed invisible in a preview.
+  for (const id of ids) {
+    for (const f of compositions(id)) {
+      const html = fs.readFileSync(path.join(templatesDir(), id, f), "utf8");
+      const vp = html.match(/content="width=(\d+),\s*height=(\d+)"/);
+      if (!vp) continue; // not every composition declares one
+      assert.equal(vp[1], html.match(/data-width="(\d+)"/)?.[1], `${id}/${f}: viewport width ≠ data-width`);
+      assert.equal(vp[2], html.match(/data-height="(\d+)"/)?.[1], `${id}/${f}: viewport height ≠ data-height`);
+    }
+  }
+});
+
 test("every composition has a measured canvas", () => {
   // Without one, theming flips the wrong way — light text recoloured as if the canvas
   // were dark. Re-run: node scripts/video/theme-probe.mjs --template <id>
@@ -83,6 +118,33 @@ test("no template defaults to a brand that is not the caller's", () => {
         assert.ok(!/aicodingvn|\.vercel\.app|https?:\/\/(?!example)/i.test(String(v)),
           `${id}/${f}: slot "${k}" defaults to a real URL — ${v}`);
       }
+    }
+  }
+});
+
+test("no template burns caller-facing text into the markup", () => {
+  // Text sitting in the markup with no slot behind it renders on EVERY video regardless of
+  // what the caller passes. Found three times now: two corner labels in frame-logo-outro,
+  // then an aspect-ratio label and a "Bản tin" category chip in frame-liquid-bg-hero, both
+  // of which reached a finished render before anyone noticed.
+  //
+  // Decorative chrome that IS the design — the broadcast furniture in frame-glitch-title —
+  // is exempt by name. Naming the exceptions is the point: a new one has to be argued for
+  // rather than added quietly.
+  const DECORATIVE = new Set(["frame-glitch-title"]);
+
+  for (const id of ids) {
+    if (DECORATIVE.has(id)) continue;
+    for (const f of compositions(id)) {
+      const html = fs.readFileSync(path.join(templatesDir(), id, f), "utf8");
+      const body = html.slice(html.indexOf("<body>")).replace(/<script[\s\S]*?<\/script>/g, "");
+      const literals = [...body.matchAll(/>([^<>{}]*[\p{L}][^<>{}]*)</gu)]
+        .map((m) => m[1].trim())
+        .filter((s) => s && !/^&[a-z]+;$/.test(s));
+      assert.deepEqual(
+        literals, [],
+        `${id}/${f} has literal text no slot can reach: ${JSON.stringify(literals)}`,
+      );
     }
   }
 });

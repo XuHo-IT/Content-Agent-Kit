@@ -250,7 +250,7 @@
             data-duration="5"
             data-width="1080"
             data-height="1920"
-            data-composition-variables='{"kicker":"Chuyên mục","brand":"","headline":"GPT 5.5 ra mắt","subheadline":"Mô hình AI mạnh nhất từ trước tới nay vừa được công bố.","cta":"Theo dõi ngay"}'
+            data-composition-variables='{"kicker":"Chuyên mục","brand":"","headline":"GPT 5.5 ra mắt","subheadline":"Mô hình AI mạnh nhất từ trước tới nay vừa được công bố.","cta":"Theo dõi ngay","chip_top":"","chip_bot":""}'
         >
             <div class="blob b1"></div>
             <div class="blob b2"></div>
@@ -259,8 +259,16 @@
             <canvas id="neural-net" width="1080" height="1920"></canvas>
             <div class="scrim"></div>
 
+            <!--
+              The second span in each chip used to be fixed text: the aspect ratio, and
+              "Bản tin". Neither is reachable from any slot, so both were burned into every
+              render — an aspect label is a design note that has no business in a published
+              video, and a category label belongs to whoever is publishing. They are slots
+              now, `chip_top` and `chip_bot`, and an empty one is removed rather than left
+              as a stray separator.
+            -->
             <div class="chip top">
-                <span class="kicker"></span><span>9:16</span>
+                <span class="kicker"></span><span class="chip-top-note"></span>
             </div>
 
             <!-- brand-bar removed in content-agent-kit: upstream shipped a hardcoded
@@ -273,7 +281,7 @@
             </div>
 
             <div class="chip bot">
-                <span class="brand"></span><span>Bản tin</span>
+                <span class="brand"></span><span class="chip-bot-note"></span>
             </div>
         </div>
 
@@ -288,8 +296,20 @@
                     var el = document.querySelector(sel);
                     if (el && text != null) el.textContent = String(text);
                 };
-                set(".kicker", v.kicker);
-                set(".brand", v.brand);
+                // A chip whose two halves are both empty is a floating separator, so drop
+                // the whole chip rather than leaving furniture with nothing in it.
+                var chip = function (sel, noteSel, main, note) {
+                    var m = document.querySelector(sel);
+                    var n = document.querySelector(noteSel);
+                    if (m && main != null) m.textContent = String(main);
+                    if (n) n.textContent = note == null ? "" : String(note);
+                    if (!String(main || "").trim() && !String(note || "").trim()) {
+                        var box = m && m.parentElement;
+                        if (box) box.remove();
+                    }
+                };
+                chip(".kicker", ".chip-top-note", v.kicker, v.chip_top);
+                chip(".brand", ".chip-bot-note", v.brand, v.chip_bot);
                 set(".headline", v.headline);
                 set(".subheadline", v.subheadline);
                 // Optional caller-chosen headline gradient (else the vivid default).

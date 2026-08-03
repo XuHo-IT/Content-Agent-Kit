@@ -186,7 +186,7 @@
             data-duration="6"
             data-width="1080"
             data-height="1920"
-            data-composition-variables='{"subject":"Tên sản phẩm","score":"8.5","maxScore":"10","verdict":"Đáng mua nếu bạn cần đúng thứ nó làm tốt","pros":"Pin trâu|Màn hình sáng|Giá hợp lý","cons":"Sạc chậm|Loa yếu"}'
+            data-composition-variables='{"subject":"Tên sản phẩm","score":"8.5","maxScore":"10","verdict":"Đáng mua nếu bạn cần đúng thứ nó làm tốt","pros":"Pin trâu|Màn hình sáng|Giá hợp lý","cons":"Sạc chậm|Loa yếu","prosLabel":"Điểm cộng","consLabel":"Điểm trừ"}'
         >
             <div class="subject"></div>
 
@@ -205,11 +205,11 @@
 
             <div class="lists">
                 <div class="col pro">
-                    <h4>Điểm cộng</h4>
+                    <h4 class="pro-label"></h4>
                     <ul></ul>
                 </div>
                 <div class="col con">
-                    <h4>Điểm trừ</h4>
+                    <h4 class="con-label"></h4>
                     <ul></ul>
                 </div>
             </div>
@@ -226,6 +226,11 @@
                     if (el && text != null) el.textContent = String(text);
                 };
 
+                // Column headings were fixed Vietnamese text. The kit is Vietnamese-first so
+                // that stays the default, but a heading no slot can reach means the template
+                // simply cannot be used in another language.
+                set(".pro-label", v.prosLabel != null ? v.prosLabel : "Điểm cộng");
+                set(".con-label", v.consLabel != null ? v.consLabel : "Điểm trừ");
                 set(".subject", v.subject);
                 set(".verdict", v.verdict);
                 set(".score", v.score);
