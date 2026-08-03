@@ -294,6 +294,50 @@ const BLEND_FLIP = {
  * @param {object} T      a resolved theme (from resolveTheme)
  * @param {{invert:boolean, templateId?:string}} opts
  */
+/**
+ * Recolour hex values inside a scene's `inputs`.
+ *
+ * `applyTheme` rewrites the template's HTML, which covers every colour written INTO the
+ * template — but `scene.inputs` never passes through it. Those go out through
+ * variables.json and are injected by hyperframes at render time, after theming has already
+ * happened. So a caller who passed `"accent": "#f59e0b"` got amber on a paper-blue video,
+ * and the only fix was to edit the script by hand. That is exactly what the paper-blue
+ * sample had to do.
+ *
+ * Only whole-string hex values are mapped, and `#AI` style text is untouched: a caption
+ * ending in hashtags is far more common in these scripts than a colour, and silently
+ * recolouring a word would be worse than leaving a colour alone.
+ *
+ * @param {*} value    a scene's `inputs` (any nested shape)
+ * @param {object} T   a resolved theme
+ * @param {boolean} invert
+ * @returns {{mapped: *, changed: string[]}} changed lists "path: #old → #new"
+ */
+export function mapInputColors(value, T, invert, path = "") {
+  const changed = [];
+  const walk = (v, at) => {
+    if (typeof v === "string") {
+      const m = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.exec(v.trim());
+      if (!m) return v;
+      const hex = m[1].length === 3 ? m[1].replace(/./g, (c) => c + c) : m[1].slice(0, 6);
+      const rgb = {
+        r: parseInt(hex.slice(0, 2), 16),
+        g: parseInt(hex.slice(2, 4), 16),
+        b: parseInt(hex.slice(4, 6), 16),
+      };
+      const out = mapColor(rgb, T, invert);
+      if (out.toLowerCase() !== v.trim().toLowerCase()) changed.push(`${at}: ${v} → ${out}`);
+      return out;
+    }
+    if (Array.isArray(v)) return v.map((x, i) => walk(x, `${at}[${i}]`));
+    if (v && typeof v === "object") {
+      return Object.fromEntries(Object.entries(v).map(([k, x]) => [k, walk(x, at ? `${at}.${k}` : k)]));
+    }
+    return v;
+  };
+  return { mapped: walk(value, path), changed };
+}
+
 export function applyTheme(html, T, { invert, templateId } = { invert: true }) {
   let out = html;
 

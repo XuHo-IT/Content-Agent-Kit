@@ -12,6 +12,13 @@ required where it was not before. Each one is called out explicitly below.
 
 ### Added
 
+- **The video validator is tested in the direction that matters.** CI already proved it
+  accepts the reference script; nothing proved it catches a bad one. 24 tests now cover the
+  rejections — wrong version, unrenderable aspect, duplicate scene ids (which silently
+  overwrite each other's audio and clips), an emoji or URL or bare digits in narration,
+  media with no way to find it, a screenshot with a `file://` url — plus the boundary that
+  keeps `--strict` meaningful: craft problems warn, schema problems block.
+
 - **A gallery in the README**, so the output is visible without cloning: the sample article's
   cover image, and a labelled strip of the four newest templates linking into `CATALOG.md`.
 
@@ -128,6 +135,21 @@ required where it was not before. Each one is called out explicitly below.
   licence is a skill nobody may legally reuse.
 
 ### Fixed
+
+- **A theme now reaches `scene.inputs`, not just the template's HTML.** `applyTheme`
+  rewrites the template file; inputs never passed through it. They travel out through
+  `variables.json` and hyperframes injects them at render time, *after* theming has run — so
+  a caller who wrote `"accent": "#f59e0b"` got amber on a paper-blue video.
+
+  The evidence had been in the repo the whole time: the paper-blue sample hand-edited that
+  exact hex to teal, because there was no other way. And the self-test looked like it covered
+  this — it checks hex inside `data-composition-variables`, which *are* themed because they
+  live in the HTML. The one place that was not themed is the one place it never looked.
+
+  Both halves now take the same `invert` flag, computed once, and a test asserts that wiring
+  directly. Only whole-string hex values are mapped: `#AI` in a caption stays a hashtag, and
+  `"Mã màu là #f59e0b nhé"` stays a sentence. Each recolour is logged with its path, so a
+  surprising colour is traceable rather than mysterious.
 
 - **`.env.example` named a variable the code does not read, and omitted the one it does.**
   vbee needs `VBEE_TOKEN`; the file declared `VBEE_API_KEY`. Anyone following the documented
