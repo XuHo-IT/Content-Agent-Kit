@@ -1,0 +1,62 @@
+{
+  "_comment": [
+    "Skills from other projects that pair well with this kit. They are NOT vendored.",
+    "",
+    "Vendoring would mean carrying someone else's licence obligations, re-merging by hand",
+    "every time they ship a fix, and growing this repo by megabytes for files most users",
+    "never open. `node scripts/install-skills.mjs <id>` fetches one on demand instead, and",
+    "records where it came from in a NOTICE.md beside it.",
+    "",
+    "The kit's own skills live in skills/<name>/SKILL.md and are always present.",
+    "",
+    "Adding an entry: `licenseFile` is required. The installer refuses to install a skill",
+    "whose upstream has no licence file, because a skill with no licence is a skill nobody",
+    "is legally allowed to reuse — the same reason RAG-EVAL-VN needed one."
+  ],
+
+  "skills": {
+    "seo": {
+      "repo": "aevans-eng/seo-skill",
+      "ref": "main",
+      "path": ".",
+      "installAs": "seo",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Audits and fixes on-page SEO: meta tags, Open Graph, JSON-LD, sitemap, robots.txt.",
+      "why": "Markdown only — no API keys, no MCP server, no subscription. Everything it does, it does by reading and editing files, which is why it fits a kit that installs nothing."
+    },
+
+    "taste": {
+      "repo": "Leonxlnx/taste-skill",
+      "ref": "main",
+      "path": "skills/taste-skill",
+      "installAs": "taste",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Design judgement for generated interfaces — layout, type, spacing, motion.",
+      "why": "Video templates in this kit are HTML and CSS, so the same judgement applies to a 9:16 frame as to a web page."
+    },
+
+    "imagegen-web": {
+      "repo": "Leonxlnx/taste-skill",
+      "ref": "main",
+      "path": "skills/imagegen-frontend-web",
+      "installAs": "imagegen-web",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Prompts for generating design comps and interface imagery.",
+      "why": "For the cover and in-frame images a post or video needs, when a stock search returns nothing usable."
+    },
+
+    "brandkit": {
+      "repo": "Leonxlnx/taste-skill",
+      "ref": "main",
+      "path": "skills/brandkit",
+      "installAs": "brandkit",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Builds a consistent brand kit — palette, type scale, logo direction.",
+      "why": "Feeds the theme system: a palette decided once becomes a `theme` entry every template reads."
+    }
+  }
+}

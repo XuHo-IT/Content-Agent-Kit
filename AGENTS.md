@@ -58,7 +58,9 @@ Method: `docs/15-media-sources.md` and `docs/16-template-registry.md`.
 - `video-templates/` — the 14 scene templates + `CATALOG.md` (slots + character limits).
   A folder only counts as a template when it has `index.html`; two vendored folders
   (`caption-kinetic-slam`, `transitions-blur`) do not, so 16 folders means 14 usable.
-- `skills/` — Claude Code skills; also readable as plain instructions.
+- `skills/` — Claude Code skills; also readable as plain instructions. `registry.json`
+  lists skills from other projects, fetched on demand by `scripts/install-skills.mjs` —
+  none of them are vendored. Method: `docs/17-skills-registry.md`.
 - `examples/ai-news-social/` — a complete reference agent to copy from.
 - `examples/ai-video-social/` — the video version of the same.
 - `NOTICE.md` — third-party attribution for the vendored video pipeline and templates.

@@ -47,6 +47,15 @@ assets/sfx-raw/
 !**/media-lock.json
 stock-sources.yaml
 
+# Skills fetched by scripts/install-skills.mjs.
+#
+# Its default target is ./.claude/skills/, so running it inside this repo would otherwise
+# stage four third-party projects — their code AND their licence obligations — into a repo
+# that deliberately vendors none of them. Exactly what the registry exists to avoid.
+#
+# skills/ itself IS committed: that is the kit's own skills plus registry.json.
+.claude/skills/
+
 # Python / Node
 __pycache__/
 *.pyc

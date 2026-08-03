@@ -10,6 +10,23 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added
+
+- **Skills from other projects, fetched on demand rather than vendored.**
+  `skills/registry.json` catalogues them; `node scripts/install-skills.mjs --list` shows
+  what is available and what is already installed. The first four are an SEO auditor and
+  three design skills — taste, image generation and brand kit — all MIT, all markdown, none
+  needing an API key.
+
+  Vendoring them would have meant carrying four projects' licence obligations in this tree
+  and re-merging by hand on every upstream fix, in a repo whose whole point is that it
+  installs nothing. Fetching keeps that true. The honest cost: installing needs network.
+
+  Every install pins the commit sha, copies the upstream licence in beside the skill, and
+  writes a NOTICE.md recording where it came from — the same discipline `video-templates/`
+  already applies. No licence file upstream means no install, because a skill with no
+  licence is a skill nobody may legally reuse.
+
 ### Fixed
 
 - **Post text is checked for leftover markup before it goes out.** No caption on Facebook,
