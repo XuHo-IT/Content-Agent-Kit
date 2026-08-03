@@ -9,7 +9,7 @@ import { tmpdir } from "node:os";
 import { extname, isAbsolute, join, resolve } from "node:path";
 import { runInherit } from "./proc.mjs";
 import { templatesDir } from "./paths.mjs";
-import { applyTheme, canvasOf } from "./theme.mjs";
+import { applyTheme, canvasOf, mapInputColors } from "./theme.mjs";
 
 export const HYPERFRAMES_VERSION = "0.6.94";
 
@@ -67,23 +67,29 @@ export async function composeTemplate(args) {
     cpSync(mediaFile, join(templateDir, "assets", `media${ext}`));
   }
 
+  let themedInputs = inputs;
   if (theme) {
+    const invert = canvasOf(templateId, entryFile, log) === "dark";
+
     // Only the entry actually being rendered is rewritten — theming the other composition
     // would double the work for a file hyperframes never opens.
     const target = join(templateDir, entryFile);
-    writeFileSync(
-      target,
-      applyTheme(readFileSync(target, "utf8"), theme, {
-        invert: canvasOf(templateId, entryFile, log) === "dark",
-        templateId,
-      }),
-      "utf8",
-    );
+    writeFileSync(target, applyTheme(readFileSync(target, "utf8"), theme, { invert, templateId }), "utf8");
+
+    // The template's HTML is not the only place colours live. `scene.inputs` never passes
+    // through applyTheme — it travels out through variables.json and hyperframes injects it
+    // at render time, AFTER theming has run. So a caller who wrote "accent": "#f59e0b" got
+    // amber on a paper-blue video and the only remedy was editing the script by hand, which
+    // is literally what the paper-blue sample had to do. Same theme, same invert flag, so
+    // the two halves cannot disagree.
+    const { mapped, changed } = mapInputColors(inputs, theme, invert);
+    themedInputs = mapped;
+    for (const c of changed) log?.(`theme: inputs.${c}`);
   }
 
   try {
     return await renderWith(templateDir, {
-      inputs, fps, quality, entryFile, outputPath: args.outputPath,
+      inputs: themedInputs, fps, quality, entryFile, outputPath: args.outputPath,
     });
   } finally {
     if (scratch) rmSync(scratch, { recursive: true, force: true });
