@@ -45,6 +45,56 @@ const META_LINE = new RegExp(`^\\s*(${META_LABELS.map((l) => l.replace(/ /g, "\\
  * Vietnamese prose. A leading "- " is a bullet in Markdown and a dialogue dash in a
  * story; failing on it by default would make the gate something people switch off.
  */
+/**
+ * Model leakage — the model exposing its own scaffolding in copy meant for a reader.
+ *
+ * A different bug class from MARKUP_RULES below, and a worse one. A stray `##` looks
+ * careless; "As of my last update" or an unfilled `[Tên kênh]` announces that a machine
+ * wrote it and nobody read it back. None of this is text a human types into a caption, so
+ * every rule here is an error with no ambiguous case to weigh.
+ *
+ * Language-agnostic on purpose: these patterns are identical in Vietnamese and English,
+ * which is why they can ship switched on for everyone.
+ *
+ * The catalogue is adapted from the "forensic tier" in facebook-skills (MIT © Sergey
+ * Bulaev) — see NOTICE.md. Its *strict* tier is deliberately NOT adopted: that one bans em
+ * dashes and swaps English vocabulary (leverage → use), and this kit's own reference article
+ * uses thirteen em dashes in ordinary Vietnamese prose. A gate that fails good writing is a
+ * gate that gets switched off.
+ */
+const FORENSIC_RULES = [
+  {
+    id: "tool-marker",
+    severity: "error",
+    // Citation and tool-call scaffolding that leaks out of a model's own plumbing.
+    re: /\b(oaicite|contentReference|turn\d+search\d+|turn\d+view\d+|attached_file|grok_card|citeturn)\b/giu,
+    hint: "Model tool marker — plumbing that escaped into the copy. Delete it.",
+  },
+  {
+    id: "knowledge-cutoff",
+    severity: "error",
+    re: /\b(as of my (last )?(update|knowledge|training)|my (knowledge|training) (cut[- ]?off|data)|i (cannot|can't|am unable to) (browse|access the internet)|i('m| am) an? (ai|language model))/giu,
+    hint: "The model talking about itself. A reader is not asking what you can access.",
+  },
+  {
+    id: "assistant-preamble",
+    severity: "error",
+    // "Sure! Here's the post:" — the reply wrapper, pasted along with the post.
+    re: /^[ \t]*(sure[,!]?|certainly[,!]?|of course[,!]?|here('s| is) (the|your)\s+\w+|chắc chắn rồi|đây là (bài|nội dung))\b[^\n]{0,60}[:：]\s*$/gimu,
+    hint: "Assistant preamble — the wrapper around the answer, not the answer.",
+  },
+  {
+    id: "placeholder",
+    severity: "warning",
+    // Warning, not error: Vietnamese editorial prose legitimately uses square brackets for
+    // notes — "[đã lược]", "[ảnh: Reuters]". Only bracket contents that look like an unfilled
+    // FORM FIELD are flagged: a short run of letters/underscores with no Vietnamese diacritics
+    // and no spaces beyond one, which is what a template blank looks like and an aside does not.
+    re: /\[(?:your |insert |tên |ten )?[A-Za-z_][A-Za-z0-9_]*(?: [A-Za-z][A-Za-z0-9_]*)?\]|\{\{[^}\n]{1,40}\}\}|<[A-Za-z_][A-Za-z0-9_]*>/gu,
+    hint: "Looks like an unfilled placeholder. Fill it, or drop the brackets if it is an aside.",
+  },
+];
+
 const MARKUP_RULES = [
   {
     id: "heading",
@@ -140,14 +190,21 @@ export function findLeaks(text, field = "post") {
     }
   }
 
-  for (const rule of MARKUP_RULES) {
-    rule.re.lastIndex = 0;
-    const hits = [...new Set([...text.matchAll(rule.re)].map((m) => shorten(m[0], 40)))];
-    if (!hits.length) continue;
-    const msg =
-      `\`${field}\` contains ${rule.id} markup (${hits.length}×): ${hits.slice(0, 3).join(" · ")}` +
-      `${hits.length > 3 ? " …" : ""} — ${rule.hint}`;
-    (rule.severity === "error" ? errors : warnings).push(`${rule.severity === "error" ? "🔴 " : ""}${msg}`);
+  // Forensic first: if a caption still has `oaicite` in it, the Markdown is the smaller
+  // problem, and the first line of output should say so.
+  for (const [rules, kind] of [
+    [FORENSIC_RULES, "model leakage"],
+    [MARKUP_RULES, "markup"],
+  ]) {
+    for (const rule of rules) {
+      rule.re.lastIndex = 0;
+      const hits = [...new Set([...text.matchAll(rule.re)].map((m) => shorten(m[0], 40)))];
+      if (!hits.length) continue;
+      const msg =
+        `\`${field}\` contains ${rule.id} ${kind} (${hits.length}×): ${hits.slice(0, 3).join(" · ")}` +
+        `${hits.length > 3 ? " …" : ""} — ${rule.hint}`;
+      (rule.severity === "error" ? errors : warnings).push(`${rule.severity === "error" ? "🔴 " : ""}${msg}`);
+    }
   }
 
   return { errors, warnings };
