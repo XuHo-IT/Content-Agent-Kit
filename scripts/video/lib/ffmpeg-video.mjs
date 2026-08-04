@@ -5,6 +5,7 @@ import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { run } from "./proc.mjs";
 import { getDurationSec } from "./ffmpeg-audio.mjs";
+import { escapeSubtitlePath } from "./captions.mjs";
 
 /** Uniform encode flags so every fitted clip can be concatenated by stream copy. */
 const ENCODE = (fps) => [
@@ -182,18 +183,17 @@ export async function concatWithTransitions(clipPaths, outPath, { offsets, kinds
  * Deliberately NO `-shortest`: the video is longer than the audio (the outro
  * holds ~3s past the last word) and that silent tail must survive.
  */
-export async function muxAudioOntoVideo(videoPath, audioPath, outPath) {
-  await run("ffmpeg", [
-    "-y",
-    "-i", videoPath,
-    "-i", audioPath,
-    "-map", "0:v:0",
-    "-map", "1:a:0",
-    "-c:v", "copy",
-    "-c:a", "aac",
-    "-b:a", "192k",
-    outPath,
-  ]);
+export async function muxAudioOntoVideo(videoPath, audioPath, outPath, { burnSubs = null, fps = 30 } = {}) {
+  const args = ["-y", "-i", videoPath, "-i", audioPath, "-map", "0:v:0", "-map", "1:a:0"];
+  if (burnSubs) {
+    // Burning draws onto the pixels, so the stream copy has to go. Said out loud in the
+    // docs rather than discovered as a slow render.
+    args.push("-vf", `subtitles=filename='${escapeSubtitlePath(burnSubs)}'`, ...ENCODE(fps).filter((a) => a !== "-an"));
+  } else {
+    args.push("-c:v", "copy");
+  }
+  args.push("-c:a", "aac", "-b:a", "192k", outPath);
+  await run("ffmpeg", args);
 }
 
 /** Width×height of a video, for reporting / verification. */
