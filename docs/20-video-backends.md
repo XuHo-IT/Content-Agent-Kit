@@ -16,7 +16,7 @@ node scripts/video/render.mjs script.json --backend remotion
 |---|---|---|---|
 | **`html`** *(default)* | free | ffmpeg, Chrome | everything the kit already did — deterministic, offline once fonts cache |
 | `api` | **$0.03–$0.60 per second** | `GEMINI_API_KEY` | photoreal footage a template cannot draw |
-| `remotion` | free | a separate npm project | motion design past what CSS keyframes reach |
+| `remotion` | free **for individuals and small companies** — see below | a separate npm project | motion design past what CSS keyframes reach |
 
 `html` stayed the default in **both** shipped profiles, including `business`. The others are
 for a deliberate choice, not for a daily queue.
@@ -84,6 +84,47 @@ here and mux the voice with ffmpeg, or use html end to end if you do not need th
 
 **Regenerating overwrites `src/`.** Move anything you want to keep out of that folder first.
 
+#### Remotion is source-available, not open source
+
+The table above used to say this backend was simply "free". That is true for most people
+reading this and **not** true for everyone, which is the worst way for a cost line to be wrong.
+
+Remotion ships a [two-tier licence](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md):
+individuals and small companies may use it commercially for free; **for-profit organisations
+above a size threshold need a paid company licence.** GitHub reports the repository as
+`NOASSERTION` rather than an SPDX identifier for exactly this reason.
+
+Nothing in this kit is affected — no Remotion code is vendored here, and `npm install` runs in
+*your* project rather than this one. But if you pick this backend at a company, read the
+licence before building a workflow on it. `html` carries no such condition.
+
+#### Teaching an agent to write Remotion
+
+The backend scaffolds a project and stops. Nothing here knows how to write *good* Remotion —
+interpolation curves, audio trimming, composition structure — and that is where an agent
+guesses wrong most often.
+
+Remotion maintains **11 first-party skills** for this. Either official command installs them,
+run from your Remotion project:
+
+```bash
+npx remotion skills add             # if the Remotion CLI is already there
+npx skills add remotion-dev/skills  # generic; same source
+```
+
+They land in `.agents/skills/`, with `.claude/skills` symlinked to it.
+
+**They are deliberately not in `skills/registry.json`.** The source repo
+(`remotion-dev/skills`) ships no licence file — the API reports `license: null`, and its
+`package.json` says `"private": true`. The rule from PR #15 is *no licence, no install*,
+because a skill nobody is licensed to reuse is a skill nobody may legally reuse. The plugin
+mirror's `plugin.json` does declare `"license": "MIT"`, but a string in a manifest is not a
+licence grant over the files beside it.
+
+That is a rule about **this repo's installer**, not a judgement about the skills — they are
+first-party and good. Remotion's own command installs them in one line. This note exists so
+the absence reads as a decision rather than an oversight.
+
 ### Profiles
 
 A profile holds what you would otherwise retype into every script: backend, voice, palette,
@@ -129,7 +170,7 @@ chỉ quyết định pixel được tạo ra bằng cách nào.
 |---|---|---|---|
 | **`html`** *(mặc định)* | miễn phí | ffmpeg, Chrome | mọi thứ kit vẫn làm — tất định, cache font xong là chạy offline |
 | `api` | **$0,03–$0,60 mỗi giây** | `GEMINI_API_KEY` | cảnh quay như thật mà template không vẽ được |
-| `remotion` | miễn phí | một project npm riêng | chuyển động vượt ngoài tầm CSS keyframes |
+| `remotion` | miễn phí **với cá nhân và công ty nhỏ** — xem bên dưới | một project npm riêng | chuyển động vượt ngoài tầm CSS keyframes |
 
 `html` vẫn là mặc định ở **cả hai** profile, kể cả `business`. Hai cái kia dành cho lựa chọn
 có chủ đích, không dành cho hàng đợi chạy hằng ngày.
@@ -166,6 +207,45 @@ từ chối chứ không đoán.
 > hình dạng long-running operation — viết theo tài liệu Google công bố, chưa chạy thật từ repo
 > này. `--dry-run` in ra từng request để bạn kiểm trước. Đúng kiểu `media-hosts/r2.mjs` đã nói
 > về phần nối S3 của nó.
+
+### `remotion` — source-available, không phải open source
+
+Bảng ở trên trước đây ghi backend này là "miễn phí", không kèm gì. Điều đó **đúng với phần lớn
+người đọc** và **sai với một số người** — đó là kiểu sai tệ nhất của một dòng nói về chi phí.
+
+Remotion dùng [giấy phép hai tầng](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md):
+cá nhân và công ty nhỏ được dùng thương mại miễn phí; **tổ chức vì lợi nhuận trên một ngưỡng
+quy mô phải mua company licence.** GitHub báo repo đó là `NOASSERTION` chứ không phải một mã
+SPDX, chính vì lý do này.
+
+Kit này không bị ảnh hưởng — không có dòng code Remotion nào được chép vào đây, và `npm install`
+chạy trong project *của bạn* chứ không phải trong repo này. Nhưng nếu bạn chọn backend này ở
+công ty, hãy đọc giấy phép trước khi dựng cả một quy trình lên nó. `html` không kèm điều kiện nào.
+
+#### Dạy agent viết Remotion cho đúng
+
+Backend dựng xong project rồi dừng. Trong kit không có gì biết viết Remotion cho *tốt* — đường
+cong interpolate, cắt audio, cấu trúc composition — mà đó đúng là chỗ agent hay đoán sai nhất.
+
+Remotion có **11 skill chính chủ** cho việc này. Một trong hai lệnh chính thức, chạy từ project
+Remotion của bạn:
+
+```bash
+npx remotion skills add             # nếu đã có Remotion CLI
+npx skills add remotion-dev/skills  # lệnh chung, cùng nguồn
+```
+
+Chúng nằm ở `.agents/skills/`, và `.claude/skills` được symlink sang đó.
+
+**Cố ý không đưa vào `skills/registry.json`.** Repo nguồn (`remotion-dev/skills`) không có file
+giấy phép — API báo `license: null`, `package.json` ghi `"private": true`. Luật từ PR #15 là
+*không giấy phép thì không cài*, vì skill không ai được cấp phép là skill không ai được phép
+dùng lại. Bản mirror có khai `"license": "MIT"` trong `plugin.json`, nhưng một chuỗi trong
+manifest không phải là sự cấp phép cho các file nằm cạnh nó.
+
+Đó là luật của **trình cài trong repo này**, không phải đánh giá về chất lượng skill — chúng là
+đồ chính chủ và tốt. Lệnh của chính Remotion cài chúng trong một dòng. Ghi chú này có ở đây để
+việc thiếu chúng đọc ra là một quyết định, chứ không phải một chỗ sót.
 
 ### Profile
 
