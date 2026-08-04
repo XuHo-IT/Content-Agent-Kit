@@ -10,6 +10,38 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — `theme-from-url.mjs`: read a brand palette off a live page
+
+```bash
+node scripts/video/theme-from-url.mjs --url https://your.site --name acme
+node scripts/video/theme-probe.mjs --preview acme
+```
+
+Three shipped palettes, and the one that matters most — the user's own — was the one nobody
+had memorised. Everything this needs already existed: `screenshot.mjs` captures the page,
+ffmpeg reduces it to raw RGB, `theme.mjs` has the WCAG rules. No new dependency.
+
+Writes `video-templates/themes.json`; `"theme": "acme"` then works exactly like a preset.
+The file is not shipped — a palette read from someone's site describes *their* brand and
+belongs in their repo, not in this one.
+
+**Ink is the most prominent readable colour, not the most contrasting one.** Ranking by
+contrast was the first version and it is unstable: the darkest thing on a page is often a
+0.05% speck. Two runs of `nodejs.org` minutes apart gave `#3a7a31`, then `#64696b`; by share
+both give `#417e38`. On `developer.mozilla.org` by-share gives `#222527` at 35% of the page —
+the text — while by-contrast gives something covering 0.40%. Three consecutive runs now agree.
+
+It reads the pixels that are there, so on an image-heavy page the dominant colour is the
+image. It prints the palette and asks first, and **refuses rather than skipping the prompt**
+when stdin is not a terminal.
+
+Also deduplicated: `theme.mjs` kept its WCAG maths private and `validate.mjs` carried a second
+copy. This would have been a third. The helpers are exported now and there is one
+implementation.
+
+`tests/palette.test.mjs` — 14 tests on in-memory pixel buffers. No browser, no network, no
+ffmpeg, so CI never fails because someone else's website was having a bad day.
+
 ### Added — four templates, and a `launch` genre to use them
 
 18 → 22 scene templates. Chosen against what the kit could not do rather than to round the
