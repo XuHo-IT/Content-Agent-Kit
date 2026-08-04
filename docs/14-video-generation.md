@@ -201,9 +201,12 @@ node scripts/video/render.mjs <script> --captions off           # neither file n
 | `burn` | draws them onto the frames. Irreversible, and the mux has to re-encode instead of stream-copying. |
 | `off` | no `.ass` at all. `script.txt` is still written — it is the transcript. |
 
+![Burned captions on a mid-grey frame](../examples/gallery/burned-captions.jpg)
+
 Styled from the `theme` when one is set, so captions do not fight the frame they sit on. The
 background is an **opaque box**, not an outline: over stock footage, light text on a light
-frame disappears exactly where it matters.
+frame disappears exactly where it matters. The sample above is burned onto a mid-grey
+background deliberately — that is the case where both light and dark text struggle.
 
 #### What the timing is, precisely
 

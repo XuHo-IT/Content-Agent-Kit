@@ -52,11 +52,11 @@ Cùng chủ đề tin tức còn có **[bản nền trắng chữ xanh biển](e
 
 [![Bốn template 2026](examples/gallery/templates-2026.jpg)](video-templates/CATALOG.md)
 
-Trái sang phải, trên xuống dưới: **chữ động** — từng chữ hiện theo nhịp đọc thay vì cả khối
-hiện cùng lúc; **lộ diện sản phẩm** — màn chắn kéo đi và tên hiện lên phía sau, một cử động
-chứ không phải hai animation tình cờ kết thúc cùng nhau; **hạt nhiễu analog** — quang sai màu
-vẽ bằng cách in chữ ba lần lệch nhau, đúng bản chất của nó chứ không phải filter mô phỏng;
-**so sánh hai trạng thái** — `clip-path` quét, đường kẻ đi cùng chiều với phần nó đang mở ra.
+**Chữ động** — từng chữ hiện theo nhịp đọc thay vì cả khối hiện cùng lúc. **Lộ diện sản
+phẩm** — màn chắn kéo đi và tên hiện lên phía sau, một cử động chứ không phải hai animation
+tình cờ kết thúc cùng nhau. **Hạt nhiễu analog** — quang sai màu vẽ bằng cách in chữ ba lần
+lệch nhau, đúng bản chất của nó chứ không phải filter mô phỏng. **So sánh hai trạng thái** —
+`clip-path` quét, đường kẻ đi cùng chiều với phần nó đang mở ra.
 
 Cả bốn không kèm file ảnh nào: hạt nhiễu là SVG nội tuyến, còn lại thuần CSS.
 
@@ -68,6 +68,14 @@ Cả bốn không kèm file ảnh nào: hạt nhiễu là SVG nội tuyến, cò
 dữ liệu chứ không phải từ giá trị gõ tay — vòng cung điểm tính từ `score`/`maxScore`, độ dài
 cột tính từ chính con số, nên hình không thể mâu thuẫn với chữ. Slot và giới hạn ký tự từng
 cái ở **[`CATALOG.md`](video-templates/CATALOG.md)**.
+
+Hai dải trên dựng lại được bằng một lệnh, nội dung nằm trong một file chứ không phải trong
+đầu ai:
+
+```bash
+node scripts/video/template-sheet.mjs --preset 2026 \
+  --inputs examples/gallery/gallery-inputs.json --out examples/gallery/templates-2026.jpg
+```
 
 Không biết dùng khung nào cho loại video nào? **[`docs/21-video-genres.md`](docs/21-video-genres.md)** và **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**
 có sẵn trình tự cho sáu thể loại: review, hướng dẫn, bản tin, listicle, ra mắt, testimonial.

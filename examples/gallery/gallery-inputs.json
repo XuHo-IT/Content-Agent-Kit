@@ -1,0 +1,65 @@
+{
+  "_comment": [
+    "Content for the README gallery strips, so the images are reproducible:",
+    "",
+    "  node scripts/video/template-sheet.mjs --preset 2026 --inputs examples/gallery/gallery-inputs.json --out examples/gallery/templates-2026.jpg",
+    "  node scripts/video/template-sheet.mjs --preset previous --inputs examples/gallery/gallery-inputs.json --out examples/gallery/new-templates.jpg",
+    "",
+    "The numbers are the real ones from RAG-EVAL-VN, not invented: the same measurements",
+    "the sample-review-rag video is built on. A gallery showing fabricated figures teaches",
+    "the reader that the figures in these templates are decoration."
+  ],
+
+  "frame-kinetic-type": {
+    "kicker": "Nhận định",
+    "line": "Rerank không làm RAG nhanh hơn, nó làm RAG đúng hơn.",
+    "accent": "đúng",
+    "footnote": "RAG-EVAL-VN · 500 câu hỏi"
+  },
+  "frame-product-reveal": {
+    "teaser": "Giới thiệu",
+    "name": "RAG-EVAL-VN",
+    "tagline": "Đo chất lượng RAG tiếng Việt, offline",
+    "badge": "Mã nguồn mở"
+  },
+  "frame-analog-grain": {
+    "tape": "SP · 2026",
+    "timecode": "00:14:22",
+    "title": "Ba tuần sau",
+    "subtitle": "Kết quả không như dự đoán"
+  },
+  "frame-split-compare": {
+    "leftLabel": "Không rerank",
+    "leftValue": "62%",
+    "rightLabel": "Có rerank",
+    "rightValue": "89%",
+    "delta": "+27",
+    "caption": "Độ chính xác top-3 trên 500 câu hỏi tiếng Việt"
+  },
+
+  "frame-review-verdict": {
+    "subject": "Rerank trong RAG tiếng Việt",
+    "score": "8.5",
+    "maxScore": "10",
+    "verdict": "Đáng bật, nếu tài liệu tiếng Việt và mô hình chạy trên CPU",
+    "pros": "Chính xác hơn|Rẻ hơn 68%|Prompt ngắn lại",
+    "cons": "Bước tìm kiếm chậm 14s|Cần cross-encoder"
+  },
+  "frame-chart-bars": {
+    "title": "Chi phí token mỗi câu hỏi",
+    "unit": "token · thấp hơn là tốt hơn",
+    "bars": "A không rerank:1689|B chunk nhỏ:1204|C có rerank:540",
+    "highlight": "C có rerank",
+    "source": "RAG-EVAL-VN"
+  },
+  "frame-step-list": {
+    "kicker": "Cách đo lại",
+    "title": "Ba bước để tự kiểm chứng",
+    "steps": "Dựng bộ câu hỏi có đáp án đúng|Chạy bốn cấu hình trên cùng tài liệu|So top-3 và token, không so cảm giác"
+  },
+  "frame-quote-testimonial": {
+    "quote": "Tôi tưởng thêm một bước thì phải đắt hơn. Hoá ra prompt ngắn lại nên còn rẻ hơn.",
+    "name": "Ghi chú lần đo đầu",
+    "role": "RAG-EVAL-VN · tháng 8 2026"
+  }
+}
