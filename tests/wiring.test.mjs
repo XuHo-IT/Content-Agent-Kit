@@ -88,6 +88,25 @@ test("the skill that writes script.json knows transitions exist", () => {
   );
 });
 
+test("the remotion backend discloses that Remotion is not open source", () => {
+  // The backend table said "free" with no qualification, in both languages. True for most
+  // people reading it and NOT true for everyone, which is the worst way for a cost line to
+  // be wrong: Remotion is source-available, with a paid company licence above a size
+  // threshold. Someone picking this backend at a company has to learn that before they
+  // build a workflow on it, so it is said at the point of use as well as in the doc.
+  const backend = read("scripts/video/lib/backends/remotion.mjs");
+  const doc = read("docs/20-video-backends.md");
+  for (const [where, text] of [["backends/remotion.mjs", backend], ["docs/20", doc]]) {
+    assert.ok(/source-available/i.test(text), `${where} never says Remotion is source-available`);
+    assert.ok(/compan(y|ies)/i.test(text), `${where} never mentions the company licence`);
+  }
+  // And the free-with-no-caveat claim must not come back.
+  assert.ok(
+    !/\|\s*`remotion`\s*\|\s*(free|miễn phí)\s*\|/.test(doc),
+    "docs/20 lists remotion as flatly free again",
+  );
+});
+
 test("every skill is named in a README", () => {
   const missing = skillDirs.filter((n) => !readmes.includes(n));
   assert.deepEqual(missing, [], `these skills exist but no README names them: ${missing.join(", ")}`);

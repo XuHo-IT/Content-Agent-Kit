@@ -10,6 +10,33 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Fixed — the backend table called Remotion "free", with no qualification
+
+It is free for individuals and small companies. **For-profit organisations above a size
+threshold need a paid company licence** — Remotion is source-available, not open source, which
+is why GitHub reports it as `NOASSERTION` rather than an SPDX id.
+
+True for most people reading it and not true for everyone, which is the worst way for a cost
+line to be wrong. Corrected in both languages, and said by the backend itself at the point of
+use — someone picking it at a company should learn the condition before building a workflow on
+it, not after. `tests/wiring.test.mjs` now fails if the unqualified claim comes back.
+
+Nothing in this kit is affected: no Remotion code is vendored, and `npm install` runs in the
+generated project.
+
+### Added — Remotion's own skills, and why they are not in the registry
+
+The backend scaffolds a project and stops. Nothing here knows how to write *good* Remotion —
+interpolation curves, audio trimming, composition structure — which is where an agent guesses
+wrong most often. Remotion maintains 11 first-party skills for it; the generated README and
+the console output now point at both official install commands.
+
+They are **not** in `skills/registry.json` because `remotion-dev/skills` ships no licence file
+(`license: null`, `"private": true`). The plugin mirror's `plugin.json` declares
+`"license": "MIT"`, but a string in a manifest is not a licence grant over the files beside it.
+The PR #15 rule stands. `docs/17` now names Remotion as the concrete thing that rule has
+excluded, so the absence reads as a decision rather than an oversight.
+
 ### Added — captions the pipeline actually produces
 
 Most short-form video is watched with the sound off. The kit wrote `script.txt` for CapCut to

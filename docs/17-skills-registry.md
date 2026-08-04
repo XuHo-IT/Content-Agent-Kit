@@ -61,6 +61,26 @@ an Apify account.
 The forensic half of `fb-humanizer` is already built into `validate-post.mjs`; install the
 skill when you want the English style rules on top.
 
+### What the rule has actually excluded: Remotion
+
+Remotion maintains 11 first-party skills for writing Remotion well. They are **not here**, and
+the reason is worth stating so it does not read as an oversight.
+
+`remotion-dev/skills` ships no licence file — the API reports `license: null`, and its
+`package.json` says `"private": true`. The plugin mirror's `plugin.json` declares
+`"license": "MIT"`, but a string in a manifest is not a licence grant over the files beside
+it. The installer refuses, which is the rule working as designed.
+
+Remotion's own command installs them in one line, from a Remotion project:
+
+```bash
+npx remotion skills add             # or: npx skills add remotion-dev/skills
+```
+
+That is the right route anyway — they install to `.agents/skills/` and are versioned with the
+Remotion release you are on. See `docs/20-video-backends.md`, which also covers Remotion's
+two-tier licence.
+
 ### Rules the installer enforces
 
 - **No licence, no install.** If the upstream has no licence file at that commit it refuses,
