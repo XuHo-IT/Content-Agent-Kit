@@ -32,6 +32,7 @@ const KIT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..
 const PRESETS = {
   "2026": ["frame-kinetic-type", "frame-product-reveal", "frame-analog-grain", "frame-split-compare"],
   previous: ["frame-review-verdict", "frame-chart-bars", "frame-step-list", "frame-quote-testimonial"],
+  batch3: ["frame-terminal", "frame-timeline", "frame-myth-fact", "frame-checklist", "frame-chat-bubbles"],
 };
 
 const argv = process.argv.slice(2);

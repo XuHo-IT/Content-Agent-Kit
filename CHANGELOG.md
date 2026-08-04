@@ -10,6 +10,60 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — five templates, each filling a gap that could be named first
+
+22 → 27. Picked by asking what the kit **could not draw**, not by adding another way to show
+a headline.
+
+| | |
+|---|---|
+| `frame-terminal` | Twenty-two templates and not one could show a command. Upstream ships 33 `code-*` items and this kit vendors none, because they are *blocks* — no `index.html`, so no `script.json` can name them. The command types itself with a `clip-path` sweep rather than a per-character timer, and a line starting with `!` is drawn in the error colour: showing the failure is usually the point. |
+| `frame-timeline` | `frame-step-list` is procedural — do one, then two. A timeline is chronological, and the gap between two dates is part of the claim: "three years" and "three weeks" are different stories told with the same steps. Horizontal at 16:9, **vertical at 9:16**. |
+| `frame-myth-fact` | Neither existing comparison frame can strike a claim down. `frame-aicoding-comparison` puts two products side by side; `frame-split-compare` puts two states of one thing. |
+| `frame-checklist` | Pros and cons existed only *inside* `frame-review-verdict`, welded to a score ring — so getting two columns meant inventing a number to put in it. |
+| `frame-chat-bubbles` | `frame-quote-testimonial` is a formal pull-quote. A chat reads as overheard rather than as supplied, which is a different kind of credibility. |
+
+Wired into five genres: `tutorial` shows the hardest step as the actual command, `news` traces
+how it got here, `review` opens on the belief it overturns, `listicle` closes on advice,
+`testimonial` shows how it was actually said.
+
+**Three bugs found by rendering and looking**, none of them catchable by a test:
+
+- **The strike-through crossed only the first line.** It was a bar at `top: 52%` — correct on
+  a one-line myth, and on a two-line one it lands *between* the lines and reads as an
+  underline of the first. Now a repeating gradient whose period is the line height, with
+  `box-decoration-break: clone` so the rule hugs each line instead of running past a short
+  last line into empty space.
+- Terminal type too small to read on a phone (30px → 33px).
+- Timeline markers arriving 0.22s apart, on a frame whose whole point is the distance between
+  them.
+
+### Added — `new-template` skill
+
+Say *"template mới cho hôm nay"* and it surveys what exists, cross-checks
+`VIDEO_GENRES.template.json` for a beat with no good frame, and **names the gap before writing
+any CSS**. Asked for "new templates" plural, it brings back two or three candidates with the
+gap each fills rather than building five nobody needed.
+
+It also says when **pulling from upstream is the cheaper answer**, and warns about the trap
+that costs an hour: a vendored block is building material, not a scene template.
+
+It carries the two traps that pass every test and still look wrong — a delayed animation with
+no declared start state showing its ending first, and an animation travelling against the
+thing it reveals — plus one I hit myself: `data-composition-variables` does **not** reach the
+renderer. Those are the editor's preview defaults, and `composeTemplate({ inputs: {} })` comes
+back blank. Confirmed against `frame-review-verdict`, which predates all of this.
+
+### Fixed — two checks that were not checking
+
+- **The kit's own template count was hand-written in seven places** — the same failure just
+  fixed for the upstream count, in the same repo, unnoticed. It needs no network, so it is now
+  a test that fails in CI rather than a job that notices tomorrow.
+- **"Every skill is named in a README" passed for the wrong reason.** It matched substrings,
+  and `new-templates.jpg` contains `new-template` — so the new skill was reported as
+  documented when the only match in either README was an image filename. Word boundaries now;
+  it went red immediately, which is what it should have done.
+
 ### Added — a daily watch on the upstream template registry
 
 ```bash

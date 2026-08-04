@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Timeline · 16:9</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-timeline — what happened, in the order it happened.
+ *
+ * Original work for this repo.
+ *
+ * `frame-step-list` looks like this and is not this: it is procedural — do one,
+ * then two. A timeline is chronological, and the gap between two dates is part of
+ * the claim. "Three years" and "three weeks" are different stories told with the
+ * same steps.
+ *
+ * The axis draws first and the markers arrive along it, so the eye reads the span
+ * before it reads the entries. Horizontal at 16:9, vertical at 9:16 — a horizontal
+ * timeline on a phone leaves the labels unreadable at any type size that fits.
+ *
+ * `events` is "when:what", "|"-separated. The two halves are styled differently
+ * because the date is scanned and the label is read.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1920px; height: 1080px; }
+#root { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #101418; color: #eef2f6; display: grid; align-content: center; }
+.kicker { font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #f0a868;
+          opacity: 0; animation: rise 0.5s ease-out 0.1s both; }
+.title { font-weight: 800; letter-spacing: -0.02em; line-height: 1.08;
+         opacity: 0; animation: rise 0.55s ease-out 0.25s both; }
+.line { position: relative; }
+.axis { position: absolute; background: #f0a868; transform-origin: top left; }
+.events { list-style: none; }
+.events li { position: relative; opacity: 0; animation: rise 0.45s ease-out both; }
+.events li::before { content: ""; position: absolute; border-radius: 50%;
+                     background: #101418; border: 4px solid #f0a868; }
+.events .when { display: block; color: #f0a868; font-weight: 700; letter-spacing: 0.1em;
+                text-transform: uppercase; }
+.events .what { display: block; color: #c3ccd6; }
+.note { color: #7d8894; opacity: 0; animation: rise 0.5s ease-out 1.9s both; }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes draw-v { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes draw-h { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+#root { padding: 0 150px; }
+.kicker { font-size: 30px; margin-bottom: 26px; }
+.title { font-size: 82px; margin-bottom: 90px; }
+/* Horizontal at 16:9: there is width to spend and the span reads left to right. */
+.axis { left: 0; right: 0; top: 15px; height: 5px; width: 100%;
+        animation: draw-h 0.7s cubic-bezier(0.7,0,0.2,1) 0.5s both; }
+.events { display: flex; }
+.events li { flex: 1; padding-top: 62px; padding-right: 40px; }
+.events li::before { width: 22px; height: 22px; left: 0; top: 4px; }
+.events .when { font-size: 26px; margin-bottom: 14px; }
+.events .what { font-size: 34px; line-height: 1.35; }
+.note { font-size: 28px; margin-top: 70px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"Diễn biến","title":"Ba tuần đo lại","events":"Tuần 1:Dựng bộ câu hỏi có đáp án|Tuần 2:Chạy bốn cấu hình|Tuần 3:Kết quả ngược dự đoán","note":""}'
+        >
+            <div class="kicker"></div>
+            <div class="title"></div>
+            <div class="line"><span class="axis"></span><ul class="events"></ul></div>
+            <div class="note"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".title", v.title);
+                setOrDrop(".note", v.note);
+                
+                var ul = document.querySelector(".events");
+                var items = String(v.events || "").split("|").map(function (s) { return s.trim(); }).filter(Boolean);
+                items.slice(0, 4).forEach(function (raw, i) {
+                    var cut = raw.indexOf(":");
+                    var li = document.createElement("li");
+                    var when = document.createElement("span");
+                    var what = document.createElement("span");
+                    when.className = "when";
+                    what.className = "what";
+                    // No colon means the whole string is the label. Dropping the entry instead would
+                    // lose content over a punctuation mistake.
+                    when.textContent = cut > 0 ? raw.slice(0, cut).trim() : "";
+                    what.textContent = cut > 0 ? raw.slice(cut + 1).trim() : raw;
+                    if (when.textContent) li.appendChild(when);
+                    li.appendChild(what);
+                    li.style.animationDelay = (0.8 + i * 0.3).toFixed(2) + "s";
+                    ul.appendChild(li);
+                });
+                if (!items.length) drop(".line");
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

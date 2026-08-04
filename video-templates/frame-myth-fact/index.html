@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Myth / Fact · 16:9</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-myth-fact — the belief, struck out, and what is actually true.
+ *
+ * Original work for this repo.
+ *
+ * Two comparison frames existed and neither does this. `frame-aicoding-comparison`
+ * puts two products side by side; `frame-split-compare` puts two states of one
+ * thing. Neither can strike a claim down, which is the shape of most content worth
+ * watching: everyone thinks X, here is why that is wrong.
+ *
+ * The strike-through is drawn — a rule that sweeps across the myth — rather than
+ * CSS `line-through`, because the sweep is the moment the frame exists for and
+ * `line-through` would simply be there from the first frame.
+ *
+ * It is a REPEATING GRADIENT, not an absolutely-positioned bar. The first version
+ * was a bar at `top: 52%`, which strikes a one-line myth correctly and, on the
+ * two-line myth this template ships by default, lands between the lines and reads
+ * as an underline of the first one. A gradient whose period is the line height
+ * crosses every line, and animating `background-size` sweeps all of them at once.
+ *
+ * Once the strike lands the myth dims and the correction rises underneath, so the
+ * two claims are never equally loud.
+ *
+ * `source` is optional and worth filling: a correction without a source is just a
+ * different assertion.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1920px; height: 1080px; }
+#root { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #fbf9f5; color: #1a1714; display: grid; align-content: center; }
+.lab { font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+.myth { opacity: 0; animation: rise 0.5s ease-out 0.15s both; }
+.myth .lab { color: #b4a99a; }
+/* The strike is a gradient whose period IS the line height, so it crosses EVERY
+   line. An absolutely-positioned bar (the first version) strikes a one-line myth
+   and, on a two-line one, lands between the lines as an underline of the first.
+   --lh is set per aspect and drives line-height too, so the two cannot drift. */
+.myth .txt { color: #6f6559; font-weight: 700; line-height: var(--lh);
+             /* inline + clone so each LINE BOX carries its own background: a block
+                background paints the full column width, leaving the rule trailing
+                past the end of a short last line into empty space. */
+             display: inline; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+             background-image: repeating-linear-gradient(to bottom,
+               transparent 0, transparent calc(var(--lh) * 0.5 - 4px),
+               #d1462f calc(var(--lh) * 0.5 - 4px), #d1462f calc(var(--lh) * 0.5 + 4px),
+               transparent calc(var(--lh) * 0.5 + 4px), transparent var(--lh));
+             background-size: 0% 100%; background-repeat: no-repeat;
+             animation: sweep 0.55s cubic-bezier(0.7,0,0.2,1) 1.0s both,
+                        dim 0.4s ease-out 1.5s both; }
+.fact { opacity: 0; animation: rise 0.55s cubic-bezier(0.16,1,0.3,1) 1.7s both; }
+.fact .lab { color: #d1462f; }
+.fact .txt { color: #12100e; font-weight: 800; line-height: 1.14; letter-spacing: -0.015em; }
+.source { color: #9a9084; opacity: 0; animation: rise 0.5s ease-out 2.3s both; }
+@keyframes sweep { to { background-size: 100% 100%; } }
+@keyframes dim { to { opacity: 0.55; } }
+@keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+#root { padding: 0 170px; }
+.lab { font-size: 26px; margin-bottom: 20px; }
+.myth .txt { font-size: 62px; --lh: 74px; }
+.fact { margin-top: 76px; }
+.fact .txt { font-size: 82px; }
+.source { font-size: 26px; margin-top: 60px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"mythLabel":"Ai cũng nghĩ","myth":"Thêm rerank thì RAG sẽ đắt hơn","factLabel":"Thực tế","fact":"Rẻ hơn 68% — prompt ngắn lại nên tốn ít token hơn","source":""}'
+        >
+            <div class="block myth">
+                <div class="lab"></div>
+                <div class="txt"></div>
+            </div>
+            <div class="block fact">
+                <div class="lab"></div>
+                <div class="txt"></div>
+            </div>
+            <div class="source"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".myth .lab", v.mythLabel);
+                setOrDrop(".fact .lab", v.factLabel);
+                setOrDrop(".source", v.source);
+                
+                if (!String(v.myth || "").trim()) drop(".myth"); else set(".myth .txt", v.myth);
+                setOrDrop(".fact .txt", v.fact);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

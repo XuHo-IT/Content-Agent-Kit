@@ -101,11 +101,12 @@ respectively, so `listTemplateIds()` skips them and `validate.mjs` rejects them 
 attribution obligation does not depend on whether the code uses them, so their `NOTICE.md`
 files stay; each says plainly that deleting the folder is a reasonable call.
 
-Eleven are original to content-agent-kit (MIT, same as this repo):
+Sixteen are original to content-agent-kit (MIT, same as this repo):
 
 `frame-broll` · `frame-media-inset` · `frame-screenshot` · `frame-review-verdict` ·
 `frame-quote-testimonial` · `frame-chart-bars` · `frame-step-list` ·
-`frame-kinetic-type` · `frame-product-reveal` · `frame-analog-grain` · `frame-split-compare`
+`frame-kinetic-type` · `frame-product-reveal` · `frame-analog-grain` · `frame-split-compare` ·
+`frame-terminal` · `frame-timeline` · `frame-myth-fact` · `frame-checklist` · `frame-chat-bubbles`
 
 Some templates further credit MIT-licensed design lineage:
 [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)

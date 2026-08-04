@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Terminal · 16:9</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-terminal — a command and what it printed.
+ *
+ * Original work for this repo.
+ *
+ * The largest hole in a kit aimed at technical content: twenty-two templates and
+ * not one could show a command. Upstream ships thirty-three `code-*` items and
+ * this kit vendors none of them, because they are blocks rather than scene
+ * templates and every one would still need a 9:16 composition written by hand.
+ *
+ * The command types itself with a `clip-path` sweep rather than a per-character
+ * timer: one animation instead of forty, and it cannot drift out of step with the
+ * narration the way a JS interval can.
+ *
+ * `output` is "|"-separated. A line beginning with "!" is drawn in the error
+ * colour — the whole reason to show a terminal is often that something failed,
+ * and a red line is the difference between "here is a command" and "here is what
+ * went wrong".
+ *
+ * The window chrome carries no text, so the frame reads as a terminal in any
+ * language.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1920px; height: 1080px; }
+#root { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #0b0e14; color: #d6deeb; display: grid; place-items: center;
+        font-family: "JetBrains Mono", "Cascadia Mono", Consolas, monospace; }
+.win { background: #11151f; border: 1px solid #232a38; border-radius: 14px; overflow: hidden;
+       box-shadow: 0 40px 90px rgba(0,0,0,0.55); opacity: 0;
+       animation: rise 0.5s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
+.bar { display: flex; align-items: center; gap: 10px; background: #171d2a;
+       border-bottom: 1px solid #232a38; }
+.dot { border-radius: 50%; display: block; }
+.dot.r { background: #ff5f57; } .dot.y { background: #febc2e; } .dot.g { background: #28c840; }
+.label { margin-left: 10px; color: #5b6779; letter-spacing: 0.08em; }
+.cmdline { display: flex; align-items: baseline; }
+.prompt { color: #34d399; margin-right: 0.6em; }
+/* One clip-path sweep, not one timer per character: it cannot drift, and it is a
+   single animation the browser can run on the compositor. */
+.cmd { color: #e8eef7; white-space: pre-wrap; clip-path: inset(0 100% 0 0);
+       animation: type 1.1s steps(28, end) 0.55s both; }
+.caret { background: #34d399; opacity: 0; animation: blink 0.9s steps(2) 1.65s infinite; }
+.out { list-style: none; }
+.out li { color: #8b98ad; opacity: 0; animation: rise 0.35s ease-out both; }
+.out li.err { color: #ff6b6b; }
+.caption { color: #5b6779; opacity: 0; animation: rise 0.5s ease-out 2.4s both; text-align: center; }
+@keyframes type { to { clip-path: inset(0 0 0 0); } }
+@keyframes blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.win { width: 1400px; font-size: 34px; }
+.bar { height: 64px; padding: 0 26px; font-size: 24px; }
+.dot { width: 15px; height: 15px; }
+.body { padding: 44px 48px 52px; }
+.caret { width: 16px; height: 34px; margin-left: 4px; }
+.out { margin-top: 30px; }
+.out li { margin-top: 14px; }
+.caption { position: absolute; bottom: 70px; left: 0; right: 0; font-size: 28px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"label":"bash","prompt":"$","command":"node scripts/video/render.mjs script.json","output":"[video] [1/9] Validate script|[video]   8 scenes, 412 words|!error: ffmpeg not found","caption":""}'
+        >
+            <div class="win">
+                <div class="bar">
+                    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+                    <span class="label"></span>
+                </div>
+                <div class="body">
+                    <div class="cmdline">
+                        <span class="prompt"></span><span class="cmd"></span><span class="caret"></span>
+                    </div>
+                    <ul class="out"></ul>
+                </div>
+            </div>
+            <div class="caption"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".label", v.label);
+                set(".prompt", v.prompt);
+                set(".cmd", v.command);
+                setOrDrop(".caption", v.caption);
+                if (!String(v.command || "").trim()) { drop(".cmdline"); }
+                
+                var ul = document.querySelector(".out");
+                var lines = String(v.output || "").split("|").map(function (s) { return s.trim(); }).filter(Boolean);
+                lines.slice(0, 6).forEach(function (text, i) {
+                    var li = document.createElement("li");
+                    // A leading "!" marks an error line. Showing a failure IS often the point.
+                    var err = text.charAt(0) === "!";
+                    if (err) { li.className = "err"; text = text.slice(1); }
+                    li.textContent = text;
+                    li.style.animationDelay = (1.75 + i * 0.18).toFixed(2) + "s";
+                    ul.appendChild(li);
+                });
+                if (!lines.length) drop(".out");
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>
