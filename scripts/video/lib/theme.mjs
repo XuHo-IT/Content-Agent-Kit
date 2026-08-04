@@ -64,6 +64,29 @@ export const THEME_PRESETS = {
 export const THEME_IDS = Object.keys(THEME_PRESETS);
 
 /**
+ * Palettes written by `theme-from-url.mjs`, or by hand, into
+ * `video-templates/themes.json`. Kept out of THEME_PRESETS on purpose: those three ship
+ * with the kit and its tests cover them, while these belong to whoever's brand they were
+ * read from and travel with that person's repo rather than with this one.
+ */
+let USER_CACHE = null;
+export function loadUserThemes() {
+  if (USER_CACHE) return USER_CACHE;
+  const p = join(templatesDir(), "themes.json");
+  if (!existsSync(p)) return (USER_CACHE = {});
+  const raw = JSON.parse(readFileSync(p, "utf8"));
+  USER_CACHE = Object.fromEntries(Object.entries(raw).filter(([k]) => !k.startsWith("_")));
+  return USER_CACHE;
+}
+
+/** Every id `script.theme` accepts as a bare string — shipped plus user-written. */
+export function knownThemeIds() {
+  return [...THEME_IDS, ...Object.keys(loadUserThemes())];
+}
+
+const lookup = (id) => THEME_PRESETS[id] ?? loadUserThemes()[id];
+
+/**
  * Normalise `script.theme` — a preset id, or an object that may name a preset via `preset`
  * and override any field of it.
  * @returns {object|null} null when no theme is set (render the template as authored)
@@ -74,13 +97,13 @@ export function resolveTheme(theme) {
   let base = {};
   let extra = {};
   if (typeof theme === "string") {
-    base = THEME_PRESETS[theme];
-    if (!base) throw new Error(`Unknown theme "${theme}". Known: ${THEME_IDS.join(", ")}`);
+    base = lookup(theme);
+    if (!base) throw new Error(`Unknown theme "${theme}". Known: ${knownThemeIds().join(", ")}`);
     extra = { id: theme };
   } else if (typeof theme === "object") {
     if (theme.preset) {
-      base = THEME_PRESETS[theme.preset];
-      if (!base) throw new Error(`Unknown theme preset "${theme.preset}". Known: ${THEME_IDS.join(", ")}`);
+      base = lookup(theme.preset);
+      if (!base) throw new Error(`Unknown theme preset "${theme.preset}". Known: ${knownThemeIds().join(", ")}`);
     }
     extra = { id: theme.preset ?? "custom", ...theme };
   } else {
@@ -148,7 +171,7 @@ export function canvasOf(templateId, entryFile, log = null) {
 
 // ── colour maths ───────────────────────────────────────────────────────────────
 
-function hexToRgb(hex) {
+export function hexToRgb(hex) {
   let h = hex.replace("#", "");
   if (h.length === 3 || h.length === 4) h = [...h].map((c) => c + c).join("");
   const a = h.length === 8 ? parseInt(h.slice(6, 8), 16) / 255 : 1;
@@ -160,7 +183,7 @@ function hexToRgb(hex) {
   };
 }
 
-function rgbToHsl({ r, g, b }) {
+export function rgbToHsl({ r, g, b }) {
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
   const l = (max + min) / 2;
@@ -174,7 +197,7 @@ function rgbToHsl({ r, g, b }) {
   return { h, s, l };
 }
 
-function hslToRgb(h, s, l) {
+export function hslToRgb(h, s, l) {
   h = ((h % 360) + 360) % 360;
   if (s === 0) return { r: l, g: l, b: l };
   const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
@@ -191,15 +214,15 @@ function hslToRgb(h, s, l) {
 
 const to255 = (v) => Math.max(0, Math.min(255, Math.round(v * 255)));
 const hex2 = (v) => to255(v).toString(16).padStart(2, "0");
-const toHex = ({ r, g, b }) => `#${hex2(r)}${hex2(g)}${hex2(b)}`;
+export const toHex = ({ r, g, b }) => `#${hex2(r)}${hex2(g)}${hex2(b)}`;
 
 /** WCAG relative luminance. */
-function relLum({ r, g, b }) {
+export function relLum({ r, g, b }) {
   const f = (v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
   return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
 }
 
-function contrastRatio(a, b) {
+export function contrastRatio(a, b) {
   const [hi, lo] = [relLum(a), relLum(b)].sort((x, y) => y - x);
   return (hi + 0.05) / (lo + 0.05);
 }

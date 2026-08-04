@@ -93,6 +93,44 @@ Changing `theme` invalidates the cached scene clips, so a re-render actually re-
 instead of quietly returning the previous palette. Full details and the shipped-bug list:
 `video-templates/CATALOG.md`.
 
+#### Reading a palette off your own site — `theme-from-url.mjs`
+
+Three shipped presets, and the palette that matters most — your own — is the one nobody has
+memorised. This reads it off a live page:
+
+```bash
+node scripts/video/theme-from-url.mjs --url https://your.site --dry-run   # look first
+node scripts/video/theme-from-url.mjs --url https://your.site --name acme
+node scripts/video/theme-probe.mjs --preview acme                         # then LOOK at it
+```
+
+It writes `video-templates/themes.json`, and `"theme": "acme"` then works exactly like a
+shipped preset. Nothing new is installed: `screenshot.mjs` captures the page, ffmpeg reduces
+it to raw RGB, and the WCAG rules come from `theme.mjs`.
+
+What it decides, and why:
+
+| | |
+|---|---|
+| **canvas** | the colour covering the most of the page |
+| **ink** | the most **prominent** colour clearing 4.5:1 against it — *not* the most contrasting one |
+| **accent** | ranked by share × saturation, and it must clear 3:1 or it does not count |
+| **hue / spread / saturation** | taken from the accent; spread widens if the page uses a family of hues |
+
+Ranking ink by contrast was the first version and it is unstable: the darkest thing on a page
+is often a 0.05% speck — a border, an icon — and which speck wins moves between two captures
+of the same URL. Two runs of `nodejs.org` minutes apart picked `#3a7a31`, then `#64696b`. By
+share, both pick `#417e38`. On `developer.mozilla.org` the by-share winner is `#222527` at 35%
+of the page, which is the text; the by-contrast winner covers 0.40%.
+
+**It reads the pixels that are there.** On a page that is mostly photography the dominant
+colour is the photograph. That is why it prints the palette and asks before writing — and why
+`--yes` is required when stdin is not a terminal, rather than the prompt being skipped
+silently.
+
+`tests/palette.test.mjs` covers the decisions with in-memory pixel buffers: no browser, no
+network, no ffmpeg, so CI never fails because someone else's website was having a bad day.
+
 ### Scene transitions — `transition`
 
 Until v0.5.0 every cut in every video this kit made was a hard cut, while the SFX library
@@ -375,6 +413,41 @@ node scripts/video/theme-probe.mjs --selftest            # kiểm luật màu, k
 
 Đổi `theme` sẽ vô hiệu hoá clip đã cache, nên render lại là render thật chứ không lặng lẽ trả
 về bảng màu cũ. Chi tiết và danh sách lỗi từng gặp: `video-templates/CATALOG.md`.
+
+#### Lấy bảng màu từ chính website của bạn — `theme-from-url.mjs`
+
+Kit có ba preset, còn bảng màu quan trọng nhất — của chính bạn — lại là cái không ai thuộc mã
+hex. Lệnh này đọc nó từ một trang đang chạy:
+
+```bash
+node scripts/video/theme-from-url.mjs --url https://your.site --dry-run   # xem trước đã
+node scripts/video/theme-from-url.mjs --url https://your.site --name acme
+node scripts/video/theme-probe.mjs --preview acme                         # rồi NHÌN nó
+```
+
+Nó ghi ra `video-templates/themes.json`, và `"theme": "acme"` dùng y hệt một preset có sẵn.
+Không cài thêm gì: `screenshot.mjs` chụp trang, ffmpeg rút về RGB thô, luật WCAG lấy từ
+`theme.mjs`.
+
+| | |
+|---|---|
+| **nền** | màu chiếm nhiều diện tích nhất |
+| **mực** | màu **phổ biến nhất** đạt 4,5:1 với nền — *không phải* màu tương phản mạnh nhất |
+| **nhấn** | xếp theo diện tích × độ bão hoà, và phải đạt 3:1 mới được tính |
+| **hue / spread / saturation** | lấy từ màu nhấn; spread nới ra nếu trang dùng cả một dải màu |
+
+Xếp mực theo độ tương phản là bản đầu tiên và nó không ổn định: thứ tối nhất trên một trang
+thường là một đốm 0,05% — một đường viền, một icon — và mỗi lần chụp lại một đốm khác thắng.
+Hai lần chạy `nodejs.org` cách nhau vài phút cho `#3a7a31` rồi `#64696b`. Xếp theo diện tích
+thì cả hai đều ra `#417e38`. Trên `developer.mozilla.org`, xếp theo diện tích cho `#222527`
+chiếm 35% trang — đúng là màu chữ; xếp theo tương phản cho một màu chiếm 0,40%.
+
+**Nó đọc đúng những điểm ảnh đang có ở đó.** Trang nhiều ảnh thì màu trội là màu của ảnh chứ
+không phải màu thương hiệu. Vì vậy nó in bảng màu ra và hỏi trước khi ghi — và bắt buộc
+`--yes` khi stdin không phải terminal, thay vì lặng lẽ bỏ qua câu hỏi.
+
+`tests/palette.test.mjs` kiểm phần ra quyết định bằng buffer điểm ảnh dựng trong bộ nhớ: không
+trình duyệt, không mạng, không ffmpeg — CI không bao giờ đỏ vì website của người khác đang lỗi.
 
 ### Chuyển cảnh — `transition`
 

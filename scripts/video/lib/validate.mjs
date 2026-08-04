@@ -9,7 +9,7 @@
 import { listTemplateIds } from "./paths.mjs";
 import { PROVIDERS, PROVIDER_SPECS } from "./tts.mjs";
 import { SOURCE_IDS } from "../../media/lib/sources/index.mjs";
-import { resolveTheme, loadThemeMap, THEME_IDS } from "./theme.mjs";
+import { resolveTheme, loadThemeMap, THEME_IDS, contrastRatio, hexToRgb } from "./theme.mjs";
 import { TRANSITIONS } from "./ffmpeg-video.mjs";
 
 // ── tunables (all overridable by the caller) ────────────────────────────────
@@ -54,18 +54,12 @@ const quote = (s, n = 80) => {
 };
 const isObj = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
 
-/** WCAG relative luminance + contrast ratio, for the theme's bg/ink pair. */
-const relLum = (hex) => {
-  const c = [1, 3, 5].map((i) => {
-    const v = parseInt(hex.slice(i, i + 2), 16) / 255;
-    return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4;
-  });
-  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
-};
-const contrast = (a, b) => {
-  const [hi, lo] = [relLum(a), relLum(b)].sort((x, y) => y - x);
-  return (hi + 0.05) / (lo + 0.05);
-};
+/**
+ * Contrast for the theme's bg/ink pair, from theme.mjs rather than a second copy.
+ * This file used to carry its own WCAG implementation; theme-from-url.mjs would have
+ * made three. Three copies of a rule is three places for it to drift.
+ */
+const contrast = (a, b) => contrastRatio(hexToRgb(a), hexToRgb(b));
 
 /**
  * Validate a parsed script object.

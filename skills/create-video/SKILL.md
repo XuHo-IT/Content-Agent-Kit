@@ -61,6 +61,11 @@ One top-level key recolours all of them at render time:
 
 `paper-blue` (white canvas, ocean-blue ink) · `paper-ink` · `paper-forest`, or an object that
 overrides any field of one. Ask before choosing — a palette is the user's call, not yours.
+
+**If the user has a website, offer to read their palette off it** rather than guessing hex
+codes: `node scripts/video/theme-from-url.mjs --url <their site> --name <id>` writes a theme
+they can then use by name. Run it with `--dry-run` first and show them the palette — on a
+page that is mostly photography the dominant colour is the photograph, and only they can tell.
 Two consequences worth knowing: emoji keep their own colours (a red 🚫 stays red on a blue
 frame), and a new template must be measured with `theme-probe.mjs` before it themes correctly.
 See `video-templates/CATALOG.md`.
