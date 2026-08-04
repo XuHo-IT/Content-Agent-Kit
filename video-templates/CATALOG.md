@@ -363,6 +363,85 @@ URL pill). The image is top-aligned so a page headline is never cropped away.
 
 ---
 
+## frame-kinetic-type
+
+**Role:** body / statement. One sentence, arriving a word at a time in a heavy serif, so the
+frame keeps pace with the narration instead of presenting a finished slide.
+**Best for:** the line you want remembered — a claim, a conclusion, a reframing.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤24 | small uppercase label; empty removes it |
+| `line` | string | ≤90 | split on whitespace in JS — pass a sentence, not a list |
+| `accent` | string | one word | held a beat longer, coloured, underlined |
+| `footnote` | string | ≤60 | source or qualifier; empty removes it |
+
+> `accent` is matched case- and punctuation-insensitively, so `"đúng"` still matches the
+> word `"đúng."` at the end of a sentence. It matches **every** occurrence — pick a word
+> that appears once.
+
+---
+
+## frame-product-reveal
+
+**Role:** body. The beat where a thing is finally named: a shutter wipes away and the name
+scales in behind it, so the two are one gesture rather than two overlapping animations.
+**Best for:** a launch, an introduction, the frame right after "so what did we build".
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `teaser` | string | ≤20 | uppercase line above; empty removes it |
+| `name` | string | ≤14 at 9:16, ≤22 at 16:9 | the reveal |
+| `tagline` | string | ≤70 | one line saying what it does |
+| `badge` | string | ≤16 | pill under the tagline; empty removes it entirely |
+
+> A name past the limit **wraps**, and the shutter then wipes two lines instead of one. It
+> still renders; it just stops being a single gesture, which was the whole point. The 9:16
+> type size was cut from 132px to 104px for exactly this reason after an eleven-character
+> name broke across two lines.
+
+---
+
+## frame-analog-grain
+
+**Role:** body / texture. Tape stock: SVG grain, drifting scan lines, and a title drawn three
+times with the red and cyan copies offset — which is what chromatic aberration *is*, rather
+than a filter approximating it.
+**Best for:** an aside, a memory, a "back when" — and as relief from frames that all look
+machine-clean.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `tape` | string | ≤14 | top-left furniture, e.g. `SP · 2026` |
+| `timecode` | string | ≤12 | top-right furniture |
+| `title` | string | ≤18 | the aberrated line — **no emoji**, it is drawn three times |
+| `subtitle` | string | ≤44 | one line under it |
+
+> Both corner slots are removed when empty, and removing both leaves a plain grained frame
+> rather than an empty corner. No assets ship with this: the grain is an inline SVG filter.
+
+---
+
+## frame-split-compare
+
+**Role:** body / evidence. Two states of the same thing, uncovered by a line that travels.
+`frame-chart-bars` compares magnitudes; this compares **states**, which is a different claim.
+**Best for:** before/after, A/B, with-and-without.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `leftLabel` / `rightLabel` | string | ≤18 | uppercase headings |
+| `leftValue` / `rightValue` | string | ≤6 | the two numbers — keep them short, they are huge |
+| `leftNote` / `rightNote` | string | ≤40 | optional line under each; empty removes it |
+| `delta` | string | ≤5 | sits on the divider, the one place belonging to neither side |
+| `caption` | string | ≤80 | what was measured, and over what |
+
+> 16:9 splits left/right, 9:16 splits top/bottom, and the divider travels the same direction
+> the reveal does in both. A divider moving against its own reveal reads as two animations
+> that happen to finish together — which is how the first version of this looked.
+
+---
+
 ## A renderer limit worth knowing: full-bleed video at 16:9
 
 All three media templates above are **verified at both 9:16 and 16:9**. Getting there
@@ -402,6 +481,39 @@ node scripts/video/add-template.mjs --preset news
 Only folders with a root `index.html` become scene templates. Registry *blocks* and
 *components* ship `compositions/` only, so they land here as building material without
 cluttering the list a script can choose from. See `docs/16-template-registry.md`.
+
+### A delayed animation needs a start state, or frame 0 shows the ending
+
+`animation: slide 0.8s ease 0.45s forwards` does **nothing** during its 0.45s delay — the
+element renders with its normal style, which for a `forwards` animation is where it will
+finish. The first half-second of the video shows the animation already over, then it snaps
+back and replays.
+
+Two ways to be right, and every template here uses one:
+
+```css
+.thing { opacity: 0;   animation: rise 0.5s ease 0.3s forwards; }  /* base = the start */
+.thing { animation: rise 0.5s ease 0.3s both; }                    /* backwards fill */
+```
+
+Prefer the base-rule form when the start state is the same in both aspects, and `both` when
+it is not — `frame-split-compare`'s divider slides in from the right at 16:9 and from the
+bottom at 9:16, so its start state cannot live in the shared rule.
+
+This is **not** checked by a test. Writing one meant regex-parsing CSS across two formatting
+conventions in this folder, and the first attempt flagged `frame-creative-voltage`, which is
+correct. A checker that fails correct code gets switched off rather than fixed.
+
+### Look at it before you believe it
+
+The animation bugs in this folder — two templates rendering at 1920×1080 inside a 9:16 video,
+a divider travelling against its own reveal, an animation showing its final frame first — all
+passed every test that existed. Render the template and open the image:
+
+```bash
+node scripts/video/theme-probe.mjs --template <id>     # canvas, both aspects
+node scripts/video/contact-sheet.mjs <clip.mp4>        # then actually look at it
+```
 
 ---
 
