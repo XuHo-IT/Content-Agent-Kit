@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Split Compare · Portrait 9:16</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-split-compare — two states of the same thing, divided by a line that moves.
+ *
+ * Original work for this repo.
+ *
+ * Before/after and A/B are the commonest thing a technical post has to show, and
+ * nothing in the kit did it. frame-chart-bars compares magnitudes; this compares
+ * states, which is a different claim.
+ *
+ * The divider is a real clip-path sweep rather than two panels fading in: the
+ * right side is revealed BY the line travelling across it, so the eye follows
+ * the movement to the result instead of choosing where to look.
+ *
+ * `delta` is the one number a comparison exists to produce. It is optional, and
+ * when present it sits on the divider — the only place on the frame that belongs
+ * to neither side.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1080px; height: 1920px; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #0f1115; color: #f4f6fa; }
+.pane { position: absolute; top: 0; bottom: 0; display: grid; place-content: center;
+        text-align: center; padding: 0 6%; }
+.pane .label { font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; opacity: 0.62; }
+.pane .value { font-weight: 900; line-height: 1; letter-spacing: -0.03em; }
+.pane .note { opacity: 0.55; }
+.left  { background: #191d26; }
+.right { background: #10261f; color: #d8fff0; }
+.right .value { color: #34d399; }
+/* The sweep IS the reveal: the right pane is uncovered by the line travelling. */
+.right { clip-path: inset(0 0 0 100%); animation: sweep 0.85s cubic-bezier(0.7, 0, 0.2, 1) 0.45s forwards; }
+/* `both`, not `forwards`: every other element here declares its own start state in
+   its base rule, but the divider's differs per aspect. Without the backwards half
+   it sits at its resting place for the 0.45s delay and then jumps to the start —
+   the first frame of the video shows the animation already finished. */
+.divider { position: absolute; background: #34d399; z-index: 3;
+           animation: slide 0.85s cubic-bezier(0.7, 0, 0.2, 1) 0.45s both; }
+.delta { position: absolute; z-index: 4; background: #34d399; color: #04120c; font-weight: 900;
+         border-radius: 999px; opacity: 0; transform: scale(0.7);
+         animation: pop 0.42s cubic-bezier(0.16, 1, 0.3, 1) 1.25s forwards; }
+.caption { position: absolute; left: 0; right: 0; text-align: center;
+           opacity: 0; animation: rise 0.5s ease-out 1.5s forwards; }
+@keyframes sweep { to { clip-path: inset(0 0 0 0); } }
+@keyframes pop { to { opacity: 1; transform: scale(1); } }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 0.62; transform: none; } }
+.pane { left: 0; right: 0; width: 100%; height: 50%; top: auto; }
+.left  { top: 0; }
+.right { bottom: 0; clip-path: inset(100% 0 0 0); animation-name: sweeph; }
+@keyframes sweeph { to { clip-path: inset(0 0 0 0); } }
+/* Same rule as landscape: `inset(100% 0 0 0)` uncovers from the bottom edge
+   upward, so the line rises from the bottom rather than dropping from the top. */
+.divider { left: 0; right: 0; top: 50%; height: 6px; margin-top: -3px;
+           animation-name: slideh; }
+@keyframes slideh { from { transform: translateY(50vh); } to { transform: none; } }
+.pane .label { font-size: 34px; margin-bottom: 24px; }
+.pane .value { font-size: 190px; }
+.pane .note { font-size: 32px; margin-top: 26px; }
+.delta { top: 50%; left: 50%; margin: -50px 0 0 -100px;
+         width: 200px; height: 100px; display: grid; place-items: center; font-size: 48px; }
+.caption { bottom: 96px; font-size: 34px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"leftLabel":"Trước","leftValue":"62%","leftNote":"","rightLabel":"Sau","rightValue":"89%","rightNote":"","delta":"+27","caption":""}'
+        >
+            <div class="pane left">
+                <div class="label"></div>
+                <div class="value"></div>
+                <div class="note"></div>
+            </div>
+            <div class="pane right">
+                <div class="label"></div>
+                <div class="value"></div>
+                <div class="note"></div>
+            </div>
+            <div class="divider"></div>
+            <div class="delta"></div>
+            <div class="caption"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".left .label", v.leftLabel);
+                setOrDrop(".left .value", v.leftValue);
+                setOrDrop(".left .note", v.leftNote);
+                setOrDrop(".right .label", v.rightLabel);
+                setOrDrop(".right .value", v.rightValue);
+                setOrDrop(".right .note", v.rightNote);
+                setOrDrop(".delta", v.delta);
+                setOrDrop(".caption", v.caption);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

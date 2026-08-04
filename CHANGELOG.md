@@ -10,6 +10,40 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — four templates, and a `launch` genre to use them
+
+18 → 22 scene templates. Chosen against what the kit could not do rather than to round the
+number up:
+
+| | |
+|---|---|
+| `frame-kinetic-type` | One sentence arriving a word at a time. Every other template presented text as a block that faded or rose in one piece — which reads as a slide, not as motion. |
+| `frame-product-reveal` | The beat where a thing is finally named. The kit had hook, body and outro but nothing for the moment the subject appears. |
+| `frame-analog-grain` | Tape stock. Inline SVG grain, drifting scan lines, and a title drawn three times with the red and cyan copies offset — which is what chromatic aberration *is*, rather than a filter approximating it. No assets ship with it. |
+| `frame-split-compare` | Two states of one thing, uncovered by a travelling divider. `clip-path` was used by **0 of 18** existing templates; `frame-chart-bars` compares magnitudes, which is a different claim. |
+
+Both compositions of each are generated from one source, so the 16:9 and 9:16 layouts cannot
+drift apart on slot names or behaviour — only the layout CSS differs.
+
+New `launch` genre (problem → before/after → the name → what it does → one link), and
+`testimonial` now reaches for `frame-split-compare` where its beat literally reads "the before
+and after, measured".
+
+Three things the tests could not have caught, found by rendering and looking:
+
+- **`frame-split-compare`'s divider travelled against its own reveal** — the line came from
+  the left while `clip-path` uncovered from the right. It read as two animations that happen
+  to finish together.
+- **The first frame showed the animation already finished.** `animation: … 0.45s forwards`
+  does nothing during its delay, so the element rendered at its end state, then snapped back.
+  Fixed with `both`; the rule is now written down in `CATALOG.md` under "Adding a template".
+- **An eleven-character product name wrapped to two lines at 9:16**, so the shutter wiped two
+  lines instead of one. Type size cut 132px → 104px and the real limit documented.
+
+A test for the second one was written, run against all 24 folders, and **discarded**: parsing
+CSS with a regex across two formatting conventions in this repo flagged `frame-creative-voltage`,
+which is correct. A checker that fails correct code gets switched off rather than fixed.
+
 ### Added — scene transitions
 
 Every video this kit had ever made joined its scenes with a hard cut. The SFX library shipped

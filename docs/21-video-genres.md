@@ -25,7 +25,7 @@ Then validate before you spend anything:
 node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 ```
 
-### The five
+### The six
 
 | genre | when | the shape |
 |---|---|---|
@@ -33,9 +33,10 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **tutorial** | someone wants to do the thing | the outcome, not the topic → 3–5 steps → the hardest step on screen → where to get it |
 | **news** | something happened | the event in one sentence → the number that makes it news → what was true before → what changes for the viewer |
 | **listicle** | a ranked or grouped set | the count is a promise — keep it → the list, arriving one at a time → the two hardest to choose between |
+| **launch** | you built something and it is now available | the problem, not the product → how it was against how it is → **the name, finally** → what it does → one link |
 | **testimonial** | someone else's result | the result first → their words, unedited → before and after, measured |
 
-### Two rules that hold across all five
+### Two rules that hold across all six
 
 **The hook is not a title card.** A frame that names the topic without giving anything away
 is a frame people scroll past. Lead with the verdict, the number or the result. A review
@@ -90,7 +91,7 @@ tiêu tiền:
 node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 ```
 
-### Năm thể loại
+### Sáu thể loại
 
 | thể loại | khi nào | hình dạng |
 |---|---|---|
@@ -98,9 +99,10 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **tutorial** | người ta muốn tự làm được | kết quả chứ không phải chủ đề → 3–5 bước → bước khó nhất chiếu lên màn → lấy ở đâu |
 | **news** | có chuyện vừa xảy ra | sự việc trong một câu → con số khiến nó thành tin → trước đó thế nào → đổi gì với người xem |
 | **listicle** | một danh sách có thứ hạng | con số là lời hứa, phải giữ → danh sách hiện dần → hai cái khó chọn nhất |
+| **launch** | bạn làm xong một thứ và giờ nó có sẵn | vấn đề chứ không phải sản phẩm → trước so với sau → **tên, cuối cùng** → nó làm được gì → một đường dẫn |
 | **testimonial** | kết quả của người khác | kết quả trước → lời của họ, không sửa → trước và sau, có đo |
 
-### Hai quy tắc đúng cho cả năm
+### Hai quy tắc đúng cho cả sáu
 
 **Hook không phải slide tiêu đề.** Một khung chỉ nêu chủ đề mà không hé lộ gì là khung người
 ta lướt qua. Mở bằng kết luận, con số hoặc kết quả. Riêng review càng đúng: không ai xem
