@@ -65,6 +65,19 @@ Two consequences worth knowing: emoji keep their own colours (a red 🚫 stays r
 frame), and a new template must be measured with `theme-probe.mjs` before it themes correctly.
 See `video-templates/CATALOG.md`.
 
+**How do the scenes join?** Hard cuts unless you say otherwise. One top-level key gives the
+whole video a transition, and a scene can override how it enters:
+
+```json
+{ "transition": "fade", "scenes": [{ "id": "s2", "transition": "swipe" }] }
+```
+
+`fade` · `swipe` · `slide` · `iris` · `pixelize` · `none`. The finished video is exactly the
+same length either way — the padding is worked out for you — but a transition forces a
+re-encode of the join, so `--no-transitions` is there while you iterate. **If a scene carries
+a `whoosh`, `swoosh` or `page-flip` SFX, give it a transition**: that sound is describing a
+movement, and over a hard cut it describes one that never happens.
+
 **Does any scene want real footage?** A scene can carry a `media` block — a stock clip, or a
 screenshot of the page you are citing:
 

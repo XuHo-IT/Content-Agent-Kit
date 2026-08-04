@@ -25,7 +25,16 @@ import { createTtsClient, ttsConfig } from "./lib/tts.mjs";
 import { fingerprint, checkCache, writeCache } from "./lib/voice-cache.mjs";
 import { pLimit } from "./lib/proc.mjs";
 import { getDurationSec, concatWithSilence, mixSfxOntoVoice, applySpeed } from "./lib/ffmpeg-audio.mjs";
-import { fitClipToDuration, concatVideos, muxAudioOntoVideo, getVideoSize } from "./lib/ffmpeg-video.mjs";
+import {
+  fitClipToDuration,
+  concatVideos,
+  concatWithTransitions,
+  transitionPlan,
+  muxAudioOntoVideo,
+  getVideoSize,
+  TRANSITIONS,
+  DEFAULT_TRANSITION_SEC,
+} from "./lib/ffmpeg-video.mjs";
 import { indexSfxLibrary, pickSfxForScene, defaultPlayback } from "./lib/sfx.mjs";
 import { composeTemplate } from "./lib/compose.mjs";
 import { sfxDir } from "./lib/paths.mjs";
@@ -44,6 +53,7 @@ if (argv.includes("--help") || argv.length === 0) {
       `  --skip-preflight    skip the ffmpeg/TTS host check\n` +
       `  --strict            craft warnings block the render\n` +
       `  --refresh-media     re-resolve B-roll/screenshots, ignoring media-lock.json\n` +
+      `  --no-transitions    hard cuts everywhere; skips the re-encode xfade forces\n` +
       `  --backend <id>      html (default) | api | remotion — see --list-backends\n` +
       `  --profile <name>    a profile in profiles/ (personal, business), or a path\n` +
       `  --cost-ceiling <n>  refuse an api render estimated above this many USD\n` +
@@ -261,15 +271,46 @@ try {
   // STEP 6 — resolve B-roll / screenshots (idempotent via media-lock.json)
   step(6, "Resolve media");
   const lastIdx = scenes.length - 1;
+
+  // --- transitions ----------------------------------------------------------
+  // A scene's `transition` describes how it ENTERS, so the joint between clip i
+  // and i+1 is owned by scene i+1. The 0.3s of inter-scene silence the audio
+  // already carries is what a transition plays over; keep T under it.
+  const baseDur = scenes.map((s, i) => {
+    const d = sceneAudio.find((a) => a.id === s.id).durationSec;
+    return d + (i < lastIdx ? SCENE_GAP_SEC : OUTRO_HOLD_SEC);
+  });
+  const transitionSec = Number(script.transitionSec ?? DEFAULT_TRANSITION_SEC);
+  const noTransitions = argv.includes("--no-transitions");
+  const kinds = scenes.slice(1).map((s) => {
+    const k = s.transition ?? script.transition ?? "none";
+    if (!(k in TRANSITIONS)) {
+      console.error(
+        `[video] ✗ scene ${s.id}: unknown transition "${k}" — one of ${Object.keys(TRANSITIONS).join(", ")}`,
+      );
+      process.exit(1);
+    }
+    return noTransitions ? "none" : k;
+  });
+  const secs = kinds.map((k) => (k === "none" ? 0 : transitionSec));
+  const anyTransition = secs.some((s) => s > 0);
+  // Padding each clip by the transition that follows it is what keeps the total
+  // unchanged — see transitionPlan(). With no transitions, padded === baseDur.
+  const plan = scenes.length > 1 ? transitionPlan(baseDur, secs) : { padded: baseDur, offsets: [] };
+  if (anyTransition) {
+    const used = [...new Set(kinds.filter((k) => k !== "none"))].join(", ");
+    info(`transitions: ${used} @ ${transitionSec}s — re-encodes the concat (slower than a stream copy)`);
+  } else if (noTransitions) {
+    info("transitions: off (--no-transitions)");
+  }
+
   const sceneMedia = {};
   const withMedia = scenes.filter((s) => s.media);
   if (withMedia.length === 0) {
     info("no scenes need media");
   } else {
     for (const scene of withMedia) {
-      const dur = sceneAudio.find((a) => a.id === scene.id).durationSec;
-      const i = scenes.indexOf(scene);
-      const visualDur = dur + (i < lastIdx ? SCENE_GAP_SEC : OUTRO_HOLD_SEC);
+      const visualDur = plan.padded[scenes.indexOf(scene)];
       const got = await resolveSceneMedia(scene, outputDir, {
         durationSec: visualDur,
         refresh: argv.includes("--refresh-media"),
@@ -299,10 +340,10 @@ try {
 
   for (let i = 0; i < scenes.length; i++) {
     const scene = scenes[i];
-    const dur = sceneAudio.find((a) => a.id === scene.id).durationSec;
     // Every scene but the last also covers the 0.3s inter-scene silence; the
-    // outro holds 3s past the last word.
-    const visualDur = dur + (i < lastIdx ? SCENE_GAP_SEC : OUTRO_HOLD_SEC);
+    // outro holds 3s past the last word. Plus, if a transition follows this
+    // scene, exactly enough extra for the overlap to eat back.
+    const visualDur = plan.padded[i];
 
     const rawClip = path.join(clipsDir, `scene-${scene.id}.mp4`);
     const fitClip = path.join(clipsDir, `scene-${scene.id}-fit.mp4`);
@@ -336,7 +377,16 @@ try {
   step(8, "Concat clips + mux audio");
   const silentVideo = path.join(outputDir, "video-silent.mp4");
   const videoPath = path.join(outputDir, "video.mp4");
-  await concatVideos(fittedClips, silentVideo);
+  if (anyTransition) {
+    await concatWithTransitions(fittedClips, silentVideo, {
+      offsets: plan.offsets,
+      kinds,
+      secs,
+      fps: RENDER_FPS,
+    });
+  } else {
+    await concatVideos(fittedClips, silentVideo);
+  }
   await muxAudioOntoVideo(silentVideo, voiceMp3, videoPath);
 
   // STEP 9 — report

@@ -93,6 +93,59 @@ Changing `theme` invalidates the cached scene clips, so a re-render actually re-
 instead of quietly returning the previous palette. Full details and the shipped-bug list:
 `video-templates/CATALOG.md`.
 
+### Scene transitions — `transition`
+
+Until v0.5.0 every cut in every video this kit made was a hard cut, while the SFX library
+happily played a `whoosh` over it. The sound promised a movement the picture never made.
+
+```json
+{
+  "transition": "fade",        // the default for every joint
+  "transitionSec": 0.25,       // optional; must stay under the 0.3s inter-scene gap
+  "scenes": [
+    { "id": "s1", "…": "…" },
+    { "id": "s2", "transition": "swipe", "…": "…" },   // how THIS scene enters
+    { "id": "s3", "transition": "none",  "…": "…" }    // back to a hard cut
+  ]
+}
+```
+
+| name | ffmpeg `xfade` | reads as |
+|---|---|---|
+| `none` | — | a hard cut |
+| `fade` | `fade` | one shot dissolves into the next |
+| `swipe` | `wipeleft` | the new scene pushes the old one off |
+| `slide` | `slideup` | the frame travels up to the next scene |
+| `iris` | `circleopen` | opens from the centre |
+| `pixelize` | `pixelize` | breaks up and re-forms |
+
+A scene's `transition` describes how it **enters**, so it belongs on the incoming scene and
+the first scene's is ignored (the validator warns rather than silently dropping it).
+
+**The length does not change.** `xfade` overlaps its two inputs, so a naive chain comes out
+`(n−1) × T` short — while the narration, built separately from the voice durations, does not
+shrink with it, and every line after the first lands progressively early. `transitionPlan()`
+pads each clip by exactly the transition that follows it so the overlap eats the padding back:
+
+```
+sum(padded) − sum(T) === sum(base)
+```
+
+`tests/transitions.test.mjs` asserts that, plus the property that matters more — each scene's
+picture still starts on the frame its narration starts on.
+
+**It costs.** The concat demuxer copies streams; `xfade` blends pixels, so the join step has to
+re-encode. Measured on a 27-second five-scene 540×960 render: **0.1s → 2.0s** for that step,
+and one extra encode generation. In a full render that is noise next to TTS and template
+capture, but if you are re-joining repeatedly:
+
+```bash
+node scripts/video/render.mjs <script> --no-transitions   # hard cuts, stream copy
+```
+
+Mixed scripts work: joints marked `none` use ffmpeg's `concat` **filter** rather than a
+one-frame crossfade, so "none" means none.
+
 ### The gate — `validate-script.mjs`
 
 ```bash
@@ -322,6 +375,59 @@ node scripts/video/theme-probe.mjs --selftest            # kiểm luật màu, k
 
 Đổi `theme` sẽ vô hiệu hoá clip đã cache, nên render lại là render thật chứ không lặng lẽ trả
 về bảng màu cũ. Chi tiết và danh sách lỗi từng gặp: `video-templates/CATALOG.md`.
+
+### Chuyển cảnh — `transition`
+
+Tới trước v0.5.0, mọi chỗ nối trong mọi video kit dựng đều là **cắt cứng**, trong khi thư viện
+SFX vẫn phát `whoosh` ngay tại đó. Tiếng động hứa một chuyển động mà hình ảnh không hề có.
+
+```json
+{
+  "transition": "fade",        // mặc định cho mọi chỗ nối
+  "transitionSec": 0.25,       // tuỳ chọn; phải nhỏ hơn 0,3 giây im lặng giữa hai cảnh
+  "scenes": [
+    { "id": "s1", "…": "…" },
+    { "id": "s2", "transition": "swipe", "…": "…" },   // cảnh NÀY vào bằng kiểu gì
+    { "id": "s3", "transition": "none",  "…": "…" }    // quay lại cắt cứng
+  ]
+}
+```
+
+| tên | `xfade` của ffmpeg | nhìn ra sao |
+|---|---|---|
+| `none` | — | cắt cứng |
+| `fade` | `fade` | cảnh này tan vào cảnh kia |
+| `swipe` | `wipeleft` | cảnh mới đẩy cảnh cũ ra |
+| `slide` | `slideup` | khung hình trượt lên cảnh sau |
+| `iris` | `circleopen` | mở ra từ tâm |
+| `pixelize` | `pixelize` | vỡ hạt rồi kết lại |
+
+`transition` mô tả cảnh đó **vào** thế nào, nên nó thuộc về cảnh đi vào, và cảnh đầu tiên thì
+bị bỏ qua — validator cảnh báo chứ không lặng lẽ nuốt.
+
+**Thời lượng không đổi.** `xfade` **chồng** hai đầu vào, nên nối kiểu ngây thơ sẽ hụt
+`(n−1) × T` — trong khi track lời đọc dựng riêng theo độ dài giọng và không hụt theo, thành ra
+mọi câu sau cảnh đầu lệch sớm dần. `transitionPlan()` đệm mỗi clip đúng bằng chuyển cảnh đi sau
+nó, để phần chồng ăn lại đúng phần đệm:
+
+```
+sum(padded) − sum(T) === sum(base)
+```
+
+`tests/transitions.test.mjs` kiểm điều đó, và kiểm cả tính chất quan trọng hơn: hình của mỗi
+cảnh vẫn bắt đầu đúng khung hình mà lời đọc của nó bắt đầu.
+
+**Có giá của nó.** Concat demuxer chỉ copy luồng; `xfade` trộn từng điểm ảnh nên bước nối buộc
+phải encode lại. Đo trên bản render 27 giây, 5 cảnh, 540×960: bước đó đi từ **0,1s lên 2,0s**,
+cộng thêm một thế hệ nén. So với TTS và chụp template thì con số đó không đáng kể, nhưng nếu
+bạn nối đi nối lại nhiều lần:
+
+```bash
+node scripts/video/render.mjs <script> --no-transitions   # cắt cứng, copy luồng
+```
+
+Trộn lẫn được: chỗ nối đánh dấu `none` dùng **filter** `concat` của ffmpeg chứ không phải một
+crossfade dài một khung hình — nên `none` là không có thật.
 
 ### Cổng chặn `validate-script.mjs`
 

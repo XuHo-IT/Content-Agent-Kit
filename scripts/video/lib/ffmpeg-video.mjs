@@ -55,6 +55,129 @@ export async function concatVideos(clipPaths, outPath) {
 }
 
 /**
+ * Scene transitions, mapped onto ffmpeg's own `xfade` filter.
+ *
+ * Nothing here is hand-written: ffmpeg ships every one of them. The map exists so
+ * `script.json` can say "swipe" rather than "wipeleft" — a name an author picks
+ * without first reading ffmpeg's filter documentation.
+ */
+export const TRANSITIONS = {
+  none: null,
+  fade: "fade",
+  swipe: "wipeleft",
+  slide: "slideup",
+  iris: "circleopen",
+  pixelize: "pixelize",
+};
+
+/** Under the 0.3s of inter-scene silence the audio already leaves for it. */
+export const DEFAULT_TRANSITION_SEC = 0.25;
+
+/**
+ * Work out padded clip durations and xfade offsets for a transition chain.
+ *
+ * The trap: `xfade` OVERLAPS its two inputs, so a naive chain of n clips comes out
+ * `sum(T)` shorter than the sum of its parts — while the narration, built
+ * separately from the voice durations, does not shrink with it. Every line after
+ * the first scene would land progressively early.
+ *
+ * The fix is arithmetic, not fudge: pad each clip by exactly the transition that
+ * follows it, then let the overlap eat that padding back.
+ *
+ *     sum(padded) - sum(T) === sum(base)
+ *
+ * so the finished video is the length it was with hard cuts, and every word still
+ * starts on the frame it used to.
+ *
+ * @param {number[]} base  each scene's visual duration, as if there were no transitions
+ * @param {number[]} secs  transition AFTER each clip; length n-1; 0 means a hard cut
+ * @returns {{padded: number[], offsets: (number|null)[], totalSec: number}}
+ */
+export function transitionPlan(base, secs) {
+  const n = base.length;
+  if (n === 0) throw new Error("transitionPlan: empty durations");
+  if (secs.length !== n - 1) {
+    throw new Error(`transitionPlan: expected ${n - 1} transitions for ${n} clips, got ${secs.length}`);
+  }
+  for (let i = 0; i < secs.length; i++) {
+    if (!(secs[i] >= 0)) throw new Error(`transitionPlan: transition ${i} is not a duration: ${secs[i]}`);
+    // An overlap longer than a neighbouring clip would swallow a whole scene.
+    const room = Math.min(base[i], base[i + 1]);
+    if (secs[i] >= room) {
+      throw new Error(
+        `transitionPlan: transition ${i} is ${secs[i]}s but the shorter neighbouring scene is only ${room}s`,
+      );
+    }
+  }
+
+  const padded = base.map((d, i) => (i < n - 1 ? d + secs[i] : d));
+  const offsets = [];
+  let acc = padded[0]; // length of everything joined so far
+  for (let j = 0; j < n - 1; j++) {
+    offsets.push(secs[j] > 0 ? acc - secs[j] : null); // null = hard cut, no offset
+    acc = acc + padded[j + 1] - secs[j];
+  }
+  return { padded, offsets, totalSec: acc };
+}
+
+/**
+ * Build the filtergraph that chains n clips with transitions between them.
+ *
+ * Split out from the ffmpeg call so the graph can be asserted without rendering
+ * anything — the timebase rule below is invisible until it fails, and it fails
+ * on exactly one configuration.
+ */
+export function transitionGraph({ n, offsets, kinds, secs, fps }) {
+  if (n < 2) throw new Error("transitionGraph: needs at least 2 clips");
+  const parts = [];
+
+  // xfade refuses to run if its two inputs disagree on timebase, and `concat`
+  // emits AVTB (1/1000000) while a decoded clip is 1/fps — so a graph mixing
+  // them breaks at the first xfade AFTER a hard cut, and only there.
+  //
+  // ORDER MATTERS: `fps` resets the timebase to 1/fps, so `settb` has to come
+  // after it. Written the other way round this passes every pure-crossfade case
+  // and fails the moment one scene asks for "none".
+  for (let i = 0; i < n; i++) parts.push(`[${i}:v]fps=${fps},settb=AVTB[c${i}]`);
+
+  let cur = "c0";
+  for (let j = 0; j < n - 1; j++) {
+    const next = `vx${j}`;
+    if (offsets[j] === null) {
+      parts.push(`[${cur}][c${j + 1}]concat=n=2:v=1:a=0[${next}]`);
+    } else {
+      const kind = TRANSITIONS[kinds[j]];
+      if (!kind) throw new Error(`transitionGraph: unknown transition "${kinds[j]}"`);
+      parts.push(
+        `[${cur}][c${j + 1}]xfade=transition=${kind}:duration=${secs[j].toFixed(3)}` +
+          `:offset=${offsets[j].toFixed(3)}[${next}]`,
+      );
+    }
+    cur = next;
+  }
+  parts.push(`[${cur}]format=yuv420p[v]`);
+  return parts.join(";");
+}
+
+/**
+ * Concatenate clips with transitions between them, in a single filtergraph.
+ *
+ * Costs more than `concatVideos`: xfade blends pixels, so this re-encodes where
+ * the concat demuxer only copies streams. Slower, and one generation of
+ * compression loss. `--no-transitions` exists for when that trade is wrong.
+ *
+ * Joints whose offset is `null` are hard cuts, done with the `concat` filter
+ * rather than a one-frame xfade — so "none" means none.
+ */
+export async function concatWithTransitions(clipPaths, outPath, { offsets, kinds, secs, fps }) {
+  const graph = transitionGraph({ n: clipPaths.length, offsets, kinds, secs, fps });
+  const args = ["-y"];
+  for (const p of clipPaths) args.push("-i", resolve(p));
+  args.push("-filter_complex", graph, "-map", "[v]", ...ENCODE(fps), outPath);
+  await run("ffmpeg", args);
+}
+
+/**
  * Mux the narration onto the silent video.
  * Deliberately NO `-shortest`: the video is longer than the audio (the outro
  * holds ~3s past the last word) and that silent tail must survive.

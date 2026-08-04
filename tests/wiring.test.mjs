@@ -68,6 +68,26 @@ test("the meta-skill knows about the gates and the knobs", () => {
   assert.deepEqual(missing, [], `bootstrap-content-agent never mentions: ${missing.join(", ")}`);
 });
 
+test("the skill that writes script.json knows transitions exist", () => {
+  // The kit shipped SFX tagged `transition` — whoosh, swoosh, page-flip — for two
+  // releases before it could actually make one. Every video it produced had a sound
+  // describing a movement the picture never made, because the skill authoring the
+  // script had no way to ask for one. Naming the knob is what closes that.
+  const skill = read("skills/create-video/SKILL.md");
+  const source = read("scripts/video/lib/ffmpeg-video.mjs");
+  // Read the names out of the source rather than restating them here, so adding a
+  // transition and forgetting to document it fails instead of passing quietly.
+  const block = source.match(/export const TRANSITIONS = \{([^}]*)\}/)?.[1] ?? "";
+  const names = [...block.matchAll(/^\s*(\w+):/gmu)].map((m) => m[1]);
+  assert.ok(names.length >= 5, `could not read TRANSITIONS from the source: ${names.join(", ")}`);
+  const missing = names.filter((k) => !skill.includes(k));
+  assert.deepEqual(missing, [], `create-video never mentions: ${missing.join(", ")}`);
+  assert.ok(
+    /whoosh|swoosh|page-flip/.test(skill),
+    "create-video should tie the transition-tagged SFX to an actual transition",
+  );
+});
+
 test("every skill is named in a README", () => {
   const missing = skillDirs.filter((n) => !readmes.includes(n));
   assert.deepEqual(missing, [], `these skills exist but no README names them: ${missing.join(", ")}`);
