@@ -53,6 +53,16 @@ try {
   // has_wiki or has_projects, so the GraphQL-backed call above cannot see them.
   const rest = run(["api", `repos/${repo.nameWithOwner}`], { json: true });
 
+  // Actions token permissions live on their own endpoint, and its field names do not match
+  // the UI labels: `can_approve_pull_request_reviews` is the switch shown as "Allow GitHub
+  // Actions to create and approve pull requests". With it off, a workflow cannot CREATE a
+  // PR however much its own `permissions:` block asks for — which is why registry-watch.yml
+  // needs it and why it is recorded here rather than clicked once and forgotten.
+  const wanted_actions = cfg.actions ?? null;
+  const rawActions = wanted_actions
+    ? run(["api", `repos/${repo.nameWithOwner}/actions/permissions/workflow`], { json: true })
+    : null;
+
   const wanted_features = cfg.features ?? {};
   const current = {
     description: repo.description ?? "",
@@ -60,6 +70,12 @@ try {
     discussions: !!repo.hasDiscussionsEnabled,
     topics: (repo.repositoryTopics ?? []).map((t) => t.name ?? t).sort(),
     features: Object.fromEntries(Object.keys(wanted_features).map((k) => [k, !!rest[`has_${k}`]])),
+    actions: rawActions
+      ? {
+          default_permissions: rawActions.default_workflow_permissions,
+          can_create_pull_requests: !!rawActions.can_approve_pull_request_reviews,
+        }
+      : null,
   };
   const wanted = {
     description: cfg.description,
@@ -67,6 +83,7 @@ try {
     discussions: true,
     topics: [...cfg.topics].sort(),
     features: wanted_features,
+    actions: wanted_actions,
   };
 
   const changes = [];
@@ -75,6 +92,7 @@ try {
   if (current.discussions !== wanted.discussions) changes.push("discussions");
   if (current.topics.join(",") !== wanted.topics.join(",")) changes.push("topics");
   if (JSON.stringify(current.features) !== JSON.stringify(wanted.features)) changes.push("features");
+  if (wanted_actions && JSON.stringify(current.actions) !== JSON.stringify(wanted.actions)) changes.push("actions");
 
   console.log(`[about] ${slug}`);
   console.log(`[about]   description : ${current.description ? current.description.slice(0, 60) + "…" : "(none)"}`);
@@ -83,6 +101,12 @@ try {
   console.log(`[about]   topics      : ${current.topics.length ? current.topics.join(", ") : "(none)"}`);
   if (Object.keys(wanted_features).length) {
     console.log(`[about]   features    : ${Object.entries(current.features).map(([k, v]) => `${k}=${v}`).join(" ")}`);
+  }
+  if (current.actions) {
+    console.log(
+      `[about]   actions     : default=${current.actions.default_permissions}` +
+        ` can_create_pull_requests=${current.actions.can_create_pull_requests}`,
+    );
   }
 
   if (changes.length === 0) {
@@ -114,6 +138,19 @@ try {
     for (const [k, v] of Object.entries(wanted_features)) args.push("-F", `has_${k}=${v}`);
     run(args);
     console.log(`[about] ✓ features: ${Object.entries(wanted_features).map(([k, v]) => `${k}=${v}`).join(" ")}`);
+  }
+
+  if (changes.includes("actions")) {
+    // -F for the boolean; -f would send the string "false", which the API reads as true.
+    run([
+      "api", "-X", "PUT", `repos/${slug}/actions/permissions/workflow`,
+      "-f", `default_workflow_permissions=${wanted_actions.default_permissions}`,
+      "-F", `can_approve_pull_request_reviews=${wanted_actions.can_create_pull_requests}`,
+    ]);
+    console.log(
+      `[about] ✓ actions: default=${wanted_actions.default_permissions}` +
+        ` can_create_pull_requests=${wanted_actions.can_create_pull_requests}`,
+    );
   }
 
   if (changes.includes("topics")) {

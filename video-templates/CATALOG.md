@@ -471,7 +471,7 @@ Drop a folder `video-templates/<id>/` with `index.html` (16:9 root, `data-compos
 `NOTICE.md` if vendored. Use a Vietnamese-capable font stack (Alfa Slab One /
 Lora / Be Vietnam Pro are known-good). Then add a row here.
 
-Or pull one from the upstream registry — 146 items, no hand-copying:
+Or pull one from the upstream registry — 176 items, no hand-copying:
 
 ```bash
 node scripts/video/add-template.mjs --list

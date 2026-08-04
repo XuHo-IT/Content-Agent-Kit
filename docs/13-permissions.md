@@ -44,6 +44,45 @@ image-generation tool** (it throws "invalid tool call"). Pattern: the writing su
 returns an `image_prompt` field (English description) and leaves `image` blank; the
 **parent** generates the image from that prompt and fills it in before publishing.
 
+### Who may merge — the `Author gate` check
+
+A pull request opened by anyone other than the repository owner, `github-actions[bot]` or
+`dependabot[bot]` fails the **Author gate** check until a maintainer adds the `reviewed`
+label. `Author gate` is a required status check, so a red one blocks the merge button.
+
+It gates **merging, not contributing.** `CONTRIBUTING.md` invites small pull requests
+outright and that stays true — the check's own output says so, because a red X with no
+explanation reads as rejection.
+
+Trusted without a label:
+
+| | why |
+|---|---|
+| the repository owner | the only account with write access |
+| `github-actions[bot]` | opens `chore/registry-sync`, whose diff is a snapshot and six numbers |
+| `dependabot[bot]` | configured here for `github-actions` and `pip`; without it every security bump would need hand-labelling |
+
+**This is not a security boundary, and calling it one would be worse than not having it.**
+`enforce_admins` is `false` and `required_approving_review_count` is `0`, so the owner can
+merge straight past a red check. What it buys is that an unreviewed outside change cannot be
+merged *by accident*, and that the state is visible on the PR rather than remembered.
+
+Raising the review count to 1 is deliberately **not** the fix: GitHub does not let anyone
+approve their own pull request, so on a solo-maintained repo it would lock the maintainer out
+of their own main branch — including from Dependabot's security bumps.
+
+### Actions permissions, in `repo-about.json`
+
+`.github/workflows/registry-watch.yml` opens a pull request, which needs the repo-level
+switch shown in the UI as *"Allow GitHub Actions to create and approve pull requests"*. It
+defaults to **off**, and with it off the API refuses no matter what the workflow's own
+`permissions:` block asks for.
+
+It is recorded in `.github/repo-about.json` under `actions` and applied by
+`node .github/apply-about.mjs --apply`, rather than clicked once and forgotten. The default
+token permission stays `read`: a workflow that needs more asks in its own `permissions:`
+block, where the request shows up in a diff instead of being granted to everything at once.
+
 ---
 
 ## Tiếng Việt
