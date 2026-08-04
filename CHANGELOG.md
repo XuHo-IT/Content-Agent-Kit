@@ -10,6 +10,32 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — scene transitions
+
+Every video this kit had ever made joined its scenes with a hard cut. The SFX library shipped
+`whoosh`, `swoosh` and `page-flip` tagged `transition`, and played them at exactly those cuts —
+so every video carried a sound describing a movement the picture never made.
+
+- `transition` on the script (`fade` · `swipe` · `slide` · `iris` · `pixelize` · `none`), and
+  per scene to say how that scene **enters**. The default stays `none`, so nothing changes for
+  an existing script until it asks.
+- `transitionSec`, default `0.25s` — under the 0.3s of inter-scene silence the audio already
+  leaves for it. The validator warns above that, where the blend would cover speech.
+- `--no-transitions`, because a transition means the join has to be re-encoded rather than
+  stream-copied: measured **0.1s → 2.0s** on a 27-second five-scene 540×960 render.
+
+**The video's length does not change.** `xfade` overlaps its inputs, so a naive chain finishes
+`(n−1) × T` short while the separately-built narration does not — every line after the first
+would land early. `transitionPlan()` pads each clip by the transition that follows it, so
+`sum(padded) − sum(T) === sum(base)`, and each scene's picture still starts on the frame its
+narration starts on.
+
+Found while building it, and only by running real ffmpeg: `fps` resets a stream's timebase, so
+`settb=AVTB,fps=N` silently discards the `settb`. Pure-crossfade chains survive that; the first
+`xfade` **after** a `none` joint does not, because ffmpeg's `concat` filter emits a different
+timebase. `tests/transitions.test.mjs` locks in the order, the arithmetic, and the filtergraph
+having no dangling pads — 21 tests, none of which need ffmpeg installed.
+
 ## [0.4.0] — 2026-08-03
 
 Two threads. The first is a pre-release audit that found four things wrong with how this repo

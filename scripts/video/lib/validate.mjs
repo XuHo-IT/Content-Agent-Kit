@@ -10,6 +10,7 @@ import { listTemplateIds } from "./paths.mjs";
 import { PROVIDERS, PROVIDER_SPECS } from "./tts.mjs";
 import { SOURCE_IDS } from "../../media/lib/sources/index.mjs";
 import { resolveTheme, loadThemeMap, THEME_IDS } from "./theme.mjs";
+import { TRANSITIONS } from "./ffmpeg-video.mjs";
 
 // ── tunables (all overridable by the caller) ────────────────────────────────
 export const CRAFT_DEFAULTS = {
@@ -91,6 +92,18 @@ export function validateScript(script, opts = {}) {
   const aspect = script.aspect ?? "9:16";
   if (!ASPECTS.includes(aspect))
     E(`aspect must be one of ${ASPECTS.join(" | ")}, got ${JSON.stringify(script.aspect)}`);
+
+  // ── transitions (optional) ───────────────────────────────────────────────
+  // A misspelt transition name is worth catching here rather than after the
+  // render has already paid for TTS.
+  if (script.transition != null && !(script.transition in TRANSITIONS))
+    E(`transition must be one of ${Object.keys(TRANSITIONS).join(" | ")}, got ${JSON.stringify(script.transition)}`);
+  if (script.transitionSec != null) {
+    const t = Number(script.transitionSec);
+    if (!(t > 0)) E(`transitionSec must be a positive number, got ${JSON.stringify(script.transitionSec)}`);
+    // Longer than the inter-scene silence and the transition runs over narration.
+    else if (t > 0.3) W(`transitionSec ${t}s overruns the 0.3s gap between scenes — the blend will cover speech`);
+  }
 
   // ── theme (optional) ─────────────────────────────────────────────────────
   // A bad palette is only visible after a full render, so the cheap checks happen here.
@@ -236,6 +249,14 @@ export function validateScript(script, opts = {}) {
           W(`${label} has media but "${scene.templateId}" does not display it. ` +
             `Use one of: ${MEDIA_TEMPLATES.join(", ")}.`);
       }
+    }
+
+    // A scene's transition describes how it ENTERS, so the first scene has
+    // nothing to transition from — silently ignoring it would hide a mistake.
+    if (scene.transition !== undefined) {
+      if (!(scene.transition in TRANSITIONS))
+        E(`${label}.transition must be one of ${Object.keys(TRANSITIONS).join(" | ")}, got ${JSON.stringify(scene.transition)}`);
+      else if (i === 0) W(`${label}.transition has no effect — the first scene has nothing to transition from`);
     }
 
     if (scene.sfx !== undefined) {
