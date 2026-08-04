@@ -20,6 +20,7 @@
       "beats": [
         { "templateId": "frame-liquid-bg-hero", "type": "hook", "beat": "The verdict, spoiled. Nobody watches a review to be kept in suspense." },
         { "templateId": "frame-broll", "type": "body", "beat": "What it is, in one line, over footage of the thing." },
+        { "templateId": "frame-myth-fact", "type": "body", "beat": "The belief this review overturns. Skip it if the verdict confirms what everyone already thinks — there is nothing to strike out." },
         { "templateId": "frame-chart-bars", "type": "body", "beat": "The number that justifies the verdict — speed, price, battery, whatever you measured." },
         { "templateId": "frame-review-verdict", "type": "body", "beat": "Score, verdict, pros and cons. The frame people screenshot." },
         { "templateId": "frame-statement-outro", "type": "outro", "beat": "Who it is for, who it is not for." }
@@ -32,7 +33,7 @@
       "beats": [
         { "templateId": "frame-bold-poster", "type": "hook", "beat": "The outcome, not the topic. 'Agent tự đăng bài' beats 'Hôm nay nói về automation'." },
         { "templateId": "frame-step-list", "type": "body", "beat": "Three to five steps. More than five, split into a second scene." },
-        { "templateId": "frame-screenshot", "type": "body", "beat": "The hardest step, on screen, so it is not just described." },
+        { "templateId": "frame-terminal", "type": "body", "beat": "The hardest step as the actual command, plus the error people hit — frame-screenshot if the step happens in a browser instead." },
         { "templateId": "frame-logo-outro", "type": "outro", "beat": "Where to get it, and the one thing to try first. A tutorial that ends without a next step gets watched and forgotten." }
       ]
     },
@@ -43,7 +44,7 @@
       "beats": [
         { "templateId": "frame-glitch-title", "type": "hook", "beat": "The event in one sentence." },
         { "templateId": "frame-pentagram-stat", "type": "body", "beat": "The one number that makes it news." },
-        { "templateId": "frame-media-inset", "type": "body", "beat": "Context — what was true before this." },
+        { "templateId": "frame-timeline", "type": "body", "beat": "How it got here. The gap between the dates is half the story, which a list of steps cannot show." },
         { "templateId": "frame-vignelli", "type": "body", "beat": "What changes for the viewer specifically." },
         { "templateId": "frame-statement-outro", "type": "outro", "beat": "A question worth answering in the comments." }
       ]
@@ -56,6 +57,7 @@
         { "templateId": "frame-bold-poster", "type": "hook", "beat": "The count and the category. '5 công cụ' — and then deliver five." },
         { "templateId": "frame-step-list", "type": "body", "beat": "The list itself, numbered, arriving one at a time." },
         { "templateId": "frame-aicoding-comparison", "type": "body", "beat": "The two that are hardest to choose between, side by side." },
+        { "templateId": "frame-checklist", "type": "body", "beat": "What to do with the list — and what not to. Advice with no score attached." },
         { "templateId": "frame-logo-outro", "type": "outro", "beat": "The one you would pick, and why." }
       ]
     },
@@ -78,6 +80,7 @@
       "beats": [
         { "templateId": "frame-liquid-bg-hero", "type": "hook", "beat": "The result, as a number or a before/after." },
         { "templateId": "frame-quote-testimonial", "type": "body", "beat": "Their words, credited. Do not paraphrase — a cleaned-up quote sounds written." },
+        { "templateId": "frame-chat-bubbles", "type": "body", "beat": "How it was actually said. A chat reads as overheard; a pull-quote reads as supplied." },
         { "templateId": "frame-split-compare", "type": "body", "beat": "The before and after, measured. Two states of one thing, which is the claim a testimonial is actually making — frame-chart-bars would compare magnitudes instead." },
         { "templateId": "frame-statement-outro", "type": "outro", "beat": "The invitation. One action, not three." }
       ]

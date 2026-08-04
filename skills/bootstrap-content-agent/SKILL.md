@@ -107,6 +107,8 @@ From `templates/` + `scripts/`, produce:
   `video-and-post` and `research-and-capture` if the agent makes videos, `ads-report` (it works with no ad spend too — pasted numbers), `repurpose` if they publish
   to more than one channel, and
   `design-campaign` if Canva is connected.
+  `new-template` belongs in a kit checkout rather than a generated agent: it edits
+  `video-templates/` and the gates around it, which a downstream agent does not own.
 - **Skills from elsewhere** (optional): `node scripts/install-skills.mjs --list` shows an SEO
   auditor, design skills and six marketing skills, all MIT and fetched on demand rather than
   vendored. Suggest `seo` and `mkt-context` as the two with the broadest payoff. On Antigravity, tell the user the scheduled task

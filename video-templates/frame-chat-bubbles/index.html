@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Chat Bubbles · 16:9</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-chat-bubbles — a short exchange, as messages.
+ *
+ * Original work for this repo.
+ *
+ * `frame-quote-testimonial` is a formal pull-quote with a name and a title under
+ * it. That is not how most proof arrives any more, and it is not how a question
+ * worth answering usually gets asked. A chat reads as overheard rather than as
+ * supplied, which is a different kind of credibility.
+ *
+ * `messages` is "who:text", "|"-separated, where "me" aligns right and anything
+ * else aligns left. Two names, not a role system: a third speaker on a phone-width
+ * frame produces bubbles too narrow to read.
+ *
+ * Nothing here imitates a specific product's interface. A frame that looks like a
+ * real app's screenshot is a claim about where the message came from.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1920px; height: 1080px; }
+#root { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #12141a; color: #edf0f5; display: grid; align-content: center; }
+.title { font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #8a93a6;
+         opacity: 0; animation: rise 0.5s ease-out 0.1s both; }
+.thread { list-style: none; display: flex; flex-direction: column; }
+.thread li { max-width: 78%; line-height: 1.32; opacity: 0;
+             animation: pop 0.42s cubic-bezier(0.16,1,0.3,1) both; }
+.thread li.them { align-self: flex-start; background: #1e2230; color: #e6ebf3;
+                  border-bottom-left-radius: 8px; }
+.thread li.me { align-self: flex-end; background: #3b7dd8; color: #ffffff;
+                border-bottom-right-radius: 8px; }
+.note { color: #6c7688; opacity: 0; animation: rise 0.5s ease-out 2.1s both; }
+@keyframes pop { from { opacity: 0; transform: translateY(16px) scale(0.96); }
+                 to   { opacity: 1; transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+#root { padding: 0 380px; }
+.title { font-size: 26px; margin-bottom: 40px; }
+.thread { gap: 22px; }
+.thread li { font-size: 36px; padding: 26px 34px; border-radius: 28px; }
+.note { font-size: 26px; margin-top: 44px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"title":"","messages":"them:Rerank có làm chậm không?|me:Bước tìm kiếm chậm hơn thật|me:Nhưng tổng thời gian gần như không đổi","note":"Tin nhắn được rút gọn"}'
+        >
+            <div class="title"></div>
+            <ul class="thread"></ul>
+            <div class="note"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".title", v.title);
+                setOrDrop(".note", v.note);
+                
+                var ul = document.querySelector(".thread");
+                var msgs = String(v.messages || "").split("|").map(function (s) { return s.trim(); }).filter(Boolean);
+                msgs.slice(0, 5).forEach(function (raw, i) {
+                    var cut = raw.indexOf(":");
+                    var who = cut > 0 ? raw.slice(0, cut).trim().toLowerCase() : "them";
+                    var text = cut > 0 ? raw.slice(cut + 1).trim() : raw;
+                    var li = document.createElement("li");
+                    li.className = who === "me" ? "me" : "them";
+                    li.textContent = text;
+                    // Paced like a conversation rather than a list: a bubble every ~0.45s reads as
+                    // someone replying, faster reads as a paste.
+                    li.style.animationDelay = (0.45 + i * 0.45).toFixed(2) + "s";
+                    ul.appendChild(li);
+                });
+                if (!msgs.length) drop(".thread");
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

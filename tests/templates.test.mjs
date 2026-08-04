@@ -160,6 +160,29 @@ test("every template is documented in CATALOG.md", () => {
   }
 });
 
+test("the documented template count matches the folder", () => {
+  // The upstream registry count went stale in six places before anything checked it, and
+  // the kit's OWN count is hand-written in just as many. This one needs no network, so it
+  // belongs in a test that fails in CI rather than in a job that notices tomorrow.
+  const SITES = [
+    { file: "README.md", re: /dùng 14 trong số (\d+) template/ },
+    { file: "README.md", re: /\| (\d+) template video HTML một-file/ },
+    { file: "README.md", re: /\| \*\*(\d+) template, \d+ thể loại\*\* \|/ },
+    { file: "README.en.md", re: /\| (\d+) single-file HTML video templates/ },
+    { file: "docs/16-template-registry.md", re: /The kit ships (\d+) scene templates\./ },
+    { file: "docs/16-template-registry.md", re: /Kit có sẵn (\d+) template cho scene\./ },
+    { file: ".github/repo-about.json", re: /9:16 với (\d+) template/ },
+  ];
+  for (const s of SITES) {
+    const text = fs.readFileSync(path.join(KIT, s.file), "utf8");
+    const m = text.match(s.re);
+    // A pattern that no longer matches is a failure, not a pass: it means the wording
+    // changed and the number behind it quietly stopped being checked.
+    assert.ok(m, `${s.file}: the count sentence changed — ${s.re}`);
+    assert.equal(Number(m[1]), ids.length, `${s.file} says ${m[1]}, there are ${ids.length}`);
+  }
+});
+
 // ── genre presets ────────────────────────────────────────────────────────────
 
 test("every genre names templates that exist", () => {

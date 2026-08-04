@@ -45,10 +45,21 @@ mọi con số đều đo thật từ [RAG-EVAL-VN](https://github.com/XuHo-IT/R
 scene cho **cái giá phải trả**: review chỉ liệt kê điểm tốt là quảng cáo, người xem nhận ra ngay.
 
 Cùng chủ đề tin tức còn có **[bản nền trắng chữ xanh biển](examples/ai-video-social/sample-output-paper-blue/)**
-— 16 scene, dùng 14 trong số 22 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
+— 16 scene, dùng 14 trong số 27 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
 **không fork template nào, không sửa một dòng CSS nào trong `video-templates/`.**
 
-### Hai mươi hai template, bốn cái mới nhất
+### Hai mươi bảy template, năm cái mới nhất
+
+[![Năm template mới nhất](examples/gallery/templates-batch3.jpg)](video-templates/CATALOG.md)
+
+**Terminal** — câu lệnh tự gõ ra rồi output hiện dần, dòng lỗi màu đỏ; upstream có 33 mục
+`code-*` nhưng chúng là block, không thành scene template được. **Dòng thời gian** — trục vẽ
+trước, mốc hiện sau, nên mắt đọc khoảng cách trước khi đọc nội dung; ngang ở 16:9, **dọc ở
+9:16**. **Tưởng vậy mà không phải** — gạch bỏ điều ai cũng tin, rồi đưa cái đúng lên bên dưới.
+**Nên và không nên** — hai cột đứng riêng, không cần bịa ra điểm số như khi mượn khung review.
+**Tin nhắn** — bằng chứng nghe lỏm được, khác hẳn một câu trích dẫn trang trọng.
+
+### Bốn cái trước đó
 
 [![Bốn template 2026](examples/gallery/templates-2026.jpg)](video-templates/CATALOG.md)
 
@@ -60,7 +71,7 @@ lệch nhau, đúng bản chất của nó chứ không phải filter mô phỏn
 
 Cả bốn không kèm file ảnh nào: hạt nhiễu là SVG nội tuyến, còn lại thuần CSS.
 
-### Bốn cái trước đó
+### Và bốn cái trước nữa
 
 [![Bốn template trước đó](examples/gallery/new-templates.jpg)](video-templates/CATALOG.md)
 
@@ -135,8 +146,8 @@ Hằng ngày thì chạy **`/daily-run`** — hoặc `schedule-prompt.md` đư�
 | `docs/` | Phương pháp luận, song ngữ EN + VI, 22 tài liệu ngắn — gồm **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll và ảnh chụp), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`**, **`20-video-backends.md`**, **`21-video-genres.md`** và **`22-repurposing.md`**. |
 | `templates/` | Khung điền sẵn: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, file trạng thái, workflow cron. |
 | `scripts/` | CLI **chạy được thật**: publish/append/update, queue client, `social/make-post` (ảnh **hoặc video**, đa nền tảng), `crawl/crawl.py`, `audit-quality`, scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) và **`media/`** (B-roll kho mở, ảnh chụp web, host upload). Tất cả env-only. |
-| `video-templates/` | 22 template video HTML một-file cùng **`CATALOG.md`** — đủ slot và giới hạn ký tự từng cái. Mỗi file tự chứa CSS và animation, nhưng vẫn `<link>` font từ Google Fonts nên lúc render cần mạng. 176 template nữa chỉ cách một câu lệnh. |
-| `skills/` | 11 skill cho Claude Code: **`bootstrap-content-agent`** (meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`** — cộng `registry.json` liệt kê 13 skill ngoài tải theo yêu cầu. |
+| `video-templates/` | 27 template video HTML một-file cùng **`CATALOG.md`** — đủ slot và giới hạn ký tự từng cái. Mỗi file tự chứa CSS và animation, nhưng vẫn `<link>` font từ Google Fonts nên lúc render cần mạng. 176 template nữa chỉ cách một câu lệnh. |
+| `skills/` | 12 skill cho Claude Code: **`bootstrap-content-agent`** (meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`**, **`new-template`** — cộng `registry.json` liệt kê 13 skill ngoài tải theo yêu cầu. |
 | `examples/ai-news-social/` | Một agent mẫu hoàn chỉnh: agent tin AI (crawl → viết → ảnh → web + Make.com → cron). |
 | `examples/ai-video-social/` | Bản video của agent đó: crawl → `script.json` → render 9:16 → TikTok / Shorts / Reels. |
 
@@ -160,7 +171,7 @@ node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4              # r�
 | **Chuyển cảnh** | `fade · swipe · slide · iris · pixelize`. Thời lượng video **không đổi** — phần đệm được tính để phần chồng ăn lại đúng bằng nó |
 | **Bảng màu từ website của bạn** | `theme-from-url.mjs --url <site>` đọc nền/mực/nhấn ngay trên trang, theo đúng luật tương phản WCAG mà validator đang áp |
 | **Robot canh kho template** | 176 template upstream, và con số đó từng sai ở 9 chỗ trong docs. `registry-watch.mjs` chạy hằng ngày, so với snapshot đã commit rồi mở đúng 1 PR khi upstream đổi — nó **báo**, không tự thêm |
-| **22 template, 6 thể loại** | `VIDEO_GENRES.template.json` trả lời "làm review thì dùng khung nào, theo thứ tự nào" |
+| **27 template, 6 thể loại** | `VIDEO_GENRES.template.json` trả lời "làm review thì dùng khung nào, theo thứ tự nào" |
 | **Một bảng màu cho cả video** | `"theme": "paper-blue"` sơn lại toàn bộ trên **bản sao tạm**; chiều lật sáng/tối là **đo bằng Chrome**, không đoán từ CSS |
 | **Nhìn lại thứ vừa làm ra** | `contact-sheet.mjs` gom mỗi scene một khung vào một ảnh. Bốn lỗi từng lọt qua mọi luật đều lộ ra trong một cái nhìn |
 

@@ -442,6 +442,109 @@ machine-clean.
 
 ---
 
+## frame-terminal
+
+**Role:** body / evidence. A command and what it printed, in a window whose chrome carries no
+text. The command types itself with a `clip-path` sweep — one animation rather than a timer
+per character, so it cannot drift out of step.
+**Best for:** the step someone will actually run, and the error they will actually hit.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `label` | string | ≤12 | title-bar text, e.g. `bash`; empty removes it |
+| `prompt` | string | ≤3 | `$` · `>` · `❯` — a slot, so it is not baked into the markup |
+| `command` | string | ≤52 | longer wraps, and the sweep covers both lines |
+| `output` | string | 6 max | `"a\|b\|c"` — a line starting with `!` is drawn in the error colour |
+| `caption` | string | ≤70 | one line under the window; empty removes it |
+
+> The first template here that can show code at all. Upstream ships 33 `code-*` items and this
+> kit vendors none, because they are **blocks**: they carry no `index.html`, so each would
+> still need a 9:16 composition written by hand before a `script.json` could name it.
+
+---
+
+## frame-timeline
+
+**Role:** body. What happened, in the order it happened, on an axis that draws before the
+markers arrive — so the eye reads the span before it reads the entries.
+**Best for:** a retrospective, a build log, a "how we got here".
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤22 | small uppercase label |
+| `title` | string | ≤34 | |
+| `events` | string | 4 max | `"when:what\|when:what"` — no colon means the whole string is the label |
+| `note` | string | ≤60 | empty removes it |
+
+> **Not `frame-step-list`.** That one is procedural — do this, then this. A timeline is
+> chronological, and the gap between two dates is part of the claim: "three years" and "three
+> weeks" are different stories told with the same steps.
+>
+> Horizontal at 16:9, **vertical at 9:16** — a horizontal timeline on a phone leaves the
+> labels unreadable at any type size that still fits between the markers.
+
+---
+
+## frame-myth-fact
+
+**Role:** body / correction. The belief, struck out, and what is actually true underneath.
+Paper canvas, red rule.
+**Best for:** the shape most content worth watching has — everyone thinks X, here is why not.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `mythLabel` | string | ≤18 | e.g. "Ai cũng nghĩ" |
+| `myth` | string | ≤60 | wraps to two lines safely — the strike crosses both |
+| `factLabel` | string | ≤14 | e.g. "Thực tế" |
+| `fact` | string | ≤80 | the correction, set larger than the myth |
+| `source` | string | ≤60 | optional, and worth filling: a correction with no source is just another assertion |
+
+> The strike is a **repeating gradient whose period is the line height**, not a positioned bar.
+> The first version was a bar at `top: 52%`: it strikes a one-line myth correctly and, on a
+> two-line one, lands *between* the lines and reads as an underline of the first. The text is
+> `display: inline` with `box-decoration-break: clone` so the rule hugs each line rather than
+> running past a short last line into empty space.
+
+---
+
+## frame-checklist
+
+**Role:** body / advice. Do these, not those — two columns that stand on their own.
+**Best for:** guidance with no score attached.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤26 | |
+| `title` | string | ≤26 | |
+| `doLabel` / `dontLabel` | string | ≤14 | column headings |
+| `dos` / `donts` | string | 5 max each | `"a\|b\|c"`; an empty column is **removed**, not left as a heading over nothing |
+
+> Pros and cons existed only inside `frame-review-verdict`, welded to a score ring — so getting
+> two columns meant inventing a number to put in it. The ticks and crosses are CSS `content`,
+> the same call as the oversized quote mark in `frame-quote-testimonial`: punctuation for the
+> layout rather than words, so no slot needs to reach them.
+
+---
+
+## frame-chat-bubbles
+
+**Role:** body / social proof, or a question worth answering. A short exchange as messages.
+**Best for:** proof that reads as overheard rather than as supplied.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `title` | string | ≤24 | small uppercase label; empty removes it |
+| `messages` | string | 5 max | `"who:text\|who:text"` — `me` aligns right, anything else left |
+| `note` | string | ≤40 | e.g. that the exchange was shortened |
+
+> Two speakers, not a role system: a third on a phone-width frame produces bubbles too narrow
+> to read. Bubbles land ~0.45s apart, which reads as someone replying; faster reads as a paste.
+>
+> **Nothing here imitates a specific product's interface.** A frame that looks like a real
+> app's screenshot is a claim about where the message came from.
+
+---
+
 ## A renderer limit worth knowing: full-bleed video at 16:9
 
 All three media templates above are **verified at both 9:16 and 16:9**. Getting there

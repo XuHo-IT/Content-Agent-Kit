@@ -192,7 +192,12 @@ test("the README's gallery strips are wide, not tall", () => {
 });
 
 test("every skill is named in a README", () => {
-  const missing = skillDirs.filter((n) => !readmes.includes(n));
+  // Word boundaries, not a substring. `new-templates.jpg` contains "new-template", so a
+  // plain `.includes()` reported the `new-template` skill as documented when the only match
+  // in either README was an image filename. A test that passes for the wrong reason is
+  // worse than no test: nobody goes back to re-examine a green one.
+  const named = (n) => new RegExp(`\\b${n.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")}\\b`).test(readmes);
+  const missing = skillDirs.filter((n) => !named(n));
   assert.deepEqual(missing, [], `these skills exist but no README names them: ${missing.join(", ")}`);
 });
 

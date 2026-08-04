@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Checklist · Portrait 9:16</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-checklist — do these, not those.
+ *
+ * Original work for this repo.
+ *
+ * Pros and cons existed only inside `frame-review-verdict`, welded to a score
+ * ring. Plenty of advice has two columns and no score, and reaching for the review
+ * frame to get them meant inventing a number to put in the ring.
+ *
+ * Either column disappears when empty, so the same template does "five things to
+ * do" and "five things to stop" without a heading left hanging over nothing.
+ *
+ * The ticks and crosses are CSS `content`, not markup — same as the oversized
+ * quote mark in `frame-quote-testimonial`. They are punctuation for the layout
+ * rather than words, so no slot needs to reach them.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1080px; height: 1920px; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #0f1512; color: #e9f2ec; display: grid; align-content: center; }
+.kicker { font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #6fcf97;
+          opacity: 0; animation: rise 0.5s ease-out 0.1s both; }
+.title { font-weight: 800; letter-spacing: -0.02em; line-height: 1.1;
+         opacity: 0; animation: rise 0.55s ease-out 0.25s both; }
+.col .lab { font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; }
+.do .lab { color: #6fcf97; } .dont .lab { color: #ef7b6f; }
+.col ul { list-style: none; }
+.col li { position: relative; color: #cbd7d0; opacity: 0; animation: rise 0.4s ease-out both; }
+/* Punctuation for the layout, not words — the same call as the quote mark in
+   frame-quote-testimonial. No slot needs to reach them. */
+.do li::before { content: "✓"; position: absolute; left: 0; color: #6fcf97; font-weight: 700; }
+.dont li::before { content: "✕"; position: absolute; left: 0; color: #ef7b6f; font-weight: 700; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+#root { padding: 0 88px; }
+.kicker { font-size: 36px; margin-bottom: 26px; }
+.title { font-size: 86px; margin-bottom: 74px; }
+.cols { display: flex; flex-direction: column; gap: 68px; }
+.col .lab { font-size: 30px; margin-bottom: 30px; }
+.col li { font-size: 40px; line-height: 1.3; padding-left: 58px; margin-bottom: 26px; }
+.col li::before { font-size: 38px; top: -2px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"Trước khi bật rerank","title":"Nên và không nên","doLabel":"Nên","dos":"Đo trên tài liệu của chính bạn|Giữ nguyên bộ câu hỏi khi so|Ghi lại cả token lẫn thời gian","dontLabel":"Không nên","donts":"Tin benchmark tiếng Anh|So bằng cảm giác"}'
+        >
+            <div class="kicker"></div>
+            <div class="title"></div>
+            <div class="cols">
+                <div class="col do"><h4 class="lab"></h4><ul></ul></div>
+                <div class="col dont"><h4 class="lab"></h4><ul></ul></div>
+            </div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".title", v.title);
+                set(".do .lab", v.doLabel);
+                set(".dont .lab", v.dontLabel);
+                
+                var fill = function (sel, raw, base) {
+                    var ul = document.querySelector(sel + " ul");
+                    var items = String(raw || "").split("|").map(function (s) { return s.trim(); }).filter(Boolean);
+                    if (!items.length) {
+                        // An empty column leaves a heading over nothing, which reads as missing data
+                        // rather than as a deliberate omission.
+                        return drop(sel);
+                    }
+                    items.slice(0, 5).forEach(function (text, i) {
+                        var li = document.createElement("li");
+                        li.textContent = text;
+                        li.style.animationDelay = (base + i * 0.13).toFixed(2) + "s";
+                        ul.appendChild(li);
+                    });
+                };
+                fill(".col.do", v.dos, 0.7);
+                fill(".col.dont", v.donts, 1.15);
+                if (!document.querySelector(".col")) drop(".cols");
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

@@ -9,7 +9,6 @@
     "the sample-review-rag video is built on. A gallery showing fabricated figures teaches",
     "the reader that the figures in these templates are decoration."
   ],
-
   "frame-kinetic-type": {
     "kicker": "Nhận định",
     "line": "Rerank không làm RAG nhanh hơn, nó làm RAG đúng hơn.",
@@ -36,7 +35,6 @@
     "delta": "+27",
     "caption": "Độ chính xác top-3 trên 500 câu hỏi tiếng Việt"
   },
-
   "frame-review-verdict": {
     "subject": "Rerank trong RAG tiếng Việt",
     "score": "8.5",
@@ -61,5 +59,38 @@
     "quote": "Tôi tưởng thêm một bước thì phải đắt hơn. Hoá ra prompt ngắn lại nên còn rẻ hơn.",
     "name": "Ghi chú lần đo đầu",
     "role": "RAG-EVAL-VN · tháng 8 2026"
+  },
+  "frame-terminal": {
+    "label": "bash",
+    "prompt": "$",
+    "command": "node scripts/video/render.mjs script.json",
+    "output": "[video] [1/9] Validate script|[video]   8 scenes, 412 words|!error: ffmpeg not found",
+    "caption": ""
+  },
+  "frame-timeline": {
+    "kicker": "Diễn biến",
+    "title": "Ba tuần đo lại",
+    "events": "Tuần 1:Dựng bộ câu hỏi có đáp án|Tuần 2:Chạy bốn cấu hình|Tuần 3:Kết quả ngược dự đoán",
+    "note": ""
+  },
+  "frame-myth-fact": {
+    "mythLabel": "Ai cũng nghĩ",
+    "myth": "Thêm rerank thì RAG sẽ đắt hơn",
+    "factLabel": "Thực tế",
+    "fact": "Rẻ hơn 68% — prompt ngắn lại nên tốn ít token hơn",
+    "source": ""
+  },
+  "frame-checklist": {
+    "kicker": "Trước khi bật rerank",
+    "title": "Nên và không nên",
+    "doLabel": "Nên",
+    "dos": "Đo trên tài liệu của chính bạn|Giữ nguyên bộ câu hỏi khi so|Ghi lại cả token lẫn thời gian",
+    "dontLabel": "Không nên",
+    "donts": "Tin benchmark tiếng Anh|So bằng cảm giác"
+  },
+  "frame-chat-bubbles": {
+    "title": "",
+    "messages": "them:Rerank có làm chậm không?|me:Bước tìm kiếm chậm hơn thật|me:Nhưng tổng thời gian gần như không đổi",
+    "note": "Tin nhắn được rút gọn"
   }
 }
