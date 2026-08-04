@@ -10,6 +10,54 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — a daily watch on the upstream template registry
+
+```bash
+node scripts/video/registry-watch.mjs           # report; exit 1 if anything drifted
+node scripts/video/registry-watch.mjs --write   # update the snapshot and the counts
+```
+
+**Nine numbers in the docs were wrong when this was written.** The registry holds **176**
+items; six files said 146. The per-type table said 113 blocks and 25 components against an
+actual **132** and **36**. Thirty items had arrived — including one 29-item commit — and
+nothing in the repo could notice, because every number was typed by hand and derived from
+nothing.
+
+It compares upstream against `video-templates/registry-snapshot.json`, so it can tell *"this
+appeared"* from *"this was always there"*, and it checks that every name in
+`add-template.mjs`'s `PRESETS` still exists upstream — a rename there currently fails halfway
+through a fetch, after files are already written.
+
+`.github/workflows/registry-watch.yml` runs it daily and opens **one** pull request when
+something moved, force-pushing the same `chore/registry-sync` branch rather than leaving a
+graveyard of superseded PRs.
+
+**It does not add templates**, which is a decision rather than a limitation. A scene template
+needs its canvas measured in Chrome (the runner has none), a `CATALOG.md` entry written by
+someone who looked at the frame, and both aspects — seven of the eight upstream examples ship
+16:9 only. Blocks and components *would* pass CI, since the template tests skip anything with
+no `index.html`, but vendoring them wholesale contradicts the reason `add-template.mjs`
+exists. The robot reports; a person chooses.
+
+### Added — `Author gate`: a PR from outside does not become mergeable on its own
+
+A pull request opened by anyone other than the repository owner, `github-actions[bot]` or
+`dependabot[bot]` fails the new required check until a maintainer adds the `reviewed` label.
+
+It gates **merging, not contributing** — `CONTRIBUTING.md` invites small PRs outright and that
+stays true, so the check's own output says so rather than showing a bare red X.
+
+Stated plainly in `docs/13`: this is **not a security boundary**. `enforce_admins` is `false`
+and the required review count is `0`, so the owner can merge straight past it. Raising the
+review count to 1 is deliberately not the fix — GitHub forbids approving your own pull
+request, so on a solo-maintained repo it would lock the maintainer out of their own main
+branch, Dependabot's security bumps included.
+
+The Actions setting the daily workflow needs — *"Allow GitHub Actions to create and approve
+pull requests"*, off by default and checked before any workflow-level `permissions:` block —
+is now recorded in `.github/repo-about.json` and applied by `apply-about.mjs`, rather than
+clicked once and forgotten.
+
 ### Changed — the README's gallery images are strips, not walls
 
 `templates-2026.jpg` was **1080×1920**. GitHub scales an image to the column width, so a 9:16

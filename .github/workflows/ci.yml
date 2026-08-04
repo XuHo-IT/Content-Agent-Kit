@@ -182,3 +182,50 @@ jobs:
           python-version: "3.12"
       - name: crawl.py compiles
         run: python -m py_compile scripts/crawl/crawl.py
+
+  # A pull request from outside this repo's maintainers and its own automation does not
+  # become mergeable on its own. It is still welcome — CONTRIBUTING.md invites small PRs
+  # outright — but a maintainer has to look at it and say so by adding the `reviewed` label.
+  #
+  # WHAT THIS IS NOT: a security boundary. `enforce_admins` is false and the required review
+  # count is zero, so the repository owner can merge straight past a red check. It is a
+  # guardrail and a visible signal; pretending otherwise would be worse than not having it.
+  # See docs/13-permissions.md.
+  author-gate:
+    name: Author gate
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Who opened this, and has anyone looked at it
+        env:
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          OWNER: ${{ github.repository_owner }}
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: |
+          set -euo pipefail
+          # Dependabot is configured here (github-actions + pip, monthly). Leaving it out
+          # would mean hand-labelling every security bump.
+          case "$AUTHOR" in
+            "$OWNER"|"github-actions[bot]"|"dependabot[bot]")
+              echo "$AUTHOR is trusted here — merge is not gated."
+              exit 0
+              ;;
+          esac
+
+          if echo "$LABELS" | grep -q '"reviewed"'; then
+            echo "Opened by $AUTHOR and labelled 'reviewed' — a maintainer has looked at it."
+            exit 0
+          fi
+
+          {
+            echo "### Waiting on a maintainer"
+            echo
+            echo "This pull request was opened by \`$AUTHOR\`, who is not the repository owner"
+            echo "or one of its bots, so it does not become mergeable on its own."
+            echo
+            echo "**Nothing is wrong with it.** Contributions are welcome — see CONTRIBUTING.md."
+            echo "A maintainer reads it and adds the \`reviewed\` label, and this check goes green."
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          echo "::error::Opened by $AUTHOR — a maintainer must add the 'reviewed' label before this can merge."
+          exit 1

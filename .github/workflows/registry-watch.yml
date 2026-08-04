@@ -1,0 +1,115 @@
+# Notice when the upstream template registry moves, and open ONE pull request when it does.
+#
+# It does not add templates. A scene template cannot be added by a robot here: theme-probe
+# needs Chrome and this runner has none, the CATALOG.md entry is written by someone who
+# looked at the frame, and both aspects are required. See scripts/video/registry-watch.mjs.
+#
+# What the PR contains is only what a machine can verify: the snapshot, and the item counts
+# in the six places they are written by hand. The new items are listed in the body for a
+# person to choose from.
+#
+# NOTE: GitHub disables a scheduled workflow after 60 days with no repository activity. If
+# this goes quiet, that is the first thing to check — it is not a bug in the script.
+name: Registry watch
+
+on:
+  schedule:
+    # 06:15 UTC — after the working day in most of Europe and before it in Asia, so a PR is
+    # waiting rather than arriving mid-review. Off the hour on purpose: GitHub queues
+    # everyone's :00 crons together and they run late.
+    - cron: "15 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: registry-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Check the registry
+        id: check
+        env:
+          # Raises the anonymous rate limit. Read-only; raw.githubusercontent needs no auth.
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          node scripts/video/registry-watch.mjs > report.txt 2>&1
+          code=$?
+          set -e
+          cat report.txt
+          # 0 = agrees · 1 = drifted · 2 = could not check (network, rate limit, bad JSON)
+          if [ "$code" = "2" ]; then
+            echo "::error::could not reach the registry — see the report above"
+            exit 1
+          fi
+          echo "drifted=$([ "$code" = "1" ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+
+      - name: Nothing moved
+        if: steps.check.outputs.drifted == 'no'
+        run: echo "The snapshot, the presets and the documented counts all agree. No PR." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Apply the machine-verifiable part
+        if: steps.check.outputs.drifted == 'yes'
+        run: node scripts/video/registry-watch.mjs --write
+
+      - name: Open or update the pull request
+        if: steps.check.outputs.drifted == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          BRANCH=chore/registry-sync
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet; then
+            echo "Drift reported but nothing to write — the change is one only a person can act on." \
+              >> "$GITHUB_STEP_SUMMARY"
+            cat report.txt >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # One long-lived branch, force-pushed. A branch per day would leave a graveyard of
+          # stale PRs, each one superseded by the next morning's.
+          git checkout -B "$BRANCH"
+          git add video-templates/registry-snapshot.json README.md README.en.md \
+                  docs/16-template-registry.md scripts/video/add-template.mjs \
+                  video-templates/CATALOG.md
+          git commit -m "chore(registry): sync the upstream snapshot and the documented counts"
+          git push --force-with-lease origin "$BRANCH"
+
+          {
+            echo "The upstream HyperFrames registry moved. This PR carries **only the part a"
+            echo "machine can verify** — the snapshot and the item counts. Adding a template is"
+            echo "still a person's job: a scene template needs a canvas measured in Chrome, a"
+            echo "\`CATALOG.md\` entry with slots and character limits, and both aspects."
+            echo
+            echo '```'
+            cat report.txt
+            echo '```'
+            echo
+            echo "Opened by \`.github/workflows/registry-watch.yml\`."
+          } > body.md
+
+          if gh pr view "$BRANCH" --json number >/dev/null 2>&1; then
+            gh pr edit "$BRANCH" --body-file body.md
+            echo "Updated the existing PR." >> "$GITHUB_STEP_SUMMARY"
+          else
+            gh pr create --base main --head "$BRANCH" \
+              --title "chore(registry): upstream moved — sync snapshot and counts" \
+              --body-file body.md
+            echo "Opened a PR." >> "$GITHUB_STEP_SUMMARY"
+          fi

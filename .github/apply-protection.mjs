@@ -21,7 +21,16 @@ const RULES = {
     // With several Dependabot PRs open at once, strict:true makes every merge invalidate
     // all the others and triggers an endless rebase storm for no real safety gain here.
     strict: false,
-    contexts: ["Scripts (Node 18)", "Scripts (Node 20)", "Scripts (Node 22)", "Python crawler"],
+    contexts: [
+      "Scripts (Node 18)",
+      "Scripts (Node 20)",
+      "Scripts (Node 22)",
+      "Python crawler",
+      // Red for a PR opened by anyone but the owner, github-actions[bot] or dependabot[bot],
+      // until a maintainer adds the `reviewed` label. It gates MERGING, not contributing:
+      // CONTRIBUTING.md invites small PRs outright and that stays true.
+      "Author gate",
+    ],
   },
 
   // A pull request is required. Zero approvals is deliberate: this is a solo-maintained

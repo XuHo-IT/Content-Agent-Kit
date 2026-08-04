@@ -135,7 +135,7 @@ Hằng ngày thì chạy **`/daily-run`** — hoặc `schedule-prompt.md` đư�
 | `docs/` | Phương pháp luận, song ngữ EN + VI, 22 tài liệu ngắn — gồm **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll và ảnh chụp), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`**, **`20-video-backends.md`**, **`21-video-genres.md`** và **`22-repurposing.md`**. |
 | `templates/` | Khung điền sẵn: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, file trạng thái, workflow cron. |
 | `scripts/` | CLI **chạy được thật**: publish/append/update, queue client, `social/make-post` (ảnh **hoặc video**, đa nền tảng), `crawl/crawl.py`, `audit-quality`, scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) và **`media/`** (B-roll kho mở, ảnh chụp web, host upload). Tất cả env-only. |
-| `video-templates/` | 22 template video HTML một-file cùng **`CATALOG.md`** — đủ slot và giới hạn ký tự từng cái. Mỗi file tự chứa CSS và animation, nhưng vẫn `<link>` font từ Google Fonts nên lúc render cần mạng. 146 template nữa chỉ cách một câu lệnh. |
+| `video-templates/` | 22 template video HTML một-file cùng **`CATALOG.md`** — đủ slot và giới hạn ký tự từng cái. Mỗi file tự chứa CSS và animation, nhưng vẫn `<link>` font từ Google Fonts nên lúc render cần mạng. 176 template nữa chỉ cách một câu lệnh. |
 | `skills/` | 11 skill cho Claude Code: **`bootstrap-content-agent`** (meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`** — cộng `registry.json` liệt kê 13 skill ngoài tải theo yêu cầu. |
 | `examples/ai-news-social/` | Một agent mẫu hoàn chỉnh: agent tin AI (crawl → viết → ảnh → web + Make.com → cron). |
 | `examples/ai-video-social/` | Bản video của agent đó: crawl → `script.json` → render 9:16 → TikTok / Shorts / Reels. |
@@ -159,6 +159,7 @@ node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4              # r�
 | **Phụ đề tự ra, không cần CapCut** | `--captions burn` đốt thẳng vào hình. Mốc đầu mỗi cảnh chính xác tuyệt đối; trong cảnh chia theo số ký tự — nói rõ là ước lượng chứ không phải forced alignment |
 | **Chuyển cảnh** | `fade · swipe · slide · iris · pixelize`. Thời lượng video **không đổi** — phần đệm được tính để phần chồng ăn lại đúng bằng nó |
 | **Bảng màu từ website của bạn** | `theme-from-url.mjs --url <site>` đọc nền/mực/nhấn ngay trên trang, theo đúng luật tương phản WCAG mà validator đang áp |
+| **Robot canh kho template** | 176 template upstream, và con số đó từng sai ở 9 chỗ trong docs. `registry-watch.mjs` chạy hằng ngày, so với snapshot đã commit rồi mở đúng 1 PR khi upstream đổi — nó **báo**, không tự thêm |
 | **22 template, 6 thể loại** | `VIDEO_GENRES.template.json` trả lời "làm review thì dùng khung nào, theo thứ tự nào" |
 | **Một bảng màu cho cả video** | `"theme": "paper-blue"` sơn lại toàn bộ trên **bản sao tạm**; chiều lật sáng/tối là **đo bằng Chrome**, không đoán từ CSS |
 | **Nhìn lại thứ vừa làm ra** | `contact-sheet.mjs` gom mỗi scene một khung vào một ảnh. Bốn lỗi từng lọt qua mọi luật đều lộ ra trong một cái nhìn |

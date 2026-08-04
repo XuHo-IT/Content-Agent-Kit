@@ -4,7 +4,7 @@
 //   node scripts/video/add-template.mjs transitions-blur caption-kinetic-slam
 //   node scripts/video/add-template.mjs --preset news
 //
-// The registry (github.com/heygen-com/hyperframes, Apache-2.0) publishes 146 items as
+// The registry (github.com/heygen-com/hyperframes, Apache-2.0) publishes 176 items as
 // self-contained folders whose `registry-item.json` maps files -> targets. Those targets
 // line up with the `paths` this kit's hyperframes.json already declares, so an item drops
 // straight into video-templates/ with no rewriting.

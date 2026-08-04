@@ -4,7 +4,7 @@
 
 The kit ships 22 scene templates. The upstream **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) publishes
-**146 more** — pull any of them without hand-copying files:
+**176 more** — pull any of them without hand-copying files:
 
 ```bash
 node scripts/video/add-template.mjs --list                    # everything available
@@ -18,13 +18,53 @@ node scripts/video/add-template.mjs --preset news             # a curated set
 | Type | Count | What it is |
 |---|---|---|
 | `example` | 8 | complete templates: vignelli, kinetic-type, swiss-grid, nyt-graph, play-mode, warm-grain, product-promo, decision-tree |
-| `block` | 113 | 13 transition families · `news-ticker` · 10 lower-thirds (`lt-*`, `yt-lower-third`) · `data-chart` `world-map` `flowchart-vertical` · `x-post` `reddit-post` · ~25 code-snippet themes · `light-leak` `glitch` `cinematic-zoom` · device mockups |
-| `component` | 25 | 16 animated caption styles · `grain-overlay` `vignette` `motion-blur` `parallax-zoom` `shimmer-sweep` |
+| `block` | 132 | 33 `code-*` (snippet themes, diffs, scroll) · 13 `transitions-*` · 10 `lt-*` lower-thirds · 7 `vfx-*` · 7 `mk-*` · 6 each `hw-*` and `yt-*` · 4 each `liquid-*` and `us-*` · plus `news-ticker` `data-chart` `world-map` `x-post` `reddit-post` `light-leak` `glitch` `cinematic-zoom` and device mockups |
+| `component` | 36 | 16 `caption-*` animated caption styles · 5 `hw-*` · 4 `yt-*` · 2 each `mk-*` and `parallax-*` · plus `grain-overlay` `vignette` `motion-blur` `shimmer-sweep` `texture` |
+
+The three **counts** above are checked daily and corrected automatically; the prose beside
+them is not — a family breakdown is not something a regex can keep true. Re-derive it from
+`video-templates/registry-snapshot.json` when it starts to look wrong.
 
 **Only a folder with a root `index.html` becomes a scene template.** Blocks and components
 ship `compositions/` only, so they land in `video-templates/` as building material and never
 clutter the list a `script.json` can choose from. That separation is automatic — the
 validator reads the folder, so nothing needs registering.
+
+### Keeping this page honest — `registry-watch.mjs`
+
+Every number on this page used to be typed by hand and checked by nothing, and every one of
+them was wrong: the registry held **176** items while six files said 146, and the table above
+said 113 blocks and 25 components against an actual 132 and 36. Thirty items had arrived —
+including a single 29-item commit — and nothing in the repo could notice.
+
+```bash
+node scripts/video/registry-watch.mjs           # report; exit 1 if anything drifted
+node scripts/video/registry-watch.mjs --write   # update the snapshot and the counts
+```
+
+It compares upstream against `video-templates/registry-snapshot.json`, so it can tell *"this
+appeared"* from *"this was always there"*. It also checks that every name in
+`add-template.mjs`'s `PRESETS` still exists upstream — a rename there currently fails halfway
+through a fetch, after some files are already written.
+
+`.github/workflows/registry-watch.yml` runs it daily and opens **one** pull request when
+something moved, force-pushing the same `chore/registry-sync` branch rather than leaving a
+graveyard of superseded PRs.
+
+**It does not add templates**, and that is a decision rather than a limitation:
+
+- a scene template needs its canvas measured in Chrome (the runner has none), a `CATALOG.md`
+  entry with slots and character limits written by someone who looked at the frame, and both
+  aspects — while seven of the eight upstream examples ship 16:9 only
+- blocks and components *would* pass CI, since they have no `index.html` and the template
+  tests skip them — but vendoring them wholesale contradicts the reason `add-template.mjs`
+  exists at all, which is the argument in `docs/17`
+
+So the robot reports and a person chooses. The pull request it opens carries only what a
+machine can verify: the snapshot, and the counts.
+
+> GitHub disables a scheduled workflow after 60 days of repository inactivity. If this goes
+> quiet, check that before looking for a bug in the script.
 
 ### The catch nobody mentions
 
@@ -74,7 +114,7 @@ what the generated `NOTICE.md` is for — **do not delete it**. See the root `NO
 
 Kit có sẵn 22 template cho scene. Kho **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) có thêm
-**146 mục** — kéo về bằng lệnh, không phải chép tay. Xem các lệnh ở bản EN.
+**176 mục** — kéo về bằng lệnh, không phải chép tay. Xem các lệnh ở bản EN.
 
 ### Ba nhóm — chỉ một nhóm là template cho scene
 
