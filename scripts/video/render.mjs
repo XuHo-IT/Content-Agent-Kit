@@ -36,6 +36,7 @@ import {
   DEFAULT_TRANSITION_SEC,
 } from "./lib/ffmpeg-video.mjs";
 import { indexSfxLibrary, pickSfxForScene, defaultPlayback } from "./lib/sfx.mjs";
+import { buildCues, toAss } from "./lib/captions.mjs";
 import { composeTemplate } from "./lib/compose.mjs";
 import { sfxDir } from "./lib/paths.mjs";
 import { resolveTheme, themeKey } from "./lib/theme.mjs";
@@ -54,6 +55,8 @@ if (argv.includes("--help") || argv.length === 0) {
       `  --strict            craft warnings block the render\n` +
       `  --refresh-media     re-resolve B-roll/screenshots, ignoring media-lock.json\n` +
       `  --no-transitions    hard cuts everywhere; skips the re-encode xfade forces\n` +
+      `  --captions <mode>   file (default, writes captions.ass) | burn | off\n` +
+      `  --caption-font <n>  font libass uses when burning (default Arial)\n` +
       `  --backend <id>      html (default) | api | remotion — see --list-backends\n` +
       `  --profile <name>    a profile in profiles/ (personal, business), or a path\n` +
       `  --cost-ceiling <n>  refuse an api render estimated above this many USD\n` +
@@ -67,6 +70,15 @@ if (argv.includes("--help") || argv.length === 0) {
 
 const flagValue = (name) => (argv.includes(name) ? argv[argv.indexOf(name) + 1] : undefined);
 const numberFlag = (name) => (flagValue(name) === undefined ? undefined : Number(flagValue(name)));
+
+// Checked here rather than where it is used: captions are written at step 8, and a typo
+// caught there has already cost a full TTS run.
+const CAPTION_MODES = ["file", "burn", "off"];
+const capMode = flagValue("--captions") ?? "file";
+if (!CAPTION_MODES.includes(capMode)) {
+  console.error(`[video] ✗ --captions must be ${CAPTION_MODES.join(" | ")}, got "${capMode}"`);
+  process.exit(1);
+}
 
 if (argv.includes("--list-backends")) {
   console.log(`render.mjs — available backends (VIDEO_BACKEND, or --backend)\n`);
@@ -373,7 +385,26 @@ try {
     fittedClips.push(fitClip);
   }
 
-  // STEP 8 — concat clips + mux narration
+  // STEP 8 — captions, then concat clips + mux narration
+  //
+  // Scene starts are exact (this process built the audio track); within a scene the cues are
+  // apportioned by character count, so error resets to zero at every scene boundary.
+  const assPath = path.join(outputDir, "captions.ass");
+  if (capMode !== "off") {
+    const canvas = aspect === "16:9" ? { width: 1920, height: 1080 } : { width: 1080, height: 1920 };
+    const cues = buildCues(
+      scenes.map((s) => ({
+        text: s.voiceText,
+        startSec: sceneStarts[s.id],
+        // The SPOKEN length, not the visual one: a caption must not hang over the
+        // inter-scene silence or the outro's three-second hold.
+        durSec: sceneAudio.find((a) => a.id === s.id).durationSec,
+      })),
+    );
+    await writeFile(assPath, toAss(cues, { ...canvas, theme, font: flagValue("--caption-font") ?? "Arial" }), "utf8");
+    info(`captions.ass: ${cues.length} cues${capMode === "burn" ? " — burning (re-encodes the mux)" : ""}`);
+  }
+
   step(8, "Concat clips + mux audio");
   const silentVideo = path.join(outputDir, "video-silent.mp4");
   const videoPath = path.join(outputDir, "video.mp4");
@@ -387,7 +418,10 @@ try {
   } else {
     await concatVideos(fittedClips, silentVideo);
   }
-  await muxAudioOntoVideo(silentVideo, voiceMp3, videoPath);
+  await muxAudioOntoVideo(silentVideo, voiceMp3, videoPath, {
+    burnSubs: capMode === "burn" ? assPath : null,
+    fps: RENDER_FPS,
+  });
 
   // STEP 9 — report
   step(9, "Done");
@@ -399,6 +433,9 @@ try {
   );
   console.log(`[video]   voice:  ${voiceMp3}   (drop into CapCut)`);
   console.log(`[video]   script: ${path.join(outputDir, "script.txt")}   (CapCut auto-caption)`);
+  if (capMode !== "off") {
+    console.log(`[video]   captions: ${assPath}   (${capMode === "burn" ? "burned in" : "import into any editor"})`);
+  }
   console.log(`VIDEO=${videoPath}`);
 } catch (e) {
   console.error(`[video] ✗ ${e.message}`);

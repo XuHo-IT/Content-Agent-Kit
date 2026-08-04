@@ -184,6 +184,48 @@ node scripts/video/render.mjs <script> --no-transitions   # hard cuts, stream co
 Mixed scripts work: joints marked `none` use ffmpeg's `concat` **filter** rather than a
 one-frame crossfade, so "none" means none.
 
+### Captions — `--captions`
+
+Most short-form video is watched with the sound off. The kit wrote `script.txt` for CapCut to
+auto-caption from — which means opening CapCut, the step this pipeline exists to avoid.
+
+```bash
+node scripts/video/render.mjs <script> --captions burn          # onto the pixels
+node scripts/video/render.mjs <script> --captions burn --caption-font "Be Vietnam Pro"
+node scripts/video/render.mjs <script> --captions off           # neither file nor burn
+```
+
+| mode | |
+|---|---|
+| `file` | **default** — writes `captions.ass` beside the video. Nothing about the video changes; drop the file into Premiere, Resolve, CapCut or a player. |
+| `burn` | draws them onto the frames. Irreversible, and the mux has to re-encode instead of stream-copying. |
+| `off` | no `.ass` at all. `script.txt` is still written — it is the transcript. |
+
+Styled from the `theme` when one is set, so captions do not fight the frame they sit on. The
+background is an **opaque box**, not an outline: over stock footage, light text on a light
+frame disappears exactly where it matters.
+
+#### What the timing is, precisely
+
+- **Scene boundaries are exact.** `render.mjs` built the audio track, so it knows to the
+  millisecond when each scene's narration starts.
+- **Within a scene, cues are apportioned by character count.** That is an estimate. There is
+  no forced alignment here and no model that would provide one without a dependency.
+
+So error accumulates inside a scene and **resets to zero at every scene boundary**. On the
+6–12 second scenes this kit produces that lands within a syllable or two. It is not good
+enough for a two-minute unbroken take, and it does not claim to be.
+
+A caption also stops when its scene's *narration* stops, not when its *picture* does — so
+nothing hangs over the 0.3s inter-scene silence or the outro's three-second hold.
+
+#### The font is yours to check
+
+libass resolves `--caption-font` through fontconfig and silently falls back when the name is
+missing. A fallback without Vietnamese diacritics renders `bước` as `bc`. The default is
+`Arial`, which is present nearly everywhere and has the glyphs — but **render one and look at
+it** before committing to a font, the same rule as everything else here.
+
 ### The gate — `validate-script.mjs`
 
 ```bash
@@ -448,6 +490,47 @@ không phải màu thương hiệu. Vì vậy nó in bảng màu ra và hỏi tr
 
 `tests/palette.test.mjs` kiểm phần ra quyết định bằng buffer điểm ảnh dựng trong bộ nhớ: không
 trình duyệt, không mạng, không ffmpeg — CI không bao giờ đỏ vì website của người khác đang lỗi.
+
+### Phụ đề — `--captions`
+
+Phần lớn video ngắn được xem **tắt tiếng**. Kit vẫn ghi `script.txt` để CapCut tự tạo phụ đề —
+nghĩa là vẫn phải mở CapCut, đúng cái việc pipeline này sinh ra để khỏi phải làm.
+
+```bash
+node scripts/video/render.mjs <script> --captions burn          # cháy vào khung hình
+node scripts/video/render.mjs <script> --captions burn --caption-font "Be Vietnam Pro"
+node scripts/video/render.mjs <script> --captions off           # không ghi, không đốt
+```
+
+| chế độ | |
+|---|---|
+| `file` | **mặc định** — ghi `captions.ass` cạnh video. Video không đổi gì; kéo file vào Premiere, Resolve, CapCut hay trình phát đều được. |
+| `burn` | vẽ thẳng lên khung hình. Không gỡ lại được, và bước mux phải encode lại thay vì copy luồng. |
+| `off` | không ghi `.ass`. `script.txt` vẫn có — đó là bản ghi lời. |
+
+Lấy màu từ `theme` khi có, để phụ đề không chọi với khung hình. Nền là một **hộp đặc** chứ
+không phải viền chữ: đè lên footage, chữ sáng trên nền sáng sẽ biến mất đúng lúc cần đọc nhất.
+
+#### Thời gian chính xác tới đâu, nói thẳng
+
+- **Mốc đầu mỗi cảnh là chính xác.** `render.mjs` tự dựng track tiếng nên biết tới mili giây
+  lời đọc của từng cảnh bắt đầu lúc nào.
+- **Trong một cảnh, các dòng được chia theo số ký tự.** Đó là ước lượng. Ở đây không có forced
+  alignment, và không mô hình nào cho được cái đó mà không thêm phụ thuộc.
+
+Nên sai số cộng dồn trong một cảnh và **về không ở mỗi mốc chuyển cảnh**. Với cảnh 6–12 giây
+mà kit tạo ra, sai số nằm trong khoảng một hai âm tiết. Nó không đủ cho một đoạn quay hai phút
+liền mạch, và nó không tự nhận là đủ.
+
+Phụ đề cũng kết thúc khi **lời đọc** của cảnh hết, chứ không phải khi **hình** hết — nên không
+có dòng nào treo lại qua 0,3 giây im lặng hay 3 giây giữ outro.
+
+#### Font là phần bạn phải tự kiểm
+
+libass tra `--caption-font` qua fontconfig và **lặng lẽ** dùng font thay thế khi không tìm
+thấy. Font thay thế thiếu dấu tiếng Việt sẽ biến `bước` thành `bc`. Mặc định là `Arial` —
+gần như máy nào cũng có và đủ dấu — nhưng **hãy render một cái rồi nhìn** trước khi chốt font,
+đúng luật áp cho mọi thứ khác ở đây.
 
 ### Chuyển cảnh — `transition`
 

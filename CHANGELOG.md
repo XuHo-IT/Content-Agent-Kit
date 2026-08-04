@@ -10,6 +10,34 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — captions the pipeline actually produces
+
+Most short-form video is watched with the sound off. The kit wrote `script.txt` for CapCut to
+auto-caption from — which means opening CapCut, the step this pipeline exists to avoid.
+
+```bash
+node scripts/video/render.mjs <script> --captions burn
+```
+
+`file` (default, writes `captions.ass` and changes nothing else) · `burn` · `off`. Styled from
+the `theme` when one is set, with an **opaque box** rather than an outline: over stock footage
+light text on a light frame disappears exactly where it matters.
+
+**What the timing is, precisely.** Scene boundaries are exact — `render.mjs` built the audio
+track. Within a scene, cues are apportioned by character count, which is an estimate. Error
+accumulates inside a scene and resets to zero at every boundary; on 6–12 second scenes that
+lands within a syllable or two. It is not forced alignment and does not claim to be. Captions
+also stop when a scene's *narration* stops, not when its *picture* does, so nothing hangs over
+the inter-scene silence or the outro hold.
+
+`--captions bogus` now fails **before** step 1 rather than at step 8, where the typo would
+already have cost a full TTS run.
+
+16 tests in `tests/captions.test.mjs`, including the escaping that only breaks on Windows:
+ffmpeg's filtergraph parser reads `:` as an option separator, so `C:\out\captions.ass` becomes
+a filter option named `C`. Verified by burning with real libass and looking at the frames —
+Vietnamese diacritics intact, themed and unthemed.
+
 ### Added — `theme-from-url.mjs`: read a brand palette off a live page
 
 ```bash
