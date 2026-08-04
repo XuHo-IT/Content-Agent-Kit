@@ -20,6 +20,32 @@ import { fileURLToPath } from "node:url";
 const KIT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => fs.readFileSync(path.join(KIT, p), "utf8");
 
+/**
+ * Width and height out of a JPEG's SOF segment. Written by hand because the CI runner has
+ * no ffmpeg, so ffprobe is not available to a test.
+ *
+ * The trap: most markers carry a 2-byte length, but SOI/EOI (D8/D9), the restart markers
+ * (D0–D7) and TEM (01) carry none. Advancing past those by a "length" read from image data
+ * walks the pointer into nonsense — the first version of this returned 0x0 and the test it
+ * backed reported a passing image as broken.
+ */
+function jpegSize(buf, name) {
+  if (buf.readUInt16BE(0) !== 0xffd8) throw new Error(`${name} is not a JPEG`);
+  let i = 2;
+  while (i < buf.length - 1) {
+    if (buf[i] !== 0xff) { i++; continue; }
+    const marker = buf[i + 1];
+    if (marker === 0xff) { i++; continue; } // fill byte
+    if (marker === 0x01 || (marker >= 0xd0 && marker <= 0xd9)) { i += 2; continue; }
+    // SOF0/1/2/3/5/6/7/9/10/11/13/14/15 — every frame header but DHT(c4), JPG(c8), DAC(cc)
+    if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+      return { height: buf.readUInt16BE(i + 5), width: buf.readUInt16BE(i + 7) };
+    }
+    i += 2 + buf.readUInt16BE(i + 2);
+  }
+  throw new Error(`${name}: no SOF segment found`);
+}
+
 const skillDirs = fs
   .readdirSync(path.join(KIT, "skills"), { withFileTypes: true })
   .filter((d) => d.isDirectory())
@@ -105,6 +131,64 @@ test("the remotion backend discloses that Remotion is not open source", () => {
     !/\|\s*`remotion`\s*\|\s*(free|miễn phí)\s*\|/.test(doc),
     "docs/20 lists remotion as flatly free again",
   );
+});
+
+test("every committed image is referenced from something a reader opens", () => {
+  // `examples/gallery/burned-captions.jpg` shipped in a release referenced by nothing: it
+  // was made for a pull-request description, which lives on GitHub and not in the tree.
+  // An image nobody links to is weight in the clone for no reader.
+  const walk = (d, a = []) => {
+    for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+      if (e.name === "node_modules" || e.name === ".git") continue;
+      const p = path.join(d, e.name);
+      e.isDirectory() ? walk(p, a) : a.push(p);
+    }
+    return a;
+  };
+  const all = walk(KIT);
+  const prose = all
+    .filter((f) => /\.(md|mjs|json|yml)$/i.test(f))
+    .map((f) => fs.readFileSync(f, "utf8"))
+    .join("\n");
+  const orphans = all
+    .filter((f) => /\.(jpg|png)$/i.test(f))
+    .filter((f) => !prose.includes(path.basename(f)))
+    .map((f) => path.relative(KIT, f).replace(/\\/g, "/"));
+  assert.deepEqual(orphans, [], `committed but linked from nowhere: ${orphans.join(", ")}`);
+});
+
+test("an image's bytes agree with its extension", () => {
+  // `grid()` used to copy its single intermediate PNG row straight to the output path, so
+  // `templates-2026.jpg` was a PNG wearing a .jpg name — three times the size it needed to
+  // be. Browsers sniff the content and render it anyway, which is precisely why nobody
+  // noticed: nothing looked wrong.
+  const MAGIC = { jpg: "ffd8ff", jpeg: "ffd8ff", png: "89504e" };
+  const walk = (d, a = []) => {
+    for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+      if (e.name === "node_modules" || e.name === ".git") continue;
+      const p = path.join(d, e.name);
+      e.isDirectory() ? walk(p, a) : a.push(p);
+    }
+    return a;
+  };
+  for (const f of walk(KIT).filter((f) => /\.(jpe?g|png)$/i.test(f))) {
+    const ext = path.extname(f).slice(1).toLowerCase();
+    const head = fs.readFileSync(f).subarray(0, 3).toString("hex");
+    assert.equal(head, MAGIC[ext], `${path.relative(KIT, f)} is not really a ${ext}`);
+  }
+});
+
+test("the README's gallery strips are wide, not tall", () => {
+  // GitHub scales an image to the column width, so a 1080x1920 gallery renders as a wall
+  // the reader scrolls past. These are built by template-sheet.mjs as labelled strips;
+  // a portrait one here means someone regenerated them the old way.
+  for (const f of ["templates-2026.jpg", "new-templates.jpg"]) {
+    const { width, height } = jpegSize(fs.readFileSync(path.join(KIT, "examples", "gallery", f)), f);
+    assert.ok(
+      width > height,
+      `${f} is ${width}x${height} — taller than it is wide, rebuild with template-sheet.mjs`,
+    );
+  }
 });
 
 test("every skill is named in a README", () => {

@@ -19,36 +19,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { run } from "./lib/proc.mjs";
+// The tiling, labelling and font detection live in lib/sheet.mjs so template-sheet.mjs
+// uses the same code rather than a second copy of the same three ffmpeg traps.
+import { findFont, labelledTile, grid } from "./lib/sheet.mjs";
 
 const SCENE_GAP_SEC = 0.3; // must match render.mjs
-
-/**
- * drawtext needs a real font file — it does NOT fall back to a system default, it just
- * errors. Look for one in the usual places per platform.
- */
-const FONT_CANDIDATES = {
-  win32: ["C:/Windows/Fonts/arial.ttf", "C:/Windows/Fonts/segoeui.ttf", "C:/Windows/Fonts/consola.ttf"],
-  darwin: ["/System/Library/Fonts/Supplemental/Arial.ttf", "/Library/Fonts/Arial.ttf", "/System/Library/Fonts/Helvetica.ttc"],
-  linux: [
-    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-    "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf",
-    "/usr/share/fonts/TTF/DejaVuSans.ttf",
-  ],
-};
-
-function findFont() {
-  for (const p of FONT_CANDIDATES[process.platform] ?? []) {
-    if (fs.existsSync(p)) return p;
-  }
-  return null;
-}
-
-/**
- * ffmpeg's filter parser treats `:` as an option separator, so a Windows drive letter has
- * to be escaped — exactly ONE backslash (`C\:/…`). Two makes the path invalid again.
- */
-const escapeFontPath = (p) => p.replace(/\\/g, "/").replace(/^([A-Za-z]):/, "$1\\:");
 
 const argv = process.argv.slice(2);
 if (argv.includes("--help") || argv.length === 0) {
@@ -110,62 +85,19 @@ try {
     const tiles = [];
     for (const [i, m] of marks.entries()) {
       const tile = path.join(tmp, `t${String(i).padStart(2, "0")}.png`);
-      const label = `${i + 1}. ${m.id}${m.media ? " *" : ""}`;
-      const base = `scale=${thumbW}:-2,pad=iw:ih+26:0:0:color=0x111318`;
-      // drawtext's expression vocabulary is its OWN: `h` is the input height here, and
-      // `ih` — valid in scale/pad — is undefined and fails the whole filter chain.
-      const withText =
-        `${base},drawtext=fontfile='${escapeFontPath(font ?? "")}':` +
-        `text='${label.replace(/[':\\]/g, "")}':x=6:y=h-19:fontsize=13:fontcolor=white`;
-      try {
-        if (!labels) throw new Error("no font");
-        await run("ffmpeg", ["-y", "-ss", m.at.toFixed(3), "-i", video, "-frames:v", "1", "-vf", withText, tile]);
-      } catch {
-        labels = false;
-        await run("ffmpeg", ["-y", "-ss", m.at.toFixed(3), "-i", video, "-frames:v", "1", "-vf", base, tile]);
-      }
+      const drawn = await labelledTile({
+        input: video,
+        atSec: m.at,
+        out: tile,
+        width: thumbW,
+        label: `${i + 1}. ${m.id}${m.media ? " *" : ""}`,
+        font,
+      });
+      if (!drawn) labels = false;
       tiles.push(tile);
     }
 
-    // Rows of `perRow`, padded so the last row stacks cleanly.
-    const rows = [];
-    for (let i = 0; i < tiles.length; i += perRow) {
-      const chunk = tiles.slice(i, i + perRow);
-      const rowFile = path.join(tmp, `r${i}.png`);
-      if (chunk.length === 1) {
-        fs.copyFileSync(chunk[0], rowFile);
-      } else {
-        const inputs = chunk.flatMap((f) => ["-i", f]);
-        await run("ffmpeg", ["-y", ...inputs, "-filter_complex", `hstack=inputs=${chunk.length}`, rowFile]);
-      }
-      rows.push(rowFile);
-    }
-
-    if (rows.length === 1) {
-      fs.copyFileSync(rows[0], out);
-    } else {
-      // Rows can differ in width when the last one is short; pad them all to the widest.
-      const widths = [];
-      for (const r of rows) {
-        const j = JSON.parse(
-          await run("ffprobe", ["-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width", "-of", "json", r]),
-        );
-        widths.push(j.streams[0].width);
-      }
-      const maxW = Math.max(...widths);
-      const padded = [];
-      for (const [i, r] of rows.entries()) {
-        if (widths[i] === maxW) {
-          padded.push(r);
-          continue;
-        }
-        const p = path.join(tmp, `p${i}.png`);
-        await run("ffmpeg", ["-y", "-i", r, "-vf", `pad=${maxW}:ih:0:0:color=0x111318`, p]);
-        padded.push(p);
-      }
-      const inputs = padded.flatMap((f) => ["-i", f]);
-      await run("ffmpeg", ["-y", ...inputs, "-filter_complex", `vstack=inputs=${padded.length}`, out]);
-    }
+    await grid(tiles, { perRow, out, tmpDir: tmp });
 
     console.log(`[video] ✓ contact sheet — ${marks.length} scenes, ${perRow} per row`);
     console.log(`[video]   ${out}`);

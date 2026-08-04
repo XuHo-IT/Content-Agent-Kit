@@ -10,6 +10,48 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Changed — the README's gallery images are strips, not walls
+
+`templates-2026.jpg` was **1080×1920**. GitHub scales an image to the column width, so a 9:16
+grid renders as something the reader scrolls past — and nothing on it said which template was
+which, so you had to count against the prose underneath.
+
+Now a labelled 1×4 strip at **960×452**, matching the sample video's contact sheet.
+
+| | before | after |
+|---|---|---|
+| `templates-2026.jpg` | 1080×1920, 115 KB | 960×452, **44 KB** |
+| `new-templates.jpg` | 1200×744, 82 KB | 960×452, **54 KB** |
+
+They are also **reproducible** now. The old images came from an ad-hoc ffmpeg command that
+existed only in a terminal:
+
+```bash
+node scripts/video/template-sheet.mjs --preset 2026 \
+  --inputs examples/gallery/gallery-inputs.json --out examples/gallery/templates-2026.jpg
+```
+
+`scripts/video/lib/sheet.mjs` is extracted from `contact-sheet.mjs` so both use one
+implementation of the three ffmpeg traps that each fail the *whole* chain: `drawtext` erroring
+rather than falling back when no font is found, the single backslash a Windows drive colon
+needs, and `drawtext`'s own expression vocabulary where `ih` is undefined. `contact-sheet.mjs`
+is 68 lines shorter and behaves identically.
+
+### Fixed — a .jpg that was really a PNG
+
+`grid()` copied its single intermediate PNG row straight to the output path, so a `.jpg`
+output was a PNG wearing a JPEG's name — three times the bytes it needed. Browsers sniff the
+content and render it anyway, which is exactly why it survived: nothing looked wrong. It came
+from `contact-sheet.mjs`, where the default output is `.png` and it never showed.
+
+A test now checks every committed image's magic bytes against its extension.
+
+### Fixed — an image nobody could reach
+
+`examples/gallery/burned-captions.jpg` shipped in a release referenced by **nothing** — it was
+made for a pull-request description, which lives on GitHub rather than in the tree. Now in
+`docs/14`'s captions section, and a test fails on any committed image that no file links to.
+
 ### Fixed — the backend table called Remotion "free", with no qualification
 
 It is free for individuals and small companies. **For-profit organisations above a size
