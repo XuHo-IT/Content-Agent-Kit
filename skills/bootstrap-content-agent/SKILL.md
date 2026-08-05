@@ -62,6 +62,11 @@ Ask (batch related questions; propose sensible defaults):
 From `templates/` + `scripts/`, produce:
 - **`PLAYBOOK.md`** — fill `templates/PLAYBOOK.template.md` with the interview answers.
 - **`WRITING_CRAFT.md`** — fill `templates/WRITING_CRAFT.template.md` (see `docs/12-writing-craft.md`).
+  **Start from `templates/INDUSTRIES.template.json`.** Find the user's vertical, and use its
+  `post.types` to fill the register sections, `post.proof` to define what evidence looks like
+  here, and `post.avoid` for the banned list. If the entry has a `legal` block — healthcare,
+  finance and property all do — copy those rules in **with their source links**. They are the
+  difference between a post that is merely weak and one that costs a fine.
   **Write it in the publication language**, one register section per content type, a concrete
   banned-cliché list, and **2–3 BEFORE/AFTER pairs you author yourself** (never copy copyrighted
   prose). End with the §7 rubric using **countable fail thresholds**. This file is what stops

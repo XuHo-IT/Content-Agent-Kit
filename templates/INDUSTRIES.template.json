@@ -1,0 +1,411 @@
+{
+  "_comment": [
+    "One entry per vertical, covering BOTH halves of what this kit makes: the article and",
+    "the video. Copy the entry for your industry into your PLAYBOOK.md and delete the rest.",
+    "",
+    "WHY THIS EXISTS. A list of ~70 'industry video templates' circulates online — Property",
+    "Tour, Historical Timeline, Case Timeline, Stock Dashboard, Git Commit Timeline, and so",
+    "on. Mapped against this kit, most of them are the SAME FRAME wearing different industry",
+    "clothing: seven of those names are frame-timeline. What actually differs between a legal",
+    "video and a fintech one is not the geometry — it is what counts as proof, what you are",
+    "not allowed to claim, and which beat opens the piece.",
+    "",
+    "So this is a selection layer over 27 frames, not 70 templates.",
+    "",
+    "TWO KINDS OF ENTRY, AND THEY ARE NOT THE SAME KIND OF CLAIM:",
+    "",
+    "  `legal`  — a rule from Vietnamese law or a regulator, with the source. Getting one of",
+    "             these wrong can cost a fine or a licence, so each carries a link and none",
+    "             was written from memory.",
+    "  `avoid`  — craft judgement. Useful, arguable, and NOT law. Nothing here pretends it is.",
+    "",
+    "`frames` names templates that exist today. `missing` names the frame that vertical really",
+    "wants and this kit cannot draw yet — that list is the build queue, and writing it down is",
+    "more honest than pointing an industry at a frame that only nearly fits.",
+    "",
+    "COVERAGE IS UNEVEN AND SAYING SO IS THE POINT. The regulated verticals were researched",
+    "against primary sources. The rest carry craft advice at the confidence of craft advice."
+  ],
+
+  "industries": {
+    "bat-dong-san": {
+      "label": "Bất động sản",
+      "whenToUse": "Dự án, khu vực, hoặc một quyết định mua/thuê cụ thể.",
+      "post": {
+        "types": ["phân tích khu vực", "so sánh dự án", "cập nhật pháp lý", "câu chuyện người mua", "giải thích chi phí thật"],
+        "proof": "Giá trên mỗi m² kèm nguồn và kèm NGÀY — giá bất động sản hết hạn nhanh hơn mọi loại số khác trong kit này. Khoảng cách phải đo được (\"7 km, 18 phút ngoài giờ cao điểm\"), không phải \"gần trung tâm\".",
+        "avoid": [
+          "\"Tiềm năng tăng giá\" không kèm cơ sở — đó là dự đoán mặc áo dữ kiện.",
+          "Ảnh phối cảnh dùng như ảnh thật. Nếu là render thì nói là render."
+        ],
+        "legal": [
+          {
+            "rule": "Không quảng cáo, nhận đặt cọc hay huy động vốn cho dự án CHƯA đủ điều kiện kinh doanh. Luật Kinh doanh bất động sản 2023 cấm gian dối trong hoạt động kinh doanh bất động sản; Nghị định 16/2025/NĐ-CP phạt hành chính kèm đình chỉ hoạt động 3–6 tháng.",
+            "source": "https://vanban.chinhphu.vn/?pageid=27160&docid=209624"
+          },
+          {
+            "rule": "Quảng cáo sai sự thật về bất động sản là hành vi bị xử lý riêng, ngoài chế tài của Luật Quảng cáo.",
+            "source": "https://lsvn.vn/hanh-vi-quang-cao-bat-dong-san-sai-su-that-bi-xu-ly-nhu-the-na-o-1688383042-a132404.html"
+          }
+        ]
+      },
+      "video": {
+        "genre": "review",
+        "frames": ["frame-liquid-bg-hero", "frame-broll", "frame-chart-bars", "frame-split-compare", "frame-checklist", "frame-statement-outro"],
+        "missing": ["bản đồ có điểm đánh dấu", "mặt bằng / sơ đồ tầng"]
+      },
+      "theme": "corporate",
+      "backend": "html — trừ tour thực địa và flycam, phần đó là footage quay thật"
+    },
+
+    "y-te": {
+      "label": "Y tế và sức khoẻ",
+      "whenToUse": "Kiến thức sức khoẻ, dịch vụ khám chữa bệnh, sản phẩm bảo vệ sức khoẻ.",
+      "post": {
+        "types": ["giải thích một tình trạng", "hỏi đáp thường gặp", "quy trình khám", "phân biệt thông tin sai"],
+        "proof": "Trích dẫn hướng dẫn điều trị hoặc nghiên cứu có DOI, kèm năm. Kinh nghiệm cá nhân là kinh nghiệm cá nhân, không phải bằng chứng — và phải nói rõ như thế.",
+        "avoid": [
+          "Chẩn đoán qua mạng, kể cả dạng \"nếu bạn thấy X thì có thể là Y\".",
+          "Ảnh trước/sau — kể cả thật cũng tạo kỳ vọng mà ca của người xem không đảm bảo lặp lại."
+        ],
+        "legal": [
+          {
+            "rule": "Không quảng cáo thực phẩm chức năng gây hiểu nhầm là thuốc chữa bệnh. Phải nêu tác dụng chính, tác dụng phụ nếu có, và khuyến cáo \"Sản phẩm này không phải là thuốc và không có tác dụng thay thế thuốc chữa bệnh\".",
+            "source": "https://baochinhphu.vn/khong-quang-cao-thuc-pham-chuc-nang-gay-hieu-nham-la-thuoc-102153653.htm"
+          },
+          {
+            "rule": "CẤM dùng hình ảnh bác sĩ, dược sĩ, nhân viên y tế để quảng cáo thực phẩm. Đây là lỗi bị vi phạm nhiều nhất trong nhóm này.",
+            "source": "https://suckhoeviet.org.vn/canh-bao-bac-si-duoc-si-nhan-vien-y-te-khong-duoc-tham-gia-quang-cao-thuc-pham-chuc-nang-17896.html"
+          },
+          {
+            "rule": "Nội dung quảng cáo dịch vụ khám chữa bệnh phải phù hợp với Giấy phép hoạt động của cơ sở, hoặc Chứng chỉ hành nghề của người hành nghề.",
+            "source": "https://baochinhphu.vn/quy-dinh-quang-cao-kham-chua-benh-thuoc-sua-my-pham-102128717.htm"
+          }
+        ]
+      },
+      "video": {
+        "genre": "tutorial",
+        "frames": ["frame-bold-poster", "frame-myth-fact", "frame-step-list", "frame-checklist", "frame-statement-outro"],
+        "missing": ["sơ đồ giải phẫu", "luồng quy trình"]
+      },
+      "theme": "paper-ink",
+      "backend": "html"
+    },
+
+    "tai-chinh": {
+      "label": "Tài chính và đầu tư",
+      "whenToUse": "Thị trường, sản phẩm tài chính, phân tích doanh nghiệp.",
+      "post": {
+        "types": ["giải thích một chỉ số", "bóc tách báo cáo tài chính", "so sánh sản phẩm", "tổng kết tuần", "sai lầm thường gặp"],
+        "proof": "Số lấy từ báo cáo đã công bố, kèm kỳ và kèm đường dẫn. Ghi rõ đơn vị và mốc so sánh — \"tăng 40%\" không có gốc là một câu không kiểm được.",
+        "avoid": [
+          "Khuyến nghị mua/bán cụ thể nếu bạn không có chứng chỉ hành nghề tư vấn.",
+          "Biểu đồ cắt trục Y để cú tăng trông dốc hơn thực tế."
+        ],
+        "legal": [
+          {
+            "rule": "Quảng cáo sản phẩm tài chính không được hứa hẹn kết quả cụ thể — cấm cam kết lợi nhuận, cam kết lãi suất, hoặc tạo kỳ vọng sai. Phát tán thông tin mang tính quảng cáo ảnh hưởng quyền lợi nhà đầu tư có thể bị phạt tới 600 triệu đồng.",
+            "source": "https://luatpvlgroup.com/quy-dinh-ve-viec-quang-cao-cac-san-pham-lien-quan-den-tai-chinh-la-gi/"
+          }
+        ]
+      },
+      "video": {
+        "genre": "news",
+        "frames": ["frame-vignelli", "frame-pentagram-stat", "frame-chart-bars", "frame-split-compare", "frame-timeline", "frame-statement-outro"],
+        "missing": ["đường giá theo thời gian", "bảng chỉ số nhiều ô"]
+      },
+      "theme": "corporate",
+      "backend": "html"
+    },
+
+    "phap-ly": {
+      "label": "Pháp lý",
+      "whenToUse": "Giải thích quy định, phân tích vụ việc, hướng dẫn thủ tục.",
+      "post": {
+        "types": ["giải thích một điều luật", "cái gì đổi sau nghị định mới", "hướng dẫn thủ tục", "phân tích vụ việc công khai"],
+        "proof": "Dẫn đúng số hiệu văn bản, điều khoản và NGÀY HIỆU LỰC. Một quy định đã bị thay thế mà không ghi ngày là thông tin sai chứ không phải thông tin cũ.",
+        "avoid": [
+          "Trả lời tình huống cụ thể của người đọc — đó là tư vấn pháp lý, và nó cần hồ sơ.",
+          "Nói \"luật quy định\" mà không dẫn được điều nào."
+        ]
+      },
+      "video": {
+        "genre": "tutorial",
+        "frames": ["frame-bold-poster", "frame-timeline", "frame-step-list", "frame-myth-fact", "frame-checklist", "frame-statement-outro"],
+        "missing": ["bảng chứng cứ", "luồng phân tích hồ sơ"]
+      },
+      "theme": "paper-ink",
+      "backend": "html"
+    },
+
+    "giao-duc": {
+      "label": "Giáo dục và đào tạo",
+      "whenToUse": "Dạy một khái niệm, giới thiệu khoá học, hướng dẫn học tập.",
+      "post": {
+        "types": ["giải thích một khái niệm", "lộ trình học", "sai lầm người mới hay mắc", "so sánh phương pháp"],
+        "proof": "Kết quả học viên phải kèm cỡ mẫu và khung thời gian. \"Nhiều bạn đã đỗ\" không phải là một con số.",
+        "avoid": [
+          "Cam kết đầu ra (điểm số, việc làm) — vừa khó chứng minh vừa là thứ dễ bị khiếu nại nhất.",
+          "Dùng logo trường/tổ chức khi chưa được phép, kể cả để \"minh hoạ\"."
+        ]
+      },
+      "video": {
+        "genre": "tutorial",
+        "frames": ["frame-kinetic-type", "frame-step-list", "frame-myth-fact", "frame-checklist", "frame-chart-bars", "frame-logo-outro"],
+        "missing": ["bảng trắng vẽ dần", "sơ đồ tư duy"]
+      },
+      "theme": "paper-forest",
+      "backend": "html"
+    },
+
+    "cong-nghe-ai": {
+      "label": "AI và công nghệ",
+      "whenToUse": "Mô hình mới, công cụ mới, một kết quả đo được.",
+      "post": {
+        "types": ["đánh giá công cụ", "kết quả đo thật", "giải thích cách hoạt động", "cái gì đổi sau bản phát hành"],
+        "proof": "Chạy thật rồi dẫn số của chính mình, kèm cấu hình. Benchmark của nhà cung cấp là quảng cáo của nhà cung cấp.",
+        "avoid": [
+          "So sánh model bằng cảm giác sau vài prompt.",
+          "Ghi phiên bản kiểu \"mới nhất\" — sáu tuần sau không ai biết đó là bản nào."
+        ]
+      },
+      "video": {
+        "genre": "review",
+        "frames": ["frame-glitch-title", "frame-terminal", "frame-chart-bars", "frame-split-compare", "frame-review-verdict", "frame-statement-outro"],
+        "missing": ["HUD giao diện", "đồ thị mạng lưới / luồng"]
+      },
+      "theme": "none",
+      "backend": "html"
+    },
+
+    "lap-trinh": {
+      "label": "Lập trình",
+      "whenToUse": "Kỹ thuật, thư viện, cách sửa một lỗi cụ thể.",
+      "post": {
+        "types": ["hướng dẫn từng bước", "mổ xẻ một lỗi", "so sánh thư viện", "ghi chép khi nâng cấp"],
+        "proof": "Đoạn code chạy được, kèm phiên bản và môi trường. Ảnh chụp terminal thật hơn mọi lời mô tả.",
+        "avoid": [
+          "Code trong bài mà chưa từng chạy.",
+          "Bỏ qua phần dọn dẹp/lỗi — người làm theo sẽ dừng đúng ở chỗ đó."
+        ]
+      },
+      "video": {
+        "genre": "tutorial",
+        "frames": ["frame-bold-poster", "frame-terminal", "frame-screenshot", "frame-step-list", "frame-checklist", "frame-logo-outro"],
+        "missing": ["sơ đồ kiến trúc"]
+      },
+      "theme": "none",
+      "backend": "html"
+    },
+
+    "thuong-mai-dien-tu": {
+      "label": "Thương mại điện tử",
+      "whenToUse": "Sản phẩm cụ thể, so sánh giá, quyết định mua.",
+      "post": {
+        "types": ["đánh giá sản phẩm", "so sánh giá", "hướng dẫn chọn", "bóc tách chi phí ẩn"],
+        "proof": "Giá kèm ngày và kèm nơi bán. Ảnh sản phẩm thật, không phải ảnh nhà cung cấp, nếu bạn nói là đã dùng.",
+        "avoid": [
+          "Giấu quan hệ tiếp thị liên kết.",
+          "\"Giá tốt nhất thị trường\" — một câu không ai kiểm được và cũng không ai tin."
+        ]
+      },
+      "video": {
+        "genre": "review",
+        "frames": ["frame-liquid-bg-hero", "frame-broll", "frame-split-compare", "frame-review-verdict", "frame-product-reveal", "frame-statement-outro"],
+        "missing": ["xoay sản phẩm 360°"]
+      },
+      "theme": "none",
+      "backend": "html — mở hộp và xoay 360° cần quay thật"
+    },
+
+    "marketing": {
+      "label": "Marketing và thương hiệu",
+      "whenToUse": "Chiến dịch, phương pháp, kết quả chạy thật.",
+      "post": {
+        "types": ["mổ xẻ một chiến dịch", "kết quả A/B", "phương pháp", "sai lầm đắt tiền"],
+        "proof": "Số của chính bạn kèm cỡ mẫu và khoảng thời gian. Hai bài không phải một xu hướng.",
+        "avoid": [
+          "Case study không tên, không số, không mốc thời gian.",
+          "Nhận công cho kết quả mà nhiều thứ khác cùng thay đổi."
+        ]
+      },
+      "video": {
+        "genre": "launch",
+        "frames": ["frame-kinetic-type", "frame-split-compare", "frame-product-reveal", "frame-chart-bars", "frame-quote-testimonial", "frame-logo-outro"],
+        "missing": ["phễu chuyển đổi"]
+      },
+      "theme": "none",
+      "backend": "html"
+    },
+
+    "doanh-nghiep": {
+      "label": "Doanh nghiệp và nội bộ",
+      "whenToUse": "Giới thiệu công ty, cột mốc, đội ngũ, kết quả kinh doanh.",
+      "post": {
+        "types": ["hồ sơ năng lực", "cột mốc", "giới thiệu đội ngũ", "báo cáo kết quả"],
+        "proof": "Cột mốc kèm năm. Con số kinh doanh kèm kỳ và kèm cách tính.",
+        "avoid": [
+          "Tính từ thay cho dữ kiện — \"hàng đầu\", \"tiên phong\", \"uy tín\".",
+          "Ảnh đội ngũ dùng ảnh kho."
+        ]
+      },
+      "video": {
+        "genre": "launch",
+        "frames": ["frame-liquid-bg-hero", "frame-timeline", "frame-pentagram-stat", "frame-quote-testimonial", "frame-logo-outro"],
+        "missing": ["bảng chỉ số nhiều ô"]
+      },
+      "theme": "corporate",
+      "backend": "html"
+    },
+
+    "du-lich": {
+      "label": "Du lịch",
+      "whenToUse": "Điểm đến, lịch trình, chi phí thật của một chuyến đi.",
+      "post": {
+        "types": ["nhật ký hành trình", "cẩm nang một thành phố", "bóc tách chi phí", "đi vào mùa nào"],
+        "proof": "Chi phí kèm ngày đi và kèm tỉ giá lúc đó. Thời gian di chuyển đo thật, không lấy từ bản đồ.",
+        "avoid": [
+          "Ảnh không phải của chuyến đi bạn đang kể.",
+          "Bỏ qua phần dở — một hành trình chỉ toàn điểm sáng đọc ra là bài quảng cáo."
+        ]
+      },
+      "video": {
+        "genre": "listicle",
+        "frames": ["frame-broll", "frame-media-inset", "frame-step-list", "frame-chart-bars", "frame-quote-testimonial", "frame-statement-outro"],
+        "missing": ["bản đồ hành trình có cung nối"]
+      },
+      "theme": "none",
+      "backend": "html — cảnh quay điểm đến dùng footage"
+    },
+
+    "lich-su": {
+      "label": "Lịch sử và tư liệu",
+      "whenToUse": "Kể một sự kiện, một nhân vật, một chuỗi diễn biến.",
+      "post": {
+        "types": ["dòng thời gian sự kiện", "chân dung nhân vật", "bối cảnh một quyết định", "đính chính một hiểu lầm phổ biến"],
+        "proof": "Dẫn nguồn sơ cấp khi có. Nói rõ chỗ nào sử liệu còn tranh cãi thay vì chọn một phiên bản rồi kể như đã chốt.",
+        "avoid": [
+          "Gán động cơ cho người trong quá khứ bằng giá trị của hôm nay.",
+          "Ảnh minh hoạ do AI sinh dùng như ảnh tư liệu."
+        ]
+      },
+      "video": {
+        "genre": "news",
+        "frames": ["frame-analog-grain", "frame-timeline", "frame-media-inset", "frame-quote-testimonial", "frame-myth-fact", "frame-statement-outro"],
+        "missing": ["bản đồ theo giai đoạn"]
+      },
+      "theme": "paper-ink",
+      "backend": "html"
+    },
+
+    "logistics": {
+      "label": "Logistics và chuỗi cung ứng",
+      "whenToUse": "Tuyến vận chuyển, thời gian giao, cấu trúc chi phí.",
+      "post": {
+        "types": ["bóc tách một tuyến", "so sánh phương thức vận chuyển", "cái gì làm chậm hàng", "giải thích chi phí"],
+        "proof": "Thời gian giao thực tế theo tuyến, kèm mùa — cùng một tuyến có thể lệch gấp đôi giữa cao điểm và thấp điểm.",
+        "avoid": [
+          "Thời gian giao trung bình mà không nói khoảng dao động.",
+          "Bỏ qua phụ phí — đó là chỗ khách hàng thấy bị lừa."
+        ]
+      },
+      "video": {
+        "genre": "tutorial",
+        "frames": ["frame-bold-poster", "frame-timeline", "frame-chart-bars", "frame-step-list", "frame-statement-outro"],
+        "missing": ["sơ đồ chuỗi cung ứng", "bản đồ tuyến giao"]
+      },
+      "theme": "corporate",
+      "backend": "html"
+    },
+
+    "game": {
+      "label": "Game",
+      "whenToUse": "Đánh giá game, hướng dẫn, tổng hợp thành tích.",
+      "post": {
+        "types": ["đánh giá game", "hướng dẫn qua màn", "phân tích bản cập nhật", "so sánh cấu hình"],
+        "proof": "FPS đo trên cấu hình cụ thể, ghi rõ thiết lập đồ hoạ và độ phân giải.",
+        "avoid": [
+          "Chấm điểm sau vài giờ chơi mà không nói đã chơi bao lâu.",
+          "Ảnh chụp từ bản trailer dùng như ảnh trong game."
+        ]
+      },
+      "video": {
+        "genre": "review",
+        "frames": ["frame-glitch-title", "frame-broll", "frame-chart-bars", "frame-review-verdict", "frame-statement-outro"],
+        "missing": ["HUD kiểu game", "thanh tiến độ / cột mốc"]
+      },
+      "theme": "none",
+      "backend": "html — cảnh trong game là footage quay màn hình"
+    },
+
+    "tin-tuc": {
+      "label": "Tin tức",
+      "whenToUse": "Một việc vừa xảy ra, và vì sao nó đáng quan tâm.",
+      "post": {
+        "types": ["bản tin ngắn", "bối cảnh phía sau", "cái gì đổi với người đọc", "kiểm chứng một tin đang lan"],
+        "proof": "Dẫn nguồn gốc, không dẫn bài viết lại của nguồn gốc. Ghi giờ công bố khi tin còn đang chạy.",
+        "avoid": [
+          "Tiêu đề khẳng định điều mà thân bài chỉ nói là 'có thể'.",
+          "Đưa tin chưa xác nhận mà không nói rõ là chưa xác nhận."
+        ]
+      },
+      "video": {
+        "genre": "news",
+        "frames": ["frame-glitch-title", "frame-pentagram-stat", "frame-timeline", "frame-screenshot", "frame-vignelli", "frame-statement-outro"],
+        "missing": ["bản đồ sự kiện"]
+      },
+      "theme": "none",
+      "backend": "html"
+    },
+
+    "moi-truong": {
+      "label": "Môi trường và khí hậu",
+      "whenToUse": "Dữ liệu môi trường, tác động, báo cáo phát thải.",
+      "post": {
+        "types": ["đọc một bộ dữ liệu", "tác động tại địa phương", "bóc tách báo cáo phát thải", "đính chính hiểu lầm"],
+        "proof": "Dẫn bộ dữ liệu gốc kèm kỳ đo và phương pháp. Đơn vị phải nhất quán — tấn CO₂ và tấn CO₂e không phải một thứ.",
+        "avoid": [
+          "Gán một hiện tượng thời tiết đơn lẻ cho biến đổi khí hậu mà không có nghiên cứu quy kết.",
+          "Nhận 'trung hoà carbon' dựa trên tín chỉ mà không nói rõ là tín chỉ."
+        ]
+      },
+      "video": {
+        "genre": "news",
+        "frames": ["frame-bold-poster", "frame-chart-bars", "frame-split-compare", "frame-timeline", "frame-statement-outro"],
+        "missing": ["bản đồ nhiệt / bản đồ vùng", "đường số liệu theo thời gian"]
+      },
+      "theme": "paper-forest",
+      "backend": "html"
+    }
+  },
+
+  "_themes": [
+    "`theme` trỏ tới một preset trong scripts/video/lib/theme.mjs, hoặc \"none\" để giữ",
+    "nguyên bảng màu gốc của template (phần lớn là nền tối).",
+    "",
+    "  none          nền tối như template tự có — hợp công nghệ, game, tin tức",
+    "  paper-ink     nền trắng, chữ gần đen — hợp y tế, pháp lý, tư liệu",
+    "  paper-blue    nền trắng, chữ xanh biển",
+    "  paper-forest  nền trắng ngà, chữ xanh lá — hợp giáo dục, môi trường",
+    "  corporate     nền trắng, chữ xanh navy — hợp tài chính, bất động sản, doanh nghiệp",
+    "  luxury        nền đen ấm, chữ kem, nhấn vàng đồng",
+    "",
+    "Không có preset cho thương hiệu của chính bạn, và cũng không nên đoán mã màu:",
+    "  node scripts/video/theme-from-url.mjs --url https://site-cua-ban --name ten-cua-ban"
+  ],
+
+  "_missing": [
+    "Trường `missing` của mỗi ngành là hàng đợi dựng thêm, không phải lời than.",
+    "Gộp lại, thứ được nhắc nhiều nhất là:",
+    "",
+    "  bản đồ có điểm/cung nối   — bất động sản · du lịch · logistics · tin tức · lịch sử · môi trường",
+    "  đồ thị node và cạnh       — logistics · công nghệ · pháp lý · marketing (phễu)",
+    "  đường giá theo thời gian  — tài chính · môi trường",
+    "  HUD                       — game · công nghệ",
+    "  bảng nhiều ô              — tài chính · doanh nghiệp",
+    "  vẽ dần trên bảng trắng    — giáo dục",
+    "",
+    "Sáu họ khung đó phủ được phần lớn danh sách ~70 'template theo ngành' đang lan truyền.",
+    "Sáu, không phải bảy mươi."
+  ]
+}

@@ -70,6 +70,11 @@ Two consequences worth knowing: emoji keep their own colours (a red 🚫 stays r
 frame), and a new template must be measured with `theme-probe.mjs` before it themes correctly.
 See `video-templates/CATALOG.md`.
 
+**Which frames does this kind of business need?** `templates/INDUSTRIES.template.json` has an
+entry per vertical: the genre to start from, the frames that vertical actually uses, and a
+palette. It also names what that vertical *wants* and this kit cannot draw yet — do not
+substitute a frame that only nearly fits, say the gap out loud instead.
+
 **How do the scenes join?** Hard cuts unless you say otherwise. One top-level key gives the
 whole video a transition, and a scene can override how it enters:
 
