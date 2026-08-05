@@ -48,7 +48,7 @@ const ROLE_ORDER = [
   // data
   "frame-chart-bars", "frame-pentagram-stat", "frame-trend-line", "frame-dashboard",
   "frame-split-compare", "frame-timeline", "frame-node-graph", "frame-hud",
-  "frame-geo-markers", "frame-geo-route",
+  "frame-geo-markers", "frame-geo-route", "frame-funnel", "frame-progress", "frame-draw-on",
   // evidence
   "frame-screenshot", "frame-terminal", "frame-broll", "frame-media-inset",
   // people / proof

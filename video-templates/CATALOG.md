@@ -710,6 +710,85 @@ produces a map that looks almost right, with coastlines doubling back on themsel
 
 ---
 
+## frame-funnel
+
+**Role:** body / data. One population shrinking through stages, and where it goes.
+**Best for:** marketing — the drop between two stages *is* the content.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤22 | |
+| `title` | string | ≤34 | |
+| `stages` | string | 2–6 | `"Label:number\|Label:number"`, largest first |
+| `note` | string | ≤50 | |
+
+> **Width comes from the number**, not from position in the list. A funnel drawn as evenly
+> narrowing trapezoids is a decoration that happens to have numbers on it, and it lies whenever
+> the real drop is uneven — which is most of the time.
+>
+> **Conversion rates are computed, never typed.** A printed percentage that disagrees with the
+> width beside it is worse than no percentage, and a hand-entered one disagrees the first time
+> a number moves. The steepest drop is marked, because that is the stage anyone reading a
+> funnel is looking for.
+>
+> Labels sit **above** their bar, not on it. On it, a label straddles the bar's edge at the
+> narrow stages: half on purple, half on black.
+
+---
+
+## frame-progress
+
+**Role:** body / state. How far through one thing you are, and what is left.
+**Best for:** a roadmap, a build log, a fundraiser, a game's completion.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤22 | |
+| `title` | string | ≤42 | |
+| `value` / `total` | number | — | the percentage is computed from these |
+| `milestones` | string | 4 max | `"at:Label"` — `at` is in the same units as `value` |
+| `note` | string | ≤50 | |
+
+> Milestones sit at **their own proportion** along the track: one at 80% is drawn at 80%, not
+> at "the fourth of five".
+>
+> Over 100% draws a full bar and still prints the true figure. A campaign at 143% should look
+> finished and say 143 — not look broken.
+>
+> Not `frame-chart-bars` (compares things) and not `frame-timeline` (marks dates). Neither says
+> how far through **one** thing you are.
+
+---
+
+## frame-draw-on
+
+**Role:** body / annotation. A mark drawing itself, the way a hand would.
+**Best for:** education — ringing the answer, ticking the right one, underlining the point.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤22 | |
+| `title` | string | ≤34 | |
+| `paths` | string | 5 max | a preset name, or raw SVG path data; drawn in order |
+| `caption` | string | ≤44 | |
+
+Presets: `circle` · `check` · `cross` · `underline` · `arrow`. Anything else is treated as SVG
+path data in a 100×100 box, so a caller who needs a specific shape can give one.
+
+> The advice circulating for this effect is *"SVG + GSAP"*. `stroke-dasharray` and
+> `stroke-dashoffset` do it in **CSS with nothing installed**, which is the constraint this kit
+> works under.
+>
+> **Do not add `vector-effect: non-scaling-stroke` here.** `getTotalLength()` returns *user*
+> units while `non-scaling-stroke` makes the browser read `stroke-dasharray` in *screen*
+> pixels. The two disagree by the viewBox scale — the first version repeated the dash seven
+> times and drew every stroke as fragments instead of a line being drawn.
+>
+> Each stroke's length is **measured**, not estimated: too short leaves the tail undrawn, too
+> long delays the finish past the narration.
+
+---
+
 ## A renderer limit worth knowing: full-bleed video at 16:9
 
 All three media templates above are **verified at both 9:16 and 16:9**. Getting there
