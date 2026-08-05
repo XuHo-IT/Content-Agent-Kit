@@ -640,6 +640,76 @@ Paper canvas, red rule.
 
 ---
 
+## frame-geo-markers
+
+**Role:** body / place. Locations on a map, plotted from coordinates.
+**Best for:** where you operate, where something happened, where the readers are.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤24 | |
+| `title` | string | ≤36 | |
+| `markers` | string | 6 max | `"lat,lon:Label\|lat,lon:Label"` — decimal degrees |
+| `note` | string | ≤60 | empty removes it |
+
+> **The view fits itself to the markers.** No zoom slot, because a zoom slot is one more thing
+> to get wrong; the bounding box is padded, expanded to the frame's aspect, and floored at
+> about 7° so two neighbouring cities do not produce a map of one province.
+>
+> The first version floored *both axes independently* at 60×30 units and then multiplied.
+> One unit is 0.36°, so a 60-unit floor is 21° before any padding — three Vietnamese cities
+> came out as a map of Indonesia.
+>
+> Markers sit at **62% down** rather than centred: the title owns the top of the frame, and
+> a marker under it is a marker nobody can read.
+
+---
+
+## frame-geo-route
+
+**Role:** body / journey. Stops in order, with the arcs between them drawn one after another.
+**Best for:** a delivery route, an itinerary, "we expanded to N markets".
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤24 | |
+| `title` | string | ≤36 | |
+| `stops` | string | 6 max | `"lat,lon:Label"` — **order is the content**, so stops are numbered |
+| `note` | string | ≤44 | |
+
+> Arcs bulge perpendicular to the straight line. A straight segment between two dots reads as
+> a ruler; the curve is what makes it read as a journey. It is a quadratic Bézier rather than
+> a great circle — at the span one video covers, the difference is smaller than the stroke.
+
+---
+
+### The map itself: where it comes from and why it is committed
+
+Both frames draw the same coastlines, inlined as one SVG path.
+
+```
+Natural Earth 1:110m Admin 0   PUBLIC DOMAIN, no permission needed
+  → topojson/world-atlas       ISC
+  → scripts/video/build-map-path.mjs
+  → video-templates/world-path.json   (125 rings, ~59 KB)
+```
+
+```bash
+node scripts/video/build-map-path.mjs            # regenerate
+node scripts/video/build-map-path.mjs --check    # verify, no network
+```
+
+**Nothing is fetched at render time.** The upstream HyperFrames `world-map` block loads d3,
+topojson-client, gsap **and** the atlas from a CDN on every render — which turns "offline
+means missing fonts" into "offline means a blank map", and puts four network round trips into
+a step that otherwise has none. These draw with the network unplugged.
+
+TopoJSON is decoded by hand in about forty lines rather than by adding a dependency. The trap
+there: a **negative arc index means that arc reversed**, encoded as `~i`. Getting it wrong
+produces a map that looks almost right, with coastlines doubling back on themselves.
+
+---
+
 ## A renderer limit worth knowing: full-bleed video at 16:9
 
 All three media templates above are **verified at both 9:16 and 16:9**. Getting there

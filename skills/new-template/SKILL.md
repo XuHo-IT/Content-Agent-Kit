@@ -96,6 +96,9 @@ twice is how slot parity gets broken, and it is also how a fix lands in one aspe
 
 ### Two traps that pass every test and still look wrong
 
+**Read `motion-craft` first** — it carries the full vocabulary and all four traps. The two
+that bite hardest:
+
 **A delayed animation with no start state shows its ending first.**
 
 ```css

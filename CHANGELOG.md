@@ -10,6 +10,50 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — maps, and the counting mistake that hid them
+
+31 → 33. `frame-geo-markers` (places from coordinates) and `frame-geo-route` (stops in order,
+arcs drawn between them).
+
+**Maps were the largest remaining gap and the backlog could not see it.** Six verticals asked
+for one under six different names — *bản đồ có điểm đánh dấu*, *bản đồ hành trình có cung nối*,
+*bản đồ theo giai đoạn*, *bản đồ tuyến giao*, *bản đồ sự kiện*, *bản đồ nhiệt / bản đồ vùng* —
+so counting the list by string produced "1 each" and maps sank to the bottom of the queue.
+`_missing` now names one family once, so it can be counted.
+
+The coastlines are committed, not fetched:
+
+```
+Natural Earth 1:110m Admin 0   PUBLIC DOMAIN
+  → topojson/world-atlas       ISC
+  → scripts/video/build-map-path.mjs   →  world-path.json, 125 rings, ~59 KB
+```
+
+**Nothing is fetched at render time.** The upstream HyperFrames `world-map` block pulls d3,
+topojson-client, gsap *and* the atlas from a CDN on every render — which turns "offline means
+missing fonts" into "offline means a blank map". TopoJSON is decoded by hand in about forty
+lines rather than by adding a dependency; the trap there is that a **negative arc index means
+that arc reversed**, encoded as `~i`, and getting it wrong produces coastlines that double back
+on themselves.
+
+Two things found by rendering and looking:
+
+- **The auto-fit floored both axes independently** at 60×30 units and then multiplied. One unit
+  is 0.36°, so a 60-unit floor is 21° before padding — three Vietnamese cities came out as a
+  map of Indonesia. Now each axis fits the data and only the short one is widened to the
+  frame's aspect.
+- **The title was sitting on top of a marker.** Markers now sit at 62% down rather than centred.
+
+### Added — `motion-craft`
+
+Every animation bug this repo has shipped passed the full test suite. Geometry is checkable;
+motion is not. So the vocabulary is written down: three easing curves and when each is right,
+duration and stagger ranges tied to the narration, what not to animate — and **the four traps
+that have actually caught us**, each with the frame it caught.
+
+They were scattered as notes across `CATALOG.md` and `new-template`. `new-template` now points
+here rather than restating two of them.
+
 ### Added — four data frames, chosen by the industry layer rather than guessed
 
 27 → 31. These are not four templates someone thought would be nice: they are the four
