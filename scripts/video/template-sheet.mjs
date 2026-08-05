@@ -46,7 +46,8 @@ const ROLE_ORDER = [
   // statement / type
   "frame-kinetic-type", "frame-build-minimal", "frame-vignelli", "frame-analog-grain",
   // data
-  "frame-chart-bars", "frame-pentagram-stat", "frame-split-compare", "frame-timeline",
+  "frame-chart-bars", "frame-pentagram-stat", "frame-trend-line", "frame-dashboard",
+  "frame-split-compare", "frame-timeline", "frame-node-graph", "frame-hud",
   // evidence
   "frame-screenshot", "frame-terminal", "frame-broll", "frame-media-inset",
   // people / proof

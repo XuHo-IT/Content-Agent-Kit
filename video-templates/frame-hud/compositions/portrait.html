@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>HUD · Portrait 9:16</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-hud — instrument chrome around one reading.
+ *
+ * Original work for this repo.
+ *
+ * Games and tech both asked for it. Everything in this folder is a document laid out on
+ * a page; a HUD is the opposite — furniture at the edges and one thing in the middle,
+ * which is how a display looks when it belongs to a machine rather than to a designer.
+ *
+ * `readouts` is "label:value", up to four, and they take the four corners in order.
+ * The corner brackets and the sweep are CSS; nothing here is an image.
+ *
+ * The sweep is slow on purpose. A fast radar sweep reads as a loading state, and a
+ * loading state is the one thing a finished frame must not look like.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1080px; height: 1920px; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #04080b; color: #7ff0d0; display: grid; place-items: center;
+        font-family: "JetBrains Mono", Consolas, monospace; }
+.grid-bg { position: absolute; inset: 0; opacity: 0.16;
+           background-image: linear-gradient(#0f6f5c 1px, transparent 1px),
+                             linear-gradient(90deg, #0f6f5c 1px, transparent 1px);
+           background-size: 64px 64px; }
+/* Slow on purpose: a fast sweep reads as a loading state.
+   SQUARE and centred, sized past the diagonal. The first version was 150% of the
+   frame anchored at the centre with transform-origin 0 0, so it rotated as a wedge
+   that clipped at the edges — which reads as a rendering fault, not as a radar. */
+.sweep { position: absolute; left: 50%; top: 50%; width: 240vmax; height: 240vmax;
+         margin: -120vmax 0 0 -120vmax; opacity: 0.18;
+         background: conic-gradient(from 0deg, rgba(127,240,208,0.45), transparent 26%);
+         animation: spin 7s linear infinite; }
+.bracket { position: absolute; border: 3px solid #22c39a; opacity: 0;
+           animation: rise 0.5s ease-out 0.15s both; }
+.tl { border-right: 0; border-bottom: 0; } .tr { border-left: 0; border-bottom: 0; }
+.bl { border-right: 0; border-top: 0; }    .br { border-left: 0; border-top: 0; }
+.corner { position: absolute; color: #45d6b0; letter-spacing: 0.14em; opacity: 0;
+          animation: rise 0.45s ease-out both; }
+.corner .k { color: #1f8f76; display: block; }
+.corner .n { font-weight: 700; }
+.mid { position: relative; text-align: center; }
+.label { letter-spacing: 0.3em; text-transform: uppercase; color: #2aa285;
+         opacity: 0; animation: rise 0.5s ease-out 0.5s both; }
+.center { font-weight: 800; line-height: 1; color: #b8ffe9;
+          opacity: 0; animation: rise 0.6s cubic-bezier(0.16,1,0.3,1) 0.7s both; }
+.caption { color: #2aa285; opacity: 0; animation: rise 0.5s ease-out 1.1s both; }
+@keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.bracket { width: 100px; height: 100px; }
+.tl { left: 48px; top: 130px; } .tr { right: 48px; top: 130px; }
+.bl { left: 48px; bottom: 130px; } .br { right: 48px; bottom: 130px; }
+.corner { font-size: 26px; }
+.corner .k { font-size: 20px; margin-bottom: 8px; }
+.c0 { left: 84px; top: 180px; } .c1 { right: 84px; top: 180px; text-align: right; }
+.c2 { left: 84px; bottom: 180px; } .c3 { right: 84px; bottom: 180px; text-align: right; }
+.label { font-size: 28px; margin-bottom: 30px; }
+.center { font-size: 240px; }
+.caption { font-size: 30px; margin-top: 34px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"label":"Trạng thái hệ thống","readouts":"HÀNG ĐỢI:24|ĐÃ ĐĂNG:118|LỖI:0|CHỜ DUYỆT:3","center":"118","caption":"Bài đã đăng trong 30 ngày"}'
+        >
+            <div class="grid-bg"></div>
+            <div class="sweep"></div>
+            <div class="bracket tl"></div><div class="bracket tr"></div>
+            <div class="bracket bl"></div><div class="bracket br"></div>
+            <div class="corner c0"></div><div class="corner c1"></div>
+            <div class="corner c2"></div><div class="corner c3"></div>
+            <div class="mid">
+                <div class="label"></div>
+                <div class="center"></div>
+                <div class="caption"></div>
+            </div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".label", v.label);
+                setOrDrop(".center", v.center);
+                setOrDrop(".caption", v.caption);
+                
+                var reads = String(v.readouts || "").split("|").map(function (s) { return s.trim(); }).filter(Boolean);
+                [0, 1, 2, 3].forEach(function (i) {
+                    var el = document.querySelector(".corner.c" + i);
+                    if (!reads[i]) return el.remove();
+                    var cut = reads[i].indexOf(":");
+                    var k = document.createElement("span"); k.className = "k";
+                    var n = document.createElement("span"); n.className = "n";
+                    k.textContent = cut > 0 ? reads[i].slice(0, cut) : "";
+                    n.textContent = cut > 0 ? reads[i].slice(cut + 1) : reads[i];
+                    if (k.textContent) el.appendChild(k);
+                    el.appendChild(n);
+                    el.style.animationDelay = (0.35 + i * 0.1).toFixed(2) + "s";
+                });
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

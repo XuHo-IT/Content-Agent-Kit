@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Dashboard · 16:9</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-dashboard — several numbers at once, each with which way it moved.
+ *
+ * Original work for this repo.
+ *
+ * Finance and corporate both asked for it. `frame-pentagram-stat` carries ONE number
+ * as the whole frame; a quarterly result is four numbers that only mean something beside
+ * each other.
+ *
+ * `cells` is "label:value:delta". The delta's colour comes from its sign, so a caller
+ * cannot accidentally paint a fall green. A cell with no delta simply has no delta —
+ * better than a "0%" that looks measured.
+ *
+ * Deliberately no sparklines and no icons. Four numbers with their direction is what
+ * this frame is for; anything more and it becomes a screenshot of a real dashboard,
+ * which `frame-screenshot` already does better.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1920px; height: 1080px; }
+#root { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #0b0f14; color: #eef3f8; display: grid; align-content: center; }
+.kicker { font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #7dd3fc;
+          opacity: 0; animation: rise 0.5s ease-out 0.1s both; }
+.title { font-weight: 800; letter-spacing: -0.02em; line-height: 1.1;
+         opacity: 0; animation: rise 0.55s ease-out 0.25s both; }
+.grid { display: grid; }
+.cell { background: #121822; border: 1px solid #1e2836; border-radius: 16px;
+        opacity: 0; animation: rise 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+.cell .lab { color: #7c8b9c; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.cell .val { font-weight: 800; letter-spacing: -0.03em; line-height: 1; }
+.cell .dlt { font-weight: 700; }
+.cell .dlt.up { color: #4ade80; } .cell .dlt.down { color: #fb7185; }
+.note { color: #64748b; opacity: 0; animation: rise 0.5s ease-out 1.4s both; }
+@keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+#root { padding: 0 140px; }
+.kicker { font-size: 30px; margin-bottom: 22px; }
+.title { font-size: 74px; margin-bottom: 60px; }
+.grid { grid-template-columns: repeat(4, 1fr); gap: 26px; }
+.cell { padding: 34px 30px; }
+.cell .lab { font-size: 22px; margin-bottom: 22px; }
+.cell .val { font-size: 62px; }
+.cell .dlt { font-size: 28px; margin-top: 18px; }
+.note { font-size: 26px; margin-top: 44px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"Quý 2 · 2026","title":"Bốn con số","cells":"Doanh thu:1,24 tỷ:+12%|Đơn hàng:842:-3%|Khách mới:196:+41%|Chi phí/đơn:38k:-8%","note":"So với cùng kỳ năm trước"}'
+        >
+            <div class="kicker"></div>
+            <div class="title"></div>
+            <div class="grid"></div>
+            <div class="note"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".title", v.title);
+                setOrDrop(".note", v.note);
+                
+                var grid = document.querySelector(".grid");
+                var cells = String(v.cells || "").split("|").map(function (s) { return s.trim(); }).filter(Boolean);
+                cells.slice(0, 4).forEach(function (raw, i) {
+                    var parts = raw.split(":").map(function (s) { return s.trim(); });
+                    var el = document.createElement("div");
+                    el.className = "cell";
+                    el.style.animationDelay = (0.6 + i * 0.12).toFixed(2) + "s";
+                
+                    var lab = document.createElement("div"); lab.className = "lab"; lab.textContent = parts[0] || "";
+                    var val = document.createElement("div"); val.className = "val"; val.textContent = parts[1] || "";
+                    el.appendChild(lab); el.appendChild(val);
+                
+                    // Direction comes from the sign, so a caller cannot paint a fall green by mistake.
+                    if (parts[2]) {
+                        var d = document.createElement("div");
+                        var down = parts[2].charAt(0) === "-" || parts[2].charAt(0) === "−";
+                        d.className = "dlt " + (down ? "down" : "up");
+                        d.textContent = parts[2];
+                        el.appendChild(d);
+                    }
+                    grid.appendChild(el);
+                });
+                if (!cells.length) drop(".grid");
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

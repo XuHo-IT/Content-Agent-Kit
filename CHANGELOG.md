@@ -10,6 +10,44 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — four data frames, chosen by the industry layer rather than guessed
+
+27 → 31. These are not four templates someone thought would be nice: they are the four
+families that `INDUSTRIES.template.json` counted as missing across the most verticals, one
+PR after it started counting.
+
+| | asked for by | |
+|---|---|---|
+| `frame-node-graph` | **4 verticals** — logistics, tech, legal, marketing | boxes and the connections between them |
+| `frame-trend-line` | finance, environment | one value moving over time |
+| `frame-dashboard` | finance, corporate | several numbers at once, each with its direction |
+| `frame-hud` | games, tech | instrument chrome around one reading |
+
+**No coordinates are typed in the node graph.** Depth comes from a breadth-first search out
+of whatever has no incoming edge, nodes spread evenly within their depth, and the wires are
+drawn from the real laid-out positions. Branching and converging both work — verified on a
+supply chain that forks to two warehouses and rejoins at the customer. A cycle would loop the
+search forever, so anything still unplaced is parked in a final layer: a graph that disagrees
+with itself still draws.
+
+**`frame-trend-line` starts its Y axis at zero, and that is the point.** The industry layer
+lists *"a chart with the Y axis cut so the rise looks steeper than it is"* under what a
+finance post must avoid — so the template enforces it rather than leaving it as advice a
+caller can ignore. `baseline: "auto"` opts into a zoomed axis **and makes the frame print
+that it did**; a zoomed axis is a legitimate choice and an invisible one is not.
+
+`frame-dashboard` takes the delta's colour from its **sign**, so a caller cannot accidentally
+paint a fall green.
+
+Found by rendering and looking: the HUD's radar sweep was a 150% wedge anchored at the frame
+centre, so it clipped at the edges into corner shards that read as a rendering fault rather
+than as a sweep. Now square, centred, and sized past the diagonal.
+
+**The backlog cannot lie about itself.** `tests/industries.test.mjs` asserts that everything
+in a vertical's `missing` list genuinely does not exist — so building these four *forced* 12
+entries out of the wish lists and into real `frames` arrays. What remains is maps, draw-on,
+funnel, floor plans, anatomy, an evidence board and a progress bar.
+
 ### Added — an industry layer, covering the article as well as the video
 
 A list of roughly 70 "industry video templates" circulates online: Property Tour, Historical
