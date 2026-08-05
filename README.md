@@ -45,12 +45,12 @@ mọi con số đều đo thật từ [RAG-EVAL-VN](https://github.com/XuHo-IT/R
 scene cho **cái giá phải trả**: review chỉ liệt kê điểm tốt là quảng cáo, người xem nhận ra ngay.
 
 Cùng chủ đề tin tức còn có **[bản nền trắng chữ xanh biển](examples/ai-video-social/sample-output-paper-blue/)**
-— 16 scene, dùng 14 trong số 27 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
+— 16 scene, dùng 14 trong số 31 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
 **không fork template nào, không sửa một dòng CSS nào trong `video-templates/`.**
 
-### Hai mươi bảy template, xếp theo việc chúng làm
+### Ba mươi mốt template, xếp theo việc chúng làm
 
-[![Toàn bộ 27 template](examples/gallery/templates.jpg)](video-templates/CATALOG.md)
+[![Toàn bộ 31 template](examples/gallery/templates.jpg)](video-templates/CATALOG.md)
 
 Hàng 1 **mở đầu** và **phát biểu** · hàng 2 **dữ liệu** và **bằng chứng** · hàng 3 **con
 người** và **trình tự** · hàng 4 **đối chiếu**, **lộ diện** và **kết**. Mỗi ô ghi tên khung
@@ -148,7 +148,7 @@ Hằng ngày thì chạy **`/daily-run`** — hoặc `schedule-prompt.md` đư�
 | `docs/` | Phương pháp luận, song ngữ EN + VI, 22 tài liệu ngắn — gồm **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll và ảnh chụp), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`**, **`20-video-backends.md`**, **`21-video-genres.md`** và **`22-repurposing.md`**. |
 | `templates/` | Khung điền sẵn: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, file trạng thái, workflow cron. |
 | `scripts/` | CLI **chạy được thật**: publish/append/update, queue client, `social/make-post` (ảnh **hoặc video**, đa nền tảng), `crawl/crawl.py`, `audit-quality`, scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) và **`media/`** (B-roll kho mở, ảnh chụp web, host upload). Tất cả env-only. |
-| `video-templates/` | 27 template video HTML một-file cùng **`CATALOG.md`** — đủ slot và giới hạn ký tự từng cái. Mỗi file tự chứa CSS và animation, nhưng vẫn `<link>` font từ Google Fonts nên lúc render cần mạng. 176 template nữa chỉ cách một câu lệnh. |
+| `video-templates/` | 31 template video HTML một-file cùng **`CATALOG.md`** — đủ slot và giới hạn ký tự từng cái. Mỗi file tự chứa CSS và animation, nhưng vẫn `<link>` font từ Google Fonts nên lúc render cần mạng. 176 template nữa chỉ cách một câu lệnh. |
 | `skills/` | 12 skill cho Claude Code: **`bootstrap-content-agent`** (meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`**, **`new-template`** — cộng `registry.json` liệt kê 15 skill ngoài tải theo yêu cầu. |
 | `examples/ai-news-social/` | Một agent mẫu hoàn chỉnh: agent tin AI (crawl → viết → ảnh → web + Make.com → cron). |
 | `examples/ai-video-social/` | Bản video của agent đó: crawl → `script.json` → render 9:16 → TikTok / Shorts / Reels. |
@@ -173,7 +173,7 @@ node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4              # r�
 | **Chuyển cảnh** | `fade · swipe · slide · iris · pixelize`. Thời lượng video **không đổi** — phần đệm được tính để phần chồng ăn lại đúng bằng nó |
 | **Bảng màu từ website của bạn** | `theme-from-url.mjs --url <site>` đọc nền/mực/nhấn ngay trên trang, theo đúng luật tương phản WCAG mà validator đang áp |
 | **Robot canh kho template** | 176 template upstream, và con số đó từng sai ở 9 chỗ trong docs. `registry-watch.mjs` chạy hằng ngày, so với snapshot đã commit rồi mở đúng 1 PR khi upstream đổi — nó **báo**, không tự thêm |
-| **27 template, 6 thể loại** | `VIDEO_GENRES.template.json` trả lời "làm review thì dùng khung nào, theo thứ tự nào" |
+| **31 template, 6 thể loại** | `VIDEO_GENRES.template.json` trả lời "làm review thì dùng khung nào, theo thứ tự nào" |
 | **Một bảng màu cho cả video** | `"theme": "paper-blue"` sơn lại toàn bộ trên **bản sao tạm**; chiều lật sáng/tối là **đo bằng Chrome**, không đoán từ CSS |
 | **Nhìn lại thứ vừa làm ra** | `contact-sheet.mjs` gom mỗi scene một khung vào một ảnh. Bốn lỗi từng lọt qua mọi luật đều lộ ra trong một cái nhìn |
 

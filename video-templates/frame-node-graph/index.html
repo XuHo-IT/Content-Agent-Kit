@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Node Graph · 16:9</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-node-graph — boxes and the arrows between them, laid out from the data.
+ *
+ * Original work for this repo.
+ *
+ * The single most-wanted missing frame in `INDUSTRIES.template.json`: logistics wants a
+ * supply chain, tech wants a workflow, legal wants a document flow, marketing wants a
+ * funnel. Four verticals asking for the same geometry.
+ *
+ * NO COORDINATES ARE TYPED. `nodes` gives labels and `edges` gives connections; the
+ * layout is computed — depth by breadth-first search from whatever has no incoming edge,
+ * then evenly spread within each depth. That is the same rule the rest of this folder
+ * follows: a diagram whose positions are hand-placed disagrees with its own data the
+ * first time an edge changes.
+ *
+ * Columns at 16:9, rows at 9:16. A left-to-right flow on a phone gives every box about
+ * 90 pixels of width, which is not a diagram, it is a suggestion of one.
+ *
+ * A cycle would make the depth search loop forever, so nodes still unplaced after the
+ * search are pushed to a final layer rather than hanging the render. A graph that
+ * disagrees with itself still draws; it just draws honestly.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1920px; height: 1080px; }
+#root { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #0e1116; color: #e9eef5; display: grid; align-content: center; }
+.kicker { font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #62d0c4;
+          opacity: 0; animation: rise 0.5s ease-out 0.1s both; }
+.title { font-weight: 800; letter-spacing: -0.02em; line-height: 1.1;
+         opacity: 0; animation: rise 0.55s ease-out 0.25s both; }
+.graph { position: relative; }
+.wires { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.wires path { fill: none; stroke: #2f4152; stroke-width: 3; stroke-linecap: round;
+              stroke-dasharray: var(--len); stroke-dashoffset: var(--len);
+              animation: draw 0.5s ease-out both; }
+.layers { position: relative; display: flex; }
+.layer { display: flex; flex: 1; }
+.node { background: #172130; border: 2px solid #2f4152; border-radius: 14px;
+        display: grid; place-items: center; text-align: center; line-height: 1.25;
+        opacity: 0; animation: pop 0.4s cubic-bezier(0.16,1,0.3,1) both; }
+.node.head { border-color: #62d0c4; color: #d8fff9; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes pop { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+#root { padding: 0 130px; }
+.kicker { font-size: 30px; margin-bottom: 24px; }
+.title { font-size: 76px; margin-bottom: 76px; }
+.graph { height: 420px; }
+.layers { flex-direction: row; height: 100%; }
+.layer { flex-direction: column; justify-content: space-around; align-items: center; }
+.node { width: 230px; min-height: 108px; padding: 20px 22px; font-size: 28px; }
+.note { font-size: 28px; margin-top: 60px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"Quy trình","title":"Từ nguồn tới bài đăng","nodes":"a:Crawl nguồn|b:Hàng đợi|c:Viết nháp|d:Cổng duyệt|e:Đăng","edges":"a>b|b>c|c>d|d>e","note":""}'
+        >
+            <div class="kicker"></div>
+            <div class="title"></div>
+            <div class="graph"><svg class="wires"></svg><div class="layers"></div></div>
+            <div class="note"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".title", v.title);
+                setOrDrop(".note", v.note);
+                
+                var parse = function (raw, sep) {
+                    return String(raw || "").split("|").map(function (s) { return s.trim(); }).filter(Boolean)
+                        .map(function (s) { var i = s.indexOf(sep); return i < 0 ? [s, s] : [s.slice(0, i).trim(), s.slice(i + 1).trim()]; });
+                };
+                var nodes = parse(v.nodes, ":");          // [id, label]
+                var edges = parse(v.edges, ">");          // [from, to]
+                if (!nodes.length) { drop(".graph"); }
+                else {
+                    var byId = {};
+                    nodes.forEach(function (n) { byId[n[0]] = { id: n[0], label: n[1], depth: -1 }; });
+                    var valid = edges.filter(function (e) { return byId[e[0]] && byId[e[1]]; });
+                
+                    // Depth by breadth-first search from whatever has nothing pointing at it.
+                    var hasIncoming = {};
+                    valid.forEach(function (e) { hasIncoming[e[1]] = true; });
+                    var queue = nodes.map(function (n) { return n[0]; }).filter(function (id) { return !hasIncoming[id]; });
+                    if (!queue.length) queue = [nodes[0][0]];   // every node has a parent — start somewhere
+                    queue.forEach(function (id) { byId[id].depth = 0; });
+                    for (var i = 0; i < queue.length && i < 200; i++) {
+                        var cur = queue[i];
+                        valid.filter(function (e) { return e[0] === cur; }).forEach(function (e) {
+                            if (byId[e[1]].depth < 0) { byId[e[1]].depth = byId[cur].depth + 1; queue.push(e[1]); }
+                        });
+                    }
+                    // A cycle leaves nodes unvisited. Park them at the end rather than hanging the render.
+                    var maxDepth = 0;
+                    nodes.forEach(function (n) { maxDepth = Math.max(maxDepth, byId[n[0]].depth); });
+                    nodes.forEach(function (n) { if (byId[n[0]].depth < 0) byId[n[0]].depth = maxDepth + 1; });
+                
+                    var layers = [];
+                    nodes.forEach(function (n) {
+                        var d = byId[n[0]].depth;
+                        (layers[d] = layers[d] || []).push(byId[n[0]]);
+                    });
+                
+                    var box = document.querySelector(".layers");
+                    layers.forEach(function (group, d) {
+                        var el = document.createElement("div");
+                        el.className = "layer";
+                        group.forEach(function (n, k) {
+                            var node = document.createElement("div");
+                            node.className = "node" + (d === 0 ? " head" : "");
+                            node.textContent = n.label;
+                            node.style.animationDelay = (0.7 + d * 0.22 + k * 0.06).toFixed(2) + "s";
+                            el.appendChild(node);
+                            n.el = node;
+                        });
+                        box.appendChild(el);
+                    });
+                
+                    // Wires are drawn after layout so they can read real positions rather than guess.
+                    requestAnimationFrame(function () {
+                        var svg = document.querySelector(".wires");
+                        var origin = svg.getBoundingClientRect();
+                        valid.forEach(function (e, i) {
+                            var a = byId[e[0]].el.getBoundingClientRect();
+                            var b = byId[e[1]].el.getBoundingClientRect();
+                            var horizontal = Math.abs(b.left - a.left) > Math.abs(b.top - a.top);
+                            var x1 = (horizontal ? a.right : a.left + a.width / 2) - origin.left;
+                            var y1 = (horizontal ? a.top + a.height / 2 : a.bottom) - origin.top;
+                            var x2 = (horizontal ? b.left : b.left + b.width / 2) - origin.left;
+                            var y2 = (horizontal ? b.top + b.height / 2 : b.top) - origin.top;
+                            var mx = horizontal ? (x1 + x2) / 2 : x1;
+                            var my = horizontal ? y1 : (y1 + y2) / 2;
+                            var d = "M" + x1 + "," + y1 + " C" + mx + "," + my + " " + mx + "," + (horizontal ? y2 : my) + " " + x2 + "," + y2;
+                            var p = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                            p.setAttribute("d", d);
+                            var len = Math.hypot(x2 - x1, y2 - y1) * 1.4;
+                            p.style.setProperty("--len", len.toFixed(0));
+                            p.style.animationDelay = (0.85 + byId[e[0]].depth * 0.22).toFixed(2) + "s";
+                            svg.appendChild(p);
+                        });
+                    });
+                }
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

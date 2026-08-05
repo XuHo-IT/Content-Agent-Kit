@@ -545,6 +545,101 @@ Paper canvas, red rule.
 
 ---
 
+## frame-node-graph
+
+**Role:** body / structure. Boxes and the connections between them, **laid out from the data**.
+**Best for:** a workflow, a supply chain, an architecture, a document flow — the four things
+`INDUSTRIES.template.json` asks for most.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤22 | |
+| `title` | string | ≤34 | |
+| `nodes` | string | 8 max | `"id:Label\|id:Label"` — the id is what edges refer to |
+| `edges` | string | 12 max | `"a>b\|a>c"` — branching and converging both work |
+| `note` | string | ≤60 | empty removes it |
+
+> **No coordinates are typed.** Depth comes from a breadth-first search out of whatever has
+> no incoming edge; nodes spread evenly within their depth; wires are drawn from the real
+> laid-out positions rather than from guesses. A diagram with hand-placed boxes disagrees
+> with its own data the first time an edge changes.
+>
+> Columns at 16:9, **rows at 9:16** — a left-to-right flow on a phone gives each box about 90
+> pixels of width, which is a suggestion of a diagram rather than one.
+>
+> A cycle would loop the depth search forever, so anything still unplaced afterwards is
+> parked in a final layer. A graph that disagrees with itself still draws.
+
+---
+
+## frame-trend-line
+
+**Role:** body / data. One value moving over time, drawn from the numbers.
+**Best for:** finance and environment — the two verticals that asked for it.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤26 | |
+| `title` | string | ≤40 | |
+| `unit` | string | ≤34 | what the numbers are, printed under the axis |
+| `points` | string | 3–8 | `"T1:1689\|T2:1204"` — label:value |
+| `highlight` | string | one label | that point is enlarged and prints its value |
+| `baseline` | string | `zero` (default) · `auto` | see below |
+
+> **The Y axis starts at zero.** `INDUSTRIES.template.json` lists *"a chart with the Y axis cut
+> so the rise looks steeper than it is"* under what a finance post must avoid — so this
+> template enforces it rather than leaving it as advice a caller can ignore.
+>
+> `baseline: "auto"` opts into a zoomed axis **and makes the frame print that it did**. A
+> zoomed axis is a legitimate choice; an invisible one is the problem.
+>
+> Not `frame-chart-bars` (compares categories) and not `frame-timeline` (marks events).
+
+---
+
+## frame-dashboard
+
+**Role:** body / data. Several numbers at once, each with which way it moved.
+**Best for:** a quarter, a month, a status — finance and corporate.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤24 | |
+| `title` | string | ≤30 | |
+| `cells` | string | 4 max | `"Label:Value:Delta"` — the delta is optional per cell |
+| `note` | string | ≤50 | what the comparison is against |
+
+> **The delta's colour comes from its sign**, so a caller cannot accidentally paint a fall
+> green. A cell with no delta simply has none — better than a `0%` that looks measured.
+>
+> Deliberately no sparklines and no icons. Four numbers with their direction is the job;
+> anything more and it becomes a picture of a real dashboard, which `frame-screenshot` does
+> better because it *is* one.
+
+---
+
+## frame-hud
+
+**Role:** body / instrument chrome around one reading.
+**Best for:** games and tech — a number that belongs to a machine rather than to a document.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `label` | string | ≤26 | small caps above the reading |
+| `readouts` | string | 4 max | `"LABEL:value"` — they take the four corners in order |
+| `center` | string | ≤6 | the reading; it is enormous, so keep it short |
+| `caption` | string | ≤44 | one line under it |
+
+> Everything else in this folder is a document laid out on a page. A HUD is the opposite:
+> furniture at the edges, one thing in the middle.
+>
+> **The sweep is slow on purpose.** A fast radar sweep reads as a loading state, and a loading
+> state is the one thing a finished frame must not look like. It is also square and centred
+> past the diagonal — the first version was a 150% wedge anchored at the centre, which clipped
+> at the edges and read as a rendering fault.
+
+---
+
 ## A renderer limit worth knowing: full-bleed video at 16:9
 
 All three media templates above are **verified at both 9:16 and 16:9**. Getting there

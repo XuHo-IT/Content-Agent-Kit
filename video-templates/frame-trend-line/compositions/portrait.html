@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Trend Line · Portrait 9:16</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-trend-line — one value, over time, drawn from the numbers.
+ *
+ * Original work for this repo.
+ *
+ * `frame-chart-bars` compares categories and `frame-timeline` marks events. Neither
+ * shows a value MOVING, which is what finance and environment both asked for.
+ *
+ * THE Y AXIS STARTS AT ZERO. `INDUSTRIES.template.json` lists "a chart with the Y axis
+ * cut so the rise looks steeper than it is" under what a finance post must avoid — so
+ * this template enforces that rather than leaving it as advice a caller can ignore.
+ * `baseline: "auto"` opts into a zoomed axis and makes the frame PRINT that it did,
+ * because a zoomed axis is a legitimate choice and an invisible one is not.
+ *
+ * The line draws with `stroke-dashoffset` — the same technique the whiteboard family
+ * will use, and no animation library.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1080px; height: 1920px; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #0c1014; color: #eaf0f6; display: grid; align-content: center; }
+.kicker { font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #4ade80;
+          opacity: 0; animation: rise 0.5s ease-out 0.1s both; }
+.title { font-weight: 800; letter-spacing: -0.02em; line-height: 1.1;
+         opacity: 0; animation: rise 0.55s ease-out 0.25s both; }
+.plot { position: relative; }
+.line { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.line path.area { fill: url(#g); stroke: none; opacity: 0; animation: fade 0.6s ease-out 1.3s both; }
+.line path.stroke { fill: none; stroke: #4ade80; stroke-width: 4; stroke-linecap: round;
+                    stroke-linejoin: round; stroke-dasharray: var(--len); stroke-dashoffset: var(--len);
+                    animation: draw 1.1s cubic-bezier(0.4,0,0.2,1) 0.6s both; }
+.dots { position: absolute; inset: 0; }
+.dot { position: absolute; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%;
+       background: #0c1014; border: 4px solid #4ade80; opacity: 0;
+       animation: pop 0.3s cubic-bezier(0.16,1,0.3,1) both; }
+.dot.hi { width: 24px; height: 24px; margin: -12px 0 0 -12px; background: #4ade80; }
+.dot .val { position: absolute; left: 50%; transform: translate(-50%, -140%); white-space: nowrap;
+            font-weight: 800; color: #4ade80; }
+.axis { display: flex; justify-content: space-between; color: #64748b;
+        opacity: 0; animation: rise 0.5s ease-out 1.5s both; }
+.unit { color: #64748b; opacity: 0; animation: rise 0.5s ease-out 1.6s both; }
+.zoomed { color: #fbbf24; opacity: 0; animation: rise 0.5s ease-out 1.7s both; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fade { to { opacity: 0.16; } }
+@keyframes pop { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+#root { padding: 0 84px; }
+.kicker { font-size: 34px; margin-bottom: 24px; }
+.title { font-size: 76px; margin-bottom: 70px; }
+.plot { height: 520px; }
+.dot .val { font-size: 36px; }
+.axis { font-size: 30px; margin-top: 28px; }
+.unit { font-size: 30px; margin-top: 18px; }
+.zoomed { font-size: 26px; margin-top: 16px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"Chi phí token","title":"Bốn tuần sau khi bật rerank","unit":"token mỗi câu hỏi","points":"T1:1689|T2:1204|T3:812|T4:540","highlight":"T4","baseline":"zero"}'
+        >
+            <div class="kicker"></div>
+            <div class="title"></div>
+            <div class="plot"><svg class="line" preserveAspectRatio="none"></svg><div class="dots"></div></div>
+            <div class="axis"></div>
+            <div class="unit"></div>
+            <div class="zoomed"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".title", v.title);
+                setOrDrop(".unit", v.unit);
+                
+                var pts = String(v.points || "").split("|").map(function (s) { return s.trim(); }).filter(Boolean)
+                    .map(function (s) { var i = s.lastIndexOf(":"); return { label: s.slice(0, i).trim(), value: Number(s.slice(i + 1)) }; })
+                    .filter(function (p) { return isFinite(p.value); });
+                
+                if (pts.length < 2) { drop(".plot"); drop(".axis"); drop(".zoomed"); }
+                else {
+                    var values = pts.map(function (p) { return p.value; });
+                    var hi = Math.max.apply(null, values);
+                    var lo = Math.min.apply(null, values);
+                    // Zero baseline unless explicitly told otherwise, and SAY SO when told otherwise.
+                    // A cut axis makes a rise look steeper than it is; an invisible cut axis is the
+                    // problem, not the cut itself.
+                    var zoom = String(v.baseline || "zero").toLowerCase() === "auto";
+                    var min = zoom ? lo - (hi - lo) * 0.15 : 0;
+                    var max = hi + (hi - min) * 0.12;
+                    setOrDrop(".zoomed", zoom ? "Trục dọc bắt đầu từ " + Math.round(min) + ", không từ 0" : "");
+                
+                    var W = 1000, H = 1000;   // viewBox units; preserveAspectRatio="none" stretches to the box
+                    var svg = document.querySelector(".line");
+                    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+                    var x = function (i) { return (i / (pts.length - 1)) * W; };
+                    var y = function (val) { return H - ((val - min) / (max - min)) * H; };
+                
+                    var d = pts.map(function (p, i) { return (i ? "L" : "M") + x(i).toFixed(1) + "," + y(p.value).toFixed(1); }).join(" ");
+                
+                    var defs = document.createElementNS("http://www.w3.org/2000/svg", "defs");
+                    defs.innerHTML = '<linearGradient id="g" x1="0" y1="0" x2="0" y2="1">' +
+                        '<stop offset="0%" stop-color="#4ade80"/><stop offset="100%" stop-color="#4ade80" stop-opacity="0"/></linearGradient>';
+                    svg.appendChild(defs);
+                
+                    var area = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    area.setAttribute("class", "area");
+                    area.setAttribute("d", d + " L" + W + "," + H + " L0," + H + " Z");
+                    svg.appendChild(area);
+                
+                    var line = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                    line.setAttribute("class", "stroke");
+                    line.setAttribute("d", d);
+                    line.setAttribute("vector-effect", "non-scaling-stroke");
+                    // Length in viewBox units; the dash pattern scales with the path, so an approximation
+                    // that overshoots is safe and an exact measurement is not worth a layout read here.
+                    var len = 0;
+                    for (var i = 1; i < pts.length; i++) len += Math.hypot(x(i) - x(i - 1), y(pts[i].value) - y(pts[i - 1].value));
+                    line.style.setProperty("--len", Math.ceil(len * 1.05));
+                    svg.appendChild(line);
+                
+                    var dots = document.querySelector(".dots");
+                    pts.forEach(function (p, i) {
+                        var el = document.createElement("div");
+                        var isHi = p.label === String(v.highlight || "").trim();
+                        el.className = "dot" + (isHi ? " hi" : "");
+                        el.style.left = ((x(i) / W) * 100) + "%";
+                        el.style.top = ((y(p.value) / H) * 100) + "%";
+                        el.style.animationDelay = (0.7 + (i / (pts.length - 1)) * 1.0).toFixed(2) + "s";
+                        if (isHi) {
+                            var val = document.createElement("span");
+                            val.className = "val";
+                            val.textContent = String(p.value);
+                            el.appendChild(val);
+                        }
+                        dots.appendChild(el);
+                    });
+                
+                    var axis = document.querySelector(".axis");
+                    pts.forEach(function (p) {
+                        var s = document.createElement("span");
+                        s.textContent = p.label;
+                        axis.appendChild(s);
+                    });
+                }
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>
