@@ -61,31 +61,79 @@ an Apify account.
 The forensic half of `fb-humanizer` is already built into `validate-post.mjs`; install the
 skill when you want the English style rules on top.
 
-### What the rule has actually excluded: Remotion
+### Remotion's own skills
 
-Remotion maintains 11 first-party skills for writing Remotion well. They are **not here**, and
-the reason is worth stating so it does not read as an oversight.
+Remotion maintains 11 first-party skills for writing Remotion well. `remotion-dev/skills`
+ships **no licence file** — the API reports `license: null` and its `package.json` says
+`"private": true`. The plugin mirror's `plugin.json` declares `"license": "MIT"`, but a string
+in a manifest is not a licence grant over the files beside it.
 
-`remotion-dev/skills` ships no licence file — the API reports `license: null`, and its
-`package.json` says `"private": true`. The plugin mirror's `plugin.json` declares
-`"license": "MIT"`, but a string in a manifest is not a licence grant over the files beside
-it. The installer refuses, which is the rule working as designed.
-
-Remotion's own command installs them in one line, from a Remotion project:
+Under the old rule that made them uninstallable. Under the rule as it stands they could be a
+`unlicensed: true` entry — but they still are not listed here, for a different and better
+reason: **they install to `.agents/skills/` and are versioned against the Remotion release you
+are on**, which this registry cannot track.
 
 ```bash
 npx remotion skills add             # or: npx skills add remotion-dev/skills
 ```
 
-That is the right route anyway — they install to `.agents/skills/` and are versioned with the
-Remotion release you are on. See `docs/20-video-backends.md`, which also covers Remotion's
-two-tier licence.
+Run it from your Remotion project. `docs/20-video-backends.md` also covers Remotion's two-tier
+licence, which matters more than the skills' do.
+
+### The licence rule, and the day it turned out to be answering the wrong question
+
+It used to be *no licence, no install*, on the grounds that a skill with no licence is a skill
+nobody may legally reuse.
+
+That reasoning is correct about **vendoring** and was being applied to **fetching**, which is a
+different act. This page opens by saying it: *they are not vendored*. Nothing is copied into
+this repository. The files land on the user's own disk, which is what `git clone` does — and
+these upstreams publish install commands inviting exactly that. `vibe-motion/skills` prints
+`npx skills add vibe-motion/skills` in its own README. Refusing to fetch what an author is
+asking you to fetch protects nobody.
+
+So the rule split in two:
+
+| | |
+|---|---|
+| **carrying unlicensed work in this repo** | still refused, and that has not moved |
+| **fetching it to your machine** | allowed — with the restriction stated, not implied |
+
+An entry marked `"unlicensed": true` installs and prints:
+
+```
+[skills] ! vibe-motion/skills publishes NO LICENCE FILE.
+[skills]   You may keep and run this copy. You may NOT redistribute it, ship it
+[skills]   inside a product, or relicense it — absent a licence, all rights are
+[skills]   reserved. Upstream invites the install; it has not granted anything more.
+```
+
+and writes the same sentence into the `NOTICE.md` beside the skill, so it survives after the
+terminal scrollback is gone. What the installer refuses now is **vagueness**: an entry either
+names a licence file or admits it has none. `tests/registry.test.mjs` also caps how many
+entries may take the escape hatch — if most of the catalogue drifts into it, the warning stops
+being read.
+
+### `via: "skills"` — hand off rather than reimplement
+
+Walking the contents API one file at a time is right for a handful of markdown files and
+hopeless for a repository that is mostly a project. `video-shotcraft` is **181 MB**, and an
+unauthenticated caller gets **60 API requests an hour**.
+
+`skills` (MIT, on npm) is the installer both vibe-motion and Remotion tell people to use, so an
+entry can delegate to it:
+
+```bash
+node scripts/install-skills.mjs video-shotcraft   # runs: npx -y skills add Vincentwei1021/video-shotcraft
+```
+
+It is interactive upstream — it asks which skills and which agent — so the terminal is
+inherited rather than captured. Size is printed before it starts.
 
 ### Rules the installer enforces
 
-- **No licence, no install.** If the upstream has no licence file at that commit it refuses,
-  because a skill with no licence is a skill nobody may legally reuse.
 - **No `SKILL.md`, no install.** That means the registry entry points at the wrong path.
+- **A licence file, or an admission that there is none.** Never silence.
 - **Never overwrites** an existing skill without `--force`.
 
 ### Adding an entry
@@ -141,9 +189,29 @@ thứ đã cài rồi thì không hỏng — file nằm trên đĩa của bạn,
 
 ### Quy tắc trình cài bắt buộc
 
-- **Không giấy phép thì không cài.** Skill không có giấy phép là skill không ai được phép
-  dùng lại — đúng lỗ hổng mà RAG-EVAL-VN từng mắc.
 - **Không có `SKILL.md` thì không cài.** Nghĩa là mục trong registry trỏ sai đường dẫn.
+- **Phải khai giấy phép, hoặc phải thừa nhận là không có.** Không được im lặng.
 - **Không ghi đè** skill đã có, trừ khi truyền `--force`.
+
+### Luật giấy phép đã đổi, và vì sao
+
+Trước đây là *không giấy phép thì không cài*. Lý lẽ đó **đúng với việc chép vào repo** và bị
+áp nhầm cho **việc tải về máy** — hai chuyện khác nhau. Ngay dòng đầu trang này đã viết:
+*không vendor vào repo*. File rơi xuống máy của chính bạn, y như `git clone`, và **chính tác
+giả in sẵn lệnh cài** trong README của họ (`npx skills add vibe-motion/skills`).
+
+Nên luật tách làm hai:
+
+| | |
+|---|---|
+| **repo này mang theo tác phẩm không giấy phép** | vẫn từ chối, phần này không đổi |
+| **tải về máy bạn** | cho phép — kèm nói thẳng giới hạn |
+
+Mục có `"unlicensed": true` sẽ cài được, in cảnh báo, và ghi luôn câu đó vào `NOTICE.md` bên
+cạnh skill để nó còn lại sau khi cuộn terminal trôi mất: **bạn giữ và chạy bản này được; phân
+phối lại, đóng gói vào sản phẩm, hay cấp phép lại thì không.**
+
+Mục có `"via": "skills"` thì uỷ quyền cho `npx skills add <repo>` thay vì tự đi API — cần cho
+repo lớn (`video-shotcraft` nặng **181 MB**, mà API không xác thực chỉ cho **60 request/giờ**).
 
 Xoá thư mục là gỡ cài đặt. Không có gì khác thay đổi.

@@ -10,6 +10,51 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Changed — the licence rule was answering the wrong question
+
+`install-skills.mjs` refused any upstream with no licence file, on the grounds that *a skill
+with no licence is a skill nobody may legally reuse*.
+
+That reasoning is right about **vendoring** and was being applied to **fetching**. `docs/17`
+opens by saying it: *they are not vendored*. Nothing is copied into this repository — the files
+land on the user's own disk, which is what `git clone` does, and these upstreams publish
+install commands inviting exactly that. `vibe-motion/skills` prints
+`npx skills add vibe-motion/skills` in its own README. Refusing to fetch what an author is
+asking you to fetch protects nobody.
+
+The rule split in two. **Carrying unlicensed work in this repo is still refused** — that half
+has not moved. Fetching it to your machine is allowed, with the restriction *stated* rather
+than implied:
+
+```
+[skills] ! vibe-motion/skills publishes NO LICENCE FILE.
+[skills]   You may keep and run this copy. You may NOT redistribute it, ship it
+[skills]   inside a product, or relicense it — absent a licence, all rights are
+[skills]   reserved. Upstream invites the install; it has not granted anything more.
+```
+
+The same sentence goes into the `NOTICE.md` beside the skill, so it outlives the scrollback.
+What the installer refuses now is **vagueness**: an entry either names a licence file or sets
+`unlicensed: true`. A test also caps how many entries may take that hatch — if most of the
+catalogue drifts into it, the warning stops being read.
+
+### Added — `via: "skills"`, and two entries that needed it
+
+Walking the GitHub contents API one file at a time is right for a handful of markdown files and
+hopeless for a repository that is mostly a project: `video-shotcraft` is **181 MB** against a
+**60-request-per-hour** anonymous limit. An entry can now delegate to `npx skills add <repo>` —
+`skills` is MIT, on npm, and is the installer both vibe-motion and Remotion tell people to use.
+
+| | |
+|---|---|
+| `vibe-motion` | 13 motion skills (986★). No licence → installs with the warning above. Most target Remotion or three.js, so they are a source of *technique* — `frame-terminal` is already `claude-typer`'s idea rebuilt in CSS. |
+| `video-shotcraft` | 104 shot recipe cards and a cinematic product-video template (3482★, Apache-2.0). Size is printed before the install starts. |
+
+Also corrected while checking: a widely-repeated claim that
+`reactvideoeditor/remotion-templates` is "81 templates, MIT". The repository has **no licence
+file**. Its README says "81 free, ready-to-use" — and *free* in a README is not a licence
+grant. That is precisely what this rule exists to catch, and it still catches it.
+
 ### Added — five templates, each filling a gap that could be named first
 
 22 → 27. Picked by asking what the kit **could not draw**, not by adding another way to show
