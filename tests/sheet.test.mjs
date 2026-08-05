@@ -65,17 +65,3 @@ test("contact-sheet and template-sheet share one implementation", () => {
     assert.ok(!/hstack=|vstack=/.test(src), `${f} does its own stacking`);
   }
 });
-
-test("the gallery inputs name slots the templates actually have", () => {
-  // I wrote this file from memory first and three of the four "previous" templates had
-  // invented slot names — they would have rendered as blank tiles that still looked fine
-  // enough to commit.
-  const inputs = JSON.parse(fs.readFileSync(path.join(KIT, "examples", "gallery", "gallery-inputs.json"), "utf8"));
-  for (const [id, slots] of Object.entries(inputs)) {
-    if (id.startsWith("_")) continue;
-    const html = fs.readFileSync(path.join(KIT, "video-templates", id, "compositions", "portrait.html"), "utf8");
-    const known = Object.keys(JSON.parse(html.match(/data-composition-variables='([^']*)'/)[1]));
-    const unknown = Object.keys(slots).filter((k) => !known.includes(k));
-    assert.deepEqual(unknown, [], `${id}: no such slot ${unknown.join(", ")} — known: ${known.join(", ")}`);
-  }
-});

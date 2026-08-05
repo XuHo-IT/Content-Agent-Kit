@@ -48,44 +48,33 @@ Cùng chủ đề tin tức còn có **[bản nền trắng chữ xanh biển](e
 — 16 scene, dùng 14 trong số 27 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
 **không fork template nào, không sửa một dòng CSS nào trong `video-templates/`.**
 
-### Hai mươi bảy template, năm cái mới nhất
+### Hai mươi bảy template, xếp theo việc chúng làm
 
-[![Năm template mới nhất](examples/gallery/templates-batch3.jpg)](video-templates/CATALOG.md)
+[![Toàn bộ 27 template](examples/gallery/templates.jpg)](video-templates/CATALOG.md)
 
-**Terminal** — câu lệnh tự gõ ra rồi output hiện dần, dòng lỗi màu đỏ; upstream có 33 mục
-`code-*` nhưng chúng là block, không thành scene template được. **Dòng thời gian** — trục vẽ
-trước, mốc hiện sau, nên mắt đọc khoảng cách trước khi đọc nội dung; ngang ở 16:9, **dọc ở
-9:16**. **Tưởng vậy mà không phải** — gạch bỏ điều ai cũng tin, rồi đưa cái đúng lên bên dưới.
-**Nên và không nên** — hai cột đứng riêng, không cần bịa ra điểm số như khi mượn khung review.
-**Tin nhắn** — bằng chứng nghe lỏm được, khác hẳn một câu trích dẫn trang trọng.
+Hàng 1 **mở đầu** và **phát biểu** · hàng 2 **dữ liệu** và **bằng chứng** · hàng 3 **con
+người** và **trình tự** · hàng 4 **đối chiếu**, **lộ diện** và **kết**. Mỗi ô ghi tên khung
+của chính nó, nên nhìn ảnh là chọn được, không phải đếm ngược lên phần chữ.
 
-### Bốn cái trước đó
+Trước đây chỗ này là ba dải xếp theo *đợt thêm vào* — "năm cái mới nhất", "bốn cái trước
+đó", "và bốn cái trước nữa". Người đi chọn khung không quan tâm cái nào ra mắt lúc nào.
 
-[![Bốn template 2026](examples/gallery/templates-2026.jpg)](video-templates/CATALOG.md)
+Ba ô `frame-broll`, `frame-media-inset`, `frame-screenshot` hiện nền chuyển sắc vì chúng là
+khung **nhận footage** — không có clip thì chúng không có gì để vẽ. Slot và giới hạn ký tự
+từng cái ở **[`CATALOG.md`](video-templates/CATALOG.md)**.
 
-**Chữ động** — từng chữ hiện theo nhịp đọc thay vì cả khối hiện cùng lúc. **Lộ diện sản
-phẩm** — màn chắn kéo đi và tên hiện lên phía sau, một cử động chứ không phải hai animation
-tình cờ kết thúc cùng nhau. **Hạt nhiễu analog** — quang sai màu vẽ bằng cách in chữ ba lần
-lệch nhau, đúng bản chất của nó chứ không phải filter mô phỏng. **So sánh hai trạng thái** —
-`clip-path` quét, đường kẻ đi cùng chiều với phần nó đang mở ra.
-
-Cả bốn không kèm file ảnh nào: hạt nhiễu là SVG nội tuyến, còn lại thuần CSS.
-
-### Và bốn cái trước nữa
-
-[![Bốn template trước đó](examples/gallery/new-templates.jpg)](video-templates/CATALOG.md)
-
-**Review có điểm số**, **biểu đồ cột**, **danh sách bước**, **trích dẫn**. Mỗi cái đều vẽ từ
-dữ liệu chứ không phải từ giá trị gõ tay — vòng cung điểm tính từ `score`/`maxScore`, độ dài
-cột tính từ chính con số, nên hình không thể mâu thuẫn với chữ. Slot và giới hạn ký tự từng
-cái ở **[`CATALOG.md`](video-templates/CATALOG.md)**.
-
-Hai dải trên dựng lại được bằng một lệnh, nội dung nằm trong một file chứ không phải trong
-đầu ai:
+Ảnh này dựng lại được bằng một lệnh, và **tự lấy giá trị mặc định của từng template** nên
+không cần chép nội dung ra chỗ thứ hai:
 
 ```bash
-node scripts/video/template-sheet.mjs --preset 2026 \
-  --inputs examples/gallery/gallery-inputs.json --out examples/gallery/templates-2026.jpg
+node scripts/video/template-sheet.mjs --preset all --per-row 7 --width 168 \
+  --out examples/gallery/templates.jpg
+```
+
+Cùng công cụ đó xem trước một script mà **không tốn một ký tự TTS nào**:
+
+```bash
+node scripts/video/template-sheet.mjs --script brain/<slug>/script.json --out frames.jpg
 ```
 
 Không biết dùng khung nào cho loại video nào? **[`docs/21-video-genres.md`](docs/21-video-genres.md)** và **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**

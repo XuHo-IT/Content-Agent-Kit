@@ -10,6 +10,45 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Changed — one catalogue image instead of three archaeological layers
+
+The README carried three gallery strips ordered by **when each batch was added** — "the five
+newest", "the four before that", "and four before those". Someone choosing a frame does not
+care which release it arrived in.
+
+Now one image of all 27, grouped by **what each frame does**: hooks and statements, data and
+evidence, people and sequence, contrast and reveal and close. Every tile carries its own
+template id, so the picture is enough to choose from.
+
+`scripts/video/template-sheet.mjs` gained three things to make that possible:
+
+- **`--preset all`**, derived from `listTemplateIds()` rather than listed, so a new template
+  appears the moment it exists
+- **each template's own declared defaults** when no inputs are supplied. This matters more
+  than it sounds: `composeTemplate({ inputs: {} })` renders a **blank frame** —
+  `data-composition-variables` is the editor's preview state and never reaches the renderer.
+  Confirmed against `frame-review-verdict`, which predates all of this, so it is long-standing
+  behaviour rather than a new bug. Without the fallback the catalogue would have been 27 empty
+  tiles.
+- **`--script <file>`** — the scenes of a `script.json`, in order, with that script's own
+  inputs and labelled by scene id. **This is how a sample gets a picture without spending a
+  single TTS character.**
+
+Footage-led frames (`frame-broll`, `frame-media-inset`, `frame-screenshot`) get a plain
+gradient rather than rendering as an empty box, which in a catalogue reads as a broken tile.
+They need `media_kind: "image"` alongside it — the same note `render.mjs` already carries: a
+still handed to a template expecting a clip draws nothing at all, with no error.
+
+Removed: `templates-2026.jpg`, `new-templates.jpg`, `templates-batch3.jpg`, and
+`gallery-inputs.json` — the last one's whole job was supplying content the tool now reads from
+the templates themselves, and a file nothing uses is the orphan problem this repo just fixed
+for images.
+
+The "gallery images are wide, not tall" test became a **ratio** bound. A 27-tile grid comes out
+slightly taller than wide and that is fine; 9:16 is 1.78 and that is the shape the test exists
+to keep out. It now checks every image in the folder rather than two names that could be
+deleted out from under it.
+
 ### Changed — the licence rule was answering the wrong question
 
 `install-skills.mjs` refused any upstream with no licence file, on the grounds that *a skill

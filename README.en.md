@@ -49,15 +49,31 @@ The same news story also exists as a **[white-canvas, ocean-blue cut](examples/a
 — 16 scenes across 14 of the 18 templates, repainted entirely by `"theme": "paper-blue"`:
 **no forked template, and not one line of CSS edited in `video-templates/`.**
 
-### Eighteen templates, the four newest
+### Twenty-seven templates, grouped by what they do
 
-[![The four new templates](examples/gallery/new-templates.jpg)](video-templates/CATALOG.md)
+[![All 27 templates](examples/gallery/templates.jpg)](video-templates/CATALOG.md)
 
-Left to right, top to bottom: **scored review**, **bar chart**, **step list**, **pull quote**.
-Each draws from its data rather than from typed-in values — the score arc is computed from
-`score`/`maxScore`, bar widths from the numbers themselves — so the drawing cannot contradict
-the text. Slots and character limits for every one are in
+Row 1 **hooks** and **statements** · row 2 **data** and **evidence** · row 3 **people** and
+**sequence** · row 4 **contrast**, **reveal** and **close**. Every tile carries its own
+template id, so the picture is enough to choose from.
+
+This used to be strips ordered by which batch each template arrived in. Someone choosing a
+frame does not care about that.
+
+`frame-broll`, `frame-media-inset` and `frame-screenshot` show a gradient because they are
+**footage-led** — with no clip they have nothing to draw. Slots and character limits are in
 **[`CATALOG.md`](video-templates/CATALOG.md)**.
+
+```bash
+node scripts/video/template-sheet.mjs --preset all --per-row 7 --width 168 \
+  --out examples/gallery/templates.jpg
+```
+
+The same tool previews a script **without spending a single TTS character**:
+
+```bash
+node scripts/video/template-sheet.mjs --script brain/<slug>/script.json --out frames.jpg
+```
 
 Not sure which frames a given kind of video needs?
 **[`docs/21-video-genres.md`](docs/21-video-genres.md)** and **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)** have sequences for
