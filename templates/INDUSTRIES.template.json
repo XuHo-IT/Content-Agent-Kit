@@ -62,10 +62,10 @@
           "frame-chart-bars",
           "frame-split-compare",
           "frame-checklist",
+          "frame-geo-markers",
           "frame-statement-outro"
         ],
         "missing": [
-          "bản đồ có điểm đánh dấu",
           "mặt bằng / sơ đồ tầng"
         ]
       },
@@ -409,10 +409,8 @@
           "frame-step-list",
           "frame-chart-bars",
           "frame-quote-testimonial",
+          "frame-geo-route",
           "frame-statement-outro"
-        ],
-        "missing": [
-          "bản đồ hành trình có cung nối"
         ]
       },
       "theme": "none",
@@ -442,10 +440,8 @@
           "frame-media-inset",
           "frame-quote-testimonial",
           "frame-myth-fact",
+          "frame-geo-markers",
           "frame-statement-outro"
-        ],
-        "missing": [
-          "bản đồ theo giai đoạn"
         ]
       },
       "theme": "paper-ink",
@@ -475,10 +471,8 @@
           "frame-chart-bars",
           "frame-step-list",
           "frame-node-graph",
+          "frame-geo-route",
           "frame-statement-outro"
-        ],
-        "missing": [
-          "bản đồ tuyến giao"
         ]
       },
       "theme": "corporate",
@@ -541,10 +535,8 @@
           "frame-timeline",
           "frame-screenshot",
           "frame-vignelli",
+          "frame-geo-markers",
           "frame-statement-outro"
-        ],
-        "missing": [
-          "bản đồ sự kiện"
         ]
       },
       "theme": "none",
@@ -574,10 +566,8 @@
           "frame-split-compare",
           "frame-timeline",
           "frame-trend-line",
+          "frame-geo-markers",
           "frame-statement-outro"
-        ],
-        "missing": [
-          "bản đồ nhiệt / bản đồ vùng"
         ]
       },
       "theme": "paper-forest",
@@ -600,18 +590,22 @@
   ],
   "_missing": [
     "Trường `missing` của mỗi ngành là hàng đợi dựng thêm, không phải lời than.",
-    "Bốn họ đã dựng xong và rời khỏi danh sách: đồ thị node (frame-node-graph), đường giá theo",
-    "thời gian (frame-trend-line), bảng nhiều ô (frame-dashboard), HUD (frame-hud).",
+    "",
+    "MỘT BÀI HỌC TỪ ĐỢT TRƯỚC: bản đồ từng được sáu ngành nêu ra dưới SÁU CÁI TÊN khác nhau,",
+    "nên đếm bằng máy chỉ ra \"1 mỗi loại\" và nó tụt xuống cuối hàng đợi — trong khi thực tế nó",
+    "là lỗ lớn nhất. Từ nay mỗi mục ghi đúng MỘT tên cho MỘT họ, để còn đếm được.",
+    "",
+    "Đã dựng xong và rời danh sách: đồ thị node · đường theo thời gian · bảng nhiều ô · HUD ·",
+    "bản đồ điểm (frame-geo-markers) · bản đồ tuyến (frame-geo-route).",
     "",
     "Còn lại:",
     "",
-    "  bản đồ có điểm/cung nối   — bất động sản · du lịch · logistics · tin tức · lịch sử · môi trường",
     "  vẽ dần trên bảng trắng    — giáo dục",
+    "  phễu chuyển đổi           — marketing",
+    "  thanh tiến độ / cột mốc   — game",
     "  mặt bằng / sơ đồ tầng     — bất động sản",
     "  sơ đồ giải phẫu           — y tế",
     "  bảng chứng cứ             — pháp lý",
-    "  phễu chuyển đổi           — marketing",
-    "  xoay sản phẩm 360°        — thương mại điện tử (cần quay thật, không phải việc của template)",
-    "  thanh tiến độ / cột mốc   — game"
+    "  xoay sản phẩm 360°        — TMĐT (cần quay thật, không phải việc của template)"
   ]
 }

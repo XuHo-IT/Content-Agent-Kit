@@ -138,7 +138,7 @@ jobs:
             const h = await import('./scripts/lib/media-hosts/index.mjs');
             const t = await import('./scripts/video/lib/paths.mjs');
             if (!p.PROVIDERS.length || !s.SOURCE_IDS.length || !h.HOST_IDS.length) throw new Error('empty registry');
-            if (t.listTemplateIds().length < 31) throw new Error('templates missing');
+            if (t.listTemplateIds().length < 33) throw new Error('templates missing');
             console.log('tts:', p.PROVIDERS.join(','));
             console.log('stock:', s.SOURCE_IDS.join(','));
             console.log('hosts:', h.HOST_IDS.join(','));
