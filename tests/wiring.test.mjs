@@ -178,15 +178,21 @@ test("an image's bytes agree with its extension", () => {
   }
 });
 
-test("the README's gallery strips are wide, not tall", () => {
-  // GitHub scales an image to the column width, so a 1080x1920 gallery renders as a wall
-  // the reader scrolls past. These are built by template-sheet.mjs as labelled strips;
-  // a portrait one here means someone regenerated them the old way.
-  for (const f of ["templates-2026.jpg", "new-templates.jpg"]) {
-    const { width, height } = jpegSize(fs.readFileSync(path.join(KIT, "examples", "gallery", f)), f);
+test("no gallery image is a wall the reader has to scroll past", () => {
+  // GitHub scales an image to the column width, so a 1080x1920 gallery renders as a wall.
+  //
+  // The bound is a RATIO, not "wider than tall": the catalogue is 27 tiles in a grid and
+  // comes out slightly taller than wide, which is fine. What is not fine is 9:16 — that
+  // is 1.78 and it is the shape this test exists to keep out.
+  const MAX = 1.5;
+  const dir = path.join(KIT, "examples", "gallery");
+  const images = fs.readdirSync(dir).filter((f) => /\.jpe?g$/i.test(f));
+  assert.ok(images.length, "no gallery images at all — did they move?");
+  for (const f of images) {
+    const { width, height } = jpegSize(fs.readFileSync(path.join(dir, f)), f);
     assert.ok(
-      width > height,
-      `${f} is ${width}x${height} — taller than it is wide, rebuild with template-sheet.mjs`,
+      height / width <= MAX,
+      `${f} is ${width}x${height} — ${(height / width).toFixed(2)}x taller than wide, over the ${MAX} bound`,
     );
   }
 });
