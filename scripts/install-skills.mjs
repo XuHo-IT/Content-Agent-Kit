@@ -18,6 +18,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const KIT = path.resolve(HERE, "..");
@@ -114,6 +115,65 @@ if (has("--list")) {
   process.exit(0);
 }
 
+/**
+ * Say what "no licence" actually costs the user, in the two sentences that matter.
+ *
+ * Not a scare, and not a shrug: absent a licence, copyright is all-rights-reserved, so a
+ * local copy is fine and shipping it inside your own product is not.
+ */
+function warnUnlicensed(s) {
+  console.log(`[skills] ! ${s.repo} publishes NO LICENCE FILE.`);
+  console.log(`[skills]   You may keep and run this copy. You may NOT redistribute it, ship it`);
+  console.log(`[skills]   inside a product, or relicense it — absent a licence, all rights are`);
+  console.log(`[skills]   reserved. Upstream invites the install; it has not granted anything more.`);
+}
+
+function noticeFor(s, id, sha, unlicensed) {
+  const licenceLine = unlicensed
+    ? `**License:** NONE — upstream ships no licence file.\n` +
+      `> You may keep and run this copy. You may **not** redistribute it, ship it inside a\n` +
+      `> product, or relicense it. Absent a licence, all rights are reserved by the author.\n` +
+      `> This kit fetched it because the upstream publishes an install command inviting that;\n` +
+      `> nothing more was granted, and content-agent-kit carries no copy of it.\n`
+    : `**License:** ${s.license} — full text in \`${s.licenseFile}\` beside this file\n`;
+
+  return (
+    `# ${s.installAs} — installed by content-agent-kit\n\n` +
+    `**Source:** https://github.com/${s.repo}/tree/${sha}/${s.path === "." ? "" : s.path}\n` +
+    `**Commit:** \`${sha}\`\n` +
+    licenceLine +
+    `**Installed:** ${new Date().toISOString().slice(0, 10)}\n\n` +
+    `${s.summary}\n\n` +
+    `Not written by this project and not modified on the way in. Re-fetch with:\n\n` +
+    `    node scripts/install-skills.mjs ${id} --force\n\n` +
+    `Delete this folder to uninstall.\n`
+  );
+}
+
+/**
+ * Hand off to the upstream's own installer.
+ *
+ * Walking the contents API one file at a time is fine for a handful of markdown files and
+ * hopeless for a repository that is mostly a project: `video-shotcraft` is 181 MB, and an
+ * unauthenticated caller gets 60 API requests an hour. `skills` (MIT, on npm) is the tool
+ * both vibe-motion and Remotion tell people to use, so use it rather than reimplement it.
+ */
+function installVia(id, s) {
+  const cmd = `npx -y skills add ${s.repo}`;
+  console.log(`[skills] ${id} ← ${s.repo} — via the upstream's own installer`);
+  if (s.sizeNote) console.log(`[skills]   ${s.sizeNote}`);
+  if (s.unlicensed) warnUnlicensed(s);
+  if (dryRun) {
+    console.log(`[skills]   would run: ${cmd}`);
+    return true;
+  }
+  // Interactive by design upstream — it asks which skills and which agent. Inherit the
+  // terminal rather than capturing, or the user answers questions they cannot see.
+  const r = spawnSync(cmd, { stdio: "inherit", shell: true });
+  if (r.status !== 0) throw new Error(`\`${cmd}\` exited ${r.status ?? "?"}`);
+  return true;
+}
+
 // ── install ──────────────────────────────────────────────────────────────────
 const ids = has("--all") ? Object.keys(registry) : argv.filter((a) => !a.startsWith("--") && registry[a]);
 const unknown = argv.filter((a) => !a.startsWith("--") && !registry[a] && a !== flag("--dest"));
@@ -131,6 +191,10 @@ for (const id of ids) {
   const s = registry[id];
   const dest = path.join(destRoot, s.installAs);
   try {
+    if (s.via === "skills") {
+      installVia(id, s);
+      continue;
+    }
     if (fs.existsSync(dest) && !force && !dryRun) {
       console.log(`[skills] – ${id}: already at ${dest} (pass --force to replace)`);
       continue;
@@ -146,22 +210,40 @@ for (const id of ids) {
       throw new Error(`no SKILL.md at ${s.repo}/${s.path} — the registry entry is wrong`);
     }
 
-    // A skill with no licence is a skill nobody may legally reuse. Refuse rather than
-    // install something the user cannot ship.
-    const licenseUrl = `https://raw.githubusercontent.com/${s.repo}/${sha}/${s.licenseFile}`;
-    let licenseBytes;
-    try {
-      licenseBytes = await fetchBytes(licenseUrl);
-    } catch {
-      throw new Error(`${s.repo} has no ${s.licenseFile} at ${sha.slice(0, 7)} — refusing to install`);
+    // ── licence ────────────────────────────────────────────────────────────
+    // This used to refuse outright with "a skill with no licence is a skill nobody may
+    // legally reuse". That reasoning is right about VENDORING and wrong about what this
+    // script does.
+    //
+    // Nothing here is vendored — docs/17 says so in its first line. The files land on the
+    // user's own disk, which is what `git clone` does, and what these upstreams themselves
+    // tell people to do: vibe-motion's README prints `npx skills add vibe-motion/skills`.
+    // Refusing to fetch what an author is inviting you to fetch protects nobody.
+    //
+    // What still must not happen is this repo CARRYING unlicensed work — and it does not.
+    // So: install, and state plainly what the user may and may not then do with it.
+    const unlicensed = s.unlicensed === true;
+    let licenseBytes = null;
+    if (!unlicensed) {
+      const licenseUrl = `https://raw.githubusercontent.com/${s.repo}/${sha}/${s.licenseFile}`;
+      try {
+        licenseBytes = await fetchBytes(licenseUrl);
+      } catch {
+        throw new Error(
+          `${s.repo} has no ${s.licenseFile} at ${sha.slice(0, 7)} — fix the registry entry, or ` +
+            `mark it "unlicensed": true to install it with the restriction stated`,
+        );
+      }
     }
 
     const total = files.reduce((n, f) => n + (f.size || 0), 0);
     console.log(`[skills] ${id} ← ${s.repo}@${sha.slice(0, 7)} — ${files.length} file(s), ${(total / 1024).toFixed(0)} KB`);
 
+    if (unlicensed) warnUnlicensed(s);
+
     if (dryRun) {
       for (const f of files) console.log(`[skills]     ${path.join(dest, f.rel)}`);
-      console.log(`[skills]     ${path.join(dest, s.licenseFile)}`);
+      if (licenseBytes) console.log(`[skills]     ${path.join(dest, s.licenseFile)}`);
       console.log(`[skills]     ${path.join(dest, "NOTICE.md")}`);
       continue;
     }
@@ -171,20 +253,8 @@ for (const id of ids) {
       fs.mkdirSync(path.dirname(out), { recursive: true });
       fs.writeFileSync(out, await fetchBytes(f.url));
     }
-    fs.writeFileSync(path.join(dest, s.licenseFile), licenseBytes);
-    fs.writeFileSync(
-      path.join(dest, "NOTICE.md"),
-      `# ${s.installAs} — installed by content-agent-kit\n\n` +
-        `**Source:** https://github.com/${s.repo}/tree/${sha}/${s.path === "." ? "" : s.path}\n` +
-        `**Commit:** \`${sha}\`\n` +
-        `**License:** ${s.license} — full text in \`${s.licenseFile}\` beside this file\n` +
-        `**Installed:** ${new Date().toISOString().slice(0, 10)}\n\n` +
-        `${s.summary}\n\n` +
-        `Not written by this project and not modified on the way in. Re-fetch with:\n\n` +
-        `    node scripts/install-skills.mjs ${id} --force\n\n` +
-        `Delete this folder to uninstall.\n`,
-      "utf8",
-    );
+    if (licenseBytes) fs.writeFileSync(path.join(dest, s.licenseFile), licenseBytes);
+    fs.writeFileSync(path.join(dest, "NOTICE.md"), noticeFor(s, id, sha, unlicensed), "utf8");
     console.log(`[skills] ✓ ${id} → ${dest}`);
   } catch (e) {
     console.error(`[skills] ✗ ${id}: ${e.message}`);

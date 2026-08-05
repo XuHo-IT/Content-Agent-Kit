@@ -9,9 +9,18 @@
     "",
     "The kit's own skills live in skills/<name>/SKILL.md and are always present.",
     "",
-    "Adding an entry: `licenseFile` is required. The installer refuses to install a skill",
-    "whose upstream has no licence file, because a skill with no licence is a skill nobody",
-    "is legally allowed to reuse — the same reason RAG-EVAL-VN needed one."
+    "Adding an entry: `licenseFile` is required UNLESS you set `unlicensed: true`.",
+    "",
+    "The installer used to refuse outright when an upstream had no licence file. That rule",
+    "was written for VENDORING and was being applied to FETCHING, which is a different act:",
+    "nothing here is copied into this repo, the files land on the user's own disk, and these",
+    "upstreams publish install commands inviting exactly that. `unlicensed: true` installs",
+    "and states the restriction — local copy fine, redistribution not. Carrying unlicensed",
+    "work inside THIS repo is still refused, and that half of the rule has not moved.",
+    "",
+    "`via: \"skills\"` hands off to `npx skills add <repo>` instead of walking the contents",
+    "API. Use it when the repo is a project rather than a handful of markdown files: the API",
+    "walk is one request per file against a 60/hour anonymous limit."
   ],
   "skills": {
     "seo": {
@@ -133,6 +142,29 @@
       "licenseFile": "LICENSE",
       "summary": "Reverse-engineers the hook from a post that already performed.",
       "why": "VIDEO_GENRES states hook principles; this dissects real posts against ten named formulas. Studying what worked beats reasoning about what should."
+    },
+    "vibe-motion": {
+      "repo": "vibe-motion/skills",
+      "ref": "main",
+      "path": ".",
+      "installAs": "vibe-motion",
+      "via": "skills",
+      "license": "NONE",
+      "unlicensed": true,
+      "summary": "13 motion skills: ruler progress, CLI typing, vinyl player, candlestick, three.js earth, spotlight reveal, SVG assembly.",
+      "why": "Recipes for motion this kit has no equivalent of. Most target Remotion or three.js rather than the html backend, so treat them as a source of technique — several are already re-implemented natively here (frame-terminal is claude-typer's idea in CSS)."
+    },
+    "video-shotcraft": {
+      "repo": "Vincentwei1021/video-shotcraft",
+      "ref": "main",
+      "path": ".",
+      "installAs": "video-shotcraft",
+      "via": "skills",
+      "license": "Apache-2.0",
+      "licenseFile": "LICENSE",
+      "sizeNote": "181 MB — it ships a full Remotion project, a gallery and demo renders. Expect a slow install.",
+      "summary": "104 shot recipe cards plus a production-ready cinematic product-video template, for Remotion.",
+      "why": "The kit has genre sequences but no vocabulary for motion WITHIN a scene. Pairs with the `remotion` backend; the html backend cannot run its components."
     },
     "fb-repurposer": {
       "repo": "sergebulaev/facebook-skills",
