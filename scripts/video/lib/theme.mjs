@@ -59,6 +59,27 @@ export const THEME_PRESETS = {
     spread: 24,
     saturation: 1.0,
   },
+  corporate: {
+    label: "white canvas, navy ink — finance, property, company profiles",
+    bg: "#ffffff",
+    ink: "#12263f",
+    // A narrow band and low saturation on purpose. The point of this palette is that no
+    // colour argues with the number it sits next to; a wide spread reintroduces exactly the
+    // decorative variety a balance sheet does not want.
+    hue: 214,
+    spread: 10,
+    saturation: 0.55,
+  },
+  luxury: {
+    label: "warm near-black canvas, cream ink, brass accent",
+    bg: "#0d0b08",
+    ink: "#e8dfd0",
+    // Brass, not yellow. 38° with a tight band keeps every accent in the same metal; open
+    // it up and the warm end drifts orange, which reads as a sale rather than as expensive.
+    hue: 38,
+    spread: 12,
+    saturation: 0.7,
+  },
 };
 
 export const THEME_IDS = Object.keys(THEME_PRESETS);

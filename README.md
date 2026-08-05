@@ -77,6 +77,19 @@ Cùng công cụ đó xem trước một script mà **không tốn một ký t�
 node scripts/video/template-sheet.mjs --script brain/<slug>/script.json --out frames.jpg
 ```
 
+**Ngành của bạn viết và quay khác nhau thế nào?**
+**[`INDUSTRIES.template.json`](templates/INDUSTRIES.template.json)** có 16 ngành, mỗi ngành
+gồm **cả hai vế**: loại bài nên viết, cái gì tính là bằng chứng, cái gì phải tránh — rồi mới
+tới genre video, bộ khung và bảng màu.
+
+Ba ngành bị quản lý (**y tế · tài chính · bất động sản**) có thêm mục `legal` **kèm đường dẫn
+nguồn**: cấm quảng cáo thực phẩm chức năng như thuốc, cấm dùng hình ảnh nhân viên y tế, cấm
+cam kết lợi nhuận, cấm rao dự án chưa đủ điều kiện. Phần đó đọc từ nguồn thật chứ không viết
+theo trí nhớ — và test bắt buộc mỗi câu như vậy phải có link.
+
+Trường `missing` của từng ngành là **hàng đợi dựng thêm**, không phải lời than: gộp lại chỉ
+còn sáu họ khung, chứ không phải bảy mươi.
+
 Không biết dùng khung nào cho loại video nào? **[`docs/21-video-genres.md`](docs/21-video-genres.md)** và **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**
 có sẵn trình tự cho sáu thể loại: review, hướng dẫn, bản tin, listicle, ra mắt, testimonial.
 

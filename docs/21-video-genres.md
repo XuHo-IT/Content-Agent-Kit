@@ -56,6 +56,24 @@ existing.
 `examples/ai-video-social/sample-review-rag/` is that shape rendered: reranking wins on
 precision and token cost, and the fifth scene is the 14.2-second retrieval penalty.
 
+### Genre picks the shape. Industry picks the evidence.
+
+A genre answers *"I want to make a review — which frames, in what order?"*.
+`templates/INDUSTRIES.template.json` answers the question underneath it: **what counts as
+proof in this business, and what may you not claim.**
+
+A property review and a fintech review are the same genre and are not the same job. One
+needs a price per m² with a date on it; the other may not promise a return at all.
+
+16 verticals, each naming a genre, a frame set, a palette — and on the writing side the post
+types, what proof looks like, and what to avoid. Three of them (**healthcare, finance,
+property**) carry a `legal` block where every rule has a **source link**, because getting one
+of those wrong costs a fine rather than an eyebrow. A test enforces that: a claim phrased as
+law with no link fails the build.
+
+Each entry also lists what that vertical **wants and this kit cannot draw yet**. That is the
+build queue, and it is more honest than pointing an industry at a frame that only nearly fits.
+
 ### Adding a genre
 
 Add an entry to `genres`. `tests/templates.test.mjs` enforces the parts that are not

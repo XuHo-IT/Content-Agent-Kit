@@ -10,6 +10,52 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — an industry layer, covering the article as well as the video
+
+A list of roughly 70 "industry video templates" circulates online: Property Tour, Historical
+Timeline, Case Timeline, Stock Dashboard, Git Commit Timeline, and so on. Mapped against this
+kit, **most of them are the same frame wearing different industry clothing** — seven of those
+names are `frame-timeline`.
+
+What actually differs between a legal video and a fintech one is not the geometry. It is what
+counts as proof, what you are not allowed to claim, and which beat opens the piece. So
+`templates/INDUSTRIES.template.json` is a **selection layer over 27 frames, not 70 templates**.
+
+16 verticals, each carrying **both halves**:
+
+```json
+"tai-chinh": {
+  "post":  { "types": [...], "proof": "…", "avoid": [...], "legal": [{ "rule": "…", "source": "https://…" }] },
+  "video": { "genre": "news", "frames": [...], "missing": [...] },
+  "theme": "corporate",
+  "backend": "html"
+}
+```
+
+**Two kinds of entry, and they are not the same kind of claim.** `legal` is a rule from
+Vietnamese law with a source link — none written from memory. `avoid` is craft judgement and
+does not pretend otherwise. A test enforces the line: a sentence in `avoid` phrased as law
+(*cấm*, *nghị định*, *xử phạt*…) with no source **fails the build**.
+
+The three regulated verticals were researched against primary sources:
+
+| | |
+|---|---|
+| **Y tế** | Functional food may not be advertised as medicine and must carry the statutory disclaimer; **doctors, pharmacists and medical staff may not appear in food advertising** at all; clinical advertising must match the facility's licence. |
+| **Tài chính** | Financial advertising may not promise specific returns. Publishing advertising-characteristic information that affects investor rights is fined up to **600 million VND**. |
+| **Bất động sản** | No advertising, deposits or capital-raising for a project that does not yet meet its legal conditions — Decree 16/2025/NĐ-CP adds suspension of 3–6 months. |
+
+Each entry also lists what that vertical **wants and this kit cannot draw yet**. Collected,
+the whole 70-name list collapses to **six missing frame families**: maps with markers, node
+graphs, a value over time, a HUD, a multi-cell dashboard, and draw-on. Six, not seventy — and
+that list is now the build queue rather than a guess.
+
+Two palettes named in the request: **`corporate`** (white, navy, a deliberately narrow band so
+no colour argues with the number beside it) and **`luxury`** (warm near-black, cream, brass at
+38° — open the band and the warm end drifts orange, which reads as a sale rather than as
+expensive). Both clear the 4.5:1 floor `validate-script.mjs` enforces, at 15.3:1 and 14.9:1,
+and a test checks that so a preset the validator would reject cannot ship.
+
 ### Changed — one catalogue image instead of three archaeological layers
 
 The README carried three gallery strips ordered by **when each batch was added** — "the five
