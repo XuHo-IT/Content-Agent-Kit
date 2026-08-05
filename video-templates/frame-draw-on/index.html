@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Draw On · 16:9</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-draw-on — a shape drawing itself, the way a hand would.
+ *
+ * Original work for this repo.
+ *
+ * Education's remaining ask ("bảng trắng vẽ dần"). The advice circulating for this
+ * is "SVG + GSAP"; `stroke-dasharray` and `stroke-dashoffset` do it in CSS with
+ * nothing installed, which is the constraint this kit works under.
+ *
+ * `paths` takes SVG path data — one per stroke, drawn in order. That is a real
+ * demand on the caller and it is the honest one: the alternative is a fixed set of
+ * shapes, which is a clip-art library rather than a template.
+ *
+ * Three presets are built in for the common cases (`arrow`, `circle`, `check`,
+ * `underline`) so a caller who only wants to ring a word does not have to author
+ * a Bézier.
+ *
+ * Each stroke's length is measured with getTotalLength() rather than estimated: a
+ * dash pattern guessed too short leaves the tail undrawn, and guessed too long
+ * delays the finish past the narration.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1920px; height: 1080px; }
+#root { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #f7f4ec; color: #1d1a14; display: grid; align-content: center; }
+.kicker { font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #a08b5f;
+          opacity: 0; animation: rise 0.5s ease-out 0.1s both; }
+.title { font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; color: #17140f;
+         opacity: 0; animation: rise 0.55s ease-out 0.25s both; }
+.board { display: grid; place-items: center; }
+.ink { width: 100%; height: 100%; }
+/* NO vector-effect here. getTotalLength() returns USER units; non-scaling-stroke makes the
+   browser interpret stroke-dasharray in SCREEN pixels. The two disagree by the viewBox scale,
+   so the dash repeated seven times and the stroke came out as fragments instead of a line
+   being drawn. stroke-width is in user units instead: 2.4 of 100 is ~2.4% of the box. */
+.ink path { fill: none; stroke: #c2410c; stroke-width: 2.4; stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: var(--len); stroke-dashoffset: var(--len);
+            animation: draw var(--dur) cubic-bezier(0.4,0,0.6,1) both; }
+.caption { color: #8a8273; opacity: 0; animation: rise 0.5s ease-out 2.2s both; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+#root { padding: 0 150px; }
+.kicker { font-size: 30px; margin-bottom: 22px; }
+.title { font-size: 76px; margin-bottom: 40px; }
+.board { height: 420px; }
+.caption { font-size: 28px; margin-top: 40px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"Ghi nhớ","title":"Khoanh cái đúng","paths":"circle|check","caption":"Vẽ bằng CSS, không thư viện"}'
+        >
+            <div class="kicker"></div>
+            <div class="title"></div>
+            <div class="board"><svg class="ink" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet"></svg></div>
+            <div class="caption"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".title", v.title);
+                setOrDrop(".caption", v.caption);
+                
+                // Built-ins for the common marks, so ringing a word does not require authoring a Bézier.
+                var PRESETS = {
+                    underline: "M8,72 C30,64 62,64 92,70",
+                    circle:    "M50,14 C78,14 92,32 92,50 C92,70 74,86 50,86 C26,86 8,70 8,50 C8,30 24,14 50,16",
+                    check:     "M18,52 L40,76 L84,20",
+                    arrow:     "M10,80 C34,54 58,40 86,26 M70,22 L88,24 L84,42",
+                    cross:     "M20,20 L80,80 M80,20 L20,80",
+                };
+                
+                var svg = document.querySelector(".ink");
+                var NS = "http://www.w3.org/2000/svg";
+                var strokes = String(v.paths || "").split("|").map(function (s) { return s.trim(); }).filter(Boolean);
+                if (!strokes.length) { drop(".board"); }
+                else {
+                    var t = 0.6;
+                    strokes.slice(0, 5).forEach(function (raw) {
+                        var d = PRESETS[raw.toLowerCase()] || raw;
+                        var p = document.createElementNS(NS, "path");
+                        p.setAttribute("d", d);
+                        svg.appendChild(p);
+                        // Measured, not estimated. Too short leaves the tail undrawn; too long delays the
+                        // finish past the narration.
+                        var len = 0;
+                        try { len = p.getTotalLength(); } catch (e) { len = 300; }
+                        var dur = Math.max(0.35, Math.min(1.2, len / 130));
+                        p.style.setProperty("--len", Math.ceil(len));
+                        p.style.setProperty("--dur", dur.toFixed(2) + "s");
+                        p.style.animationDelay = t.toFixed(2) + "s";
+                        t += dur + 0.18;
+                    });
+                }
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

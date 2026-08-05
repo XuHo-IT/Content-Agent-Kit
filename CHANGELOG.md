@@ -10,6 +10,41 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — the last three the backlog could name
+
+33 → 36. `frame-funnel` (marketing), `frame-progress` (games, and every roadmap), `frame-draw-on`
+(education). That empties the buildable half of the queue the industry layer produced.
+
+Each enforces the same rule the data frames do — **the picture is computed from the number**:
+
+- **Funnel widths come from the value**, not from position in the list. A funnel drawn as
+  evenly narrowing trapezoids is a decoration with numbers on it, and it lies whenever the real
+  drop is uneven. Conversion rates are computed, never typed, and the **steepest** drop is
+  marked because that is the stage anyone reading a funnel is looking for.
+- **Progress milestones sit at their own proportion**: one at 80% is drawn at 80%, not at "the
+  fourth of five". Over 100% draws a full bar and still prints the true figure — a campaign at
+  143% should look finished and say 143, not look broken.
+
+Two found by rendering and looking:
+
+- **`frame-draw-on` drew every stroke as fragments.** `getTotalLength()` returns *user* units
+  while `vector-effect: non-scaling-stroke` makes the browser read `stroke-dasharray` in
+  *screen* pixels — the two disagree by the viewBox scale, so the dash repeated seven times.
+  The circulating advice for this effect is "SVG + GSAP"; it is `stroke-dashoffset` in plain
+  CSS, once the coordinate spaces agree.
+- **Funnel labels straddled their bar's edge** at the narrow stages — half on purple, half on
+  black. They sit above the bar now, and the bar is pure geometry.
+
+### What is left, and why some of it should not be a template
+
+The queue is down to four, and the honest note now says so:
+
+| | |
+|---|---|
+| floor plan · anatomy | need the geometry of *each* building or body part, not one frame. Drawing them wrong is worse than not drawing them. |
+| evidence board | close enough to `frame-node-graph` that it should be tried there first |
+| 360° product spin | needs real footage — `media` + Pexels, not a template |
+
 ### Added — maps, and the counting mistake that hid them
 
 31 → 33. `frame-geo-markers` (places from coordinates) and `frame-geo-route` (stops in order,

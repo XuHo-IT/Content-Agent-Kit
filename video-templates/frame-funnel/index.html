@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Funnel · 16:9</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-funnel — how many survive each step, and where they go.
+ *
+ * Original work for this repo.
+ *
+ * Marketing's remaining ask. `frame-chart-bars` compares five separate things;
+ * a funnel is ONE population shrinking, and the drop between two stages is the
+ * whole point.
+ *
+ * WIDTH COMES FROM THE NUMBER, not from position in the list. A funnel drawn as
+ * evenly-narrowing trapezoids is a decoration that happens to have numbers on it —
+ * and it lies whenever the real drop is uneven, which is most of the time.
+ *
+ * The conversion rate between stages is COMPUTED, never typed. A funnel whose
+ * printed percentage disagrees with its own widths is worse than one with no
+ * percentages, and hand-entered rates disagree the first time a number changes.
+ *
+ * The steepest drop is marked, because that is the stage anyone reading a funnel
+ * is actually looking for.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1920px; height: 1080px; }
+#root { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #0d0b14; color: #f0ecf8; display: grid; align-content: center; }
+.kicker { font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: #a78bfa;
+          opacity: 0; animation: rise 0.5s ease-out 0.1s both; }
+.title { font-weight: 800; letter-spacing: -0.02em; line-height: 1.1;
+         opacity: 0; animation: rise 0.55s ease-out 0.25s both; }
+.stage { display: flex; flex-direction: column; }
+.bar { background: linear-gradient(90deg, #7c3aed, #a78bfa); border-radius: 8px;
+       transform: scaleX(0); transform-origin: left;
+       animation: grow 0.55s cubic-bezier(0.4,0,0.2,1) both; }
+.meta { display: flex; align-items: baseline; }  /* above the bar, never on it */
+.meta .lab { color: #c4b5fd; font-weight: 600; }
+.meta .num { font-weight: 800; letter-spacing: -0.02em; }
+.drop { color: #f472b6; font-weight: 700; opacity: 0; animation: rise 0.4s ease-out both; }
+.drop.worst { color: #fb7185; }
+.drop .tag { color: #9f6d84; font-weight: 600; }
+.note { color: #8b7fa8; opacity: 0; animation: rise 0.5s ease-out 2s both; }
+@keyframes grow { to { transform: scaleX(1); } }
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+#root { padding: 0 150px; }
+.kicker { font-size: 30px; margin-bottom: 22px; }
+.title { font-size: 74px; margin-bottom: 56px; }
+.stage { margin-bottom: 20px; }
+.bar { height: 34px; }
+.meta { gap: 20px; margin-bottom: 10px; }
+.meta .lab { font-size: 26px; } .meta .num { font-size: 34px; }
+.drop { font-size: 26px; margin: 0 0 16px 26px; }
+.drop .tag { font-size: 22px; margin-left: 12px; }
+.note { font-size: 28px; margin-top: 40px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"Tháng 7","title":"Từ lượt xem tới đơn hàng","stages":"Lượt xem:48200|Bấm vào:6100|Thêm giỏ:1450|Đặt hàng:412","note":""}'
+        >
+            <div class="kicker"></div>
+            <div class="title"></div>
+            <div class="funnel"></div>
+            <div class="note"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".title", v.title);
+                setOrDrop(".note", v.note);
+                
+                var rows = String(v.stages || "").split("|").map(function (s) { return s.trim(); }).filter(Boolean)
+                    .map(function (s) { var i = s.lastIndexOf(":"); return { label: s.slice(0, i).trim(), n: Number(s.slice(i + 1)) }; })
+                    .filter(function (r) { return isFinite(r.n) && r.n >= 0; });
+                
+                if (rows.length < 2) { drop(".funnel"); }
+                else {
+                    var top = rows[0].n || 1;
+                    // Rates are COMPUTED. A printed percentage that disagrees with the width beside it is
+                    // worse than no percentage, and a hand-typed one disagrees the first time a number moves.
+                    var rates = rows.slice(1).map(function (r, i) { return rows[i].n ? r.n / rows[i].n : 0; });
+                    var worst = rates.length ? rates.indexOf(Math.min.apply(null, rates)) : -1;
+                
+                    var box = document.querySelector(".funnel");
+                    var fmt = function (n) { return n.toLocaleString("vi-VN"); };
+                    rows.forEach(function (r, i) {
+                        var stage = document.createElement("div");
+                        stage.className = "stage";
+                        var bar = document.createElement("div");
+                        bar.className = "bar";
+                        // Width from the number, not from position in the list.
+                        bar.style.width = Math.max(6, (r.n / top) * 100) + "%";
+                        bar.style.animationDelay = (0.6 + i * 0.16).toFixed(2) + "s";
+                        var meta = document.createElement("div");
+                        meta.className = "meta";
+                        var lab = document.createElement("span"); lab.className = "lab"; lab.textContent = r.label;
+                        var num = document.createElement("span"); num.className = "num"; num.textContent = fmt(r.n);
+                        meta.appendChild(lab); meta.appendChild(num);
+                        stage.appendChild(meta); stage.appendChild(bar);
+                        box.appendChild(stage);
+                
+                        if (i < rows.length - 1) {
+                            var d = document.createElement("div");
+                            var pct = rates[i] * 100;
+                            d.className = "drop" + (i === worst ? " worst" : "");
+                            d.textContent = "↓ " + pct.toFixed(pct < 10 ? 1 : 0) + "%";
+                            if (i === worst) {
+                                var tag = document.createElement("span");
+                                tag.className = "tag";
+                                tag.textContent = "rơi nhiều nhất";
+                                d.appendChild(tag);
+                            }
+                            d.style.animationDelay = (0.85 + i * 0.16).toFixed(2) + "s";
+                            box.appendChild(d);
+                        }
+                    });
+                }
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>
