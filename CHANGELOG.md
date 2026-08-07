@@ -10,6 +10,25 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Fixed — three templates that rendered as a blank box
+
+`frame-broll`, `frame-media-inset` and `frame-screenshot` shipped with **every text slot
+empty** — `""` for all of them. They drew nothing in the catalogue image, nothing in the
+HyperFrames editor, and nothing for anyone who opened one to find out what it does, which is
+the one job a default value has.
+
+Nothing caught it. The compositions parse, the slots match across aspects, no default names
+someone else's brand, and no rule said a default had to *say* anything. It was found by
+looking at the catalogue image and noticing three holes in it.
+
+They now carry real content, drawn from the kit's own RAG sample so a reader recognises it —
+and so nothing here is a placeholder pretending to be content. `media_kind` also moved from
+`video` to `image`: a still handed to a template expecting a clip draws nothing at all, with
+no error, which is a second way these three could come out blank.
+
+A test now fails any template whose slots are all empty. Verified by emptying one again.
+
+
 ### Added — the last three the backlog could name
 
 33 → 36. `frame-funnel` (marketing), `frame-progress` (games, and every roadmap), `frame-draw-on`
