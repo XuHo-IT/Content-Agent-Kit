@@ -154,6 +154,28 @@ test("no template burns caller-facing text into the markup", () => {
   }
 });
 
+test("no template ships with every text slot empty", () => {
+  // `frame-broll`, `frame-media-inset` and `frame-screenshot` did, for months. They render
+  // as a blank box in the catalogue image, in the HyperFrames editor, and anywhere else
+  // someone opens one to find out what it does — which is the one job a default has.
+  //
+  // Nothing caught it: the composition parses, the slots match across aspects, and no rule
+  // said a default had to say anything. It was found by looking at the catalogue.
+  for (const id of ids) {
+    for (const f of compositions(id)) {
+      const html = fs.readFileSync(path.join(templatesDir(), id, f), "utf8");
+      const vars = JSON.parse(html.match(/data-composition-variables='([^']*)'/)[1]);
+      // `media_kind` is a switch, not copy — it says <video> or <img>, so it never counts.
+      const copy = Object.entries(vars).filter(([k]) => k !== "media_kind");
+      const filled = copy.filter(([, v]) => String(v).trim().length);
+      assert.ok(
+        filled.length > 0,
+        `${id}/${f} has ${copy.length} slots and every one is empty — it renders as a blank frame`,
+      );
+    }
+  }
+});
+
 test("every template is documented in CATALOG.md", () => {
   for (const id of ids) {
     assert.ok(catalog.includes(`## ${id}`), `${id} has no CATALOG.md entry`);
