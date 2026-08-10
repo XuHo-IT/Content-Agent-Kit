@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>3D Device · Portrait 9:16</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-3d-device — a screenshot on a screen, at an angle.
+ *
+ * Original work for this repo.
+ *
+ * `frame-screenshot` puts a captured page in flat browser chrome. This tilts it in
+ * space, which is what every product page in the world does with its own app, and
+ * it costs nothing extra: it reuses the SAME `media.kind = "screenshot"` plumbing
+ * that already resolves and caches captures.
+ *
+ * HyperFrames renders through headless Chrome, so `transform-style: preserve-3d`
+ * works with nothing added. Thirty-six templates and not one used it — the whole
+ * 3D transform family was untouched.
+ *
+ * This is 2.5D, and that is the honest description: perspective on flat layers, not
+ * a scene with lights and meshes. Real 3D belongs on the `remotion` backend, which
+ * already exists and already has `--template=three`. Vendoring three.js into the
+ * html path — 600 KB, or a CDN fetch on every render — would buy geometry this kit
+ * has no use for and lose the property it does: draws with the network unplugged.
+ *
+ * The device rotates slowly and continuously rather than settling. A mockup that
+ * stops moving is a still with extra steps; one that keeps turning reads as a
+ * render, which is what it is.
+ *
+ * The screen carries a CSS-only skeleton BEHIND the image. A broken `<img>` with an
+ * empty alt paints nothing at all in Chrome, so a device with no capture yet was a
+ * black rectangle — the same blank-default fault fixed in `frame-broll` and friends,
+ * arriving by a different route. The skeleton is chrome and bars, no text, so it
+ * never says anything the caller did not.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1080px; height: 1920px; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #080a11; color: #eef1f8; display: grid; }
+.glow { position: absolute; inset: 0;
+        background: radial-gradient(circle at 50% 38%, rgba(99,102,241,0.28), transparent 60%);
+        opacity: 0; animation: fade 1.1s ease-out 0.4s both; }
+.stage { display: grid; place-items: center; perspective: 1600px; }
+/* preserve-3d on the parent is what makes the child's Z translation real rather than a
+   flat scale. Without it the glare and the screen collapse onto one plane. */
+.device { transform-style: preserve-3d; opacity: 0;
+          animation: enter 0.9s cubic-bezier(0.16,1,0.3,1) 0.35s both,
+                     turn 14s ease-in-out 1.2s infinite alternate; }
+.screen { position: relative; overflow: hidden; background: #11141d;
+          border: 2px solid #2a3040; box-shadow: 0 60px 120px rgba(0,0,0,0.6); }
+/* Sits UNDER the image and shows through when there is no capture yet. */
+.skeleton { position: absolute; inset: 0; background: #0f121a; }
+.bar { display: flex; gap: 10px; align-items: center; background: #171c28;
+       border-bottom: 1px solid #232a3a; }
+.bar i { width: 12px; height: 12px; border-radius: 50%; background: #2b3547; }
+.lines b { display: block; background: #1b2130; border-radius: 6px; }
+.lines b:nth-child(1) { width: 56%; }
+.lines b:nth-child(2) { width: 88%; }
+.lines b:nth-child(3) { width: 72%; }
+.lines b:nth-child(4) { width: 40%; }
+.shot { position: relative; width: 100%; height: 100%; object-fit: cover;
+        object-position: top center; display: block; }
+.glare { position: absolute; inset: 0; pointer-events: none;
+         background: linear-gradient(115deg, rgba(255,255,255,0.16) 0%, transparent 42%);
+         transform: translateZ(1px); }
+.copy { display: grid; align-content: end; }
+.kicker { font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #818cf8;
+          opacity: 0; animation: rise 0.5s ease-out 0.9s both; }
+.headline { font-weight: 800; letter-spacing: -0.02em; line-height: 1.08;
+            opacity: 0; animation: rise 0.55s ease-out 1.05s both; }
+.caption { color: #8b93a8; opacity: 0; animation: rise 0.5s ease-out 1.3s both; }
+@keyframes enter { from { opacity: 0; transform: rotateY(-26deg) rotateX(14deg) translateY(60px) scale(0.9); }
+                   to   { opacity: 1; transform: rotateY(-16deg) rotateX(8deg); } }
+@keyframes turn  { from { transform: rotateY(-16deg) rotateX(8deg); }
+                   to   { transform: rotateY(-4deg)  rotateX(3deg); } }
+@keyframes fade { to { opacity: 1; } }
+@keyframes rise { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+#root { grid-template-rows: 1fr auto; padding: 0 80px 120px; }
+.screen { width: 860px; height: 540px; border-radius: 18px; }
+.bar { height: 42px; padding: 0 20px; }
+.lines { padding: 32px 32px 0; }
+.lines b { height: 20px; margin-bottom: 20px; }
+.kicker { font-size: 32px; margin-bottom: 22px; }
+.headline { font-size: 82px; }
+.caption { font-size: 30px; margin-top: 30px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"Bản dựng","headline":"Chạy được trên máy bạn","caption":"Không cài gì ngoài Node và ffmpeg"}'
+        >
+            <div class="glow"></div>
+            <div class="stage">
+                <div class="device">
+                    <div class="screen">
+                        <div class="skeleton">
+                            <div class="bar"><i></i><i></i><i></i></div>
+                            <div class="lines"><b></b><b></b><b></b><b></b></div>
+                        </div>
+                        <img class="shot" src="assets/media.png" alt="" />
+                        <div class="glare"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="copy">
+                <div class="kicker"></div>
+                <div class="headline"></div>
+                <div class="caption"></div>
+            </div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".headline", v.headline);
+                setOrDrop(".caption", v.caption);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

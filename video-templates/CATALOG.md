@@ -789,6 +789,148 @@ path data in a 100×100 box, so a caller who needs a specific shape can give one
 
 ---
 
+## frame-3d-device
+
+**Role:** body / media. A capture on a screen, tilted in space.
+**Best for:** "here is the thing running" — a product, an app, this kit's own terminal.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤22 | |
+| `headline` | string | ≤44 | |
+| `caption` | string | ≤60 | |
+
+Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses — so
+`scripts/media/screenshot.mjs` feeds it with nothing new added.
+
+> With no capture yet, the screen shows a **CSS-only skeleton** — window bar, three dots, four
+> bars. A broken `<img>` with an empty `alt` paints *nothing* in Chrome, so the first build of
+> this template rendered a black rectangle in the catalogue: the same blank-default fault as
+> `frame-broll`, arriving by a different route. The skeleton has no text in it, so it can never
+> say something the caller did not.
+>
+> The device keeps turning instead of settling. A mockup that stops moving is a still with
+> extra steps.
+
+---
+
+## frame-3d-flip
+
+**Role:** body. A card that turns over to show what was behind it.
+**Best for:** question → answer, before → after, claim → correction, in one gesture.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `frontLabel` | string | ≤16 | |
+| `front` | string | ≤48 | what is on screen first |
+| `backLabel` | string | ≤16 | |
+| `back` | string | ≤40 | the payoff; **empty drops the whole card** |
+| `note` | string | ≤50 | |
+
+> `frame-myth-fact` shows both sides at once and strikes one out. Use this instead when the
+> second thing is a *payoff* rather than a *contrast* — it stays hidden until the turn.
+>
+> `backface-visibility: hidden` is what makes it a turn and not a smear: without it both faces
+> paint through each other for the whole half-second the card is edge-on.
+>
+> The card's faces are absolutely positioned, so `.scene` carries the height. Pushing the note
+> down with a margin instead — the first build — left the card hanging in the top third with
+> the frame's lower half empty.
+
+---
+
+## frame-3d-stack
+
+**Role:** body. Layers receding into the frame.
+**Best for:** a tech stack, a set of options, a pile of anything — depth, not order.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤22 | |
+| `title` | string | ≤40 | |
+| `layers` | string | 2–5 | `"Front\|Behind\|Further back"`, front first; extras ignored |
+| `note` | string | ≤50 | |
+
+> `frame-step-list` shows ORDER. This shows DEPTH — how many there are and that they sit on
+> top of each other.
+>
+> Each label sits at the **bottom** of its card, because the part of a back card you can see is
+> the strip below the card in front of it.
+>
+> That alone was not enough. The first build anchored the labels to the bottom and three of the
+> four still read as text sliced in half, because **perspective shrinks each card toward the
+> centre of the scene and the shrink compounds down the pile** — a strip that measures 96px in
+> the flat layout is not 96px once projected, and by the fourth card it had closed up under its
+> own label. Two changes fixed it: the Z step dropped from 70px to **46px** so recession still
+> reads without eating the strips, and the Y step is now **measured at render time** from the
+> card's own height rather than typed as a constant, which one aspect was always going to be
+> wrong for — the card is 136px tall in portrait and 118 in landscape.
+>
+> Depth comes from `translateZ` alone. Multiplying it by a hand-written `scale()` as well
+> shrank the back card to three quarters and the pile stopped looking like one object seen in
+> perspective.
+
+---
+
+## frame-3d-spotlight
+
+**Role:** hook / outro. A light swings across and the words are there when it passes.
+**Best for:** a single line that wants weight — an opening claim, a closing thought.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤20 | optional; empty is dropped |
+| `headline` | string | ≤44 | |
+| `caption` | string | ≤50 | |
+
+> The cone has to be **wider than the frame at its foot**, or the visible slice is a shaft of
+> near-constant width and the eye reads a searchlight rather than a lamp.
+>
+> The reveal gradient holds its lit colour to the far end, so the sweep *lands* on an evenly
+> lit headline. A gradient that darkens again at 100% — the first build — leaves whichever
+> words the sweep passed last permanently dimmer than the rest, which reads as a broken font
+> rather than as light.
+
+---
+
+## What 3D actually costs
+
+The plan for these four assumed Chrome would raster `preserve-3d` more slowly and that the
+number belonged in this file. It was measured, and **the assumption was wrong**. Six-second
+9:16 renders at 30 fps, same machine, back to back, each template fed its own declared
+defaults:
+
+| template | 3D | render | mp4 |
+| --- | --- | --- | --- |
+| `frame-3d-stack` | yes | 10.0 s | 203 KB |
+| `frame-3d-device` | yes | 11.2 s | 543 KB |
+| `frame-3d-spotlight` | yes | 11.4 s | **822 KB** |
+| `frame-3d-flip` | yes | 11.6 s | 262 KB |
+| `frame-checklist` | no | 10.6 s | 345 KB |
+| `frame-step-list` | no | 12.3 s | 391 KB |
+| `frame-quote-testimonial` | no | 16.9 s | 244 KB |
+
+Perspective on a handful of flat layers is nothing next to the ~10 s of npx and Chrome startup
+that every render pays. The four 3D templates occupy 10.0–11.6 s; the **slowest render in the
+set is a flat one**. **3D is not the expensive part.**
+
+The cost that is real sits in the last column, and it still has nothing to do with 3D:
+`frame-3d-spotlight` is 2–3× the bytes of its neighbours because a full-frame gradient that
+moves continuously changes every pixel in every frame, so there is nothing for the encoder to
+reuse. `frame-3d-device`, whose mockup never stops turning, pays the same way. That is the
+trade worth knowing — bytes, not milliseconds — and it applies to any template with permanent
+full-frame motion, 3D or not.
+
+> **Measure with real inputs.** The first version of this table read 17–38 KB and claimed
+> `frame-3d-spotlight` was 25–55× the size of everything else. Those renders were made with
+> `inputs: {}`, which produces **blank frames** — a template's `data-composition-variables` are
+> editor defaults and do not reach the renderer on their own. An empty 1080×1920 video
+> compresses to almost nothing, so the table was comparing degrees of emptiness. The ratio was
+> off by an order of magnitude and the conclusion it supported was not the true one. The same
+> trap is documented at the top of `scripts/video/template-sheet.mjs`; it caught this file too.
+
+---
+
 ## A renderer limit worth knowing: full-bleed video at 16:9
 
 All three media templates above are **verified at both 9:16 and 16:9**. Getting there

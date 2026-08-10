@@ -54,6 +54,20 @@
     width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.04);
   }
   /* Tie the footage into the palette so it reads as part of the design, not a pasted box. */
+  /* Shows through when the clip or still has not been resolved yet. A failed <img> paints the
+     browser's own broken-image mark, which is how this template reached the catalogue as a
+     flat grey box — text filled in, media slot still a hole. Shapes only, never text: a
+     placeholder that says something says it on every video that forgets to pass media. */
+  .ph { position: absolute; inset: 0; background: #12141d;
+        background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.028) 0 24px, transparent 24px 48px); }
+  .ph::before { content: ""; position: absolute; left: 50%; top: 50%; width: 216px; height: 152px;
+        margin: -76px 0 0 -108px; border: 4px solid rgba(255,255,255,.15); border-radius: 16px; }
+  .ph::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0; height: 0;
+        margin: 8px 0 0 -66px; border-left: 66px solid transparent; border-right: 66px solid transparent;
+        border-bottom: 60px solid rgba(255,255,255,.15); }
+  .ph i { position: absolute; left: 50%; top: 50%; width: 30px; height: 30px; margin: -50px 0 0 40px;
+        border-radius: 50%; background: rgba(255,255,255,.15); }
+
   .tint {
     position: absolute; inset: 0; pointer-events: none;
     background: linear-gradient(180deg, rgba(7,8,14,.22) 0%, rgba(7,8,14,0) 40%, rgba(7,8,14,.55) 100%);
@@ -98,6 +112,7 @@
     </div>
 
     <div class="frame">
+      <div class="ph"><i></i></div>
       <video class="media" src="assets/media.mp4" muted playsinline preload="auto"></video>
       <div class="tint"></div>
     </div>
@@ -133,6 +148,7 @@
         var img = document.createElement("img");
         img.className = "media";
         img.src = "assets/media.png";
+        img.alt = ""; // no alt -> Chrome paints its broken-image mark when the asset is absent
         media.parentNode.replaceChild(img, media);
         media = null;
       }

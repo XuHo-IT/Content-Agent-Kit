@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>3D Flip · Portrait 9:16</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-3d-flip — a card that turns over to show what was behind it.
+ *
+ * Original work for this repo.
+ *
+ * Question then answer, before then after, claim then correction — in ONE gesture
+ * rather than two scenes. `frame-myth-fact` shows both at once and strikes one
+ * out; this hides the second until the turn, which is the right shape when the
+ * answer is the payoff rather than the contrast.
+ *
+ * HyperFrames renders through headless Chrome, so `transform-style: preserve-3d`
+ * works with nothing added. Thirty-six templates and not one used it — the whole
+ * 3D transform family was untouched.
+ *
+ * This is 2.5D, and that is the honest description: perspective on flat layers, not
+ * a scene with lights and meshes. Real 3D belongs on the `remotion` backend, which
+ * already exists and already has `--template=three`. Vendoring three.js into the
+ * html path — 600 KB, or a CDN fetch on every render — would buy geometry this kit
+ * has no use for and lose the property it does: draws with the network unplugged.
+ *
+ * The back face is written rotated 180° and `backface-visibility: hidden` keeps
+ * each side to itself. Without it both faces paint at once and the card reads as a
+ * smear rather than a turn.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1080px; height: 1920px; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #0b0d14; color: #eef1f8; display: grid; align-content: center;
+        justify-items: center; }
+.scene { perspective: 1500px; }
+.card { position: relative; transform-style: preserve-3d;
+        animation: flip 1.0s cubic-bezier(0.66,0,0.28,1) 1.6s both; }
+/* backface-visibility is what makes this a turn rather than a smear: without it both
+   faces paint through each other for the whole half-second the card is edge-on. */
+.face { position: absolute; inset: 0; backface-visibility: hidden;
+        border-radius: 22px; display: grid; align-content: center; text-align: center; }
+.front { background: #151a26; border: 2px solid #263149; }
+.back  { background: #10233a; border: 2px solid #2563eb; transform: rotateY(180deg); }
+.lab { font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
+.front .lab { color: #7f8ba6; } .back .lab { color: #60a5fa; }
+.txt { font-weight: 800; letter-spacing: -0.02em; line-height: 1.14; }
+.back .txt { color: #dbeafe; }
+.note { color: #7f8ba6; opacity: 0; animation: rise 0.5s ease-out 2.7s both; }
+@keyframes flip { from { transform: rotateY(0deg); } to { transform: rotateY(180deg); } }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.scene { width: 880px; height: 620px; }
+.card { width: 100%; height: 100%; }
+.face { padding: 0 60px; }
+.lab { font-size: 30px; margin-bottom: 30px; }
+.txt { font-size: 76px; }
+.note { font-size: 30px; margin-top: 56px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"frontLabel":"Câu hỏi","front":"Rerank làm RAG đắt hơn bao nhiêu?","backLabel":"Trả lời","back":"Rẻ hơn 68%","note":"Đo trên 500 câu hỏi tiếng Việt"}'
+        >
+            <div class="scene">
+                <div class="card">
+                    <div class="face front"><div class="lab"></div><div class="txt"></div></div>
+                    <div class="face back"><div class="lab"></div><div class="txt"></div></div>
+                </div>
+            </div>
+            <div class="note"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".front .lab", v.frontLabel);
+                setOrDrop(".front .txt", v.front);
+                setOrDrop(".back .lab", v.backLabel);
+                setOrDrop(".back .txt", v.back);
+                setOrDrop(".note", v.note);
+                // One face with nothing on it is a card that turns to reveal a blank — worse than no turn.
+                if (!String(v.back || "").trim()) drop(".scene");
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

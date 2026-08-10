@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>3D Spotlight · Portrait 9:16</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-3d-spotlight — a light swings across and the words are there when it passes.
+ *
+ * Original work for this repo.
+ *
+ * The one skill in vibe-motion's 3D set that ported: `light-spotlight-render` is
+ * described as a "swinging spotlight text-reveal HTML animation" — HTML, not
+ * three.js and not a Remotion component. Everything else in that set either clones
+ * a separate three.js repository or is a React component for the Remotion backend.
+ *
+ * Read for the technique, rebuilt here from scratch: a cone rotating about its apex
+ * in perspective, with the text revealed by a mask that tracks it. No code was
+ * copied — that repository publishes no licence, and this kit does not carry
+ * unlicensed work even when it may fetch it.
+ *
+ * Two things the first render showed. The beam's gradient faded out by 72% of its
+ * length, which is above where the headline sits — a spotlight that stops short of
+ * the thing it is lighting. And the sweep ended mid-gradient, leaving the second
+ * line permanently darker than the first, which reads as a broken font rather than
+ * as light. The gradient now holds its lit colour to the end, so the finished state
+ * is evenly lit and only the ARRIVAL is a sweep.
+ *
+ * HyperFrames renders through headless Chrome, so `transform-style: preserve-3d`
+ * works with nothing added. Thirty-six templates and not one used it — the whole
+ * 3D transform family was untouched.
+ *
+ * This is 2.5D, and that is the honest description: perspective on flat layers, not
+ * a scene with lights and meshes. Real 3D belongs on the `remotion` backend, which
+ * already exists and already has `--template=three`. Vendoring three.js into the
+ * html path — 600 KB, or a CDN fetch on every render — would buy geometry this kit
+ * has no use for and lose the property it does: draws with the network unplugged.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1080px; height: 1920px; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #050506; color: #f6f2e8; display: grid; place-items: center; overflow: hidden; }
+.room { position: absolute; inset: 0; perspective: 900px; transform-style: preserve-3d; }
+/* The cone hangs from a point above the frame and swings about it, so the pool of light
+   sweeps rather than slides — which is what tells the eye there is a lamp up there. */
+/* The cone has to be WIDER than the frame at its foot, or the visible slice is a shaft of
+   near-constant width and the eye reads a searchlight rather than a lamp. The apex sits
+   just above the frame so the opening happens where it can be seen. */
+.beam { position: absolute; left: 50%; top: -8%; width: 118%; height: 108%;
+        margin-left: -59%; transform-origin: 50% 0;
+        /* Holds its brightness past the middle of the frame, which is where the headline is.
+           Fading out at 72% lit the empty ceiling and left the words in the dark. */
+        background: linear-gradient(to bottom, rgba(255,238,204,0.42) 0%,
+                    rgba(255,238,204,0.20) 56%, rgba(255,238,204,0.08) 82%, transparent);
+        clip-path: polygon(47.5% 0, 52.5% 0, 100% 100%, 0 100%);
+        filter: blur(18px); opacity: 0;
+        animation: lamp 0.9s ease-out 0.2s both, swing 5.4s ease-in-out 1.1s infinite alternate; }
+.pool { position: absolute; left: 50%; bottom: -10%; width: 76%; height: 32%; margin-left: -38%;
+        background: radial-gradient(ellipse at 50% 38%, rgba(255,238,204,0.26), transparent 55%);
+        opacity: 0; animation: lamp 1.1s ease-out 0.4s both,
+                               swingpool 5.4s ease-in-out 1.1s infinite alternate; }
+.copy { position: relative; text-align: center; }
+.kicker { font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: #b8a37a;
+          opacity: 0; animation: rise 0.5s ease-out 0.9s both; }
+.headline { font-family: "Playfair Display", serif; font-weight: 900; line-height: 1.06;
+            /* Revealed by the light rather than fading in on its own: the mask opens from
+               the middle, where the beam lands. */
+            /* The lit colour runs to the far end, so the sweep LANDS on an evenly lit
+               headline. A gradient that darkens again at 100% leaves whichever words the
+               sweep passed last permanently dimmer than the rest. */
+            background: linear-gradient(90deg, #45403a 0%, #fffaf0 46%, #fffaf0 100%);
+            background-size: 240% 100%; background-position: 0 0;
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+            animation: sweep 1.6s cubic-bezier(0.4,0,0.2,1) 0.7s both; }
+.caption { color: #8d8377; opacity: 0; animation: rise 0.6s ease-out 2.1s both; }
+@keyframes lamp { to { opacity: 1; } }
+@keyframes swing { from { transform: rotate(-8deg); } to { transform: rotate(8deg); } }
+@keyframes swingpool { from { transform: translateX(-13%); } to { transform: translateX(13%); } }
+@keyframes sweep { to { background-position: 100% 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.copy { padding: 0 90px; }
+.kicker { font-size: 32px; margin-bottom: 32px; }
+.headline { font-size: 96px; }
+.caption { font-size: 32px; margin-top: 44px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"Mở đầu","headline":"Thứ đáng nói nằm trong bóng tối","caption":"Cho tới khi có ai rọi đèn vào"}'
+        >
+            <div class="room">
+                <div class="beam"></div>
+                <div class="pool"></div>
+            </div>
+            <div class="copy">
+                <div class="kicker"></div>
+                <div class="headline"></div>
+                <div class="caption"></div>
+            </div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".headline", v.headline);
+                setOrDrop(".caption", v.caption);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>
