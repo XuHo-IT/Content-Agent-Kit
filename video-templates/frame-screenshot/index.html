@@ -72,7 +72,24 @@
     white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .lock { width: 16px; height: 16px; border: 3px solid rgba(255,255,255,.45); border-radius: 4px; flex: none; }
-  .shot { display: block; width: 100%; height: 430px; object-fit: cover; object-position: top center; }
+  .screen { position: relative; height: 430px; }
+  .shot { position: absolute; inset: 0; display: block; width: 100%; height: 100%;
+          object-fit: cover; object-position: top center; }
+  /* Behind the capture, the same way frame-3d-device carries a skeleton behind its own.
+     A failed <img> with an empty alt paints NOTHING in Chrome, so a scene whose capture
+     never arrived showed the window's flat fill — browser chrome around a dead screen,
+     which reads as a rendering bug rather than as missing input. Shapes only, no text.
+     .shot is positioned so this paints behind it: a positioned box beats an in-flow one
+     regardless of markup order. */
+  .ph { position: absolute; inset: 0; background: #12141d;
+        background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.028) 0 24px, transparent 24px 48px); }
+  .ph::before { content: ""; position: absolute; left: 50%; top: 50%; width: 190px; height: 134px;
+        margin: -67px 0 0 -95px; border: 4px solid rgba(255,255,255,.15); border-radius: 14px; }
+  .ph::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0; height: 0;
+        margin: 7px 0 0 -58px; border-left: 58px solid transparent; border-right: 58px solid transparent;
+        border-bottom: 53px solid rgba(255,255,255,.15); }
+  .ph i { position: absolute; left: 50%; top: 50%; width: 26px; height: 26px; margin: -44px 0 0 35px;
+        border-radius: 50%; background: rgba(255,255,255,.15); }
 
   .cap {
     position: absolute; left: 80px; right: 80px; bottom: 110px; color: rgba(255,255,255,.92);
@@ -110,7 +127,13 @@
         <div class="dots"><i></i><i></i><i></i></div>
         <div class="url"><span class="lock"></span><span class="urltext"></span></div>
       </div>
-      <img class="shot" src="assets/media.png" alt="" />
+      <div class="screen">
+        <div class="ph" data-media-fallback><i></i></div>
+        <!-- onerror, not alt="": a sized <img> that fails still gets Chrome's own 16px
+             broken-image mark, empty alt or not. Inline so it fires even if the script
+             below never runs. -->
+        <img class="shot" src="assets/media.png" alt="" onerror="this.style.display='none'" />
+      </div>
     </div>
 
     <div class="cap"></div>

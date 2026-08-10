@@ -28,6 +28,20 @@
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover; transform: scale(1.06);
   }
+  /* Shows through when the clip has not been resolved. A scene that forgot its media
+     rendered as pure black — indistinguishable from a deliberate dark frame, which is how
+     it survived. Shapes only, never text: a placeholder that says something says it on
+     every video that forgets. Before the media in the markup so the footage paints over
+     it when there IS footage; both boxes are positioned, so order decides. */
+  .ph { position: absolute; inset: 0; background: #0a0c14;
+        background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.03) 0 36px, transparent 36px 72px); }
+  .ph::before { content: ""; position: absolute; left: 50%; top: 50%; width: 324px; height: 228px;
+        margin: -114px 0 0 -162px; border: 6px solid rgba(255,255,255,.14); border-radius: 24px; }
+  .ph::after { content: ""; position: absolute; left: 50%; top: 50%; width: 0; height: 0;
+        margin: 12px 0 0 -99px; border-left: 99px solid transparent; border-right: 99px solid transparent;
+        border-bottom: 90px solid rgba(255,255,255,.14); }
+  .ph i { position: absolute; left: 50%; top: 50%; width: 45px; height: 45px; margin: -75px 0 0 60px;
+        border-radius: 50%; background: rgba(255,255,255,.14); }
   .scrim {
     position: absolute; inset: 0;
     background:
@@ -79,6 +93,7 @@
     data-height="1920"
     data-composition-variables='{"chip":"Đo thật","kicker":"RAG tiếng Việt","headline":"Rerank rẻ hơn, không đắt hơn","subheadline":"500 câu hỏi, bốn cấu hình, cùng một tài liệu","media_kind":"image"}'
   >
+    <div class="ph" data-media-fallback><i></i></div>
     <video class="bg" src="assets/media.mp4" muted playsinline preload="auto"></video>
     <div class="scrim"></div>
 
@@ -117,6 +132,10 @@
         var img = document.createElement("img");
         img.className = "bg";
         img.src = "assets/media.png";
+        img.alt = "";
+        // Empty alt suppresses alt TEXT, not Chrome's own 16px broken-image mark on an
+        // image with layout dimensions. Hide it so a missing still leaves the .ph alone.
+        img.onerror = function () { img.style.display = "none"; };
         media.parentNode.replaceChild(img, media);
         media = null;
       }

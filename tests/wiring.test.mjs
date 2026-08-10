@@ -207,6 +207,25 @@ test("every skill is named in a README", () => {
   assert.deepEqual(missing, [], `these skills exist but no README names them: ${missing.join(", ")}`);
 });
 
+test("the two READMEs name the same tools", () => {
+  // README.en.md fell five features and 22 templates behind README.md, and every guard around
+  // it stayed green. Two reasons, both structural: the count check lists three sentences from
+  // README.md and one from README.en.md, and several other checks — this file's `readmes`
+  // included — CONCATENATE the two before searching, so a feature documented in Vietnamese
+  // alone satisfies them. English is the version most visitors to this repo read first.
+  //
+  // Tool names, not prose: two languages will never match sentence for sentence, and a test
+  // demanding that would be deleted within a month. A CLI or a fill-in template named in one
+  // README and absent from the other is a feature one set of readers cannot find.
+  const named = (f) => new Set(read(f).match(/[a-z0-9-]+\.mjs|[A-Z_]+\.template\.json|crawl\.py/g) ?? []);
+  const vi = named("README.md");
+  const en = named("README.en.md");
+  const noEn = [...vi].filter((n) => !en.has(n)).sort();
+  const noVi = [...en].filter((n) => !vi.has(n)).sort();
+  assert.deepEqual(noEn, [], `README.md names these and README.en.md does not: ${noEn.join(", ")}`);
+  assert.deepEqual(noVi, [], `README.en.md names these and README.md does not: ${noVi.join(", ")}`);
+});
+
 test("every doc is linked from somewhere", () => {
   // A numbered doc nobody links to is one nobody reads.
   const everything =
