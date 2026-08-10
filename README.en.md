@@ -35,8 +35,6 @@ Anthropic's Claude Fable 5 announcement — became **two formats**:
 | 🖼️ **[Cover image](examples/ai-news-social/sample-output/cover.jpg)** | 1024×1024, made for the article above |
 | 🎬 **[Sample video](examples/ai-video-social/sample-output/)** | 2 min 12 s · 1080×1920 · real Vbee narration · Pexels B-roll · live screenshot of the source page |
 
-[![All 15 scenes of the sample video](examples/ai-video-social/sample-output/contact-sheet.jpg)](examples/ai-video-social/sample-output/)
-
 **[▶️ Download the mp4 (15.5 MB)](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0)**
 · or regenerate it yourself: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
 
@@ -66,9 +64,11 @@ template id, so the picture is enough to choose from.
 This used to be strips ordered by which batch each template arrived in. Someone choosing a
 frame does not care about that.
 
-`frame-broll`, `frame-media-inset` and `frame-screenshot` fill their media slot with a
-placeholder because they are **footage-led** — the copy is theirs, the picture is yours.
-Slots and character limits are in **[`CATALOG.md`](video-templates/CATALOG.md)**.
+`frame-broll`, `frame-media-inset`, `frame-screenshot` and `frame-3d-device` are
+**footage-led** — the copy is theirs, the picture is yours. What fills them here is borrowed
+from the sample video itself: the footage is one frame of the Pexels clip its scene 14 uses,
+and the capture is the page `frame-screenshot`'s own `url` slot already names. Slots and
+character limits are in **[`CATALOG.md`](video-templates/CATALOG.md)**.
 
 ```bash
 node scripts/video/template-sheet.mjs --preset all --per-row 10 --width 126 \

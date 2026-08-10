@@ -135,6 +135,19 @@ and **do not require attribution** — which is why nothing appears on screen. S
 page and licence for every clip used are recorded in the `media-lock.json` beside each
 script, so any clip stays traceable. See `docs/15-media-sources.md`.
 
+Downloaded clips are **not committed** — `.gitignore` keeps every `media/` directory out, and
+the lock file is what makes a render reproducible. One frame is the exception:
+
+| file | what it is | licence |
+|---|---|---|
+| `examples/gallery/media-still.jpg` | a single frame of [*A person busy working on his laptop*](https://www.pexels.com/video/a-person-busy-working-on-his-laptop-5495899/) by [Pavel Danilyuk](https://www.pexels.com/@pavel-danilyuk) — the same clip `sample-output` uses for `body-11` | Pexels License |
+| `examples/gallery/screenshot-still.jpg` | a capture of [github.com/XuHo-IT/RAG-EVAL-VN](https://github.com/XuHo-IT/RAG-EVAL-VN), a repository of this project's own | MIT, same owner |
+
+Both exist for one job: standing in for the media slot of the four footage-led templates in
+`examples/gallery/templates.jpg`, so the catalogue does not show four holes. Attribution is
+not required by the Pexels License; it is here because a committed frame of someone's work
+should be traceable to them without opening a lock file.
+
 ## 3. Runtime tools (not redistributed)
 
 These are invoked, not bundled — no license obligation for this repo, listed so

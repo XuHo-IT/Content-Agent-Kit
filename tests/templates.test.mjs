@@ -176,6 +176,39 @@ test("no template ships with every text slot empty", () => {
   }
 });
 
+test("every template that draws supplied media gets a still in the catalogue image", () => {
+  // `frame-3d-device` reads `assets/media.png` exactly as `frame-screenshot` does, but was
+  // missing from template-sheet's media list — so its tile in the README's catalogue image
+  // was a dark empty screen and stayed one across two releases. Nothing tied the list to the
+  // templates, so the moment a fourth media template arrived the two drifted apart.
+  //
+  // Read as text rather than imported: template-sheet.mjs is a CLI that parses argv and
+  // calls process.exit at module scope, so importing it would end the test run.
+  const sheet = fs.readFileSync(path.join(KIT, "scripts", "video", "template-sheet.mjs"), "utf8");
+  const from = sheet.indexOf("const STILL_FOR");
+  assert.ok(from >= 0, "template-sheet.mjs no longer has a STILL_FOR table");
+  const table = sheet.slice(from, sheet.indexOf("};", from));
+
+  const draws = ids.filter((id) =>
+    compositions(id).some((f) =>
+      fs.readFileSync(path.join(templatesDir(), id, f), "utf8").includes("assets/media."),
+    ),
+  );
+  const missing = draws.filter((id) => !table.includes(`"${id}"`));
+  assert.deepEqual(missing, [], `draws supplied media but the catalogue gives it none: ${missing.join(", ")}`);
+
+  // And the other way — a still kept for a template that no longer draws media is dead weight.
+  const named = [...table.matchAll(/"(frame-[a-z0-9-]+)"\s*:/g)].map((m) => m[1]);
+  const stale = named.filter((id) => !draws.includes(id));
+  assert.deepEqual(stale, [], `listed in STILL_FOR but draws no supplied media: ${stale.join(", ")}`);
+
+  // The stills are committed, so `--preset all` still builds with the network unplugged.
+  for (const file of new Set([...table.matchAll(/"([\w-]+\.jpe?g)"/g)].map((m) => m[1]))) {
+    const p = path.join(KIT, "examples", "gallery", file);
+    assert.ok(fs.existsSync(p), `STILL_FOR names ${file} but examples/gallery/${file} is not committed`);
+  }
+});
+
 test("every template is documented in CATALOG.md", () => {
   for (const id of ids) {
     assert.ok(catalog.includes(`## ${id}`), `${id} has no CATALOG.md entry`);
