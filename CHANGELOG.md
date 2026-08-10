@@ -10,6 +10,76 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-08-10
+
+Eighteen pull requests since v0.4.0. **No breaking change** — nothing that validated before
+stops validating, no slot renamed, no environment variable added to the required list.
+
+The visible half is that the video side grew up: eighteen templates became forty, and they
+stopped being a pile. An **industry layer** now answers the question that comes before "which
+template" — what does someone in this trade write, what counts as evidence there, and what is
+illegal to say. The pipeline makes its own **captions** and **transitions**, reads a **palette
+off a live page**, and watches the upstream registry daily so a stale number is a pull request
+rather than a discovery.
+
+The other half is less flattering and worth stating plainly, because it is the same fault four
+times. Every one of these shipped green: three templates that rendered as a blank box, four
+tiles in the catalogue image emptied by the very code written to keep them full, two frames
+that turn a missing clip into a black rectangle, and an English README five features and 22
+templates behind the Vietnamese one. **A passing test suite says the code did what the tests
+ask. It says nothing about whether anyone looked.** Rendering a picture and opening it found
+what 227 tests did not, four separate times, and most of the guards added this cycle exist to
+turn "someone should have looked" into "CI looked".
+
+### Highlights
+
+| | |
+|---|---|
+| **Forty templates, grouped by what they do** | Four 3D frames, four data frames, maps, and a catalogue image ordered by the job a frame does rather than the batch it arrived in. |
+| **An industry layer** | `INDUSTRIES.template.json` — 16 industries, each carrying **both halves**: what to write and what counts as evidence there, then the genre, frames and palette. The three regulated ones (healthcare, finance, real estate) carry a `legal` block **with links to the source**, and a test requires the link. |
+| **GEO, both of them** | The `local` genre, where the story is *where*, and `geo-audit.mjs`, which grades whether a post still means anything once an answer engine quotes one paragraph of it. Kept in one place so nobody does the wrong one. |
+| **Captions and transitions, made here** | `--captions burn`, and `fade · swipe · slide · iris · pixelize` with the arithmetic that keeps the video's length exact. |
+| **A palette read off a live page** | `theme-from-url.mjs` takes background, ink and accent from a real site, under the contrast rule the validator already enforces. |
+| **A robot on the upstream registry** | `registry-watch.mjs` runs daily, diffs a committed snapshot, opens exactly one PR when upstream moves — it reports, it does not add. |
+
+### Fixed — two frames that turn missing footage into a black rectangle
+
+`frame-media-inset` has drawn a hatched panel behind its media since PR #49, so a scene with no
+clip reads as *missing input* rather than as a broken renderer. `frame-broll` and
+`frame-screenshot` never got one. A render that forgot its media gave a black frame and a set
+of dead browser chrome respectively — output nobody would think to file against a template.
+
+PR #52 made this harder to notice, not easier: the catalogue image now hands all four a
+committed still, so the picture everyone looks at can no longer show the fault. Both now carry
+the same shapes-only stand-in, and a test reads each composition and requires one behind
+anything that draws `assets/media.*` — with the marker as an **attribute**, `data-media-fallback`,
+because the two that already had one had named them differently (`.ph` and `.skeleton`) and no
+test survives a list of class names that grows whenever someone picks a third.
+
+Rendering them with no `assets/` directory turned up a second thing, and corrected a claim
+written in two templates' comments: **an empty `alt` does not suppress Chrome's own 16px
+broken-image mark** on an image that has layout dimensions. It suppresses alt *text*. That mark
+was sitting in the corner of `frame-3d-device`'s skeleton the whole time — small, but the exact
+kind of thing a placeholder exists to avoid. All four now hide a failed image outright.
+
+### Fixed — an English README five features and 22 templates behind
+
+`README.en.md` said **"18 templates, 5 genres"** while 40 templates and 7 genres shipped, never
+mentioned `theme-from-url.mjs`, `registry-watch.mjs` or the whole industry pack, and carried
+five of the ten rows its Vietnamese counterpart has. English is the version most visitors to
+this repo read first.
+
+Two structural reasons, both now closed:
+
+- The count guard listed **three** sentences from `README.md` and **one** from `README.en.md`.
+  The English twin of the "40 templates, 7 genres" row was not among them, so it sat at 18
+  through 22 new templates while its counterpart was corrected each time. Every sentence
+  carrying that number now has its own entry, and the genre half of it is checked too.
+- Several guards **concatenate both READMEs** before searching, so "documented" quietly meant
+  "documented in at least one language". A new test compares the *tool names* each README
+  mentions — CLIs and fill-in templates, not prose, since two languages will never match
+  sentence for sentence and a test demanding that would be deleted within the month.
+
 ### Fixed — four holes in the catalogue image, made by the code that existed to prevent them
 
 `frame-broll`, `frame-media-inset`, `frame-screenshot` and `frame-3d-device` all rendered in
@@ -1191,7 +1261,8 @@ video pipeline.
 - Open-source scaffolding: licence, notices, contributing guide, security policy, code of
   conduct, issue and pull-request templates, CI.
 
-[Unreleased]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/XuHo-IT/Content-Agent-Kit/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.2.0

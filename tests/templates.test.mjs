@@ -209,6 +209,39 @@ test("every template that draws supplied media gets a still in the catalogue ima
   }
 });
 
+test("every composition that draws supplied media has a stand-in behind it", () => {
+  // The catalogue image hands these four templates a committed still, which is exactly why
+  // this needs a test: the picture everyone looks at can no longer show the fault. In a real
+  // render with the media missing, `frame-broll` and `frame-screenshot` produced a black
+  // frame and dead browser chrome respectively — output that reads as a broken renderer
+  // rather than as missing input, and that nobody would think to file against a template.
+  //
+  // The marker is an attribute, not a class name, because the two that already had one had
+  // named it differently (`.ph` and `.skeleton`) and no test can be written against a list
+  // of names that grows every time someone picks a third.
+  for (const id of ids) {
+    for (const f of compositions(id)) {
+      const html = fs.readFileSync(path.join(templatesDir(), id, f), "utf8");
+      const media = html.search(/(?:src=["']|img\.src\s*=\s*["'])assets\/media\./);
+      if (media < 0) continue;
+
+      const ph = html.indexOf("data-media-fallback");
+      assert.ok(ph >= 0, `${id}/${f} draws assets/media.* with nothing behind it`);
+      // Paint order, not just presence: both boxes are positioned, so the later one in the
+      // markup wins. A stand-in after the media would cover the media instead of backing it.
+      assert.ok(ph < media, `${id}/${f}: the stand-in comes after the media, so it covers it`);
+
+      // Chrome draws its own 16px broken-image mark on a sized <img> that fails to load —
+      // empty alt does not suppress it, which is what the comments here used to claim. It
+      // landed in the corner of the stand-in on every one of these until it was rendered
+      // and looked at. <video> needs no such guard: a broken one paints nothing.
+      if (/<img[^>]+assets\/media\.|img\.src\s*=\s*["']assets\/media\./.test(html)) {
+        assert.match(html, /onerror/, `${id}/${f}: an <img> can fail here with no onerror to hide it`);
+      }
+    }
+  }
+});
+
 test("every template is documented in CATALOG.md", () => {
   for (const id of ids) {
     assert.ok(catalog.includes(`## ${id}`), `${id} has no CATALOG.md entry`);
@@ -224,6 +257,10 @@ test("the documented template count matches the folder", () => {
     { file: "README.md", re: /\| (\d+) template video HTML một-file/ },
     { file: "README.md", re: /\| \*\*(\d+) template, \d+ thể loại\*\* \|/ },
     { file: "README.en.md", re: /\| (\d+) single-file HTML video templates/ },
+    // The English twin of the Vietnamese row two lines up. It was NOT in this list, so it
+    // sat at 18 through 22 new templates while its counterpart was updated each time. Every
+    // sentence carrying this number needs its own entry; one per file is not enough.
+    { file: "README.en.md", re: /\| \*\*(\d+) templates, \d+ genres\*\* \|/ },
     { file: "docs/16-template-registry.md", re: /The kit ships (\d+) scene templates\./ },
     { file: "docs/16-template-registry.md", re: /Kit có sẵn (\d+) template cho scene\./ },
     { file: ".github/repo-about.json", re: /9:16 với (\d+) template/ },
@@ -239,6 +276,22 @@ test("the documented template count matches the folder", () => {
 });
 
 // ── genre presets ────────────────────────────────────────────────────────────
+
+test("the documented genre count matches the presets", () => {
+  // The same hand-written-number problem as the templates above, one column to the right:
+  // the English README said five genres while seven were shipping. Nothing checked it,
+  // because the check next door only ever read the templates half of that sentence.
+  const n = Object.keys(genres).length;
+  const SITES = [
+    { file: "README.md", re: /\| \*\*\d+ template, (\d+) thể loại\*\* \|/ },
+    { file: "README.en.md", re: /\| \*\*\d+ templates, (\d+) genres\*\* \|/ },
+  ];
+  for (const s of SITES) {
+    const m = fs.readFileSync(path.join(KIT, s.file), "utf8").match(s.re);
+    assert.ok(m, `${s.file}: the genre-count sentence changed — ${s.re}`);
+    assert.equal(Number(m[1]), n, `${s.file} says ${m[1]} genres, there are ${n}`);
+  }
+});
 
 test("every genre names templates that exist", () => {
   for (const [name, g] of Object.entries(genres)) {

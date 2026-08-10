@@ -112,7 +112,7 @@
     </div>
 
     <div class="frame">
-      <div class="ph"><i></i></div>
+      <div class="ph" data-media-fallback><i></i></div>
       <video class="media" src="assets/media.mp4" muted playsinline preload="auto"></video>
       <div class="tint"></div>
     </div>
@@ -148,7 +148,11 @@
         var img = document.createElement("img");
         img.className = "media";
         img.src = "assets/media.png";
-        img.alt = ""; // no alt -> Chrome paints its broken-image mark when the asset is absent
+        img.alt = "";
+        // Empty alt suppresses alt TEXT, not Chrome's own 16px broken-image mark on an
+        // image with layout dimensions — this one has them. Hide the element outright so
+        // the .ph behind it is the only thing a missing still leaves on screen.
+        img.onerror = function () { img.style.display = "none"; };
         media.parentNode.replaceChild(img, media);
         media = null;
       }

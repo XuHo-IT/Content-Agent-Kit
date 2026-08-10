@@ -311,7 +311,9 @@ Each side (`left` / `right`) object:
 **Role:** hook or body / footage-led. Full-bleed stock clip with one line of narration over
 it. A fixed top/bottom scrim keeps the text readable on bright and dark clips alike.
 **Best for:** a storytelling beat, a mood shift, an establishing scene.
-**Needs a `media` block** — see `docs/15-media-sources.md`.
+**Needs a `media` block** — see `docs/15-media-sources.md`. With none resolved it draws a
+shapes-only stand-in rather than a black frame; the fault should look like missing input, not
+like a broken renderer.
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -347,7 +349,8 @@ Use `frame-broll` instead when the footage IS the scene.
 **Role:** body / evidence. A captured web page inside a browser chrome (traffic lights +
 URL pill). The image is top-aligned so a page headline is never cropped away.
 **Best for:** "here is the actual announcement" — backing a claim with its source.
-**Needs a `media` block with `kind: "screenshot"` and a `url`.**
+**Needs a `media` block with `kind: "screenshot"` and a `url`.** With no capture resolved the
+screen shows a shapes-only stand-in rather than dead browser chrome.
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -804,12 +807,17 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 `scripts/media/screenshot.mjs` feeds it with nothing new added.
 
 > With no capture yet, the screen shows a **CSS-only skeleton** — window bar, three dots, four
-> bars. A broken `<img>` with an empty `alt` paints *nothing* in Chrome, so the first build of
-> this template rendered a black rectangle in the catalogue: the same blank-default fault as
+> bars. A broken `<img>` with an empty `alt` paints no alt *text* in Chrome, so the first build
+> of this template rendered a black rectangle in the catalogue: the same blank-default fault as
 > `frame-broll`, arriving by a different route. The skeleton has no text in it, so it can never
 > say something the caller did not. (The catalogue image no longer shows the skeleton — like
 > the other three footage-led frames it is handed a committed still; see `STILL_FOR` in
 > `scripts/video/template-sheet.mjs`.)
+>
+> Empty `alt` does *not*, however, hide Chrome's own 16px broken-image mark on an image that
+> has layout dimensions. That mark sat in the corner of this skeleton until someone rendered
+> the file with no `assets/` beside it and looked. All four media frames now hide a failed
+> image outright.
 >
 > The device keeps turning instead of settling. A mockup that stops moving is a still with
 > extra steps.

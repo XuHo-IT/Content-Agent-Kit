@@ -31,10 +31,15 @@
  * render, which is what it is.
  *
  * The screen carries a CSS-only skeleton BEHIND the image. A broken `<img>` with an
- * empty alt paints nothing at all in Chrome, so a device with no capture yet was a
- * black rectangle — the same blank-default fault fixed in `frame-broll` and friends,
- * arriving by a different route. The skeleton is chrome and bars, no text, so it
- * never says anything the caller did not.
+ * empty alt paints no ALT TEXT in Chrome, so a device with no capture yet was a black
+ * rectangle — the same blank-default fault fixed in `frame-broll` and friends, arriving
+ * by a different route. The skeleton is chrome and bars, no text, so it never says
+ * anything the caller did not.
+ *
+ * Empty alt does not, however, suppress Chrome's own 16px broken-image mark on an image
+ * that has layout dimensions — this one does. Rendering the file with no assets/ beside
+ * it showed the mark sitting in the corner of the skeleton. Hence the `onerror` below:
+ * a mark the caller did not ask for is the exact thing the skeleton exists to avoid.
  */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body { overflow: hidden; }
@@ -104,11 +109,11 @@ html, body { width: 1080px; height: 1920px; }
             <div class="stage">
                 <div class="device">
                     <div class="screen">
-                        <div class="skeleton">
+                        <div class="skeleton" data-media-fallback>
                             <div class="bar"><i></i><i></i><i></i></div>
                             <div class="lines"><b></b><b></b><b></b><b></b></div>
                         </div>
-                        <img class="shot" src="assets/media.png" alt="" />
+                        <img class="shot" src="assets/media.png" alt="" onerror="this.style.display='none'" />
                         <div class="glare"></div>
                     </div>
                 </div>

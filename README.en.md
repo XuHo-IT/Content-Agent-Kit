@@ -85,6 +85,20 @@ The same tool previews a script **without spending a single TTS character**:
 node scripts/video/template-sheet.mjs --script brain/<slug>/script.json --out frames.jpg
 ```
 
+**How does your industry write and shoot differently?**
+**[`INDUSTRIES.template.json`](templates/INDUSTRIES.template.json)** covers 16 industries, each
+carrying **both halves**: which article types to write, what counts as evidence, what to avoid —
+and only then the video genre, the frame set and the palette.
+
+The three regulated ones (**healthcare · finance · real estate**) add a `legal` block **with links
+to the source**: no advertising a supplement as medicine, no using images of medical staff, no
+promising returns, no listing a development that is not yet cleared for sale. That part is read
+from the actual regulations rather than written from memory — and a test requires every such line
+to carry its link.
+
+Each industry's `missing` field is a **build queue, not a complaint**: taken together it comes to
+six families of frame, not seventy.
+
 Not sure which frames a given kind of video needs?
 **[`docs/21-video-genres.md`](docs/21-video-genres.md)** and **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)** have sequences for
 seven: review, tutorial, news, listicle, launch, testimonial and **`local`** — the one where
@@ -166,7 +180,12 @@ node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4              # the
 |---|---|
 | **6 voice providers** | `omnivoice` (local, free) · elevenlabs · vbee · fptai · viettel · `http` (env-only adapter). Narration is fingerprinted, so changing a voice re-reads only what changed |
 | **Real footage and screenshots** | Pexels/Pixabay + headless Chrome. Pinned in `media-lock.json`, so the same script gives the same video |
-| **18 templates, 5 genres** | `VIDEO_GENRES.template.json` answers "for a review, which frames and in what order" |
+| **Captions without CapCut** | `--captions burn` burns them into the picture. Scene starts are exact; inside a scene the split is by character count — said plainly to be an estimate, not forced alignment |
+| **Scene transitions** | `fade · swipe · slide · iris · pixelize`. The video's length does **not** change — the padding is worked out so the overlap eats back exactly what it added |
+| **A palette read off your own site** | `theme-from-url.mjs --url <site>` reads background, ink and accent from the live page, under the same WCAG contrast rule the validator already enforces |
+| **A robot watching the template registry** | 176 templates upstream, and that number was once wrong in nine places in the docs. `registry-watch.mjs` runs daily, diffs against the committed snapshot and opens exactly one PR when upstream changes — it **reports**, it does not add |
+| **40 templates, 7 genres** | `VIDEO_GENRES.template.json` answers "for a review, which frames and in what order" |
+| **Writing an answer engine can quote** | `geo-audit.mjs` grades a post by rule, with no AI in the loop: is the answer directly under the heading, does the paragraph stand on its own, does a number carry its source. A failed `must` rule exits 1 — so it works as a gate |
 | **One palette for the whole video** | `"theme": "paper-blue"` repaints everything on a **temporary copy**; the light/dark flip is **measured in Chrome**, not guessed from CSS |
 | **Look at what you made** | `contact-sheet.mjs` puts one labelled frame per scene in a single image. Four bugs that passed every rule were all visible at a glance |
 
