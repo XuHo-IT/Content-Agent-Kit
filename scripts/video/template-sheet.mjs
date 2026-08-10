@@ -50,13 +50,15 @@ const ROLE_ORDER = [
   "frame-split-compare", "frame-timeline", "frame-node-graph", "frame-hud",
   "frame-geo-markers", "frame-geo-route", "frame-funnel", "frame-progress", "frame-draw-on",
   // evidence
-  "frame-screenshot", "frame-terminal", "frame-broll", "frame-media-inset",
+  "frame-screenshot", "frame-3d-device", "frame-terminal", "frame-broll", "frame-media-inset",
+  // depth
+  "frame-3d-flip", "frame-3d-stack",
   // people / proof
   "frame-quote-testimonial", "frame-chat-bubbles", "frame-review-verdict",
   // sequence / advice
   "frame-step-list", "frame-checklist", "frame-myth-fact", "frame-aicoding-list", "frame-aicoding-comparison",
   // reveal / close
-  "frame-product-reveal", "frame-logo-outro", "frame-statement-outro",
+  "frame-product-reveal", "frame-3d-spotlight", "frame-logo-outro", "frame-statement-outro",
 ];
 
 const PRESETS = {

@@ -10,6 +10,61 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — depth, and the measurement that contradicted the plan
+
+36 → 40. `frame-3d-device` (a capture tilted in space), `frame-3d-flip` (a card that turns to
+its answer), `frame-3d-stack` (layers receding), `frame-3d-spotlight` (a light swings across
+and the words are there when it passes).
+
+Thirty-six templates and not one used `transform-style: preserve-3d`. The whole 3D transform
+family was untouched, and it costs nothing to reach: HyperFrames renders through headless
+Chrome, so it already works. This is **2.5D** — perspective on flat layers, not a scene with
+lights and meshes — and that is the honest description. Real 3D stays on the `remotion`
+backend, which already exists and already has `--template=three`. Vendoring three.js into the
+HTML path would buy geometry this kit has no use for and lose the property it does have: it
+draws with the network unplugged.
+
+`frame-3d-spotlight` was written after reading how vibe-motion's `light-spotlight-render`
+describes its effect — the one item in that 3D set that is HTML rather than three.js or a
+Remotion component. No code was taken: that repository publishes no licence.
+
+**The plan said to measure the render cost, expecting 3D to be the expensive part. It is
+not.** The four render in 10.0–11.6 s; the slowest render in the comparison is a flat
+template at 16.9 s. Both are dominated by the ~10 s of npx and Chrome startup that every
+render pays. The real cost is bytes, and that is not about 3D either: a full-frame gradient in
+permanent motion gives the encoder nothing to reuse, so `frame-3d-spotlight` is 2–3× the size
+of its neighbours. The table is in `CATALOG.md`.
+
+Two things found by rendering and looking, neither of which any test would have caught:
+
+- **Stack labels read as text sliced in half.** They were already anchored to the bottom of
+  their cards, which is where the visible strip is — but perspective shrinks each card toward
+  the centre of the scene and *the shrink compounds down the pile*, so a strip that measures
+  96px in the flat layout is not 96px once projected. By the fourth card it had closed up
+  under its own label. The Z step dropped 70px → 46px, and the Y step is now measured from the
+  card's own height at render time instead of typed as a constant — one constant was always
+  going to be wrong for one aspect, since the card is 136px tall in portrait and 118 in
+  landscape.
+- **`frame-3d-spotlight` shipped with an empty `kicker`.** Not a blank template — it had a
+  headline and a caption — but a slot whose default demonstrated nothing.
+
+### Fixed — a gallery that became a wall, and a cost table measured on empty frames
+
+The catalogue picture was rebuilt with the command as written in both READMEs and came out
+**960×4520**: forty 9:16 tiles at the tool's own defaults, stacked into a column GitHub makes
+you scroll past. `tests/wiring.test.mjs` bounds that ratio at 1.5 and would have failed CI at
+4.71. The command in the READMEs never reproduced the committed image in the first place — it
+is now `--per-row 10 --width 126`, which puts forty tiles in the same four rows and the same
+1260px width the picture has always had, at 112 KB.
+
+The first version of `CATALOG.md`'s render-cost table read 17–38 KB per clip and claimed
+`frame-3d-spotlight` was 25–55× the size of everything else. Those renders were made with
+`inputs: {}`, which produces **blank frames** — a template's `data-composition-variables` are
+editor defaults and do not reach the renderer on their own, a trap already documented at the
+top of `template-sheet.mjs`. An empty 1080×1920 video compresses to almost nothing, so the
+table was comparing degrees of emptiness. Re-measured with each template's real defaults, the
+ratio is 2–3×, and the conclusion it had been supporting was not the true one.
+
 ### Fixed — three templates that rendered as a blank box
 
 `frame-broll`, `frame-media-inset` and `frame-screenshot` shipped with **every text slot

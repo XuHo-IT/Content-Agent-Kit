@@ -218,6 +218,7 @@
           "frame-chart-bars",
           "frame-node-graph",
           "frame-draw-on",
+          "frame-3d-flip",
           "frame-logo-outro"
         ]
       },
@@ -250,6 +251,7 @@
           "frame-review-verdict",
           "frame-hud",
           "frame-node-graph",
+          "frame-3d-stack",
           "frame-statement-outro"
         ]
       },
@@ -278,6 +280,7 @@
           "frame-bold-poster",
           "frame-terminal",
           "frame-screenshot",
+          "frame-3d-device",
           "frame-step-list",
           "frame-checklist",
           "frame-node-graph",
@@ -311,6 +314,7 @@
           "frame-split-compare",
           "frame-review-verdict",
           "frame-product-reveal",
+          "frame-3d-device",
           "frame-statement-outro"
         ],
         "missing": [
@@ -344,6 +348,7 @@
           "frame-product-reveal",
           "frame-chart-bars",
           "frame-quote-testimonial",
+          "frame-3d-flip",
           "frame-funnel",
           "frame-logo-outro"
         ]
@@ -432,6 +437,7 @@
         "genre": "news",
         "frames": [
           "frame-analog-grain",
+          "frame-3d-spotlight",
           "frame-timeline",
           "frame-media-inset",
           "frame-quote-testimonial",
@@ -590,7 +596,8 @@
     "mục ghi đúng MỘT tên cho MỘT họ, để còn đếm được.",
     "",
     "Đã dựng xong: đồ thị node · đường theo thời gian · bảng nhiều ô · HUD · bản đồ điểm · bản đồ",
-    "tuyến · phễu · thanh tiến độ · vẽ dần.",
+    "tuyến · phễu · thanh tiến độ · vẽ dần · và họ chiều sâu: thiết bị nghiêng · thẻ lật · chồng",
+    "lớp · đèn rọi.",
     "",
     "Còn lại — và ba cái đầu chưa chắc nên là template:",
     "",

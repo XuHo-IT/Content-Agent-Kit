@@ -49,25 +49,29 @@ The same news story also exists as a **[white-canvas, ocean-blue cut](examples/a
 — 16 scenes across 14 of the 18 templates, repainted entirely by `"theme": "paper-blue"`:
 **no forked template, and not one line of CSS edited in `video-templates/`.**
 
-### Thirty-six templates, grouped by what they do
+### Forty templates, grouped by what they do
 
-[![All 36 templates](examples/gallery/templates.jpg)](video-templates/CATALOG.md)
+[![All 40 templates](examples/gallery/templates.jpg)](video-templates/CATALOG.md)
 
-Row 1 **hooks** and **statements** · row 2 **data** and **evidence** · row 3 **people** and
-**sequence** · row 4 **contrast**, **reveal** and **close**. Every tile carries its own
+Row 1 **hooks** and **statements** · row 2 **data** · row 3 **evidence**, **depth** and
+**people** · row 4 **sequence**, **reveal** and **close**. Every tile carries its own
 template id, so the picture is enough to choose from.
 
 This used to be strips ordered by which batch each template arrived in. Someone choosing a
 frame does not care about that.
 
-`frame-broll`, `frame-media-inset` and `frame-screenshot` show a gradient because they are
-**footage-led** — with no clip they have nothing to draw. Slots and character limits are in
-**[`CATALOG.md`](video-templates/CATALOG.md)**.
+`frame-broll`, `frame-media-inset` and `frame-screenshot` fill their media slot with a
+placeholder because they are **footage-led** — the copy is theirs, the picture is yours.
+Slots and character limits are in **[`CATALOG.md`](video-templates/CATALOG.md)**.
 
 ```bash
-node scripts/video/template-sheet.mjs --preset all --per-row 7 --width 168 \
+node scripts/video/template-sheet.mjs --preset all --per-row 10 --width 126 \
   --out examples/gallery/templates.jpg
 ```
+
+Ten per row and 126px are not the defaults — those are 4 and 240, which stack forty 9:16
+tiles into a 4520px column you have to scroll past. Ten across keeps the picture at the
+1260px width it has always been.
 
 The same tool previews a script **without spending a single TTS character**:
 
@@ -134,7 +138,7 @@ Day to day, run **`/daily-run`** — or your generated `schedule-prompt.md` on a
 | `docs/` | The methodology, bilingual EN + VI, 22 short documents — including **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll and screenshots), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`**, **`20-video-backends.md`**, **`21-video-genres.md`** and **`22-repurposing.md`**. |
 | `templates/` | Fill-in scaffolds: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, state files, cron workflow. |
 | `scripts/` | Generic **working** CLIs: publish/append/update, queue client, `social/make-post` (image **or video**, multi-platform), `crawl/crawl.py`, `audit-quality`, the scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) and **`media/`** (stock B-roll, web screenshots, upload hosts). All env-only. |
-| `video-templates/` | 36 single-file HTML video templates plus **`CATALOG.md`** — every slot and character limit. Each carries its own CSS and animation, but still `<link>`s its fonts from Google Fonts, so rendering needs network. 176 more are one command away. |
+| `video-templates/` | 40 single-file HTML video templates plus **`CATALOG.md`** — every slot and character limit. Each carries its own CSS and animation, but still `<link>`s its fonts from Google Fonts, so rendering needs network. 176 more are one command away. |
 | `skills/` | 11 Claude Code skills: **`bootstrap-content-agent`** (the meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`** — plus `registry.json`, which lists 13 more fetched on demand. |
 | `examples/ai-news-social/` | A complete worked example: an AI-news social agent (crawl → write → image → web + Make.com → cron). |
 | `examples/ai-video-social/` | The video counterpart: crawl → `script.json` → render 9:16 → TikTok / Shorts / Reels. |

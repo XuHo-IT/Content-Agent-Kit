@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>3D Stack · 16:9</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-3d-stack — layers receding into the frame.
+ *
+ * Original work for this repo.
+ *
+ * `frame-step-list` shows ORDER. This shows DEPTH — how many there are and that
+ * they sit on top of each other, which is the shape of a tech stack, a set of
+ * options, or a pile of anything.
+ *
+ * The front card is the readable one and the rest fall away behind it, dimmer and
+ * further back. That is the point: a stack where every layer is equally legible is
+ * a list drawn at an angle.
+ *
+ * Each label sits at the BOTTOM of its card, because the part of a back card you can
+ * see is the strip below the card in front of it. Centred labels — the first attempt
+ * — put every one of them exactly on the edge that covers it, so three of four read
+ * as text sliced in half.
+ *
+ * Depth comes from `translateZ` alone. Multiplying it by a hand-written `scale()`
+ * as well shrank the back card to three quarters and the pile stopped looking like
+ * one object seen in perspective.
+ *
+ * HyperFrames renders through headless Chrome, so `transform-style: preserve-3d`
+ * works with nothing added. Thirty-six templates and not one used it — the whole
+ * 3D transform family was untouched.
+ *
+ * This is 2.5D, and that is the honest description: perspective on flat layers, not
+ * a scene with lights and meshes. Real 3D belongs on the `remotion` backend, which
+ * already exists and already has `--template=three`. Vendoring three.js into the
+ * html path — 600 KB, or a CDN fetch on every render — would buy geometry this kit
+ * has no use for and lose the property it does: draws with the network unplugged.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1920px; height: 1080px; }
+#root { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #0a0c12; color: #edf0f7; display: grid; align-content: center; }
+.kicker { font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #f59e0b;
+          opacity: 0; animation: rise 0.5s ease-out 0.1s both; }
+.title { font-weight: 800; letter-spacing: -0.02em; line-height: 1.1;
+         opacity: 0; animation: rise 0.55s ease-out 0.25s both; }
+.scene { perspective: 1400px; }
+.stack { position: relative; transform-style: preserve-3d; }
+.layer { position: absolute; left: 0; right: 0; border-radius: 16px;
+         background: #161b28; border: 2px solid #2b3346; display: grid; align-items: end;
+         font-weight: 700; opacity: 0;
+         animation: land 0.55s cubic-bezier(0.16,1,0.3,1) both; }
+.layer.top { background: #1e2536; border-color: #f59e0b; color: #ffe9c2; }
+.note { color: #7b8399; opacity: 0; animation: rise 0.5s ease-out 1.9s both; }
+@keyframes land { from { opacity: 0; transform: translateZ(var(--z)) translateY(var(--y)) translateY(50px); }
+                  to   { opacity: var(--o); transform: translateZ(var(--z)) translateY(var(--y)); } }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+#root { padding: 0 150px; }
+.kicker { font-size: 30px; margin-bottom: 22px; }
+.title { font-size: 74px; margin-bottom: 56px; }
+.layer { height: 118px; padding: 0 40px 22px; font-size: 34px; }
+.note { font-size: 28px; margin-top: 36px; }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"Lớp","title":"Bốn tầng dựng nên video","layers":"script.json|Giọng đọc + SFX|Template HTML|ffmpeg ghép","note":""}'
+        >
+            <div class="kicker"></div>
+            <div class="title"></div>
+            <div class="scene"><div class="stack"></div></div>
+            <div class="note"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".title", v.title);
+                setOrDrop(".note", v.note);
+                
+                var items = String(v.layers || "").split("|").map(function (s) { return s.trim(); }).filter(Boolean);
+                if (!items.length) { drop(".scene"); }
+                else {
+                    var box = document.querySelector(".stack");
+                    var shown = items.slice(0, 5);
+                    // The Y step is measured, not hard-coded: the card is 136px tall in portrait and 118 in
+                    // landscape, so one constant would leave a 40px strip in one aspect and 22 in the other.
+                    // Written before the loop so it costs one layout, not one per layer.
+                    var probe = document.createElement("div");
+                    probe.className = "layer"; probe.style.visibility = "hidden";
+                    box.appendChild(probe);
+                    var cardH = probe.offsetHeight || 130;
+                    box.removeChild(probe);
+                    var step = Math.round(cardH * 0.86);
+                
+                    // Front first, then each one further back, smaller and dimmer. A stack where every
+                    // layer is equally legible is a list drawn at an angle.
+                    shown.forEach(function (text, i) {
+                        var el = document.createElement("div");
+                        el.className = "layer" + (i === 0 ? " top" : "");
+                        el.textContent = text;
+                        // -46px, not -70: perspective shrinks each card toward the scene's centre, and that
+                        // shrink compounds down the pile. At -70 the fourth card's visible strip closed up
+                        // under its own label. Recession still reads; it just stops eating the strips.
+                        el.style.setProperty("--z", (-i * 46) + "px");
+                        el.style.setProperty("--y", (i * step) + "px");
+                        el.style.setProperty("--o", (1 - i * 0.16).toFixed(2));
+                        el.style.zIndex = String(20 - i);
+                        // Back to front, so the pile assembles under the card that matters.
+                        el.style.animationDelay = (0.7 + (shown.length - 1 - i) * 0.13).toFixed(2) + "s";
+                        box.appendChild(el);
+                    });
+                    // Every layer is absolute, so the pile has no height of its own. Reserving it here rather
+                    // than in CSS keeps three layers from leaving a hole and five from running off the frame.
+                    box.style.height = (step * (shown.length - 1) + cardH) + "px";
+                }
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

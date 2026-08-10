@@ -101,14 +101,20 @@ respectively, so `listTemplateIds()` skips them and `validate.mjs` rejects them 
 attribution obligation does not depend on whether the code uses them, so their `NOTICE.md`
 files stay; each says plainly that deleting the folder is a reasonable call.
 
-Twenty-five are original to content-agent-kit (MIT, same as this repo):
+Twenty-nine are original to content-agent-kit (MIT, same as this repo):
 
 `frame-broll` · `frame-media-inset` · `frame-screenshot` · `frame-review-verdict` ·
 `frame-quote-testimonial` · `frame-chart-bars` · `frame-step-list` ·
 `frame-kinetic-type` · `frame-product-reveal` · `frame-analog-grain` · `frame-split-compare` ·
 `frame-terminal` · `frame-timeline` · `frame-myth-fact` · `frame-checklist` · `frame-chat-bubbles` ·
 `frame-node-graph` · `frame-trend-line` · `frame-dashboard` · `frame-hud` ·
-`frame-geo-markers` · `frame-geo-route` · `frame-funnel` · `frame-progress` · `frame-draw-on`
+`frame-geo-markers` · `frame-geo-route` · `frame-funnel` · `frame-progress` · `frame-draw-on` ·
+`frame-3d-device` · `frame-3d-flip` · `frame-3d-stack` · `frame-3d-spotlight`
+
+`frame-3d-spotlight` was written after reading how vibe-motion's `light-spotlight-render`
+describes the effect. No code was taken: that repository publishes no licence, and this kit
+does not carry unlicensed work even where `scripts/install-skills.mjs` may fetch it to a
+user's own machine — the distinction §3 draws between invoking and bundling.
 
 Some templates further credit MIT-licensed design lineage:
 [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)
