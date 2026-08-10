@@ -35,8 +35,18 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **listicle** | a ranked or grouped set | the count is a promise — keep it → the list, arriving one at a time → the two hardest to choose between |
 | **launch** | you built something and it is now available | the problem, not the product → how it was against how it is → **the name, finally** → what it does → one link |
 | **testimonial** | someone else's result | the result first → their words, unedited → before and after, measured |
+| **local** | the story is *where* | the place, in the first frame → the question people there actually ask → your number beside a number they already carry → the route, if anything moves → someone from there, named |
 
-### Two rules that hold across all six
+`local` opens on `frame-geo-markers` rather than a title card, which is why `validate.mjs`
+accepts it as a hook template: a place-led video that opens on a logo has spent its hook on
+the one thing the viewer already knows. Worked example, script and frames:
+**[`examples/ai-video-social/sample-geo/`](../examples/ai-video-social/sample-geo/)**.
+
+> **Two things are called GEO.** `local` is the geography one. The other is Generative Engine
+> Optimization — writing so an answer engine can quote you — which is `skills/geo-optimize`
+> and `scripts/geo-audit.mjs`. Same acronym, different job.
+
+### Two rules that hold across all seven
 
 **The hook is not a title card.** A frame that names the topic without giving anything away
 is a frame people scroll past. Lead with the verdict, the number or the result. A review
@@ -119,8 +129,18 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **listicle** | một danh sách có thứ hạng | con số là lời hứa, phải giữ → danh sách hiện dần → hai cái khó chọn nhất |
 | **launch** | bạn làm xong một thứ và giờ nó có sẵn | vấn đề chứ không phải sản phẩm → trước so với sau → **tên, cuối cùng** → nó làm được gì → một đường dẫn |
 | **testimonial** | kết quả của người khác | kết quả trước → lời của họ, không sửa → trước và sau, có đo |
+| **local** | câu chuyện nằm ở *nơi chốn* | nơi đó ngay khung đầu → câu người ở đó thật sự hỏi → số của bạn cạnh số họ đã biết → vẽ tuyến nếu có gì di chuyển → một người ở đó, có tên |
 
-### Hai quy tắc đúng cho cả sáu
+`local` mở bằng `frame-geo-markers` chứ không phải slide tiêu đề, và đó là lý do `validate.mjs`
+nhận nó làm khung hook: video về nơi chốn mà mở bằng logo là đã tiêu hook vào đúng thứ người
+xem đã biết. Ví dụ đầy đủ, có script và ảnh khung:
+**[`examples/ai-video-social/sample-geo/`](../examples/ai-video-social/sample-geo/)**.
+
+> **Hai thứ cùng gọi là GEO.** `local` là nghĩa địa lý. Nghĩa còn lại là Generative Engine
+> Optimization — viết sao cho máy trả lời trích được — nằm ở `skills/geo-optimize` và
+> `scripts/geo-audit.mjs`. Cùng viết tắt, khác việc.
+
+### Hai quy tắc đúng cho cả bảy
 
 **Hook không phải slide tiêu đề.** Một khung chỉ nêu chủ đề mà không hé lộ gì là khung người
 ta lướt qua. Mở bằng kết luận, con số hoặc kết quả. Riêng review càng đúng: không ai xem

@@ -1,0 +1,121 @@
+{
+  "_comment": "The `local` genre — the GEOGRAPHY half of GEO. UNLIKE sample-review-rag, the figures here are PLACEHOLDERS and the copy says so on screen: this sample shows the SHAPE of a place-led video, and a real one has to bring its own measured numbers. Rendered as a frame strip only, no narration — see README.md beside this file.",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "metadata": {
+    "title": "Mở thị trường mới — khung video cho câu chuyện về NƠI CHỐN",
+    "source": {
+      "url": "",
+      "domain": "",
+      "image": null
+    },
+    "channel": "XuHo-IT"
+  },
+  "voice": {
+    "provider": "vbee",
+    "voiceId": "hn_female_ngochuyen_full_48k-fhg",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "voiceText": "Một video về nơi chốn nên mở bằng chính nơi đó. Không phải bằng logo, không phải bằng tên công ty — người xem đã biết bạn là ai rồi, cái họ chưa biết là bạn đang nói về vùng nào của họ.",
+      "templateId": "frame-geo-markers",
+      "inputs": {
+        "kicker": "Có mặt tại",
+        "title": "Ba thị trường đầu tiên",
+        "markers": "21.03,105.85:Hà Nội|10.78,106.70:TP HCM|16.05,108.21:Đà Nẵng",
+        "note": "Thay ba điểm này bằng thị trường thật của bạn"
+      }
+    },
+    {
+      "id": "body-1",
+      "type": "body",
+      "voiceText": "Câu hỏi người ở đó hỏi nhiều nhất thường không phải câu bạn muốn họ hỏi. Lấy nó từ tin nhắn khách gửi, từ bình luận, từ phiếu hỗ trợ — đừng tự nghĩ ra rồi tự trả lời.",
+      "templateId": "frame-3d-flip",
+      "inputs": {
+        "frontLabel": "Họ hỏi",
+        "front": "Bao lâu thì hàng tới nơi?",
+        "backLabel": "Trả lời",
+        "back": "Trong ngày",
+        "note": "Câu hỏi thật của khách ở đó, không phải câu bạn muốn họ hỏi"
+      }
+    },
+    {
+      "id": "body-2",
+      "type": "body",
+      "voiceText": "Một con số của một nơi, đứng một mình, không nói lên điều gì. Đặt nó cạnh con số người ta đã mang sẵn: trung bình cả nước, hoặc cùng kỳ năm ngoái. So sánh mới là nội dung.",
+      "templateId": "frame-chart-bars",
+      "inputs": {
+        "title": "Số của một nơi, đặt cạnh số đã biết",
+        "unit": "thay bằng đơn vị của bạn",
+        "bars": "Thị trường mới:0|Trung bình cả nước:0|Cùng kỳ năm trước:0",
+        "highlight": "Thị trường mới",
+        "source": "Để trống là để trống — điền số đo được kèm nguồn"
+      }
+    },
+    {
+      "id": "body-3",
+      "type": "body",
+      "voiceText": "Nếu có gì di chuyển từ nơi này sang nơi khác thì vẽ tuyến ra: hàng đi, xe chạy, chi nhánh mở rộng. Không có gì di chuyển thì bỏ hẳn cảnh này.",
+      "templateId": "frame-geo-route",
+      "inputs": {
+        "kicker": "Tuyến giao",
+        "title": "Từ kho tới khách",
+        "stops": "21.03,105.85:Kho Hà Nội|16.05,108.21:Đà Nẵng",
+        "note": "Chỉ một đầu mút thì dùng frame-geo-markers thay vì tuyến"
+      }
+    },
+    {
+      "id": "body-4",
+      "type": "body",
+      "voiceText": "Bằng chứng của một nơi là một con người ở nơi đó, có tên, có nghề. Một cái ghim trên bản đồ chứng minh bạn biết toạ độ, chứ không chứng minh bạn có khách ở đấy.",
+      "templateId": "frame-quote-testimonial",
+      "inputs": {
+        "quote": "Đặt buổi sáng thì chiều có hàng. Trước đó phải chờ sang hôm sau.",
+        "name": "Tên người thật",
+        "role": "Nghề nghiệp · nơi ở"
+      }
+    },
+    {
+      "id": "body-5",
+      "type": "body",
+      "voiceText": "Cùng nội dung đó, khi viết thành bài đăng, còn chịu thêm một lớp kiểm tra: máy trả lời có trích được đoạn nào không. Đó là chữ GEO còn lại, và kit có sẵn công cụ chấm.",
+      "templateId": "frame-terminal",
+      "inputs": {
+        "label": "bash",
+        "prompt": "$",
+        "command": "node scripts/geo-audit.mjs --in post.md --place \"Đà Nẵng\"",
+        "output": "answer-first     ok|!self-contained   dòng 12|!sourced-numbers  dòng 18|place-first      ok",
+        "caption": "Hỏng luật must thì exit 1 — dùng được làm cổng"
+      }
+    },
+    {
+      "id": "body-6",
+      "type": "body",
+      "voiceText": "Ba lỗi hay gặp nhất đều nằm ở chỗ đoạn văn bị cắt rời khỏi bài: câu trả lời nấp sau lời dẫn, đoạn mở bằng chữ nó, và con số không rõ nguồn.",
+      "templateId": "frame-checklist",
+      "inputs": {
+        "kicker": "Cắt rời ra vẫn phải hiểu",
+        "title": "Viết cho máy trích được",
+        "doLabel": "Nên",
+        "dos": "Trả lời ngay câu đầu sau tiêu đề|Nhắc lại chủ ngữ ở mỗi đoạn|Để số và nguồn trong cùng một đoạn",
+        "dontLabel": "Không nên",
+        "donts": "Mở bằng “Trong bài này…”|Mở đoạn bằng “Nó”, “Điều này”"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Kết bằng một hành động và một nơi chốn cụ thể. Khu vực phục vụ, địa chỉ, giờ mở cửa — thứ người xem dùng được ngay, chứ không phải một câu khẩu hiệu nghe cho xuôi tai.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Khu vực phục vụ và địa chỉ — không phải khẩu hiệu",
+        "channel": "Tên kênh của bạn",
+        "source": ""
+      }
+    }
+  ]
+}

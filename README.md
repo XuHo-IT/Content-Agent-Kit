@@ -48,6 +48,11 @@ Cùng chủ đề tin tức còn có **[bản nền trắng chữ xanh biển](e
 — 16 scene, dùng 14 trong số 40 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
 **không fork template nào, không sửa một dòng CSS nào trong `video-templates/`.**
 
+Và **[mẫu GEO](examples/ai-video-social/sample-geo/)** — hai thứ khác hẳn nhau cùng tên viết
+tắt, để chung một chỗ cho khỏi làm nhầm: thể loại video `local` (câu chuyện nằm ở *nơi chốn*),
+và `geo-audit.mjs` chấm xem một bài **bị trích ra một đoạn** thì còn nghĩa không. Đọc theo thứ
+tự `post-draft.md` → `geo-report.md` → `post-fixed.md` là thấy hết ý.
+
 ### Bốn mươi template, xếp theo việc chúng làm
 
 [![Toàn bộ 40 template](examples/gallery/templates.jpg)](video-templates/CATALOG.md)
@@ -95,7 +100,8 @@ Trường `missing` của từng ngành là **hàng đợi dựng thêm**, khôn
 còn sáu họ khung, chứ không phải bảy mươi.
 
 Không biết dùng khung nào cho loại video nào? **[`docs/21-video-genres.md`](docs/21-video-genres.md)** và **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**
-có sẵn trình tự cho sáu thể loại: review, hướng dẫn, bản tin, listicle, ra mắt, testimonial.
+có sẵn trình tự cho bảy thể loại: review, hướng dẫn, bản tin, listicle, ra mắt, testimonial và
+**`local`** — thể loại mà câu chuyện chính là *ở đâu*.
 
 ## Mô hình vận hành
 
@@ -153,7 +159,7 @@ Hằng ngày thì chạy **`/daily-run`** — hoặc `schedule-prompt.md` đư�
 | `templates/` | Khung điền sẵn: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, file trạng thái, workflow cron. |
 | `scripts/` | CLI **chạy được thật**: publish/append/update, queue client, `social/make-post` (ảnh **hoặc video**, đa nền tảng), `crawl/crawl.py`, `audit-quality`, scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) và **`media/`** (B-roll kho mở, ảnh chụp web, host upload). Tất cả env-only. |
 | `video-templates/` | 40 template video HTML một-file cùng **`CATALOG.md`** — đủ slot và giới hạn ký tự từng cái. Mỗi file tự chứa CSS và animation, nhưng vẫn `<link>` font từ Google Fonts nên lúc render cần mạng. 176 template nữa chỉ cách một câu lệnh. |
-| `skills/` | 13 skill cho Claude Code: **`bootstrap-content-agent`** (meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`**, **`new-template`**, **`motion-craft`** — cộng `registry.json` liệt kê 15 skill ngoài tải theo yêu cầu. |
+| `skills/` | 14 skill cho Claude Code: **`bootstrap-content-agent`** (meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`**, **`new-template`**, **`motion-craft`**, **`geo-optimize`** — cộng `registry.json` liệt kê 15 skill ngoài tải theo yêu cầu. |
 | `examples/ai-news-social/` | Một agent mẫu hoàn chỉnh: agent tin AI (crawl → viết → ảnh → web + Make.com → cron). |
 | `examples/ai-video-social/` | Bản video của agent đó: crawl → `script.json` → render 9:16 → TikTok / Shorts / Reels. |
 
@@ -177,7 +183,8 @@ node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4              # r�
 | **Chuyển cảnh** | `fade · swipe · slide · iris · pixelize`. Thời lượng video **không đổi** — phần đệm được tính để phần chồng ăn lại đúng bằng nó |
 | **Bảng màu từ website của bạn** | `theme-from-url.mjs --url <site>` đọc nền/mực/nhấn ngay trên trang, theo đúng luật tương phản WCAG mà validator đang áp |
 | **Robot canh kho template** | 176 template upstream, và con số đó từng sai ở 9 chỗ trong docs. `registry-watch.mjs` chạy hằng ngày, so với snapshot đã commit rồi mở đúng 1 PR khi upstream đổi — nó **báo**, không tự thêm |
-| **40 template, 6 thể loại** | `VIDEO_GENRES.template.json` trả lời "làm review thì dùng khung nào, theo thứ tự nào" |
+| **40 template, 7 thể loại** | `VIDEO_GENRES.template.json` trả lời "làm review thì dùng khung nào, theo thứ tự nào" |
+| **Viết cho máy trả lời trích được** | `geo-audit.mjs` chấm bài theo luật, không cần AI: câu trả lời có nằm ngay sau tiêu đề không, đoạn có đứng một mình được không, số có nguồn đi kèm không. Hỏng luật `must` thì exit 1 — dùng làm cổng |
 | **Một bảng màu cho cả video** | `"theme": "paper-blue"` sơn lại toàn bộ trên **bản sao tạm**; chiều lật sáng/tối là **đo bằng Chrome**, không đoán từ CSS |
 | **Nhìn lại thứ vừa làm ra** | `contact-sheet.mjs` gom mỗi scene một khung vào một ảnh. Bốn lỗi từng lọt qua mọi luật đều lộ ra trong một cái nhìn |
 

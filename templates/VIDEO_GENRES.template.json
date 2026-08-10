@@ -1,7 +1,11 @@
 {
   "_comment": [
-    "Scene sequences for six video genres. A genre is a starting skeleton, not a rule —",
+    "Scene sequences for seven video genres. A genre is a starting skeleton, not a rule —",
     "copy the `scenes` array of the one you want into your script.json and fill the inputs.",
+    "",
+    "`local` is the GEOGRAPHY one. The kit also has skills/geo-optimize, which is the OTHER",
+    "thing called GEO — writing so an answer engine can quote you. Same acronym, different",
+    "job, and the two never appear in the same task.",
     "",
     "Why this file exists: VIDEO_SCRIPT.template.json shows the SHAPE of a script, and the",
     "catalogue shows what each template does, but neither answers the question someone",
@@ -83,6 +87,19 @@
         { "templateId": "frame-chat-bubbles", "type": "body", "beat": "How it was actually said. A chat reads as overheard; a pull-quote reads as supplied." },
         { "templateId": "frame-split-compare", "type": "body", "beat": "The before and after, measured. Two states of one thing, which is the claim a testimonial is actually making — frame-chart-bars would compare magnitudes instead." },
         { "templateId": "frame-statement-outro", "type": "outro", "beat": "The invitation. One action, not three." }
+      ]
+    },
+
+    "local": {
+      "label": "Địa phương / thị trường",
+      "whenToUse": "The story is WHERE. A new market, a service area, a route, one place against another. If the location is incidental, this is not the genre — pick the one that matches what you are actually claiming.",
+      "beats": [
+        { "templateId": "frame-geo-markers", "type": "hook", "beat": "The place, first frame. A local video that opens on a logo spent its hook on the one thing the viewer already knows." },
+        { "templateId": "frame-3d-flip", "type": "body", "beat": "The question people THERE actually ask, then the answer. Skip it if you have no question worth turning a card for." },
+        { "templateId": "frame-chart-bars", "type": "body", "beat": "The number for this place next to the one people already carry — a national average, last year, the city next door. A local number with nothing beside it means nothing." },
+        { "templateId": "frame-geo-route", "type": "body", "beat": "From where to where: expansion, delivery, a journey. Drop this beat if nothing moves — a route with one endpoint is a marker frame with extra steps." },
+        { "templateId": "frame-quote-testimonial", "type": "body", "beat": "Someone from there, named. Proof of place is a person, not a pin." },
+        { "templateId": "frame-statement-outro", "type": "outro", "beat": "What to do and where. A service area or an address, not a slogan." }
       ]
     }
   },

@@ -10,6 +10,55 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Added — GEO, both of them
+
+Two unrelated things are called GEO, and doing the wrong one costs an afternoon. The kit had
+neither. It now has both, in one place, labelled.
+
+**Generative Engine Optimization** — writing so ChatGPT, Perplexity, AI Overviews or Claude
+can lift a passage out of your page and cite it. That is not SEO: SEO gets a human to click a
+ranked link, GEO gets a machine to quote a paragraph, and the reader may never arrive. So the
+unit of success changes from *a page that ranks* to **a passage that still means something
+once it is cut out of its page** — which is why this shipped as a checker and not as advice.
+
+`scripts/geo-audit.mjs` grades a draft against seven rules, no key and no network:
+`answer-first`, `self-contained` and `sourced-numbers` are **must**; `question-headings`,
+`definition`, `dated` and `table` are **should**. It exits 1 on a failing must, so it works as
+a gate beside `validate-post`. `--place "Đà Nẵng"` turns on one more must — the locality has
+to appear in the title or the first paragraph — which is where the two GEOs meet.
+
+Deliberately not a score out of 100: a number invites tuning the number, and the list of
+failing passages is the thing you act on.
+
+**Geography** — the `local` genre in `VIDEO_GENRES.template.json`, opening on the map rather
+than a title card. `validate.mjs` now accepts `frame-geo-markers` as a hook template for that
+reason: a place-led video that opens on a logo has spent its hook on the one thing the viewer
+already knows.
+
+`examples/ai-video-social/sample-geo/` carries both halves — a `local` script with its frame
+strip (no narration rendered), and `post-draft.md` → `geo-report.md` → `post-fixed.md`, which
+is the audit finding eight faults in a draft that reads perfectly well and the same piece
+rewritten until it passes.
+
+Three defects the sample found, all in the tool rather than in the sample:
+
+- **`\b` does not work on Vietnamese.** JavaScript's word boundary is defined on `[A-Za-z0-9_]`,
+  so in "nó" the final "ó" is not a word character and `/^nó\b/` never matches. Three rules —
+  `self-contained`, `sourced-numbers`, `definition` — were silently passing everything written
+  with diacritics, which is most of what this kit writes. Every boundary is now a Unicode
+  lookaround.
+- **"Chúng tôi" was read as a dangling pronoun.** "chúng" is one; "chúng tôi" is a subject.
+  Uncorrected, the rule fired on the opening line of most Vietnamese posts, which is how a
+  rule gets ignored.
+- **A correctly sourced post still failed.** "theo log điều phối nội bộ" and "theo bảng chi
+  phí" are how an operations number gets cited in Vietnamese, and the first version accepted
+  neither — it wanted a capitalised name or one of six research words. Separately, `31/05/2026`
+  was reported as an unsourced `31`. A date is not a claim.
+
+Skill: `skills/geo-optimize`. Both READMEs, `docs/21-video-genres.md` and the meta-skill now
+name it. The English README's skills row also said 11 skills and 13 external; the real numbers
+were 13 and 15 before this change and are 14 and 15 after.
+
 ### Added — depth, and the measurement that contradicted the plan
 
 36 → 40. `frame-3d-device` (a capture tilted in space), `frame-3d-flip` (a card that turns to
