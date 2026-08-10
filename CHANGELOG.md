@@ -10,6 +10,51 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Fixed — four holes in the catalogue image, made by the code that existed to prevent them
+
+`frame-broll`, `frame-media-inset`, `frame-screenshot` and `frame-3d-device` all rendered in
+the README's catalogue image as text over a flat block. They are the four frames that draw
+media you supply, so they had nothing to draw.
+
+`template-sheet.mjs` knew about the problem and made it worse. It FABRICATED a still with
+`ffmpeg -f lavfi gradients=…` — a dark navy wash — on the reasoning that a gradient "says the
+frame works without pretending to be someone's B-roll". At 126 px a flat wash is
+indistinguishable from an empty box, so it did not prevent the broken-tile reading; it
+produced it. Worse, it painted over the one real placeholder in the set: `frame-media-inset`
+draws a hatched panel with a picture icon behind its media, added specifically so a missing
+clip reads as deliberate, and nobody could see it.
+
+`frame-3d-device` was not in the list at all. It reads `assets/media.png` exactly as
+`frame-screenshot` does, arrived later, and nothing tied the list to the templates — so it
+showed its dark CSS skeleton, and had done since it shipped.
+
+The gradient is gone. Two committed stills stand in instead, both borrowed rather than
+invented: `examples/gallery/media-still.jpg` is one frame of the same Pexels clip the sample
+video uses for `body-11` — the reader meets the same footage in `contact-sheet.jpg` — and
+`screenshot-still.jpg` captures `github.com/XuHo-IT/RAG-EVAL-VN`, the page
+`frame-screenshot`'s own `url` slot already names, so the URL bar and the screen finally
+agree. Both are committed, so `--preset all` still builds with the network unplugged.
+Attribution for the Pexels frame is in `NOTICE.md` §2c: the licence does not require it, but a
+committed frame of someone's work should be traceable without opening a lock file.
+
+Two traps worth writing down. `compose.mjs` names the asset off the extension — `.png`, or
+`.mp4` for anything else — so a `.jpg` lands as `assets/media.mp4` and every one of these
+templates draws nothing at all, with no error; the stills are converted to PNG in the scratch
+dir rather than teaching `compose.mjs` a third case. And the stills are 3:4 and 4:3, never
+9:16: `tests/wiring.test.mjs` rejects anything in `examples/gallery/` more than 1.5× taller
+than wide, and `object-fit: cover` makes the aspect a non-issue anyway.
+
+A test now fails any template that reads `assets/media.` without a still, any still named for
+a template that no longer draws media, and any still named but not committed. Verified by
+removing `frame-3d-device` from the table and watching it go red.
+
+### Changed — the sample video's contact sheet is no longer inlined in the top READMEs
+
+Both READMEs opened with a full 15-scene contact sheet before the reader had a reason to care
+about any one of them. The table directly above it already links to the sample, and the
+sample's own README still shows the sheet — where someone who opened it is looking for
+exactly that. No image was deleted.
+
 ### Added — GEO, both of them
 
 Two unrelated things are called GEO, and doing the wrong one costs an afternoon. The kit had

@@ -807,7 +807,9 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses â
 > bars. A broken `<img>` with an empty `alt` paints *nothing* in Chrome, so the first build of
 > this template rendered a black rectangle in the catalogue: the same blank-default fault as
 > `frame-broll`, arriving by a different route. The skeleton has no text in it, so it can never
-> say something the caller did not.
+> say something the caller did not. (The catalogue image no longer shows the skeleton â€” like
+> the other three footage-led frames it is handed a committed still; see `STILL_FOR` in
+> `scripts/video/template-sheet.mjs`.)
 >
 > The device keeps turning instead of settling. A mockup that stops moving is a still with
 > extra steps.

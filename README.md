@@ -35,8 +35,6 @@ của Anthropic — cho ra **hai định dạng**:
 | 🖼️ **[Ảnh cover](examples/ai-news-social/sample-output/cover.jpg)** | 1024×1024, đi kèm bài viết trên |
 | 🎬 **[Video mẫu](examples/ai-video-social/sample-output/)** | 2 phút 12 giây · 1080×1920 · giọng Vbee thật · B-roll Pexels · ảnh chụp trang gốc |
 
-[![15 scene của video mẫu](examples/ai-video-social/sample-output/contact-sheet.jpg)](examples/ai-video-social/sample-output/)
-
 **[▶️ Tải video mp4 (15,5 MB)](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0)**
 · hoặc render lại chính nó: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
 
@@ -64,9 +62,11 @@ của chính nó, nên nhìn ảnh là chọn được, không phải đếm ng�
 Trước đây chỗ này là ba dải xếp theo *đợt thêm vào* — "năm cái mới nhất", "bốn cái trước
 đó", "và bốn cái trước nữa". Người đi chọn khung không quan tâm cái nào ra mắt lúc nào.
 
-Ba ô `frame-broll`, `frame-media-inset`, `frame-screenshot` để **ảnh giữ chỗ** ở khe media
-vì chúng là khung **nhận footage** — chữ là của chúng, hình là của bạn. Slot và giới hạn ký
-tự từng cái ở **[`CATALOG.md`](video-templates/CATALOG.md)**.
+Bốn ô `frame-broll`, `frame-media-inset`, `frame-screenshot`, `frame-3d-device` là khung
+**nhận footage** — chữ là của chúng, hình là của bạn. Ảnh trong đó **mượn từ chính video
+mẫu**: cảnh quay là một khung của clip Pexels dùng ở scene 14, ảnh chụp màn hình là trang
+mà `frame-screenshot` vốn đã ghi sẵn trong slot `url` của nó. Slot và giới hạn ký tự từng
+cái ở **[`CATALOG.md`](video-templates/CATALOG.md)**.
 
 Ảnh này dựng lại được bằng một lệnh, và **tự lấy giá trị mặc định của từng template** nên
 không cần chép nội dung ra chỗ thứ hai:

@@ -85,21 +85,53 @@ function defaultInputs(id, aspect) {
   return m ? JSON.parse(m[1]) : {};
 }
 
-/** Templates that draw a supplied clip or still — they have nothing to show without one. */
-const MEDIA_TEMPLATES = ["frame-broll", "frame-media-inset", "frame-screenshot"];
+/**
+ * Templates that draw supplied media, and the committed still that stands in for it here.
+ *
+ * This replaced a gradient this file used to FABRICATE with `ffmpeg -f lavfi gradients=…`,
+ * on the reasoning that a flat wash beats an empty box. It does not: the wash WAS the empty
+ * box, four tiles of the catalogue read as broken, and it painted over the one real
+ * placeholder in the set — `frame-media-inset` draws a hatched panel with a picture icon
+ * behind its media, and nobody could see it.
+ *
+ * The stills are real. `media-still.jpg` is a frame of the same Pexels clip the sample video
+ * uses for `body-11`, so a reader meets the same footage in `contact-sheet.jpg`;
+ * `screenshot-still.jpg` is the page `frame-screenshot`'s own default `url` slot already
+ * names. Committed, so the sheet still builds with the network unplugged.
+ */
+const STILL_FOR = {
+  "frame-broll": "media-still.jpg",
+  "frame-media-inset": "media-still.jpg",
+  "frame-screenshot": "screenshot-still.jpg",
+  // Reads assets/media.png exactly as frame-screenshot does. It was missing from the list
+  // this replaced, so its tile was a dark empty screen — see tests/templates.test.mjs.
+  "frame-3d-device": "screenshot-still.jpg",
+};
 
-/** A neutral gradient, built once per run, so a footage-led tile is not an empty box. */
-let placeholderPath = null;
-async function placeholder(tmp, aspect) {
-  if (placeholderPath) return placeholderPath;
-  const [w, h] = aspect === "16:9" ? [1920, 1080] : [1080, 1920];
-  placeholderPath = path.join(tmp, "placeholder.png");
-  await run("ffmpeg", [
-    "-y", "-f", "lavfi",
-    "-i", `gradients=s=${w}x${h}:c0=0x1b2430:c1=0x2e3b4e:type=linear:duration=1`,
-    "-frames:v", "1", placeholderPath,
-  ]);
-  return placeholderPath;
+/** The two that switch <video> ↔ <img> on a slot. The other two only ever draw a still. */
+const MEDIA_KIND_TEMPLATES = ["frame-broll", "frame-media-inset"];
+
+/**
+ * The still as a PNG in the scratch dir, converted once per run.
+ *
+ * compose.mjs picks the asset name off the extension — `.png` or, for anything else,
+ * `.mp4`. Hand it a `.jpg` and it lands as `assets/media.mp4`, which every one of these
+ * templates draws as nothing at all, with no error. Converting here keeps the committed
+ * asset a small jpg and leaves compose.mjs alone.
+ */
+const stillCache = new Map();
+async function still(tmp, id) {
+  const name = STILL_FOR[id];
+  const src = path.join(KIT, "examples", "gallery", name);
+  if (!fs.existsSync(src)) {
+    throw new Error(`Missing still for ${id}: ${src}\nThe catalogue cannot render that tile without it.`);
+  }
+  if (!stillCache.has(name)) {
+    const png = path.join(tmp, `${path.parse(name).name}.png`);
+    await run("ffmpeg", ["-y", "-i", src, "-frames:v", "1", png]);
+    stillCache.set(name, png);
+  }
+  return stillCache.get(name);
 }
 
 const argv = process.argv.slice(2);
@@ -181,7 +213,7 @@ try {
       // These templates switch between <video> and <img> on `media_kind`, so it has to say
       // what was actually supplied. render.mjs carries the same note; a still handed to a
       // template expecting a clip renders as nothing at all, with no error.
-      if (MEDIA_TEMPLATES.includes(id)) inputs = { ...inputs, media_kind: "image" };
+      if (MEDIA_KIND_TEMPLATES.includes(id)) inputs = { ...inputs, media_kind: "image" };
       const clip = path.join(tmp, `t${String(i).padStart(2, "0")}.mp4`);
       console.log(`[video] ${i + 1}/${ids.length} rendering ${id}`);
       await composeTemplate({
@@ -191,10 +223,9 @@ try {
         outputPath: clip,
         fps: 30,
         theme,
-        // Footage-led frames render as an empty box with nothing behind them, which in a
-        // catalogue reads as a broken tile rather than as "this one needs footage". A plain
-        // gradient says the frame works without pretending to be someone's B-roll.
-        mediaFile: MEDIA_TEMPLATES.includes(id) ? await placeholder(tmp, aspect) : undefined,
+        // Footage-led frames draw an empty box with nothing behind them, which in a
+        // catalogue reads as a broken tile rather than as "this one needs footage".
+        mediaFile: STILL_FOR[id] ? await still(tmp, id) : undefined,
         log: (m) => console.warn(`[video] ! ${m}`),
       });
 
