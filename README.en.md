@@ -46,8 +46,14 @@ whole scene given to **the cost**: a review that lists only upsides is an advert
 viewers can tell.
 
 The same news story also exists as a **[white-canvas, ocean-blue cut](examples/ai-video-social/sample-output-paper-blue/)**
-— 16 scenes across 14 of the 18 templates, repainted entirely by `"theme": "paper-blue"`:
+— 16 scenes across 14 of the 40 templates, repainted entirely by `"theme": "paper-blue"`:
 **no forked template, and not one line of CSS edited in `video-templates/`.**
+
+And a **[GEO sample](examples/ai-video-social/sample-geo/)** — two unrelated things share that
+acronym, kept in one place so nobody does the wrong one: the `local` video genre, where the
+story is *where*, and `geo-audit.mjs`, which grades whether a post still means anything once
+an answer engine quotes one paragraph of it. Read `post-draft.md` → `geo-report.md` →
+`post-fixed.md` in that order and the whole idea is there.
 
 ### Forty templates, grouped by what they do
 
@@ -81,7 +87,8 @@ node scripts/video/template-sheet.mjs --script brain/<slug>/script.json --out fr
 
 Not sure which frames a given kind of video needs?
 **[`docs/21-video-genres.md`](docs/21-video-genres.md)** and **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)** have sequences for
-five: review, tutorial, news, listicle, testimonial.
+seven: review, tutorial, news, listicle, launch, testimonial and **`local`** — the one where
+the story is *where*.
 
 ## The operating model
 
@@ -139,7 +146,7 @@ Day to day, run **`/daily-run`** — or your generated `schedule-prompt.md` on a
 | `templates/` | Fill-in scaffolds: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, state files, cron workflow. |
 | `scripts/` | Generic **working** CLIs: publish/append/update, queue client, `social/make-post` (image **or video**, multi-platform), `crawl/crawl.py`, `audit-quality`, the scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) and **`media/`** (stock B-roll, web screenshots, upload hosts). All env-only. |
 | `video-templates/` | 40 single-file HTML video templates plus **`CATALOG.md`** — every slot and character limit. Each carries its own CSS and animation, but still `<link>`s its fonts from Google Fonts, so rendering needs network. 176 more are one command away. |
-| `skills/` | 11 Claude Code skills: **`bootstrap-content-agent`** (the meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`** — plus `registry.json`, which lists 13 more fetched on demand. |
+| `skills/` | 14 Claude Code skills: **`bootstrap-content-agent`** (the meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`**, **`new-template`**, **`motion-craft`**, **`geo-optimize`** — plus `registry.json`, which lists 15 more fetched on demand. |
 | `examples/ai-news-social/` | A complete worked example: an AI-news social agent (crawl → write → image → web + Make.com → cron). |
 | `examples/ai-video-social/` | The video counterpart: crawl → `script.json` → render 9:16 → TikTok / Shorts / Reels. |
 

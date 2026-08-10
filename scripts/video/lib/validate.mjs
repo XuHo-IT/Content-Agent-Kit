@@ -25,8 +25,10 @@ export const CRAFT_DEFAULTS = {
   bodyWordsMin: 25, // one idea per scene, 6–10s on screen
   bodyWordsMax: 40,
   maxSameTemplate: 2, // variety: don't reuse one template for every body beat
-  // Either the designed opener, or footage with the hook line over it.
-  hookTemplates: ["frame-liquid-bg-hero", "frame-broll"],
+  // Either the designed opener, or footage with the hook line over it — or, when the story is
+  // WHERE, the map. A place-led video that opens on a title card has spent its hook on the one
+  // thing the viewer already knows; the `local` genre in VIDEO_GENRES opens on the place.
+  hookTemplates: ["frame-liquid-bg-hero", "frame-broll", "frame-geo-markers"],
   outroTemplates: ["frame-logo-outro", "frame-statement-outro"],
 };
 

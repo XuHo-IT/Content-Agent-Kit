@@ -110,7 +110,9 @@ From `templates/` + `scripts/`, produce:
 - **On Claude Code**: copy the runtime skills into `.claude/skills/`: `daily-run`,
   `review-gate`, `crawl-and-queue` (if crawling), `audit-and-fix`, plus `create-video` and
   `video-and-post` and `research-and-capture` if the agent makes videos, `ads-report` (it works with no ad spend too — pasted numbers), `repurpose` if they publish
-  to more than one channel, and
+  to more than one channel, `geo-optimize` if anything they publish is meant to be found —
+  it carries `scripts/geo-audit.mjs`, which gates a draft on whether a passage still means
+  anything once an answer engine quotes it alone — and
   `design-campaign` if Canva is connected.
   `new-template` and `motion-craft` belong in a kit checkout rather than a generated agent:
   they edit `video-templates/` and the gates around it, which a downstream agent does not own.
