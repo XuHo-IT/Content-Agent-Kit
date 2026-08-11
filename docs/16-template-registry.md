@@ -4,7 +4,7 @@
 
 The kit ships 40 scene templates. The upstream **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) publishes
-**176 more** — pull any of them without hand-copying files:
+**367 more** — pull any of them without hand-copying files:
 
 ```bash
 node scripts/video/add-template.mjs --list                    # everything available
@@ -17,9 +17,9 @@ node scripts/video/add-template.mjs --preset news             # a curated set
 
 | Type | Count | What it is |
 |---|---|---|
-| `example` | 8 | complete templates: vignelli, kinetic-type, swiss-grid, nyt-graph, play-mode, warm-grain, product-promo, decision-tree |
-| `block` | 132 | 33 `code-*` (snippet themes, diffs, scroll) · 13 `transitions-*` · 10 `lt-*` lower-thirds · 7 `vfx-*` · 7 `mk-*` · 6 each `hw-*` and `yt-*` · 4 each `liquid-*` and `us-*` · plus `news-ticker` `data-chart` `world-map` `x-post` `reddit-post` `light-leak` `glitch` `cinematic-zoom` and device mockups |
-| `component` | 36 | 16 `caption-*` animated caption styles · 5 `hw-*` · 4 `yt-*` · 2 each `mk-*` and `parallax-*` · plus `grain-overlay` `vignette` `motion-blur` `shimmer-sweep` `texture` |
+| `example` | 9 | complete templates: vignelli, kinetic-type, swiss-grid, nyt-graph, play-mode, warm-grain, product-promo, decision-tree |
+| `block` | 145 | 33 `code-*` (snippet themes, diffs, scroll) · 13 `transitions-*` · 10 `lt-*` lower-thirds · 7 `vfx-*` · 7 `mk-*` · 6 each `hw-*` and `yt-*` · 4 each `liquid-*` and `us-*` · plus `news-ticker` `data-chart` `world-map` `x-post` `reddit-post` `light-leak` `glitch` `cinematic-zoom` and device mockups |
+| `component` | 213 | 16 `caption-*` animated caption styles · 5 `hw-*` · 4 `yt-*` · 2 each `mk-*` and `parallax-*` · plus `grain-overlay` `vignette` `motion-blur` `shimmer-sweep` `texture` |
 
 The three **counts** above are checked daily and corrected automatically; the prose beside
 them is not — a family breakdown is not something a regex can keep true. Re-derive it from
@@ -114,7 +114,7 @@ what the generated `NOTICE.md` is for — **do not delete it**. See the root `NO
 
 Kit có sẵn 40 template cho scene. Kho **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) có thêm
-**176 mục** — kéo về bằng lệnh, không phải chép tay. Xem các lệnh ở bản EN.
+**367 mục** — kéo về bằng lệnh, không phải chép tay. Xem các lệnh ở bản EN.
 
 ### Ba nhóm — chỉ một nhóm là template cho scene
 
