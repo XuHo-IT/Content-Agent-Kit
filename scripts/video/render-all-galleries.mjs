@@ -1,5 +1,10 @@
 import { run } from "./lib/proc.mjs";
 
+if (process.argv.includes("--help") || process.argv.includes("-h")) {
+  console.log("Usage: node scripts/video/render-all-galleries.mjs\n\nBatch renders all 9 gallery contact sheets for the documentation.");
+  process.exit(0);
+}
+
 const SHEETS = [
   { name: "hooks", args: ["--preset", "hooks", "--per-row", "8", "--width", "220", "--out", "examples/gallery/gallery-hooks.jpg"] },
   { name: "vox", args: ["--preset", "vox", "--per-row", "9", "--width", "200", "--out", "examples/gallery/gallery-vox.jpg"] },

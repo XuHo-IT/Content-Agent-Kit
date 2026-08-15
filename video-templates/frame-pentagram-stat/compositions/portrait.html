@@ -441,7 +441,7 @@
             })();
 
             window.__timelines = window.__timelines || {};
-            window.__timelines["main"] = {
+            window.__timelines["main"] = window.__timelines["portrait"] = {
                 pause: function () {},
                 seek: function (t) {
                     _fwMs = (t || 0) * 1000;

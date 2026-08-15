@@ -133,7 +133,7 @@ html, body { width: 1920px; height: 1080px; }
                 setOrDrop(".caption", v.caption);
             })();
             window.__timelines = window.__timelines || {};
-            window.__timelines["main"] = {
+            window.__timelines["main"] = window.__timelines["portrait"] = {
                 pause: function () {},
                 seek: function () {},
                 paused: function () { return true; },

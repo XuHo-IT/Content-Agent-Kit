@@ -120,7 +120,7 @@ html, body { width: 1920px; height: 1080px; }
                 if (!items.length) drop(".line");
             })();
             window.__timelines = window.__timelines || {};
-            window.__timelines["main"] = {
+            window.__timelines["main"] = window.__timelines["portrait"] = {
                 pause: function () {},
                 seek: function () {},
                 paused: function () { return true; },
