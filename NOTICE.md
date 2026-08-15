@@ -119,7 +119,13 @@ Sixty-three are original to content-agent-kit (MIT, same as this repo):
 `frame-math-manim` · `frame-diagram-flowchart` · `frame-whiteboard-doodle` · `frame-fitness-workout` ·
 `frame-canvas-gauge-dial` · `frame-3d-perspective-card` · `frame-presentation-slide` · `frame-2d-sprite-mascot` ·
 `frame-vox-declassified` · `frame-vox-newspaper-tear` · `frame-geo-heatmap` · `frame-geo-sonar-radar` ·
-`frame-math-graph-plot` · `frame-math-matrix-calc` · `frame-hybrid-vox-geo` · `frame-hybrid-math-diagram`
+`frame-math-graph-plot` · `frame-math-matrix-calc` · `frame-hybrid-vox-geo` · `frame-hybrid-math-diagram` ·
+`frame-stock-candlestick` · `frame-crypto-orderbook` · `frame-wealth-compound` · `frame-portfolio-donut` · `frame-inflation-purchasing-power` ·
+`frame-iceberg-levels` · `frame-brain-synapse` · `frame-habit-loop` · `frame-dna-helix-breakdown` · `frame-bell-curve-iq` ·
+`frame-magnates-polaroid-desk` · `frame-stock-ticker-tape` · `frame-timeline-war-era` · `frame-document-redacted` · `frame-money-flow-conduit` ·
+`frame-tier-list` · `frame-notification-stack` · `frame-poll-voting` · `frame-speedrun-timer` · `frame-card-pack-opening` ·
+`frame-saas-pricing-tier` · `frame-api-request-response` · `frame-diff-code-editor` · `frame-git-branch-graph` · `frame-ai-benchmark-leaderboard` ·
+`frame-pros-cons-scale` · `frame-receipt-slip` · `frame-unboxing-specs` · `frame-radar-rating-star` · `frame-discount-coupon-tear`
 
 `frame-3d-spotlight` was written after reading how vibe-motion's `light-spotlight-render`
 describes the effect. No code was taken: that repository publishes no licence, and this kit
@@ -154,7 +160,7 @@ the lock file is what makes a render reproducible. One frame is the exception:
 | `examples/gallery/screenshot-still.jpg` | a capture of [github.com/XuHo-IT/RAG-EVAL-VN](https://github.com/XuHo-IT/RAG-EVAL-VN), a repository of this project's own | MIT, same owner |
 
 Both exist for one job: standing in for the media slot of the four footage-led templates in
-`examples/gallery/templates.jpg`, so the catalogue does not show four holes. Attribution is
+`examples/gallery/gallery-ui.jpg`, so the catalogue does not show four holes. Attribution is
 not required by the Pexels License; it is here because a committed frame of someone's work
 should be traceable to them without opening a lock file.
 

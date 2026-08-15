@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Product Showcase 4-Point Specs · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #FAFAFA; }
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #FAFAFA;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 120px;
+    }
+    
+      .ub-header { text-align: center; margin-bottom: 24px; }
+      .p-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 40px; color: #0F172A; font-weight: 800; }
+      .ub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+      .ub-spec { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.04); }
+      .s-text { font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #1E293B; font-weight: 600; }
+      .ub-verdict { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #0F172A; background: #E0E7FF; border: 1px solid #6366F1; padding: 14px; text-align: center; border-radius: 8px; font-weight: 700; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"product_name":"FLAGSHIP PRO MAX (2026)","spec_chip":"Chip M4 Ultra 3nm","spec_battery":"Pin 5,000 mAh · Sạc 100W","spec_screen":"OLED 6.8 inch 2000 nits","spec_weight":"Trọng lượng 185g siêu nhẹ","verdict":"Thiết bị dẫn đầu toàn diện về cấu hình."}'>
+    
+      <div class="ub-header">
+        <h1 class="p-name" data-slot="product_name"></h1>
+      </div>
+      <div class="ub-grid">
+        <div class="ub-spec s1">
+          <div class="s-text" data-slot="spec_chip"></div>
+        </div>
+        <div class="ub-spec s2">
+          <div class="s-text" data-slot="spec_battery"></div>
+        </div>
+        <div class="ub-spec s3">
+          <div class="s-text" data-slot="spec_screen"></div>
+        </div>
+        <div class="ub-spec s4">
+          <div class="s-text" data-slot="spec_weight"></div>
+        </div>
+      </div>
+      <div class="ub-verdict" data-slot="verdict"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

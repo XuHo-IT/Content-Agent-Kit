@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Habit Loop 4-Quadrant · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0D111A; }
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #0D111A;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 120px;
+    }
+    
+      .habit-header { text-align: center; margin-bottom: 24px; }
+      .h-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 42px; color: #FFF; font-weight: 800; }
+      .habit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+      .h-card { background: #161F30; border: 1px solid #1E293B; border-radius: 12px; padding: 20px; display: flex; align-items: center; }
+      .c-cue { border-left: 6px solid #38BDF8; }
+      .c-craving { border-left: 6px solid #A855F7; }
+      .c-response { border-left: 6px solid #F59E0B; }
+      .c-reward { border-left: 6px solid #10B981; }
+      .h-text { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #E2E8F0; font-weight: 600; }
+      .h-key { font-family: 'Be Vietnam Pro', sans-serif; font-size: 24px; color: #38BDF8; background: rgba(56,189,248,0.12); border: 1px solid #38BDF8; padding: 14px; text-align: center; border-radius: 10px; font-weight: 700; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"VÒNG LẶP 4 BƯỚC CỦA MỌI THÓI QUEN","cue":"1. GỢI Ý: Chuông thông báo reo","craving":"2. KHAO KHÁT: Muốn biết ai nhắn gì","response":"3. HÀNH ĐỘNG: Cầm điện thoại mở khóa","reward":"4. PHẦN THƯỞNG: Đọc tin nhắn (Dopamine)","key_point":"Muốn bỏ thói quen xấu: Cắt đứt bước Gợi Ý."}'>
+    
+      <div class="habit-header">
+        <h1 class="h-title" data-slot="headline"></h1>
+      </div>
+      <div class="habit-grid">
+        <div class="h-card c-cue">
+          <div class="h-text" data-slot="cue"></div>
+        </div>
+        <div class="h-card c-craving">
+          <div class="h-text" data-slot="craving"></div>
+        </div>
+        <div class="h-card c-response">
+          <div class="h-text" data-slot="response"></div>
+        </div>
+        <div class="h-card c-reward">
+          <div class="h-text" data-slot="reward"></div>
+        </div>
+      </div>
+      <div class="h-key" data-slot="key_point"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

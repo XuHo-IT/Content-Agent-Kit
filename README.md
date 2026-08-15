@@ -17,7 +17,7 @@
 
 ---
 
-Bộ kit giúp các IDE agentic (**Claude Code**, **Antigravity / Gemini**) tự động thiết lập và vận hành một AI Content Agent hoàn chỉnh: từ tìm kiếm ý tưởng, soạn thảo, thẩm định chất lượng, đăng mạng xã hội đến **dựng video ngắn 9:16 chất lượng cao** với 74 template HTML động, giọng đọc TTS tự nhiên, B-roll và chụp màn hình thực tế.
+Bộ kit giúp các IDE agentic (**Claude Code**, **Antigravity / Gemini**) tự động thiết lập và vận hành một AI Content Agent hoàn chỉnh: từ tìm kiếm ý tưởng, soạn thảo, thẩm định chất lượng, đăng mạng xã hội đến **dựng video ngắn 9:16 chất lượng cao** với 104 template HTML động, giọng đọc TTS tự nhiên, B-roll và chụp màn hình thực tế.
 
 ## Xem nhanh kết quả mẫu
 
@@ -26,7 +26,7 @@ Bộ kit giúp các IDE agentic (**Claude Code**, **Antigravity / Gemini**) tự
 | 📄 **Bài viết** | [Bài viết mẫu](examples/ai-news-social/sample-output/) — 951 từ chuẩn SEO/GEO, kèm comment tương tác và bảng kiểm định chất lượng |
 | 🖼️ **Ảnh bìa** | [Ảnh cover](examples/ai-news-social/sample-output/cover.jpg) — 1024×1024 đồng bộ phong cách bài viết |
 | 🎬 **Video 9:16** | [Video mẫu](examples/ai-video-social/sample-output/) — 2 phút 12 giây, giọng đọc Vbee, footage Pexels, chụp web trực tiếp |
-| 🎨 **Theme đổi màu** | [Bản paper-blue](examples/ai-video-social/sample-output-paper-blue/) — 16 scene, dùng 14 trong số 74 template, đổi sang nền trắng chữ xanh biển qua `"theme": "paper-blue"` |
+| 🎨 **Theme đổi màu** | [Bản paper-blue](examples/ai-video-social/sample-output-paper-blue/) — 16 scene, dùng 14 trong số 104 template, đổi sang nền trắng chữ xanh biển qua `"theme": "paper-blue"` |
 
 > **Tải video mẫu MP4:** [Releases v0.1.0](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0) hoặc render bằng lệnh:
 > `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
@@ -39,9 +39,9 @@ Bộ kit giúp các IDE agentic (**Claude Code**, **Antigravity / Gemini**) tự
 
 ---
 
-## Thư viện 74 Video Template (Phân loại theo chức năng)
+## Thư viện 104 Video Template (Phân loại theo chức năng)
 
-Toàn bộ 74 template được chia thành **8 danh mục trực quan** với màu sắc và phong cách thiết kế riêng biệt:
+Toàn bộ 104 template được chia thành **14 danh mục trực quan** với màu sắc và phong cách thiết kế riêng biệt:
 
 ### 1. 🌟 Khung Mở Đầu & Hook Thu Hút (Hooks & Heroes — 8 template)
 [![Khung Mở Đầu & Hook](examples/gallery/gallery-hooks.jpg)](video-templates/CATALOG.md)
@@ -75,6 +75,30 @@ Toàn bộ 74 template được chia thành **8 danh mục trực quan** với m
 [![Template Hybrid](examples/gallery/gallery-hybrid.jpg)](video-templates/CATALOG.md)
 *Gồm: `frame-hybrid-vox-geo` (Báo chí Vox + Bản đồ Radar vệ tinh), `frame-hybrid-math-diagram` (Kiến trúc hệ thống + Đạo hàm giải tích Manim).*
 
+### 9. 📈 Tài Chính, Crypto & Kinh Tế (FinTech & Trading — 5 template)
+[![Tài Chính & Crypto](examples/gallery/gallery-fintech.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-stock-candlestick`, `frame-crypto-orderbook`, `frame-wealth-compound`, `frame-portfolio-donut`, `frame-inflation-purchasing-power`.*
+
+### 10. 🧠 Khoa Học Não Bộ, Tâm Lý Học & Giáo Dục (Science & Psychology — 5 template)
+[![Khoa Học & Tâm Lý Học](examples/gallery/gallery-science.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-iceberg-levels`, `frame-brain-synapse`, `frame-habit-loop`, `frame-dna-helix-breakdown`, `frame-bell-curve-iq`.*
+
+### 11. 🕵️‍♂️ Phim Tài Liệu, Lịch Sử & Điều Tra Kinh Doanh (Documentary & Crime — 5 template)
+[![Phim Tài Liệu & Điều Tra](examples/gallery/gallery-documentary.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-magnates-polaroid-desk`, `frame-stock-ticker-tape`, `frame-timeline-war-era`, `frame-document-redacted`, `frame-money-flow-conduit`.*
+
+### 12. 🎮 Gamification, Tương Tác & Giữ Chân Cao (Viral Retention Hooks — 5 template)
+[![Gamification & Viral Hooks](examples/gallery/gallery-viral.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-tier-list`, `frame-notification-stack`, `frame-poll-voting`, `frame-speedrun-timer`, `frame-card-pack-opening`.*
+
+### 13. 💻 SaaS, AI Tooling & Kỹ Thuật Lập Trình (Dev & Tech Explainers — 5 template)
+[![SaaS & Kỹ Thuật Lập Trình](examples/gallery/gallery-saas.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-saas-pricing-tier`, `frame-api-request-response`, `frame-diff-code-editor`, `frame-git-branch-graph`, `frame-ai-benchmark-leaderboard`.*
+
+### 14. ⚖️ Đánh Giá, Review & Thương Mại Điện Tử (E-Commerce & Reviews — 5 template)
+[![Đánh Giá & Thương Mại Điện Tử](examples/gallery/gallery-ecommerce.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-pros-cons-scale`, `frame-receipt-slip`, `frame-unboxing-specs`, `frame-radar-rating-star`, `frame-discount-coupon-tear`.*
+
 > Chi tiết tham số slots và giới hạn ký tự: **[`video-templates/CATALOG.md`](video-templates/CATALOG.md)**.
 > Xem cấu trúc kịch bản theo 12 thể loại video: **[`docs/21-video-genres.md`](docs/21-video-genres.md)** & **[`templates/VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**.
 
@@ -87,7 +111,7 @@ Toàn bộ 74 template được chia thành **8 danh mục trực quan** với m
 | `docs/` | 22 tài liệu phương pháp luận ngắn gọn (bilingual EN + VI): viết bài chuẩn SEO, GEO audit, pipeline video, media stock, palette website, MCP quảng cáo/Canva |
 | `templates/` | Khung mẫu điền sẵn: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 ngành) |
 | `scripts/` | Công cụ CLI hoàn chỉnh (Zero dependency): crawl ý tưởng, publish social, kiểm định bài viết, render video, tải B-roll Pexels, chụp ảnh web |
-| `video-templates/` | 74 template video HTML một-file cùng **`CATALOG.md`** — mỗi template tự chứa CSS và animation, render offline mượt mà. 176 template nữa chỉ cách một câu lệnh. |
+| `video-templates/` | 104 template video HTML một-file cùng **`CATALOG.md`** — mỗi template tự chứa CSS và animation, render offline mượt mà. 176 template nữa chỉ cách một câu lệnh. |
 | `skills/` | 14 skill tích hợp: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template` + `registry.json` (23 skill ngoài tải theo yêu cầu). |
 | `examples/` | 2 agent mẫu chạy thực tế: Agent tin tức social và Agent sản xuất video ngắn |
 
@@ -124,7 +148,7 @@ node scripts/video/contact-sheet.mjs brain/<slug>/video.mp4
 | **Cảnh quay & Ảnh thật** | Tự động tải B-roll Pexels/Pixabay và chụp ảnh website thực tế qua headless Chrome |
 | **Phụ đề & Chuyển cảnh** | Đốt phụ đề trực tiếp (`--captions burn`), 5 hiệu ứng chuyển cảnh điện ảnh mượt mà |
 | **Bảng màu tự động** | Trích xuất bảng màu thương hiệu từ website bất kỳ bằng `theme-from-url.mjs` |
-| **74 template, 12 thể loại** | Hỗ trợ 12 thể loại video: Review, Hướng dẫn, Tin tức, Listicle, Ra mắt, Testimonial, Local GEO, Vox Explainer, Toán học, Kiến trúc, Du lịch |
+| **104 template, 12 thể loại** | Hỗ trợ 12 thể loại video: Review, Hướng dẫn, Tin tức, Listicle, Ra mắt, Testimonial, Local GEO, Vox Explainer, Toán học, Kiến trúc, Du lịch |
 | **Kiểm định GEO/SEO** | `geo-audit.mjs` tự động chấm điểm khả năng trích dẫn bài viết của các công cụ tìm kiếm AI (SearchGPT, Perplexity, Google Overviews) |
 
 ---

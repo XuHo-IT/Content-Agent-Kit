@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>Viral Tier List Ranker (S-A-B-C-D) · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #181124; }
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      background: #181124;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 60px;
+    }
+    
+      .tl-header { text-align: center; margin-bottom: 24px; }
+      .tl-title { font-family: 'Montserrat', sans-serif; font-size: 42px; color: #FFE600; font-weight: 900; text-shadow: 0 0 20px rgba(255,230,0,0.4); }
+      .tier-board { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+      .tier-row { background: #261B38; border-radius: 8px; overflow: hidden; border: 1px solid #44325E; padding: 14px 20px; }
+      .row-s { border-left: 8px solid #FF3B30; }
+      .row-a { border-left: 8px solid #FF9500; }
+      .row-b { border-left: 8px solid #FFCC00; }
+      .tier-items { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #F3F4F6; font-weight: 600; }
+      .tl-verdict { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #FFF; background: #FF0055; padding: 14px; text-align: center; border-radius: 8px; font-weight: 700; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"XẾP HẠNG CÔNG CỤ AI NĂM 2026","tier_s":"S: Claude 3.7 Sonnet, DeepSeek V3","tier_a":"A: GPT-4.5, Gemini 2.0 Pro","tier_b":"B: Copilot, Perplexity","verdict":"Tier S thống trị tuyệt đối về khả năng coding."}'>
+    
+      <div class="tl-header">
+        <h1 class="tl-title" data-slot="headline"></h1>
+      </div>
+      <div class="tier-board">
+        <div class="tier-row row-s">
+          <div class="tier-items" data-slot="tier_s"></div>
+        </div>
+        <div class="tier-row row-a">
+          <div class="tier-items" data-slot="tier_a"></div>
+        </div>
+        <div class="tier-row row-b">
+          <div class="tier-items" data-slot="tier_b"></div>
+        </div>
+      </div>
+      <div class="tl-verdict" data-slot="verdict"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

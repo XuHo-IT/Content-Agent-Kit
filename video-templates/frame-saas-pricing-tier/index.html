@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>SaaS 3-Tier Pricing Table · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0F172A; }
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #0F172A;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 120px;
+    }
+    
+      .pricing-header { text-align: center; margin-bottom: 24px; }
+      .p-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 40px; color: #FFF; font-weight: 800; }
+      .pricing-grid { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 14px; align-items: center; margin-bottom: 20px; }
+      .tier-card { background: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 24px; text-align: center; }
+      .tier-card.popular { background: #1E1B4B; border: 2px solid #6366F1; box-shadow: 0 0 25px rgba(99,102,241,0.3); }
+      .t-desc { font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #CBD5E1; line-height: 1.5; font-weight: 600; }
+      .pricing-note { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #A5B4FC; background: rgba(99,102,241,0.15); border: 1px solid #6366F1; padding: 14px; text-align: center; border-radius: 8px; font-weight: 600; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"CHỌN GÓI PHÙ HỢP VỚI BẠN","plan_free":"FREE: $0/tháng (1 Agent, 10 Video)","plan_pro":"PRO: $29/tháng (Không giới hạn + TTS cao cấp)","plan_ent":"ENTERPRISE: Custom (Dedicated Support)","highlight_note":"Gói PRO được 85% creator lựa chọn sử dụng."}'>
+    
+      <div class="pricing-header">
+        <h1 class="p-title" data-slot="headline"></h1>
+      </div>
+      <div class="pricing-grid">
+        <div class="tier-card t-free">
+          <div class="t-desc" data-slot="plan_free"></div>
+        </div>
+        <div class="tier-card t-pro popular">
+          <div class="t-desc" data-slot="plan_pro"></div>
+        </div>
+        <div class="tier-card t-ent">
+          <div class="t-desc" data-slot="plan_ent"></div>
+        </div>
+      </div>
+      <div class="pricing-note" data-slot="highlight_note"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

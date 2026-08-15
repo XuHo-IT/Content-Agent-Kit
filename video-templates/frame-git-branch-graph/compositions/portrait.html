@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>Git Branching Workflow Graph · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0D1117; }
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      background: #0D1117;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 60px;
+    }
+    
+      .git-header { text-align: center; margin-bottom: 24px; }
+      .git-title { font-family: 'Be Vietnam Pro', sans-serif; font-size: 40px; color: #FFF; font-weight: 700; }
+      .git-tree-card { background: #161B22; border: 1px solid #30363D; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 18px; margin-bottom: 20px; }
+      .branch-row { display: flex; align-items: center; gap: 16px; font-family: 'JetBrains Mono'; font-size: 20px; }
+      .commit-dot { width: 16px; height: 16px; border-radius: 50%; }
+      .dot-main { background: #38BDF8; box-shadow: 0 0 10px #38BDF8; }
+      .dot-staging { background: #A855F7; box-shadow: 0 0 10px #A855F7; }
+      .dot-feat { background: #10B981; box-shadow: 0 0 10px #10B981; }
+      .b-txt { color: #E6EDF3; }
+      .git-status { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #38BDF8; background: rgba(56,189,248,0.12); border: 1px solid #38BDF8; padding: 14px; text-align: center; border-radius: 8px; font-weight: 600; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"QUY TRÌNH PHÁT HÀNH CODE CHUẨN","branch_main":"main (Production) · v2.4.0 Live","branch_staging":"staging (Review Gate & Test CI/CD)","branch_feature":"feat/video-render (Đang phát triển)","status":"Tự động merge sau khi pass 100% test."}'>
+    
+      <div class="git-header">
+        <h1 class="git-title" data-slot="headline"></h1>
+      </div>
+      <div class="git-tree-card">
+        <div class="branch-row b-main">
+          <span class="commit-dot dot-main"></span>
+          <span class="b-txt" data-slot="branch_main"></span>
+        </div>
+        <div class="branch-row b-staging">
+          <span class="commit-dot dot-staging"></span>
+          <span class="b-txt" data-slot="branch_staging"></span>
+        </div>
+        <div class="branch-row b-feat">
+          <span class="commit-dot dot-feat"></span>
+          <span class="b-txt" data-slot="branch_feature"></span>
+        </div>
+      </div>
+      <div class="git-status" data-slot="status"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

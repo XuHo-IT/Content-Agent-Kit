@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>Iceberg 3-Tier Explainer · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B132B; }
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      background: #0B132B;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 60px;
+    }
+    
+      .ice-header { text-align: center; margin-bottom: 24px; }
+      .ice-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 44px; color: #38BDF8; font-weight: 800; text-shadow: 0 0 25px rgba(56,189,248,0.4); }
+      .ice-levels { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; position: relative; }
+      .level-box { border-radius: 12px; padding: 16px 20px; }
+      .level-box.surface { background: #1C2541; border: 1px solid #38BDF8; }
+      .level-box.middle { background: #0B1D3A; border: 1px solid #1D4ED8; }
+      .level-box.deep { background: #050C1A; border: 1px solid #4338CA; }
+      .level-tag { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: #00E5FF; margin-bottom: 6px; letter-spacing: 1px; }
+      .level-desc { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #E2E8F0; }
+      .ice-takeaway { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #F8FAFC; background: rgba(56,189,248,0.12); border-left: 4px solid #38BDF8; padding: 14px 20px; border-radius: 8px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"TẢNG BĂNG CHÌM CỦA SỰ THÀNH CÔNG","tag_surface":"10% TRÊN MẶT NƯỚC","level_1":"TẦNG NỔI: Kết quả ai cũng thấy (Tiền tài, Danh tiếng, Xe sang)","tag_middle":"50% DƯỚI MẶT NƯỚC","level_2":"TẦNG TRUNG: Kỷ luật ngầm (Thức khuya dậy sớm, Bị từ chối 100 lần)","tag_deep":"40% ĐÁY TỐI SÂU THẲM","level_3":"ĐÁY SÂU: Nỗi đau & Hy sinh (Cô độc, Nghi ngờ bản thân, Rủi ro phá sản)","takeaway":"Đừng so sánh hậu trường của bạn với sân khấu của người khác."}'>
+    
+      <div class="ice-header">
+        <h1 class="ice-title" data-slot="headline"></h1>
+      </div>
+      <div class="ice-levels">
+        <div class="level-box surface">
+          <div class="level-tag" data-slot="tag_surface"></div>
+          <div class="level-desc" data-slot="level_1"></div>
+        </div>
+        <div class="level-box middle">
+          <div class="level-tag" data-slot="tag_middle"></div>
+          <div class="level-desc" data-slot="level_2"></div>
+        </div>
+        <div class="level-box deep">
+          <div class="level-tag" data-slot="tag_deep"></div>
+          <div class="level-desc" data-slot="level_3"></div>
+        </div>
+      </div>
+      <div class="ice-takeaway" data-slot="takeaway"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

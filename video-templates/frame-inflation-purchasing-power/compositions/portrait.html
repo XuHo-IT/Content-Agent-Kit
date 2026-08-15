@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>Inflation Purchasing Power · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Chakra+Petch:wght@700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #10131A; }
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      background: #10131A;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 60px;
+    }
+    
+      .inf-header { text-align: center; margin-bottom: 24px; }
+      .inf-headline { font-family: 'Alfa Slab One', cursive; font-size: 42px; color: #EF4444; line-height: 1.2; text-shadow: 0 0 20px rgba(239,68,68,0.3); }
+      .inf-subline { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #94A3B8; margin-top: 6px; }
+      .inf-timeline { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
+      .era-card { display: flex; align-items: center; gap: 16px; background: #1E293B; border-radius: 12px; padding: 16px 20px; border-left: 6px solid #64748B; }
+      .era-card.c1 { border-color: #10B981; }
+      .era-card.c2 { border-color: #F59E0B; }
+      .era-card.c3 { border-color: #EF4444; }
+      .era-desc { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #E2E8F0; }
+      .inf-insight { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #FCA5A5; background: rgba(239,68,68,0.15); border: 1px solid #EF4444; padding: 14px; text-align: center; border-radius: 10px; font-weight: 600; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"100K MUA ĐƯỢC GÌ THEO THỜI GIAN?","subline":"Sức mua thực tế bị bào mòn bởi lạm phát","era_1":"Năm 2000: Đổ đầy 10 bình xăng","era_2":"Năm 2015: Đổ được 4 bình xăng","era_3":"Năm 2026: Đổ chưa tới 1.5 bình","insight":"Tiền mặt để yên là tài sản tự bốc hơi mỗi năm."}'>
+    
+      <div class="inf-header">
+        <h1 class="inf-headline" data-slot="headline"></h1>
+        <p class="inf-subline" data-slot="subline"></p>
+      </div>
+      <div class="inf-timeline">
+        <div class="era-card c1">
+          <div class="era-desc" data-slot="era_1"></div>
+        </div>
+        <div class="era-card c2">
+          <div class="era-desc" data-slot="era_2"></div>
+        </div>
+        <div class="era-card c3">
+          <div class="era-desc" data-slot="era_3"></div>
+        </div>
+      </div>
+      <div class="inf-insight" data-slot="insight"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

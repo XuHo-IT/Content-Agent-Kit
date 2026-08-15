@@ -2,7 +2,7 @@
 
 ## English
 
-The kit ships 74 scene templates. The upstream **HyperFrames registry**
+The kit ships 104 scene templates. The upstream **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) publishes
 **176 more** — pull any of them without hand-copying files:
 
@@ -112,7 +112,7 @@ what the generated `NOTICE.md` is for — **do not delete it**. See the root `NO
 
 ## Tiếng Việt
 
-Kit có sẵn 74 template cho scene. Kho **HyperFrames registry**
+Kit có sẵn 104 template cho scene. Kho **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) có thêm
 **176 mục** — kéo về bằng lệnh, không phải chép tay. Xem các lệnh ở bản EN.
 

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Brain Synapse Neural Activation · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0B0C16; }
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #0B0C16;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 120px;
+    }
+    
+      .brain-header { text-align: center; margin-bottom: 24px; }
+      .b-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 44px; color: #A855F7; font-weight: 800; text-shadow: 0 0 20px rgba(168,85,247,0.3); }
+      .mol-badge { background: #2E1065; color: #D8B4FE; font-family: 'Plus Jakarta Sans'; font-size: 18px; font-weight: 700; padding: 4px 14px; border-radius: 20px; border: 1px solid #7C3AED; display: inline-block; margin-top: 8px; }
+      .brain-visual-card { background: #131127; border: 1px solid #3B0764; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+      .synapse-nodes { display: flex; justify-content: space-around; margin-bottom: 24px; }
+      .node { background: #1F1D36; border: 2px solid #7C3AED; color: #FFF; font-family: 'Plus Jakarta Sans'; font-size: 18px; font-weight: 700; padding: 12px 18px; border-radius: 30px; position: relative; }
+      .node.active { border-color: #EC4899; color: #F472B6; box-shadow: 0 0 15px rgba(236,72,153,0.5); }
+      .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .info-col { background: #181530; padding: 16px; border-radius: 10px; border-left: 4px solid #A855F7; }
+      .col-val { font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #E2E8F0; margin-top: 6px; }
+      .brain-warning { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #F472B6; background: rgba(236,72,153,0.12); border: 1px solid #EC4899; padding: 14px 20px; border-radius: 10px; text-align: center; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"HIỆU ỨNG DOPAMINE TRONG NÃO BỘ","molecule":"DOPAMINE (C8H11NO2)","node_1":"Thèm muốn","node_2":"Kích thích","node_3":"Thỏa mãn ngắn hạn","trigger":"Kích hoạt: Thông báo điện thoại, Lướt video ngắn","reaction":"Vỏ não trước trán giảm tập trung 40%","warning":"Cơn nghiện dopamine rẻ tiền bào mòn ý chí dài hạn."}'>
+    
+      <div class="brain-header">
+        <h1 class="b-title" data-slot="headline"></h1>
+        <span class="mol-badge" data-slot="molecule"></span>
+      </div>
+      <div class="brain-visual-card">
+        <div class="synapse-nodes">
+          <div class="node n1"><span data-slot="node_1"></span></div>
+          <div class="node n2"><span data-slot="node_2"></span></div>
+          <div class="node n3 active"><span data-slot="node_3"></span></div>
+        </div>
+        <div class="info-grid">
+          <div class="info-col trigger-box">
+            <p class="col-val" data-slot="trigger"></p>
+          </div>
+          <div class="info-col reaction-box">
+            <p class="col-val" data-slot="reaction"></p>
+          </div>
+        </div>
+      </div>
+      <div class="brain-warning" data-slot="warning"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

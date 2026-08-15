@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Push Notification Cascading Stack · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0B0813; }
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #0B0813;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 120px;
+    }
+    
+      .phone-screen-wrap { background: rgba(30,20,50,0.6); border: 2px solid #581C87; border-radius: 20px; padding: 24px; margin-bottom: 20px; backdrop-filter: blur(10px); }
+      .phone-clock { text-align: center; font-family: 'Plus Jakarta Sans'; font-size: 54px; font-weight: 800; color: #FFF; margin-bottom: 20px; }
+      .noti-stack { display: flex; flex-direction: column; gap: 12px; }
+      .noti-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 16px 20px; }
+      .noti-text { font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #FFF; font-weight: 600; }
+      .noti-hook { font-family: 'Be Vietnam Pro', sans-serif; font-size: 24px; color: #F0ABFC; background: #581C87; padding: 14px; text-align: center; border-radius: 10px; font-weight: 700; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"phone_time":"09:41","noti_1":"Stripe: Bạn vừa nhận $4,250.00 từ khách hàng A","noti_2":"X (Twitter): Bài viết của bạn đã vượt 100,000 lượt xem","noti_3":"Discord: 45 thành viên mới vừa tham gia server","proof_hook":"Kết quả sau 14 ngày áp dụng chiến lược Content Agent."}'>
+    
+      <div class="phone-screen-wrap">
+        <div class="phone-clock" data-slot="phone_time"></div>
+        <div class="noti-stack">
+          <div class="noti-card n-stripe">
+            <div class="noti-text" data-slot="noti_1"></div>
+          </div>
+          <div class="noti-card n-x">
+            <div class="noti-text" data-slot="noti_2"></div>
+          </div>
+          <div class="noti-card n-discord">
+            <div class="noti-text" data-slot="noti_3"></div>
+          </div>
+        </div>
+      </div>
+      <div class="noti-hook" data-slot="proof_hook"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

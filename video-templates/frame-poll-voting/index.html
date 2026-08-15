@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Interactive Tug-of-War Community Poll · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #150C22; }
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #150C22;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 120px;
+    }
+    
+      .poll-header { text-align: center; margin-bottom: 24px; }
+      .poll-q { font-family: 'Montserrat', sans-serif; font-size: 40px; color: #FFF; font-weight: 900; }
+      .poll-card { display: flex; flex-direction: column; gap: 16px; margin-bottom: 24px; }
+      .poll-bar { background: #26183C; border: 2px solid #4C2882; border-radius: 12px; height: 70px; position: relative; overflow: hidden; display: flex; align-items: center; padding: 0 20px; }
+      .bar-fill { position: absolute; left: 0; top: 0; bottom: 0; opacity: 0.3; }
+      .fill-a { background: #94A3B8; }
+      .fill-b { background: #00E676; opacity: 0.4; }
+      .poll-bar.winning { border-color: #00E676; }
+      .poll-label { position: relative; z-index: 2; font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #FFF; font-weight: 700; }
+      .poll-cta { font-family: 'Be Vietnam Pro', sans-serif; font-size: 24px; color: #FFE600; background: #4C2882; padding: 14px; text-align: center; border-radius: 10px; font-weight: 700; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"question":"BẠN SẼ CHỌN MÔ HÌNH NÀO NĂM 2026?","option_a":"Option A: Tự làm thủ công (18%)","option_b":"Option B: Tự động bằng AI Agent (82%)","cta":"Bình luận AGENT để nhận bộ source code miễn phí!"}'>
+    
+      <div class="poll-header">
+        <h1 class="poll-q" data-slot="question"></h1>
+      </div>
+      <div class="poll-card">
+        <div class="poll-bar bar-a">
+          <div class="bar-fill fill-a" style="width: 18%;"></div>
+          <span class="poll-label" data-slot="option_a"></span>
+        </div>
+        <div class="poll-bar bar-b winning">
+          <div class="bar-fill fill-b" style="width: 82%;"></div>
+          <span class="poll-label" data-slot="option_b"></span>
+        </div>
+      </div>
+      <div class="poll-cta" data-slot="cta"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

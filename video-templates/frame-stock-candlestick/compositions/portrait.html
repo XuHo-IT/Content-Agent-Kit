@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>Stock Candlestick Chart · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Chakra+Petch:wght@500;700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B0E14; }
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      background: #0B0E14;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 60px;
+    }
+    
+      .header { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+      .ticker-box { display: flex; align-items: center; gap: 16px; }
+      .ticker-badge { background: #1F2937; color: #F3F4F6; font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; padding: 6px 16px; border-radius: 8px; border: 1px solid #374151; }
+      .price-val { font-family: 'Chakra Petch', sans-serif; font-size: 40px; font-weight: 700; color: #00E676; text-shadow: 0 0 20px rgba(0,230,118,0.3); }
+      .change-tag { background: rgba(0,230,118,0.15); color: #00E676; font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; padding: 4px 12px; border-radius: 6px; }
+      .kicker { font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #9CA3AF; letter-spacing: 2px; text-transform: uppercase; }
+      .headline { font-family: 'Chakra Petch', sans-serif; font-size: 48px; font-weight: 700; color: #FFFFFF; line-height: 1.2; }
+      .chart-canvas-wrap { background: #111827; border: 1px solid #1F2937; border-radius: 16px; padding: 30px; position: relative; height: 340px; overflow: hidden; margin-bottom: 24px; }
+      .chart-grid { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: space-between; border-left: 2px solid #374151; border-bottom: 2px solid #374151; }
+      .resistance-line { position: absolute; top: 30px; left: 0; right: 0; border-top: 2px dashed #EF4444; display: flex; justify-content: flex-end; }
+      .res-label { background: #EF4444; color: #FFF; font-size: 14px; font-family: 'JetBrains Mono'; padding: 2px 8px; border-radius: 4px; }
+      .candles { position: absolute; left: 40px; right: 40px; top: 0; bottom: 80px; display: flex; justify-content: space-around; align-items: flex-end; }
+      .candle { width: 36px; border-radius: 4px; position: relative; height: var(--h); margin-bottom: var(--top); }
+      .candle.green { background: #00E676; box-shadow: 0 0 15px rgba(0,230,118,0.4); }
+      .candle.red { background: #FF1744; box-shadow: 0 0 15px rgba(255,23,68,0.4); }
+      .candle::before { content: ''; position: absolute; left: 50%; top: -20px; bottom: -20px; width: 2px; transform: translateX(-50%); background: inherit; z-index: -1; }
+      .candle.breakout { animation: pulseBreakout 1.5s infinite alternate; }
+      @keyframes pulseBreakout { 0% { transform: scale(1); } 100% { transform: scale(1.08); filter: brightness(1.2); } }
+      .volume-bars { position: absolute; left: 40px; right: 40px; bottom: 10px; height: 60px; display: flex; justify-content: space-around; align-items: flex-end; }
+      .vol { width: 28px; height: var(--vh); background: rgba(156,163,175,0.3); border-radius: 4px; }
+      .vol.surge { background: #00E676; }
+      .footer-box { background: #161F30; border-left: 4px solid #00E676; padding: 18px 24px; border-radius: 8px; }
+      .indicator { font-family: 'JetBrains Mono', monospace; font-size: 22px; color: #38BDF8; font-weight: 700; margin-bottom: 6px; }
+      .summary { font-family: 'Be Vietnam Pro', sans-serif; font-size: 24px; color: #D1D5DB; line-height: 1.4; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"ticker":"BTC/USDT","price":"$96,450.00","change":"+14.2%","kicker":"PHÂN TÍCH KỸ THUẬT","headline":"Đột phá kháng cự then chốt","res_level":"Cản $95,000","indicator":"RSI 68.4 · Volume Spike +240%","summary":"Áp lực mua gom từ tổ chức đẩy giá vượt đỉnh 30 ngày."}'>
+    
+      <div class="header">
+        <div class="ticker-box">
+          <span class="ticker-badge" data-slot="ticker"></span>
+          <span class="price-val" data-slot="price"></span>
+          <span class="change-tag" data-slot="change"></span>
+        </div>
+        <div class="kicker" data-slot="kicker"></div>
+        <h1 class="headline" data-slot="headline"></h1>
+      </div>
+      <div class="chart-canvas-wrap">
+        <div class="chart-grid">
+          <div class="resistance-line"><span class="res-label" data-slot="res_level"></span></div>
+          <div class="candles">
+            <div class="candle red" style="--h: 40px; --top: 60px;"></div>
+            <div class="candle red" style="--h: 55px; --top: 80px;"></div>
+            <div class="candle green" style="--h: 65px; --top: 50px;"></div>
+            <div class="candle green" style="--h: 80px; --top: 35px;"></div>
+            <div class="candle green breakout" style="--h: 120px; --top: 10px;"><div class="sparkle"></div></div>
+          </div>
+          <div class="volume-bars">
+            <div class="vol" style="--vh: 20%;"></div>
+            <div class="vol" style="--vh: 35%;"></div>
+            <div class="vol" style="--vh: 50%;"></div>
+            <div class="vol" style="--vh: 65%;"></div>
+            <div class="vol surge" style="--vh: 95%;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-box">
+        <div class="indicator" data-slot="indicator"></div>
+        <p class="summary" data-slot="summary"></p>
+      </div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

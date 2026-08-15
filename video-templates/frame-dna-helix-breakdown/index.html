@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>DNA Helix Genetic Breakdown · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #080F1E; }
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #080F1E;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 120px;
+    }
+    
+      .dna-header { text-align: center; margin-bottom: 24px; }
+      .dna-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 42px; color: #00E5FF; font-weight: 800; }
+      .gene-badge { background: #132F4C; color: #38BDF8; font-family: 'Plus Jakarta Sans'; font-size: 18px; font-weight: 700; padding: 4px 14px; border-radius: 20px; border: 1px solid #0284C7; display: inline-block; margin-top: 8px; }
+      .dna-visual-box { background: #0D1E36; border: 1px solid #1E3A8A; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+      .dna-details { display: flex; flex-direction: column; gap: 12px; }
+      .d-val { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #E2E8F0; }
+      .dna-impact { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #F8FAFC; background: rgba(0,229,255,0.12); border-left: 4px solid #00E5FF; padding: 14px 20px; border-radius: 8px; font-weight: 600; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"CÔNG NGHỆ CHỈNH SỬA GEN CRISPR","target_gene":"Đoạn mã đột biến: CAS-9 TARGET #4","mechanism":"Cắt đứt đoạn ADN lỗi và thay thế bằng chuỗi chuẩn","application":"Điều trị bệnh di truyền & ung thư","impact":"Mở ra kỷ nguyên can thiệp sinh học trực tiếp."}'>
+    
+      <div class="dna-header">
+        <h1 class="dna-title" data-slot="headline"></h1>
+        <span class="gene-badge" data-slot="target_gene"></span>
+      </div>
+      <div class="dna-visual-box">
+        <div class="dna-details">
+          <div class="detail-row">
+            <p class="d-val" data-slot="mechanism"></p>
+          </div>
+          <div class="detail-row">
+            <p class="d-val" data-slot="application"></p>
+          </div>
+        </div>
+      </div>
+      <div class="dna-impact" data-slot="impact"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

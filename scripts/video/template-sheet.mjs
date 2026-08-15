@@ -62,6 +62,18 @@ const ROLE_ORDER = [
   "frame-product-reveal", "frame-logo-outro", "frame-statement-outro",
   // multi-skill hybrid frames
   "frame-hybrid-vox-geo", "frame-hybrid-math-diagram",
+  // fintech, crypto & trading
+  "frame-stock-candlestick", "frame-crypto-orderbook", "frame-wealth-compound", "frame-portfolio-donut", "frame-inflation-purchasing-power",
+  // science, psychology & edu-tech
+  "frame-iceberg-levels", "frame-brain-synapse", "frame-habit-loop", "frame-dna-helix-breakdown", "frame-bell-curve-iq",
+  // documentary, crime & business wars
+  "frame-magnates-polaroid-desk", "frame-stock-ticker-tape", "frame-timeline-war-era", "frame-document-redacted", "frame-money-flow-conduit",
+  // viral hooks & gamification
+  "frame-tier-list", "frame-notification-stack", "frame-poll-voting", "frame-speedrun-timer", "frame-card-pack-opening",
+  // saas, ai tooling & dev engineering
+  "frame-saas-pricing-tier", "frame-api-request-response", "frame-diff-code-editor", "frame-git-branch-graph", "frame-ai-benchmark-leaderboard",
+  // review, unboxing & e-commerce
+  "frame-pros-cons-scale", "frame-receipt-slip", "frame-unboxing-specs", "frame-radar-rating-star", "frame-discount-coupon-tear",
 ];
 
 const PRESETS = {
@@ -92,6 +104,24 @@ const PRESETS = {
   ],
   "hybrid": [
     "frame-hybrid-vox-geo", "frame-hybrid-math-diagram"
+  ],
+  "fintech": [
+    "frame-stock-candlestick", "frame-crypto-orderbook", "frame-wealth-compound", "frame-portfolio-donut", "frame-inflation-purchasing-power"
+  ],
+  "science": [
+    "frame-iceberg-levels", "frame-brain-synapse", "frame-habit-loop", "frame-dna-helix-breakdown", "frame-bell-curve-iq"
+  ],
+  "documentary": [
+    "frame-magnates-polaroid-desk", "frame-stock-ticker-tape", "frame-timeline-war-era", "frame-document-redacted", "frame-money-flow-conduit"
+  ],
+  "viral": [
+    "frame-tier-list", "frame-notification-stack", "frame-poll-voting", "frame-speedrun-timer", "frame-card-pack-opening"
+  ],
+  "saas": [
+    "frame-saas-pricing-tier", "frame-api-request-response", "frame-diff-code-editor", "frame-git-branch-graph", "frame-ai-benchmark-leaderboard"
+  ],
+  "ecommerce": [
+    "frame-pros-cons-scale", "frame-receipt-slip", "frame-unboxing-specs", "frame-radar-rating-star", "frame-discount-coupon-tear"
   ],
 };
 

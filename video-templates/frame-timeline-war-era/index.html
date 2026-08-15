@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Burnt Parchment Historical Timeline · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Special+Elite&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #181410; }
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #181410;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 120px;
+    }
+    
+      .war-header { text-align: center; margin-bottom: 26px; }
+      .war-title { font-family: 'Cinzel', serif; font-size: 42px; color: #F59E0B; font-weight: 700; letter-spacing: 1px; }
+      .war-timeline { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
+      .war-event { display: flex; align-items: center; }
+      .event-txt { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #E5E7EB; background: #261F17; padding: 14px 20px; border-radius: 8px; border-left: 6px solid #D97706; flex: 1; }
+      .war-conclusion { font-family: 'Special Elite', cursive; font-size: 22px; color: #FDE68A; background: rgba(217,119,6,0.15); border: 1px solid #D97706; padding: 14px 20px; text-align: center; border-radius: 8px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"DÒNG THỜI GIAN BIẾN CỐ LỊCH SỬ","event_1":"1997: Khủng hoảng tài chính Châu Á bùng nổ","event_2":"2008: Cú sụp đổ Lehman Brothers & bong bóng nhà đất","event_3":"2020: Đại dịch & đợt bơm tiền kỷ lục lịch sử","conclusion":"Lịch sử không lặp lại nguyên vẹn, nhưng luôn có cùng nhịp điệu."}'>
+    
+      <div class="war-header">
+        <h1 class="war-title" data-slot="headline"></h1>
+      </div>
+      <div class="war-timeline">
+        <div class="war-event">
+          <div class="event-txt" data-slot="event_1"></div>
+        </div>
+        <div class="war-event">
+          <div class="event-txt" data-slot="event_2"></div>
+        </div>
+        <div class="war-event">
+          <div class="event-txt" data-slot="event_3"></div>
+        </div>
+      </div>
+      <div class="war-conclusion" data-slot="conclusion"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

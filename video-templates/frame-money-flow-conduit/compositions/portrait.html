@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>Offshore Money Flow Conduit · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0D1117; }
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      background: #0D1117;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 60px;
+    }
+    
+      .mf-header { text-align: center; margin-bottom: 24px; }
+      .mf-title { font-family: 'Chakra Petch', sans-serif; font-size: 40px; color: #FFF; font-weight: 700; }
+      .flow-chain { display: flex; justify-content: space-between; align-items: center; background: #161B22; border: 1px solid #30363D; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+      .chain-box { background: #21262D; border-radius: 10px; padding: 20px; text-align: center; width: 220px; border: 1px solid #30363D; }
+      .b-source { border-top: 4px solid #3B82F6; }
+      .b-conduit { border-top: 4px solid #F59E0B; }
+      .b-haven { border-top: 4px solid #10B981; }
+      .box-name { font-family: 'Be Vietnam Pro', sans-serif; font-size: 18px; color: #E6EDF3; font-weight: 600; }
+      .savings-badge { font-family: 'Chakra Petch', sans-serif; font-size: 26px; color: #10B981; background: rgba(16,185,129,0.15); border: 1px solid #10B981; padding: 14px; text-align: center; border-radius: 8px; font-weight: 700; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"ĐƯỜNG ĐI CỦA DÒNG TIỀN NÉ THUẾ","source_entity":"Tập Đoàn Mẹ (Hoa Kỳ)","conduit_entity":"Công Ty Trung Gian (Ireland)","tax_haven":"Thiên Đường Thuế (Bermuda)","savings":"Thuế thực nộp: Giảm từ 35% xuống 0.05%"}'>
+    
+      <div class="mf-header">
+        <h1 class="mf-title" data-slot="headline"></h1>
+      </div>
+      <div class="flow-chain">
+        <div class="chain-box b-source">
+          <div class="box-name" data-slot="source_entity"></div>
+        </div>
+        <div class="chain-box b-conduit">
+          <div class="box-name" data-slot="conduit_entity"></div>
+        </div>
+        <div class="chain-box b-haven">
+          <div class="box-name" data-slot="tax_haven"></div>
+        </div>
+      </div>
+      <div class="savings-badge" data-slot="savings"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

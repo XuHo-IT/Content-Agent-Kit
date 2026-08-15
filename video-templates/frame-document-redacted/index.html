@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Declassified Redacted Secret Document · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Cinzel:wght@700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #141414; }
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #141414;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 120px;
+    }
+    
+      .redact-header { text-align: center; margin-bottom: 24px; }
+      .stamp-top { font-family: 'Special Elite', cursive; color: #EF4444; border: 2px solid #EF4444; padding: 4px 16px; font-size: 18px; display: inline-block; transform: rotate(1deg); margin-bottom: 8px; }
+      .doc-title { font-family: 'Cinzel', serif; font-size: 38px; color: #F3F4F6; }
+      .document-sheet { background: #27272A; border: 1px solid #3F3F46; border-radius: 12px; padding: 26px; margin-bottom: 20px; }
+      .redact-line { position: relative; margin-bottom: 14px; }
+      .secret-revealed { font-family: 'Special Elite', cursive; font-size: 26px; color: #F87171; background: rgba(239,68,68,0.1); border-left: 4px solid #EF4444; padding: 8px 14px; }
+      .doc-body-txt { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #D4D4D8; line-height: 1.5; }
+      .doc-summary { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #FDE047; background: rgba(234,179,8,0.12); border: 1px solid #EAB308; padding: 14px 20px; border-radius: 8px; text-align: center; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"classification":"TOP SECRET // DECLASSIFIED","doc_title":"BÁO CÁO THẨM ĐỊNH NỘI BỘ #09","secret_text":"Thỏa thuận bí mật trị giá 2.4 tỷ USD đã được ký kết","revealed_info":"Các điều khoản bảo mật chỉ có hiệu lực trong 5 năm.","summary":"Sự thật bị che giấu suốt một thập kỷ vừa được công bố."}'>
+    
+      <div class="redact-header">
+        <span class="stamp-top" data-slot="classification"></span>
+        <h2 class="doc-title" data-slot="doc_title"></h2>
+      </div>
+      <div class="document-sheet">
+        <div class="redact-line">
+          <p class="secret-revealed" data-slot="secret_text"></p>
+        </div>
+        <div class="doc-body-txt" data-slot="revealed_info"></div>
+      </div>
+      <div class="doc-summary" data-slot="summary"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

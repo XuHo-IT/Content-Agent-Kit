@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1920, height=1080" />
+  <title>Wall Street LED Ticker Tape · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0A0A0A; }
+    #root {
+      position: relative;
+      width: 1920px;
+      height: 1080px;
+      background: #0A0A0A;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 120px;
+    }
+    
+      .tt-header { text-align: center; margin-bottom: 24px; }
+      .tt-badge { background: #DC2626; color: #FFF; font-family: 'Chakra Petch', sans-serif; font-size: 22px; font-weight: 700; padding: 6px 20px; border-radius: 6px; letter-spacing: 2px; }
+      .led-ticker-wrap { background: #171717; border: 2px solid #333; padding: 16px 24px; border-radius: 10px; margin-bottom: 24px; overflow: hidden; box-shadow: inset 0 0 20px #000; }
+      .led-track { font-family: 'Chakra Petch', sans-serif; font-size: 32px; font-weight: 700; color: #F59E0B; text-shadow: 0 0 10px #F59E0B; white-space: nowrap; }
+      .tt-main-card { background: #1C1917; border: 1px solid #44403C; border-radius: 16px; padding: 30px; }
+      .tt-headline { font-family: 'Be Vietnam Pro', sans-serif; font-size: 40px; font-weight: 700; color: #FFF; line-height: 1.3; margin-bottom: 14px; }
+      .tt-context { font-family: 'Be Vietnam Pro', sans-serif; font-size: 24px; color: #D6D3D1; line-height: 1.5; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"breaking":"BẢN TIN KHẨN CẤP · PHỐ WALL","ticker_feed":"AAPL -4.2% · NVDA +8.6% · TSLA -12.1% · BTC +15.4%","headline":"Đợt bán tháo kích hoạt chuỗi thanh lý 2 tỷ USD","context":"Các quỹ đầu cơ đồng loạt rút vốn khỏi nhóm cổ phiếu công nghệ."}'>
+    
+      <div class="tt-header">
+        <span class="tt-badge" data-slot="breaking"></span>
+      </div>
+      <div class="led-ticker-wrap">
+        <div class="led-track" data-slot="ticker_feed"></div>
+      </div>
+      <div class="tt-main-card">
+        <h1 class="tt-headline" data-slot="headline"></h1>
+        <p class="tt-context" data-slot="context"></p>
+      </div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

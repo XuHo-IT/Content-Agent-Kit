@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>Gacha Rare Card Pack Opening · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #10081E; }
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      background: #10081E;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 60px;
+    }
+    
+      .gacha-header { text-align: center; margin-bottom: 24px; }
+      .gacha-title { font-family: 'Montserrat', sans-serif; font-size: 40px; color: #FFE600; font-weight: 900; }
+      .holo-card-wrap { display: flex; justify-content: center; margin-bottom: 20px; }
+      .holo-card { background: linear-gradient(135deg, #FF0055, #7928CA, #00DFD8); padding: 30px; border-radius: 16px; width: 440px; text-align: center; box-shadow: 0 0 35px rgba(255,0,85,0.4); border: 2px solid #FFF; }
+      .rarity-tag { background: #FFE600; color: #000; font-family: 'Montserrat'; font-size: 16px; font-weight: 900; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 14px; }
+      .card-name { font-family: 'Montserrat'; font-size: 32px; color: #FFF; font-weight: 900; margin-bottom: 12px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+      .stat-badge { background: rgba(0,0,0,0.5); color: #00E676; font-family: 'Montserrat'; font-size: 20px; font-weight: 800; padding: 8px; border-radius: 8px; margin-bottom: 10px; }
+      .attr-txt { font-family: 'Be Vietnam Pro', sans-serif; font-size: 18px; color: #FFF; font-weight: 600; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"MỞ KHÓA TÍNH NĂNG ĐẲNG CẤP SSR","card_name":"SUPER AGENT V2","power_stat":"Power: 9,999+ (Full Autonomous)","attribute":"Hệ: Coding + Video Automation","rarity":"ĐỘ HIẾM: ULTRA RARE (0.1%)"}'>
+    
+      <div class="gacha-header">
+        <h1 class="gacha-title" data-slot="headline"></h1>
+      </div>
+      <div class="holo-card-wrap">
+        <div class="holo-card">
+          <div class="rarity-tag" data-slot="rarity"></div>
+          <h2 class="card-name" data-slot="card_name"></h2>
+          <div class="stat-badge" data-slot="power_stat"></div>
+          <p class="attr-txt" data-slot="attribute"></p>
+        </div>
+      </div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>API Request Response Latency Flow · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B1120; }
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      background: #0B1120;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 60px;
+    }
+    
+      .api-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; background: #1E293B; padding: 14px 20px; border-radius: 10px; border: 1px solid #334155; }
+      .api-endpoint { font-family: 'JetBrains Mono'; font-size: 22px; color: #F8FAFC; }
+      .api-status { background: rgba(16,185,129,0.2); color: #10B981; font-family: 'JetBrains Mono'; font-size: 18px; font-weight: 700; padding: 4px 12px; border-radius: 6px; }
+      .api-code-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+      .code-box { background: #020617; border: 1px solid #1E293B; border-radius: 10px; padding: 20px; }
+      pre { font-family: 'JetBrains Mono'; font-size: 18px; color: #38BDF8; white-space: pre-wrap; word-break: break-all; }
+      .res-box pre { color: #34D399; }
+      .api-insight { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #38BDF8; background: rgba(56,189,248,0.12); border: 1px solid #38BDF8; padding: 14px; text-align: center; border-radius: 8px; font-weight: 600; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"endpoint":"POST /api/v1/agent/render","status_code":"200 OK · 12ms","req_payload":"{\"topic\": \"AI News\", \"genre\": \"vox\", \"theme\": \"paper-blue\"}","res_payload":"{\"status\": \"success\", \"file\": \"video.mp4\"}","insight":"Tốc độ xử lý realtime với độ trễ thấp tối đa."}'>
+    
+      <div class="api-header">
+        <span class="api-endpoint" data-slot="endpoint"></span>
+        <span class="api-status" data-slot="status_code"></span>
+      </div>
+      <div class="api-code-grid">
+        <div class="code-box req-box">
+          <pre data-slot="req_payload"></pre>
+        </div>
+        <div class="code-box res-box">
+          <pre data-slot="res_payload"></pre>
+        </div>
+      </div>
+      <div class="api-insight" data-slot="insight"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

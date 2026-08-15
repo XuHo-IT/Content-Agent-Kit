@@ -55,9 +55,9 @@ Method: `docs/15-media-sources.md` and `docs/16-template-registry.md`.
 - `docs/` — methodology (bilingual). Start at `01-architecture.md`.
 - `templates/` — fill-in scaffolds.
 - `scripts/` — generic working CLIs (env-only), incl. `scripts/video/`.
-- `video-templates/` — the 74 scene templates + `CATALOG.md` (slots + character limits).
+- `video-templates/` — the 104 scene templates + `CATALOG.md` (slots + character limits).
   A folder only counts as a template when it has `index.html`; two vendored folders
-  (`caption-kinetic-slam`, `transitions-blur`) do not, so 76 folders means 74 usable.
+  (`caption-kinetic-slam`, `transitions-blur`) do not, so 106 folders means 104 usable.
 - `templates/VIDEO_GENRES.template.json` — scene sequences for 12 genres (review, tutorial, news,
   listicle, launch, testimonial, local, vox-explainer, geo-answer, technical-deepdive, growth-strategy, geo-itinerary). Answers 'which frames, in what order'
   rather than 'what shape is a script'. Method: `docs/21-video-genres.md`.

@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1080, height=1920" />
+  <title>AI Benchmark Race Leaderboard · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A0D14; }
+    #root {
+      position: relative;
+      width: 1080px;
+      height: 1920px;
+      background: #0A0D14;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 60px;
+    }
+    
+      .bm-header { text-align: center; margin-bottom: 24px; }
+      .bm-badge { background: #1E1B4B; color: #818CF8; font-family: 'Plus Jakarta Sans'; font-size: 22px; font-weight: 800; padding: 6px 20px; border-radius: 20px; border: 1px solid #6366F1; letter-spacing: 1px; }
+      .leaderboard-card { background: #111827; border: 1px solid #1F2937; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
+      .bm-row { background: #1F2937; height: 56px; border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; padding: 0 16px; }
+      .bm-fill { position: absolute; left: 0; top: 0; bottom: 0; opacity: 0.3; }
+      .f1 { background: #6366F1; opacity: 0.5; }
+      .f2 { background: #38BDF8; }
+      .f3 { background: #10B981; }
+      .bm-txt { position: relative; z-index: 2; font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #FFF; font-weight: 700; }
+      .bm-verdict { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #818CF8; background: rgba(99,102,241,0.15); border: 1px solid #6366F1; padding: 14px; text-align: center; border-radius: 8px; font-weight: 700; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"benchmark_name":"SWE-BENCH VERIFIED (KHẢ NĂNG LẬP TRÌNH)","rank_1":"Claude 3.7 Sonnet: 70.3%","rank_2":"DeepSeek V3: 65.8%","rank_3":"GPT-4.5: 62.4%","verdict":"Kỷ lục mới về điểm số tự giải quyết issue phần mềm."}'>
+    
+      <div class="bm-header">
+        <span class="bm-badge" data-slot="benchmark_name"></span>
+      </div>
+      <div class="leaderboard-card">
+        <div class="bm-row r1">
+          <div class="bm-fill f1" style="width: 70.3%;"></div>
+          <span class="bm-txt" data-slot="rank_1"></span>
+        </div>
+        <div class="bm-row r2">
+          <div class="bm-fill f2" style="width: 65.8%;"></div>
+          <span class="bm-txt" data-slot="rank_2"></span>
+        </div>
+        <div class="bm-row r3">
+          <div class="bm-fill f3" style="width: 62.4%;"></div>
+          <span class="bm-txt" data-slot="rank_3"></span>
+        </div>
+      </div>
+      <div class="bm-verdict" data-slot="verdict"></div>
+    
+  </div>
+  <script>
+    (function () {
+      var root = document.getElementById("root");
+      var v = {};
+      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      
+      document.querySelectorAll("[data-slot]").forEach(function (el) {
+        var k = el.getAttribute("data-slot");
+        if (v[k] !== undefined) {
+          if (v[k] === "") el.remove();
+          else el.textContent = v[k];
+        }
+      });
+
+      // Special dynamic parsing for list items if present
+      var ordersListBids = document.querySelector(".bids-list");
+      var ordersListAsks = document.querySelector(".asks-list");
+      if (ordersListBids && v.bids) {
+        v.bids.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListBids.appendChild(row);
+          }
+        });
+      }
+      if (ordersListAsks && v.asks) {
+        v.asks.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "order-row";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span>" + p[1].trim() + "</span>";
+            ordersListAsks.appendChild(row);
+          }
+        });
+      }
+
+      var legendList = document.querySelector(".pf-legend-list");
+      if (legendList && v.items) {
+        v.items.split("|").forEach(function(item) {
+          var p = item.split(":");
+          if(p.length === 2) {
+            var row = document.createElement("div");
+            row.className = "legend-item";
+            row.innerHTML = "<span>" + p[0].trim() + "</span><span style='font-weight:700;'>" + p[1].trim() + "</span>";
+            legendList.appendChild(row);
+          }
+        });
+      }
+    })();
+
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      pause: function () {},
+      seek: function () {},
+      paused: function () { return true; },
+      duration: function () { return 5; }
+    };
+  </script>
+</body>
+</html>

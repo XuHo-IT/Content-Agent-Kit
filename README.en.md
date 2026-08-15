@@ -17,7 +17,7 @@
 
 ---
 
-A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity / Gemini**) to autonomously build and operate production-grade Content Agents: idea ingestion, editorial writing, quality auditing, social publishing, and **vertical 9:16 video generation** powered by 74 single-file HTML templates, realistic TTS narration, stock B-roll, and live web captures.
+A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity / Gemini**) to autonomously build and operate production-grade Content Agents: idea ingestion, editorial writing, quality auditing, social publishing, and **vertical 9:16 video generation** powered by 104 single-file HTML templates, realistic TTS narration, stock B-roll, and live web captures.
 
 ## Sample Outputs
 
@@ -26,7 +26,7 @@ A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity 
 | 📄 **Article** | [Sample Post](examples/ai-news-social/sample-output/) — SEO/GEO-compliant article with engagement prompts and 10-point quality audit |
 | 🖼️ **Cover Image** | [Cover Image](examples/ai-news-social/sample-output/cover.jpg) — 1024×1024 visual asset matching the article |
 | 🎬 **9:16 Video** | [Sample Video](examples/ai-video-social/sample-output/) — 2m 12s, natural TTS narration, Pexels footage, live website capture |
-| 🎨 **Theme Repainting** | [Paper-Blue Sample](examples/ai-video-social/sample-output-paper-blue/) — 16 scenes across 14 of the 74 templates, repainted to white-and-ocean-blue via `"theme": "paper-blue"` |
+| 🎨 **Theme Repainting** | [Paper-Blue Sample](examples/ai-video-social/sample-output-paper-blue/) — 16 scenes across 14 of the 104 templates, repainted to white-and-ocean-blue via `"theme": "paper-blue"` |
 
 > **Download Sample MP4:** [Releases v0.1.0](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0) or render locally:
 > `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
@@ -39,9 +39,9 @@ A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity 
 
 ---
 
-## 74 Scene Templates (Organized by Visual Category)
+## 104 Scene Templates (Organized by Visual Category)
 
-All 74 templates are structured into **8 distinct visual categories** with dedicated aesthetic identities:
+All 104 templates are structured into **14 distinct visual categories** with dedicated aesthetic identities:
 
 ### 1. 🌟 Hooks & Attention Openers (Hooks & Heroes — 8 templates)
 [![Hooks & Heroes](examples/gallery/gallery-hooks.jpg)](video-templates/CATALOG.md)
@@ -75,6 +75,30 @@ All 74 templates are structured into **8 distinct visual categories** with dedic
 [![Multi-Skill Hybrid](examples/gallery/gallery-hybrid.jpg)](video-templates/CATALOG.md)
 *Includes: `frame-hybrid-vox-geo` (Vox Journalism + Satellite Radar Map), `frame-hybrid-math-diagram` (System Architecture + Manim Calculus).*
 
+### 9. 📈 FinTech, Crypto & Trading (FinTech & Trading — 5 templates)
+[![FinTech & Trading](examples/gallery/gallery-fintech.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-stock-candlestick`, `frame-crypto-orderbook`, `frame-wealth-compound`, `frame-portfolio-donut`, `frame-inflation-purchasing-power`.*
+
+### 10. 🧠 Science, Psychology & Edu-Tech (Science & Psychology — 5 templates)
+[![Science & Psychology](examples/gallery/gallery-science.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-iceberg-levels`, `frame-brain-synapse`, `frame-habit-loop`, `frame-dna-helix-breakdown`, `frame-bell-curve-iq`.*
+
+### 11. 🕵️‍♂️ Documentary, Investigation & Business Wars (Documentary & Crime — 5 templates)
+[![Documentary & Crime](examples/gallery/gallery-documentary.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-magnates-polaroid-desk`, `frame-stock-ticker-tape`, `frame-timeline-war-era`, `frame-document-redacted`, `frame-money-flow-conduit`.*
+
+### 12. 🎮 Gamification, Viral Hooks & High-Retention (Viral Retention Hooks — 5 templates)
+[![Viral Retention Hooks](examples/gallery/gallery-viral.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-tier-list`, `frame-notification-stack`, `frame-poll-voting`, `frame-speedrun-timer`, `frame-card-pack-opening`.*
+
+### 13. 💻 SaaS, AI Tooling & Dev Engineering (Dev & Tech Explainers — 5 templates)
+[![SaaS & Dev Engineering](examples/gallery/gallery-saas.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-saas-pricing-tier`, `frame-api-request-response`, `frame-diff-code-editor`, `frame-git-branch-graph`, `frame-ai-benchmark-leaderboard`.*
+
+### 14. ⚖️ E-Commerce, Unboxing & Honest Reviews (E-Commerce & Reviews — 5 templates)
+[![E-Commerce & Reviews](examples/gallery/gallery-ecommerce.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-pros-cons-scale`, `frame-receipt-slip`, `frame-unboxing-specs`, `frame-radar-rating-star`, `frame-discount-coupon-tear`.*
+
 > Slot contracts and character limits: **[`video-templates/CATALOG.md`](video-templates/CATALOG.md)**.
 > Scene sequences across 12 genres: **[`docs/21-video-genres.md`](docs/21-video-genres.md)** & **[`templates/VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**.
 
@@ -87,7 +111,7 @@ All 74 templates are structured into **8 distinct visual categories** with dedic
 | `docs/` | 22 concise methodology guides (bilingual EN + VI): SEO/GEO writing, video pipeline, media sourcing, theme palettes, ad MCPs, and repurposing |
 | `templates/` | Scaffolds: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 industries) |
 | `scripts/` | Working zero-dependency CLIs: crawl engine, social publisher, quality auditor, video renderer, stock B-roll search, screenshot capture |
-| `video-templates/` | 74 single-file HTML video templates plus **`CATALOG.md`** — each carries self-contained CSS & animations for offline rendering. 176 more are one command away. |
+| `video-templates/` | 104 single-file HTML video templates plus **`CATALOG.md`** — each carries self-contained CSS & animations for offline rendering. 176 more are one command away. |
 | `skills/` | 14 runtime skills: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template` + `registry.json` (23 on-demand skills). |
 | `examples/` | 2 end-to-end reference implementations: AI News Social Agent and Vertical Video Production Agent |
 
@@ -124,7 +148,7 @@ node scripts/video/contact-sheet.mjs brain/<slug>/video.mp4
 | **Real Footage & Captures** | Automatic stock B-roll fetching from Pexels/Pixabay + headless Chrome web captures |
 | **Burned Captions & Transitions** | In-frame captions (`--captions burn`), 5 cinematic transitions (fade, swipe, slide, iris, pixelize) |
 | **Instant URL Theming** | Extract brand colors directly from any website using `theme-from-url.mjs` |
-| **74 templates, 12 genres** | 12 complete video genres: Review, Tutorial, News, Listicle, Launch, Testimonial, Local GEO, Vox Explainer, Math Derivation, Architecture, Travel |
+| **104 templates, 12 genres** | 12 complete video genres: Review, Tutorial, News, Listicle, Launch, Testimonial, Local GEO, Vox Explainer, Math Derivation, Architecture, Travel |
 | **GEO / Answer Engine Optimization** | `geo-audit.mjs` validates content for AI citation readiness (SearchGPT, Perplexity, Google Overviews) |
 
 ---
