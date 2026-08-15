@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Vox Split Screen · 16:9</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,900;1,700&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0e0e10; }
+            #root {
+                position: relative; width: 1920px; height: 1080px;
+                background: #0e0e10; color: #f4f1ea;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden; display: grid; grid-template-columns: 1fr 1.1fr;
+            }
+
+            /* Left: Document side (Archival newsprint) */
+            .left-panel {
+                background: #f4f1ea; color: #111111; padding: 70px 80px;
+                position: relative; border-right: 4px solid #111111;
+                display: flex; flex-direction: column; justify-content: space-between;
+                opacity: 0; animation: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+            .paper-texture {
+                position: absolute; inset: 0;
+                background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 0);
+                background-size: 20px 20px; pointer-events: none;
+            }
+            .hud-header {
+                display: flex; justify-content: space-between; align-items: center;
+                border-bottom: 2px solid #111111; padding-bottom: 14px;
+            }
+            .tag-pill {
+                background: #e53935; color: #ffffff; font-family: "Space Mono", monospace;
+                font-size: 16px; font-weight: 700; padding: 6px 14px; letter-spacing: 2px;
+                text-transform: uppercase;
+            }
+            .timecode { font-family: "Space Mono", monospace; font-size: 16px; color: #666660; }
+
+            .doc-body { margin: auto 0; }
+            .doc-title {
+                font-family: "Space Mono", monospace; font-size: 20px; color: #555550;
+                text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;
+            }
+            .doc-quote {
+                font-size: 34px; font-weight: 600; line-height: 1.45; color: #1a1a1a;
+                border-left: 6px solid #ffe600; padding-left: 24px;
+            }
+
+            .doc-footer {
+                display: flex; justify-content: space-between; font-family: "Space Mono", monospace;
+                font-size: 16px; color: #666660; border-top: 1px dashed #ccc8be; padding-top: 14px;
+            }
+
+            /* Right: Impact statement */
+            .right-panel {
+                padding: 80px 100px; display: flex; flex-direction: column;
+                justify-content: space-between; background: #111113;
+                opacity: 0; animation: fadeInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+            }
+            .kicker-row {
+                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 700;
+                color: #ffe600; letter-spacing: 3px; text-transform: uppercase;
+            }
+            .headline-box { margin: auto 0; }
+            .main-headline {
+                font-family: "Playfair Display", serif; font-size: 64px; font-weight: 900;
+                line-height: 1.15; color: #ffffff; letter-spacing: -0.02em; margin-bottom: 28px;
+            }
+            .takeaway-card {
+                background: rgba(255,255,255,0.06); border-left: 4px solid #ffe600;
+                padding: 24px 32px; border-radius: 4px;
+            }
+            .takeaway-text { font-size: 24px; font-weight: 500; line-height: 1.5; color: #d0ccc2; }
+
+            .source-row {
+                font-family: "Space Mono", monospace; font-size: 16px; color: #777770;
+                border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px;
+            }
+
+            @keyframes slideInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: none; } }
+            @keyframes fadeInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"ĐIỀU TRA ĐỘC LẬP","tag_label":"TÀI LIỆU GỐC","doc_title":"Trích Lục Báo Cáo Tài Chính 2026","doc_snippet":"Toàn bộ chi phí ẩn đã bị che giấu suốt 18 tháng qua các hợp đồng gia công bên ngoài.","headline":"Sự Thật Đằng Sau Báo Cáo Nghìn Tỷ","takeaway":"Dữ liệu nội bộ xác thực sai lệch lên tới 42% so với công bố chính thức.","source":"Hồ sơ kiểm toán độc lập 2026"}'
+        >
+            <div class="left-panel">
+                <div class="paper-texture"></div>
+                <div class="hud-header">
+                    <div class="tag-pill"><span class="tag-txt"></span></div>
+                    <div class="timecode"><span class="tc-txt"></span></div>
+                </div>
+                <div class="doc-body">
+                    <div class="doc-title"></div>
+                    <div class="doc-quote"></div>
+                </div>
+                <div class="doc-footer">
+                    <div class="evidence-id"><span class="ev-txt"></span></div>
+                    <div class="verified-stamp"><span class="vs-txt"></span></div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="kicker-row"><span class="kicker-txt"></span></div>
+                <div class="headline-box">
+                    <div class="main-headline"></div>
+                    <div class="takeaway-card">
+                        <div class="takeaway-text"></div>
+                    </div>
+                </div>
+                <div class="source-row">
+                    <div class="source-txt"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".tag-txt", v.tag_label || "TƯ LIỆU GỐC");
+                set(".tc-txt", "REC ● 00:14:28");
+                set(".ev-txt", "CASE #VX-882");
+                set(".vs-txt", "VERIFIED ✓");
+                set(".doc-title", v.doc_title);
+                set(".doc-quote", v.doc_snippet);
+                set(".kicker-txt", v.kicker);
+                set(".main-headline", v.headline);
+                set(".takeaway-text", v.takeaway);
+                set(".source-txt", v.source ? "Nguồn: " + v.source : "");
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

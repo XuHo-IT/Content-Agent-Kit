@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Vox Pull Quote · 16:9</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1920px; height: 1080px; overflow: hidden; background: #f4f1ea; }
+            #root {
+                position: relative; width: 1920px; height: 1080px;
+                background: #f4f1ea; color: #111111;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden; padding: 90px 140px;
+                display: flex; flex-direction: column; justify-content: space-between;
+            }
+
+            .newsprint-texture {
+                position: absolute; inset: 0;
+                background-image: radial-gradient(rgba(0,0,0,0.04) 1px, transparent 0);
+                background-size: 20px 20px; pointer-events: none;
+            }
+
+            .header-bar {
+                display: flex; justify-content: space-between; align-items: center;
+                border-bottom: 2px solid #111111; padding-bottom: 16px;
+                opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
+            }
+            .kicker-tag {
+                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 700;
+                color: #e53935; letter-spacing: 3px; text-transform: uppercase;
+                display: flex; align-items: center; gap: 10px;
+            }
+            .kicker-tag::before { content: "“"; font-size: 32px; line-height: 1; }
+            .issue-date { font-family: "Space Mono", monospace; font-size: 16px; color: #666660; }
+
+            .quote-container {
+                position: relative; margin: auto 0;
+            }
+            .giant-mark {
+                position: absolute; top: -60px; left: -80px;
+                font-family: "Playfair Display", serif; font-size: 220px; font-weight: 900;
+                color: rgba(17,17,17,0.07); line-height: 0.8; pointer-events: none;
+            }
+            .quote-text {
+                font-family: "Playfair Display", serif; font-size: 58px; font-weight: 900;
+                line-height: 1.25; color: #111111; letter-spacing: -0.02em;
+                position: relative; z-index: 2;
+                opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+            }
+
+            .highlight-badge {
+                display: inline-block; background: #ffe600; color: #111111;
+                padding: 0 10px; border-radius: 4px;
+            }
+
+            .footer-bar {
+                display: flex; justify-content: space-between; align-items: flex-end;
+                border-top: 2px solid #111111; padding-top: 24px;
+                opacity: 0; animation: fadeUp 0.5s ease-out 0.6s both;
+            }
+            .author-box { display: flex; flex-direction: column; gap: 4px; }
+            .author-name {
+                font-size: 28px; font-weight: 800; color: #111111;
+            }
+            .author-role {
+                font-family: "Space Mono", monospace; font-size: 18px; color: #666660;
+            }
+            .official-seal {
+                border: 3px solid #111111; padding: 10px 24px; border-radius: 4px;
+                font-family: "Space Mono", monospace; font-size: 16px; font-weight: 700;
+                letter-spacing: 2px; text-transform: uppercase;
+                background: #ffffff; box-shadow: 4px 4px 0px #111111;
+            }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"TRÍCH DẪN ĐẶC QUYỀN","quote_main":"Nếu bạn không tự động hóa quy trình phân tích hôm nay, đối thủ sẽ biến bạn thành dữ liệu đào tạo của họ vào ngày mai.","highlight_word":"tự động hóa quy trình","author_name":"Tiến Sĩ Nguyễn Hoàng Hải","author_role":"Giám Đốc Nghiên Cứu Viện Trí Tuệ Nhân Tạo","source_date":"Tháng 02 · 2026"}'
+        >
+            <div class="newsprint-texture"></div>
+
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="issue-date"></div>
+            </div>
+
+            <div class="quote-container">
+                <div class="giant-mark">“</div>
+                <div class="quote-text"></div>
+            </div>
+
+            <div class="footer-bar">
+                <div class="author-box">
+                    <div class="author-name"></div>
+                    <div class="author-role"></div>
+                </div>
+                <div class="official-seal"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".issue-date", v.source_date || "BẢNG TIN 2026");
+                set(".author-name", v.author_name);
+                set(".author-role", v.author_role);
+                set(".official-seal", "TRÍCH NGUỒN CHÍNH THỨC");
+
+                var qEl = document.querySelector(".quote-text");
+                if (qEl && v.quote_main) {
+                    var main = String(v.quote_main);
+                    var hl = v.highlight_word ? String(v.highlight_word).trim() : "";
+                    if (hl && main.indexOf(hl) !== -1) {
+                        var parts = main.split(hl);
+                        qEl.innerHTML = parts[0] + '<span class="highlight-badge">' + hl + '</span>' + (parts[1] || "");
+                    } else {
+                        qEl.textContent = main;
+                    }
+                    if (main.length > 140) qEl.style.fontSize = "46px";
+                }
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

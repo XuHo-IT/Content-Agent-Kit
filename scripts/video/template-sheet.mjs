@@ -42,19 +42,22 @@ const KIT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..
  */
 const ROLE_ORDER = [
   // hooks first — they are what a script picks before anything else
-  "frame-liquid-bg-hero", "frame-bold-poster", "frame-glitch-title", "frame-creative-voltage",
-  // statement / type
-  "frame-kinetic-type", "frame-build-minimal", "frame-vignelli", "frame-analog-grain",
+  "frame-liquid-bg-hero", "frame-bold-poster", "frame-glitch-title", "frame-creative-voltage", "frame-vox-collage", "frame-vox-split-screen", "frame-vox-investigation-board", "frame-ui-glass-dashboard",
+  // statement / type / citation
+  "frame-kinetic-type", "frame-build-minimal", "frame-vignelli", "frame-analog-grain", "frame-vox-highlighter", "frame-vox-pull-quote",
   // data
   "frame-chart-bars", "frame-pentagram-stat", "frame-trend-line", "frame-dashboard",
   "frame-split-compare", "frame-timeline", "frame-node-graph", "frame-hud",
   "frame-geo-markers", "frame-geo-route", "frame-funnel", "frame-progress", "frame-draw-on",
+  "frame-geo-region-stat", "frame-vox-data-callout",
+  // diagrams & system architecture
+  "frame-diagram-flywheel", "frame-diagram-quadrant", "frame-diagram-radar", "frame-diagram-architecture",
   // evidence
-  "frame-screenshot", "frame-3d-device", "frame-terminal", "frame-broll", "frame-media-inset",
+  "frame-screenshot", "frame-3d-device", "frame-terminal", "frame-ui-terminal-ide", "frame-broll", "frame-media-inset",
   // depth
   "frame-3d-flip", "frame-3d-stack",
-  // people / proof
-  "frame-quote-testimonial", "frame-chat-bubbles", "frame-review-verdict",
+  // people / proof / local & search answers
+  "frame-quote-testimonial", "frame-chat-bubbles", "frame-review-verdict", "frame-geo-local-card", "frame-geo-faq-direct", "frame-geo-itinerary", "frame-geo-versus-city", "frame-geo-pin-detail",
   // sequence / advice
   "frame-step-list", "frame-checklist", "frame-myth-fact", "frame-aicoding-list", "frame-aicoding-comparison",
   // reveal / close

@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Vox Investigation Board · 16:9</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,900;1,700&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1920px; height: 1080px; overflow: hidden; background: #1c1815; }
+            #root {
+                position: relative; width: 1920px; height: 1080px;
+                background: #1c1815; color: #f4f1ea;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden;
+            }
+
+            /* Corkboard / Wood texture overlay */
+            .cork-texture {
+                position: absolute; inset: 0;
+                background-image: radial-gradient(rgba(244, 241, 234, 0.04) 1.5px, transparent 0);
+                background-size: 28px 28px; pointer-events: none;
+            }
+
+            .header-bar {
+                position: absolute; top: 50px; left: 100px; right: 100px;
+                display: flex; justify-content: space-between; align-items: baseline;
+                border-bottom: 2px solid rgba(244, 241, 234, 0.2); padding-bottom: 16px;
+                opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
+            }
+            .kicker-tag {
+                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 700;
+                color: #ffe600; letter-spacing: 3px; text-transform: uppercase;
+            }
+            .main-title {
+                font-family: "Playfair Display", serif; font-size: 42px; font-weight: 900; color: #ffffff;
+            }
+
+            /* Connecting SVG strings */
+            .strings-svg {
+                position: absolute; inset: 0; width: 1920px; height: 1080px;
+                pointer-events: none; z-index: 10;
+            }
+            .red-string {
+                stroke: #e53935; stroke-width: 4; stroke-linecap: round;
+                stroke-dasharray: 600; stroke-dashoffset: 600;
+                animation: drawString 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+            }
+
+            .cards-container {
+                position: absolute; top: 180px; left: 100px; right: 100px; height: 580px;
+                display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 50px;
+                align-items: center; z-index: 20;
+            }
+
+            .evidence-card {
+                background: #f4f1ea; color: #111111; border: 2px solid #111111;
+                border-radius: 4px; padding: 36px 32px; box-shadow: 12px 12px 0px rgba(0,0,0,0.5);
+                position: relative; height: 440px; display: flex; flex-direction: column;
+                justify-content: space-between;
+                opacity: 0; animation: cardDrop 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+            .card-1 { transform: rotate(-2deg); animation-delay: 0.2s; }
+            .card-2 { transform: rotate(1.5deg); animation-delay: 0.35s; }
+            .card-3 { transform: rotate(-1deg); animation-delay: 0.5s; }
+
+            .pin {
+                position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+                width: 28px; height: 28px; background: radial-gradient(circle, #e53935 40%, #991b1b 100%);
+                border-radius: 50%; box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+            }
+            .pin::after {
+                content: ""; position: absolute; top: 6px; left: 6px; width: 6px; height: 6px;
+                background: #ffffff; border-radius: 50%; opacity: 0.7;
+            }
+
+            .card-tag {
+                font-family: "Space Mono", monospace; font-size: 16px; font-weight: 700;
+                color: #e53935; text-transform: uppercase; letter-spacing: 1px;
+                border-bottom: 2px solid #111111; padding-bottom: 8px;
+            }
+            .card-text {
+                font-size: 26px; font-weight: 600; line-height: 1.45; color: #1a1a1a;
+                margin: auto 0;
+            }
+            .card-num {
+                font-family: "Space Mono", monospace; font-size: 15px; color: #666660;
+            }
+
+            /* Rubber stamp */
+            .stamp-box {
+                position: absolute; top: 40px; right: 20px;
+                border: 4px solid #e53935; color: #e53935; padding: 6px 18px;
+                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 900;
+                letter-spacing: 2px; text-transform: uppercase; border-radius: 4px;
+                transform: rotate(12deg) scale(2); opacity: 0;
+                animation: stampSlam 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+            }
+
+            /* Bottom takeaway banner */
+            .bottom-banner {
+                position: absolute; bottom: 40px; left: 100px; right: 100px;
+                background: #ffffff; color: #111111; border: 2px solid #111111;
+                padding: 20px 36px; border-radius: 4px; display: flex; align-items: center;
+                justify-content: space-between; box-shadow: 8px 8px 0px rgba(0,0,0,0.4);
+                opacity: 0; animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.75s both;
+            }
+            .conclusion-txt { font-size: 24px; font-weight: 700; color: #111111; }
+            .badge-lead {
+                background: #111111; color: #ffe600; font-family: "Space Mono", monospace;
+                font-size: 16px; font-weight: 700; padding: 6px 14px; text-transform: uppercase;
+            }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes cardDrop { from { opacity: 0; transform: translateY(-30px) scale(0.9); } to { opacity: 1; } }
+            @keyframes drawString { to { stroke-dashoffset: 0; } }
+            @keyframes stampSlam { from { opacity: 0; transform: rotate(20deg) scale(2.5); } to { opacity: 0.95; transform: rotate(12deg) scale(1); } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"HỒ SƠ ĐIỀU TRA ĐẶC BIỆT","board_title":"Xâu Chuỗi Dữ Liệu Bằng Chứng","card_1_label":"BẰNG CHỨNG 01","card_1_text":"Ghi nhận lưu lượng bất thường tăng đột biến vào 02:00 sáng.","card_2_label":"BẰNG CHỨNG 02","card_2_text":"Địa chỉ ví đích trùng khớp với đơn vị trung gian thứ ba.","card_3_label":"BẰNG CHỨNG 03","card_3_text":"Tài liệu ủy quyền ký duyệt không có chữ ký số xác thực.","stamp_text":"XÁC THỰC","conclusion":"Cả 3 đầu mối cùng dẫn về một trung tâm xử lý dữ liệu duy nhất."}'
+        >
+            <div class="cork-texture"></div>
+
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="main-title"></div>
+            </div>
+
+            <svg class="strings-svg">
+                <line class="red-string" x1="380" y1="360" x2="960" y2="380" />
+                <line class="red-string" x1="960" y1="380" x2="1540" y2="350" />
+            </svg>
+
+            <div class="cards-container">
+                <div class="evidence-card card-1">
+                    <div class="pin"></div>
+                    <div class="card-tag c1-tag"></div>
+                    <div class="card-text c1-txt"></div>
+                    <div class="card-num"><span class="cn-1"></span></div>
+                </div>
+
+                <div class="evidence-card card-2">
+                    <div class="pin"></div>
+                    <div class="card-tag c2-tag"></div>
+                    <div class="card-text c2-txt"></div>
+                    <div class="card-num"><span class="cn-2"></span></div>
+                </div>
+
+                <div class="evidence-card card-3">
+                    <div class="pin"></div>
+                    <div class="stamp-box"><span class="stamp-txt"></span></div>
+                    <div class="card-tag c3-tag"></div>
+                    <div class="card-text c3-txt"></div>
+                    <div class="card-num"><span class="cn-3"></span></div>
+                </div>
+            </div>
+
+            <div class="bottom-banner">
+                <div class="conclusion-txt"></div>
+                <div class="badge-lead"><span class="bl-txt"></span></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.board_title);
+                set(".cn-1", "DOC ID // #01-A");
+                set(".c1-tag", v.card_1_label);
+                set(".c1-txt", v.card_1_text);
+                set(".cn-2", "DOC ID // #02-B");
+                set(".c2-tag", v.card_2_label);
+                set(".c2-txt", v.card_2_text);
+                set(".cn-3", "DOC ID // #03-C");
+                set(".c3-tag", v.card_3_label);
+                set(".c3-txt", v.card_3_text);
+                set(".stamp-txt", v.stamp_text || "CONFIRMED");
+                set(".conclusion-txt", v.conclusion);
+                set(".bl-txt", "KẾT LUẬN ĐIỀU TRA");
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

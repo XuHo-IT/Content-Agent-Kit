@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Diagram Architecture Pipeline · 9:16</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #070d18; }
+            #root {
+                position: relative; width: 1080px; height: 1920px;
+                background: #070d18; color: #f1f5f9;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden; padding: 100px 70px 80px;
+                display: flex; flex-direction: column; justify-content: space-between;
+            }
+
+            .grid-bg {
+                position: absolute; inset: 0;
+                background-image: linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+                                  linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+                background-size: 40px 40px; pointer-events: none;
+            }
+
+            .header-bar {
+                opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
+            }
+            .kicker-tag {
+                font-family: "Space Mono", monospace; font-size: 22px; font-weight: 700;
+                color: #38bdf8; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;
+            }
+            .main-title { font-size: 50px; font-weight: 900; color: #ffffff; letter-spacing: -0.02em; line-height: 1.15; }
+            .metric-pill {
+                display: inline-block; margin-top: 16px;
+                background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.4);
+                color: #38bdf8; font-family: "Space Mono", monospace; font-size: 18px;
+                font-weight: 700; padding: 8px 20px; border-radius: 999px;
+            }
+
+            /* Vertical Architecture Pipeline Flow */
+            .pipeline-col {
+                position: relative; display: flex; flex-direction: column;
+                justify-content: space-between; height: 950px; margin: auto 0;
+            }
+
+            .flow-line-v {
+                position: absolute; left: 40px; top: 40px; bottom: 40px; width: 4px;
+                background: rgba(255,255,255,0.1); z-index: 1;
+            }
+            .flow-pulse-v {
+                position: absolute; left: 40px; top: 40px; bottom: 40px; width: 4px;
+                background: linear-gradient(180deg, transparent, #38bdf8, #818cf8, transparent);
+                z-index: 2; background-size: 100% 200%;
+                animation: flowAnimV 2.5s linear infinite;
+            }
+
+            .arch-node {
+                width: 100%; height: 200px; background: rgba(15, 23, 42, 0.9);
+                border: 2px solid rgba(56, 189, 248, 0.3); border-radius: 20px;
+                padding: 24px 28px; box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+                backdrop-filter: blur(12px); position: relative; z-index: 5;
+                display: flex; flex-direction: column; justify-content: space-between;
+                opacity: 0; animation: nodePop 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+            .node-1 { animation-delay: 0.2s; }
+            .node-2 { animation-delay: 0.35s; }
+            .node-3 { animation-delay: 0.5s; border-color: rgba(56, 189, 248, 0.7); box-shadow: 0 0 30px rgba(56, 189, 248, 0.2); }
+            .node-4 { animation-delay: 0.65s; }
+
+            .node-top { display: flex; justify-content: space-between; align-items: center; }
+            .node-num {
+                font-family: "Space Mono", monospace; font-size: 14px; font-weight: 700;
+                color: #38bdf8; background: rgba(56, 189, 248, 0.15); padding: 4px 10px; border-radius: 6px;
+            }
+            .node-status { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e; }
+
+            .node-name { font-size: 26px; font-weight: 800; color: #ffffff; line-height: 1.25; }
+            .node-tech {
+                font-family: "Space Mono", monospace; font-size: 16px; color: #94a3b8;
+                border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px;
+            }
+
+            .bottom-summary {
+                background: rgba(15, 23, 42, 0.85); border-left: 6px solid #38bdf8;
+                border-top: 1px solid rgba(255,255,255,0.08); border-right: 1px solid rgba(255,255,255,0.08);
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+                border-radius: 16px; padding: 24px 30px;
+                opacity: 0; animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+            }
+            .summary-text { font-size: 24px; font-weight: 600; line-height: 1.4; color: #e2e8f0; }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes nodePop { from { opacity: 0; transform: translateY(20px) scale(0.9); } to { opacity: 1; transform: none; } }
+            @keyframes flowAnimV { from { background-position: 0 200%; } to { background-position: 0 -200%; } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"KIẾN TRÚC HỆ THỐNG XỬ LÝ","system_title":"Luồng Dữ Liệu Tự Động Hóa End-to-End","node_1_name":"Client Interface","node_1_tech":"Next.js · Edge API","node_2_name":"Event Gateway","node_2_tech":"Kafka · Redis Queue","node_3_name":"AI Agent Core","node_3_tech":"LLM Worker Pool","node_4_name":"Storage & State","node_4_tech":"PostgreSQL · S3","throughput_metric":"LATENCY: < 120MS","summary":"Toàn bộ luồng xử lý được phân tán bất đồng bộ, loại bỏ hoàn toàn điểm nghẽn cổ chai và đảm bảo tính chịu lỗi cao."}'
+        >
+            <div class="grid-bg"></div>
+
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="main-title"></div>
+                <div class="metric-pill"><span class="tp-metric"></span></div>
+            </div>
+
+            <div class="pipeline-col">
+                <div class="arch-node node-1">
+                    <div class="node-top">
+                        <span class="node-num n1-num"></span>
+                        <span class="node-status"></span>
+                    </div>
+                    <div class="node-name n1-name"></div>
+                    <div class="node-tech n1-tech"></div>
+                </div>
+
+                <div class="arch-node node-2">
+                    <div class="node-top">
+                        <span class="node-num n2-num"></span>
+                        <span class="node-status"></span>
+                    </div>
+                    <div class="node-name n2-name"></div>
+                    <div class="node-tech n2-tech"></div>
+                </div>
+
+                <div class="arch-node node-3">
+                    <div class="node-top">
+                        <span class="node-num n3-num"></span>
+                        <span class="node-status"></span>
+                    </div>
+                    <div class="node-name n3-name"></div>
+                    <div class="node-tech n3-tech"></div>
+                </div>
+
+                <div class="arch-node node-4">
+                    <div class="node-top">
+                        <span class="node-num n4-num"></span>
+                        <span class="node-status"></span>
+                    </div>
+                    <div class="node-name n4-name"></div>
+                    <div class="node-tech n4-tech"></div>
+                </div>
+            </div>
+
+            <div class="bottom-summary">
+                <div class="summary-text"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.system_title);
+                set(".tp-metric", v.throughput_metric || "STATUS: ONLINE");
+                set(".n1-num", "NODE 01");
+                set(".n1-name", v.node_1_name);
+                set(".n1-tech", v.node_1_tech);
+                set(".n2-num", "NODE 02");
+                set(".n2-name", v.node_2_name);
+                set(".n2-tech", v.node_2_tech);
+                set(".n3-num", "CORE NODE");
+                set(".n3-name", v.node_3_name);
+                set(".n3-tech", v.node_3_tech);
+                set(".n4-num", "NODE 04");
+                set(".n4-name", v.node_4_name);
+                set(".n4-tech", v.node_4_tech);
+                set(".summary-text", v.summary);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

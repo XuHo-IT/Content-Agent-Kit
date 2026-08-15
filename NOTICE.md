@@ -101,7 +101,7 @@ respectively, so `listTemplateIds()` skips them and `validate.mjs` rejects them 
 attribution obligation does not depend on whether the code uses them, so their `NOTICE.md`
 files stay; each says plainly that deleting the folder is a reasonable call.
 
-Thirty-five are original to content-agent-kit (MIT, same as this repo):
+Forty-seven are original to content-agent-kit (MIT, same as this repo):
 
 `frame-broll` · `frame-media-inset` · `frame-screenshot` · `frame-review-verdict` ·
 `frame-quote-testimonial` · `frame-chart-bars` · `frame-step-list` ·
@@ -111,7 +111,11 @@ Thirty-five are original to content-agent-kit (MIT, same as this repo):
 `frame-geo-markers` · `frame-geo-route` · `frame-funnel` · `frame-progress` · `frame-draw-on` ·
 `frame-3d-device` · `frame-3d-flip` · `frame-3d-stack` · `frame-3d-spotlight` ·
 `frame-vox-highlighter` · `frame-vox-collage` · `frame-vox-data-callout` ·
-`frame-geo-local-card` · `frame-geo-region-stat` · `frame-geo-faq-direct`
+`frame-vox-split-screen` · `frame-vox-investigation-board` · `frame-vox-pull-quote` ·
+`frame-diagram-flywheel` · `frame-diagram-quadrant` · `frame-diagram-radar` · `frame-diagram-architecture` ·
+`frame-geo-local-card` · `frame-geo-region-stat` · `frame-geo-faq-direct` ·
+`frame-geo-itinerary` · `frame-geo-versus-city` · `frame-geo-pin-detail` ·
+`frame-ui-glass-dashboard` · `frame-ui-terminal-ide`
 
 `frame-3d-spotlight` was written after reading how vibe-motion's `light-spotlight-render`
 describes the effect. No code was taken: that repository publishes no licence, and this kit

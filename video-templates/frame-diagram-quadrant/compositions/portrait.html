@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Diagram 2x2 Quadrant · 9:16</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #070d18; }
+            #root {
+                position: relative; width: 1080px; height: 1920px;
+                background: #070d18; color: #f1f5f9;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden; padding: 100px 70px 80px;
+                display: flex; flex-direction: column; justify-content: space-between;
+            }
+
+            .grid-bg {
+                position: absolute; inset: 0;
+                background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                                  linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+                background-size: 40px 40px; pointer-events: none;
+            }
+
+            .header-bar {
+                opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
+            }
+            .kicker-tag {
+                font-family: "Space Mono", monospace; font-size: 22px; font-weight: 700;
+                color: #38bdf8; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;
+            }
+            .main-title {
+                font-size: 52px; font-weight: 900; color: #ffffff; letter-spacing: -0.02em; line-height: 1.15;
+            }
+
+            /* Matrix Stage */
+            .matrix-stage {
+                position: relative; width: 100%; height: 840px; margin: auto 0;
+                background: rgba(15, 23, 42, 0.6); border: 2px solid rgba(255,255,255,0.1);
+                border-radius: 24px; padding: 30px;
+                opacity: 0; animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+            }
+
+            .axis-line-x {
+                position: absolute; top: 50%; left: 30px; right: 30px; height: 2px;
+                background: rgba(255,255,255,0.2);
+            }
+            .axis-line-y {
+                position: absolute; left: 50%; top: 30px; bottom: 30px; width: 2px;
+                background: rgba(255,255,255,0.2);
+            }
+
+            .axis-lbl-x {
+                position: absolute; bottom: -28px; right: 0; font-family: "Space Mono", monospace;
+                font-size: 16px; font-weight: 700; color: #94a3b8; text-transform: uppercase;
+            }
+            .axis-lbl-y {
+                position: absolute; top: -28px; left: 0; font-family: "Space Mono", monospace;
+                font-size: 16px; font-weight: 700; color: #94a3b8; text-transform: uppercase;
+            }
+
+            .quad-grid {
+                display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+                width: 100%; height: 100%; gap: 16px;
+            }
+            .quad-cell {
+                border-radius: 16px; padding: 24px; display: flex; flex-direction: column;
+                justify-content: space-between; position: relative;
+            }
+            .q-tl { background: rgba(255,255,255,0.02); }
+            .q-tr {
+                background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.4);
+                box-shadow: inset 0 0 30px rgba(56, 189, 248, 0.1);
+            }
+            .q-bl { background: rgba(255,255,255,0.01); }
+            .q-br { background: rgba(255,255,255,0.02); }
+
+            .quad-title {
+                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 700;
+                color: #94a3b8; text-transform: uppercase;
+            }
+            .q-tr .quad-title { color: #38bdf8; }
+
+            .entity-badge {
+                position: absolute; background: linear-gradient(135deg, #0284c7, #38bdf8);
+                color: #ffffff; padding: 12px 24px; border-radius: 999px; font-weight: 800;
+                font-size: 22px; box-shadow: 0 0 24px rgba(56, 189, 248, 0.6);
+                top: 40%; left: 30%; z-index: 10;
+                opacity: 0; animation: badgeDrop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+            }
+
+            /* Narrative */
+            .summary-card {
+                background: rgba(15, 23, 42, 0.85); border-left: 6px solid #38bdf8;
+                border-top: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1);
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                border-radius: 20px; padding: 32px 36px;
+                opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+            }
+            .summary-title {
+                font-family: "Space Mono", monospace; font-size: 18px; font-weight: 700;
+                color: #38bdf8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px;
+            }
+            .summary-body { font-size: 26px; font-weight: 600; line-height: 1.45; color: #f1f5f9; }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: none; } }
+            @keyframes badgeDrop { from { opacity: 0; transform: translateY(-20px) scale(0.8); } to { opacity: 1; transform: none; } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"MA TRẬN ĐỊNH VỊ CHIẾN LƯỢC","title":"Tương Quan Năng Lực & Tốc Độ Triển Khai","axis_x":"Khả Năng Mở Rộng ➔","axis_y":"Độ Hoàn Thiện Thực Tế ➔","q1_label":"CHALLENGERS","q2_label":"LEADERS","q3_label":"NICHE PLAYERS","q4_label":"VISIONARIES","highlight_entity":"★ GIẢI PHÁP TIÊN PHONG","summary":"Vị thế góc trên bên phải đại diện cho các hệ thống vừa hoàn thiện năng lực vừa sẵn sàng mở rộng quy mô toàn cầu."}'
+        >
+            <div class="grid-bg"></div>
+
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="main-title"></div>
+            </div>
+
+            <div class="matrix-stage">
+                <div class="axis-line-x"><span class="axis-lbl-x"></span></div>
+                <div class="axis-line-y"><span class="axis-lbl-y"></span></div>
+
+                <div class="quad-grid">
+                    <div class="quad-cell q-tl">
+                        <div class="quad-title q1-t"></div>
+                    </div>
+                    <div class="quad-cell q-tr">
+                        <div class="quad-title q2-t"></div>
+                        <div class="entity-badge"><span class="badge-txt"></span></div>
+                    </div>
+                    <div class="quad-cell q-bl">
+                        <div class="quad-title q3-t"></div>
+                    </div>
+                    <div class="quad-cell q-br">
+                        <div class="quad-title q4-t"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="summary-card">
+                <div class="summary-title"><span class="st-txt"></span></div>
+                <div class="summary-body"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.title);
+                set(".axis-lbl-x", v.axis_x || "X-AXIS ➔");
+                set(".axis-lbl-y", v.axis_y || "Y-AXIS ➔");
+                set(".q1-t", v.q1_label || "CHALLENGERS");
+                set(".q2-t", v.q2_label || "LEADERS");
+                set(".q3-t", v.q3_label || "NICHE");
+                set(".q4-t", v.q4_label || "VISIONARIES");
+                set(".badge-txt", v.highlight_entity || "TOP LEADER");
+                set(".st-txt", "ĐÁNH GIÁ MA TRẬN");
+                set(".summary-body", v.summary);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

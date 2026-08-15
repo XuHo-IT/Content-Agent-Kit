@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Diagram Growth Flywheel · 16:9</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1920px; height: 1080px; overflow: hidden; background: #060b13; }
+            #root {
+                position: relative; width: 1920px; height: 1080px;
+                background: #060b13; color: #f1f5f9;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden;
+            }
+
+            .ambient-glow {
+                position: absolute; top: 50%; left: 35%; width: 700px; height: 700px;
+                transform: translate(-50%, -50%);
+                background: radial-gradient(circle, rgba(14, 165, 233, 0.15) 0%, rgba(99, 102, 241, 0.05) 50%, transparent 80%);
+                pointer-events: none;
+            }
+
+            .header-bar {
+                position: absolute; top: 60px; left: 100px; right: 100px;
+                opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
+            }
+            .kicker-tag {
+                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 700;
+                color: #38bdf8; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 8px;
+            }
+            .main-title {
+                font-size: 48px; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;
+            }
+
+            /* Flywheel visual container (Left/Center) */
+            .flywheel-stage {
+                position: absolute; top: 180px; left: 100px; width: 850px; height: 800px;
+            }
+
+            .orbit-svg {
+                position: absolute; inset: 0; width: 100%; height: 100%;
+                animation: spinSlow 30s linear infinite;
+            }
+            .orbit-track {
+                fill: none; stroke: rgba(56, 189, 248, 0.2); stroke-width: 3;
+                stroke-dasharray: 8 8;
+            }
+            .orbit-arrow {
+                fill: #38bdf8;
+            }
+
+            .core-hub {
+                position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                width: 220px; height: 220px; border-radius: 50%;
+                background: radial-gradient(circle, #0284c7 0%, #0369a1 100%);
+                border: 4px solid #38bdf8; box-shadow: 0 0 40px rgba(56, 189, 248, 0.4);
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+                text-align: center; padding: 20px; z-index: 10;
+                opacity: 0; animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+            }
+            .core-icon { font-size: 32px; margin-bottom: 6px; }
+            .core-txt { font-size: 20px; font-weight: 800; color: #ffffff; text-transform: uppercase; letter-spacing: 1px; }
+
+            /* 4 Orbital Nodes */
+            .node-box {
+                position: absolute; width: 240px; padding: 18px 22px;
+                background: rgba(15, 23, 42, 0.9); border: 2px solid rgba(56, 189, 248, 0.4);
+                border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+                backdrop-filter: blur(10px); z-index: 12;
+                display: flex; align-items: center; gap: 14px;
+                opacity: 0; animation: nodeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+            .n-top    { top: 40px;  left: 50%; transform: translateX(-50%); animation-delay: 0.35s; }
+            .n-right  { top: 50%;   right: 20px; transform: translateY(-50%); animation-delay: 0.5s; }
+            .n-bottom { bottom: 40px; left: 50%; transform: translateX(-50%); animation-delay: 0.65s; }
+            .n-left   { top: 50%;   left: 20px; transform: translateY(-50%); animation-delay: 0.8s; }
+
+            .node-badge {
+                width: 36px; height: 36px; border-radius: 50%; background: #38bdf8;
+                color: #04101d; font-family: "Space Mono", monospace; font-weight: 900;
+                font-size: 16px; display: flex; align-items: center; justify-content: center;
+                flex-shrink: 0;
+            }
+            .node-txt { font-size: 20px; font-weight: 700; color: #ffffff; line-height: 1.3; }
+
+            /* Right: Narrative / Takeaway */
+            .narrative-col {
+                position: absolute; top: 220px; right: 100px; width: 750px; bottom: 100px;
+                display: flex; flex-direction: column; justify-content: center; gap: 32px;
+                opacity: 0; animation: fadeInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+            }
+            .narrative-card {
+                background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 20px; padding: 40px 48px; border-left: 6px solid #38bdf8;
+            }
+            .takeaway-heading {
+                font-family: "Space Mono", monospace; font-size: 18px; font-weight: 700;
+                color: #38bdf8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px;
+            }
+            .takeaway-body {
+                font-size: 32px; font-weight: 600; line-height: 1.45; color: #f1f5f9;
+            }
+
+            .summary-badge {
+                display: inline-flex; align-items: center; gap: 10px;
+                font-family: "Space Mono", monospace; font-size: 16px; color: #94a3b8;
+            }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes scaleIn { from { opacity: 0; transform: translate(-50%, -50%) scale(0.6); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+            @keyframes nodeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; } }
+            @keyframes fadeInRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: none; } }
+            @keyframes spinSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"MÔ HÌNH TĂNG TRƯỞNG","title":"Vòng Xoáy Đà Tăng Trưởng Đột Phá","core_label":"LỢI THẾ CẠNH TRANH","node_1":"Chất Lượng Nội Dung Độc Bản","node_2":"Lưu Lượng Tự Nhiên Bền Vững","node_3":"Dữ Liệu Người Dùng Độc Quyền","node_4":"Tỷ Lệ Chuyển Đổi Vượt Trội","takeaway":"Mỗi mắt xích hoàn thành tự động tiếp thêm đà cho giai đoạn kế tiếp, tạo tốc độ tăng trưởng phi tuyến tính."}'
+        >
+            <div class="ambient-glow"></div>
+
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="main-title"></div>
+            </div>
+
+            <div class="flywheel-stage">
+                <svg class="orbit-svg" viewBox="0 0 850 800">
+                    <circle class="orbit-track" cx="425" cy="400" r="280" />
+                </svg>
+
+                <div class="core-hub">
+                    <div class="core-icon">⚡</div>
+                    <div class="core-txt"></div>
+                </div>
+
+                <div class="node-box n-top">
+                    <div class="node-badge">01</div>
+                    <div class="node-txt n1-txt"></div>
+                </div>
+                <div class="node-box n-right">
+                    <div class="node-badge">02</div>
+                    <div class="node-txt n2-txt"></div>
+                </div>
+                <div class="node-box n-bottom">
+                    <div class="node-badge">03</div>
+                    <div class="node-txt n3-txt"></div>
+                </div>
+                <div class="node-box n-left">
+                    <div class="node-badge">04</div>
+                    <div class="node-txt n4-txt"></div>
+                </div>
+            </div>
+
+            <div class="narrative-col">
+                <div class="narrative-card">
+                    <div class="takeaway-heading"><span class="th-txt"></span></div>
+                    <div class="takeaway-body"></div>
+                </div>
+                <div class="summary-badge">
+                    <span class="sb-txt"></span>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.title);
+                set(".core-txt", v.core_label || "CORE VALUE");
+                set(".n1-txt", v.node_1);
+                set(".n2-txt", v.node_2);
+                set(".n3-txt", v.node_3);
+                set(".n4-txt", v.node_4);
+                set(".th-txt", "BẢN CHẤT MÔ HÌNH");
+                set(".sb-txt", "✦ CHU TRÌNH TỰ CỦNG CỐ KHÔNG ĐIỂM DỪNG");
+                set(".takeaway-body", v.takeaway);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

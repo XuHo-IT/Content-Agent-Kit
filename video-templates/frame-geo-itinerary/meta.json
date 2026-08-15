@@ -1,0 +1,6 @@
+{
+  "name": "GEO Multi-Stop Itinerary",
+  "description": "Multi-stop travel and logistics itinerary timeline with timestamps, transport badges, and local highlights",
+  "tags": ["geo", "itinerary", "travel", "timeline", "logistics"],
+  "author": "content-agent-kit"
+}

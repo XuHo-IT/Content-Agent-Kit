@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>UI Glassmorphic Dashboard · 9:16</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #030712; }
+            #root {
+                position: relative; width: 1080px; height: 1920px;
+                background: #030712; color: #f9fafb;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden; padding: 90px 60px 80px;
+                display: flex; flex-direction: column; justify-content: space-between;
+            }
+
+            .glow-top-left {
+                position: absolute; top: -100px; left: -100px; width: 600px; height: 600px;
+                background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+                pointer-events: none;
+            }
+            .glow-bottom-right {
+                position: absolute; bottom: -100px; right: -100px; width: 600px; height: 600px;
+                background: radial-gradient(circle, rgba(56, 189, 248, 0.18) 0%, transparent 70%);
+                pointer-events: none;
+            }
+
+            .glass-frame {
+                background: rgba(17, 24, 39, 0.7);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 32px; padding: 36px 36px;
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+                backdrop-filter: blur(24px);
+                position: relative; z-index: 5; height: 100%;
+                display: flex; flex-direction: column; justify-content: space-between;
+                opacity: 0; animation: framePop 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+
+            .glass-header {
+                display: flex; justify-content: space-between; align-items: center;
+                border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 20px;
+            }
+            .header-brand { display: flex; align-items: center; gap: 14px; }
+            .brand-logo {
+                width: 44px; height: 44px; border-radius: 12px;
+                background: linear-gradient(135deg, #6366f1, #38bdf8);
+                display: flex; align-items: center; justify-content: center; font-size: 22px;
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+            }
+            .brand-title { font-size: 30px; font-weight: 800; color: #ffffff; }
+            .status-badge {
+                display: flex; align-items: center; gap: 8px;
+                background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(34, 197, 94, 0.3);
+                padding: 6px 14px; border-radius: 999px; font-family: "Space Mono", monospace;
+                font-size: 14px; font-weight: 700; color: #4ade80;
+            }
+            .status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; box-shadow: 0 0 8px #22c55e; }
+
+            .kpi-col {
+                display: flex; flex-direction: column; gap: 20px; margin: 24px 0;
+            }
+            .kpi-card {
+                background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 20px; padding: 24px 28px; display: flex; justify-content: space-between;
+                align-items: center;
+                box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            }
+            .kpi-label { font-size: 20px; font-weight: 600; color: #9ca3af; }
+            .kpi-val { font-family: "Space Mono", monospace; font-size: 38px; font-weight: 900; color: #ffffff; margin-top: 4px; }
+            .kpi-change {
+                font-family: "Space Mono", monospace; font-size: 18px; font-weight: 700;
+                color: #4ade80; background: rgba(34, 197, 94, 0.15); padding: 6px 14px; border-radius: 8px;
+            }
+
+            .chart-panel {
+                background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.06);
+                border-radius: 20px; padding: 24px 28px; height: 340px;
+                display: flex; flex-direction: column; justify-content: space-between;
+            }
+            .chart-top { display: flex; justify-content: space-between; align-items: center; }
+            .chart-title { font-size: 20px; font-weight: 700; color: #d1d5db; }
+            .live-tag {
+                font-family: "Space Mono", monospace; font-size: 14px; font-weight: 700;
+                color: #38bdf8; letter-spacing: 1px;
+            }
+
+            .sparkline-svg { width: 100%; height: 180px; }
+            .sparkline-path {
+                fill: none; stroke: url(#sparkGradV); stroke-width: 4; stroke-linecap: round;
+                filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6));
+                stroke-dasharray: 1000; stroke-dashoffset: 1000;
+                animation: drawChart 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+            }
+            .sparkline-area {
+                fill: url(#areaGradV); opacity: 0.3;
+            }
+
+            .bottom-narrative {
+                border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 20px;
+                margin-top: 20px;
+            }
+            .takeaway-txt { font-size: 24px; font-weight: 600; color: #e5e7eb; line-height: 1.4; }
+
+            @keyframes framePop { from { opacity: 0; transform: scale(0.96) translateY(20px); } to { opacity: 1; transform: scale(1); } }
+            @keyframes drawChart { to { stroke-dashoffset: 0; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"HỆ THỐNG VẬN HÀNH THỜI GIAN THỰC","app_name":"Linear Cloud Engine","status_pill":"SYSTEM OPERATIONAL · 99.99%","metric_1_label":"Tổng Số Tác Vụ / Giây","metric_1_value":"48.2K","metric_1_change":"+24.8%","metric_2_label":"Thời Gian Phản Hồi","metric_2_value":"84ms","metric_2_change":"-18.4%","metric_3_label":"Tỷ Lệ Thành Công","metric_3_value":"99.98%","metric_3_change":"+0.12%","chart_label":"Lưu Lượng Truy Vấn Toàn Cầu 24H","takeaway":"Hiệu năng xử lý duy trì ổn định dưới tải 100K RPS nhờ kiến trúc phân tán đa vùng."}'
+        >
+            <div class="glow-top-left"></div>
+            <div class="glow-bottom-right"></div>
+
+            <div class="glass-frame">
+                <div class="glass-header">
+                    <div class="header-brand">
+                        <div class="brand-logo">⚡</div>
+                        <div class="brand-title app-title"></div>
+                    </div>
+                    <div class="status-badge">
+                        <span class="status-dot"></span>
+                        <span class="status-txt"></span>
+                    </div>
+                </div>
+
+                <div class="kpi-col">
+                    <div class="kpi-card">
+                        <div>
+                            <div class="kpi-label m1-lbl"></div>
+                            <div class="kpi-val m1-val"></div>
+                        </div>
+                        <div class="kpi-change m1-chg"></div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div>
+                            <div class="kpi-label m2-lbl"></div>
+                            <div class="kpi-val m2-val"></div>
+                        </div>
+                        <div class="kpi-change m2-chg"></div>
+                    </div>
+
+                    <div class="kpi-card">
+                        <div>
+                            <div class="kpi-label m3-lbl"></div>
+                            <div class="kpi-val m3-val"></div>
+                        </div>
+                        <div class="kpi-change m3-chg"></div>
+                    </div>
+                </div>
+
+                <div class="chart-panel">
+                    <div class="chart-top">
+                        <div class="chart-title ch-title"></div>
+                        <div class="live-tag"><span class="lt-txt"></span></div>
+                    </div>
+
+                    <svg class="sparkline-svg" viewBox="0 0 900 180" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="sparkGradV" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#6366f1" />
+                                <stop offset="50%" stop-color="#38bdf8" />
+                                <stop offset="100%" stop-color="#4ade80" />
+                            </linearGradient>
+                            <linearGradient id="areaGradV" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#38bdf8" />
+                                <stop offset="100%" stop-color="transparent" />
+                            </linearGradient>
+                        </defs>
+                        <path class="sparkline-area" d="M0,150 Q120,80 240,110 T480,50 T720,90 T900,30 L900,180 L0,180 Z" />
+                        <path class="sparkline-path" d="M0,150 Q120,80 240,110 T480,50 T720,90 T900,30" />
+                    </svg>
+                </div>
+
+                <div class="bottom-narrative">
+                    <div class="takeaway-txt"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".app-title", v.app_name || "Telemetry Dashboard");
+                set(".status-txt", v.status_pill || "SYSTEM LIVE");
+                set(".lt-txt", "LIVE STREAM ●");
+                set(".m1-lbl", v.metric_1_label);
+                set(".m1-val", v.metric_1_value);
+                set(".m1-chg", v.metric_1_change);
+                set(".m2-lbl", v.metric_2_label);
+                set(".m2-val", v.metric_2_value);
+                set(".m2-chg", v.metric_2_change);
+                set(".m3-lbl", v.metric_3_label);
+                set(".m3-val", v.metric_3_value);
+                set(".m3-chg", v.metric_3_change);
+                set(".ch-title", v.chart_label);
+                set(".takeaway-txt", v.takeaway);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

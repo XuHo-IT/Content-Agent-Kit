@@ -1,0 +1,6 @@
+{
+  "name": "GEO Pin Detail Landmark",
+  "description": "Deep-dive single location pin card with panoramic frame, GPS HUD coordinates, price tier, and opening hours",
+  "tags": ["geo", "pin", "landmark", "venue", "local-business"],
+  "author": "content-agent-kit"
+}

@@ -44,7 +44,7 @@ whole scene given to **the cost**: a review that lists only upsides is an advert
 viewers can tell.
 
 The same news story also exists as a **[white-canvas, ocean-blue cut](examples/ai-video-social/sample-output-paper-blue/)**
-— 16 scenes across 14 of the 46 templates, repainted entirely by `"theme": "paper-blue"`:
+— 16 scenes across 14 of the 58 templates, repainted entirely by `"theme": "paper-blue"`:
 **no forked template, and not one line of CSS edited in `video-templates/`.**
 
 And the **[GEO sample](examples/ai-video-social/sample-geo/)** — two completely different
@@ -53,12 +53,11 @@ video genre (the story is *where*), and `geo-audit.mjs` checking whether a piece
 something once a passage is cut out of it**. Read in order `post-draft.md` → `geo-report.md` →
 `post-fixed.md` to see the whole loop.
 
-### Forty-six templates, grouped by what they do
+### Fifty-eight templates, grouped by what they do
 
-[![All 46 templates](examples/gallery/templates.jpg)](video-templates/CATALOG.md)
+[![All 58 templates](examples/gallery/templates.jpg)](video-templates/CATALOG.md)
 
-Row 1 **hooks** and **statements** · row 2 **data** · row 3 **evidence**, **depth** and
-**people** · row 4 **sequence**, **reveal** and **close**. Every tile carries its own
+Row 1 **hooks**, **statements** and **documents** · rows 2 & 3 **data**, **maps** and **evidence** · row 4 **depth**, **people** and **places / FAQ** · rows 5 & 6 **diagrams**, **sequence**, **reveal** and **close**. Every tile carries its own
 template id, so the picture is enough to choose from.
 
 This used to be strips ordered by which batch each template arrived in. Someone choosing a
@@ -159,7 +158,7 @@ Day to day, run **`/daily-run`** — or your generated `schedule-prompt.md` on a
 | `docs/` | The methodology, bilingual EN + VI, 22 short documents — including **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll and screenshots), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`**, **`20-video-backends.md`**, **`21-video-genres.md`** and **`22-repurposing.md`**. |
 | `templates/` | Fill-in scaffolds: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, state files, cron workflow. |
 | `scripts/` | Generic **working** CLIs: publish/append/update, queue client, `social/make-post` (image **or video**, multi-platform), `crawl/crawl.py`, `audit-quality`, the scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) and **`media/`** (stock B-roll, web screenshots, upload hosts). All env-only. |
-| `video-templates/` | 46 single-file HTML video templates plus **`CATALOG.md`** — every slot and character limit. Each carries its own CSS and animation, but still `<link>`s its fonts from Google Fonts, so rendering needs network. 176 more are one command away. |
+| `video-templates/` | 58 single-file HTML video templates plus **`CATALOG.md`** — every slot and character limit. Each carries its own CSS and animation, but still `<link>`s its fonts from Google Fonts, so rendering needs network. 176 more are one command away. |
 | `skills/` | 14 Claude Code skills: **`bootstrap-content-agent`** (the meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`**, **`new-template`**, **`motion-craft`**, **`geo-optimize`** — plus `registry.json`, which lists 18 more fetched on demand. |
 | `examples/ai-news-social/` | A complete worked example: an AI-news social agent (crawl → write → image → web + Make.com → cron). |
 | `examples/ai-video-social/` | The video counterpart: crawl → `script.json` → render 9:16 → TikTok / Shorts / Reels. |
@@ -184,7 +183,7 @@ node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4              # the
 | **Scene transitions** | `fade · swipe · slide · iris · pixelize`. The video's length does **not** change — the padding is worked out so the overlap eats back exactly what it added |
 | **A palette read off your own site** | `theme-from-url.mjs --url <site>` reads background, ink and accent from the live page, under the same WCAG contrast rule the validator already enforces |
 | **A robot watching the template registry** | 176 templates upstream, and that number was once wrong in nine places in the docs. `registry-watch.mjs` runs daily, diffs against the committed snapshot and opens exactly one PR when upstream changes — it **reports**, it does not add |
-| **46 templates, 9 genres** | `VIDEO_GENRES.template.json` answers "for a review, which frames and in what order" |
+| **58 templates, 12 genres** | `VIDEO_GENRES.template.json` answers "for a review, which frames and in what order" |
 | **Writing an answer engine can quote** | `geo-audit.mjs` grades a post by rule, with no AI in the loop: is the answer directly under the heading, does the paragraph stand on its own, does a number carry its source. A failed `must` rule exits 1 — so it works as a gate |
 | **One palette for the whole video** | `"theme": "paper-blue"` repaints everything on a **temporary copy**; the light/dark flip is **measured in Chrome**, not guessed from CSS |
 | **Look at what you made** | `contact-sheet.mjs` puts one labelled frame per scene in a single image. Four bugs that passed every rule were all visible at a glance |

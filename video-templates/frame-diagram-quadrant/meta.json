@@ -1,0 +1,6 @@
+{
+  "name": "Diagram 2x2 Quadrant Matrix",
+  "description": "Interactive 2x2 matrix quadrant diagram comparing entities across two evaluation axes",
+  "tags": ["diagram", "matrix", "quadrant", "comparison", "strategy"],
+  "author": "content-agent-kit"
+}

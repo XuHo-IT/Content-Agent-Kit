@@ -1,0 +1,6 @@
+{
+  "name": "Diagram Architecture Pipeline",
+  "description": "System architecture and data pipeline flow diagram with animated packets and node statuses",
+  "tags": ["diagram", "architecture", "pipeline", "backend", "system-design"],
+  "author": "content-agent-kit"
+}

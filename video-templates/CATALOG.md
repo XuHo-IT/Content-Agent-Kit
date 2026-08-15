@@ -1000,6 +1000,250 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 ---
 
+## frame-vox-split-screen
+
+**Role:** hook / body — investigative split-screen. Left half displays archival document scan with live timecode HUD and stamp; right half features bold display typography conclusion.
+**Best for:** `type: "hook"` or `type: "body"` — contrasting official claims with verified investigative findings.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | investigative category tag |
+| `tag_label` | string | ≤20 | document category badge (e.g. "TÀI LIỆU GỐC") |
+| `doc_title` | string | ≤60 | title of the scanned report |
+| `doc_snippet` | string | ≤120 | key excerpt from the document |
+| `headline` | string | ≤60 | high-impact serif display headline |
+| `takeaway` | string | ≤130 | takeaway conclusion card |
+| `source` | string | ≤60 | archive or audit source |
+
+---
+
+## frame-vox-investigation-board
+
+**Role:** hook / body — detective corkboard. Archival pinboard with 3 pinned evidence cards, animated connecting red strings, and a slamming red "CONFIRMED" rubber stamp.
+**Best for:** `type: "hook"` or `type: "body"` — connecting multiple clues, root cause analysis, or investigative breakdowns.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | case dossier label |
+| `board_title` | string | ≤50 | main investigation title |
+| `card_1_label` | string | ≤20 | evidence 1 label |
+| `card_1_text` | string | ≤90 | evidence 1 text |
+| `card_2_label` | string | ≤20 | evidence 2 label |
+| `card_2_text` | string | ≤90 | evidence 2 text |
+| `card_3_label` | string | ≤20 | evidence 3 label |
+| `card_3_text` | string | ≤90 | evidence 3 text |
+| `stamp_text` | string | ≤18 | rubber stamp text (e.g. "XÁC THỰC", "CONFIRMED") |
+| `conclusion` | string | ≤110 | bottom conclusion banner |
+
+---
+
+## frame-vox-pull-quote
+
+**Role:** body — editorial pull quote. Giant stylized quotation marks, newsprint background, highlighted key phrase, author name, and official verification seal.
+**Best for:** `type: "body"` — memorable quotes from executives, researchers, or historical figures.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | quote category tag |
+| `quote_main` | string | ≤160 | full quotation text |
+| `highlight_word` | string | ≤40 | key phrase inside quotation to highlight in yellow |
+| `author_name` | string | ≤40 | speaker / author full name |
+| `author_role` | string | ≤70 | speaker title or organization |
+| `source_date` | string | ≤40 | publication date or venue |
+
+---
+
+## frame-diagram-flywheel
+
+**Role:** body — strategic flywheel. Circular orbital growth loop with 4 self-reinforcing nodes, particle flow animation, and central value hub.
+**Best for:** `type: "body"` — explaining compounding advantages, business models, or virtuous cycles.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | strategic model label |
+| `title` | string | ≤60 | main flywheel title |
+| `core_label` | string | ≤24 | central hub label |
+| `node_1` | string | ≤40 | stage 1 node title |
+| `node_2` | string | ≤40 | stage 2 node title |
+| `node_3` | string | ≤40 | stage 3 node title |
+| `node_4` | string | ≤40 | stage 4 node title |
+| `takeaway` | string | ≤140 | strategic summary narrative |
+
+---
+
+## frame-diagram-quadrant
+
+**Role:** body — 2x2 matrix quadrant. Magic quadrant grid with directional X/Y axes, 4 labeled quadrants, and animated highlight badge.
+**Best for:** `type: "body"` — market positioning, competitive landscaping, prioritization frameworks.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | framework tag |
+| `title` | string | ≤60 | matrix evaluation title |
+| `axis_x` | string | ≤30 | X-axis label with direction arrow |
+| `axis_y` | string | ≤30 | Y-axis label with direction arrow |
+| `q1_label` | string | ≤24 | top-left quadrant title |
+| `q2_label` | string | ≤24 | top-right quadrant title (Leaders) |
+| `q3_label` | string | ≤24 | bottom-left quadrant title |
+| `q4_label` | string | ≤24 | bottom-right quadrant title |
+| `highlight_entity` | string | ≤30 | entity badge text in winning quadrant |
+| `summary` | string | ≤140 | strategic insight takeaway |
+
+---
+
+## frame-diagram-radar
+
+**Role:** body — 6-axis spider radar chart. Concentric polygonal grid evaluating 2 competing solutions across 6 key performance dimensions.
+**Best for:** `type: "body"` — model benchmark comparisons, architecture evaluations, feature gap analyses.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | evaluation tag |
+| `title` | string | ≤60 | comparison title |
+| `metrics` | string | 6 items | `"Metric1\|Metric2\|...\|Metric6"` pipe-separated |
+| `model_a_name` | string | ≤30 | name of model / system A |
+| `model_a_scores` | string | 6 nums | comma-separated values 0-100 (e.g. `"92,88,95,85,90,94"`) |
+| `model_b_name` | string | ≤30 | name of model / system B |
+| `model_b_scores` | string | 6 nums | comma-separated values 0-100 (e.g. `"60,70,45,65,55,60"`) |
+| `verdict` | string | ≤140 | benchmark conclusion takeaway |
+
+---
+
+## frame-diagram-architecture
+
+**Role:** body — system architecture & data pipeline. 4-node pipeline flow with animated data packets, status lights, and throughput telemetry.
+**Best for:** `type: "body"` — backend architectures, AI agent workflows, distributed cloud pipelines.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | architecture label |
+| `system_title` | string | ≤60 | system pipeline title |
+| `node_1_name` | string | ≤30 | node 1 title |
+| `node_1_tech` | string | ≤40 | node 1 stack details |
+| `node_2_name` | string | ≤30 | node 2 title |
+| `node_2_tech` | string | ≤40 | node 2 stack details |
+| `node_3_name` | string | ≤30 | core node 3 title |
+| `node_3_tech` | string | ≤40 | core node 3 stack details |
+| `node_4_name` | string | ≤30 | node 4 title |
+| `node_4_tech` | string | ≤40 | node 4 stack details |
+| `throughput_metric` | string | ≤30 | telemetry badge (e.g. "LATENCY: < 120MS") |
+| `summary` | string | ≤140 | architecture resilience note |
+
+---
+
+## frame-geo-itinerary
+
+**Role:** body — multi-stop travel & logistics route. 3-stage timeline route with timestamps, location names, and highlight tags.
+**Best for:** `type: "body"` — travel guides, city tours, delivery logistics, multi-stop itineraries.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | travel itinerary tag |
+| `itinerary_title` | string | ≤60 | tour or route title |
+| `stop_1_time` | string | ≤20 | stop 1 arrival time |
+| `stop_1_name` | string | ≤40 | stop 1 location name |
+| `stop_1_highlight` | string | ≤90 | stop 1 key experience |
+| `stop_2_time` | string | ≤20 | stop 2 arrival time |
+| `stop_2_name` | string | ≤40 | stop 2 location name |
+| `stop_2_highlight` | string | ≤90 | stop 2 key experience |
+| `stop_3_time` | string | ≤20 | stop 3 arrival time |
+| `stop_3_name` | string | ≤40 | stop 3 location name |
+| `stop_3_highlight` | string | ≤90 | stop 3 key experience |
+| `total_duration` | string | ≤30 | total trip time badge |
+
+---
+
+## frame-geo-versus-city
+
+**Role:** body — regional head-to-head comparison. Dual split card comparing 2 cities or markets across 3 key economic/operational metrics.
+**Best for:** `type: "body"` — market expansion decisions, cost of living, regional talent comparisons.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | regional benchmark tag |
+| `versus_title` | string | ≤60 | main comparison title |
+| `city_a_name` | string | ≤30 | city / region A name |
+| `city_a_badge` | string | ≤24 | city A specialization tag |
+| `city_b_name` | string | ≤30 | city / region B name |
+| `city_b_badge` | string | ≤24 | city B specialization tag |
+| `metric_1_name` | string | ≤30 | metric 1 label |
+| `metric_1_val_a` | string | ≤20 | metric 1 value for A |
+| `metric_1_val_b` | string | ≤20 | metric 1 value for B |
+| `metric_2_name` | string | ≤30 | metric 2 label |
+| `metric_2_val_a` | string | ≤20 | metric 2 value for A |
+| `metric_2_val_b` | string | ≤20 | metric 2 value for B |
+| `metric_3_name` | string | ≤30 | metric 3 label |
+| `metric_3_val_a` | string | ≤20 | metric 3 value for A |
+| `metric_3_val_b` | string | ≤20 | metric 3 value for B |
+| `summary` | string | ≤140 | comparative conclusion |
+
+---
+
+## frame-geo-pin-detail
+
+**Role:** body — deep-dive landmark card. High-end venue card with GPS coordinates HUD, star rating score, address, price tier, and call-to-action button.
+**Best for:** `type: "body"` — venue spotlight, restaurant review, hotel review, flagship attraction.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | feature landmark tag |
+| `venue_name` | string | ≤50 | venue or business name |
+| `category_tag` | string | ≤24 | venue category |
+| `gps_coords` | string | ≤40 | latitude/longitude HUD coordinates |
+| `address` | string | ≤70 | street and district address |
+| `rating` | string | ≤8 | rating score (e.g. "4.9 / 5.0") |
+| `price_tier` | string | ≤30 | pricing category |
+| `hours_status` | string | ≤50 | operational hours |
+| `signature_dish` | string | ≤80 | signature dish or top amenity |
+| `cta_button` | string | ≤30 | call to action button text |
+
+---
+
+## frame-ui-glass-dashboard
+
+**Role:** hook / body — glassmorphic control panel. Frosted glass card in Linear/macOS style with 3 live KPI cards, animated SVG sparkline chart, and telemetry status.
+**Best for:** `type: "hook"` or `type: "body"` — SaaS launches, infrastructure monitoring, analytics showcases.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | telemetry category tag |
+| `app_name` | string | ≤30 | product or service name |
+| `status_pill` | string | ≤36 | operational status pill |
+| `metric_1_label` | string | ≤30 | metric 1 title |
+| `metric_1_value` | string | ≤16 | metric 1 primary stat |
+| `metric_1_change` | string | ≤16 | metric 1 growth badge |
+| `metric_2_label` | string | ≤30 | metric 2 title |
+| `metric_2_value` | string | ≤16 | metric 2 primary stat |
+| `metric_2_change` | string | ≤16 | metric 2 growth badge |
+| `metric_3_label` | string | ≤30 | metric 3 title |
+| `metric_3_value` | string | ≤16 | metric 3 primary stat |
+| `metric_3_change` | string | ≤16 | metric 3 growth badge |
+| `chart_label` | string | ≤40 | chart title |
+| `takeaway` | string | ≤140 | platform performance conclusion |
+
+---
+
+## frame-ui-terminal-ide
+
+**Role:** body — developer IDE editor. Visual Studio Code / Neovim style workspace with project tree sidebar, syntax-highlighted code editor, and live terminal output.
+**Best for:** `type: "body"` — software engineering tutorials, SDK reveals, technical deep-dives, developer marketing.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | engineering category tag |
+| `file_name` | string | ≤30 | active file name in tab and sidebar |
+| `lang_tag` | string | ≤16 | language badge (e.g. "TYPESCRIPT", "RUST", "PYTHON") |
+| `code_line_1` | string | ≤70 | code line 1 |
+| `code_line_2` | string | ≤70 | code line 2 |
+| `code_line_3` | string | ≤70 | code line 3 |
+| `code_line_4` | string | ≤70 | code line 4 |
+| `code_line_5` | string | ≤70 | code line 5 |
+| `terminal_cmd` | string | ≤40 | terminal command string |
+| `terminal_output` | string | ≤80 | execution test result / log output |
+| `takeaway` | string | ≤120 | engineering takeaway headline |
+
+---
+
 ## What 3D actually costs
 
 The plan for these four assumed Chrome would raster `preserve-3d` more slowly and that the

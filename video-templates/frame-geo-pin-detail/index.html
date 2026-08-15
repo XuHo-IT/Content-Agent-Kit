@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>GEO Pin Detail · 16:9</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1920px; height: 1080px; overflow: hidden; background: #061118; }
+            #root {
+                position: relative; width: 1920px; height: 1080px;
+                background: #061118; color: #f1f5f9;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden; padding: 70px 100px;
+                display: grid; grid-template-columns: 1.1fr 1fr; gap: 60px; align-items: center;
+            }
+
+            .map-mesh {
+                position: absolute; inset: 0;
+                background-image: radial-gradient(rgba(16, 185, 129, 0.06) 1.5px, transparent 0);
+                background-size: 32px 32px; pointer-events: none;
+            }
+
+            /* Left: Venue Visual & GPS HUD */
+            .left-visual {
+                background: rgba(15, 23, 42, 0.85); border: 2px solid rgba(16, 185, 129, 0.3);
+                border-radius: 28px; padding: 48px; position: relative; height: 720px;
+                display: flex; flex-direction: column; justify-content: space-between;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6); backdrop-filter: blur(12px);
+                opacity: 0; animation: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+            .hud-bar {
+                display: flex; justify-content: space-between; align-items: center;
+                border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px;
+            }
+            .gps-hud {
+                font-family: "Space Mono", monospace; font-size: 16px; color: #10b981;
+                display: flex; align-items: center; gap: 8px;
+            }
+            .live-dot { width: 10px; height: 10px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; }
+            .category-pill {
+                background: rgba(16, 185, 129, 0.15); color: #10b981;
+                font-family: "Space Mono", monospace; font-size: 15px; font-weight: 700;
+                padding: 6px 14px; border-radius: 8px; text-transform: uppercase;
+            }
+
+            .venue-center { margin: auto 0; }
+            .venue-title {
+                font-size: 56px; font-weight: 900; color: #ffffff; line-height: 1.15;
+                letter-spacing: -0.02em; margin-bottom: 16px;
+            }
+            .address-box {
+                font-size: 24px; font-weight: 500; color: #94a3b8; display: flex;
+                align-items: center; gap: 10px;
+            }
+
+            .rating-bar {
+                display: flex; gap: 24px; align-items: center; border-top: 1px solid rgba(255,255,255,0.1);
+                padding-top: 20px;
+            }
+            .score-pill {
+                background: #10b981; color: #04140f; font-family: "Space Mono", monospace;
+                font-size: 24px; font-weight: 900; padding: 6px 18px; border-radius: 12px;
+            }
+            .stars-txt { font-size: 22px; color: #fbbf24; }
+
+            /* Right: Detail Specs */
+            .right-specs {
+                display: flex; flex-direction: column; gap: 28px;
+                opacity: 0; animation: fadeInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+            }
+            .kicker-tag {
+                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 700;
+                color: #10b981; letter-spacing: 3px; text-transform: uppercase;
+            }
+
+            .spec-card {
+                background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 20px; padding: 28px 32px; border-left: 6px solid #10b981;
+            }
+            .spec-label {
+                font-family: "Space Mono", monospace; font-size: 16px; font-weight: 700;
+                color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;
+            }
+            .spec-val { font-size: 26px; font-weight: 700; color: #f1f5f9; }
+
+            .cta-btn {
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: #ffffff; padding: 20px 40px; border-radius: 16px;
+                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 800;
+                letter-spacing: 2px; text-align: center; text-transform: uppercase;
+                box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+            }
+
+            @keyframes slideInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: none; } }
+            @keyframes fadeInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"ĐỊA ĐIỂM TIÊU BIỂU TRONG TUẦN","venue_name":"La Siesta Premium Sky Bar","category_tag":"ROOFTOP LOUNGE","gps_coords":"GPS: 21.0338° N, 105.8504° E","address":"Số 01 Cầu Gỗ, Hoàn Kiếm, Hà Nội","rating":"4.9 / 5.0","price_tier":"GIÁ TIỀN: $$$ · CAO CẤP","hours_status":"GIỜ MỞ CỬA: 15:00 - 01:00 (HÀNG NGÀY)","signature_dish":"SIGNATURE: Espresso Martini ngắm hoàng hôn Hồ Gươm","cta_button":"XEM HƯỚNG DẪN ĐƯỜNG ĐI ➔"}'
+        >
+            <div class="map-mesh"></div>
+
+            <div class="left-visual">
+                <div class="hud-bar">
+                    <div class="gps-hud"><span class="live-dot"></span><span class="gps-txt"></span></div>
+                    <div class="category-pill"><span class="cat-txt"></span></div>
+                </div>
+
+                <div class="venue-center">
+                    <div class="venue-title"></div>
+                    <div class="address-box">📍 <span class="addr-txt"></span></div>
+                </div>
+
+                <div class="rating-bar">
+                    <div class="score-pill"><span class="rate-txt"></span></div>
+                    <div class="stars-txt"><span class="rev-txt"></span></div>
+                </div>
+            </div>
+
+            <div class="right-specs">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+
+                <div class="spec-card">
+                    <div class="spec-label"><span class="lp-txt"></span></div>
+                    <div class="spec-val price-txt"></div>
+                </div>
+
+                <div class="spec-card">
+                    <div class="spec-label"><span class="lh-txt"></span></div>
+                    <div class="spec-val hours-txt"></div>
+                </div>
+
+                <div class="spec-card">
+                    <div class="spec-label"><span class="ld-txt"></span></div>
+                    <div class="spec-val dish-txt"></div>
+                </div>
+
+                <div class="cta-btn"><span class="cta-txt"></span></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".gps-txt", v.gps_coords || "GPS: 21.0338° N, 105.8504° E");
+                set(".cat-txt", v.category_tag || "VENUE");
+                set(".venue-title", v.venue_name);
+                set(".addr-txt", v.address);
+                set(".rate-txt", v.rating || "5.0");
+                set(".rev-txt", "★★★★★ (1,850+ ĐÁNH GIÁ)");
+                set(".lp-txt", "MỨC GIÁ & TRẠNG THÁI");
+                set(".price-txt", v.price_tier);
+                set(".lh-txt", "THỜI GIAN HOẠT ĐỘNG");
+                set(".hours-txt", v.hours_status);
+                set(".ld-txt", "TRẢI NGHIỆM ĐẶC QUYỀN");
+                set(".dish-txt", v.signature_dish);
+                set(".cta-txt", v.cta_button || "GET DIRECTIONS");
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

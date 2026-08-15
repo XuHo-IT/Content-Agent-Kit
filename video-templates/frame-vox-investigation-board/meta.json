@@ -1,0 +1,6 @@
+{
+  "name": "Vox Investigation Board",
+  "description": "Detective investigation board with pinned document cards, red string connections, and confirmed stamp",
+  "tags": ["vox", "investigation", "board", "corkboard", "detective"],
+  "author": "content-agent-kit"
+}

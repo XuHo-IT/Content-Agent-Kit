@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>UI Pro Terminal IDE · 9:16</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:wght@500;700;800&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0a0e17; }
+            #root {
+                position: relative; width: 1080px; height: 1920px;
+                background: #0a0e17; color: #e2e8f0;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden; padding: 100px 60px 80px;
+                display: flex; flex-direction: column; justify-content: space-between;
+            }
+
+            .header-bar {
+                opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
+            }
+            .kicker-tag {
+                font-family: "Space Mono", monospace; font-size: 22px; font-weight: 700;
+                color: #38bdf8; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px;
+            }
+            .takeaway-hdr { font-size: 26px; font-weight: 600; color: #94a3b8; line-height: 1.4; }
+
+            /* Main IDE Window */
+            .ide-window {
+                background: #0d1117; border: 1px solid #30363d; border-radius: 20px;
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.8);
+                height: 1380px; overflow: hidden; display: flex; flex-direction: column;
+                margin: auto 0;
+                opacity: 0; animation: idePop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+            }
+
+            /* Window Titlebar */
+            .titlebar {
+                background: #161b22; height: 60px; border-bottom: 1px solid #30363d;
+                display: flex; align-items: center; justify-content: space-between;
+                padding: 0 24px;
+            }
+            .window-controls { display: flex; gap: 10px; }
+            .wc-dot { width: 14px; height: 14px; border-radius: 50%; }
+            .wc-r { background: #ff5f56; }
+            .wc-y { background: #ffbd2e; }
+            .wc-g { background: #27c93f; }
+
+            .tab-bar { display: flex; align-items: center; gap: 10px; }
+            .active-tab {
+                background: #0d1117; border-top: 2px solid #38bdf8; border-right: 1px solid #30363d;
+                border-left: 1px solid #30363d; height: 60px; padding: 0 20px;
+                display: flex; align-items: center; gap: 10px; font-family: "JetBrains Mono", monospace;
+                font-size: 18px; font-weight: 700; color: #ffffff;
+            }
+            .lang-pill {
+                background: rgba(56, 189, 248, 0.15); color: #38bdf8;
+                font-family: "Space Mono", monospace; font-size: 14px; font-weight: 700;
+                padding: 4px 12px; border-radius: 6px;
+            }
+
+            /* Main Editor */
+            .main-editor { display: flex; flex-direction: column; justify-content: space-between; flex: 1; }
+
+            .code-content {
+                padding: 40px 36px; font-family: "JetBrains Mono", monospace;
+                font-size: 24px; line-height: 1.8; color: #e6edf3;
+            }
+            .code-line { display: flex; gap: 20px; align-items: center; }
+            .line-num { color: #484f58; width: 30px; text-align: right; user-select: none; }
+
+            /* Bottom Terminal */
+            .ide-terminal {
+                background: #090d13; border-top: 1px solid #30363d; padding: 28px 36px;
+                height: 280px; font-family: "JetBrains Mono", monospace; font-size: 20px;
+                display: flex; flex-direction: column; justify-content: space-between;
+            }
+            .term-hdr { display: flex; justify-content: space-between; color: #8b949e; font-size: 16px; margin-bottom: 8px; }
+            .term-cmd-row { display: flex; align-items: center; gap: 12px; color: #38bdf8; font-weight: 700; }
+            .term-out-row { color: #3fb950; line-height: 1.4; }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes idePop { from { opacity: 0; transform: scale(0.97) translateY(20px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"MÃ NGUỒN TỰ ĐỘNG HÓA","file_name":"agent.engine.ts","lang_tag":"TYPESCRIPT","code_line_1":"import { Pipeline, LLMWorker } from \"@agent/core\";","code_line_2":"export const runAgent = async (task: TaskConfig) => {","code_line_3":"  const pipeline = new Pipeline({ timeout: 5000 });","code_line_4":"  return await pipeline.execute(task.payload);","code_line_5":"};","terminal_cmd":"pnpm test:engine --coverage","terminal_output":"✓ 48/48 test suites passed (100% coverage, 84ms)","takeaway":"Module tối ưu tốc độ phân tán, đạt độ bao phủ kiểm thử 100%."}'
+        >
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="takeaway-hdr"><span class="takeaway-txt"></span></div>
+            </div>
+
+            <div class="ide-window">
+                <div class="titlebar">
+                    <div class="window-controls">
+                        <div class="wc-dot wc-r"></div>
+                        <div class="wc-dot wc-y"></div>
+                        <div class="wc-dot wc-g"></div>
+                    </div>
+                    <div class="tab-bar">
+                        <div class="active-tab">
+                            <span>📄</span>
+                            <span class="file-tab-txt"></span>
+                        </div>
+                    </div>
+                    <div class="lang-pill"><span class="lang-txt"></span></div>
+                </div>
+
+                <div class="main-editor">
+                    <div class="code-content">
+                        <div class="code-line"><span class="line-num">1</span><span class="cl-1"></span></div>
+                        <div class="code-line"><span class="line-num">2</span><span class="cl-2"></span></div>
+                        <div class="code-line"><span class="line-num">3</span><span class="cl-3"></span></div>
+                        <div class="code-line"><span class="line-num">4</span><span class="cl-4"></span></div>
+                        <div class="code-line"><span class="line-num">5</span><span class="cl-5"></span></div>
+                    </div>
+
+                    <div class="ide-terminal">
+                        <div class="term-hdr">
+                            <span class="th-l"></span>
+                            <span class="th-r"></span>
+                        </div>
+                        <div class="term-cmd-row">
+                            <span>$</span>
+                            <span class="term-cmd-txt"></span>
+                        </div>
+                        <div class="term-out-row">
+                            <span class="term-out-txt"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelectorAll(sel);
+                    for (var i = 0; i < el.length; i++) {
+                        if (text != null && String(text).trim() !== "") el[i].textContent = String(text);
+                    }
+                };
+                set(".kicker-txt", v.kicker);
+                set(".takeaway-txt", v.takeaway);
+                set(".file-tab-txt", v.file_name || "index.ts");
+                set(".lang-txt", v.lang_tag || "TYPESCRIPT");
+                set(".th-l", "TERMINAL · BASH");
+                set(".th-r", "EXIT: 0");
+                set(".cl-1", v.code_line_1);
+                set(".cl-2", v.code_line_2);
+                set(".cl-3", v.code_line_3);
+                set(".cl-4", v.code_line_4);
+                set(".cl-5", v.code_line_5);
+                set(".term-cmd-txt", v.terminal_cmd || "pnpm test");
+                set(".term-out-txt", v.terminal_output);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

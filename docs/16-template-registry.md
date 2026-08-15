@@ -2,7 +2,7 @@
 
 ## English
 
-The kit ships 46 scene templates. The upstream **HyperFrames registry**
+The kit ships 58 scene templates. The upstream **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) publishes
 **176 more** — pull any of them without hand-copying files:
 
@@ -28,7 +28,7 @@ them is not — a family breakdown is not something a regex can keep true. Re-de
 **Only a folder with a root `index.html` becomes a scene template.** Blocks and components
 ship `compositions/` only, so they land in `video-templates/` as building material and never
 clutter the list a `script.json` can choose from. That separation is automatic — the
-validator reads the folder, so nothing needs registering.
+renderer and `validate-script.mjs` both read the folder itself.
 
 ### Keeping this page honest — `registry-watch.mjs`
 
@@ -112,7 +112,7 @@ what the generated `NOTICE.md` is for — **do not delete it**. See the root `NO
 
 ## Tiếng Việt
 
-Kit có sẵn 46 template cho scene. Kho **HyperFrames registry**
+Kit có sẵn 58 template cho scene. Kho **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) có thêm
 **176 mục** — kéo về bằng lệnh, không phải chép tay. Xem các lệnh ở bản EN.
 

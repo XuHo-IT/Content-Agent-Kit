@@ -1,0 +1,18 @@
+{
+  "compositions": {
+    "main": {
+      "path": "index.html",
+      "width": 1920,
+      "height": 1080,
+      "duration": 5,
+      "fps": 30
+    },
+    "portrait": {
+      "path": "compositions/portrait.html",
+      "width": 1080,
+      "height": 1920,
+      "duration": 5,
+      "fps": 30
+    }
+  }
+}

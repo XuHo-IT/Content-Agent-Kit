@@ -126,6 +126,42 @@
         { "templateId": "frame-step-list", "type": "body", "beat": "Actionable 3-step recommendation based on the answer." },
         { "templateId": "frame-logo-outro", "type": "outro", "beat": "Where to read the full source and dive deeper." }
       ]
+    },
+
+    "technical-deepdive": {
+      "label": "Phân tích kỹ thuật chuyên sâu (Technical Deep-Dive)",
+      "whenToUse": "Software engineering, system architecture breakdowns, benchmark evaluations, and developer product launches.",
+      "beats": [
+        { "templateId": "frame-ui-glass-dashboard", "type": "hook", "beat": "The production telemetry panel: live RPS, latency, and uptime proof." },
+        { "templateId": "frame-diagram-architecture", "type": "body", "beat": "The end-to-end data pipeline flow and distributed node topology." },
+        { "templateId": "frame-ui-terminal-ide", "type": "body", "beat": "The implementation code and passing test suite execution log." },
+        { "templateId": "frame-diagram-radar", "type": "body", "beat": "The multi-axis spider benchmark proving competitive advantages." },
+        { "templateId": "frame-statement-outro", "type": "outro", "beat": "The architectural conclusion and key developer takeaway." }
+      ]
+    },
+
+    "growth-strategy": {
+      "label": "Chiến lược kinh doanh & Tăng trưởng (Growth Strategy)",
+      "whenToUse": "Business model explanations, strategic flywheels, market landscape quadrant positioning, and growth compounding loops.",
+      "beats": [
+        { "templateId": "frame-bold-poster", "type": "hook", "beat": "The high-stakes growth thesis / controversial strategic observation." },
+        { "templateId": "frame-diagram-flywheel", "type": "body", "beat": "The self-reinforcing flywheel showing how inputs compound into outputs." },
+        { "templateId": "frame-diagram-quadrant", "type": "body", "beat": "The 2x2 competitive matrix highlighting leader market positioning." },
+        { "templateId": "frame-pentagram-stat", "type": "body", "beat": "The single massive growth metric verifying market traction." },
+        { "templateId": "frame-logo-outro", "type": "outro", "beat": "The strategic call to action and brand signature." }
+      ]
+    },
+
+    "geo-itinerary": {
+      "label": "Lịch trình du lịch & Bản đồ địa điểm (GEO Itinerary)",
+      "whenToUse": "Travel guides, multi-stop city tours, regional destination benchmarks, and local business venue deep-dives.",
+      "beats": [
+        { "templateId": "frame-geo-markers", "type": "hook", "beat": "The multi-city overview map with animated radar pulse pins." },
+        { "templateId": "frame-geo-itinerary", "type": "body", "beat": "The 3-stop chronological route timeline with timestamps and highlights." },
+        { "templateId": "frame-geo-pin-detail", "type": "body", "beat": "The flagship venue spotlight with GPS HUD, rating, and opening hours." },
+        { "templateId": "frame-geo-versus-city", "type": "body", "beat": "The regional head-to-head comparison evaluating cost and opportunities." },
+        { "templateId": "frame-statement-outro", "type": "outro", "beat": "The final travel recommendation and booking advice." }
+      ]
     }
   },
 

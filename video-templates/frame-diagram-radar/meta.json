@@ -1,0 +1,6 @@
+{
+  "name": "Diagram Spider Radar Chart",
+  "description": "Multi-axis spider radar chart comparing capabilities across six evaluation dimensions",
+  "tags": ["diagram", "radar", "spider-chart", "benchmark", "comparison"],
+  "author": "content-agent-kit"
+}

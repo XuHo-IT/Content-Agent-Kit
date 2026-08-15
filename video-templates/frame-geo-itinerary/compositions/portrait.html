@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>GEO Multi-Stop Itinerary · 9:16</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #061118; }
+            #root {
+                position: relative; width: 1080px; height: 1920px;
+                background: #061118; color: #f1f5f9;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden; padding: 100px 70px 80px;
+                display: flex; flex-direction: column; justify-content: space-between;
+            }
+
+            .map-grid {
+                position: absolute; inset: 0;
+                background-image: radial-gradient(rgba(16, 185, 129, 0.08) 1.5px, transparent 0);
+                background-size: 32px 32px; pointer-events: none;
+            }
+
+            .header-bar {
+                opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
+            }
+            .kicker-tag {
+                font-family: "Space Mono", monospace; font-size: 22px; font-weight: 700;
+                color: #10b981; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;
+            }
+            .main-title { font-size: 50px; font-weight: 900; color: #ffffff; letter-spacing: -0.02em; line-height: 1.15; }
+            .duration-pill {
+                display: inline-block; margin-top: 16px;
+                background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4);
+                color: #10b981; font-family: "Space Mono", monospace; font-size: 18px;
+                font-weight: 700; padding: 8px 22px; border-radius: 999px;
+            }
+
+            /* 3-Stop Vertical Stack */
+            .stops-container {
+                position: relative; display: flex; flex-direction: column;
+                justify-content: space-between; height: 1100px; margin: auto 0;
+            }
+
+            .track-line-v {
+                position: absolute; top: 40px; bottom: 40px; left: 40px; width: 3px;
+                background: rgba(16, 185, 129, 0.2); z-index: 1;
+            }
+            .track-arrow-v {
+                position: absolute; top: 40px; bottom: 40px; left: 40px; width: 3px;
+                background: linear-gradient(180deg, #10b981, #34d399); z-index: 2;
+                transform-origin: top;
+                animation: lineGrowV 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+            }
+
+            .stop-card {
+                background: rgba(15, 23, 42, 0.88); border: 2px solid rgba(255,255,255,0.08);
+                border-radius: 24px; padding: 32px 36px; box-shadow: 0 16px 36px rgba(0,0,0,0.5);
+                backdrop-filter: blur(10px); position: relative; z-index: 5;
+                display: flex; flex-direction: column; justify-content: space-between;
+                height: 330px;
+                opacity: 0; animation: cardIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+            .card-1 { animation-delay: 0.2s; border-color: rgba(16, 185, 129, 0.3); }
+            .card-2 { animation-delay: 0.4s; border-color: rgba(16, 185, 129, 0.5); box-shadow: 0 0 30px rgba(16, 185, 129, 0.15); }
+            .card-3 { animation-delay: 0.6s; border-color: rgba(16, 185, 129, 0.3); }
+
+            .stop-top { display: flex; justify-content: space-between; align-items: center; }
+            .time-badge {
+                font-family: "Space Mono", monospace; font-size: 18px; font-weight: 700;
+                color: #10b981; background: rgba(16, 185, 129, 0.12); padding: 6px 14px; border-radius: 8px;
+            }
+            .pin-icon { font-size: 24px; }
+
+            .stop-name { font-size: 32px; font-weight: 900; color: #ffffff; line-height: 1.25; margin: 12px 0 8px; }
+            .highlight-tag {
+                font-size: 22px; font-weight: 500; color: #cbd5e1; line-height: 1.45;
+            }
+
+            .stop-footer {
+                border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;
+                display: flex; justify-content: space-between; align-items: center;
+                font-family: "Space Mono", monospace; font-size: 16px; color: #94a3b8;
+            }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes lineGrowV { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+            @keyframes cardIn { from { opacity: 0; transform: translateY(24px) scale(0.95); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"LỊCH TRÌNH TRẢI NGHIỆM ĐỈNH CAO","itinerary_title":"Hành Trình Khám Phá 24 Giờ Hoàn Hảo","stop_1_time":"08:30 SÁNG","stop_1_name":"Phố Cổ & Cà Phê Trứng","stop_1_highlight":"Khởi động ngày mới với hương vị truyền thống ngắm nhìn phố phường thức giấc.","stop_2_time":"14:00 CHIỀU","stop_2_name":"Bảo Tàng & Không Gian Nghệ Thuật","stop_2_highlight":"Trải nghiệm triển lãm đa phương tiện và tìm hiểu chiều sâu di sản kiến trúc.","stop_3_time":"19:30 TỐI","stop_3_name":"Ẩm Thực Đêm & Rooftop Lounge","stop_3_highlight":"Thưởng thức cocktail ngắm toàn cảnh thành phố lung linh từ trên cao.","total_duration":"TỔNG THỜI GIAN: 12 TIẾNG"}'
+        >
+            <div class="map-grid"></div>
+
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="main-title"></div>
+                <div class="duration-pill"><span class="dur-txt"></span></div>
+            </div>
+
+            <div class="stops-container">
+                <div class="stop-card card-1">
+                    <div class="stop-top">
+                        <span class="time-badge s1-time"></span>
+                        <span class="pin-icon">📍</span>
+                    </div>
+                    <div>
+                        <div class="stop-name s1-name"></div>
+                        <div class="highlight-tag s1-hl"></div>
+                    </div>
+                    <div class="stop-footer">
+                        <span class="sf-l1"></span>
+                        <span class="sf-r1"></span>
+                    </div>
+                </div>
+
+                <div class="stop-card card-2">
+                    <div class="stop-top">
+                        <span class="time-badge s2-time"></span>
+                        <span class="pin-icon">📍</span>
+                    </div>
+                    <div>
+                        <div class="stop-name s2-name"></div>
+                        <div class="highlight-tag s2-hl"></div>
+                    </div>
+                    <div class="stop-footer">
+                        <span class="sf-l2"></span>
+                        <span class="sf-r2"></span>
+                    </div>
+                </div>
+
+                <div class="stop-card card-3">
+                    <div class="stop-top">
+                        <span class="time-badge s3-time"></span>
+                        <span class="pin-icon">📍</span>
+                    </div>
+                    <div>
+                        <div class="stop-name s3-name"></div>
+                        <div class="highlight-tag s3-hl"></div>
+                    </div>
+                    <div class="stop-footer">
+                        <span class="sf-l3"></span>
+                        <span class="sf-r3"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.itinerary_title);
+                set(".dur-txt", v.total_duration || "1 DAY TRIP");
+                set(".s1-time", v.stop_1_time);
+                set(".s1-name", v.stop_1_name);
+                set(".s1-hl", v.stop_1_highlight);
+                set(".sf-l1", "TRẠM DỪNG 01");
+                set(".sf-r1", "CHECK-IN ✓");
+                set(".s2-time", v.stop_2_time);
+                set(".s2-name", v.stop_2_name);
+                set(".s2-hl", v.stop_2_highlight);
+                set(".sf-l2", "TRẠM DỪNG 02");
+                set(".sf-r2", "HIGHLIGHT ★");
+                set(".s3-time", v.stop_3_time);
+                set(".s3-name", v.stop_3_name);
+                set(".s3-hl", v.stop_3_highlight);
+                set(".sf-l3", "TRẠM DỪNG 03");
+                set(".sf-r3", "NIGHT VIEW ✦");
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>
