@@ -33,6 +33,47 @@ A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity 
 
 ---
 
+## 🚀 End-to-End Workflow & Architecture
+
+```mermaid
+flowchart TD
+    subgraph S1["1. Research & Ingestion"]
+        A["News / RSS / Web Sources"] --> B["crawl.py / WebFetch"]
+        A2["Academic / STEM Papers"] --> B2["academic-deep-research"]
+        B & B2 --> C["Extract Facts, Numbers & Primary URLs"]
+    end
+
+    subgraph S2["2. Authoring & Multi-Channel Plan"]
+        C --> D1["Draft SEO/GEO Article (WRITING_CRAFT)"]
+        C --> D2["Script 9:16 Video (VIDEO_CRAFT / script.json)"]
+        D2 --> E1["Assemble 74 Video Templates (Hooks, Vox, Diagrams, 3D, GEO)"]
+        D2 --> E2["Capture Evidence & B-Roll (research-and-capture)"]
+    end
+
+    subgraph S3["3. Verification & Quality Gates"]
+        D1 & D2 --> F["review-gate / validate-script.mjs --strict"]
+        F -->|Fails Gate| G["Autonomous Revision / Style Alignment"]
+        G --> F
+    end
+
+    subgraph S4["4. Rendering & Publishing"]
+        F -->|Passes Gate| H1["Publish Articles (X, Threads, FB, IG, Web)"]
+        F -->|Passes Gate| H2["Puppeteer + HyperFrames 9:16 Engine"]
+        H2 --> I["FFmpeg Voice/SFX & Motion Transitions"]
+        I --> J["Publish Video (TikTok, Reels, Shorts)"]
+    end
+
+    subgraph S5["5. Repurpose & Analytics"]
+        H1 & J --> K["repurpose (Unearth Unused Angles)"]
+        K --> L["Track in brain/repurposed.json (Deduplication)"]
+        L --> D1
+        H1 & J --> M["ads-report (Campaign Performance Diagnostics)"]
+        M --> C
+    end
+```
+
+---
+
 ## 74 Scene Templates (Organized by Visual Category)
 
 All 74 templates are structured into **8 distinct visual categories** with dedicated aesthetic identities:

@@ -33,6 +33,47 @@ Bộ kit giúp các IDE agentic (**Claude Code**, **Antigravity / Gemini**) tự
 
 ---
 
+## 🚀 Sơ Đồ Luồng Vận Hành Toàn Diện (End-to-End Workflow)
+
+```mermaid
+flowchart TD
+    subgraph S1["1. Nghiên Cứu & Thu Thập Dữ Liệu"]
+        A["Nguồn Tin Tức / RSS / Web"] --> B["crawl.py / WebFetch"]
+        A2["Tài Liệu Khoa Học / STEM"] --> B2["academic-deep-research"]
+        B & B2 --> C["Trích Xuất Fact, Số Liệu & Primary URLs"]
+    end
+
+    subgraph S2["2. Soạn Thảo & Lập Lịch Đa Kênh"]
+        C --> D1["Soạn Bài Viết SEO/GEO (WRITING_CRAFT)"]
+        C --> D2["Tạo Kịch Bản Video 9:16 (VIDEO_CRAFT / script.json)"]
+        D2 --> E1["Ghép 74 Video Templates (Hooks, Vox, Diagrams, 3D, GEO)"]
+        D2 --> E2["Thu Thập B-Roll & Screenshot (research-and-capture)"]
+    end
+
+    subgraph S3["3. Thẩm Định & Kiểm Soát Chất Lượng"]
+        D1 & D2 --> F["review-gate / validate-script.mjs --strict"]
+        F -->|Không Đạt| G["Tự Động Sửa Lỗi / Điều Chỉnh Văn Phong"]
+        G --> F
+    end
+
+    subgraph S4["4. Kết Xuất & Xuất Bản Đa Kênh"]
+        F -->|Đạt Chuẩn| H1["Publish Bài Viết (X, Threads, FB, IG, Web)"]
+        F -->|Đạt Chuẩn| H2["Puppeteer + HyperFrames Render Video 9:16"]
+        H2 --> I["FFmpeg Ghép Giọng TTS, SFX & Chuyển Cảnh"]
+        I --> J["Xuất Bản Video (TikTok, Reels, Shorts)"]
+    end
+
+    subgraph S5["5. Tái Sử Dụng & Đo Lường"]
+        H1 & J --> K["repurpose (Khai Thác Góc Nhìn Mới)"]
+        K --> L["Lưu brain/repurposed.json (Tránh Trùng Lặp)"]
+        L --> D1
+        H1 & J --> M["ads-report (Báo Cáo Hiệu Quả Chiến Dịch)"]
+        M --> C
+    end
+```
+
+---
+
 ## Thư viện 74 Video Template (Phân loại theo chức năng)
 
 Toàn bộ 74 template được chia thành **8 danh mục trực quan** với màu sắc và phong cách thiết kế riêng biệt:

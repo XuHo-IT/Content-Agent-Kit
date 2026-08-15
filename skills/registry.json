@@ -166,16 +166,6 @@
       "summary": "104 shot recipe cards plus a production-ready cinematic product-video template, for Remotion.",
       "why": "The kit has genre sequences but no vocabulary for motion WITHIN a scene. Pairs with the `remotion` backend; the html backend cannot run its components."
     },
-    "fb-repurposer": {
-      "repo": "sergebulaev/facebook-skills",
-      "ref": "main",
-      "path": "skills/fb-repurposer",
-      "installAs": "fb-repurposer",
-      "license": "MIT",
-      "licenseFile": "LICENSE",
-      "summary": "Rewrites a LinkedIn post, X thread, blog or newsletter as a native Facebook Page post.",
-      "why": "The reference behind this kit's own `repurpose` skill. Useful directly if Facebook Pages are a channel you actually publish to."
-    },
     "html-anything": {
       "repo": "nexu-io/html-anything",
       "ref": "main",
@@ -329,7 +319,7 @@
     "Note `ref` is `master` there, not `main`."
   ],
   "_facebook": [
-    "The three fb-* entries come from sergebulaev/facebook-skills (MIT, 8 skills, part of a family that also",
+    "The two fb-* entries come from sergebulaev/facebook-skills (MIT, 8 skills, part of a family that also",
     "covers LinkedIn, Instagram, X, YouTube, TikTok and Threads).",
     "",
     "Two things to know before installing any of them:",
