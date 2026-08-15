@@ -3,44 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1920, height=1080" />
-  <title>5-Criterion Star Rating Review · 16:9</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>5-Criterion Scorecard & Gold Badge · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #FAFAFA; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0A0D14; }
     #root {
       position: relative;
       width: 1920px;
       height: 1080px;
-      background: #FAFAFA;
+      background: #0A0D14;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 60px 120px;
+      padding: 50px 100px;
     }
     
-      .star-header { text-align: center; margin-bottom: 24px; }
-      .star-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 40px; color: #0F172A; font-weight: 800; }
-      .crit-list { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
-      .crit-row { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #334155; font-weight: 600; padding: 8px 12px; background: #F8FAFC; border-radius: 8px; }
-      .overall-score { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; color: #B45309; background: #FEF3C7; border: 2px solid #F59E0B; padding: 16px; text-align: center; border-radius: 10px; font-weight: 800; }
+      .scorecard-stage { background: #0A0D14; border: 1px solid #1E293B; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .sc-head { font-family: 'Montserrat', sans-serif; font-size: 38px; font-weight: 900; color: #FFF; text-align: center; }
+
+      .criteria-list { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
+      .cr-row { background: #131A29; border: 1px solid #334155; border-radius: 10px; padding: 14px 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 17px; font-weight: 800; color: #F1F5F9; }
+
+      .master-score-badge { background: linear-gradient(135deg, #F59E0B, #D97706); color: #000; font-family: 'Montserrat', sans-serif; font-size: 20px; font-weight: 900; padding: 16px; border-radius: 12px; text-align: center; box-shadow: 0 10px 25px rgba(245,158,11,0.4); }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"TỔNG KẾT ĐÁNH GIÁ 5 TIÊU CHÍ","crit_1":"Thiết kế & Độ hoàn thiện: 5.0 / 5.0","crit_2":"Hiệu năng & Tốc độ: 4.8 / 5.0","crit_3":"Thời lượng pin: 5.0 / 5.0","crit_4":"Mức giá hợp lý: 4.5 / 5.0","overall_badge":"TỔNG ĐIỂM: 4.8 / 5.0 (CỰC KỲ KHUYÊN DÙNG)"}'>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"Bảng Điểm Đánh Giá Toàn Diện","crit_1":"Thiết Kế: 9.5 / 10 ⭐","crit_2":"Hiệu Năng: 9.8 / 10 ⭐","crit_3":"Thời Lượng Pin: 8.5 / 10 ⭐","crit_4":"Độ Đáng Tiền: 9.0 / 10 ⭐","overall_badge":"TỔNG KẾT: 9.2 / 10 (XUẤT SẮC)"}'>
     
-      <div class="star-header">
-        <h1 class="star-title" data-slot="headline"></h1>
+      <div class="scorecard-stage">
+        <h1 class="sc-head" data-slot="headline"></h1>
+
+        <div class="criteria-list">
+          <div class="cr-row" data-slot="crit_1"></div>
+          <div class="cr-row" data-slot="crit_2"></div>
+          <div class="cr-row" data-slot="crit_3"></div>
+          <div class="cr-row" data-slot="crit_4"></div>
+        </div>
+
+        <div class="master-score-badge" data-slot="overall_badge"></div>
       </div>
-      <div class="crit-list">
-        <div class="crit-row" data-slot="crit_1"></div>
-        <div class="crit-row" data-slot="crit_2"></div>
-        <div class="crit-row" data-slot="crit_3"></div>
-        <div class="crit-row" data-slot="crit_4"></div>
-      </div>
-      <div class="overall-score" data-slot="overall_badge"></div>
     
   </div>
   <script>
@@ -57,7 +61,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

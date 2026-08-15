@@ -3,48 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1920, height=1080" />
-  <title>Code Editor Optimization Diff · 16:9</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Code Refactoring & Performance Diff · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0B0F19; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0A0E17; }
     #root {
       position: relative;
       width: 1920px;
       height: 1080px;
-      background: #0B0F19;
+      background: #0A0E17;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 60px 120px;
+      padding: 50px 100px;
     }
     
-      .diff-header { text-align: center; margin-bottom: 20px; }
-      .diff-title { font-family: 'Be Vietnam Pro', sans-serif; font-size: 38px; color: #FFF; font-weight: 700; }
-      .file-tag { font-family: 'JetBrains Mono'; font-size: 18px; color: #38BDF8; background: #1E293B; padding: 4px 14px; border-radius: 6px; display: inline-block; margin-top: 6px; }
-      .editor-window { background: #020617; border: 1px solid #1E293B; border-radius: 12px; overflow: hidden; margin-bottom: 20px; }
-      .diff-body { padding: 24px; display: flex; flex-direction: column; gap: 12px; font-family: 'JetBrains Mono'; font-size: 20px; }
-      .diff-row.del { background: rgba(239,68,68,0.15); color: #FCA5A5; padding: 10px 14px; border-radius: 6px; border-left: 4px solid #EF4444; }
-      .diff-row.add { background: rgba(16,185,129,0.15); color: #6EE7B7; padding: 10px 14px; border-radius: 6px; border-left: 4px solid #10B981; }
-      .perf-tag { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #10B981; background: rgba(16,185,129,0.15); border: 1px solid #10B981; padding: 14px; text-align: center; border-radius: 8px; font-weight: 700; }
+      .diff-editor { background: #0A0E17; border: 1px solid #1E293B; border-radius: 20px; padding: 32px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .diff-header { border-bottom: 1px solid #1E293B; padding-bottom: 14px; }
+      .file-tab { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #94A3B8; font-weight: 700; margin-bottom: 6px; }
+      .diff-hl { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 34px; font-weight: 800; color: #FFF; margin: 0; }
+
+      .diff-lines-stage { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+      .diff-line { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 600; padding: 16px 20px; border-radius: 8px; line-height: 1.4; }
+      .line-del { background: rgba(239,68,68,0.15); color: #FCA5A5; border-left: 5px solid #EF4444; }
+      .line-add { background: rgba(16,185,129,0.15); color: #6EE7B7; border-left: 5px solid #10B981; }
+
+      .perf-badge { background: #10B981; color: #000; font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 800; padding: 14px; border-radius: 10px; text-align: center; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"TỐI ƯU HÓA CODE: TĂNG TỐC 10X","file_name":"pipeline.mjs","before_code":"- for (let i=0; i<data.length; i++) slowProcess(data[i]);","after_code":"+ await Promise.all(data.map(fastProcess));","perf_gain":"Thời gian xử lý: Giảm từ 4,200ms xuống còn 380ms"}'>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"Tối Ưu Hiệu Năng Xử Lý AI","file_name":"pipeline.ts","before_code":"- const res = await Promise.all(urls.map(crawlSlow))","after_code":"+ const res = await cluster.mapConcurrent(urls, 10)","perf_gain":"Tăng tốc 10x · Giảm 80% RAM"}'>
     
-      <div class="diff-header">
-        <h1 class="diff-title" data-slot="headline"></h1>
-        <span class="file-tag" data-slot="file_name"></span>
-      </div>
-      <div class="editor-window">
-        <div class="diff-body">
-          <div class="diff-row del" data-slot="before_code"></div>
-          <div class="diff-row add" data-slot="after_code"></div>
+      <div class="diff-editor">
+        <div class="diff-header">
+          <div class="file-tab">📄 <span class="tab-title" data-slot="file_name"></span></div>
+          <h2 class="diff-hl" data-slot="headline"></h2>
         </div>
+
+        <div class="diff-lines-stage">
+          <div class="diff-line line-del" data-slot="before_code"></div>
+          <div class="diff-line line-add" data-slot="after_code"></div>
+        </div>
+
+        <div class="perf-badge" data-slot="perf_gain"></div>
       </div>
-      <div class="perf-tag" data-slot="perf_gain"></div>
     
   </div>
   <script>
@@ -61,7 +66,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

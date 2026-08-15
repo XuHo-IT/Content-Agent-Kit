@@ -3,51 +3,68 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>DNA Helix Genetic Breakdown · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>DNA Helix & Biotech Blueprint · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&family=Plus+Jakarta+Sans:wght@600;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #080F1E; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #040D1A; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #080F1E;
+      background: #040D1A;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .dna-header { text-align: center; margin-bottom: 24px; }
-      .dna-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 42px; color: #00E5FF; font-weight: 800; }
-      .gene-badge { background: #132F4C; color: #38BDF8; font-family: 'Plus Jakarta Sans'; font-size: 18px; font-weight: 700; padding: 4px 14px; border-radius: 20px; border: 1px solid #0284C7; display: inline-block; margin-top: 8px; }
-      .dna-visual-box { background: #0D1E36; border: 1px solid #1E3A8A; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
-      .dna-details { display: flex; flex-direction: column; gap: 12px; }
-      .d-val { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #E2E8F0; }
-      .dna-impact { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #F8FAFC; background: rgba(0,229,255,0.12); border-left: 4px solid #00E5FF; padding: 14px 20px; border-radius: 8px; font-weight: 600; }
+      .dna-container { background: #040D1A; border: 1px solid #0284C7; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .gene-target { font-family: 'Space Mono', monospace; font-size: 14px; color: #38BDF8; font-weight: 700; letter-spacing: 2px; }
+      .dna-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 38px; font-weight: 800; color: #FFF; margin-top: 6px; }
+
+      .dna-visual-row { display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px; align-items: center; margin: 16px 0; }
+      .helix-graphic { background: #082F49; border-radius: 16px; padding: 20px; }
+      .rungs { display: flex; flex-direction: column; gap: 10px; font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; text-align: center; }
+      .rung { background: #0C4A6E; color: #38BDF8; padding: 8px; border-radius: 6px; }
+      .rung-cut { background: #EF4444; color: #FFF; box-shadow: 0 0 15px rgba(239,68,68,0.5); }
+
+      .dna-cards { display: flex; flex-direction: column; gap: 12px; }
+      .d-card { background: rgba(14,116,144,0.2); border-left: 4px solid #38BDF8; padding: 14px 18px; border-radius: 0 10px 10px 0; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; color: #E0F2FE; font-weight: 600; }
+
+      .dna-footer { background: #0C4A6E; color: #FFF; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; padding: 16px 20px; border-radius: 12px; text-align: center; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"CÔNG NGHỆ CHỈNH SỬA GEN CRISPR","target_gene":"Đoạn mã đột biến: CAS-9 TARGET #4","mechanism":"Cắt đứt đoạn ADN lỗi và thay thế bằng chuỗi chuẩn","application":"Điều trị bệnh di truyền & ung thư","impact":"Mở ra kỷ nguyên can thiệp sinh học trực tiếp."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"Đột Phá Chỉnh Sửa Gen CRISPR","target_gene":"TARGET: GEN BCL11A","rung_1":"A === T","rung_2":"G === C","rung_3":"CRISPR CUT","rung_4":"T === A","rung_5":"C === G","mechanism":"Cơ chế: Cắt đứt đoạn ADN gây đột biến bệnh thiếu máu","application":"Ứng dụng: Chữa lành tận gốc bệnh di truyền tế bào hình liềm","impact":"Mở ra kỷ nguyên y học chính xác loại bỏ bệnh nan y."}'>
     
-      <div class="dna-header">
-        <h1 class="dna-title" data-slot="headline"></h1>
-        <span class="gene-badge" data-slot="target_gene"></span>
-      </div>
-      <div class="dna-visual-box">
-        <div class="dna-details">
-          <div class="detail-row">
-            <p class="d-val" data-slot="mechanism"></p>
+      <div class="dna-container">
+        <div class="dna-topbar">
+          <span class="gene-target" data-slot="target_gene"></span>
+          <h1 class="dna-title" data-slot="headline"></h1>
+        </div>
+
+        <div class="dna-visual-row">
+          <div class="helix-graphic">
+            <div class="rungs">
+              <span class="rung" data-slot="rung_1"></span>
+              <span class="rung" data-slot="rung_2"></span>
+              <span class="rung rung-cut" data-slot="rung_3"></span>
+              <span class="rung" data-slot="rung_4"></span>
+              <span class="rung" data-slot="rung_5"></span>
+            </div>
           </div>
-          <div class="detail-row">
-            <p class="d-val" data-slot="application"></p>
+
+          <div class="dna-cards">
+            <div class="d-card" data-slot="mechanism"></div>
+            <div class="d-card" data-slot="application"></div>
           </div>
         </div>
+
+        <div class="dna-footer" data-slot="impact"></div>
       </div>
-      <div class="dna-impact" data-slot="impact"></div>
     
   </div>
   <script>
@@ -64,7 +81,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

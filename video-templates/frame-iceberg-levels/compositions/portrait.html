@@ -3,57 +3,80 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Iceberg 3-Tier Explainer · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Scientific Iceberg 3-Tier Descent · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B132B; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #020B14; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #0B132B;
+      background: #020B14;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .ice-header { text-align: center; margin-bottom: 24px; }
-      .ice-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 44px; color: #38BDF8; font-weight: 800; text-shadow: 0 0 25px rgba(56,189,248,0.4); }
-      .ice-levels { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; position: relative; }
-      .level-box { border-radius: 12px; padding: 16px 20px; }
-      .level-box.surface { background: #1C2541; border: 1px solid #38BDF8; }
-      .level-box.middle { background: #0B1D3A; border: 1px solid #1D4ED8; }
-      .level-box.deep { background: #050C1A; border: 1px solid #4338CA; }
-      .level-tag { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: #00E5FF; margin-bottom: 6px; letter-spacing: 1px; }
-      .level-desc { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #E2E8F0; }
-      .ice-takeaway { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #F8FAFC; background: rgba(56,189,248,0.12); border-left: 4px solid #38BDF8; padding: 14px 20px; border-radius: 8px; }
+      .iceberg-stage { background: linear-gradient(180deg, #0284C7 0%, #0369A1 18%, #0C4A6E 45%, #020B14 100%); border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+      .ib-header { text-align: center; }
+      .ib-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 38px; font-weight: 800; color: #FFF; text-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+      
+      .ib-tiers { display: flex; flex-direction: column; gap: 12px; margin: 16px 0; }
+      .water-line { font-family: 'Space Mono', monospace; font-size: 12px; color: #BAE6FD; text-align: center; letter-spacing: 2px; opacity: 0.8; }
+      .tier { display: flex; align-items: center; gap: 18px; padding: 14px 20px; border-radius: 12px; background: rgba(2,11,20,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+      .depth-marker { font-family: 'Space Mono', monospace; font-size: 14px; color: #38BDF8; font-weight: 700; min-width: 70px; }
+      .tier-content { flex: 1; }
+      .tier-badge { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 800; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 4px; }
+      .tier-surface .tier-badge { background: #BAE6FD; color: #0369A1; }
+      .tier-middle .tier-badge { background: #38BDF8; color: #0C4A6E; }
+      .tier-deep .tier-badge { background: #F43F5E; color: #FFF; box-shadow: 0 0 15px rgba(244,63,94,0.5); }
+      .tier-desc { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; color: #F0F9FF; margin: 0; font-weight: 600; }
+
+      .ib-footer { background: rgba(0,0,0,0.7); border: 1px solid #38BDF8; border-radius: 12px; padding: 14px 20px; text-align: center; }
+      .ib-takeaway-txt { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; color: #E0F2FE; margin: 0; font-weight: 700; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"TẢNG BĂNG CHÌM CỦA SỰ THÀNH CÔNG","tag_surface":"10% TRÊN MẶT NƯỚC","level_1":"TẦNG NỔI: Kết quả ai cũng thấy (Tiền tài, Danh tiếng, Xe sang)","tag_middle":"50% DƯỚI MẶT NƯỚC","level_2":"TẦNG TRUNG: Kỷ luật ngầm (Thức khuya dậy sớm, Bị từ chối 100 lần)","tag_deep":"40% ĐÁY TỐI SÂU THẲM","level_3":"ĐÁY SÂU: Nỗi đau & Hy sinh (Cô độc, Nghi ngờ bản thân, Rủi ro phá sản)","takeaway":"Đừng so sánh hậu trường của bạn với sân khấu của người khác."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"Mô Hình Tảng Băng Nhận Thức","tag_surface":"TẦNG 1: BỀ MẶT (10%)","level_1":"Hành vi quan sát được & Lời nói bên ngoài","tag_middle":"TẦNG 2: ẨN GIẤU (40%)","level_2":"Cảm xúc, nỗi sợ & Định kiến vô thức","tag_deep":"TẦNG 3: GỐC RỄ (50%)","level_3":"Hệ niềm tin cốt lõi & Chấn thương thời thơ ấu","water_label":"~~~~~~~~ MẶT NƯỚC ~~~~~~~~","depth_0m":"0m","depth_500m":"-500m","depth_2000m":"-2000m","takeaway":"Muốn thay đổi hành vi bền vững, phải chạm vào tầng sâu nhất."}'>
     
-      <div class="ice-header">
-        <h1 class="ice-title" data-slot="headline"></h1>
+      <div class="iceberg-stage">
+        <div class="ib-header">
+          <h1 class="ib-title" data-slot="headline"></h1>
+        </div>
+
+        <div class="ib-tiers">
+          <div class="tier tier-surface">
+            <div class="depth-marker" data-slot="depth_0m"></div>
+            <div class="tier-content">
+              <span class="tier-badge" data-slot="tag_surface"></span>
+              <p class="tier-desc" data-slot="level_1"></p>
+            </div>
+          </div>
+          <div class="water-line" data-slot="water_label"></div>
+          <div class="tier tier-middle">
+            <div class="depth-marker" data-slot="depth_500m"></div>
+            <div class="tier-content">
+              <span class="tier-badge" data-slot="tag_middle"></span>
+              <p class="tier-desc" data-slot="level_2"></p>
+            </div>
+          </div>
+          <div class="tier tier-deep">
+            <div class="depth-marker" data-slot="depth_2000m"></div>
+            <div class="tier-content">
+              <span class="tier-badge" data-slot="tag_deep"></span>
+              <p class="tier-desc" data-slot="level_3"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ib-footer">
+          <p class="ib-takeaway-txt" data-slot="takeaway"></p>
+        </div>
       </div>
-      <div class="ice-levels">
-        <div class="level-box surface">
-          <div class="level-tag" data-slot="tag_surface"></div>
-          <div class="level-desc" data-slot="level_1"></div>
-        </div>
-        <div class="level-box middle">
-          <div class="level-tag" data-slot="tag_middle"></div>
-          <div class="level-desc" data-slot="level_2"></div>
-        </div>
-        <div class="level-box deep">
-          <div class="level-tag" data-slot="tag_deep"></div>
-          <div class="level-desc" data-slot="level_3"></div>
-        </div>
-      </div>
-      <div class="ice-takeaway" data-slot="takeaway"></div>
     
   </div>
   <script>
@@ -70,7 +93,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

@@ -3,48 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1920, height=1080" />
-  <title>High-Urgency Speedrun Countdown Timer · 16:9</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Speedrun Challenge & Milestones HUD · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Chakra+Petch:wght@700;800&family=Plus+Jakarta+Sans:wght@700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #11071F; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #05060A; }
     #root {
       position: relative;
       width: 1920px;
       height: 1080px;
-      background: #11071F;
+      background: #05060A;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 60px 120px;
+      padding: 50px 100px;
     }
     
-      .sr-header { text-align: center; margin-bottom: 20px; }
-      .sr-title { font-family: 'JetBrains Mono', monospace; font-size: 38px; color: #FF0055; font-weight: 800; text-shadow: 0 0 20px rgba(255,0,85,0.4); }
-      .sr-main { background: #1F0D38; border: 2px solid #FF0055; border-radius: 16px; padding: 24px; margin-bottom: 20px; text-align: center; }
-      .timer-giant { font-family: 'JetBrains Mono', monospace; font-size: 64px; font-weight: 800; color: #FFE600; text-shadow: 0 0 20px #FFE600; margin-bottom: 16px; }
-      .milestones-box { display: flex; flex-direction: column; gap: 8px; text-align: left; background: #130724; padding: 14px 18px; border-radius: 8px; }
-      .m-row { font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #00E676; font-weight: 600; }
-      .sr-outcome { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #000; background: #00E676; padding: 14px; text-align: center; border-radius: 8px; font-weight: 800; }
+      .speedrun-stage { background: #05060A; border: 2px solid #00F0FF; border-radius: 20px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 0 40px rgba(0,240,255,0.2); }
+      .sr-title { font-family: 'Chakra Petch', sans-serif; font-size: 36px; font-weight: 800; color: #FFF; text-align: center; }
+
+      .timer-display-box { background: #000; border: 2px solid #FF0055; border-radius: 14px; padding: 16px; text-align: center; box-shadow: 0 0 25px rgba(255,0,85,0.4); }
+      .digital-timer { font-family: 'VT323', monospace; font-size: 64px; color: #FF0055; text-shadow: 0 0 15px #FF0055; display: block; line-height: 1; }
+      .timer-tag { font-family: 'Chakra Petch', sans-serif; font-size: 13px; color: #94A3B8; letter-spacing: 2px; font-weight: 700; }
+
+      .milestones-box { display: flex; flex-direction: column; gap: 8px; }
+      .ms-line { background: #0F172A; border: 1px solid #334155; padding: 12px 18px; border-radius: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: #E2E8F0; }
+
+      .sr-outcome { background: #00F0FF; color: #000; font-family: 'Chakra Petch', sans-serif; font-size: 18px; font-weight: 800; padding: 14px; border-radius: 8px; text-align: center; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"THỬ THÁCH BUILD AGENT TRONG 60 GIÂY","timer_display":"00:48.24","milestone_1":"00:15 - Tạo prompt & cấu trúc file","milestone_2":"00:30 - Tích hợp TTS & Video templates","milestone_3":"00:45 - Render video MP4 hoàn tất","outcome":"Kỷ lục mới: Hoàn thành trước thời hạn 12 giây!"}'>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"Thử Thách Dựng Web Full-Stack Trong 60s","timer_display":"00:48.24","timer_tag":"CHALLENGE RUNNING","milestone_1":"00:15 - Khởi tạo Next.js & Tailwind","milestone_2":"00:32 - Kết nối Database Supabase","milestone_3":"00:48 - Deploy production lên Vercel","outcome":"KỶ LỤC HOÀN THÀNH TRƯỚC HẠN 12 GIÂY"}'>
     
-      <div class="sr-header">
+      <div class="speedrun-stage">
         <h1 class="sr-title" data-slot="headline"></h1>
-      </div>
-      <div class="sr-main">
-        <div class="timer-giant" data-slot="timer_display"></div>
-        <div class="milestones-box">
-          <div class="m-row" data-slot="milestone_1"></div>
-          <div class="m-row" data-slot="milestone_2"></div>
-          <div class="m-row" data-slot="milestone_3"></div>
+
+        <div class="timer-display-box">
+          <span class="digital-timer" data-slot="timer_display"></span>
+          <span class="timer-tag" data-slot="timer_tag"></span>
         </div>
+
+        <div class="milestones-box">
+          <div class="ms-line" data-slot="milestone_1"></div>
+          <div class="ms-line" data-slot="milestone_2"></div>
+          <div class="ms-line" data-slot="milestone_3"></div>
+        </div>
+
+        <div class="sr-outcome" data-slot="outcome"></div>
       </div>
-      <div class="sr-outcome" data-slot="outcome"></div>
     
   </div>
   <script>
@@ -61,7 +69,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

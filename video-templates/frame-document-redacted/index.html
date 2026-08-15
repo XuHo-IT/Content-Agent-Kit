@@ -3,48 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1920, height=1080" />
-  <title>Declassified Redacted Secret Document · 16:9</title>
-  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Cinzel:wght@700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Declassified Document & Evaporating Redaction · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Cinzel:wght@700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #141414; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #E8E2D5; }
     #root {
       position: relative;
       width: 1920px;
       height: 1080px;
-      background: #141414;
+      background: #E8E2D5;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 60px 120px;
+      padding: 50px 100px;
     }
     
-      .redact-header { text-align: center; margin-bottom: 24px; }
-      .stamp-top { font-family: 'Special Elite', cursive; color: #EF4444; border: 2px solid #EF4444; padding: 4px 16px; font-size: 18px; display: inline-block; transform: rotate(1deg); margin-bottom: 8px; }
-      .doc-title { font-family: 'Cinzel', serif; font-size: 38px; color: #F3F4F6; }
-      .document-sheet { background: #27272A; border: 1px solid #3F3F46; border-radius: 12px; padding: 26px; margin-bottom: 20px; }
-      .redact-line { position: relative; margin-bottom: 14px; }
-      .secret-revealed { font-family: 'Special Elite', cursive; font-size: 26px; color: #F87171; background: rgba(239,68,68,0.1); border-left: 4px solid #EF4444; padding: 8px 14px; }
-      .doc-body-txt { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #D4D4D8; line-height: 1.5; }
-      .doc-summary { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #FDE047; background: rgba(234,179,8,0.12); border: 1px solid #EAB308; padding: 14px 20px; border-radius: 8px; text-align: center; }
+      .memo-sheet { background: #F5EFEB; color: #1C1917; border: 1px solid #D6CEBE; border-radius: 12px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 15px 40px rgba(0,0,0,0.4); }
+      .memo-header { text-align: center; border-bottom: 2px solid #1C1917; padding-bottom: 16px; }
+      .declass-stamp { font-family: 'Courier Prime', monospace; font-size: 14px; font-weight: 700; color: #DC2626; border: 2px solid #DC2626; padding: 4px 12px; display: inline-block; letter-spacing: 2px; }
+      .doc-subject { font-family: 'Cinzel', serif; font-size: 30px; font-weight: 700; color: #1C1917; margin-top: 10px; }
+
+      .memo-body { margin: 16px 0; }
+      .redacted-reveal-box { background: #1C1917; color: #FFF; padding: 18px; border-radius: 6px; margin-bottom: 12px; }
+      .redact-label { font-family: 'Courier Prime', monospace; font-size: 12px; color: #DC2626; font-weight: 700; display: block; margin-bottom: 4px; }
+      .revealed-clause { font-family: 'Courier Prime', monospace; font-size: 20px; font-weight: 700; color: #FEF08A; }
+      .memo-context { font-family: 'Courier Prime', monospace; font-size: 16px; color: #44403C; line-height: 1.5; margin: 0; }
+
+      .memo-footer { font-family: 'Courier Prime', monospace; font-size: 15px; background: #E7E0D3; padding: 12px 16px; border-radius: 4px; font-weight: 700; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"classification":"TOP SECRET // DECLASSIFIED","doc_title":"BÁO CÁO THẨM ĐỊNH NỘI BỘ #09","secret_text":"Thỏa thuận bí mật trị giá 2.4 tỷ USD đã được ký kết","revealed_info":"Các điều khoản bảo mật chỉ có hiệu lực trong 5 năm.","summary":"Sự thật bị che giấu suốt một thập kỷ vừa được công bố."}'>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"classification":"BÁO CÁO MẬT ĐÃ GIẢI MẬT","doc_title":"HỒ SƠ THỎA THUẬN NGẦM GIỮA 2 ÔNG LỚN","redact_tag":"ĐIỀU KHOẢN BÍ MẬT:","secret_text":"Cam kết chia đôi thị trường và giữ giá cao nhân tạo","revealed_info":"Hành vi vi phạm luật chống độc quyền kéo dài suốt 7 năm.","summary":"Tài liệu nội bộ rò rỉ làm bằng chứng kết tội trước tòa án."}'>
     
-      <div class="redact-header">
-        <span class="stamp-top" data-slot="classification"></span>
-        <h2 class="doc-title" data-slot="doc_title"></h2>
-      </div>
-      <div class="document-sheet">
-        <div class="redact-line">
-          <p class="secret-revealed" data-slot="secret_text"></p>
+      <div class="memo-sheet">
+        <div class="memo-header">
+          <span class="declass-stamp" data-slot="classification"></span>
+          <h2 class="doc-subject" data-slot="doc_title"></h2>
         </div>
-        <div class="doc-body-txt" data-slot="revealed_info"></div>
+
+        <div class="memo-body">
+          <div class="redacted-reveal-box">
+            <span class="redact-label" data-slot="redact_tag"></span>
+            <div class="revealed-clause" data-slot="secret_text"></div>
+          </div>
+          <p class="memo-context" data-slot="revealed_info"></p>
+        </div>
+
+        <div class="memo-footer" data-slot="summary"></div>
       </div>
-      <div class="doc-summary" data-slot="summary"></div>
     
   </div>
   <script>
@@ -61,7 +70,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

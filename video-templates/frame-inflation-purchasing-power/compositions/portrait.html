@@ -3,55 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Inflation Purchasing Power · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Chakra+Petch:wght@700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Inflation & Purchasing Power Erosion · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #10131A; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0D1117; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #10131A;
+      background: #0D1117;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .inf-header { text-align: center; margin-bottom: 24px; }
-      .inf-headline { font-family: 'Alfa Slab One', cursive; font-size: 42px; color: #EF4444; line-height: 1.2; text-shadow: 0 0 20px rgba(239,68,68,0.3); }
-      .inf-subline { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #94A3B8; margin-top: 6px; }
-      .inf-timeline { display: flex; flex-direction: column; gap: 14px; margin-bottom: 20px; }
-      .era-card { display: flex; align-items: center; gap: 16px; background: #1E293B; border-radius: 12px; padding: 16px 20px; border-left: 6px solid #64748B; }
-      .era-card.c1 { border-color: #10B981; }
-      .era-card.c2 { border-color: #F59E0B; }
-      .era-card.c3 { border-color: #EF4444; }
-      .era-desc { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #E2E8F0; }
-      .inf-insight { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #FCA5A5; background: rgba(239,68,68,0.15); border: 1px solid #EF4444; padding: 14px; text-align: center; border-radius: 10px; font-weight: 600; }
+      .inf-container { background: #0D1117; border: 1px solid #30363D; border-radius: 24px; padding: 40px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .inf-header { text-align: center; }
+      .warning-pill { background: rgba(239,68,68,0.15); color: #EF4444; border: 1px solid #EF4444; font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 2px; }
+      .inf-title { font-family: 'Space Grotesk', sans-serif; font-size: 38px; color: #F0F6FC; font-weight: 700; margin-top: 10px; }
+      .inf-sub { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; color: #8B949E; margin-top: 4px; }
+
+      .eras-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0; }
+      .era-card { background: #161B22; border: 1px solid #30363D; border-radius: 16px; padding: 24px 16px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+      .cart-visual { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; padding: 16px 20px; border-radius: 12px; width: 100%; }
+      .v-100 { background: rgba(16,185,129,0.2); color: #10B981; border: 1px solid #10B981; }
+      .v-55 { background: rgba(245,158,11,0.2); color: #F59E0B; border: 1px solid #F59E0B; }
+      .v-22 { background: rgba(239,68,68,0.2); color: #EF4444; border: 1px solid #EF4444; box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+      .era-label { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; color: #C9D1D9; }
+
+      .inf-takeaway { background: #21262D; border-left: 5px solid #EF4444; padding: 18px 24px; border-radius: 0 12px 12px 0; }
+      .takeaway-text { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; color: #F0F6FC; margin: 0; font-weight: 600; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"100K MUA ĐƯỢC GÌ THEO THỜI GIAN?","subline":"Sức mua thực tế bị bào mòn bởi lạm phát","era_1":"Năm 2000: Đổ đầy 10 bình xăng","era_2":"Năm 2015: Đổ được 4 bình xăng","era_3":"Năm 2026: Đổ chưa tới 1.5 bình","insight":"Tiền mặt để yên là tài sản tự bốc hơi mỗi năm."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"Sức Mua Bị Bào Mòn Bởi Lạm Phát","subline":"Cùng một tờ $100 mua được bao nhiêu giỏ hàng?","warning_tag":"CẢNH BÁO LẠM PHÁT","era_1":"Năm 2000: Đầy 100% Xe Hàng","era_2":"Năm 2012: Còn 55% Xe Hàng","era_3":"Năm 2026: Chỉ Còn 22% Xe Hàng","insight":"Giữ tiền mặt quá nhiều đồng nghĩa với việc chấp nhận mất dần tài sản."}'>
     
-      <div class="inf-header">
-        <h1 class="inf-headline" data-slot="headline"></h1>
-        <p class="inf-subline" data-slot="subline"></p>
+      <div class="inf-container">
+        <div class="inf-header">
+          <span class="warning-pill" data-slot="warning_tag"></span>
+          <h1 class="inf-title" data-slot="headline"></h1>
+          <p class="inf-sub" data-slot="subline"></p>
+        </div>
+
+        <div class="eras-grid">
+          <div class="era-card era-past">
+            <div class="cart-visual v-100">🛒 100%</div>
+            <span class="era-label" data-slot="era_1"></span>
+          </div>
+          <div class="era-card era-mid">
+            <div class="cart-visual v-55">🛒 55%</div>
+            <span class="era-label" data-slot="era_2"></span>
+          </div>
+          <div class="era-card era-now">
+            <div class="cart-visual v-22">🛒 22%</div>
+            <span class="era-label" data-slot="era_3"></span>
+          </div>
+        </div>
+
+        <div class="inf-takeaway">
+          <p class="takeaway-text" data-slot="insight"></p>
+        </div>
       </div>
-      <div class="inf-timeline">
-        <div class="era-card c1">
-          <div class="era-desc" data-slot="era_1"></div>
-        </div>
-        <div class="era-card c2">
-          <div class="era-desc" data-slot="era_2"></div>
-        </div>
-        <div class="era-card c3">
-          <div class="era-desc" data-slot="era_3"></div>
-        </div>
-      </div>
-      <div class="inf-insight" data-slot="insight"></div>
     
   </div>
   <script>
@@ -68,7 +84,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

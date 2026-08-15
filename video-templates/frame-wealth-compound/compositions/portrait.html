@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Compound Interest Wealth Curve · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&family=Chakra+Petch:wght@700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Wealth Compound Growth Curves · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A0D14; }
@@ -17,43 +17,53 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .compound-header { text-align: center; margin-bottom: 24px; }
-      .c-headline { font-family: 'Chakra Petch', sans-serif; font-size: 46px; color: #FFF; font-weight: 700; letter-spacing: 1px; }
-      .c-subline { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 22px; color: #94A3B8; margin-top: 6px; }
-      .curve-chart-card { background: #111827; border: 1px solid #1F2937; border-radius: 16px; padding: 24px; position: relative; margin-bottom: 20px; }
-      .curve-svg { width: 100%; height: 220px; }
-      .curve-tags { display: flex; justify-content: space-between; margin-top: 12px; }
-      .tag-a { color: #00E676; font-family: 'Chakra Petch', sans-serif; font-size: 24px; font-weight: 700; }
-      .tag-b { color: #F59E0B; font-family: 'Chakra Petch', sans-serif; font-size: 22px; font-weight: 600; }
-      .delta-badge { background: linear-gradient(90deg, rgba(0,230,118,0.2), rgba(0,230,118,0.05)); border: 1px solid #00E676; color: #00E676; font-family: 'Chakra Petch', sans-serif; font-size: 26px; font-weight: 700; text-align: center; padding: 14px; border-radius: 10px; margin-bottom: 14px; }
-      .rule-txt { font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #CBD5E1; text-align: center; font-style: italic; }
+      .compound-container { background: radial-gradient(circle at 100% 0%, #162032 0%, #0A0D14 70%); border: 1px solid #1E293B; border-radius: 24px; padding: 40px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .cp-header { text-align: center; }
+      .cp-title { font-family: 'Montserrat', sans-serif; font-size: 42px; font-weight: 900; color: #FFF; letter-spacing: -0.02em; }
+      .cp-sub { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; color: #94A3B8; margin-top: 6px; font-weight: 600; }
+      
+      .curves-stage { position: relative; height: 320px; width: 100%; margin: 10px 0; }
+      .curves-svg { width: 100%; height: 100%; filter: drop-shadow(0 0 15px rgba(0,240,255,0.3)); }
+      .pulse-point { filter: drop-shadow(0 0 12px #00F0FF); }
+      
+      .curve-marker { position: absolute; right: 20px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 16px; padding: 8px 16px; border-radius: 8px; }
+      .marker-a { top: 20px; background: #00F0FF; color: #0A0D14; box-shadow: 0 0 20px rgba(0,240,255,0.5); }
+      .marker-b { top: 160px; background: #334155; color: #E2E8F0; }
+
+      .cp-bottom-bar { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+      .delta-pill { background: linear-gradient(135deg, #FF0055, #FF5500); color: #FFF; font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 900; padding: 14px 24px; border-radius: 12px; box-shadow: 0 8px 25px rgba(255,0,85,0.4); }
+      .rule-box { flex: 1; background: rgba(30,41,59,0.7); border: 1px solid #334155; padding: 14px 20px; border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; color: #CBD5E1; font-weight: 600; display: flex; align-items: center; gap: 10px; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"SỨC MẠNH CỦA LÃI KÉP","subline":"Đầu tư $300/tháng ở 2 mốc tuổi khác nhau","person_a":"Tuổi 20: $1,280,000","person_b":"Tuổi 35: $340,000","delta":"Chênh lệch gấp 3.7 lần (+ $940,000)","rule":"Thời gian trên thị trường quan trọng hơn căn thời điểm."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"Sức mạnh của Lãi Kép","subline":"Đầu tư $500/tháng: Tuổi 20 vs Tuổi 30","person_a":"Bắt đầu tuổi 20: $1,850,000","person_b":"Bắt đầu tuổi 30: $620,000","delta":"Chênh lệch: Gấp 3 Lần Tài Sản","rule":"Thời gian trên thị trường quan trọng hơn căn thời điểm."}'>
     
-      <div class="compound-header">
-        <h1 class="c-headline" data-slot="headline"></h1>
-        <p class="c-subline" data-slot="subline"></p>
-      </div>
-      <div class="curve-chart-card">
-        <svg class="curve-svg" viewBox="0 0 800 300">
-          <path d="M 50 250 Q 300 240 500 180 T 750 40" fill="none" stroke="#00E676" stroke-width="6" class="path-a"/>
-          <path d="M 350 250 Q 500 245 650 200 T 750 170" fill="none" stroke="#F59E0B" stroke-width="4" stroke-dasharray="6,6" class="path-b"/>
-          <circle cx="750" cy="40" r="8" fill="#00E676"/>
-          <circle cx="750" cy="170" r="6" fill="#F59E0B"/>
-        </svg>
-        <div class="curve-tags">
-          <div class="tag-a" data-slot="person_a"></div>
-          <div class="tag-b" data-slot="person_b"></div>
+      <div class="compound-container">
+        <div class="cp-header">
+          <h1 class="cp-title" data-slot="headline"></h1>
+          <p class="cp-sub" data-slot="subline"></p>
+        </div>
+
+        <div class="curves-stage">
+          <svg class="curves-svg" viewBox="0 0 800 320" fill="none">
+            <path d="M 50 280 Q 400 270 750 40" stroke="#00F0FF" stroke-width="6" stroke-linecap="round" class="anim-curve-a" />
+            <path d="M 50 280 Q 500 280 750 180" stroke="#94A3B8" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8" class="anim-curve-b" />
+            <circle cx="750" cy="40" r="10" fill="#00F0FF" class="pulse-point" />
+            <circle cx="750" cy="180" r="8" fill="#94A3B8" />
+          </svg>
+          <div class="curve-marker marker-a" data-slot="person_a"></div>
+          <div class="curve-marker marker-b" data-slot="person_b"></div>
+        </div>
+
+        <div class="cp-bottom-bar">
+          <div class="delta-pill" data-slot="delta"></div>
+          <div class="rule-box"><span class="star-icon">💡</span> <span class="rule-txt" data-slot="rule"></span></div>
         </div>
       </div>
-      <div class="delta-badge" data-slot="delta"></div>
-      <p class="rule-txt" data-slot="rule"></p>
     
   </div>
   <script>
@@ -70,7 +80,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

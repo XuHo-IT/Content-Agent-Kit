@@ -1,4 +1,4 @@
-# Viral Tier List Ranker (S-A-B-C-D)
+# Arcade Tier List Ranking Board
 
 Original template authored for content-agent-kit.
 Category: viral

@@ -3,47 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1920, height=1080" />
-  <title>Sliding Thermal Receipt Ribbon · 16:9</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Thermal Store Receipt Cost Breakdown · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Be+Vietnam+Pro:wght@700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #F1F5F9; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #18181B; }
     #root {
       position: relative;
       width: 1920px;
       height: 1080px;
-      background: #F1F5F9;
+      background: #18181B;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 60px 120px;
+      padding: 50px 100px;
     }
     
-      .receipt-wrap { display: flex; justify-content: center; margin-bottom: 20px; }
-      .receipt-paper { background: #FFFFFF; width: 500px; padding: 26px; border-radius: 4px; box-shadow: 0 10px 25px rgba(0,0,0,0.08); font-family: 'JetBrains Mono', monospace; color: #1E293B; border-bottom: 6px dashed #CBD5E1; }
-      .r-store { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 14px; }
-      .r-items { display: flex; flex-direction: column; gap: 8px; font-size: 18px; margin-bottom: 14px; border-top: 1px dashed #CBD5E1; border-bottom: 1px dashed #CBD5E1; padding: 12px 0; }
-      .r-total { font-size: 22px; font-weight: 700; color: #0F172A; text-align: right; }
-      .receipt-advice { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #0F172A; background: #E2E8F0; padding: 14px; text-align: center; border-radius: 8px; font-weight: 600; }
+      .receipt-stage { background: #18181B; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
+      .thermal-slip { background: #FAFAFA; color: #000; border-radius: 12px; padding: 28px 24px; width: 440px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); font-family: 'Space Mono', monospace; }
+      .slip-header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 12px; }
+      .barcode { font-size: 20px; display: block; letter-spacing: 4px; }
+      .store-txt { font-size: 15px; font-weight: 700; margin-top: 6px; }
+
+      .items-breakdown { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; border-bottom: 2px dashed #000; padding-bottom: 16px; }
+      .item-line { font-size: 14px; font-weight: 700; }
+
+      .slip-total { font-size: 18px; font-weight: 700; text-align: center; }
+
+      .receipt-advice { background: #27272A; border-left: 4px solid #38BDF8; color: #F4F4F5; font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 700; padding: 14px 20px; border-radius: 0 8px 8px 0; width: 100%; text-align: center; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"store_name":"HONEST REVIEW RECEIPT","item_1":"Giá niêm yết: $1,200.00","item_2":"Chi phí ẩn (Phụ kiện): + $150.00","item_3":"Khấu hao sau 1 năm: - $400.00","total":"TỔNG CHI PHÍ THỰC: $950.00","advice":"Mẹo: Mua hàng like new tiết kiệm ngay 30%."}'>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"store_name":"CỬA HÀNG CÔNG NGHỆ CHÍNH HÃNG","item_1":"1x MacBook Pro M3 Max : $3,499.00","item_2":"1x AppleCare+ Protection : $399.00","item_3":"1x Phụ kiện USB-C Hub : $89.00","total":"TỔNG THANH TOÁN: $3,987.00","advice":"Mẹo: Mua gói giáo dục giúp tiết kiệm ngay $400."}'>
     
-      <div class="receipt-wrap">
-        <div class="receipt-paper">
-          <div class="r-store" data-slot="store_name"></div>
-          <div class="r-items">
-            <div class="r-line" data-slot="item_1"></div>
-            <div class="r-line" data-slot="item_2"></div>
-            <div class="r-line" data-slot="item_3"></div>
+      <div class="receipt-stage">
+        <div class="thermal-slip">
+          <div class="slip-header">
+            <span class="barcode">||| | |||| || ||| |||||</span>
+            <h2 class="store-txt" data-slot="store_name"></h2>
           </div>
-          <div class="r-total" data-slot="total"></div>
+
+          <div class="items-breakdown">
+            <div class="item-line" data-slot="item_1"></div>
+            <div class="item-line" data-slot="item_2"></div>
+            <div class="item-line" data-slot="item_3"></div>
+          </div>
+
+          <div class="slip-total" data-slot="total"></div>
         </div>
+
+        <div class="receipt-advice" data-slot="advice"></div>
       </div>
-      <div class="receipt-advice" data-slot="advice"></div>
     
   </div>
   <script>
@@ -60,7 +72,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

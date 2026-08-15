@@ -3,57 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>AI Benchmark Race Leaderboard · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>AI Model Benchmark Leaderboard · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Plus+Jakarta+Sans:wght@700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A0D14; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B0F19; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #0A0D14;
+      background: #0B0F19;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .bm-header { text-align: center; margin-bottom: 24px; }
-      .bm-badge { background: #1E1B4B; color: #818CF8; font-family: 'Plus Jakarta Sans'; font-size: 22px; font-weight: 800; padding: 6px 20px; border-radius: 20px; border: 1px solid #6366F1; letter-spacing: 1px; }
-      .leaderboard-card { background: #111827; border: 1px solid #1F2937; border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px; }
-      .bm-row { background: #1F2937; height: 56px; border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; padding: 0 16px; }
-      .bm-fill { position: absolute; left: 0; top: 0; bottom: 0; opacity: 0.3; }
-      .f1 { background: #6366F1; opacity: 0.5; }
-      .f2 { background: #38BDF8; }
-      .f3 { background: #10B981; }
-      .bm-txt { position: relative; z-index: 2; font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #FFF; font-weight: 700; }
-      .bm-verdict { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #818CF8; background: rgba(99,102,241,0.15); border: 1px solid #6366F1; padding: 14px; text-align: center; border-radius: 8px; font-weight: 700; }
+      .lb-stage { background: #0B0F19; border: 1px solid #1E293B; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .lb-head-badge { font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 900; color: #38BDF8; letter-spacing: 2px; text-align: center; }
+
+      .ranks-stack { display: flex; flex-direction: column; gap: 14px; margin: 16px 0; }
+      .r-bar { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 800; padding: 18px 24px; border-radius: 12px; display: flex; align-items: center; }
+      .r-gold { background: linear-gradient(90deg, #D4AF37, #FFDF73); color: #000; box-shadow: 0 10px 25px rgba(212,175,55,0.4); }
+      .r-silver { background: #334155; color: #FFF; width: 90%; }
+      .r-bronze { background: #1E293B; color: #94A3B8; width: 85%; }
+
+      .lb-verdict { background: #1E293B; border-radius: 12px; padding: 16px 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; color: #E2E8F0; font-weight: 700; text-align: center; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"benchmark_name":"SWE-BENCH VERIFIED (KHẢ NĂNG LẬP TRÌNH)","rank_1":"Claude 3.7 Sonnet: 70.3%","rank_2":"DeepSeek V3: 65.8%","rank_3":"GPT-4.5: 62.4%","verdict":"Kỷ lục mới về điểm số tự giải quyết issue phần mềm."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"benchmark_name":"LEADERBOARD: HUMAN-EVAL BENCHMARK","rank_1":"1. Claude 3.7 Sonnet: 92.4%","rank_2":"2. GPT-4o: 88.2%","rank_3":"3. Gemini 2.0 Pro: 86.5%","verdict":"Claude 3.7 vượt trội ở các tác vụ lập trình kiến trúc phức tạp."}'>
     
-      <div class="bm-header">
-        <span class="bm-badge" data-slot="benchmark_name"></span>
+      <div class="lb-stage">
+        <span class="lb-head-badge" data-slot="benchmark_name"></span>
+
+        <div class="ranks-stack">
+          <div class="r-bar r-gold" data-slot="rank_1"></div>
+          <div class="r-bar r-silver" data-slot="rank_2"></div>
+          <div class="r-bar r-bronze" data-slot="rank_3"></div>
+        </div>
+
+        <div class="lb-verdict" data-slot="verdict"></div>
       </div>
-      <div class="leaderboard-card">
-        <div class="bm-row r1">
-          <div class="bm-fill f1" style="width: 70.3%;"></div>
-          <span class="bm-txt" data-slot="rank_1"></span>
-        </div>
-        <div class="bm-row r2">
-          <div class="bm-fill f2" style="width: 65.8%;"></div>
-          <span class="bm-txt" data-slot="rank_2"></span>
-        </div>
-        <div class="bm-row r3">
-          <div class="bm-fill f3" style="width: 62.4%;"></div>
-          <span class="bm-txt" data-slot="rank_3"></span>
-        </div>
-      </div>
-      <div class="bm-verdict" data-slot="verdict"></div>
     
   </div>
   <script>
@@ -70,7 +63,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

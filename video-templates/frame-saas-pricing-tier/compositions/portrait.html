@@ -3,51 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>SaaS 3-Tier Pricing Table · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>SaaS 3-Tier Pricing Highlight · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0F172A; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A0D14; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #0F172A;
+      background: #0A0D14;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .pricing-header { text-align: center; margin-bottom: 24px; }
-      .p-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 40px; color: #FFF; font-weight: 800; }
-      .pricing-grid { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: 14px; align-items: center; margin-bottom: 20px; }
-      .tier-card { background: #1E293B; border: 1px solid #334155; border-radius: 12px; padding: 24px; text-align: center; }
-      .tier-card.popular { background: #1E1B4B; border: 2px solid #6366F1; box-shadow: 0 0 25px rgba(99,102,241,0.3); }
-      .t-desc { font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #CBD5E1; line-height: 1.5; font-weight: 600; }
-      .pricing-note { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #A5B4FC; background: rgba(99,102,241,0.15); border: 1px solid #6366F1; padding: 14px; text-align: center; border-radius: 8px; font-weight: 600; }
+      .pricing-stage { background: #0A0D14; border: 1px solid #1E293B; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .pc-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 38px; font-weight: 800; color: #FFF; text-align: center; }
+
+      .pricing-grid { display: flex; flex-direction: column; gap: 14px; margin: 10px 0; }
+      .p-tier { background: #131A29; border: 1px solid #334155; border-radius: 14px; padding: 18px 24px; font-family: 'Inter', sans-serif; font-size: 17px; font-weight: 700; color: #E2E8F0; display: flex; justify-content: space-between; align-items: center; }
+      .tier-pro { background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(147,51,234,0.2)); border: 2px solid #3B82F6; box-shadow: 0 10px 30px rgba(59,130,246,0.3); position: relative; }
+      .pro-tag { background: #3B82F6; color: #FFF; font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 6px; }
+
+      .pricing-note { background: #1E293B; border-radius: 12px; padding: 14px; font-family: 'Inter', sans-serif; font-size: 15px; color: #94A3B8; text-align: center; font-weight: 600; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"CHỌN GÓI PHÙ HỢP VỚI BẠN","plan_free":"FREE: $0/tháng (1 Agent, 10 Video)","plan_pro":"PRO: $29/tháng (Không giới hạn + TTS cao cấp)","plan_ent":"ENTERPRISE: Custom (Dedicated Support)","highlight_note":"Gói PRO được 85% creator lựa chọn sử dụng."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"Bảng Giá Linh Hoạt Cho Mọi Quy Mô","pro_tag":"PHỔ BIẾN NHẤT","plan_free":"Starter: $0/tháng (1 Agent)","plan_pro":"Pro Team: $49/tháng (10 Agents + Video HD)","plan_ent":"Enterprise: Tùy chỉnh SLA & Custom API","highlight_note":"Gói Pro được 85% doanh nghiệp tin dùng."}'>
     
-      <div class="pricing-header">
-        <h1 class="p-title" data-slot="headline"></h1>
+      <div class="pricing-stage">
+        <h1 class="pc-title" data-slot="headline"></h1>
+
+        <div class="pricing-grid">
+          <div class="p-tier tier-starter">
+            <span class="pt-name" data-slot="plan_free"></span>
+          </div>
+          <div class="p-tier tier-pro">
+            <span class="pro-tag" data-slot="pro_tag"></span>
+            <span class="pt-name" data-slot="plan_pro"></span>
+          </div>
+          <div class="p-tier tier-ent">
+            <span class="pt-name" data-slot="plan_ent"></span>
+          </div>
+        </div>
+
+        <div class="pricing-note" data-slot="highlight_note"></div>
       </div>
-      <div class="pricing-grid">
-        <div class="tier-card t-free">
-          <div class="t-desc" data-slot="plan_free"></div>
-        </div>
-        <div class="tier-card t-pro popular">
-          <div class="t-desc" data-slot="plan_pro"></div>
-        </div>
-        <div class="tier-card t-ent">
-          <div class="t-desc" data-slot="plan_ent"></div>
-        </div>
-      </div>
-      <div class="pricing-note" data-slot="highlight_note"></div>
     
   </div>
   <script>
@@ -64,7 +69,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

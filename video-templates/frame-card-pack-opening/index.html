@@ -3,46 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1920, height=1080" />
-  <title>Gacha Rare Card Pack Opening · 16:9</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Gacha Pack Opening & Card Reveal · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #10081E; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0A0518; }
     #root {
       position: relative;
       width: 1920px;
       height: 1080px;
-      background: #10081E;
+      background: #0A0518;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 60px 120px;
+      padding: 50px 100px;
     }
     
-      .gacha-header { text-align: center; margin-bottom: 24px; }
-      .gacha-title { font-family: 'Montserrat', sans-serif; font-size: 40px; color: #FFE600; font-weight: 900; }
-      .holo-card-wrap { display: flex; justify-content: center; margin-bottom: 20px; }
-      .holo-card { background: linear-gradient(135deg, #FF0055, #7928CA, #00DFD8); padding: 30px; border-radius: 16px; width: 440px; text-align: center; box-shadow: 0 0 35px rgba(255,0,85,0.4); border: 2px solid #FFF; }
-      .rarity-tag { background: #FFE600; color: #000; font-family: 'Montserrat'; font-size: 16px; font-weight: 900; padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 14px; }
-      .card-name { font-family: 'Montserrat'; font-size: 32px; color: #FFF; font-weight: 900; margin-bottom: 12px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-      .stat-badge { background: rgba(0,0,0,0.5); color: #00E676; font-family: 'Montserrat'; font-size: 20px; font-weight: 800; padding: 8px; border-radius: 8px; margin-bottom: 10px; }
-      .attr-txt { font-family: 'Be Vietnam Pro', sans-serif; font-size: 18px; color: #FFF; font-weight: 600; }
+      .gacha-stage { background: radial-gradient(circle at 50% 50%, #2E1065 0%, #0A0518 100%); border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
+      .gc-title { font-family: 'Montserrat', sans-serif; font-size: 36px; font-weight: 900; color: #FFD700; text-align: center; }
+
+      .holo-card { width: 340px; background: linear-gradient(135deg, #FF007A, #7000FF, #00F5D4); padding: 4px; border-radius: 20px; box-shadow: 0 20px 60px rgba(112,0,255,0.6); }
+      .card-glow-border { background: #0A0518; border-radius: 18px; padding: 30px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+      .rarity-badge { background: #FFD700; color: #000; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 900; padding: 4px 12px; border-radius: 20px; }
+      .card-hero-name { font-family: 'Montserrat', sans-serif; font-size: 24px; font-weight: 900; color: #FFF; }
+      .card-stat-pill { background: #7000FF; color: #FFF; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 900; padding: 8px 16px; border-radius: 8px; }
+      .card-attr { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; color: #C4B5FD; font-weight: 700; margin: 0; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"MỞ KHÓA TÍNH NĂNG ĐẲNG CẤP SSR","card_name":"SUPER AGENT V2","power_stat":"Power: 9,999+ (Full Autonomous)","attribute":"Hệ: Coding + Video Automation","rarity":"ĐỘ HIẾM: ULTRA RARE (0.1%)"}'>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"Mở Rương Siêu Năng Lực AI","card_name":"Claude 3.7 Hybrid Reasoning","power_stat":"SỨC MẠNH: 99.8/100","attribute":"Hệ: Deep Thinking & Instant Code","rarity":"⭐ ULTRA RARE 5-STAR ⭐"}'>
     
-      <div class="gacha-header">
-        <h1 class="gacha-title" data-slot="headline"></h1>
-      </div>
-      <div class="holo-card-wrap">
+      <div class="gacha-stage">
+        <h1 class="gc-title" data-slot="headline"></h1>
+
         <div class="holo-card">
-          <div class="rarity-tag" data-slot="rarity"></div>
-          <h2 class="card-name" data-slot="card_name"></h2>
-          <div class="stat-badge" data-slot="power_stat"></div>
-          <p class="attr-txt" data-slot="attribute"></p>
+          <div class="card-glow-border">
+            <span class="rarity-badge" data-slot="rarity"></span>
+            <h2 class="card-hero-name" data-slot="card_name"></h2>
+            <div class="card-stat-pill" data-slot="power_stat"></div>
+            <p class="card-attr" data-slot="attribute"></p>
+          </div>
         </div>
       </div>
     
@@ -61,7 +63,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

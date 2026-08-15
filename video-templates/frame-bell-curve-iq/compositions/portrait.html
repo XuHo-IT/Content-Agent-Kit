@@ -3,59 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Gaussian Bell Curve Distribution · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Gaussian Bell Curve & Cognitive Distribution · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&family=Plus+Jakarta+Sans:wght@600;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A0E17; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B0E14; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #0A0E17;
+      background: #0B0E14;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .bell-header { text-align: center; margin-bottom: 24px; }
-      .bell-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 40px; color: #FFF; font-weight: 800; }
-      .bell-curve-card { background: #111827; border: 1px solid #1F2937; border-radius: 16px; padding: 20px; margin-bottom: 20px; }
-      .bell-svg { width: 100%; height: 180px; }
-      .curve-phases { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
-      .phase { font-family: 'Be Vietnam Pro', sans-serif; font-size: 18px; padding: 8px 14px; border-radius: 6px; font-weight: 600; }
-      .p-red { background: rgba(239,68,68,0.15); color: #FCA5A5; border-left: 4px solid #EF4444; }
-      .p-yel { background: rgba(245,158,11,0.15); color: #FCD34D; border-left: 4px solid #F59E0B; }
-      .p-grn { background: rgba(16,185,129,0.15); color: #6EE7B7; border-left: 4px solid #10B981; }
-      .bell-lesson { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #A5B4FC; background: rgba(99,102,241,0.12); border: 1px solid #6366F1; padding: 14px; text-align: center; border-radius: 8px; font-weight: 600; }
+      .bell-container { background: #0B0E14; border: 1px solid #1E293B; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .bell-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 38px; font-weight: 800; color: #FFF; text-align: center; }
+
+      .bell-stage { position: relative; margin: 10px 0; }
+      .bell-svg { width: 100%; height: 130px; }
+      .bell-stages-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 10px; }
+      .b-stage { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; padding: 12px; border-radius: 8px; text-align: center; }
+      .stage-1 { background: rgba(239,68,68,0.2); color: #FCA5A5; border: 1px solid #EF4444; }
+      .stage-2 { background: rgba(245,158,11,0.2); color: #FCD34D; border: 1px solid #F59E0B; }
+      .stage-3 { background: rgba(16,185,129,0.2); color: #6EE7B7; border: 1px solid #10B981; }
+
+      .bell-footer { background: #1E293B; border-radius: 12px; padding: 16px 20px; text-align: center; }
+      .bell-lesson { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; color: #F8FAFC; margin: 0; font-weight: 700; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"HIỆU ỨNG TỰ TIN THÁI QUÁ (DUNNING-KRUGER)","low_group":"Biết 1 chút: Tự tin 100% (Đỉnh cao ngu ngốc)","mid_group":"Học sâu hơn: Hoang mang (Thung lũng tuyệt vọng)","high_group":"Chuyên gia: Cẩn trọng (Dốc nghiêng giác ngộ)","lesson":"Người càng giỏi càng nhận ra mình biết quá ít."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"Hiệu Ứng Dunning-Kruger","low_group":"Mới Học: Tự tin tột đỉnh (Chưa biết mình không biết)","mid_group":"Thực chiến: Thung lũng thất vọng (Biết mình còn yếu)","high_group":"Chuyên Gia: Khiêm tốn & Vững vàng (Hiểu rõ ranh giới)","lesson":"Càng học nhiều, ta càng nhận ra mình còn biết rất ít."}'>
     
-      <div class="bell-header">
-        <h1 class="bell-title" data-slot="headline"></h1>
-      </div>
-      <div class="bell-curve-card">
-        <svg class="bell-svg" viewBox="0 0 800 250">
-          <path d="M 50 220 Q 200 40 400 20 T 750 220" fill="none" stroke="#6366F1" stroke-width="4"/>
-          <line x1="200" y1="40" x2="200" y2="220" stroke="#EF4444" stroke-dasharray="4,4"/>
-          <line x1="450" y1="180" x2="450" y2="220" stroke="#F59E0B" stroke-dasharray="4,4"/>
-          <line x1="700" y1="120" x2="700" y2="220" stroke="#10B981" stroke-dasharray="4,4"/>
-          <circle cx="200" cy="40" r="8" fill="#EF4444"/>
-          <circle cx="450" cy="180" r="8" fill="#F59E0B"/>
-          <circle cx="700" cy="120" r="8" fill="#10B981"/>
-        </svg>
-        <div class="curve-phases">
-          <div class="phase p-red" data-slot="low_group"></div>
-          <div class="phase p-yel" data-slot="mid_group"></div>
-          <div class="phase p-grn" data-slot="high_group"></div>
+      <div class="bell-container">
+        <div class="bell-top">
+          <h1 class="bell-title" data-slot="headline"></h1>
+        </div>
+
+        <div class="bell-stage">
+          <svg class="bell-svg" viewBox="0 0 600 180">
+            <path d="M 30 160 Q 150 160 200 40 Q 300 20 400 40 Q 450 160 570 160" stroke="#38BDF8" stroke-width="4" fill="rgba(56,189,248,0.1)" />
+            <line x1="300" y1="20" x2="300" y2="160" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 4" />
+          </svg>
+          <div class="bell-stages-grid">
+            <div class="b-stage stage-1" data-slot="low_group"></div>
+            <div class="b-stage stage-2" data-slot="mid_group"></div>
+            <div class="b-stage stage-3" data-slot="high_group"></div>
+          </div>
+        </div>
+
+        <div class="bell-footer">
+          <p class="bell-lesson" data-slot="lesson"></p>
         </div>
       </div>
-      <div class="bell-lesson" data-slot="lesson"></div>
     
   </div>
   <script>
@@ -72,7 +76,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

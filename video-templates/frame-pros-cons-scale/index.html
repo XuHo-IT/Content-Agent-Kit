@@ -3,54 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1920, height=1080" />
-  <title>Pros vs Cons Justice Balance Scale · 16:9</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Mechanical Pros vs Cons Scale · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Be+Vietnam+Pro:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #FAFAFA; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #F8FAFC; }
     #root {
       position: relative;
       width: 1920px;
       height: 1080px;
-      background: #FAFAFA;
+      background: #F8FAFC;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 60px 120px;
+      padding: 50px 100px;
     }
     
-      .scale-header { text-align: center; margin-bottom: 24px; }
-      .scale-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 40px; color: #0F172A; font-weight: 800; }
-      .scale-body { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-      .card-side { background: #FFFFFF; border-radius: 12px; padding: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
-      .pros-card { border-top: 6px solid #10B981; }
-      .cons-card { border-top: 6px solid #EF4444; }
-      .side-head { font-family: 'Plus Jakarta Sans'; font-size: 20px; font-weight: 800; margin-bottom: 12px; }
-      .pros-card .side-head { color: #10B981; }
-      .cons-card .side-head { color: #EF4444; }
-      .side-content { font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #334155; line-height: 1.6; white-space: pre-line; }
-      .scale-verdict { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #0F172A; background: #FEF3C7; border: 1px solid #F59E0B; padding: 14px; text-align: center; border-radius: 8px; font-weight: 700; }
+      .scale-stage { background: #F8FAFC; color: #0F172A; border: 2px solid #E2E8F0; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 20px 40px rgba(0,0,0,0.06); }
+      .sc-title { font-family: 'Montserrat', sans-serif; font-size: 38px; font-weight: 900; text-align: center; }
+
+      .scale-cards-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 16px 0; }
+      .sc-card { border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 10px; }
+      .card-pros { background: #ECFDF5; border: 2px solid #10B981; }
+      .card-cons { background: #FEF2F2; border: 2px solid #EF4444; }
+      .sc-badge { font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 900; }
+      .pb { color: #059669; }
+      .cb { color: #DC2626; }
+      .sc-desc { font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; line-height: 1.5; font-weight: 600; margin: 0; }
+
+      .sc-verdict { background: #0F172A; color: #FFF; font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 700; padding: 16px 20px; border-radius: 12px; text-align: center; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"ĐÁNH GIÁ THỰC TẾ: CÓ ĐÁNG TIỀN?","pros_title":"ƯU ĐIỂM (NÊN MUA)","pros_list":"• Hiệu năng đỉnh cao • Pin 2 ngày • Màn hình 120Hz","cons_title":"NHƯỢC ĐIỂM (CÂN NHẮC)","cons_list":"• Giá khá cao • Cụm camera lồi • Thiếu củ sạc","verdict":"Điểm 9/10: Lựa chọn tốt nhất trong phân khúc cao cấp."}'>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"Cân Nhắc Trước Khi Xuống Tiền","pros_title":"ƯU ĐIỂM NỔI BẬT","pros_list":"Hiệu năng cực mạnh · Thiết kế siêu mỏng · Màn hình 120Hz","cons_title":"NHƯỢC ĐIỂM","cons_list":"Giá thành cao · Thời lượng pin trung bình","verdict":"Đánh giá 8.5/10 — Xứng đáng đầu tư cho công việc chuyên nghiệp."}'>
     
-      <div class="scale-header">
-        <h1 class="scale-title" data-slot="headline"></h1>
-      </div>
-      <div class="scale-body">
-        <div class="card-side pros-card">
-          <div class="side-head" data-slot="pros_title"></div>
-          <div class="side-content" data-slot="pros_list"></div>
+      <div class="scale-stage">
+        <h1 class="sc-title" data-slot="headline"></h1>
+
+        <div class="scale-cards-grid">
+          <div class="sc-card card-pros">
+            <span class="sc-badge pb" data-slot="pros_title"></span>
+            <p class="sc-desc" data-slot="pros_list"></p>
+          </div>
+          <div class="sc-card card-cons">
+            <span class="sc-badge cb" data-slot="cons_title"></span>
+            <p class="sc-desc" data-slot="cons_list"></p>
+          </div>
         </div>
-        <div class="card-side cons-card">
-          <div class="side-head" data-slot="cons_title"></div>
-          <div class="side-content" data-slot="cons_list"></div>
-        </div>
+
+        <div class="sc-verdict" data-slot="verdict"></div>
       </div>
-      <div class="scale-verdict" data-slot="verdict"></div>
     
   </div>
   <script>
@@ -67,7 +71,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

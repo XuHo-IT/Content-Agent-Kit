@@ -3,84 +3,125 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Stock Candlestick Chart · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Chakra+Petch:wght@500;700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Stock Candlestick Terminal · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Chakra+Petch:wght@600;700&family=Be+Vietnam+Pro:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B0E14; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #080A0F; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #0B0E14;
+      background: #080A0F;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .header { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
-      .ticker-box { display: flex; align-items: center; gap: 16px; }
-      .ticker-badge { background: #1F2937; color: #F3F4F6; font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 700; padding: 6px 16px; border-radius: 8px; border: 1px solid #374151; }
-      .price-val { font-family: 'Chakra Petch', sans-serif; font-size: 40px; font-weight: 700; color: #00E676; text-shadow: 0 0 20px rgba(0,230,118,0.3); }
-      .change-tag { background: rgba(0,230,118,0.15); color: #00E676; font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; padding: 4px 12px; border-radius: 6px; }
-      .kicker { font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #9CA3AF; letter-spacing: 2px; text-transform: uppercase; }
-      .headline { font-family: 'Chakra Petch', sans-serif; font-size: 48px; font-weight: 700; color: #FFFFFF; line-height: 1.2; }
-      .chart-canvas-wrap { background: #111827; border: 1px solid #1F2937; border-radius: 16px; padding: 30px; position: relative; height: 340px; overflow: hidden; margin-bottom: 24px; }
-      .chart-grid { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: space-between; border-left: 2px solid #374151; border-bottom: 2px solid #374151; }
-      .resistance-line { position: absolute; top: 30px; left: 0; right: 0; border-top: 2px dashed #EF4444; display: flex; justify-content: flex-end; }
-      .res-label { background: #EF4444; color: #FFF; font-size: 14px; font-family: 'JetBrains Mono'; padding: 2px 8px; border-radius: 4px; }
-      .candles { position: absolute; left: 40px; right: 40px; top: 0; bottom: 80px; display: flex; justify-content: space-around; align-items: flex-end; }
-      .candle { width: 36px; border-radius: 4px; position: relative; height: var(--h); margin-bottom: var(--top); }
-      .candle.green { background: #00E676; box-shadow: 0 0 15px rgba(0,230,118,0.4); }
-      .candle.red { background: #FF1744; box-shadow: 0 0 15px rgba(255,23,68,0.4); }
-      .candle::before { content: ''; position: absolute; left: 50%; top: -20px; bottom: -20px; width: 2px; transform: translateX(-50%); background: inherit; z-index: -1; }
-      .candle.breakout { animation: pulseBreakout 1.5s infinite alternate; }
-      @keyframes pulseBreakout { 0% { transform: scale(1); } 100% { transform: scale(1.08); filter: brightness(1.2); } }
-      .volume-bars { position: absolute; left: 40px; right: 40px; bottom: 10px; height: 60px; display: flex; justify-content: space-around; align-items: flex-end; }
-      .vol { width: 28px; height: var(--vh); background: rgba(156,163,175,0.3); border-radius: 4px; }
-      .vol.surge { background: #00E676; }
-      .footer-box { background: #161F30; border-left: 4px solid #00E676; padding: 18px 24px; border-radius: 8px; }
-      .indicator { font-family: 'JetBrains Mono', monospace; font-size: 22px; color: #38BDF8; font-weight: 700; margin-bottom: 6px; }
-      .summary { font-family: 'Be Vietnam Pro', sans-serif; font-size: 24px; color: #D1D5DB; line-height: 1.4; }
+      .terminal-frame { border: 1px solid #1F2937; background: #0B0F17; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1); display: flex; flex-direction: column; height: 100%; }
+      .terminal-topbar { height: 64px; background: #111827; border-bottom: 1px solid #1F2937; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; font-family: 'JetBrains Mono', monospace; }
+      .dots { display: flex; gap: 8px; }
+      .d { width: 12px; height: 12px; border-radius: 50%; }
+      .d-r { background: #EF4444; } .d-y { background: #F59E0B; } .d-g { background: #10B981; }
+      .topbar-ticker { display: flex; align-items: center; gap: 14px; }
+      .tb-badge { background: #1F2937; color: #F3F4F6; padding: 4px 12px; border-radius: 6px; font-size: 18px; font-weight: 700; border: 1px solid #374151; }
+      .tb-price { font-size: 22px; font-weight: 800; color: #FFFFFF; }
+      .tb-change { color: #00E676; font-size: 18px; font-weight: 700; background: rgba(0,230,118,0.12); padding: 4px 10px; border-radius: 6px; }
+      .topbar-status { font-size: 13px; color: #9CA3AF; display: flex; align-items: center; gap: 8px; letter-spacing: 1px; }
+      .pulse-dot { width: 8px; height: 8px; background: #00E676; border-radius: 50%; box-shadow: 0 0 10px #00E676; animation: blink 1.5s infinite; }
+      
+      .terminal-body { padding: 32px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+      .chart-hud { margin-bottom: 16px; }
+      .kicker-tag { font-family: 'Chakra Petch', sans-serif; font-size: 16px; letter-spacing: 3px; color: #00E676; font-weight: 700; text-transform: uppercase; }
+      .main-title { font-family: 'Be Vietnam Pro', sans-serif; font-size: 38px; font-weight: 800; color: #F9FAFB; margin-top: 6px; letter-spacing: -0.02em; }
+      
+      .candlestick-stage { position: relative; height: 260px; background: rgba(15,23,42,0.6); border: 1px solid #1E293B; border-radius: 12px; padding: 16px; overflow: hidden; }
+      .grid-lines { position: absolute; inset: 16px; display: flex; flex-direction: column; justify-content: space-between; pointer-events: none; }
+      .gl { border-bottom: 1px dashed rgba(51,65,85,0.4); font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #475569; display: flex; justify-content: flex-end; }
+      .res-line { border-bottom: 1px solid #FF1744; }
+      .res-badge { background: #FF1744; color: #FFF; font-size: 11px; font-weight: 700; padding: 2px 6px; border-radius: 4px; transform: translateY(-8px); }
+      
+      .candles-stream { position: absolute; left: 60px; right: 60px; top: 20px; bottom: 60px; display: flex; justify-content: space-around; align-items: flex-end; }
+      .candle { width: 24px; height: var(--h); position: relative; border-radius: 3px; }
+      .candle::before { content: ''; position: absolute; top: -14px; bottom: -14px; left: 50%; width: 2px; transform: translateX(-50%); background: inherit; }
+      .c-red { background: #FF1744; }
+      .c-green { background: #00E676; }
+      .c-breakout { box-shadow: 0 0 25px rgba(0,230,118,0.6); }
+      .breakout-pulse { position: absolute; top: -10px; right: -10px; width: 16px; height: 16px; border-radius: 50%; background: #00E676; animation: ping 1.5s cubic-bezier(0,0,0.2,1) infinite; }
+      
+      .volume-bars { position: absolute; left: 60px; right: 60px; bottom: 12px; height: 35px; display: flex; justify-content: space-around; align-items: flex-end; opacity: 0.5; }
+      .vbar { width: 20px; background: #334155; border-radius: 2px 2px 0 0; }
+      .v-spike { background: #00E676; opacity: 0.9; }
+
+      .info-dock { display: grid; grid-template-columns: 1fr 2fr; gap: 16px; align-items: center; }
+      .stat-capsule { background: rgba(30,41,59,0.8); border: 1px solid #334155; padding: 14px 20px; border-radius: 12px; font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #38BDF8; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+      .summary-card { background: #111827; border-left: 4px solid #00E676; padding: 14px 20px; border-radius: 0 12px 12px 0; }
+      .summary-text { font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; color: #D1D5DB; line-height: 1.5; margin: 0; }
+      
+      @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+      @keyframes ping { 75%, 100% { transform: scale(2); opacity: 0; } }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"ticker":"BTC/USDT","price":"$96,450.00","change":"+14.2%","kicker":"PHÂN TÍCH KỸ THUẬT","headline":"Đột phá kháng cự then chốt","res_level":"Cản $95,000","indicator":"RSI 68.4 · Volume Spike +240%","summary":"Áp lực mua gom từ tổ chức đẩy giá vượt đỉnh 30 ngày."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"ticker":"BTC/USDT","price":"$96,450.00","change":"+14.2%","kicker":"PHÂN TÍCH KỸ THUẬT","headline":"Đột phá kháng cự then chốt","res_level":"Cản $95,000","gl_100k":"100K","gl_90k":"90K","gl_80k":"80K","indicator":"RSI 68.4 · Volume +240%","summary":"Áp lực mua gom từ tổ chức đẩy giá vượt đỉnh 30 ngày.","telemetry":"LIVE TELEMETRY"}'>
     
-      <div class="header">
-        <div class="ticker-box">
-          <span class="ticker-badge" data-slot="ticker"></span>
-          <span class="price-val" data-slot="price"></span>
-          <span class="change-tag" data-slot="change"></span>
-        </div>
-        <div class="kicker" data-slot="kicker"></div>
-        <h1 class="headline" data-slot="headline"></h1>
-      </div>
-      <div class="chart-canvas-wrap">
-        <div class="chart-grid">
-          <div class="resistance-line"><span class="res-label" data-slot="res_level"></span></div>
-          <div class="candles">
-            <div class="candle red" style="--h: 40px; --top: 60px;"></div>
-            <div class="candle red" style="--h: 55px; --top: 80px;"></div>
-            <div class="candle green" style="--h: 65px; --top: 50px;"></div>
-            <div class="candle green" style="--h: 80px; --top: 35px;"></div>
-            <div class="candle green breakout" style="--h: 120px; --top: 10px;"><div class="sparkle"></div></div>
+      <div class="terminal-frame">
+        <div class="terminal-topbar">
+          <div class="dots"><span class="d d-r"></span><span class="d d-y"></span><span class="d d-g"></span></div>
+          <div class="topbar-ticker">
+            <span class="tb-badge" data-slot="ticker"></span>
+            <span class="tb-price" data-slot="price"></span>
+            <span class="tb-change" data-slot="change"></span>
           </div>
-          <div class="volume-bars">
-            <div class="vol" style="--vh: 20%;"></div>
-            <div class="vol" style="--vh: 35%;"></div>
-            <div class="vol" style="--vh: 50%;"></div>
-            <div class="vol" style="--vh: 65%;"></div>
-            <div class="vol surge" style="--vh: 95%;"></div>
+          <div class="topbar-status"><span class="pulse-dot"></span> <span data-slot="telemetry"></span></div>
+        </div>
+
+        <div class="terminal-body">
+          <div class="chart-section">
+            <div class="chart-hud">
+              <span class="kicker-tag" data-slot="kicker"></span>
+              <h2 class="main-title" data-slot="headline"></h2>
+            </div>
+            
+            <div class="candlestick-stage">
+              <div class="grid-lines">
+                <div class="gl"><span data-slot="gl_100k"></span></div>
+                <div class="gl res-line"><span class="res-badge" data-slot="res_level"></span></div>
+                <div class="gl"><span data-slot="gl_90k"></span></div>
+                <div class="gl"><span data-slot="gl_80k"></span></div>
+              </div>
+              <div class="candles-stream">
+                <div class="candle c-red" style="--h:45px;"></div>
+                <div class="candle c-red" style="--h:65px;"></div>
+                <div class="candle c-green" style="--h:80px;"></div>
+                <div class="candle c-green" style="--h:110px;"></div>
+                <div class="candle c-green c-breakout" style="--h:150px;">
+                  <div class="breakout-pulse"></div>
+                </div>
+              </div>
+              <div class="volume-bars">
+                <div class="vbar" style="height: 30%;"></div>
+                <div class="vbar" style="height: 45%;"></div>
+                <div class="vbar" style="height: 55%;"></div>
+                <div class="vbar" style="height: 80%;"></div>
+                <div class="vbar v-spike" style="height: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-dock">
+            <div class="stat-capsule">
+              <span class="capsule-icon">⚡</span>
+              <span class="capsule-text" data-slot="indicator"></span>
+            </div>
+            <div class="summary-card">
+              <p class="summary-text" data-slot="summary"></p>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="footer-box">
-        <div class="indicator" data-slot="indicator"></div>
-        <p class="summary" data-slot="summary"></p>
       </div>
     
   </div>
@@ -98,7 +139,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

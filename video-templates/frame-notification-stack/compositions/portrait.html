@@ -3,50 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Push Notification Cascading Stack · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Smartphone Notification Cascade Hook · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B0813; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #090A0F; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #0B0813;
+      background: #090A0F;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .phone-screen-wrap { background: rgba(30,20,50,0.6); border: 2px solid #581C87; border-radius: 20px; padding: 24px; margin-bottom: 20px; backdrop-filter: blur(10px); }
-      .phone-clock { text-align: center; font-family: 'Plus Jakarta Sans'; font-size: 54px; font-weight: 800; color: #FFF; margin-bottom: 20px; }
-      .noti-stack { display: flex; flex-direction: column; gap: 12px; }
-      .noti-card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 16px 20px; }
-      .noti-text { font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #FFF; font-weight: 600; }
-      .noti-hook { font-family: 'Be Vietnam Pro', sans-serif; font-size: 24px; color: #F0ABFC; background: #581C87; padding: 14px; text-align: center; border-radius: 10px; font-weight: 700; }
+      .lockscreen-stage { background: radial-gradient(circle at 50% 30%, #1E1B4B 0%, #090A0F 100%); border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; border: 1px solid rgba(255,255,255,0.1); }
+      .ls-clock { text-align: center; color: #FFF; font-family: 'Inter', sans-serif; }
+      .clock-time { font-size: 64px; font-weight: 800; display: block; line-height: 1; }
+      .clock-date { font-size: 14px; font-weight: 600; color: #A5B4FC; letter-spacing: 2px; margin-top: 6px; }
+
+      .notifications-cascade { display: flex; flex-direction: column; gap: 12px; margin: 10px 0; }
+      .noti { background: rgba(255,255,255,0.15); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 16px 20px; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; color: #FFF; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+
+      .hook-banner { background: #38BDF8; color: #0F172A; font-family: 'Inter', sans-serif; font-size: 18px; font-weight: 800; padding: 16px; border-radius: 14px; text-align: center; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"phone_time":"09:41","noti_1":"Stripe: Bạn vừa nhận $4,250.00 từ khách hàng A","noti_2":"X (Twitter): Bài viết của bạn đã vượt 100,000 lượt xem","noti_3":"Discord: 45 thành viên mới vừa tham gia server","proof_hook":"Kết quả sau 14 ngày áp dụng chiến lược Content Agent."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"phone_time":"09:41","phone_date":"THỨ BẢY, 15 THÁNG 8","noti_1":"💰 Stripe: Nhận thanh toán +$4,950.00 từ khách hàng mới","noti_2":"🚀 TikTok: Video của bạn vừa cán mốc 1,200,000 views","noti_3":"⭐ YouTube: +15,000 Người đăng ký mới hôm nay","proof_hook":"Bí quyết tạo cỗ máy tăng trưởng tự động không cần quảng cáo."}'>
     
-      <div class="phone-screen-wrap">
-        <div class="phone-clock" data-slot="phone_time"></div>
-        <div class="noti-stack">
-          <div class="noti-card n-stripe">
-            <div class="noti-text" data-slot="noti_1"></div>
-          </div>
-          <div class="noti-card n-x">
-            <div class="noti-text" data-slot="noti_2"></div>
-          </div>
-          <div class="noti-card n-discord">
-            <div class="noti-text" data-slot="noti_3"></div>
-          </div>
+      <div class="lockscreen-stage">
+        <div class="ls-clock">
+          <span class="clock-time" data-slot="phone_time"></span>
+          <span class="clock-date" data-slot="phone_date"></span>
         </div>
+
+        <div class="notifications-cascade">
+          <div class="noti noti-1" data-slot="noti_1"></div>
+          <div class="noti noti-2" data-slot="noti_2"></div>
+          <div class="noti noti-3" data-slot="noti_3"></div>
+        </div>
+
+        <div class="hook-banner" data-slot="proof_hook"></div>
       </div>
-      <div class="noti-hook" data-slot="proof_hook"></div>
     
   </div>
   <script>
@@ -63,7 +65,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

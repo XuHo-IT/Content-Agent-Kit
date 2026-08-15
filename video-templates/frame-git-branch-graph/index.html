@@ -3,57 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1920, height=1080" />
-  <title>Git Branching Workflow Graph · 16:9</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Git Branching & DevOps Topology · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0D1117; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #080A10; }
     #root {
       position: relative;
       width: 1920px;
       height: 1080px;
-      background: #0D1117;
+      background: #080A10;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 60px 120px;
+      padding: 50px 100px;
     }
     
-      .git-header { text-align: center; margin-bottom: 24px; }
-      .git-title { font-family: 'Be Vietnam Pro', sans-serif; font-size: 40px; color: #FFF; font-weight: 700; }
-      .git-tree-card { background: #161B22; border: 1px solid #30363D; border-radius: 16px; padding: 26px; display: flex; flex-direction: column; gap: 18px; margin-bottom: 20px; }
-      .branch-row { display: flex; align-items: center; gap: 16px; font-family: 'JetBrains Mono'; font-size: 20px; }
-      .commit-dot { width: 16px; height: 16px; border-radius: 50%; }
-      .dot-main { background: #38BDF8; box-shadow: 0 0 10px #38BDF8; }
-      .dot-staging { background: #A855F7; box-shadow: 0 0 10px #A855F7; }
-      .dot-feat { background: #10B981; box-shadow: 0 0 10px #10B981; }
-      .b-txt { color: #E6EDF3; }
-      .git-status { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #38BDF8; background: rgba(56,189,248,0.12); border: 1px solid #38BDF8; padding: 14px; text-align: center; border-radius: 8px; font-weight: 600; }
+      .git-stage { background: #080A10; border: 1px solid #1E293B; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .git-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 36px; font-weight: 800; color: #FFF; text-align: center; }
+
+      .git-tree { display: flex; flex-direction: column; gap: 16px; margin: 16px 0; }
+      .b-row { display: flex; align-items: center; gap: 16px; background: #101626; padding: 14px 20px; border-radius: 10px; border: 1px solid #1E293B; }
+      .git-node { width: 16px; height: 16px; border-radius: 50%; }
+      .n-green { background: #10B981; box-shadow: 0 0 10px #10B981; }
+      .n-blue { background: #3B82F6; box-shadow: 0 0 10px #3B82F6; }
+      .n-purple { background: #A855F7; box-shadow: 0 0 10px #A855F7; }
+      .b-text { font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; color: #F1F5F9; }
+
+      .git-status-card { background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #10B981; font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 700; padding: 14px 20px; border-radius: 10px; text-align: center; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"QUY TRÌNH PHÁT HÀNH CODE CHUẨN","branch_main":"main (Production) · v2.4.0 Live","branch_staging":"staging (Review Gate & Test CI/CD)","branch_feature":"feat/video-render (Đang phát triển)","status":"Tự động merge sau khi pass 100% test."}'>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"Quy Trình CI/CD Tự Động Hóa","branch_main":"main (Production)","branch_staging":"staging (Automated Tests)","branch_feature":"feature/ai-agent (Active Dev)","status":"Test Suite Passed (227/227) · Auto-deploy active"}'>
     
-      <div class="git-header">
+      <div class="git-stage">
         <h1 class="git-title" data-slot="headline"></h1>
+
+        <div class="git-tree">
+          <div class="b-row b-main">
+            <span class="git-node n-green"></span>
+            <span class="b-text" data-slot="branch_main"></span>
+          </div>
+          <div class="b-row b-staging">
+            <span class="git-node n-blue"></span>
+            <span class="b-text" data-slot="branch_staging"></span>
+          </div>
+          <div class="b-row b-feature">
+            <span class="git-node n-purple"></span>
+            <span class="b-text" data-slot="branch_feature"></span>
+          </div>
+        </div>
+
+        <div class="git-status-card" data-slot="status"></div>
       </div>
-      <div class="git-tree-card">
-        <div class="branch-row b-main">
-          <span class="commit-dot dot-main"></span>
-          <span class="b-txt" data-slot="branch_main"></span>
-        </div>
-        <div class="branch-row b-staging">
-          <span class="commit-dot dot-staging"></span>
-          <span class="b-txt" data-slot="branch_staging"></span>
-        </div>
-        <div class="branch-row b-feat">
-          <span class="commit-dot dot-feat"></span>
-          <span class="b-txt" data-slot="branch_feature"></span>
-        </div>
-      </div>
-      <div class="git-status" data-slot="status"></div>
     
   </div>
   <script>
@@ -70,7 +74,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

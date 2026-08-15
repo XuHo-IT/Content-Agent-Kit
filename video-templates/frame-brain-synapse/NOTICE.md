@@ -1,4 +1,4 @@
-# Brain Synapse Neural Activation
+# Neural Synapse & Dopamine Circuit
 
 Original template authored for content-agent-kit.
 Category: science

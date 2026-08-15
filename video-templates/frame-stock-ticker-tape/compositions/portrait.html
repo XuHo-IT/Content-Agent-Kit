@@ -3,45 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Wall Street LED Ticker Tape · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Dot-Matrix Stock Ticker & Breaking News · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=VT323&family=Montserrat:wght@800;900&family=Be+Vietnam+Pro:wght@600&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0A0A0A; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #050505; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #0A0A0A;
+      background: #050505;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .tt-header { text-align: center; margin-bottom: 24px; }
-      .tt-badge { background: #DC2626; color: #FFF; font-family: 'Chakra Petch', sans-serif; font-size: 22px; font-weight: 700; padding: 6px 20px; border-radius: 6px; letter-spacing: 2px; }
-      .led-ticker-wrap { background: #171717; border: 2px solid #333; padding: 16px 24px; border-radius: 10px; margin-bottom: 24px; overflow: hidden; box-shadow: inset 0 0 20px #000; }
-      .led-track { font-family: 'Chakra Petch', sans-serif; font-size: 32px; font-weight: 700; color: #F59E0B; text-shadow: 0 0 10px #F59E0B; white-space: nowrap; }
-      .tt-main-card { background: #1C1917; border: 1px solid #44403C; border-radius: 16px; padding: 30px; }
-      .tt-headline { font-family: 'Be Vietnam Pro', sans-serif; font-size: 40px; font-weight: 700; color: #FFF; line-height: 1.3; margin-bottom: 14px; }
-      .tt-context { font-family: 'Be Vietnam Pro', sans-serif; font-size: 24px; color: #D6D3D1; line-height: 1.5; }
+      .ticker-news-stage { background: #0A0A0A; border: 2px solid #262626; border-radius: 20px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .led-ticker-bar { background: #000; border: 2px solid #F59E0B; border-radius: 8px; padding: 12px 20px; overflow: hidden; box-shadow: 0 0 20px rgba(245,158,11,0.2); }
+      .ticker-scroll { font-family: 'VT323', monospace; font-size: 32px; color: #F59E0B; text-shadow: 0 0 10px #F59E0B; white-space: nowrap; }
+
+      .breaking-banner { display: flex; align-items: center; gap: 14px; margin-top: 10px; }
+      .flash-beacon { width: 14px; height: 14px; background: #EF4444; border-radius: 50%; box-shadow: 0 0 15px #EF4444; }
+      .breaking-tag { font-family: 'Montserrat', sans-serif; font-size: 18px; font-weight: 900; background: #EF4444; color: #FFF; padding: 4px 14px; border-radius: 4px; letter-spacing: 2px; }
+
+      .news-content-box { background: #171717; border: 1px solid #333; border-radius: 16px; padding: 30px; }
+      .news-headline { font-family: 'Montserrat', sans-serif; font-size: 42px; font-weight: 900; color: #FFF; line-height: 1.2; }
+      .news-context { font-family: 'Be Vietnam Pro', sans-serif; font-size: 18px; color: #A3A3A3; margin-top: 14px; line-height: 1.5; font-weight: 600; margin-bottom: 0; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"breaking":"BẢN TIN KHẨN CẤP · PHỐ WALL","ticker_feed":"AAPL -4.2% · NVDA +8.6% · TSLA -12.1% · BTC +15.4%","headline":"Đợt bán tháo kích hoạt chuỗi thanh lý 2 tỷ USD","context":"Các quỹ đầu cơ đồng loạt rút vốn khỏi nhóm cổ phiếu công nghệ."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"breaking":"BẢN TIN KHẨN CẤP","ticker_feed":"DOW -1,200 PTS · S&P500 -4.2% · NASDAQ -5.8% · CRUDE OIL +8.4%","headline":"Thị Trường Hoảng Loạn Bán Tháo","context":"Áp lực lạm phát và căng thẳng địa chính trị kích hoạt làn sóng tháo chạy vốn kỷ lục."}'>
     
-      <div class="tt-header">
-        <span class="tt-badge" data-slot="breaking"></span>
-      </div>
-      <div class="led-ticker-wrap">
-        <div class="led-track" data-slot="ticker_feed"></div>
-      </div>
-      <div class="tt-main-card">
-        <h1 class="tt-headline" data-slot="headline"></h1>
-        <p class="tt-context" data-slot="context"></p>
+      <div class="ticker-news-stage">
+        <div class="led-ticker-bar">
+          <div class="ticker-scroll" data-slot="ticker_feed"></div>
+        </div>
+
+        <div class="breaking-banner">
+          <span class="flash-beacon"></span>
+          <span class="breaking-tag" data-slot="breaking"></span>
+        </div>
+
+        <div class="news-content-box">
+          <h1 class="news-headline" data-slot="headline"></h1>
+          <p class="news-context" data-slot="context"></p>
+        </div>
       </div>
     
   </div>
@@ -59,7 +68,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

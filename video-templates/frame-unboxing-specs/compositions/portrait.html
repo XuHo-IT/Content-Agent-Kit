@@ -3,53 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Product Showcase 4-Point Specs · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Hardware Specs & Teardown Grid · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Be+Vietnam+Pro:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #FAFAFA; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B0E14; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #FAFAFA;
+      background: #0B0E14;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .ub-header { text-align: center; margin-bottom: 24px; }
-      .p-name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 40px; color: #0F172A; font-weight: 800; }
-      .ub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-      .ub-spec { background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px; padding: 20px; display: flex; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.04); }
-      .s-text { font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #1E293B; font-weight: 600; }
-      .ub-verdict { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #0F172A; background: #E0E7FF; border: 1px solid #6366F1; padding: 14px; text-align: center; border-radius: 8px; font-weight: 700; }
+      .specs-stage { background: #0B0E14; border: 1px solid #1E293B; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .prod-title { font-family: 'Montserrat', sans-serif; font-size: 38px; font-weight: 900; color: #FFF; text-align: center; }
+
+      .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+      .sp-card { background: #131A29; border: 1px solid #334155; border-radius: 14px; padding: 20px; font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; font-weight: 700; color: #E2E8F0; }
+
+      .specs-verdict { background: #1E293B; border-radius: 12px; padding: 16px 20px; font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; color: #38BDF8; font-weight: 700; text-align: center; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"product_name":"FLAGSHIP PRO MAX (2026)","spec_chip":"Chip M4 Ultra 3nm","spec_battery":"Pin 5,000 mAh · Sạc 100W","spec_screen":"OLED 6.8 inch 2000 nits","spec_weight":"Trọng lượng 185g siêu nhẹ","verdict":"Thiết bị dẫn đầu toàn diện về cấu hình."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"product_name":"MacBook Pro 16 M3 Max","spec_chip":"Vi Xử Lý: Apple M3 Max 16-Core","spec_battery":"Pin: 22 Giờ Sử Dụng Thực Tế","spec_screen":"Màn Hình: Liquid Retina XDR 120Hz","spec_weight":"Trọng Lượng: 2.16 kg Nhôm Nguyên Khối","verdict":"Cỗ máy làm việc mạnh mẽ nhất trong phân khúc laptop di động."}'>
     
-      <div class="ub-header">
-        <h1 class="p-name" data-slot="product_name"></h1>
+      <div class="specs-stage">
+        <h1 class="prod-title" data-slot="product_name"></h1>
+
+        <div class="specs-grid">
+          <div class="sp-card" data-slot="spec_chip"></div>
+          <div class="sp-card" data-slot="spec_battery"></div>
+          <div class="sp-card" data-slot="spec_screen"></div>
+          <div class="sp-card" data-slot="spec_weight"></div>
+        </div>
+
+        <div class="specs-verdict" data-slot="verdict"></div>
       </div>
-      <div class="ub-grid">
-        <div class="ub-spec s1">
-          <div class="s-text" data-slot="spec_chip"></div>
-        </div>
-        <div class="ub-spec s2">
-          <div class="s-text" data-slot="spec_battery"></div>
-        </div>
-        <div class="ub-spec s3">
-          <div class="s-text" data-slot="spec_screen"></div>
-        </div>
-        <div class="ub-spec s4">
-          <div class="s-text" data-slot="spec_weight"></div>
-        </div>
-      </div>
-      <div class="ub-verdict" data-slot="verdict"></div>
     
   </div>
   <script>
@@ -66,7 +61,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

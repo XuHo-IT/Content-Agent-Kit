@@ -3,62 +3,74 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Crypto Orderbook Depth · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Chakra+Petch:wght@600;700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Crypto Orderbook & Liquidity Depth · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Chakra+Petch:wght@700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #080B11; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #06080E; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #080B11;
+      background: #06080E;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .ob-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #1F2937; }
-      .ob-pair { font-family: 'Chakra Petch', sans-serif; font-size: 40px; color: #FFF; font-weight: 700; }
-      .ob-spread { font-family: 'JetBrains Mono', monospace; font-size: 18px; color: #9CA3AF; background: #111827; padding: 6px 14px; border-radius: 6px; }
-      .ob-body { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; }
-      .ob-column { background: #0E131F; border: 1px solid #1E293B; border-radius: 12px; padding: 20px; }
-      .col-title { font-family: 'JetBrains Mono', monospace; font-size: 18px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 16px; text-align: center; }
-      .bids-col .col-title { color: #00E676; }
-      .asks-col .col-title { color: #FF1744; }
+      .ob-wrapper { border: 1px solid #1E293B; background: radial-gradient(circle at 50% 0%, #0F172A 0%, #06080E 100%); border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 20px 50px rgba(0,0,0,0.7); }
+      .ob-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1E293B; padding-bottom: 20px; }
+      .ob-pair-box { display: flex; align-items: center; gap: 12px; font-family: 'Chakra Petch', sans-serif; font-size: 28px; font-weight: 800; color: #F8FAFC; }
+      .crypto-icon { font-size: 26px; }
+      .ob-spread-badge { font-family: 'JetBrains Mono', monospace; font-size: 14px; background: rgba(56,189,248,0.1); color: #38BDF8; border: 1px solid rgba(56,189,248,0.3); padding: 6px 14px; border-radius: 20px; font-weight: 700; }
+      
+      .ob-columns { display: grid; grid-template-columns: 1fr 2px 1fr; gap: 24px; align-items: center; margin: 24px 0; }
+      .ob-divider { height: 100%; background: #1E293B; }
+      .col-head { margin-bottom: 16px; }
+      .col-bids .ch-tag { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 800; color: #00E676; }
+      .col-asks .ch-tag { font-family: 'JetBrains Mono', monospace; font-size: 15px; font-weight: 800; color: #FF1744; }
+      
       .orders-list { display: flex; flex-direction: column; gap: 12px; }
-      .order-row { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-size: 20px; padding: 8px 12px; border-radius: 6px; position: relative; overflow: hidden; }
-      .bids-list .order-row { color: #00E676; background: rgba(0,230,118,0.06); }
-      .asks-list .order-row { color: #FF1744; background: rgba(255,23,68,0.06); }
-      .ob-footer { display: flex; align-items: center; gap: 16px; background: #131B2E; border: 1px solid #2563EB; padding: 18px 24px; border-radius: 10px; }
-      .pulse-icon { width: 14px; height: 14px; border-radius: 50%; background: #38BDF8; box-shadow: 0 0 12px #38BDF8; animation: pulseGlow 1s infinite alternate; }
-      @keyframes pulseGlow { 0% { opacity: 0.4; } 100% { opacity: 1; } }
-      .ob-insight { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #F1F5F9; font-weight: 600; }
+      .order-row { font-family: 'JetBrains Mono', monospace; font-size: 16px; padding: 12px 16px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; position: relative; overflow: hidden; }
+      .col-bids .order-row { color: #00E676; background: rgba(0,230,118,0.06); border-left: 4px solid #00E676; }
+      .col-asks .order-row { color: #FF1744; background: rgba(255,23,68,0.06); border-right: 4px solid #FF1744; }
+      
+      .ob-footer { background: #0F172A; border: 1px solid #334155; border-radius: 14px; padding: 18px 24px; display: flex; align-items: center; gap: 18px; }
+      .radar-tag { font-family: 'Chakra Petch', sans-serif; font-size: 13px; font-weight: 800; background: #38BDF8; color: #0F172A; padding: 4px 8px; border-radius: 4px; letter-spacing: 1px; }
+      .ob-insight-text { font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; color: #E2E8F0; margin: 0; font-weight: 600; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"pair":"ETH / USDT","spread":"Spread: 0.01 USDT (0.00%)","bids_title":"BIDS (LỆNH MUA)","asks_title":"ASKS (LỆNH BÁN)","bids":"3480.50:42.5|3480.00:118.2|3479.50:240.8","asks":"3481.00:35.1|3481.50:88.4|3482.00:310.6","insight":"Tường mua 240 ETH đang chặn đà giảm."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"pair":"ETH / USDT","spread":"Spread: $0.15 (0.004%)","bids_title":"LỆNH MUA (BIDS)","asks_title":"LỆNH BÁN (ASKS)","bids":"$3,620.50 : 42.5 ETH|$3,619.00 : 128.4 ETH|$3,618.20 : 310.0 ETH","asks":"$3,621.20 : 18.2 ETH|$3,622.00 : 95.6 ETH|$3,623.50 : 240.8 ETH","radar_tag":"WHALE RADAR","insight":"Tường mua 310 ETH bảo vệ mốc $3,618 cực kỳ vững chắc."}'>
     
-      <div class="ob-header">
-        <h2 class="ob-pair" data-slot="pair"></h2>
-        <span class="ob-spread" data-slot="spread"></span>
-      </div>
-      <div class="ob-body">
-        <div class="ob-column bids-col">
-          <div class="col-title" data-slot="bids_title"></div>
-          <div class="orders-list bids-list"></div>
+      <div class="ob-wrapper">
+        <div class="ob-header">
+          <div class="ob-pair-box">
+            <span class="crypto-icon">⚡</span>
+            <span class="ob-pair" data-slot="pair"></span>
+          </div>
+          <div class="ob-spread-badge" data-slot="spread"></div>
         </div>
-        <div class="ob-column asks-col">
-          <div class="col-title" data-slot="asks_title"></div>
-          <div class="orders-list asks-list"></div>
+
+        <div class="ob-columns">
+          <div class="ob-col col-bids">
+            <div class="col-head"><span class="ch-tag" data-slot="bids_title"></span></div>
+            <div class="orders-list bids-list"></div>
+          </div>
+          <div class="ob-divider"></div>
+          <div class="ob-col col-asks">
+            <div class="col-head"><span class="ch-tag" data-slot="asks_title"></span></div>
+            <div class="orders-list asks-list"></div>
+          </div>
         </div>
-      </div>
-      <div class="ob-footer">
-        <div class="pulse-icon"></div>
-        <span class="ob-insight" data-slot="insight"></span>
+
+        <div class="ob-footer">
+          <span class="radar-tag" data-slot="radar_tag"></span>
+          <p class="ob-insight-text" data-slot="insight"></p>
+        </div>
       </div>
     
   </div>
@@ -76,7 +88,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

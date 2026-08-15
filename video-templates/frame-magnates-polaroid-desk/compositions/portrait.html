@@ -3,52 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Detective Polaroid Investigation Desk · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Cinzel:wght@700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Investigation Corkboard & Polaroid · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Courier+Prime:wght@700&family=Cinzel:wght@700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #1A1510; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #14110F; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #1A1510;
+      background: #14110F;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .desk-header { text-align: center; margin-bottom: 24px; }
-      .case-stamp { font-family: 'Special Elite', cursive; color: #EF4444; border: 2px solid #EF4444; padding: 4px 14px; border-radius: 4px; display: inline-block; font-size: 18px; transform: rotate(-2deg); margin-bottom: 8px; }
-      .desk-title { font-family: 'Cinzel', serif; font-size: 42px; color: #E5E7EB; font-weight: 700; }
-      .desk-surface { background: #261F17; border: 2px solid #443729; border-radius: 16px; padding: 30px; position: relative; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; height: 260px; }
-      .polaroid-card { background: #F3F4F6; color: #111827; padding: 16px; border-radius: 4px; width: 240px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); position: relative; z-index: 2; transform: rotate(-3deg); }
+      .corkboard-frame { background: #1C1917; border: 8px solid #292524; border-radius: 20px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-shadow: inset 0 0 80px rgba(0,0,0,0.9); }
+      .cb-header { text-align: center; }
+      .case-stamp { font-family: 'Courier Prime', monospace; font-size: 15px; color: #EF4444; border: 2px solid #EF4444; padding: 4px 12px; display: inline-block; font-weight: 700; letter-spacing: 2px; transform: rotate(-2deg); }
+      .case-title { font-family: 'Cinzel', serif; font-size: 38px; color: #E7E5E4; font-weight: 700; margin-top: 10px; }
+
+      .polaroid-desk { display: flex; justify-content: space-between; align-items: center; margin: 16px 0; }
+      .polaroid { background: #F5F5F4; color: #1C1917; padding: 14px 14px 24px 14px; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.8); width: 220px; text-align: center; }
+      .p-left { transform: rotate(-4deg); }
       .p-right { transform: rotate(4deg); }
-      .p-caption { font-family: 'Special Elite', cursive; font-size: 18px; text-align: center; color: #1F2937; }
-      .connection-tag { background: #991B1B; color: #FEF2F2; font-family: 'Special Elite'; font-size: 16px; padding: 8px 14px; border-radius: 6px; z-index: 3; text-align: center; max-width: 240px; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-      .desk-verdict { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #FCD34D; background: rgba(217,119,6,0.15); border-left: 4px solid #D97706; padding: 14px 20px; border-radius: 6px; }
+      .photo-box { background: #292524; height: 130px; display: flex; align-items: center; justify-content: center; font-size: 44px; margin-bottom: 12px; }
+      .p-caption { font-family: 'Special Elite', cursive; font-size: 14px; font-weight: 700; }
+
+      .yarn-connector { flex: 1; position: relative; text-align: center; }
+      .yarn-line { display: block; height: 3px; background: #DC2626; box-shadow: 0 0 10px #DC2626; }
+      .yarn-tag { font-family: 'Courier Prime', monospace; font-size: 13px; background: #DC2626; color: #FFF; padding: 4px 10px; border-radius: 4px; display: inline-block; transform: translateY(-12px); font-weight: 700; }
+
+      .dossier-verdict { background: #292524; border-left: 6px solid #DC2626; padding: 16px 20px; border-radius: 0 8px 8px 0; display: flex; align-items: center; gap: 16px; }
+      .confidential-seal { background: #DC2626; color: #FFF; font-family: 'Courier Prime', monospace; font-size: 13px; font-weight: 700; padding: 4px 8px; }
+      .verdict-text { font-family: 'Special Elite', cursive; font-size: 16px; color: #D6D3D1; margin: 0; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"HỒ SƠ ĐIỀU TRA MỐI QUAN HỆ NGẦM","case_no":"CASE FILE #8849-CLASSIFIED","target_a":"Nhân vật A: Cựu CEO tập đoàn","target_b":"Công ty ma tại Quần đảo Cayman","connection":"Dòng vốn 500 triệu USD chuyển dịch bí mật","verdict":"Tất cả manh mối đều chỉ về một người đứng sau."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"Đại Án Thao Túng Thị Trường","case_no":"HỒ SƠ MẬT #8492-X","target_a":"Nhân vật A: Chủ tịch Tập đoàn","target_b":"Tổ chức B: Quỹ đầu tư vỏ bọc","connection":"Giao dịch ngầm: 5,000 tỷ VNĐ","seal_text":"TỐI MẬT","verdict":"Toàn bộ mạng lưới công ty con bị phong tỏa tài sản."}'>
     
-      <div class="desk-header">
-        <span class="case-stamp" data-slot="case_no"></span>
-        <h1 class="desk-title" data-slot="headline"></h1>
-      </div>
-      <div class="desk-surface">
-        <div class="polaroid-card p-left">
-          <div class="p-caption" data-slot="target_a"></div>
+      <div class="corkboard-frame">
+        <div class="cb-header">
+          <span class="case-stamp" data-slot="case_no"></span>
+          <h1 class="case-title" data-slot="headline"></h1>
         </div>
-        <div class="connection-tag" data-slot="connection"></div>
-        <div class="polaroid-card p-right">
-          <div class="p-caption" data-slot="target_b"></div>
+
+        <div class="polaroid-desk">
+          <div class="polaroid p-left">
+            <div class="photo-box">👤</div>
+            <span class="p-caption" data-slot="target_a"></span>
+          </div>
+
+          <div class="yarn-connector">
+            <span class="yarn-line"></span>
+            <span class="yarn-tag" data-slot="connection"></span>
+          </div>
+
+          <div class="polaroid p-right">
+            <div class="photo-box">🏢</div>
+            <span class="p-caption" data-slot="target_b"></span>
+          </div>
+        </div>
+
+        <div class="dossier-verdict">
+          <span class="confidential-seal" data-slot="seal_text"></span>
+          <p class="verdict-text" data-slot="verdict"></p>
         </div>
       </div>
-      <div class="desk-verdict" data-slot="verdict"></div>
     
   </div>
   <script>
@@ -65,7 +89,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

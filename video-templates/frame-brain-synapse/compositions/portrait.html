@@ -3,60 +3,81 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Brain Synapse Neural Activation · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Neural Synapse & Dopamine Circuit · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B0C16; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #050711; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #0B0C16;
+      background: #050711;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .brain-header { text-align: center; margin-bottom: 24px; }
-      .b-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 44px; color: #A855F7; font-weight: 800; text-shadow: 0 0 20px rgba(168,85,247,0.3); }
-      .mol-badge { background: #2E1065; color: #D8B4FE; font-family: 'Plus Jakarta Sans'; font-size: 18px; font-weight: 700; padding: 4px 14px; border-radius: 20px; border: 1px solid #7C3AED; display: inline-block; margin-top: 8px; }
-      .brain-visual-card { background: #131127; border: 1px solid #3B0764; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
-      .synapse-nodes { display: flex; justify-content: space-around; margin-bottom: 24px; }
-      .node { background: #1F1D36; border: 2px solid #7C3AED; color: #FFF; font-family: 'Plus Jakarta Sans'; font-size: 18px; font-weight: 700; padding: 12px 18px; border-radius: 30px; position: relative; }
-      .node.active { border-color: #EC4899; color: #F472B6; box-shadow: 0 0 15px rgba(236,72,153,0.5); }
-      .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-      .info-col { background: #181530; padding: 16px; border-radius: 10px; border-left: 4px solid #A855F7; }
-      .col-val { font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #E2E8F0; margin-top: 6px; }
-      .brain-warning { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #F472B6; background: rgba(236,72,153,0.12); border: 1px solid #EC4899; padding: 14px 20px; border-radius: 10px; text-align: center; }
+      .synapse-hud { background: #050711; border: 1px solid #1E1B4B; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .syn-header { text-align: center; }
+      .chem-badge { font-family: 'Chakra Petch', sans-serif; font-size: 13px; font-weight: 700; color: #00F5D4; letter-spacing: 2px; }
+      .syn-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 38px; font-weight: 800; color: #FFF; margin-top: 6px; }
+
+      .neural-network-stage { position: relative; margin: 10px 0; }
+      .nn-svg { width: 100%; height: 140px; }
+      .syn-node { filter: drop-shadow(0 0 15px currentColor); }
+      .pulse-syn { animation: nodePulse 1.5s infinite alternate; }
+      .node-labels { display: flex; justify-content: space-around; font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 15px; color: #E2E8F0; }
+
+      .flow-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+      .flow-card { background: rgba(30,27,75,0.5); border: 1px solid #312E81; border-radius: 12px; padding: 16px; }
+      .fc-head { font-family: 'Chakra Petch', sans-serif; font-size: 12px; font-weight: 700; color: #A78BFA; letter-spacing: 1px; }
+      .fc-body { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; color: #F1F5F9; margin-top: 6px; margin-bottom: 0; line-height: 1.4; }
+
+      .syn-warning { background: #1E1B4B; border-left: 4px solid #FF007A; color: #FDF2F8; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 600; padding: 12px 18px; border-radius: 0 8px 8px 0; }
+      @keyframes nodePulse { to { transform: scale(1.08); } }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"HIỆU ỨNG DOPAMINE TRONG NÃO BỘ","molecule":"DOPAMINE (C8H11NO2)","node_1":"Thèm muốn","node_2":"Kích thích","node_3":"Thỏa mãn ngắn hạn","trigger":"Kích hoạt: Thông báo điện thoại, Lướt video ngắn","reaction":"Vỏ não trước trán giảm tập trung 40%","warning":"Cơn nghiện dopamine rẻ tiền bào mòn ý chí dài hạn."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"Vòng Lặp Kích Thích Dopamine","molecule":"HỢP CHẤT: C8H11NO2 (DOPAMINE)","node_1":"KÍCH THÍCH","node_2":"TIẾT HORMONE","node_3":"THỎA MÃN","trigger_tag":"TÁC NHÂN","reaction_tag":"PHẢN ỨNG NÃO BỘ","trigger":"Thông báo chuông điện thoại hoặc lướt feed mạng xã hội","reaction":"Não giải phóng Dopamine thúc đẩy hành vi lặp lại tức thì","warning":"Cắt đứt tín hiệu kích thích là cách duy nhất để cai nghiện dopamine."}'>
     
-      <div class="brain-header">
-        <h1 class="b-title" data-slot="headline"></h1>
-        <span class="mol-badge" data-slot="molecule"></span>
-      </div>
-      <div class="brain-visual-card">
-        <div class="synapse-nodes">
-          <div class="node n1"><span data-slot="node_1"></span></div>
-          <div class="node n2"><span data-slot="node_2"></span></div>
-          <div class="node n3 active"><span data-slot="node_3"></span></div>
+      <div class="synapse-hud">
+        <div class="syn-header">
+          <div class="chem-badge" data-slot="molecule"></div>
+          <h1 class="syn-title" data-slot="headline"></h1>
         </div>
-        <div class="info-grid">
-          <div class="info-col trigger-box">
-            <p class="col-val" data-slot="trigger"></p>
-          </div>
-          <div class="info-col reaction-box">
-            <p class="col-val" data-slot="reaction"></p>
+
+        <div class="neural-network-stage">
+          <svg class="nn-svg" viewBox="0 0 600 160">
+            <line x1="100" y1="80" x2="300" y2="80" stroke="#7000FF" stroke-width="4" stroke-dasharray="6 6" />
+            <line x1="300" y1="80" x2="500" y2="80" stroke="#00F5D4" stroke-width="4" />
+            <circle cx="100" cy="80" r="36" fill="#7000FF" class="syn-node" />
+            <circle cx="300" cy="80" r="44" fill="#FF007A" class="syn-node pulse-syn" />
+            <circle cx="500" cy="80" r="36" fill="#00F5D4" class="syn-node" />
+          </svg>
+          <div class="node-labels">
+            <span class="nl nl-1" data-slot="node_1"></span>
+            <span class="nl nl-2" data-slot="node_2"></span>
+            <span class="nl nl-3" data-slot="node_3"></span>
           </div>
         </div>
+
+        <div class="flow-breakdown">
+          <div class="flow-card">
+            <span class="fc-head" data-slot="trigger_tag"></span>
+            <p class="fc-body" data-slot="trigger"></p>
+          </div>
+          <div class="flow-card">
+            <span class="fc-head" data-slot="reaction_tag"></span>
+            <p class="fc-body" data-slot="reaction"></p>
+          </div>
+        </div>
+
+        <div class="syn-warning" data-slot="warning"></div>
       </div>
-      <div class="brain-warning" data-slot="warning"></div>
     
   </div>
   <script>
@@ -73,7 +94,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

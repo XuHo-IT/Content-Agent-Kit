@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Portfolio Asset Allocation · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Portfolio Asset Allocation Donut · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0B0E17; }
@@ -17,46 +17,63 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .pf-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-      .pf-title { font-family: 'Chakra Petch', sans-serif; font-size: 36px; color: #FFF; font-weight: 700; }
-      .pf-pnl { background: rgba(16,185,129,0.15); color: #10B981; font-family: 'Chakra Petch', sans-serif; font-size: 20px; font-weight: 700; padding: 6px 16px; border-radius: 8px; border: 1px solid #10B981; }
-      .pf-body { display: flex; align-items: center; gap: 30px; background: #111827; border: 1px solid #1F2937; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
-      .donut-chart-box { position: relative; width: 180px; height: 180px; flex-shrink: 0; }
+      .pf-container { background: #0B0E17; border: 1px solid #1E293B; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .pf-top { display: flex; justify-content: space-between; align-items: center; }
+      .pf-title { font-family: 'Inter', sans-serif; font-size: 34px; font-weight: 800; color: #FFF; }
+      .pnl-badge { background: rgba(16,185,129,0.15); border: 1px solid #10B981; color: #10B981; font-family: 'JetBrains Mono', monospace; font-size: 16px; font-weight: 700; padding: 6px 16px; border-radius: 30px; }
+      
+      .pf-center { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; margin: 20px 0; }
+      .donut-chart-box { position: relative; width: 220px; height: 220px; margin: 0 auto; }
       .donut-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-      .donut-center { position: absolute; inset: 0; display: flex; justify-content: center; align-items: center; text-align: center; }
-      .center-val { font-size: 20px; color: #FFF; font-weight: 700; font-family: 'Chakra Petch'; }
-      .pf-legend-list { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-      .legend-item { display: flex; justify-content: space-between; font-family: 'Be Vietnam Pro', sans-serif; font-size: 20px; color: #E2E8F0; padding: 6px 10px; background: #1E293B; border-radius: 6px; }
-      .pf-verdict { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #FCD34D; background: rgba(245,158,11,0.1); border-left: 4px solid #F59E0B; padding: 14px 20px; border-radius: 6px; }
+      .donut-center-label { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; font-family: 'Inter', sans-serif; }
+      .dcl-muted { font-size: 12px; font-weight: 700; color: #64748B; letter-spacing: 1px; }
+      .dcl-val { font-size: 32px; font-weight: 900; color: #FFF; }
+
+      .pf-legend-list { display: flex; flex-direction: column; gap: 12px; }
+      .legend-item { display: flex; justify-content: space-between; font-family: 'Inter', sans-serif; font-size: 17px; color: #E2E8F0; padding: 10px 16px; background: #131B2E; border-radius: 8px; border-left: 4px solid #3B82F6; }
+      .legend-item:nth-child(2) { border-left-color: #10B981; }
+      .legend-item:nth-child(3) { border-left-color: #F59E0B; }
+      .legend-item:nth-child(4) { border-left-color: #8B5CF6; }
+
+      .pf-verdict-box { background: #131B2E; border: 1px solid #1E293B; border-radius: 12px; padding: 16px 20px; }
+      .pf-verdict-txt { font-family: 'Inter', sans-serif; font-size: 16px; color: #94A3B8; margin: 0; font-weight: 500; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"title":"CƠ CẤU DANH MỤC ĐẦU TƯ","total_pnl":"Lợi nhuận: +34.2% YTD","total_label":"TỔNG 100%","items":"Cổ phiếu:45%|Crypto:25%|Bất động sản:20%|Tiền mặt:10%","verdict":"Tỷ trọng rủi ro cao chiếm 70% danh mục."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"title":"Cơ Cấu Danh Mục Chuẩn","total_pnl":"+28.4% Lợi Nhuận YTD","total_label":"TỔNG TÀI SẢN","total_pct":"100%","items":"Cổ Phiếu:45%|Bất Động Sản:30%|Vàng & Crypto:15%|Tiền Mặt:10%","verdict":"Tỷ trọng cân bằng giúp giảm 40% rủi ro khi thị trường điều chỉnh."}'>
     
-      <div class="pf-header">
-        <h2 class="pf-title" data-slot="title"></h2>
-        <span class="pf-pnl" data-slot="total_pnl"></span>
-      </div>
-      <div class="pf-body">
-        <div class="donut-chart-box">
-          <svg class="donut-svg" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="38" fill="transparent" stroke="#1E293B" stroke-width="16"/>
-            <circle cx="50" cy="50" r="38" fill="transparent" stroke="#3B82F6" stroke-width="16" stroke-dasharray="107 239" stroke-dashoffset="0"/>
-            <circle cx="50" cy="50" r="38" fill="transparent" stroke="#8B5CF6" stroke-width="16" stroke-dasharray="60 239" stroke-dashoffset="-107"/>
-            <circle cx="50" cy="50" r="38" fill="transparent" stroke="#10B981" stroke-width="16" stroke-dasharray="48 239" stroke-dashoffset="-167"/>
-            <circle cx="50" cy="50" r="38" fill="transparent" stroke="#F59E0B" stroke-width="16" stroke-dasharray="24 239" stroke-dashoffset="-215"/>
-          </svg>
-          <div class="donut-center">
-            <span class="center-val" data-slot="total_label"></span>
-          </div>
+      <div class="pf-container">
+        <div class="pf-top">
+          <h2 class="pf-title" data-slot="title"></h2>
+          <div class="pnl-badge" data-slot="total_pnl"></div>
         </div>
-        <div class="pf-legend-list"></div>
+
+        <div class="pf-center">
+          <div class="donut-chart-box">
+            <svg class="donut-svg" viewBox="0 0 200 200">
+              <circle cx="100" cy="100" r="75" stroke="#1E293B" stroke-width="24" fill="none" />
+              <circle cx="100" cy="100" r="75" stroke="#3B82F6" stroke-width="24" stroke-dasharray="212 471" stroke-dashoffset="0" fill="none" />
+              <circle cx="100" cy="100" r="75" stroke="#10B981" stroke-width="24" stroke-dasharray="141 471" stroke-dashoffset="-212" fill="none" />
+              <circle cx="100" cy="100" r="75" stroke="#F59E0B" stroke-width="24" stroke-dasharray="70 471" stroke-dashoffset="-353" fill="none" />
+              <circle cx="100" cy="100" r="75" stroke="#8B5CF6" stroke-width="24" stroke-dasharray="48 471" stroke-dashoffset="-423" fill="none" />
+            </svg>
+            <div class="donut-center-label">
+              <span class="dcl-muted" data-slot="total_label"></span>
+              <span class="dcl-val" data-slot="total_pct"></span>
+            </div>
+          </div>
+
+          <div class="pf-legend-list"></div>
+        </div>
+
+        <div class="pf-verdict-box">
+          <p class="pf-verdict-txt" data-slot="verdict"></p>
+        </div>
       </div>
-      <div class="pf-verdict" data-slot="verdict"></div>
     
   </div>
   <script>
@@ -73,7 +90,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

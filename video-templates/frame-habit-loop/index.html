@@ -3,57 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1920, height=1080" />
-  <title>Habit Loop 4-Quadrant · 16:9</title>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>4-Quadrant Habit Loop Framework · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@800;900&family=Plus+Jakarta+Sans:wght@600;700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0D111A; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0B0F19; }
     #root {
       position: relative;
       width: 1920px;
       height: 1080px;
-      background: #0D111A;
+      background: #0B0F19;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 60px 120px;
+      padding: 50px 100px;
     }
     
-      .habit-header { text-align: center; margin-bottom: 24px; }
-      .h-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 42px; color: #FFF; font-weight: 800; }
-      .habit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-      .h-card { background: #161F30; border: 1px solid #1E293B; border-radius: 12px; padding: 20px; display: flex; align-items: center; }
-      .c-cue { border-left: 6px solid #38BDF8; }
-      .c-craving { border-left: 6px solid #A855F7; }
-      .c-response { border-left: 6px solid #F59E0B; }
-      .c-reward { border-left: 6px solid #10B981; }
-      .h-text { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #E2E8F0; font-weight: 600; }
-      .h-key { font-family: 'Be Vietnam Pro', sans-serif; font-size: 24px; color: #38BDF8; background: rgba(56,189,248,0.12); border: 1px solid #38BDF8; padding: 14px; text-align: center; border-radius: 10px; font-weight: 700; }
+      .habit-container { background: #0B0F19; border: 1px solid #1E293B; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; }
+      .hb-title { font-family: 'Cabinet Grotesk', sans-serif; font-size: 38px; font-weight: 900; color: #FFF; text-align: center; }
+
+      .loop-quadrants { position: relative; width: 340px; height: 340px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 10px 0; }
+      .quad { border-radius: 16px; padding: 20px; display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 17px; font-weight: 800; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+      .q-1 { background: #3B82F6; color: #FFF; }
+      .q-2 { background: #F59E0B; color: #000; }
+      .q-3 { background: #10B981; color: #FFF; }
+      .q-4 { background: #EC4899; color: #FFF; }
+      .loop-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: #0B0F19; border: 3px solid #FFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cabinet Grotesk', sans-serif; font-size: 14px; font-weight: 900; color: #FFF; }
+
+      .hb-footer { width: 100%; background: #1E293B; border-radius: 12px; padding: 16px 20px; text-align: center; }
+      .hb-key-point { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; color: #E2E8F0; margin: 0; font-weight: 700; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"VÒNG LẶP 4 BƯỚC CỦA MỌI THÓI QUEN","cue":"1. GỢI Ý: Chuông thông báo reo","craving":"2. KHAO KHÁT: Muốn biết ai nhắn gì","response":"3. HÀNH ĐỘNG: Cầm điện thoại mở khóa","reward":"4. PHẦN THƯỞNG: Đọc tin nhắn (Dopamine)","key_point":"Muốn bỏ thói quen xấu: Cắt đứt bước Gợi Ý."}'>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"Vòng Lặp Thói Quen (Atomic Habits)","cue":"1. Gợi Ý (Cue)","craving":"2. Thèm Khát (Craving)","response":"3. Phản Ứng (Response)","reward":"4. Phần Thưởng (Reward)","loop_center":"LOOP","key_point":"Thay đổi một thói quen bắt đầu từ việc thay đổi gợi ý môi trường."}'>
     
-      <div class="habit-header">
-        <h1 class="h-title" data-slot="headline"></h1>
+      <div class="habit-container">
+        <div class="hb-top">
+          <h1 class="hb-title" data-slot="headline"></h1>
+        </div>
+
+        <div class="loop-quadrants">
+          <div class="quad q-1" data-slot="cue"></div>
+          <div class="quad q-2" data-slot="craving"></div>
+          <div class="quad q-3" data-slot="response"></div>
+          <div class="quad q-4" data-slot="reward"></div>
+          <div class="loop-center" data-slot="loop_center"></div>
+        </div>
+
+        <div class="hb-footer">
+          <p class="hb-key-point" data-slot="key_point"></p>
+        </div>
       </div>
-      <div class="habit-grid">
-        <div class="h-card c-cue">
-          <div class="h-text" data-slot="cue"></div>
-        </div>
-        <div class="h-card c-craving">
-          <div class="h-text" data-slot="craving"></div>
-        </div>
-        <div class="h-card c-response">
-          <div class="h-text" data-slot="response"></div>
-        </div>
-        <div class="h-card c-reward">
-          <div class="h-text" data-slot="reward"></div>
-        </div>
-      </div>
-      <div class="h-key" data-slot="key_point"></div>
     
   </div>
   <script>
@@ -70,7 +72,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

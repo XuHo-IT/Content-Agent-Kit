@@ -3,53 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1920, height=1080" />
-  <title>Viral Tier List Ranker (S-A-B-C-D) · 16:9</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800;900&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Arcade Tier List Ranking Board · 16:9</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #181124; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0E0E12; }
     #root {
       position: relative;
       width: 1920px;
       height: 1080px;
-      background: #181124;
+      background: #0E0E12;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 60px 120px;
+      padding: 50px 100px;
     }
     
-      .tl-header { text-align: center; margin-bottom: 24px; }
-      .tl-title { font-family: 'Montserrat', sans-serif; font-size: 42px; color: #FFE600; font-weight: 900; text-shadow: 0 0 20px rgba(255,230,0,0.4); }
-      .tier-board { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-      .tier-row { background: #261B38; border-radius: 8px; overflow: hidden; border: 1px solid #44325E; padding: 14px 20px; }
-      .row-s { border-left: 8px solid #FF3B30; }
-      .row-a { border-left: 8px solid #FF9500; }
-      .row-b { border-left: 8px solid #FFCC00; }
-      .tier-items { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #F3F4F6; font-weight: 600; }
-      .tl-verdict { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #FFF; background: #FF0055; padding: 14px; text-align: center; border-radius: 8px; font-weight: 700; }
+      .tier-board { background: #0E0E12; border: 4px solid #000; border-radius: 20px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 8px 8px 0px #000; }
+      .tb-title { font-family: 'Montserrat', sans-serif; font-size: 38px; font-weight: 900; color: #FFF; text-align: center; }
+
+      .tiers-stack { display: flex; flex-direction: column; gap: 10px; margin: 10px 0; }
+      .t-row { display: flex; background: #181820; border: 3px solid #000; border-radius: 10px; overflow: hidden; min-height: 60px; }
+      .t-badge { width: 70px; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-size: 32px; font-weight: 900; color: #000; }
+      .t-s .t-badge { background: #FF0055; color: #FFF; }
+      .t-a .t-badge { background: #FF6B00; }
+      .t-b .t-badge { background: #FFD700; }
+      .t-items { flex: 1; padding: 12px 20px; display: flex; align-items: center; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 800; color: #FFF; }
+
+      .tb-verdict { background: #FFD700; color: #000; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 900; padding: 14px 20px; border-radius: 8px; border: 3px solid #000; text-align: center; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"XẾP HẠNG CÔNG CỤ AI NĂM 2026","tier_s":"S: Claude 3.7 Sonnet, DeepSeek V3","tier_a":"A: GPT-4.5, Gemini 2.0 Pro","tier_b":"B: Copilot, Perplexity","verdict":"Tier S thống trị tuyệt đối về khả năng coding."}'>
+  <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"Xếp Hạng AI Coding Tools 2026","badge_s":"S","badge_a":"A","badge_b":"B","tier_s":"Claude 3.7 Sonnet · Cursor AI","tier_a":"GitHub Copilot · Windsurf","tier_b":"ChatGPT Plus · v0.dev","verdict":"Claude 3.7 + Cursor là combo bất bại cho lập trình viên."}'>
     
-      <div class="tl-header">
-        <h1 class="tl-title" data-slot="headline"></h1>
-      </div>
       <div class="tier-board">
-        <div class="tier-row row-s">
-          <div class="tier-items" data-slot="tier_s"></div>
+        <h1 class="tb-title" data-slot="headline"></h1>
+
+        <div class="tiers-stack">
+          <div class="t-row t-s">
+            <div class="t-badge" data-slot="badge_s"></div>
+            <div class="t-items" data-slot="tier_s"></div>
+          </div>
+          <div class="t-row t-a">
+            <div class="t-badge" data-slot="badge_a"></div>
+            <div class="t-items" data-slot="tier_a"></div>
+          </div>
+          <div class="t-row t-b">
+            <div class="t-badge" data-slot="badge_b"></div>
+            <div class="t-items" data-slot="tier_b"></div>
+          </div>
         </div>
-        <div class="tier-row row-a">
-          <div class="tier-items" data-slot="tier_a"></div>
-        </div>
-        <div class="tier-row row-b">
-          <div class="tier-items" data-slot="tier_b"></div>
-        </div>
+
+        <div class="tb-verdict" data-slot="verdict"></div>
       </div>
-      <div class="tl-verdict" data-slot="verdict"></div>
     
   </div>
   <script>
@@ -66,7 +74,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {

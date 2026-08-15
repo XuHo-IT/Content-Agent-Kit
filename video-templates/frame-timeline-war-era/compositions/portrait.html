@@ -3,50 +3,62 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=1080, height=1920" />
-  <title>Burnt Parchment Historical Timeline · 9:16</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Special+Elite&family=Be+Vietnam+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Historical Milestone War Timeline · 9:16</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Plus+Jakarta+Sans:wght@500;700&display=swap" rel="stylesheet" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #181410; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #12100E; }
     #root {
       position: relative;
       width: 1080px;
       height: 1920px;
-      background: #181410;
+      background: #12100E;
       color: #F8FAFC;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 60px;
+      padding: 100px 50px;
     }
     
-      .war-header { text-align: center; margin-bottom: 26px; }
-      .war-title { font-family: 'Cinzel', serif; font-size: 42px; color: #F59E0B; font-weight: 700; letter-spacing: 1px; }
-      .war-timeline { display: flex; flex-direction: column; gap: 14px; margin-bottom: 24px; }
-      .war-event { display: flex; align-items: center; }
-      .event-txt { font-family: 'Be Vietnam Pro', sans-serif; font-size: 22px; color: #E5E7EB; background: #261F17; padding: 14px 20px; border-radius: 8px; border-left: 6px solid #D97706; flex: 1; }
-      .war-conclusion { font-family: 'Special Elite', cursive; font-size: 22px; color: #FDE68A; background: rgba(217,119,6,0.15); border: 1px solid #D97706; padding: 14px 20px; text-align: center; border-radius: 8px; }
+      .war-timeline-stage { background: radial-gradient(circle at 50% 0%, #26201A 0%, #12100E 100%); border: 1px solid #44372C; border-radius: 24px; padding: 36px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+      .wt-title { font-family: 'Cinzel', serif; font-size: 36px; font-weight: 900; color: #D4AF37; text-align: center; }
+
+      .milestones-spine { position: relative; display: flex; flex-direction: column; gap: 16px; margin: 10px 0 10px 20px; }
+      .spine-line { position: absolute; top: 10px; bottom: 10px; left: 7px; width: 2px; background: #D4AF37; }
+      .ms-node { display: flex; align-items: center; gap: 20px; position: relative; z-index: 2; }
+      .ms-dot { width: 16px; height: 16px; border-radius: 50%; background: #26201A; border: 2px solid #D4AF37; }
+      .ms-active { background: #D4AF37; box-shadow: 0 0 12px #D4AF37; }
+      .ms-card { background: #1C1814; border: 1px solid #44372C; padding: 12px 18px; border-radius: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; color: #E7E5E4; font-weight: 600; flex: 1; }
+      .ms-highlight { background: rgba(212,175,55,0.15); border-color: #D4AF37; color: #FFF; font-weight: 700; }
+
+      .wt-footer { background: #1C1814; border-left: 4px solid #D4AF37; padding: 14px 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; color: #D4AF37; font-weight: 700; }
     
   </style>
 </head>
 <body>
-  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"DÒNG THỜI GIAN BIẾN CỐ LỊCH SỬ","event_1":"1997: Khủng hoảng tài chính Châu Á bùng nổ","event_2":"2008: Cú sụp đổ Lehman Brothers & bong bóng nhà đất","event_3":"2020: Đại dịch & đợt bơm tiền kỷ lục lịch sử","conclusion":"Lịch sử không lặp lại nguyên vẹn, nhưng luôn có cùng nhịp điệu."}'>
+  <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"Cuộc Chiến Giành Thị Phần Trình Duyệt","event_1":"1995: Netscape thống trị 90% người dùng web","event_2":"1998: Microsoft tung IE tích hợp thẳng vào Windows","event_3":"2008: Google Chrome ra mắt thay đổi hoàn toàn cục diện","conclusion":"Tốc độ và hệ sinh thái mở luôn đánh bại sự độc quyền khép kín."}'>
     
-      <div class="war-header">
-        <h1 class="war-title" data-slot="headline"></h1>
+      <div class="war-timeline-stage">
+        <h1 class="wt-title" data-slot="headline"></h1>
+
+        <div class="milestones-spine">
+          <div class="spine-line"></div>
+          <div class="ms-node">
+            <span class="ms-dot"></span>
+            <div class="ms-card" data-slot="event_1"></div>
+          </div>
+          <div class="ms-node">
+            <span class="ms-dot"></span>
+            <div class="ms-card" data-slot="event_2"></div>
+          </div>
+          <div class="ms-node">
+            <span class="ms-dot ms-active"></span>
+            <div class="ms-card ms-highlight" data-slot="event_3"></div>
+          </div>
+        </div>
+
+        <div class="wt-footer" data-slot="conclusion"></div>
       </div>
-      <div class="war-timeline">
-        <div class="war-event">
-          <div class="event-txt" data-slot="event_1"></div>
-        </div>
-        <div class="war-event">
-          <div class="event-txt" data-slot="event_2"></div>
-        </div>
-        <div class="war-event">
-          <div class="event-txt" data-slot="event_3"></div>
-        </div>
-      </div>
-      <div class="war-conclusion" data-slot="conclusion"></div>
     
   </div>
   <script>
@@ -63,7 +75,6 @@
         }
       });
 
-      // Special dynamic parsing for list items if present
       var ordersListBids = document.querySelector(".bids-list");
       var ordersListAsks = document.querySelector(".asks-list");
       if (ordersListBids && v.bids) {
