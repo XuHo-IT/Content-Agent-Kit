@@ -104,6 +104,12 @@ more than about a third of scenes be B-roll.
 For choosing clips and capturing pages, follow the **`research-and-capture`** skill; the rules
 live in `VIDEO_CRAFT.md` §4b and `docs/15-media-sources.md`.
 
+**Pairing with specialized registry skills:**
+- **Hook & CRO optimization**: Use `marketing-core` (`product-marketing.md`) or `fb-hook-extractor` to analyze hook formulas before writing scene 1.
+- **STEM & Explainer formulas**: Use `manim-math` for math proofs (`frame-math-manim`) and `drawio` for flowchart/architecture mapping (`frame-diagram-architecture`, `frame-diagram-flowchart`).
+- **Motion & Transition tokens**: Use `ui-transitions` and `motion-craft` for curated easing curves (`cubic-bezier`), delays, and micro-animations across HTML frames.
+- **Design hierarchy**: Use `ui-ux-pro` for WCAG AAA contrast and typography ratios.
+
 ## Step 4 — Validate (do not skip)
 
 ```bash

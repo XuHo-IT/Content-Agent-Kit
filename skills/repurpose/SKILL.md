@@ -78,8 +78,11 @@ Match the container to the idea rather than making all five formats every time:
 | context worth keeping | a newsletter paragraph |
 
 **Vary the hook across variants.** If all of them open with a number, they read as one post
-published five times. `fb-hook-extractor` (in `skills/registry.json`) covers this properly if
-you want formulas.
+published five times.
+
+**Pairing with registry skills for multi-channel distribution:**
+- **Multi-channel calendar**: Use **`social-post-master`** to adapt tone, format, and spacing natively across Facebook, Instagram, Threads, and X.
+- **Hook & Copy refinement**: Use **`marketing-core`** and **`fb-hook-extractor`** to test high-converting copy variants and distinct angle formulas.
 
 ## 4. Through the same gates as anything else
 

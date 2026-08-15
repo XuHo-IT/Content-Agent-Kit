@@ -205,7 +205,19 @@ try {
   const missing = ids.filter((id) => !known.includes(id));
   if (missing.length) throw new Error(`Not a scene template: ${missing.join(", ")}. Known: ${known.join(", ")}`);
 
-  const perRow = Number(flag("--per-row", "4"));
+  let perRow = Number(flag("--per-row", "0"));
+  if (!perRow || Number.isNaN(perRow)) {
+    if (preset === "all" || ids.length > 50) {
+      perRow = Math.ceil(Math.sqrt(ids.length * (16 / 9) * 0.8));
+      if (perRow < 11 && ids.length >= 70) perRow = 11;
+    } else if (ids.length > 20) {
+      perRow = 8;
+    } else if (ids.length > 6) {
+      perRow = 4;
+    } else {
+      perRow = ids.length;
+    }
+  }
   const thumbW = Number(flag("--width", "240"));
   const aspect = flag("--aspect", "9:16");
   const atSec = Number(flag("--at", "4"));

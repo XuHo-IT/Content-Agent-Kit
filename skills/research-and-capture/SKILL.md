@@ -16,6 +16,10 @@ what the narration is describing. Without this a video is text slides read aloud
 the changelog — not a blog summarising them. Pull out **concrete, quotable facts**: dates,
 figures, prices, names. Those become the script; everything else is filler.
 
+For deep academic or technical topics:
+- Pair with **`academic-deep-research`** to explore scientific literature, verify methodology, and extract empirical datasets without hallucinations.
+- Pair with **`academic-writing-flow`** to run evidence verification contracts, cross-checking every claim against peer-reviewed citations before scripting.
+
 Note the 2–4 URLs worth *showing*. A page is worth showing when the narration makes a claim
 a viewer might doubt.
 

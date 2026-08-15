@@ -94,12 +94,9 @@ twice is how slot parity gets broken, and it is also how a fix lands in one aspe
 - **Vietnamese-capable fonts.** Be Vietnam Pro, Lora, Alfa Slab One are known-good. Test with
   `ữ ệ ợ ằ` — a font missing diacritics renders `bước` as `bc`.
 
-### Two traps that pass every test and still look wrong
+### Three traps that pass every test and still look wrong or stall rendering
 
-**Read `motion-craft` first** — it carries the full vocabulary and all four traps. The two
-that bite hardest:
-
-**A delayed animation with no start state shows its ending first.**
+**1. A delayed animation with no start state shows its ending first.**
 
 ```css
 .thing { animation: rise 0.5s ease 0.45s forwards; }             /* wrong */
@@ -111,9 +108,19 @@ that bite hardest:
 for a `forwards` animation is where it *finishes*. Half a second of the finished state, then
 a snap back. Use `both` when the start state differs between aspects.
 
-**An animation must travel the same way as the thing it reveals.** A divider sweeping in from
+**2. An animation must travel the same way as the thing it reveals.** A divider sweeping in from
 the left while a `clip-path` uncovers from the right reads as two animations that happen to
 end together. Both real bugs, both in shipped-looking code, neither catchable by a test.
+
+**3. Missing sub-composition timeline registration (`window.__timelines["portrait"]`).**
+Every composition (both `index.html` and `compositions/portrait.html`) MUST register its timeline under both IDs:
+
+```javascript
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = timeline;
+```
+
+If `compositions/portrait.html` only registers `"main"` or omits `"portrait"`, Puppeteer will wait **45 seconds** for the sub-composition ready signal, causing a 10x render slowdown. Always register both keys.
 
 ## 3. Measure, document, wire up
 
