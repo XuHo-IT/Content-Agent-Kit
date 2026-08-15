@@ -262,6 +262,61 @@
       "licenseFile": "LICENSE",
       "summary": "Structured exercise database with muscle targeting, workout progressions, rep schemes and rest timers.",
       "why": "Enables automated generation of fitness coaching, workout routine and exercise breakdown content."
+    },
+    "ui-transitions": {
+      "repo": "Jakubantalik/transitions.dev",
+      "ref": "main",
+      "path": ".",
+      "installAs": "ui-transitions",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Production-ready UI motion patterns and transitions (card expand, modal, pop-in, micro-interactions) with prefers-reduced-motion accessibility.",
+      "why": "Provides refined animation curves and timing tokens to make HTML/CSS video templates and web interfaces feel fluid and state-of-the-art."
+    },
+    "social-post-master": {
+      "repo": "Hao0321/claude-skill-social-post",
+      "ref": "main",
+      "path": ".",
+      "installAs": "social-post-master",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Voice-calibrated social media content planning and drafting across Facebook, Instagram, Threads, and X.",
+      "why": "Supplies structured 14-day calendar orchestration and post-level tone adaptation for multi-channel publishing agents."
+    },
+    "academic-deep-research": {
+      "repo": "LeonChaoX/qinyan-academic-skills",
+      "ref": "main",
+      "path": ".",
+      "installAs": "academic-deep-research",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "180+ PhD-grade scientific research skills covering literature discovery, data analysis, grant drafting, and bibliography validation.",
+      "why": "Empowers content agents to extract deep scientific insights, cite peer-reviewed papers accurately, and avoid factual hallucinations."
+    },
+    "academic-writing-flow": {
+      "repo": "Imbad0202/academic-research-skills",
+      "ref": "main",
+      "path": ".",
+      "installAs": "academic-writing-flow",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "End-to-end academic research cycle (research -> write -> review -> revise -> finalize) with evidence verification contracts.",
+      "why": "Enforces strict evidence gates and citation checks for long-form technical deep-dives and whitepapers."
+    },
+    "marketing-core": {
+      "repo": "coreyhaines31/marketingskills",
+      "ref": "main",
+      "path": ".",
+      "installAs": "marketing-core",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Full-stack marketing suite covering CRO, email funnels, positioning, copy optimization, and growth engineering.",
+      "why": "Standardizes product-marketing context files to drive high-converting hooks, video scripts, and landing page copy."
     }
   },
   "_marketing": [
