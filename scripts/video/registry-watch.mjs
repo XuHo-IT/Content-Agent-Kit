@@ -37,8 +37,8 @@ const SNAPSHOT = path.join(KIT, "video-templates", "registry-snapshot.json");
  * count check below also fails when a file matches the pattern and is not listed.
  */
 const COUNT_SITES = [
-  { file: "README.md", re: /(\d+) template nữa chỉ cách một câu lệnh/ },
-  { file: "README.en.md", re: /(\d+) more are one command away/ },
+  { file: "README.vi.md", re: /(\d+) template nữa chỉ cách một câu lệnh/ },
+  { file: "README.md", re: /(\d+) more are one command away/ },
   { file: "docs/16-template-registry.md", re: /\*\*(\d+) more\*\* — pull any of them/ },
   { file: "docs/16-template-registry.md", re: /\*\*(\d+) mục\*\* — kéo về bằng lệnh/ },
   { file: "scripts/video/add-template.mjs", re: /Apache-2\.0\) publishes (\d+) items/ },

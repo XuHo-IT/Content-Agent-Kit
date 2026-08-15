@@ -253,14 +253,14 @@ test("the documented template count matches the folder", () => {
   // the kit's OWN count is hand-written in just as many. This one needs no network, so it
   // belongs in a test that fails in CI rather than in a job that notices tomorrow.
   const SITES = [
-    { file: "README.md", re: /dùng 14 trong số (\d+) template/ },
-    { file: "README.md", re: /\| (\d+) template video HTML một-file/ },
-    { file: "README.md", re: /\| \*\*(\d+) template, \d+ thể loại\*\* \|/ },
-    { file: "README.en.md", re: /\| (\d+) single-file HTML video templates/ },
+    { file: "README.vi.md", re: /dùng 14 trong số (\d+) template/ },
+    { file: "README.vi.md", re: /\| (\d+) template video HTML một-file/ },
+    { file: "README.vi.md", re: /\| \*\*(\d+) template, \d+ thể loại\*\* \|/ },
+    { file: "README.md", re: /\| (\d+) single-file HTML video templates/ },
     // The English twin of the Vietnamese row two lines up. It was NOT in this list, so it
     // sat at 18 through 22 new templates while its counterpart was updated each time. Every
     // sentence carrying this number needs its own entry; one per file is not enough.
-    { file: "README.en.md", re: /\| \*\*(\d+) templates, \d+ genres\*\* \|/ },
+    { file: "README.md", re: /\| \*\*(\d+) templates, \d+ genres\*\* \|/ },
     { file: "docs/16-template-registry.md", re: /The kit ships (\d+) scene templates\./ },
     { file: "docs/16-template-registry.md", re: /Kit có sẵn (\d+) template cho scene\./ },
     { file: ".github/repo-about.json", re: /9:16 với (\d+) template/ },
@@ -283,8 +283,8 @@ test("the documented genre count matches the presets", () => {
   // because the check next door only ever read the templates half of that sentence.
   const n = Object.keys(genres).length;
   const SITES = [
-    { file: "README.md", re: /\| \*\*\d+ template, (\d+) thể loại\*\* \|/ },
-    { file: "README.en.md", re: /\| \*\*\d+ templates, (\d+) genres\*\* \|/ },
+    { file: "README.vi.md", re: /\| \*\*\d+ template, (\d+) thể loại\*\* \|/ },
+    { file: "README.md", re: /\| \*\*\d+ templates, (\d+) genres\*\* \|/ },
   ];
   for (const s of SITES) {
     const m = fs.readFileSync(path.join(KIT, s.file), "utf8").match(s.re);

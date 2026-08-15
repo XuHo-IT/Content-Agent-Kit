@@ -121,7 +121,7 @@ test("the two new palettes clear the contrast floor validate-script enforces", (
 });
 
 test("the industry pack is reachable from somewhere a reader looks", () => {
-  const prose = read("README.md") + read("README.en.md") +
+  const prose = read("README.md") + read("README.vi.md") +
     fs.readdirSync(path.join(KIT, "docs")).map((f) => read(`docs/${f}`)).join("\n") +
     fs.readdirSync(path.join(KIT, "skills")).map((d) => {
       const p = path.join(KIT, "skills", d, "SKILL.md");

@@ -85,7 +85,7 @@ jobs:
           # One long-lived branch, force-pushed. A branch per day would leave a graveyard of
           # stale PRs, each one superseded by the next morning's.
           git checkout -B "$BRANCH"
-          git add video-templates/registry-snapshot.json README.md README.en.md \
+          git add video-templates/registry-snapshot.json README.md README.vi.md \
                   docs/16-template-registry.md scripts/video/add-template.mjs \
                   video-templates/CATALOG.md
           git commit -m "chore(registry): sync the upstream snapshot and the documented counts"
