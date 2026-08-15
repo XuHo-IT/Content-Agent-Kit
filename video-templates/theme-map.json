@@ -81,6 +81,18 @@
     "frame-trend-line/compositions/portrait.html": "dark",
     "frame-trend-line/index.html": "dark",
     "frame-vignelli/compositions/portrait.html": "dark",
-    "frame-vignelli/index.html": "dark"
+    "frame-vignelli/index.html": "dark",
+    "frame-vox-highlighter/compositions/portrait.html": "light",
+    "frame-vox-highlighter/index.html": "light",
+    "frame-vox-collage/compositions/portrait.html": "light",
+    "frame-vox-collage/index.html": "light",
+    "frame-vox-data-callout/compositions/portrait.html": "light",
+    "frame-vox-data-callout/index.html": "light",
+    "frame-geo-local-card/compositions/portrait.html": "dark",
+    "frame-geo-local-card/index.html": "dark",
+    "frame-geo-region-stat/compositions/portrait.html": "dark",
+    "frame-geo-region-stat/index.html": "dark",
+    "frame-geo-faq-direct/compositions/portrait.html": "dark",
+    "frame-geo-faq-direct/index.html": "dark"
   }
 }

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Geo Local Card · 9:16</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #071018; }
+            #root {
+                position: relative; width: 1080px; height: 1920px;
+                background: #071018; color: #e6f3fb;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden;
+            }
+
+            .grid-map {
+                position: absolute; inset: 0;
+                background-image: radial-gradient(rgba(56, 189, 248, 0.15) 1.5px, transparent 0);
+                background-size: 36px 36px;
+                pointer-events: none;
+            }
+
+            .radar-glow {
+                position: absolute; top: 30%; right: -10%; width: 600px; height: 600px;
+                background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, rgba(56, 189, 248, 0.02) 60%, transparent 80%);
+                border-radius: 50%;
+                animation: pulse 3s ease-in-out infinite alternate;
+            }
+
+            .top-bar {
+                position: absolute; top: 120px; left: 80px; right: 80px;
+                display: flex; flex-direction: column; gap: 16px; align-items: flex-start;
+                opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
+            }
+            .kicker-tag {
+                font-family: "Space Mono", monospace; font-size: 22px; font-weight: 700;
+                letter-spacing: 2px; text-transform: uppercase; color: #38bdf8;
+                display: flex; align-items: center; gap: 10px;
+            }
+            .kicker-tag::before { content: "📍"; font-size: 24px; }
+            .badge-tag {
+                background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff;
+                padding: 8px 20px; border-radius: 999px; font-weight: 700; font-size: 18px;
+                letter-spacing: 1px; text-transform: uppercase;
+                box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+            }
+
+            .card-wrapper {
+                position: absolute; top: 280px; left: 80px; right: 80px; bottom: 180px;
+                display: flex; flex-direction: column; justify-content: space-between;
+                background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.3);
+                border-radius: 28px; padding: 60px 50px;
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+                backdrop-filter: blur(12px);
+                opacity: 0; animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+            }
+
+            .place-header {
+                display: flex; flex-direction: column; gap: 16px;
+            }
+            .place-name {
+                font-size: 68px; font-weight: 900; line-height: 1.15; color: #ffffff;
+                letter-spacing: -0.02em;
+            }
+            .place-address {
+                font-size: 28px; color: #94a3b8; font-weight: 500; line-height: 1.4;
+            }
+
+            .rating-section {
+                display: flex; align-items: center; gap: 28px;
+                background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 20px; padding: 24px 32px;
+                opacity: 0; animation: fadeUp 0.5s ease-out 0.4s both;
+            }
+            .score-big {
+                font-family: "Space Mono", monospace; font-size: 64px; font-weight: 900; color: #fbbf24;
+                line-height: 1;
+            }
+            .stars-col {
+                display: flex; flex-direction: column; gap: 6px;
+            }
+            .stars { font-size: 30px; color: #fbbf24; letter-spacing: 2px; }
+            .review-count { font-size: 20px; color: #94a3b8; }
+
+            .highlights-box {
+                display: flex; flex-direction: column; gap: 16px;
+                opacity: 0; animation: fadeUp 0.5s ease-out 0.55s both;
+            }
+            .hl-pill {
+                background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35);
+                color: #bae6fd; padding: 18px 24px; border-radius: 14px;
+                font-size: 26px; font-weight: 600;
+            }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes cardIn { from { opacity: 0; transform: translateY(24px) scale(0.98); } to { opacity: 1; transform: none; } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+            @keyframes pulse { from { opacity: 0.6; } to { opacity: 1; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"ĐỊA ĐIỂM NỔI BẬT · ĐÀ NẴNG","badge":"TOP 1 CHECK-IN","place_name":"The Workshop Specialty Coffee","address":"27 Ngô Đức Kế, Quận 1, TP. Hồ Chí Minh","rating":"4.9","rating_count":"Hơn 1.250","highlights":"View ngắm hoàng hôn|Specialty Coffee rang mộc|Không gian làm việc yên tĩnh"}'
+        >
+            <div class="grid-map"></div>
+            <div class="radar-glow"></div>
+
+            <div class="top-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="badge-tag"><span class="badge-txt"></span></div>
+            </div>
+
+            <div class="card-wrapper">
+                <div class="place-header">
+                    <div class="place-name"></div>
+                    <div class="place-address"></div>
+                </div>
+
+                <div class="rating-section">
+                    <div class="score-big"></div>
+                    <div class="stars-col">
+                        <div class="stars"></div>
+                        <div class="review-count"></div>
+                    </div>
+                </div>
+
+                <div class="highlights-box"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".badge-txt", v.badge || "ĐÁNG TRẢI NGHIỆM");
+                set(".place-name", v.place_name || v.title);
+                set(".place-address", v.address);
+                set(".score-big", v.rating || "4.9");
+                set(".stars", "★★★★★");
+                set(".review-count", v.rating_count ? v.rating_count + " đánh giá thực tế" : (v.reviews ? v.reviews : "Đã kiểm chứng"));
+
+                if (v.highlights) {
+                    var box = document.querySelector(".highlights-box");
+                    box.innerHTML = "";
+                    var items = String(v.highlights).split("|");
+                    items.forEach(function(item) {
+                        var t = item.trim();
+                        if (t) {
+                            var p = document.createElement("div");
+                            p.className = "hl-pill";
+                            p.textContent = "✦ " + t;
+                            box.appendChild(p);
+                        }
+                    });
+                }
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

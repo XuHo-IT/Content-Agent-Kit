@@ -80,6 +80,14 @@ export const THEME_PRESETS = {
     spread: 12,
     saturation: 0.7,
   },
+  "vox-editorial": {
+    label: "cream newsprint canvas, deep black ink, electric yellow and cadmium red accents (Vox visual journalism)",
+    bg: "#f4f1ea",
+    ink: "#111111",
+    hue: 48,
+    spread: 28,
+    saturation: 1.15,
+  },
 };
 
 export const THEME_IDS = Object.keys(THEME_PRESETS);

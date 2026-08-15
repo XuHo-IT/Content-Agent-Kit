@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Vox Archival Collage · 9:16</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@500;700;900&family=Playfair+Display:ital,wght@0,900;1,700&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f4f1ea; }
+            #root {
+                position: relative; width: 1080px; height: 1920px;
+                background: #f4f1ea; color: #111111;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden;
+            }
+
+            .ruler {
+                position: absolute; top: 0; bottom: 0; left: 24px; width: 20px;
+                border-right: 2px solid rgba(17, 17, 17, 0.2);
+                background-image: repeating-linear-gradient(to bottom, transparent, transparent 18px, rgba(17,17,17,0.3) 18px, rgba(17,17,17,0.3) 20px);
+                opacity: 0; animation: fadeIn 0.4s ease-out 0.1s both;
+            }
+
+            .tape-tag {
+                position: absolute; top: 120px; left: 70px;
+                background: #ffe600; color: #111111;
+                padding: 12px 28px; font-family: "Space Mono", monospace; font-size: 22px; font-weight: 700;
+                letter-spacing: 2px; text-transform: uppercase;
+                transform: rotate(-1.5deg);
+                box-shadow: 4px 4px 0px rgba(17,17,17,0.15);
+                opacity: 0; animation: tagDrop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+            }
+
+            .stamp {
+                position: absolute; top: 115px; right: 70px;
+                border: 4px solid #e53935; color: #e53935;
+                padding: 10px 24px; font-family: "Space Mono", monospace; font-size: 24px; font-weight: 900;
+                letter-spacing: 3px; text-transform: uppercase;
+                border-radius: 6px; transform: rotate(8deg) scale(2);
+                opacity: 0; animation: stampSlam 0.45s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+            }
+
+            .content-box {
+                position: absolute; top: 280px; left: 70px; right: 70px; bottom: 220px;
+                display: flex; flex-direction: column; justify-content: center; gap: 48px;
+            }
+
+            .headline {
+                font-family: "Playfair Display", serif; font-size: 76px; font-weight: 900;
+                line-height: 1.15; color: #111111; letter-spacing: -0.02em;
+                opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+            }
+
+            .subhead-card {
+                background: #ffffff; border-left: 10px solid #ffe600;
+                border-top: 2px solid #111111; border-right: 2px solid #111111; border-bottom: 2px solid #111111;
+                padding: 40px 44px;
+                box-shadow: 8px 8px 0px rgba(17,17,17,0.1);
+                opacity: 0; animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+            }
+            .subhead-text {
+                font-size: 34px; font-weight: 600; line-height: 1.5; color: #222222;
+            }
+
+            .footer-meta {
+                position: absolute; bottom: 100px; left: 70px; right: 70px;
+                display: flex; flex-direction: column; gap: 10px;
+                font-family: "Space Mono", monospace; font-size: 20px; color: #666660;
+                border-top: 1px solid rgba(17,17,17,0.15); padding-top: 20px;
+                opacity: 0; animation: fadeIn 0.4s ease-out 0.8s both;
+            }
+
+            @keyframes fadeIn { to { opacity: 1; } }
+            @keyframes tagDrop { from { opacity: 0; transform: translateY(-20px) rotate(-1.5deg); } to { opacity: 1; transform: rotate(-1.5deg); } }
+            @keyframes stampSlam { from { opacity: 0; transform: rotate(18deg) scale(2.2); } to { opacity: 0.92; transform: rotate(8deg) scale(1); } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"HỒ SƠ ĐIỀU TRA · TƯ LIỆU","stamp_label":"BÍ MẬT","headline":"Sự Thật Đằng Sau Con Số Mười Tỷ Đô La","subhead":"Các tài liệu nội bộ vừa được công bố chỉ ra sự chuyển dịch khổng lồ của toàn bộ chuỗi cung ứng công nghệ.","source":"Hồ sơ lưu trữ tài chính quốc tế"}'
+        >
+            <div class="ruler"></div>
+            <div class="tape-tag"><span class="kicker-txt"></span></div>
+            <div class="stamp"><span class="stamp-txt"></span></div>
+
+            <div class="content-box">
+                <div class="headline"></div>
+                <div class="subhead-card">
+                    <div class="subhead-text"></div>
+                </div>
+            </div>
+
+            <div class="footer-meta">
+                <div class="source-txt"></div>
+                <div class="dossier-no"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".stamp-txt", v.stamp_label || "XÁC NHẬN");
+                set(".headline", v.headline);
+                set(".subhead-text", v.subhead);
+                set(".source-txt", v.source ? "Nguồn dữ liệu: " + v.source : (v.source_note ? "Nguồn: " + v.source_note : ""));
+                set(".dossier-no", "DOSSIER #2026-VX");
+
+                var h = document.querySelector(".headline");
+                if (h && h.textContent.length > 60) h.style.fontSize = "56px";
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

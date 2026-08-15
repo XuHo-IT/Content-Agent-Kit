@@ -30,6 +30,16 @@ tic. Dialogue carries **subtext** — people evade, trail off, lie — they don'
 **1.7 Enter late, leave early.** Start a scene just before something happens; cut just after.
 No walking, door-opening, tea-pouring unless it means something.
 
+**1.8 Marketing Hook & Information Gain (First 1–2 sentences).**
+- Never open with context, announcements, or greetings ("Hôm nay chúng ta sẽ tìm hiểu...").
+- Open immediately with a proven **Hook Archetype** (Contrarian: overturn a belief; Negative: loss-aversion alert; Curiosity Gap: unresolved tension; Stat Shock: massive proof metric).
+- Deliver **Information Gain**: Every piece must provide at least one non-obvious angle, benchmark, or original takeaway that generic AI summaries lack.
+
+**1.9 SEO & GEO Answer-First Citability.**
+- Under question headings (H2/H3), provide the direct answer in the **first sentence (≤30 words)** before expanding.
+- Make paragraphs **self-contained**: an extracted paragraph must make sense alone without referencing ambiguous pronouns ("Nó", "Điều này").
+- Pair every statistic with its **provenance in the same breath** ("Rẻ hơn 68%, đo trên 500 mẫu thử nghiệm").
+
 ---
 
 ## §2. REGISTER: {{CONTENT TYPE A — e.g. narrative / horror / feature}}
@@ -139,9 +149,12 @@ offending sentence**; every fix must suggest a concrete rewrite.
 | 9 | {{Register-B secondary rule}} | missing |
 | 10 | {{Serial rule — installment ends on tension}} | ends on a recap/summary |
 | 11 | (structured content) Internal-id token in reader-visible text | ≥ 1 `([a-z]\d+)` present |
+| 12 | Hook strength (§1.8) | opening sentence is context/greeting/announcement |
+| 13 | Sourced numbers & GEO (§1.9) | unsourced statistic or floating ambiguous pronoun |
+| 14 | Information gain (§1.8) | zero original insights or non-obvious data points |
 
 **FAIL IMMEDIATELY:** {{list the violations that stop the review — e.g. #8 violated · #4 broken ·
-#1 at double threshold · nothing shown, only told}} · **#11 any id leak**.
+#1 at double threshold · nothing shown, only told}} · **#11 any id leak** · **#12 weak opening hook**.
 
 > Not passing → return specific `fixes`; the writer revises and re-submits. Max 2–3 rounds,
 > then drop the item and log why (see `PLAYBOOK.md` §2b).

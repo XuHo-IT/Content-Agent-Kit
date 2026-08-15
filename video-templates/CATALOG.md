@@ -903,6 +903,103 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 ---
 
+## frame-vox-highlighter
+
+**Role:** body / investigative evidence. Cream newsprint document card with animated electric yellow highlighter marker stroke sweeping across key words.
+**Best for:** `type: "body"` — citing reports, leaked documents, official publications or shocking findings in Vox visual journalism style.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤28 | uppercase kicker tag (e.g. "HỒ SƠ TƯ LIỆU · BÁO CÁO") |
+| `document_title` | string | ≤60 | serif title of the source publication |
+| `quote_pre` | string | ≤80 | optional text before the highlighted phrase |
+| `highlight_text` | string | ≤80 | **the key phrase** to draw the yellow marker over |
+| `quote_post` | string | ≤80 | optional text following the highlighted phrase |
+| `source_note` | string | ≤60 | citation note at footer |
+
+---
+
+## frame-vox-collage
+
+**Role:** hook / body statement. Archival investigative collage with vintage ruler, taped tag, angled red rubber stamp ("BÍ MẬT" / "ĐÃ KIỂM CHỨNG"), and bold serif headline.
+**Best for:** `type: "hook"` or strong turning-point body beat in a documentary or video essay.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤28 | category / investigation tag |
+| `stamp_label` | string | ≤18 | red rubber stamp text (e.g. "BÍ MẬT", "XÁC NHẬN") |
+| `headline` | string | ≤60 | large high-contrast display headline |
+| `subhead` | string | ≤140 | explanatory summary card with yellow accent border |
+| `source` | string | ≤50 | archive or document provenance |
+
+---
+
+## frame-vox-data-callout
+
+**Role:** body / data journalism. Technical grid with crosshairs, giant central stat number, yellow underline, and 2 distinct breakdown callout cards with pointer lines.
+**Best for:** `type: "body"` — breaking down a shocking statistic or comparing two quantitative impacts.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | infographic label |
+| `stat_number` | string | ≤12 | giant figure (e.g. "+340%", "42.8 tỷ", "3.2x") |
+| `stat_label` | string | ≤70 | what the figure represents |
+| `callout_1_title` | string | ≤30 | title for breakdown point 1 |
+| `callout_1_desc` | string | ≤80 | explanation for breakdown point 1 |
+| `callout_2_title` | string | ≤30 | title for breakdown point 2 |
+| `callout_2_desc` | string | ≤80 | explanation for breakdown point 2 |
+| `source` | string | ≤50 | data source attribution |
+
+---
+
+## frame-geo-local-card
+
+**Role:** body / local review. High-end map-grid card featuring location name, street address, 5-star rating score with review count, and feature highlight pills.
+**Best for:** `type: "body"` — local business, food review, travel check-in, real estate.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | local category (e.g. "ĐỊA ĐIỂM NỔI BẬT · ĐÀ NẴNG") |
+| `badge` | string | ≤20 | top pill badge (e.g. "TOP 1 CHECK-IN", "PHẢI THỬ") |
+| `place_name` | string | ≤50 | name of the place / venue |
+| `address` | string | ≤70 | street / district address |
+| `rating` | string | ≤5 | score (e.g. "4.9") |
+| `rating_count` | string | ≤30 | number of reviews (e.g. "1,250+ đánh giá") |
+| `highlights` | string | 4 max | `"a\|b\|c"` — pipe-separated highlight tags |
+
+---
+
+## frame-geo-region-stat
+
+**Role:** body / multi-region comparison. Regional market choropleth and animated progress breakdown bars comparing provinces, regions or countries.
+**Best for:** `type: "body"` — market share by region (Bắc - Trung - Nam), geographic expansion, demographic differences.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | market report tag |
+| `title` | string | ≤60 | main comparison title |
+| `subtitle` | string | ≤70 | time period or context |
+| `regions` | string | 4 max | `"Tên:Số:Tỷ lệ%\|..."` (e.g. `"Miền Bắc:450 tỷ:48%\|Miền Nam:360 tỷ:38%"`) |
+| `highlight_region` | string | ≤30 | name of the region to illuminate in cyan accent |
+| `source` | string | ≤50 | data source note |
+
+---
+
+## frame-geo-faq-direct
+
+**Role:** hook / body — Answer-First GEO. Search engine query box followed by an immediate direct 1-sentence definition (<25 words), 2 bulleted evidence points, and a citation anchor.
+**Best for:** `type: "hook"` or `type: "body"` — Generative Engine Optimization explainer video answering search queries directly for AI citation.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `query` | string | ≤70 | exact search query / question |
+| `answer_direct` | string | ≤130 | concise direct answer (<25 words) |
+| `evidence_1` | string | ≤90 | supporting fact 1 |
+| `evidence_2` | string | ≤90 | supporting fact 2 |
+| `citation_source` | string | ≤60 | official source anchor |
+
+---
+
 ## What 3D actually costs
 
 The plan for these four assumed Chrome would raster `preserve-3d` more slowly and that the

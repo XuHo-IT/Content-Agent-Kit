@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Geo Regional Stat · 16:9</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1920px; height: 1080px; overflow: hidden; background: #071018; }
+            #root {
+                position: relative; width: 1920px; height: 1080px;
+                background: #071018; color: #e6f3fb;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden;
+            }
+
+            .grid-bg {
+                position: absolute; inset: 0;
+                background-image: radial-gradient(rgba(56, 189, 248, 0.1) 1.5px, transparent 0);
+                background-size: 36px 36px;
+                pointer-events: none;
+            }
+
+            .header-bar {
+                position: absolute; top: 60px; left: 120px; right: 120px;
+                opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
+            }
+            .kicker-tag {
+                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 700;
+                letter-spacing: 3px; text-transform: uppercase; color: #38bdf8; margin-bottom: 12px;
+            }
+            .main-title {
+                font-size: 52px; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;
+            }
+            .sub-title {
+                font-size: 24px; color: #94a3b8; margin-top: 8px; font-weight: 500;
+            }
+
+            .regions-container {
+                position: absolute; top: 220px; left: 120px; right: 120px; bottom: 100px;
+                display: flex; flex-direction: column; justify-content: center; gap: 24px;
+            }
+
+            .region-row {
+                background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 18px; padding: 24px 36px;
+                display: flex; flex-direction: column; gap: 14px;
+                backdrop-filter: blur(8px);
+                opacity: 0; animation: rowIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+            .region-row.is-highlight {
+                background: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.5);
+                box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
+            }
+
+            .row-meta {
+                display: flex; justify-content: space-between; align-items: baseline;
+            }
+            .region-name {
+                font-size: 28px; font-weight: 700; color: #ffffff;
+                display: flex; align-items: center; gap: 12px;
+            }
+            .region-row.is-highlight .region-name { color: #38bdf8; }
+            .region-val {
+                font-family: "Space Mono", monospace; font-size: 32px; font-weight: 700; color: #ffffff;
+            }
+            .region-row.is-highlight .region-val { color: #38bdf8; }
+
+            .bar-track {
+                width: 100%; height: 14px; background: rgba(255, 255, 255, 0.06);
+                border-radius: 999px; overflow: hidden;
+            }
+            .bar-fill {
+                height: 100%; width: 0%; background: #64748b;
+                border-radius: 999px;
+                transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .region-row.is-highlight .bar-fill {
+                background: linear-gradient(90deg, #0284c7, #38bdf8);
+                box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+            }
+
+            .footer-bar {
+                position: absolute; bottom: 40px; left: 120px; right: 120px;
+                display: flex; justify-content: space-between; align-items: center;
+                font-family: "Space Mono", monospace; font-size: 16px; color: #64748b;
+                border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 14px;
+                opacity: 0; animation: fadeIn 0.4s ease-out 0.8s both;
+            }
+
+            @keyframes fadeIn { to { opacity: 1; } }
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes rowIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"BÁO CÁO THỊ TRƯỜNG KHU VỰC","title":"Phân Bố Quy Mô Tăng Trưởng Toàn Quốc","subtitle":"Khảo sát số liệu thực địa giai đoạn 2025 – 2026","regions":"Miền Bắc:450 tỷ:48%|Miền Nam:360 tỷ:38%|Miền Trung:130 tỷ:14%","highlight_region":"Miền Bắc","source":"Cục Thống Kê & Báo Cáo Ngành 2026"}'
+        >
+            <div class="grid-bg"></div>
+
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="main-title"></div>
+                <div class="sub-title"></div>
+            </div>
+
+            <div class="regions-container"></div>
+
+            <div class="footer-bar">
+                <div class="source-txt"></div>
+                <div class="geo-tag"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.title);
+                set(".sub-title", v.subtitle);
+                set(".source-txt", v.source ? "Nguồn: " + v.source : (v.source_note ? "Nguồn: " + v.source_note : ""));
+                set(".geo-tag", "GEODATA · MULTI-REGION");
+
+                var regionsStr = v.regions || "Miền Bắc:450 tỷ:48%|Miền Nam:360 tỷ:38%|Miền Trung:130 tỷ:14%";
+                var highlight = (v.highlight_region || "").toLowerCase().trim();
+
+                var container = document.querySelector(".regions-container");
+                container.innerHTML = "";
+
+                var items = String(regionsStr).split("|");
+                items.forEach(function(item, idx) {
+                    var parts = item.split(":");
+                    if (parts.length >= 2) {
+                        var name = parts[0].trim();
+                        var stat = parts[1].trim();
+                        var pct = parts[2] ? parts[2].trim() : "50%";
+                        var pctNum = parseInt(pct, 10) || 50;
+
+                        var isHl = highlight && name.toLowerCase().indexOf(highlight) !== -1;
+                        if (!highlight && idx === 0) isHl = true;
+
+                        var row = document.createElement("div");
+                        row.className = "region-row" + (isHl ? " is-highlight" : "");
+                        row.style.animationDelay = (0.3 + idx * 0.15) + "s";
+
+                        row.innerHTML =
+                            '<div class="row-meta">' +
+                                '<div class="region-name">' + (isHl ? "✦ " : "") + name + '</div>' +
+                                '<div class="region-val">' + stat + ' (' + pct + ')</div>' +
+                            '</div>' +
+                            '<div class="bar-track">' +
+                                '<div class="bar-fill" style="width: 0%"></div>' +
+                            '</div>';
+
+                        container.appendChild(row);
+
+                        setTimeout(function() {
+                            var fill = row.querySelector(".bar-fill");
+                            if (fill) fill.style.width = Math.min(100, Math.max(5, pctNum)) + "%";
+                        }, 400 + idx * 150);
+                    }
+                });
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

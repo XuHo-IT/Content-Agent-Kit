@@ -77,12 +77,12 @@ So in `voiceText`, **there is never a digit**.
 
 ---
 
-## §3. PACING — the thing that stops a video feeling slow
+## §3. PACING & MARKETING RETENTION — the thing that stops a video feeling slow
 
 | Rule | Target |
 |---|---|
-| Scenes | **8–12** (1 hook + 6–10 body + 1 outro) |
-| Total narration | **270–360 words ≈ 90–120 seconds** |
+| Scenes | **8–14** (1 hook + 6–12 body + 1 outro) |
+| Total narration | **270–450 words ≈ 90–150 seconds** |
 | Each body scene | **25–40 words**, one single idea |
 | Time on screen | ~6–10 seconds per scene |
 
@@ -90,8 +90,23 @@ So in `voiceText`, **there is never a digit**.
 boring; the same 100 seconds in 10 scenes moves. If a paragraph contains two ideas,
 **split it into two scenes** rather than cramming both into one.
 
-**The hook owns the first three seconds.** Lead with the thing that makes someone stop
-scrolling — the number, the conflict, the surprise. Never open with context or a greeting.
+### The 4 High-Retention Hook Archetypes (The first 3 seconds)
+The hook owns whether someone stops scrolling or swipes away. Lead with one of these 4 proven agency archetypes:
+
+1. **Contrarian / Paradox Hook**: Overturns conventional wisdom immediately.
+   - *Example:* *"90% lập trình viên đang dùng AI sai cách mà không nhận ra."*
+2. **Negative / Loss-Aversion Hook**: Triggers protection reflex and urgent curiosity.
+   - *Example:* *"Đừng nâng cấp phần mềm này trước khi biết 3 rủi ro sau."*
+3. **Curiosity Gap / Investigative Mystery**: Creates an open loop that demands payoff.
+   - *Example:* *"Tài liệu nội bộ vừa bị lộ tiết lộ sự thật đằng sau con số mười tỷ đô."*
+4. **Stat Shock / Proof-First Hook**: Drops an undeniable massive number on screen in second one.
+   - *Example:* *"Tốc độ tự động hóa vừa tăng vọt gấp ba lần chỉ trong một đêm."*
+
+### Pattern Interrupts (Every 8–12 seconds)
+Never let two identical scene textures sit side-by-side. A viewer's brain tunes out after 8 seconds of continuous slide reading. Alternate between:
+- Text statement → Visual Infographic / Stat (`frame-chart-bars` / `frame-vox-data-callout`)
+- Claim → Direct Document Evidence (`frame-vox-highlighter` / `frame-screenshot`)
+- Data → Real-world Location / Footage (`frame-geo-local-card` / `frame-broll`)
 
 ---
 
@@ -102,25 +117,27 @@ exists there** — the validator checks against the folder on disk.
 
 | Scene is… | Use |
 |---|---|
-| the opening hook | `frame-liquid-bg-hero` — **always** |
+| the opening hook (general) | `frame-liquid-bg-hero`, `frame-bold-poster`, or `frame-3d-spotlight` |
+| investigative / documentary hook | `frame-vox-collage` (archival document + stamp) |
+| breaking news hook | `frame-glitch-title` |
+| search query / AI Answer hook | `frame-geo-faq-direct` (search box + instant answer) |
+| local place / geography hook | `frame-geo-markers` |
+| citing official document / leaked report | `frame-vox-highlighter` (yellow marker sweep) |
+| technical stat breakdown with pointer lines | `frame-vox-data-callout` |
 | one number / stat to land | `frame-pentagram-stat` (dark neon) or `frame-vignelli` (charcoal + red) |
+| multi-region market comparison | `frame-geo-region-stat` (regional choropleth + progress bars) |
+| local cafe / business / destination review | `frame-geo-local-card` (rating 4.9⭐, address, highlight pills) |
 | a strong multi-line claim + big figure | `frame-bold-poster` |
 | a short verdict around one keyword | `frame-build-minimal` (1 big word) |
 | a slogan / creative line | `frame-creative-voltage` |
-| breaking / shocking / tech news | `frame-glitch-title` |
-| a **list** of 2–5 things | `frame-aicoding-list` |
-| **exactly two** things compared | `frame-aicoding-comparison` |
+| a **list** of 2–5 things | `frame-aicoding-list` or `frame-step-list` |
+| **exactly two** things compared | `frame-aicoding-comparison` or `frame-split-compare` |
 | the closing card | `frame-logo-outro` (default) or `frame-statement-outro` |
 
 **Vary them.** Reusing one template for every body beat makes the video look like a
 slideshow. The validator warns above {{MAX_SAME_TEMPLATE|2}} uses of the same template.
-If several scenes are all numbers, alternate `frame-vignelli` and `frame-pentagram-stat`,
-and drop a `frame-build-minimal` in between.
-
-**You choose the colours and icons.** `accent_from` / `accent_to`, per-side `from` / `to`,
-and the `icon` emoji in list/comparison items are yours to pick per scene so the palette
-suits the story. `level` (`danger` / `warn` / `good` / `info`) drives the colour of an
-item's icon, tag and bar.
+If several scenes are all numbers, alternate `frame-vignelli`, `frame-vox-data-callout`,
+and `frame-pentagram-stat`, and drop a `frame-build-minimal` in between.
 
 ---
 

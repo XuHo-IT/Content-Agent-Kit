@@ -175,6 +175,38 @@
       "licenseFile": "LICENSE",
       "summary": "Rewrites a LinkedIn post, X thread, blog or newsletter as a native Facebook Page post.",
       "why": "The reference behind this kit's own `repurpose` skill. Useful directly if Facebook Pages are a channel you actually publish to."
+    },
+    "html-anything": {
+      "repo": "nexu-io/html-anything",
+      "ref": "main",
+      "path": ".",
+      "installAs": "html-anything",
+      "via": "skills",
+      "license": "Apache-2.0",
+      "licenseFile": "LICENSE",
+      "summary": "Transforms raw content (markdown/data) into polished HTML across 75 templates and 9 output surfaces (magazines, posters, slide decks, social cards, data reports, hyperframes).",
+      "why": "Source of layout and poster templates convertible into HyperFrames scenes or rich visual content cards."
+    },
+    "diagram-design": {
+      "repo": "cathrynlavery/diagram-design",
+      "ref": "main",
+      "path": "skills/diagram-design",
+      "installAs": "diagram-design",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Generates 27+ editorial-style HTML+SVG diagrams (flywheel, radar, funnel, timeline, matrix, flowchart) without external dependencies.",
+      "why": "Replaces generic Mermaid diagrams with publication-quality editorial graphics for both web posts and video explainer frames."
+    },
+    "ui-ux-pro": {
+      "repo": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "ref": "main",
+      "path": ".",
+      "installAs": "ui-ux-pro",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "190+ design reasoning rules, color palettes, typography scale ratios and UX patterns across multiple industry stacks.",
+      "why": "Provides visual hierarchy, WCAG AAA contrast and typography scaling principles applied directly to HTML video frames and web layouts."
     }
   },
   "_marketing": [

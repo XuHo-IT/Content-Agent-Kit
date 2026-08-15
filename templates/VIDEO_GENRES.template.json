@@ -95,11 +95,36 @@
       "whenToUse": "The story is WHERE. A new market, a service area, a route, one place against another. If the location is incidental, this is not the genre — pick the one that matches what you are actually claiming.",
       "beats": [
         { "templateId": "frame-geo-markers", "type": "hook", "beat": "The place, first frame. A local video that opens on a logo spent its hook on the one thing the viewer already knows." },
-        { "templateId": "frame-3d-flip", "type": "body", "beat": "The question people THERE actually ask, then the answer. Skip it if you have no question worth turning a card for." },
-        { "templateId": "frame-chart-bars", "type": "body", "beat": "The number for this place next to the one people already carry — a national average, last year, the city next door. A local number with nothing beside it means nothing." },
-        { "templateId": "frame-geo-route", "type": "body", "beat": "From where to where: expansion, delivery, a journey. Drop this beat if nothing moves — a route with one endpoint is a marker frame with extra steps." },
+        { "templateId": "frame-geo-local-card", "type": "body", "beat": "The venue or destination details — rating score, verified address, and highlight features." },
+        { "templateId": "frame-geo-region-stat", "type": "body", "beat": "The number for this place next to other regions — regional breakdown and market share." },
+        { "templateId": "frame-geo-route", "type": "body", "beat": "From where to where: expansion, delivery, a journey. Drop this beat if nothing moves." },
         { "templateId": "frame-quote-testimonial", "type": "body", "beat": "Someone from there, named. Proof of place is a person, not a pin." },
         { "templateId": "frame-statement-outro", "type": "outro", "beat": "What to do and where. A service area or an address, not a slogan." }
+      ]
+    },
+
+    "vox-explainer": {
+      "label": "Phóng sự giải thích / Video Essay (Vox style)",
+      "whenToUse": "Investigative documentary, deep dive, explaining complex topics with archival collage, highlighted documents, and technical data callouts.",
+      "beats": [
+        { "templateId": "frame-vox-collage", "type": "hook", "beat": "The investigation hook / shocking dossier finding with rubber stamp." },
+        { "templateId": "frame-broll", "type": "body", "beat": "Contextual footage illustrating the real-world scene." },
+        { "templateId": "frame-vox-highlighter", "type": "body", "beat": "The smoking gun passage: official document excerpt with animated yellow highlighter." },
+        { "templateId": "frame-vox-data-callout", "type": "body", "beat": "The hard numbers: technical stat callout with breakdown cards and pointer lines." },
+        { "templateId": "frame-split-compare", "type": "body", "beat": "The cause and effect / before vs after reality." },
+        { "templateId": "frame-statement-outro", "type": "outro", "beat": "The investigative conclusion and viewer takeaway." }
+      ]
+    },
+
+    "geo-answer": {
+      "label": "Câu hỏi tìm kiếm AI / Answer-First (GEO)",
+      "whenToUse": "Generative Engine Optimization format: direct answers to real search queries designed for AI citability and high-retention social snippets.",
+      "beats": [
+        { "templateId": "frame-geo-faq-direct", "type": "hook", "beat": "The exact search query in search box + direct definition answer (<25 words) and core facts." },
+        { "templateId": "frame-myth-fact", "type": "body", "beat": "The common misconception debunked with factual evidence." },
+        { "templateId": "frame-chart-bars", "type": "body", "beat": "Comparative benchmarks with sourced metrics." },
+        { "templateId": "frame-step-list", "type": "body", "beat": "Actionable 3-step recommendation based on the answer." },
+        { "templateId": "frame-logo-outro", "type": "outro", "beat": "Where to read the full source and dive deeper." }
       ]
     }
   },

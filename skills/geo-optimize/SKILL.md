@@ -66,11 +66,11 @@ travels alone and gets dropped.
 
 ## 4. What this kit already gives you, free
 
-- **`docs/12-writing-craft.md`** — the house rules on claims and evidence. GEO does not
-  replace them; a quotable lie is worse than an unquotable one.
+- **`docs/12-writing-craft.md`** — the house rules on claims, marketing hooks and evidence.
+- **`frame-geo-faq-direct`** — direct Answer-First search query frame in video form (the search box, then the definition sentence <25 words with citation anchor).
+- **`genre: geo-answer`** in `templates/VIDEO_GENRES.template.json` — complete video sequence for Answer Engine queries.
 - **Every number in the video pipeline is measured**, not decorative — `frame-chart-bars`,
-  `frame-trend-line`, `frame-review-verdict` all compute their picture from the value. A post
-  built off the same `script.json` inherits sourced numbers by construction.
+  `frame-trend-line`, `frame-review-verdict`, `frame-geo-region-stat` all compute their picture from the value.
 - **`frame-myth-fact`** is a question-heading in video form: the belief, then the correction.
 
 ## 5. What NOT to do
@@ -98,10 +98,13 @@ place named for the first time in paragraph nine is not what the piece is about,
 local search engine and an answer engine read the opening to decide what it is about.
 
 For video, the genre is **`local`** in `templates/VIDEO_GENRES.template.json`, built on the
-two map frames:
+suite of geographic frames:
 
 - **`frame-geo-markers`** — where you are, or where your customers are. Auto-fits the map to
   the points you give it.
+- **`frame-geo-local-card`** — venue, restaurant, cafe, or business review card with verified rating,
+  address, and highlight tags.
+- **`frame-geo-region-stat`** — multi-region market breakdown and comparison (e.g. Miền Bắc vs Miền Nam).
 - **`frame-geo-route`** — one place to another: expansion, delivery, a journey.
 
 Both draw from `video-templates/world-path.json`, which is committed — **no map tiles are

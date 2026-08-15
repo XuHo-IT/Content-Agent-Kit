@@ -55,12 +55,12 @@ Method: `docs/15-media-sources.md` and `docs/16-template-registry.md`.
 - `docs/` — methodology (bilingual). Start at `01-architecture.md`.
 - `templates/` — fill-in scaffolds.
 - `scripts/` — generic working CLIs (env-only), incl. `scripts/video/`.
-- `video-templates/` — the 18 scene templates + `CATALOG.md` (slots + character limits).
+- `video-templates/` — the 46 scene templates + `CATALOG.md` (slots + character limits).
   A folder only counts as a template when it has `index.html`; two vendored folders
-  (`caption-kinetic-slam`, `transitions-blur`) do not, so 20 folders means 18 usable.
-- `templates/VIDEO_GENRES.template.json` — scene sequences for review, tutorial, news,
-  listicle and testimonial. Answers 'which frames, in what order' rather than 'what
-  shape is a script'. Method: `docs/21-video-genres.md`.
+  (`caption-kinetic-slam`, `transitions-blur`) do not, so 48 folders means 46 usable.
+- `templates/VIDEO_GENRES.template.json` — scene sequences for 9 genres (review, tutorial, news,
+  listicle, launch, testimonial, local, vox-explainer, geo-answer). Answers 'which frames, in what order'
+  rather than 'what shape is a script'. Method: `docs/21-video-genres.md`.
 - `skills/` — Claude Code skills; also readable as plain instructions. `registry.json`
   lists skills from other projects, fetched on demand by `scripts/install-skills.mjs` —
   none of them are vendored. Method: `docs/17-skills-registry.md`.

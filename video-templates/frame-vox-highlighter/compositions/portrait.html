@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Vox Highlighter · 9:16</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Space+Mono:wght@700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f4f1ea; }
+            #root {
+                position: relative; width: 1080px; height: 1920px;
+                background: #f4f1ea; color: #111111;
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden;
+            }
+
+            .texture {
+                position: absolute; inset: 0;
+                background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 0);
+                background-size: 24px 24px;
+                pointer-events: none;
+                opacity: 0.8;
+            }
+
+            .header-bar {
+                position: absolute; top: 120px; left: 80px; right: 80px;
+                display: flex; align-items: center; justify-content: space-between;
+                border-bottom: 2px solid #111111; padding-bottom: 20px;
+                opacity: 0; animation: fadeDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+            }
+            .kicker-tag {
+                display: inline-flex; align-items: center; gap: 12px;
+                font-family: "Space Mono", monospace; font-size: 24px; font-weight: 700;
+                letter-spacing: 2px; text-transform: uppercase; color: #e53935;
+            }
+            .kicker-tag .dot { width: 12px; height: 12px; background: #e53935; border-radius: 50%; }
+            .doc-stamp {
+                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 700;
+                letter-spacing: 1px; color: #666660; text-transform: uppercase;
+            }
+
+            .doc-card {
+                position: absolute; top: 220px; left: 80px; right: 80px; bottom: 180px;
+                background: #ffffff; border: 3px solid #111111;
+                box-shadow: 16px 16px 0px #111111;
+                padding: 60px 60px;
+                display: flex; flex-direction: column; justify-content: space-between;
+                opacity: 0; animation: cardRise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+            }
+
+            .doc-heading {
+                font-family: "Space Mono", monospace; font-size: 22px; font-weight: 700;
+                letter-spacing: 3px; text-transform: uppercase; color: #666660;
+                margin-bottom: 20px;
+            }
+
+            .doc-title {
+                font-family: "Playfair Display", serif; font-size: 48px; font-weight: 900;
+                line-height: 1.25; color: #111111; margin-bottom: 40px;
+                opacity: 0; animation: fadeUp 0.5s ease-out 0.4s both;
+            }
+
+            .passage-wrap {
+                flex: 1; display: flex; align-items: center;
+            }
+            .passage {
+                font-size: 46px; font-weight: 600; line-height: 1.5; color: #1a1a1a;
+                letter-spacing: -0.01em;
+            }
+
+            .highlight {
+                position: relative; display: inline;
+                color: #111111; font-weight: 700;
+                padding: 4px 10px;
+                background: linear-gradient(104deg, rgba(255,230,0,0) 0.9%, rgba(255,230,0,1) 2.4%, rgba(255,223,0,1) 98%);
+                box-decoration-break: clone; -webkit-box-decoration-break: clone;
+                border-radius: 4px;
+                background-size: 0% 100%;
+                background-repeat: no-repeat;
+                animation: highlightDraw 0.9s cubic-bezier(0.7, 0, 0.2, 1) 0.85s both;
+            }
+
+            .doc-footer {
+                display: flex; flex-direction: column; gap: 16px;
+                border-top: 2px dashed #d0ccc2; padding-top: 28px;
+                font-size: 22px; color: #555550;
+            }
+            .source-note {
+                font-family: "Space Mono", monospace; font-weight: 700;
+            }
+            .badge-verified {
+                align-self: flex-start;
+                background: #111111; color: #ffffff; padding: 8px 18px;
+                font-family: "Space Mono", monospace; font-size: 18px; font-weight: 700;
+                letter-spacing: 1px; text-transform: uppercase;
+            }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes cardRise { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: none; } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+            @keyframes highlightDraw { from { background-size: 0% 100%; } to { background-size: 100% 100%; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"HỒ SƠ TƯ LIỆU · BÁO CÁO","document_title":"Báo Cáo Nghiên Cứu Tác Động Công Nghệ","quote_pre":"Theo số liệu đo lường thực tế, ","highlight_text":"hiệu suất xử lý tự động tăng hơn 340%","quote_post":" so với quy trình thủ công truyền thống.","source_note":"Trích dẫn: Tài liệu phân tích số liệu độc lập"}'
+        >
+            <div class="texture"></div>
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="dot"></span><span class="kicker-txt"></span></div>
+                <div class="doc-stamp"></div>
+            </div>
+
+            <div class="doc-card">
+                <div>
+                    <div class="doc-heading"></div>
+                    <div class="doc-title"></div>
+                </div>
+
+                <div class="passage-wrap">
+                    <div class="passage">
+                        <span class="quote-pre"></span>
+                        <span class="highlight"></span>
+                        <span class="quote-post"></span>
+                    </div>
+                </div>
+
+                <div class="doc-footer">
+                    <div class="source-note"></div>
+                    <div class="badge-verified"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".doc-stamp", "TÀI LIỆU TRÍCH DẪN");
+                set(".doc-heading", "TRÍCH ĐOẠN VĂN BẢN");
+                set(".doc-title", v.document_title);
+                set(".quote-pre", v.quote_pre);
+                set(".highlight", v.highlight_text);
+                set(".quote-post", v.quote_post);
+                set(".source-note", v.source_note || (v.source ? "Nguồn: " + v.source : ""));
+                set(".badge-verified", "ĐÃ XÁC THỰC");
+
+                var fit = function(el, maxPx, minPx) {
+                    if (!el) return;
+                    var len = el.textContent.length;
+                    if (len > 180) el.style.fontSize = minPx + "px";
+                    else if (len > 120) el.style.fontSize = Math.floor((maxPx + minPx) / 2) + "px";
+                };
+                fit(document.querySelector(".passage"), 46, 32);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

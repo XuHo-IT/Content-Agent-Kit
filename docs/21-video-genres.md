@@ -25,7 +25,7 @@ Then validate before you spend anything:
 node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 ```
 
-### The six
+### The nine genres
 
 | genre | when | the shape |
 |---|---|---|
@@ -36,6 +36,8 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **launch** | you built something and it is now available | the problem, not the product → how it was against how it is → **the name, finally** → what it does → one link |
 | **testimonial** | someone else's result | the result first → their words, unedited → before and after, measured |
 | **local** | the story is *where* | the place, in the first frame → the question people there actually ask → your number beside a number they already carry → the route, if anything moves → someone from there, named |
+| **vox-explainer** | deep-dive data investigation or visual journalism | archival hook / evidence → highlighted document citation → technical data breakdown → verified conclusion |
+| **geo-answer** | search query & AI answer optimization | search question hook → direct answer definition (<25w) → two evidence points → citation anchor |
 
 `local` opens on `frame-geo-markers` rather than a title card, which is why `validate.mjs`
 accepts it as a hook template: a place-led video that opens on a logo has spent its hook on
@@ -46,7 +48,7 @@ the one thing the viewer already knows. Worked example, script and frames:
 > Optimization — writing so an answer engine can quote you — which is `skills/geo-optimize`
 > and `scripts/geo-audit.mjs`. Same acronym, different job.
 
-### Two rules that hold across all seven
+### Two rules that hold across all nine
 
 **The hook is not a title card.** A frame that names the topic without giving anything away
 is a frame people scroll past. Lead with the verdict, the number or the result. A review
@@ -119,8 +121,8 @@ tiêu tiền:
 node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 ```
 
-### Sáu thể loại
-
+### Chín thể loại
+ 
 | thể loại | khi nào | hình dạng |
 |---|---|---|
 | **review** | bạn đã dùng thử và có kết luận | spoil kết luận ngay hook → đo cái gì → con số → vì sao → **cái giá** → thẻ điểm |
@@ -130,6 +132,8 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **launch** | bạn làm xong một thứ và giờ nó có sẵn | vấn đề chứ không phải sản phẩm → trước so với sau → **tên, cuối cùng** → nó làm được gì → một đường dẫn |
 | **testimonial** | kết quả của người khác | kết quả trước → lời của họ, không sửa → trước và sau, có đo |
 | **local** | câu chuyện nằm ở *nơi chốn* | nơi đó ngay khung đầu → câu người ở đó thật sự hỏi → số của bạn cạnh số họ đã biết → vẽ tuyến nếu có gì di chuyển → một người ở đó, có tên |
+| **vox-explainer** | phóng sự điều tra dữ liệu hoặc phân tích sâu | hook tư liệu / bằng chứng → trích dẫn văn bản tô dạ quang → bóc tách chỉ số dữ liệu kỹ thuật → kết luận xác thực |
+| **geo-answer** | tối ưu câu hỏi tìm kiếm & trích dẫn AI | hook câu hỏi tìm kiếm → định nghĩa trả lời trực diện (<25 từ) → 2 luận điểm bằng chứng → neo nguồn trích dẫn |
 
 `local` mở bằng `frame-geo-markers` chứ không phải slide tiêu đề, và đó là lý do `validate.mjs`
 nhận nó làm khung hook: video về nơi chốn mà mở bằng logo là đã tiêu hook vào đúng thứ người
@@ -140,7 +144,7 @@ xem đã biết. Ví dụ đầy đủ, có script và ảnh khung:
 > Optimization — viết sao cho máy trả lời trích được — nằm ở `skills/geo-optimize` và
 > `scripts/geo-audit.mjs`. Cùng viết tắt, khác việc.
 
-### Hai quy tắc đúng cho cả bảy
+### Hai quy tắc đúng cho cả chín
 
 **Hook không phải slide tiêu đề.** Một khung chỉ nêu chủ đề mà không hé lộ gì là khung người
 ta lướt qua. Mở bằng kết luận, con số hoặc kết quả. Riêng review càng đúng: không ai xem
