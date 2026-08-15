@@ -1,0 +1,18 @@
+{
+  "name": "frame-geo-heatmap",
+  "description": "Bản đồ nhiệt phân bổ mật độ dữ liệu địa lý theo vùng với gradient nhiệt độ và chỉ số tăng trưởng",
+  "duration": 5,
+  "category": "geo",
+  "tags": ["geo", "heatmap", "map", "regional", "data", "density"],
+  "inputs": {
+    "kicker": "PHÂN BỔ MẬT ĐỘ ĐỊA LÝ",
+    "map_title": "Bản Đồ Nhiệt Nhu Cầu Dịch Vụ AI Theo Khu Vực",
+    "zone_1_name": "MIỀN BẮC (HÀ NỘI & HẢI PHÒNG)",
+    "zone_1_val": "MẬT ĐỘ CAO • 42.8%",
+    "zone_2_name": "MIỀN TRUNG (ĐÀ NẴNG & HUẾ)",
+    "zone_2_val": "TĂNG TRƯỞNG NHANH • +68% YOY",
+    "zone_3_name": "MIỀN NAM (TP. HỒ CHÍ MINH & BÌNH DƯƠNG)",
+    "zone_3_val": "TRỌNG ĐIỂM TIÊU THỤ • 51.2%",
+    "takeaway": "Dòng vốn và lưu lượng hạ tầng điện toán tập trung 94% tại 3 tam giác kinh tế trọng điểm."
+  }
+}

@@ -1,105 +1,114 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=1080, height=1920" />
-        <title>GEO City Versus · 9:16</title>
+        <title>GEO City Versus · Portrait</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap"
             rel="stylesheet"
         />
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
-            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #080e1a; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #022c22; }
             #root {
                 position: relative; width: 1080px; height: 1920px;
-                background: #080e1a; color: #f1f5f9;
-                font-family: "Be Vietnam Pro", sans-serif;
-                overflow: hidden; padding: 100px 70px 80px;
+                background: #022c22; color: #f0fdf4;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                overflow: hidden; padding: 90px 60px;
                 display: flex; flex-direction: column; justify-content: space-between;
             }
 
-            .ambient-glow {
-                position: absolute; top: 50%; left: 50%; width: 800px; height: 800px;
-                transform: translate(-50%, -50%);
-                background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(244, 63, 94, 0.05) 50%, transparent 80%);
-                pointer-events: none;
+            .map-grid-bg {
+                position: absolute; inset: 0;
+                background-image: linear-gradient(rgba(52, 211, 153, 0.08) 1px, transparent 1px),
+                                  linear-gradient(90deg, rgba(52, 211, 153, 0.08) 1px, transparent 1px);
+                background-size: 40px 40px;
             }
 
             .header-bar {
-                text-align: center;
+                text-align: center; position: relative; z-index: 5;
                 opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
             }
             .kicker-tag {
-                font-family: "Space Mono", monospace; font-size: 22px; font-weight: 700;
-                color: #38bdf8; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px;
+                font-family: "JetBrains Mono", monospace; font-size: 15px; font-weight: 800;
+                color: #34d399; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px;
             }
-            .main-title { font-size: 48px; font-weight: 900; color: #ffffff; letter-spacing: -0.02em; line-height: 1.2; }
+            .main-title { font-size: 34px; font-weight: 900; color: #ffffff; letter-spacing: -0.02em; line-height: 1.25; }
 
-            /* Vertical Stack */
             .arena-container {
-                display: flex; flex-direction: column; gap: 24px; position: relative;
-                width: 100%; margin: auto 0;
+                display: flex; flex-direction: column;
+                gap: 20px; width: 100%; margin: auto 0;
+                position: relative; z-index: 5;
             }
 
             .city-card {
-                background: rgba(15, 23, 42, 0.88); border: 2px solid rgba(255,255,255,0.1);
-                border-radius: 24px; padding: 32px 36px; box-shadow: 0 16px 36px rgba(0,0,0,0.5);
-                backdrop-filter: blur(12px);
+                background: rgba(4, 47, 36, 0.9); border: 2px solid rgba(52, 211, 153, 0.4);
+                border-radius: 20px; padding: 22px 24px; box-shadow: 0 16px 36px rgba(0,0,0,0.6);
+                backdrop-filter: blur(16px);
                 opacity: 0; animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+                display: flex; flex-direction: column; gap: 14px;
             }
-            .card-a { animation-delay: 0.2s; border-left: 6px solid #38bdf8; }
-            .card-b { animation-delay: 0.35s; border-left: 6px solid #f43f5e; }
+            .card-a { animation-delay: 0.2s; border-top: 6px solid #34d399; }
+            .card-b { animation-delay: 0.35s; border-top: 6px solid #f43f5e; }
 
-            .city-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
-            .city-name { font-size: 36px; font-weight: 900; color: #ffffff; }
+            .city-header { display: flex; justify-content: space-between; align-items: center; }
+            .city-name { font-size: 28px; font-weight: 900; color: #ffffff; }
             .city-badge {
-                font-family: "Space Mono", monospace; font-size: 16px; font-weight: 700;
-                padding: 6px 16px; border-radius: 8px; text-transform: uppercase;
+                font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 800;
+                padding: 4px 12px; border-radius: 6px; text-transform: uppercase;
             }
-            .b-a { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
-            .b-b { background: rgba(244, 63, 94, 0.15); color: #f43f5e; }
+            .b-a { background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); }
+            .b-b { background: rgba(244, 63, 94, 0.2); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.4); }
 
-            .metrics-list { display: flex; flex-direction: column; gap: 16px; }
-            .metric-row { display: flex; justify-content: space-between; align-items: center; }
-            .metric-name { font-size: 20px; font-weight: 600; color: #94a3b8; }
-            .metric-val { font-family: "Space Mono", monospace; font-size: 22px; font-weight: 800; color: #ffffff; }
+            .mini-map {
+                width: 100%; height: 75px; border-radius: 10px; background: rgba(2, 44, 34, 0.8);
+                border: 1px solid rgba(52, 211, 153, 0.3); overflow: hidden; position: relative;
+            }
+            .mini-map svg { width: 100%; height: 100%; }
 
-            .vs-badge-v {
-                align-self: center; width: 64px; height: 64px; border-radius: 50%;
-                background: linear-gradient(135deg, #1e293b, #0f172a);
-                border: 2px solid rgba(255,255,255,0.2);
-                display: flex; align-items: center; justify-content: center;
-                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 900;
-                color: #ffe600; box-shadow: 0 0 20px rgba(0,0,0,0.8); z-index: 10;
-                opacity: 0; animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+            .metrics-list { display: flex; flex-direction: column; gap: 8px; }
+            .metric-row {
+                display: flex; justify-content: space-between; align-items: center;
+                background: rgba(255,255,255,0.04); padding: 8px 14px; border-radius: 8px;
+            }
+            .metric-name { font-size: 15px; font-weight: 600; color: #94a3b8; }
+            .metric-val { font-family: "JetBrains Mono", monospace; font-size: 16px; font-weight: 800; color: #ffffff; }
+
+            .vs-badge {
+                width: 50px; height: 50px; border-radius: 50%;
+                background: radial-gradient(circle, #f43f5e 0%, #be123c 100%);
+                color: #ffffff; font-family: "JetBrains Mono", monospace;
+                font-size: 18px; font-weight: 900; display: grid; place-items: center;
+                margin: -8px auto; box-shadow: 0 0 20px rgba(244, 63, 94, 0.5);
+                border: 2px solid #ffffff; z-index: 10;
+                animation: vsPulse 1.5s ease-in-out infinite alternate;
             }
 
             .bottom-summary {
-                text-align: center; background: rgba(15, 23, 42, 0.6);
-                border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
-                padding: 24px 32px;
-                opacity: 0; animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+                text-align: center; position: relative; z-index: 5;
+                background: rgba(4, 47, 36, 0.85); border: 1px solid rgba(52, 211, 153, 0.3);
+                border-radius: 14px; padding: 16px 20px; font-size: 17px; font-weight: 600; color: #e2e8f0; line-height: 1.4;
             }
-            .summary-text { font-size: 22px; font-weight: 600; color: #cbd5e1; line-height: 1.4; }
 
+            @keyframes vsPulse { 0% { transform: scale(0.95); } 100% { transform: scale(1.08); } }
             @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
-            @keyframes cardIn { from { opacity: 0; transform: translateY(20px) scale(0.95); } to { opacity: 1; transform: none; } }
-            @keyframes scaleIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
-            @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+            @keyframes cardIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
         </style>
     </head>
     <body>
         <div
             id="root"
-            data-composition-id="main"
+            data-composition-id="portrait"
             data-start="0"
             data-duration="5"
             data-width="1080"
             data-height="1920"
-            data-composition-variables='{"kicker":"ĐỐI ĐẦU ĐỊA LÝ & KINH TẾ","versus_title":"So Sánh Tiềm Năng Phát Triển Hai Đầu Cầu","city_a_name":"Hà Nội","city_a_badge":"TRUNG TÂM R&D","city_b_name":"TP. Hồ Chí Minh","city_b_badge":"TRUNG TÂM TÀI CHÍNH","metric_1_name":"Chi Phí Văn Phòng / m²","metric_1_val_a":"$28 / THÁNG","metric_1_val_b":"$36 / THÁNG","metric_2_name":"Nhân Lực Công Nghệ","metric_2_val_a":"145,000+","metric_2_val_b":"190,000+","metric_3_name":"Tốc Độ Tăng Trưởng GDP","metric_3_val_a":"6.8%","metric_3_val_b":"7.2%","summary":"Hà Nội tối ưu vượt trội về chi phí nghiên cứu phát triển, trong khi TP.HCM chiếm ưu thế về tốc độ gọi vốn thương mại."}'
+            data-composition-variables='{"kicker":"Góc nhìn địa lý & kinh tế","versus_title":"So Sánh Tiềm Năng Phát Triển Hai Đầu Cầu","city_a_name":"Hà Nội","city_a_badge":"MIỀN BẮC","city_b_name":"TP. Hồ Chí Minh","city_b_badge":"MIỀN NAM","metric_1_name":"Chi Phí Thuê Văn Phòng / m²","metric_1_val_a":"$28 / THÁNG","metric_1_val_b":"$35 / THÁNG","metric_2_name":"Nhân Lực Công Nghệ","metric_2_val_a":"120,000+","metric_2_val_b":"180,000+","metric_3_name":"Tốc Độ Tăng Trưởng GRDP","metric_3_val_a":"6.2%","metric_3_val_b":"7.1%","summary":"Mỗi trung tâm sở hữu một thế mạnh riêng biệt: Hà Nội tối ưu cho khối hành chính & R&D, trong khi TP.HCM dẫn đầu về thương mại & quy mô thị trường tiêu dùng."}'
         >
-            <div class="ambient-glow"></div>
+            <div class="map-grid-bg"></div>
 
             <div class="header-bar">
                 <div class="kicker-tag"><span class="kicker-txt"></span></div>
@@ -111,6 +120,13 @@
                     <div class="city-header">
                         <div class="city-name ca-name"></div>
                         <div class="city-badge b-a ca-badge"></div>
+                    </div>
+                    <div class="mini-map">
+                        <svg viewBox="0 0 400 75">
+                            <path d="M 0,35 Q 150,10 250,55 T 400,25" fill="none" stroke="rgba(52,211,153,0.3)" stroke-width="2" />
+                            <circle cx="200" cy="35" r="16" fill="none" stroke="rgba(52,211,153,0.4)" stroke-width="2" />
+                            <circle cx="200" cy="35" r="6" fill="#34d399" />
+                        </svg>
                     </div>
                     <div class="metrics-list">
                         <div class="metric-row">
@@ -128,12 +144,19 @@
                     </div>
                 </div>
 
-                <div class="vs-badge-v"><span class="vs-txt"></span></div>
+                <div class="vs-badge"><span class="vs-txt"></span></div>
 
                 <div class="city-card card-b">
                     <div class="city-header">
                         <div class="city-name cb-name"></div>
                         <div class="city-badge b-b cb-badge"></div>
+                    </div>
+                    <div class="mini-map">
+                        <svg viewBox="0 0 400 75">
+                            <path d="M 0,20 Q 180,60 280,20 T 400,50" fill="none" stroke="rgba(244,63,94,0.3)" stroke-width="2" />
+                            <circle cx="220" cy="35" r="16" fill="none" stroke="rgba(244,63,94,0.4)" stroke-width="2" />
+                            <circle cx="220" cy="35" r="6" fill="#f43f5e" />
+                        </svg>
                     </div>
                     <div class="metrics-list">
                         <div class="metric-row">
@@ -153,9 +176,7 @@
             </div>
 
             <div class="bottom-summary">
-                <div class="summary-card">
-                    <div class="summary-txt"></div>
-                </div>
+                <div class="summary-text"></div>
             </div>
         </div>
 
@@ -164,8 +185,10 @@
                 var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
                     ? window.__hyperframes.getVariables() : {};
                 var set = function (sel, text) {
-                    var el = document.querySelector(sel);
-                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                    var el = document.querySelectorAll(sel);
+                    for (var i = 0; i < el.length; i++) {
+                        if (text != null && String(text).trim() !== "") el[i].textContent = String(text);
+                    }
                 };
                 set(".kicker-txt", v.kicker);
                 set(".main-title", v.versus_title);
@@ -183,10 +206,10 @@
                 set(".m3-name", v.metric_3_name);
                 set(".m3-va", v.metric_3_val_a);
                 set(".m3-vb", v.metric_3_val_b);
-                set(".summary-txt", v.summary);
+                set(".summary-text", v.summary);
             })();
             window.__timelines = window.__timelines || {};
-            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+            window.__timelines["portrait"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
         </script>
     </body>
 </html>

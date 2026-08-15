@@ -1,118 +1,127 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=1080, height=1920" />
-        <title>GEO Pin Detail · 9:16</title>
+        <title>GEO Pin Detail · Portrait</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap"
             rel="stylesheet"
         />
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
-            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #061118; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #022c22; }
             #root {
                 position: relative; width: 1080px; height: 1920px;
-                background: #061118; color: #f1f5f9;
-                font-family: "Be Vietnam Pro", sans-serif;
-                overflow: hidden; padding: 100px 70px 80px;
+                background: #022c22; color: #f0fdf4;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                overflow: hidden; padding: 90px 50px;
                 display: flex; flex-direction: column; justify-content: space-between;
             }
 
-            .map-mesh {
-                position: absolute; inset: 0;
-                background-image: radial-gradient(rgba(16, 185, 129, 0.06) 1.5px, transparent 0);
-                background-size: 32px 32px; pointer-events: none;
+            .vector-map-bg {
+                position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
             }
 
-            /* Top: Venue Visual & GPS HUD */
-            .top-visual {
-                background: rgba(15, 23, 42, 0.88); border: 2px solid rgba(16, 185, 129, 0.3);
-                border-radius: 28px; padding: 40px; position: relative; height: 600px;
-                display: flex; flex-direction: column; justify-content: space-between;
-                box-shadow: 0 20px 50px rgba(0,0,0,0.6); backdrop-filter: blur(12px);
-                opacity: 0; animation: slideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            .left-visual {
+                background: rgba(4, 47, 36, 0.92); border: 2px solid rgba(52, 211, 153, 0.4);
+                border-radius: 24px; padding: 32px 28px; position: relative; z-index: 5;
+                display: flex; flex-direction: column; gap: 20px;
+                box-shadow: 0 20px 40px rgba(0,0,0,0.6); backdrop-filter: blur(16px);
+                opacity: 0; animation: slideInLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
             }
             .hud-bar {
                 display: flex; justify-content: space-between; align-items: center;
-                border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px;
+                border-bottom: 1px solid rgba(52, 211, 153, 0.25); padding-bottom: 14px;
             }
             .gps-hud {
-                font-family: "Space Mono", monospace; font-size: 16px; color: #10b981;
+                font-family: "JetBrains Mono", monospace; font-size: 14px; color: #34d399; font-weight: 700;
                 display: flex; align-items: center; gap: 8px;
             }
-            .live-dot { width: 10px; height: 10px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; }
+            .live-dot { width: 8px; height: 8px; background: #34d399; border-radius: 50%; box-shadow: 0 0 8px #34d399; }
             .category-pill {
-                background: rgba(16, 185, 129, 0.15); color: #10b981;
-                font-family: "Space Mono", monospace; font-size: 16px; font-weight: 700;
-                padding: 6px 16px; border-radius: 8px; text-transform: uppercase;
+                background: rgba(52, 211, 153, 0.2); color: #6ee7b7;
+                font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 800;
+                padding: 4px 12px; border-radius: 6px; text-transform: uppercase; border: 1px solid rgba(52, 211, 153, 0.3);
             }
 
-            .venue-center { margin: auto 0; }
+            .venue-center { margin: 8px 0; }
             .venue-title {
-                font-size: 52px; font-weight: 900; color: #ffffff; line-height: 1.15;
-                letter-spacing: -0.02em; margin-bottom: 14px;
+                font-size: 40px; font-weight: 900; color: #ffffff; line-height: 1.2;
+                letter-spacing: -0.02em; margin-bottom: 10px;
             }
             .address-box {
-                font-size: 24px; font-weight: 500; color: #94a3b8; display: flex;
-                align-items: center; gap: 10px;
+                font-size: 20px; font-weight: 600; color: #cbd5e1; display: flex;
+                align-items: center; gap: 8px; line-height: 1.35;
             }
 
             .rating-bar {
-                display: flex; gap: 20px; align-items: center; border-top: 1px solid rgba(255,255,255,0.1);
-                padding-top: 18px;
+                display: flex; align-items: center; gap: 14px;
+                border-top: 1px dashed rgba(52, 211, 153, 0.25); padding-top: 16px;
             }
             .score-pill {
-                background: #10b981; color: #04140f; font-family: "Space Mono", monospace;
-                font-size: 24px; font-weight: 900; padding: 6px 18px; border-radius: 12px;
+                background: #10b981; color: #ffffff; font-family: "JetBrains Mono", monospace;
+                font-size: 18px; font-weight: 900; padding: 6px 14px; border-radius: 8px;
             }
-            .stars-txt { font-size: 20px; color: #fbbf24; }
+            .stars-txt {
+                font-family: "JetBrains Mono", monospace; font-size: 14px; color: #facc15; font-weight: 800;
+            }
 
-            /* Bottom: Detail Specs */
-            .bottom-specs {
-                display: flex; flex-direction: column; gap: 20px; margin-top: 24px;
-                opacity: 0; animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+            .right-specs {
+                display: flex; flex-direction: column; gap: 16px; position: relative; z-index: 5;
+                opacity: 0; animation: slideInRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
             }
+
             .kicker-tag {
-                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 700;
-                color: #10b981; letter-spacing: 3px; text-transform: uppercase;
+                font-family: "JetBrains Mono", monospace; font-size: 15px; font-weight: 800;
+                color: #34d399; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;
             }
 
             .spec-card {
-                background: rgba(15, 23, 42, 0.82); border: 1px solid rgba(255,255,255,0.1);
-                border-radius: 20px; padding: 24px 28px; border-left: 6px solid #10b981;
+                background: rgba(4, 47, 36, 0.88); border: 1px solid rgba(52, 211, 153, 0.3);
+                border-left: 6px solid #34d399;
+                border-radius: 14px; padding: 18px 20px; backdrop-filter: blur(12px);
             }
             .spec-label {
-                font-family: "Space Mono", monospace; font-size: 16px; font-weight: 700;
-                color: #10b981; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;
+                font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 700;
+                color: #6ee7b7; letter-spacing: 1px; margin-bottom: 4px;
             }
-            .spec-val { font-size: 24px; font-weight: 700; color: #f1f5f9; line-height: 1.35; }
+            .spec-val { font-size: 19px; font-weight: 700; color: #ffffff; line-height: 1.35; }
 
             .cta-btn {
-                background: linear-gradient(135deg, #10b981, #059669);
-                color: #ffffff; padding: 20px 32px; border-radius: 16px;
-                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 800;
-                letter-spacing: 2px; text-align: center; text-transform: uppercase;
-                box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); margin-top: 8px;
+                background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+                color: #ffffff; font-family: "JetBrains Mono", monospace; font-size: 16px;
+                font-weight: 900; padding: 18px; border-radius: 14px; text-align: center;
+                text-transform: uppercase; letter-spacing: 1.5px;
+                box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
             }
 
-            @keyframes slideDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: none; } }
-            @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+            @keyframes slideInLeft { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: none; } }
+            @keyframes slideInRight { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
         </style>
     </head>
     <body>
         <div
             id="root"
-            data-composition-id="main"
+            data-composition-id="portrait"
             data-start="0"
             data-duration="5"
             data-width="1080"
             data-height="1920"
-            data-composition-variables='{"kicker":"ĐỊA ĐIỂM TIÊU BIỂU TRONG TUẦN","venue_name":"La Siesta Premium Sky Bar","category_tag":"ROOFTOP LOUNGE","gps_coords":"GPS: 21.0338° N, 105.8504° E","address":"Số 01 Cầu Gỗ, Hoàn Kiếm, Hà Nội","rating":"4.9 / 5.0","price_tier":"GIÁ TIỀN: $$$ · CAO CẤP","hours_status":"GIỜ MỞ CỬA: 15:00 - 01:00 (HÀNG NGÀY)","signature_dish":"SIGNATURE: Espresso Martini ngắm hoàng hôn Hồ Gươm","cta_button":"XEM HƯỚNG DẪN ĐƯỜNG ĐI ➔"}'
+            data-composition-variables='{"kicker":"Địa điểm tiêu biểu trong tuần","venue_name":"La Siesta Premium Sky Bar","address":"12 Cầu Gỗ, Hoàn Kiếm, Hà Nội","rating":"4.9 / 5.0","gps_coords":"GPS: 21.0315° N, 105.8524° E","category_tag":"ROOFTOP LOUNGE","price_tier":"GIÁ TIỀN: $$$ - CAO CẤP","hours_status":"GIỜ MỞ CỬA: 15:00 - 01:00 (HÀNG NGÀY)","signature_dish":"SIGNATURE: Espresso Martini ngắm hoàng hôn Hồ Gươm","cta_button":"XEM HƯỚNG DẪN ĐƯỜNG ĐI →"}'
         >
-            <div class="map-mesh"></div>
+            <svg class="vector-map-bg" viewBox="0 0 1080 1920">
+                <path d="M 0,0 C 200,400 150,1000 300,1920 L 0,1920 Z" fill="#042f2e" opacity="0.5" />
+                <path d="M 900,0 C 800,600 950,1200 1080,1920 L 1080,0 Z" fill="#042f2e" opacity="0.5" />
+                <path d="M 150,0 L 150,1920 M 450,0 L 450,1920 M 750,0 L 750,1920" stroke="rgba(52,211,153,0.1)" stroke-width="2" />
+                <path d="M 0,300 L 1080,300 M 0,700 L 1080,700 M 0,1100 L 1080,1100 M 0,1500 L 1080,1500" stroke="rgba(52,211,153,0.1)" stroke-width="2" />
+                <circle cx="540" cy="500" r="220" fill="none" stroke="rgba(52,211,153,0.15)" stroke-width="2" stroke-dasharray="6,6" />
+                <circle cx="540" cy="500" r="120" fill="none" stroke="rgba(52,211,153,0.25)" stroke-width="2" />
+            </svg>
 
-            <div class="top-visual">
+            <div class="left-visual">
                 <div class="hud-bar">
                     <div class="gps-hud"><span class="live-dot"></span><span class="gps-txt"></span></div>
                     <div class="category-pill"><span class="cat-txt"></span></div>
@@ -129,7 +138,7 @@
                 </div>
             </div>
 
-            <div class="bottom-specs">
+            <div class="right-specs">
                 <div class="kicker-tag"><span class="kicker-txt"></span></div>
 
                 <div class="spec-card">
@@ -165,7 +174,7 @@
                 set(".venue-title", v.venue_name);
                 set(".addr-txt", v.address);
                 set(".rate-txt", v.rating || "5.0");
-                set(".rev-txt", "★★★★★ (1,850+ REVIEW)");
+                set(".rev-txt", "★★★★★ (1,850+ ĐÁNH GIÁ)");
                 set(".lp-txt", "MỨC GIÁ & TRẠNG THÁI");
                 set(".price-txt", v.price_tier);
                 set(".lh-txt", "THỜI GIAN HOẠT ĐỘNG");
@@ -175,7 +184,7 @@
                 set(".cta-txt", v.cta_button || "GET DIRECTIONS");
             })();
             window.__timelines = window.__timelines || {};
-            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+            window.__timelines["portrait"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
         </script>
     </body>
 </html>

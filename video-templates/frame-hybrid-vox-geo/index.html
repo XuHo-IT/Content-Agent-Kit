@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Hybrid Vox and GEO Explainer</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800;900&family=JetBrains+Mono:wght@600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400;1,6..72,700&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body {
+                background: #090d16;
+                color: #f8fafc;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                overflow: hidden;
+                width: 1920px;
+                height: 1080px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #root {
+                width: 1920px;
+                height: 1080px;
+                position: relative;
+                overflow: hidden;
+                padding: 60px 80px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+            }
+
+            .header-bar {
+                position: relative; z-index: 2;
+                display: flex; justify-content: space-between; align-items: flex-start;
+            }
+            .kicker-hybrid {
+                display: inline-flex; align-items: center; gap: 8px;
+                background: #facc15; color: #090d16;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 15px; font-weight: 800; padding: 6px 14px; border-radius: 4px;
+                text-transform: uppercase; letter-spacing: 1px;
+            }
+            .main-title {
+                font-size: 44px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; margin-top: 8px;
+            }
+
+            /* Stage: 2-Column Split (Left: Vox Journalism, Right: GEO Map) */
+            .stage-grid {
+                position: relative; z-index: 2;
+                display: grid; grid-template-columns: 1fr 1fr; gap: 50px;
+                align-items: center; height: 680px;
+            }
+
+            /* Left: Vox Journalism Box */
+            .vox-box {
+                position: relative; height: 100%;
+                background: #0f172a;
+                border: 2px solid rgba(250, 204, 21, 0.4);
+                border-radius: 16px; padding: 36px 40px;
+                display: flex; flex-direction: column; justify-content: space-between;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+                opacity: 0; animation: slideRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+
+            .vox-stamp {
+                position: absolute; top: 24px; right: 30px;
+                border: 3px solid #ef4444; color: #ef4444;
+                font-family: "Cinzel", serif; font-size: 18px; font-weight: 900;
+                padding: 4px 12px; transform: rotate(-8deg); letter-spacing: 2px;
+            }
+
+            .v-headline {
+                font-family: "Newsreader", serif; font-size: 34px; font-weight: 700;
+                color: #ffffff; line-height: 1.25; margin-top: 8px; max-width: 440px;
+            }
+            .v-excerpt {
+                font-family: "Newsreader", serif; font-size: 22px; line-height: 1.55; color: #cbd5e1;
+            }
+            .v-highlight-box {
+                background: rgba(250, 204, 21, 0.15); border-left: 5px solid #facc15;
+                padding: 16px 20px; border-radius: 0 8px 8px 0;
+            }
+            .v-highlight-txt {
+                font-family: "JetBrains Mono", monospace; font-size: 22px; font-weight: 800;
+                color: #facc15; letter-spacing: 0.5px;
+            }
+
+            /* Right: GEO Satellite Map Box */
+            .geo-box {
+                position: relative; height: 100%;
+                background: rgba(4, 30, 24, 0.8);
+                border: 2px solid rgba(16, 185, 129, 0.4);
+                border-radius: 16px; overflow: hidden;
+                display: flex; flex-direction: column; justify-content: space-between;
+                padding: 36px 40px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+                opacity: 0; animation: slideLeft 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+            }
+
+            /* Radar Radar Overlay in Geo Box */
+            .radar-bg {
+                position: absolute; inset: 0;
+                background-image: linear-gradient(rgba(16,185,129,0.06) 1px, transparent 1px),
+                                  linear-gradient(90deg, rgba(16,185,129,0.06) 1px, transparent 1px);
+                background-size: 30px 30px;
+            }
+
+            .reticle-center {
+                position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%);
+                width: 220px; height: 220px; border: 1px dashed rgba(16, 185, 129, 0.4);
+                border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            }
+            .reticle-inner {
+                width: 100px; height: 100px; border: 1px solid rgba(16, 185, 129, 0.6);
+                border-radius: 50%; position: relative;
+            }
+            .ping-dot {
+                position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+                width: 16px; height: 16px; background: #ef4444; border-radius: 50%;
+                box-shadow: 0 0 20px #ef4444; animation: pingPulse 1.5s ease-in-out infinite;
+            }
+
+            .geo-meta-card {
+                position: relative; z-index: 2;
+                background: rgba(15, 23, 42, 0.9);
+                border: 1px solid rgba(16, 185, 129, 0.3);
+                border-radius: 10px; padding: 20px 24px;
+                backdrop-filter: blur(12px);
+            }
+            .g-label {
+                font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 700;
+                color: #34d399; letter-spacing: 1px;
+            }
+            .g-coords {
+                font-family: "JetBrains Mono", monospace; font-size: 20px; font-weight: 800;
+                color: #ffffff; margin-top: 4px;
+            }
+            .g-status {
+                font-size: 16px; font-weight: 700; color: #f87171; margin-top: 6px;
+            }
+
+            .bottom-bar {
+                position: relative; z-index: 2;
+                background: rgba(15, 23, 42, 0.9);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px; padding: 18px 28px;
+                font-size: 20px; font-weight: 600; color: #e2e8f0;
+            }
+
+            @keyframes slideRight { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: none; } }
+            @keyframes slideLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: none; } }
+            @keyframes pingPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; } 50% { transform: translate(-50%, -50%) scale(1.8); opacity: 0.4; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"PHÓNG SỰ ĐIỀU TRA ĐA PHƯƠNG TIỆN • VOX + GEO","hybrid_title":"Hồ Sơ Mạng Lưới Trung Tâm Dữ Liệu Ngầm","vox_headline":"Dấu Vết 12 Cụm Máy Chủ Không Khai Báo","vox_excerpt":"Tài liệu bị rò rỉ cho thấy mức tiêu thụ điện năng bất thường tại các khu công nghệ cao.","vox_highlight":"TIÊU THỤ 1.2 GIGAWATT ĐIỆN MỖI GIỜ","geo_target_label":"TỌA ĐỘ MỤC TIÊU VỆ TINH","geo_coords":"LAT 21.033° N, LON 105.850° E (ZONE 4)","geo_status":"PHÁT HIỆN BỨC XẠ NHIỆT VƯỢT MỨC","takeaway":"Sự kết hợp giữa tài liệu nội bộ và ảnh vệ tinh xác nhận sự tồn tại của cơ sở tính toán quy mô lớn."}'
+        >
+            <div class="header-bar">
+                <div>
+                    <div class="kicker-hybrid"><span class="kicker-txt"></span></div>
+                    <div class="main-title"></div>
+                </div>
+            </div>
+
+            <div class="stage-grid">
+                <!-- Left Vox Journalism -->
+                <div class="vox-box">
+                    <div class="vox-stamp"></div>
+                    <div class="v-headline"></div>
+                    <div class="v-excerpt"></div>
+                    <div class="v-highlight-box">
+                        <div class="v-highlight-txt"></div>
+                    </div>
+                </div>
+
+                <!-- Right GEO Satellite Radar -->
+                <div class="geo-box">
+                    <div class="radar-bg"></div>
+                    <div class="reticle-center">
+                        <div class="reticle-inner">
+                            <div class="ping-dot"></div>
+                        </div>
+                    </div>
+                    <div class="g-label top-lbl"></div>
+                    <div class="geo-meta-card">
+                        <div class="g-label target-lbl"></div>
+                        <div class="g-coords coords-val"></div>
+                        <div class="g-status status-val"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <span class="takeaway-txt"></span>
+            </div>
+        </div>
+
+        <script>
+            const vars = window.__hyperframes ? window.__hyperframes.getVariables() : {};
+            document.querySelector(".kicker-txt").textContent = vars.kicker || "";
+            document.querySelector(".main-title").textContent = vars.hybrid_title || "";
+            document.querySelector(".vox-stamp").textContent = "DOC #809";
+            document.querySelector(".v-headline").textContent = vars.vox_headline || "";
+            document.querySelector(".v-excerpt").textContent = vars.vox_excerpt || "";
+            document.querySelector(".v-highlight-txt").textContent = vars.vox_highlight || "";
+            document.querySelector(".top-lbl").textContent = "GIÁM SÁT VỆ TINH ORBITAL";
+            document.querySelector(".target-lbl").textContent = vars.geo_target_label || "";
+            document.querySelector(".coords-val").textContent = vars.geo_coords || "";
+            document.querySelector(".status-val").textContent = vars.geo_status || "";
+            document.querySelector(".takeaway-txt").textContent = vars.takeaway || "";
+        </script>
+    </body>
+</html>

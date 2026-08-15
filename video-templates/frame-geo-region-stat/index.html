@@ -1,98 +1,107 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=1920, height=1080" />
         <title>Geo Regional Stat · 16:9</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap"
             rel="stylesheet"
         />
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
-            html, body { width: 1920px; height: 1080px; overflow: hidden; background: #071018; }
+            html, body { width: 1920px; height: 1080px; overflow: hidden; background: #022c22; }
             #root {
                 position: relative; width: 1920px; height: 1080px;
-                background: #071018; color: #e6f3fb;
-                font-family: "Be Vietnam Pro", sans-serif;
-                overflow: hidden;
+                background: #022c22; color: #f0fdf4;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                overflow: hidden; padding: 60px 100px;
+                display: flex; flex-direction: column; justify-content: space-between;
             }
 
-            .grid-bg {
+            .map-grid-bg {
                 position: absolute; inset: 0;
-                background-image: radial-gradient(rgba(56, 189, 248, 0.1) 1.5px, transparent 0);
-                background-size: 36px 36px;
-                pointer-events: none;
+                background-image: linear-gradient(rgba(52, 211, 153, 0.08) 1px, transparent 1px),
+                                  linear-gradient(90deg, rgba(52, 211, 153, 0.08) 1px, transparent 1px);
+                background-size: 40px 40px;
             }
 
             .header-bar {
-                position: absolute; top: 60px; left: 120px; right: 120px;
+                position: relative; z-index: 5;
                 opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
             }
             .kicker-tag {
-                font-family: "Space Mono", monospace; font-size: 20px; font-weight: 700;
-                letter-spacing: 3px; text-transform: uppercase; color: #38bdf8; margin-bottom: 12px;
+                font-family: "JetBrains Mono", monospace; font-size: 16px; font-weight: 800;
+                letter-spacing: 2.5px; text-transform: uppercase; color: #34d399; margin-bottom: 6px;
             }
             .main-title {
-                font-size: 52px; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;
+                font-size: 44px; font-weight: 900; color: #ffffff; letter-spacing: -0.02em;
             }
             .sub-title {
-                font-size: 24px; color: #94a3b8; margin-top: 8px; font-weight: 500;
+                font-size: 20px; color: #a7f3d0; margin-top: 4px; font-weight: 600;
             }
 
+            .stage-split {
+                position: relative; z-index: 5;
+                display: grid; grid-template-columns: 500px 1fr; gap: 60px; align-items: center;
+                margin: auto 0;
+            }
+
+            /* Vector Regional Map Graphic */
+            .vector-map-panel {
+                width: 100%; height: 500px; border-radius: 20px;
+                background: rgba(4, 47, 36, 0.9); border: 2px solid rgba(52, 211, 153, 0.35);
+                overflow: hidden; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            }
+            .map-svg { width: 100%; height: 100%; }
+
             .regions-container {
-                position: absolute; top: 220px; left: 120px; right: 120px; bottom: 100px;
-                display: flex; flex-direction: column; justify-content: center; gap: 24px;
+                display: flex; flex-direction: column; gap: 20px;
             }
 
             .region-row {
-                background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);
-                border-radius: 18px; padding: 24px 36px;
-                display: flex; flex-direction: column; gap: 14px;
-                backdrop-filter: blur(8px);
+                background: rgba(4, 47, 36, 0.85); border: 1px solid rgba(52, 211, 153, 0.3);
+                border-left: 6px solid #34d399;
+                border-radius: 16px; padding: 20px 28px;
+                display: flex; flex-direction: column; gap: 12px;
+                backdrop-filter: blur(12px);
                 opacity: 0; animation: rowIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
             }
             .region-row.is-highlight {
-                background: rgba(56, 189, 248, 0.12); border-color: rgba(56, 189, 248, 0.5);
-                box-shadow: 0 0 30px rgba(56, 189, 248, 0.15);
+                background: rgba(6, 78, 59, 0.95); border-color: rgba(52, 211, 153, 0.7);
+                border-left-color: #facc15;
+                box-shadow: 0 0 30px rgba(52, 211, 153, 0.2);
             }
 
             .row-meta {
-                display: flex; justify-content: space-between; align-items: baseline;
+                display: flex; justify-content: space-between; align-items: center;
             }
-            .region-name {
-                font-size: 28px; font-weight: 700; color: #ffffff;
-                display: flex; align-items: center; gap: 12px;
-            }
-            .region-row.is-highlight .region-name { color: #38bdf8; }
-            .region-val {
-                font-family: "Space Mono", monospace; font-size: 32px; font-weight: 700; color: #ffffff;
-            }
-            .region-row.is-highlight .region-val { color: #38bdf8; }
+            .region-name { font-size: 24px; font-weight: 800; color: #ffffff; }
+            .region-val { font-family: "JetBrains Mono", monospace; font-size: 22px; font-weight: 800; color: #34d399; }
+            .region-row.is-highlight .region-val { color: #facc15; }
 
             .bar-track {
-                width: 100%; height: 14px; background: rgba(255, 255, 255, 0.06);
-                border-radius: 999px; overflow: hidden;
+                width: 100%; height: 10px; border-radius: 999px;
+                background: rgba(255,255,255,0.08); overflow: hidden;
             }
             .bar-fill {
-                height: 100%; width: 0%; background: #64748b;
-                border-radius: 999px;
-                transition: width 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+                height: 100%; border-radius: 999px;
+                background: linear-gradient(90deg, #10b981, #34d399);
+                transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             }
             .region-row.is-highlight .bar-fill {
-                background: linear-gradient(90deg, #0284c7, #38bdf8);
-                box-shadow: 0 0 12px rgba(56, 189, 248, 0.6);
+                background: linear-gradient(90deg, #eab308, #facc15);
             }
 
             .footer-bar {
-                position: absolute; bottom: 40px; left: 120px; right: 120px;
+                position: relative; z-index: 5;
                 display: flex; justify-content: space-between; align-items: center;
-                font-family: "Space Mono", monospace; font-size: 16px; color: #64748b;
-                border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 14px;
-                opacity: 0; animation: fadeIn 0.4s ease-out 0.8s both;
+                border-top: 1px solid rgba(52, 211, 153, 0.2); padding-top: 16px;
+                font-family: "JetBrains Mono", monospace; font-size: 14px; color: #94a3b8;
             }
 
-            @keyframes fadeIn { to { opacity: 1; } }
             @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
             @keyframes rowIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
         </style>
@@ -107,7 +116,7 @@
             data-height="1080"
             data-composition-variables='{"kicker":"BÁO CÁO THỊ TRƯỜNG KHU VỰC","title":"Phân Bố Quy Mô Tăng Trưởng Toàn Quốc","subtitle":"Khảo sát số liệu thực địa giai đoạn 2025 – 2026","regions":"Miền Bắc:450 tỷ:48%|Miền Nam:360 tỷ:38%|Miền Trung:130 tỷ:14%","highlight_region":"Miền Bắc","source":"Cục Thống Kê & Báo Cáo Ngành 2026"}'
         >
-            <div class="grid-bg"></div>
+            <div class="map-grid-bg"></div>
 
             <div class="header-bar">
                 <div class="kicker-tag"><span class="kicker-txt"></span></div>
@@ -115,7 +124,20 @@
                 <div class="sub-title"></div>
             </div>
 
-            <div class="regions-container"></div>
+            <div class="stage-split">
+                <div class="vector-map-panel">
+                    <svg class="map-svg" viewBox="0 0 500 500">
+                        <!-- Vietnam stylized regional curves -->
+                        <path d="M 200,40 C 260,50 300,100 240,160 C 200,200 280,260 270,340 C 260,400 180,440 160,470" fill="none" stroke="#059669" stroke-width="45" stroke-linecap="round" />
+                        <!-- Region Pins -->
+                        <circle cx="230" cy="90" r="14" fill="#34d399" />
+                        <circle cx="260" cy="240" r="12" fill="#facc15" />
+                        <circle cx="210" cy="420" r="14" fill="#ef4444" />
+                    </svg>
+                </div>
+
+                <div class="regions-container"></div>
+            </div>
 
             <div class="footer-bar">
                 <div class="source-txt"></div>

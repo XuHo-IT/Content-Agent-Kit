@@ -3,261 +3,94 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=1080, height=1920" />
-        <title>Vignelli Stat · Portrait 9:16</title>
+        <title>Vignelli Stat · Portrait</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=JetBrains+Mono:wght@700;800&family=Playfair+Display:ital,wght@0,900;1,900&display=swap"
             rel="stylesheet"
         />
         <style>
-            /*
-   * frame-vignelli — Massimo Vignelli editorial stat hero. Distilled from the
-   * nexu-io/html-video "Vignelli" template (Apache-2.0): charcoal canvas, one
-   * red #cc0000 accent column, 6-column grid, heavy grotesque numerals. Rebuilt
-   * as a self-contained CSS @keyframes timeline (no A-roll video, no captions).
-   * Archivo stands in for Helvetica Neue and already covers Vietnamese.
-   * See NOTICE. Portrait 9:16 (1080×1920).
-   */
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-            html,
-            body {
-                width: 1080px;
-                height: 1920px;
-                overflow: hidden;
-                background: #020c1a;
-            }
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #facc15; }
             #root {
-                position: relative;
-                width: 1080px;
-                height: 1920px;
-                background: #020c1a;
-                color: #fff;
-                font-family: "Archivo", "Helvetica Neue", Arial, sans-serif;
+                position: relative; width: 1080px; height: 1920px;
+                background: #facc15; color: #090d16;
+                font-family: "Archivo", sans-serif;
+                overflow: hidden; padding: 120px 80px;
+                display: flex; flex-direction: column; justify-content: space-between;
             }
 
-            /* 6-column grid (faint) */
             .grid {
-                position: absolute;
-                inset: 0;
-                display: grid;
-                grid-template-columns: repeat(6, 1fr);
-                z-index: 1;
-                opacity: 0;
-                animation: fade 0.8s ease-out 0.2s forwards;
+                position: absolute; inset: 0; display: grid; grid-template-columns: repeat(4, 1fr);
+                z-index: 1; pointer-events: none;
             }
-            .grid .col {
-                border-right: 1px solid rgba(255, 255, 255, 0.05);
+            .grid .col { border-right: 1px solid rgba(0,0,0,0.06); }
+
+            .red-col {
+                position: absolute; top: 0; right: 0; width: 160px; height: 100%;
+                background: #dc2626; z-index: 2;
+                transform: scaleY(0); transform-origin: top;
+                animation: colDrop 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             }
 
             .content {
-                position: absolute;
-                left: 90px;
-                right: 90px;
-                top: 50%;
-                transform: translateY(-50%);
-                z-index: 5;
+                position: relative; z-index: 3;
             }
 
             .kicker {
-                display: flex;
-                align-items: center;
-                gap: 22px;
-                margin-bottom: 44px;
-                opacity: 0;
-                animation: fadeUp 0.6s ease-out 0.8s forwards;
+                display: inline-flex; align-items: center; gap: 12px;
+                font-family: "JetBrains Mono", monospace; font-size: 20px; font-weight: 800;
+                color: #dc2626; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 30px;
             }
-            .kicker .bar {
-                width: 64px;
-                height: 8px;
-                background: #38bdf8;
-            }
-            .kicker .txt {
-                font-size: 26px;
-                font-weight: 700;
-                letter-spacing: 5px;
-                text-transform: uppercase;
-                color: #fff;
-            }
+            .kicker .bar { width: 24px; height: 4px; background: #dc2626; }
 
             .number {
-                font-size: 360px;
-                font-weight: 900;
-                line-height: 0.8;
-                letter-spacing: -12px;
-                background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%);
-                -webkit-background-clip: text;
-                background-clip: text;
-                color: transparent;
-                opacity: 0;
-                transform: translateY(80px);
-                animation: numUp 1s cubic-bezier(0.16, 1, 0.3, 1) 1s forwards;
-            }
-            @keyframes numUp {
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+                font-family: "Playfair Display", serif; font-size: 150px; font-weight: 900;
+                color: #090d16; line-height: 0.95; letter-spacing: -0.04em;
+                opacity: 0; animation: numPop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
             }
 
             .label {
-                font-size: 70px;
-                font-weight: 700;
-                text-transform: uppercase;
-                color: #fff;
-                line-height: 1.05;
-                margin-top: 34px;
-                max-width: 640px;
-                opacity: 0;
-                transform: translateY(40px);
-                animation: numUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.3s
-                    forwards;
+                font-size: 46px; font-weight: 900; color: #090d16;
+                text-transform: uppercase; letter-spacing: -0.01em; margin-top: 24px; line-height: 1.2;
+                opacity: 0; animation: numPop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
             }
 
             .note {
-                font-size: 34px;
-                font-weight: 500;
-                color: #7ec8e3;
-                line-height: 1.45;
-                margin-top: 40px;
-                max-width: 660px;
-                opacity: 0;
-                animation: fadeUp 0.8s ease-out 1.6s forwards;
+                font-size: 26px; font-weight: 700; color: #374151;
+                line-height: 1.4; margin-top: 20px;
+                opacity: 0; animation: numPop 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
             }
 
-            /* footer wordmark + red underline */
             .brand {
-                position: absolute;
-                left: 90px;
-                bottom: 110px;
-                z-index: 5;
-            }
-            .brand .mark {
-                font-size: 38px;
-                font-weight: 900;
-                letter-spacing: 8px;
-                text-transform: uppercase;
-                color: #fff;
-                opacity: 0;
-                animation: fadeUp 0.6s ease-out 2s forwards;
-            }
-            .brand .underline {
-                width: 280px;
-                height: 8px;
-                background: linear-gradient(90deg, #38bdf8, #818cf8);
-                margin-top: 12px;
-                transform-origin: left;
-                transform: scaleX(0);
-                animation: scaleXin 0.8s cubic-bezier(0.16, 1, 0.3, 1) 2.2s
-                    forwards;
-            }
-            @keyframes scaleXin {
-                to {
-                    transform: scaleX(1);
-                }
+                position: relative; z-index: 3;
+                font-family: "JetBrains Mono", monospace; font-size: 18px; font-weight: 700;
+                color: #6b7280; text-transform: uppercase;
             }
 
-            @keyframes fade {
-                to {
-                    opacity: 1;
-                }
-            }
-            @keyframes fadeUp {
-                0% {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                100% {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-
-            /* floating bubbles */
-            @keyframes fb1 {
-                0%, 100% { transform: translate(0, 0) scale(1); }
-                40%       { transform: translate(24px, -40px) scale(1.06); }
-                70%       { transform: translate(-18px, -20px) scale(0.94); }
-            }
-            @keyframes fb2 {
-                0%, 100% { transform: translate(0, 0) scale(1.02); }
-                35%       { transform: translate(-30px, 28px) scale(0.92); }
-                68%       { transform: translate(20px, -34px) scale(1.08); }
-            }
-            @keyframes fb3 {
-                0%, 100% { transform: translate(0, 0) scale(0.96); }
-                45%       { transform: translate(18px, 36px) scale(1.1); }
-                80%       { transform: translate(-22px, 16px) scale(0.94); }
-            }
-            @keyframes fb4 {
-                0%, 100% { transform: translate(0, 0) scale(1); }
-                50%       { transform: translate(-28px, -28px) scale(1.07); }
-            }
-            .bubble {
-                position: absolute;
-                border-radius: 50%;
-                pointer-events: none;
-                z-index: 1;
-            }
-            .bb1 {
-                width: 130px; height: 130px;
-                top: 12%; left: 8%;
-                background: radial-gradient(circle at 35% 35%, rgba(56,189,248,0.22), rgba(56,189,248,0.04));
-                border: 1.5px solid rgba(56,189,248,0.18);
-                box-shadow: 0 0 30px rgba(56,189,248,0.12), inset 0 0 20px rgba(56,189,248,0.06);
-                animation: fb1 14s ease-in-out infinite;
-            }
-            .bb2 {
-                width: 88px; height: 88px;
-                top: 28%; right: 10%;
-                background: radial-gradient(circle at 35% 30%, rgba(129,140,248,0.25), rgba(129,140,248,0.04));
-                border: 1.5px solid rgba(129,140,248,0.2);
-                box-shadow: 0 0 24px rgba(129,140,248,0.14), inset 0 0 16px rgba(129,140,248,0.06);
-                animation: fb2 11s ease-in-out infinite;
-            }
-            .bb3 {
-                width: 160px; height: 160px;
-                bottom: 18%; right: 7%;
-                background: radial-gradient(circle at 40% 35%, rgba(56,189,248,0.15), rgba(56,189,248,0.03));
-                border: 1.5px solid rgba(56,189,248,0.12);
-                box-shadow: 0 0 36px rgba(56,189,248,0.1), inset 0 0 24px rgba(56,189,248,0.05);
-                animation: fb3 16s ease-in-out infinite;
-            }
-            .bb4 {
-                width: 72px; height: 72px;
-                bottom: 32%; left: 6%;
-                background: radial-gradient(circle at 38% 32%, rgba(140,82,255,0.22), rgba(140,82,255,0.04));
-                border: 1.5px solid rgba(140,82,255,0.16);
-                box-shadow: 0 0 20px rgba(140,82,255,0.12), inset 0 0 12px rgba(140,82,255,0.05);
-                animation: fb4 9s ease-in-out infinite;
-            }
+            @keyframes colDrop { to { transform: scaleY(1); } }
+            @keyframes numPop { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
         </style>
     </head>
     <body>
         <div
             id="root"
-            data-composition-id="main"
+            data-composition-id="portrait"
             data-start="0"
             data-duration="5"
             data-width="1080"
             data-height="1920"
             data-composition-variables='{"kicker":"Khảo sát · 2026","number":"62%","label":"Nội dung tĩnh mất hút","note":"Phần lớn người xem lướt qua nội dung tĩnh chỉ trong vài giây đầu.","brand":""}'
         >
-            <div class="bubble bb1"></div>
-            <div class="bubble bb2"></div>
-            <div class="bubble bb3"></div>
-            <div class="bubble bb4"></div>
-
             <div class="grid">
                 <div class="col"></div>
                 <div class="col"></div>
                 <div class="col"></div>
                 <div class="col"></div>
-                <div class="col"></div>
-                <div class="col"></div>
             </div>
+            <div class="red-col"></div>
+
             <div class="content">
                 <div class="kicker">
                     <span class="bar"></span><span class="txt"></span>
@@ -267,51 +100,28 @@
                 <div class="note"></div>
             </div>
 
-            <div class="brand">
-                <div class="mark"></div>
-                <div class="underline"></div>
-            </div>
+            <div class="brand"></div>
         </div>
 
         <script>
             (function () {
-                var v =
-                    window.__hyperframes &&
-                    typeof window.__hyperframes.getVariables === "function"
-                        ? window.__hyperframes.getVariables()
-                        : {};
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
                 var set = function (sel, text) {
                     var el = document.querySelector(sel);
-                    if (el && text != null) el.textContent = String(text);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
                 };
-                set(".kicker .txt", v.kicker);
-                set(".number", v.number);
-                set(".label", v.label);
-                set(".note", v.note);
-                set(".brand .mark", v.brand);
-
-                /* Auto-scale to prevent overflow */
-                var fitText = function (el, maxPx, minPx) {
-                    if (!el || !el.textContent.trim()) return;
-                    el.style.whiteSpace = "nowrap";
-                    el.style.fontSize = maxPx + "px";
-                    if (el.scrollWidth > el.offsetWidth) {
-                        var sized = Math.max(minPx, Math.floor(maxPx * el.offsetWidth / el.scrollWidth));
-                        el.style.fontSize = sized + "px";
-                    }
-                    el.style.whiteSpace = "";
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
                 };
-                fitText(document.querySelector(".number"), 360, 80);
-                fitText(document.querySelector(".label"), 70, 28);
+                set(".txt", v.kicker || "");
+                set(".number", v.number || "");
+                set(".label", v.label || "");
+                set(".note", v.note || "");
+                if (v.brand && String(v.brand).trim()) set(".brand", v.brand);
+                else drop(".brand");
             })();
-            window.__timelines = window.__timelines || {};
-            window.__timelines["main"] = {
-                pause: function () {},
-                seek: function () {},
-                paused: function () {
-                    return true;
-                },
-            };
         </script>
     </body>
 </html>

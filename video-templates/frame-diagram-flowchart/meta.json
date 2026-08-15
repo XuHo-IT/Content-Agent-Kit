@@ -1,0 +1,17 @@
+{
+  "title": "System Flowchart & Decision Tree",
+  "description": "Animated workflow flowchart with start triggers, decision diamonds, conditional branches and outcome nodes inspired by Draw.io.",
+  "category": "Diagrams & Workflows",
+  "tags": ["diagram", "flowchart", "decision", "workflow", "drawio", "logic"],
+  "defaultVariables": {
+    "kicker": "QUY TRÌNH RA QUYẾT ĐỊNH TỰ ĐỘNG",
+    "flowchart_title": "Luồng Phê Duyệt Giao Dịch Bất Thường",
+    "start_node": "Nhận Giao Dịch Mới",
+    "decision_node": "Điểm Rủi Ro trên 75?",
+    "branch_no_label": "HỢP LỆ (DƯỚI 75)",
+    "branch_no_action": "Tự Động Duyệt & Khớp Lệnh",
+    "branch_yes_label": "NGUY CƠ (TRÊN 75)",
+    "branch_yes_action": "Kích Hoạt Xác Thực 2FA & Đóng Băng",
+    "summary": "94% giao dịch được xử lý tự động trong 0.2s, chỉ 6% bị chuyển sang luồng cách ly bảo mật."
+  }
+}

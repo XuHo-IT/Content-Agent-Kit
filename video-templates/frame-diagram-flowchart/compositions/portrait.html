@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0" />
+        <title>System Flowchart & Decision Tree - Portrait</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                background: #090e17;
+                color: #f1f5f9;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                width: 1080px; height: 1920px;
+                overflow: hidden;
+            }
+            #root {
+                width: 100%; height: 100%; position: relative;
+                display: flex; flex-direction: column; justify-content: space-between;
+                padding: 96px 64px;
+            }
+
+            .grid-bg {
+                position: absolute; inset: 0; z-index: 0;
+                background-image: linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                                  linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+                background-size: 60px 60px;
+            }
+
+            .header-bar {
+                position: relative; z-index: 2;
+                opacity: 0; animation: fadeDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+            }
+            .kicker-tag {
+                display: inline-flex; align-items: center; gap: 8px;
+                background: rgba(129, 140, 248, 0.12); color: #818cf8;
+                border: 1px solid rgba(129, 140, 248, 0.3); border-radius: 9999px;
+                padding: 8px 22px; font-family: "JetBrains Mono", monospace;
+                font-size: 18px; font-weight: 700; letter-spacing: 1.5px;
+                text-transform: uppercase; margin-bottom: 16px;
+            }
+            .main-title {
+                font-size: 48px; font-weight: 800; letter-spacing: -0.02em;
+                color: #ffffff; line-height: 1.2;
+            }
+
+            /* Flowchart Vertical Stage */
+            .flowchart-col {
+                position: relative; z-index: 2;
+                display: flex; flex-direction: column; align-items: center; gap: 24px;
+                margin: 20px 0;
+            }
+
+            .node-start {
+                width: 80%; background: #1e293b; border: 2px solid #38bdf8;
+                border-radius: 9999px; padding: 22px 28px; text-align: center;
+                font-size: 24px; font-weight: 700; color: #f8fafc;
+                box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+                opacity: 0; animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+            }
+
+            .arrow-down {
+                width: 3px; height: 36px; background: #38bdf8;
+                box-shadow: 0 0 8px #38bdf8;
+            }
+
+            .diamond-wrapper {
+                width: 220px; height: 220px;
+                display: flex; align-items: center; justify-content: center; position: relative;
+                opacity: 0; animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+            }
+            .diamond-bg {
+                position: absolute; width: 155px; height: 155px;
+                background: #1e1b4b; border: 2px solid #a855f7; border-radius: 12px;
+                transform: rotate(45deg); box-shadow: 0 0 25px rgba(168, 85, 247, 0.3);
+            }
+            .diamond-txt {
+                position: relative; z-index: 2; font-size: 20px; font-weight: 800;
+                color: #f3e8ff; text-align: center; max-width: 170px; line-height: 1.3;
+            }
+
+            .branches-split {
+                width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+                margin-top: 10px;
+            }
+
+            .outcome-card {
+                padding: 24px 20px; border-radius: 16px;
+                display: flex; flex-direction: column; gap: 10px;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+                backdrop-filter: blur(12px);
+            }
+            .out-pass {
+                background: rgba(6, 78, 59, 0.75); border: 2px solid #10b981;
+                opacity: 0; animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+            }
+            .out-block {
+                background: rgba(127, 29, 29, 0.75); border: 2px solid #ef4444;
+                opacity: 0; animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+            }
+
+            .branch-tag {
+                display: inline-block; font-family: "JetBrains Mono", monospace;
+                font-size: 15px; font-weight: 700; padding: 4px 12px; border-radius: 6px;
+                align-self: flex-start;
+            }
+            .tag-green { background: rgba(52, 211, 153, 0.2); color: #34d399; }
+            .tag-red { background: rgba(248, 113, 113, 0.2); color: #f87171; }
+            .out-title { font-size: 22px; font-weight: 800; color: #ffffff; line-height: 1.3; }
+
+            .bottom-bar {
+                position: relative; z-index: 2;
+                background: rgba(30, 41, 59, 0.85);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px; padding: 26px 32px;
+                opacity: 0; animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.1s both;
+            }
+            .summary-text { font-size: 24px; font-weight: 600; color: #e2e8f0; line-height: 1.4; }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes popIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: none; } }
+            @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"QUY TRÌNH RA QUYẾT ĐỊNH TỰ ĐỘNG","flowchart_title":"Luồng Phê Duyệt Giao Dịch Bất Thường","start_node":"Nhận Giao Dịch Mới","decision_node":"Điểm Rủi Ro trên 75?","branch_no_label":"HỢP LỆ (DƯỚI 75)","branch_no_action":"Tự Động Duyệt & Khớp Lệnh","branch_yes_label":"NGUY CƠ (TRÊN 75)","branch_yes_action":"Kích Hoạt Xác Thực 2FA & Đóng Băng","summary":"94% giao dịch được xử lý tự động trong 0.2s, chỉ 6% bị chuyển sang luồng cách ly bảo mật."}'
+        >
+            <div class="grid-bg"></div>
+
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="main-title"></div>
+            </div>
+
+            <div class="flowchart-col">
+                <div class="node-start">
+                    <span class="start-txt"></span>
+                </div>
+
+                <div class="arrow-down"></div>
+
+                <div class="diamond-wrapper">
+                    <div class="diamond-bg"></div>
+                    <div class="diamond-txt dec-txt"></div>
+                </div>
+
+                <div class="branches-split">
+                    <div class="outcome-card out-pass">
+                        <div class="branch-tag tag-green"><span class="bno-lbl"></span></div>
+                        <div class="out-title bno-act"></div>
+                    </div>
+
+                    <div class="outcome-card out-block">
+                        <div class="branch-tag tag-red"><span class="byes-lbl"></span></div>
+                        <div class="out-title byes-act"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="summary-text"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.flowchart_title);
+                set(".start-txt", v.start_node);
+                set(".dec-txt", v.decision_node);
+                set(".bno-lbl", v.branch_no_label);
+                set(".bno-act", v.branch_no_action);
+                set(".byes-lbl", v.branch_yes_label);
+                set(".byes-act", v.branch_yes_action);
+                set(".summary-text", v.summary);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

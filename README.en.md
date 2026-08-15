@@ -2,7 +2,7 @@
 
 # content-agent-kit
 
-**Tell an agentic IDE what you want to publish. It reads this repo and builds the agent.**
+**Automated multi-channel content toolkit: crawl ideas, write SEO/GEO-optimized posts, gate review, and generate high-impact 9:16 vertical videos.**
 
 [![CI](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml/badge.svg)](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg?style=flat-square)](LICENSE)
@@ -11,235 +11,127 @@
 [![Discussions](https://img.shields.io/badge/Discussions-join-a855f7?style=flat-square&logo=github)](https://github.com/XuHo-IT/Content-Agent-Kit/discussions)
 [![PRs welcome](https://img.shields.io/badge/PRs-welcome-f59e0b?style=flat-square)](CONTRIBUTING.md)
 
-[Tiếng Việt](README.md) · **🌐 English**
+[🇻🇳 Tiếng Việt](README.md) · **English**
 
 </div>
 
 ---
 
-A reusable kit for bootstrapping **autonomous content agents** in agentic IDEs
-(**Claude Code** and **Antigravity / Gemini**). Clone it, tell the AI what you want to build,
-and it reads this repo to scaffold a project-specific agent: a *playbook* (the source of
-truth), state files, publish scripts, an optional crawl-discovery pipeline, social posting,
-scheduling, a pre-publish review gate — and, if you want them, **9:16 videos with real
-narration, stock footage and web screenshots**.
+A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity / Gemini**) to autonomously build and operate production-grade Content Agents: idea ingestion, editorial writing, quality auditing, social publishing, and **vertical 9:16 video generation** powered by 74 single-file HTML templates, realistic TTS narration, stock B-roll, and live web captures.
 
-## See the output first
+## Sample Outputs
 
-Before deciding whether to build an agent, look at what one produces. **One source** —
-Anthropic's Claude Fable 5 announcement — became **two formats**:
-
-| | |
+| Format | Description & Links |
 |---|---|
-| 📄 **[Sample article](examples/ai-news-social/sample-output/)** | 951 Vietnamese words — the body is **plain text**, meta and slug live in their own fields; plus an engagement comment and how it scores against all 10 rubric criteria |
-| 🖼️ **[Cover image](examples/ai-news-social/sample-output/cover.jpg)** | 1024×1024, made for the article above |
-| 🎬 **[Sample video](examples/ai-video-social/sample-output/)** | 2 min 12 s · 1080×1920 · real Vbee narration · Pexels B-roll · live screenshot of the source page |
+| 📄 **Article** | [Sample Post](examples/ai-news-social/sample-output/) — SEO/GEO-compliant article with engagement prompts and 10-point quality audit |
+| 🖼️ **Cover Image** | [Cover Image](examples/ai-news-social/sample-output/cover.jpg) — 1024×1024 visual asset matching the article |
+| 🎬 **9:16 Video** | [Sample Video](examples/ai-video-social/sample-output/) — 2m 12s, natural TTS narration, Pexels footage, live website capture |
+| 🎨 **Theme Repainting** | [Paper-Blue Sample](examples/ai-video-social/sample-output-paper-blue/) — 16 scenes across 14 of the 74 templates, repainted to white-and-ocean-blue via `"theme": "paper-blue"` |
 
-**[▶️ Download the mp4 (15.5 MB)](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0)**
-· or regenerate it yourself: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
+> **Download Sample MP4:** [Releases v0.1.0](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0) or render locally:
+> `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
 
-There is also a **[review-genre sample](examples/ai-video-social/sample-review-rag/)** — 8 scenes,
-80 seconds, every number measured from [RAG-EVAL-VN](https://github.com/XuHo-IT/RAG-EVAL-VN), with a
-whole scene given to **the cost**: a review that lists only upsides is an advertisement, and
-viewers can tell.
+---
 
-The same news story also exists as a **[white-canvas, ocean-blue cut](examples/ai-video-social/sample-output-paper-blue/)**
-— 16 scenes across 14 of the 58 templates, repainted entirely by `"theme": "paper-blue"`:
-**no forked template, and not one line of CSS edited in `video-templates/`.**
+## 74 Scene Templates (Organized by Visual Category)
 
-And the **[GEO sample](examples/ai-video-social/sample-geo/)** — two completely different
-things that share an acronym, kept in one place so you never build the wrong one: the `local`
-video genre (the story is *where*), and `geo-audit.mjs` checking whether a piece **still means
-something once a passage is cut out of it**. Read in order `post-draft.md` → `geo-report.md` →
-`post-fixed.md` to see the whole loop.
+All 74 templates are structured into **8 distinct visual categories** with dedicated aesthetic identities:
 
-### Fifty-eight templates, grouped by what they do
+### 1. 🌟 Hooks & Attention Openers (Hooks & Heroes — 8 templates)
+[![Hooks & Heroes](examples/gallery/gallery-hooks.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-liquid-bg-hero`, `frame-bold-poster`, `frame-glitch-title`, `frame-creative-voltage`, `frame-vox-collage`, `frame-vox-split-screen`, `frame-ui-glass-dashboard`, `frame-3d-spotlight`.*
 
-[![All 58 templates](examples/gallery/templates.jpg)](video-templates/CATALOG.md)
+### 2. 📰 Visual Journalism & Statements (Vox, Statements & Typography — 9 templates)
+[![Visual Journalism & Statements](examples/gallery/gallery-vox.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-kinetic-type`, `frame-build-minimal`, `frame-vignelli`, `frame-analog-grain`, `frame-vox-highlighter`, `frame-vox-pull-quote`, `frame-vox-investigation-board`, `frame-vox-declassified`, `frame-vox-newspaper-tear`.*
 
-Row 1 **hooks**, **statements** and **documents** · rows 2 & 3 **data**, **maps** and **evidence** · row 4 **depth**, **people** and **places / FAQ** · rows 5 & 6 **diagrams**, **sequence**, **reveal** and **close**. Every tile carries its own
-template id, so the picture is enough to choose from.
+### 3. 📊 Data, Charts & Technical Metrics (Data, Charts & Analytics — 13 templates)
+[![Data & Charts](examples/gallery/gallery-data.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-chart-bars`, `frame-pentagram-stat`, `frame-trend-line`, `frame-dashboard`, `frame-split-compare`, `frame-timeline`, `frame-node-graph`, `frame-hud`, `frame-funnel`, `frame-progress`, `frame-draw-on`, `frame-vox-data-callout`, `frame-canvas-gauge-dial`.*
 
-This used to be strips ordered by which batch each template arrived in. Someone choosing a
-frame does not care about that.
+### 4. 🧠 Diagrams, Math & Architecture (Diagrams, Math & Architecture — 8 templates)
+[![Diagrams & Architecture](examples/gallery/gallery-diagrams.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-diagram-flywheel`, `frame-diagram-quadrant`, `frame-diagram-radar`, `frame-diagram-architecture`, `frame-diagram-flowchart`, `frame-math-manim`, `frame-math-graph-plot`, `frame-math-matrix-calc`.*
 
-`frame-broll`, `frame-media-inset`, `frame-screenshot` and `frame-3d-device` are
-**footage-led** — the copy is theirs, the picture is yours. What fills them here is borrowed
-from the sample video itself: the footage is one frame of the Pexels clip its scene 14 uses,
-and the capture is the page `frame-screenshot`'s own `url` slot already names. Slots and
-character limits are in **[`CATALOG.md`](video-templates/CATALOG.md)**.
+### 5. 💻 Footage, Developer IDE & 3D (Footage, IDE & 3D — 10 templates)
+[![Footage, IDE & 3D](examples/gallery/gallery-ui.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-screenshot`, `frame-3d-device`, `frame-terminal`, `frame-ui-terminal-ide`, `frame-broll`, `frame-media-inset`, `frame-3d-flip`, `frame-3d-stack`, `frame-3d-perspective-card`, `frame-presentation-slide`.*
 
+### 6. 🗺️ Maps, Local & Travel (GEO, Radar, Heatmap & Local — 10 templates)
+[![Maps & Local GEO](examples/gallery/gallery-geo.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-geo-markers`, `frame-geo-route`, `frame-geo-region-stat`, `frame-geo-local-card`, `frame-geo-faq-direct`, `frame-geo-itinerary`, `frame-geo-versus-city`, `frame-geo-pin-detail`, `frame-geo-heatmap`, `frame-geo-sonar-radar`.*
+
+### 7. 🏆 Sequences, Proof, Fitness & Closers (Sequences, Fitness & Closers — 14 templates)
+[![Sequences, Fitness & Closers](examples/gallery/gallery-sequences.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-step-list`, `frame-checklist`, `frame-myth-fact`, `frame-aicoding-list`, `frame-aicoding-comparison`, `frame-quote-testimonial`, `frame-chat-bubbles`, `frame-review-verdict`, `frame-fitness-workout`, `frame-whiteboard-doodle`, `frame-2d-sprite-mascot`, `frame-product-reveal`, `frame-logo-outro`, `frame-statement-outro`.*
+
+### 8. ⚡ Multi-Skill Hybrid Templates (Multi-Skill Hybrid — 2 templates)
+[![Multi-Skill Hybrid](examples/gallery/gallery-hybrid.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-hybrid-vox-geo` (Vox Journalism + Satellite Radar Map), `frame-hybrid-math-diagram` (System Architecture + Manim Calculus).*
+
+> Slot contracts and character limits: **[`video-templates/CATALOG.md`](video-templates/CATALOG.md)**.
+> Scene sequences across 12 genres: **[`docs/21-video-genres.md`](docs/21-video-genres.md)** & **[`templates/VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**.
+
+---
+
+## Repository Structure
+
+| Directory | Role |
+|---|---|
+| `docs/` | 22 concise methodology guides (bilingual EN + VI): SEO/GEO writing, video pipeline, media sourcing, theme palettes, ad MCPs, and repurposing |
+| `templates/` | Scaffolds: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 industries) |
+| `scripts/` | Working zero-dependency CLIs: crawl engine, social publisher, quality auditor, video renderer, stock B-roll search, screenshot capture |
+| `video-templates/` | 74 single-file HTML video templates plus **`CATALOG.md`** — each carries self-contained CSS & animations for offline rendering. 176 more are one command away. |
+| `skills/` | 14 runtime skills: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template` + `registry.json` (23 on-demand skills). |
+| `examples/` | 2 end-to-end reference implementations: AI News Social Agent and Vertical Video Production Agent |
+
+---
+
+## Quickstart in 3 Steps
+
+### 1. Scaffold a New Agent
+- **Claude Code:** Run `/bootstrap-content-agent` — the AI interviews you and scaffolds your custom agent.
+- **Antigravity / Gemini:** Prompt: *"Read `AGENTS.md` and `docs/`, then build a content agent for [topic]."*
+
+### 2. Daily Execution
+- Run `/daily-run` to crawl fresh ideas, draft content, audit against the review gate, and publish to social channels.
+
+### 3. Generate Videos (Optional)
 ```bash
-node scripts/video/template-sheet.mjs --preset all --per-row 10 --width 126 \
-  --out examples/gallery/templates.jpg
+# 1. Validate script syntax and craft rules (seconds)
+node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
+
+# 2. Render final MP4 (with TTS narration & media)
+node scripts/video/render.mjs brain/<slug>/script.json
+
+# 3. Generate a visual contact sheet
+node scripts/video/contact-sheet.mjs brain/<slug>/video.mp4
 ```
 
-Ten per row and 126px are not the defaults — those are 4 and 240, which stack forty 9:16
-tiles into a 4520px column you have to scroll past. Ten across keeps the picture at the
-1260px width it has always been.
+---
 
-The same tool previews a script **without spending a single TTS character**:
+## Key Capabilities
 
-```bash
-node scripts/video/template-sheet.mjs --script brain/<slug>/script.json --out frames.jpg
-```
-
-**How does your industry write and shoot differently?**
-**[`INDUSTRIES.template.json`](templates/INDUSTRIES.template.json)** covers 16 industries, each
-carrying **both halves**: which article types to write, what counts as evidence, what to avoid —
-and only then the video genre, the frame set and the palette.
-
-The three regulated ones (**healthcare · finance · real estate**) add a `legal` block **with links
-to the source**: no advertising a supplement as medicine, no using images of medical staff, no
-promising returns, no listing a development that is not yet cleared for sale. That part is read
-from the actual regulations rather than written from memory — and a test requires every such line
-to carry its link.
-
-Each industry's `missing` field is a **build queue, not a complaint**: taken together it comes to
-six families of frame, not seventy.
-
-Not sure which frames a given kind of video needs?
-**[`docs/21-video-genres.md`](docs/21-video-genres.md)** and **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)** have sequences for
-seven: review, tutorial, news, listicle, launch, testimonial and **`local`** — the one where
-the story is *where*.
-
-## The operating model
-
-```
-                       ┌──────────── PLAYBOOK.md (single source of truth) ───────────┐
-                       │  cadence · schemas · quality bar · access tiers · cleanup   │
-                       └─────────────────────────────────────────────────────────────┘
- (optional)                                     │ AI reads every run
- [cron] → crawl.py (crawl4ai) → idea queue ─────┤
-          sources.yaml, dedup via queue API     ▼
-                              fan-out subagents → REVIEW gate → publish (web) + social (Make.com)
-                                     │                              │
-                              state: queue/ledger/history    report → brain/<id>/report.md
-
- (optional) a VIDEO item takes two extra hops before the gate:
-     script.json → validate-script.mjs → resolve media ──► render.mjs → video.mp4
-     (AI writes)   schema + craft rules   Pexels/Pixabay    TTS · SFX · templates
-                                          + screenshots     · ffmpeg
-```
-
-**Eight core ideas**, extracted from real running agents — the reasoning is in [`docs/`](docs/):
-
-| | |
+| Capability | Details |
 |---|---|
-| **Playbook is the source of truth** | The agent re-reads `PLAYBOOK.md` every run; it never relies on chat memory |
-| **Flat-file state** | `queue` · `ledger` · `history`. Every operation idempotent — a `409` means "already done" |
-| **Review gate** | An independent subagent approves before publishing; fail → fix 2–3 rounds → drop and report |
-| **Craft is enforced, not hoped for** | `WRITING_CRAFT.md` is read *before* writing; its measurable rubric is scored *before* publishing |
-| **Posts are plain text** | Captions render no Markdown; `validate-post.mjs` blocks it before it is sent |
-| **Env-only secrets** | Nothing hardcoded; a missing variable fails loudly instead of falling back |
-| **Scheduling** | GitHub Actions `cron`, Windows `schtasks`, or an in-process scheduler |
-| **Video: AI writes, code renders** | The AI owns `script.json`; a validator turns authoring rules into machine-checked errors, so a bad script fails in seconds instead of after a five-minute render |
+| **6 Voice Providers** | OmniVoice (local, free), Vbee, Viettel AI, FPT AI, ElevenLabs, HTTP custom adapter |
+| **Real Footage & Captures** | Automatic stock B-roll fetching from Pexels/Pixabay + headless Chrome web captures |
+| **Burned Captions & Transitions** | In-frame captions (`--captions burn`), 5 cinematic transitions (fade, swipe, slide, iris, pixelize) |
+| **Instant URL Theming** | Extract brand colors directly from any website using `theme-from-url.mjs` |
+| **74 templates, 12 genres** | 12 complete video genres: Review, Tutorial, News, Listicle, Launch, Testimonial, Local GEO, Vox Explainer, Math Derivation, Architecture, Travel |
+| **GEO / Answer Engine Optimization** | `geo-audit.mjs` validates content for AI citation readiness (SearchGPT, Perplexity, Google Overviews) |
 
-## Quickstart
-
-**Claude Code**
-
-1. Clone this repo next to (or into) your project.
-2. Copy the skills: `cp -r skills/* .claude/skills/` (or point Claude Code at them).
-3. Run the meta-skill **`/bootstrap-content-agent`** — the AI interviews you and scaffolds a new agent.
-
-**Antigravity / Gemini**
-
-1. Clone this repo into your workspace.
-2. Tell the agent: *"Read `AGENTS.md` and `docs/`, then build me an agent that does X."*
-3. It follows `skills/bootstrap-content-agent/SKILL.md` as a plain instruction document.
-
-Day to day, run **`/daily-run`** — or your generated `schedule-prompt.md` on a cron.
-
-## What's inside
-
-| Path | Purpose |
-|---|---|
-| `docs/` | The methodology, bilingual EN + VI, 22 short documents — including **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll and screenshots), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`**, **`20-video-backends.md`**, **`21-video-genres.md`** and **`22-repurposing.md`**. |
-| `templates/` | Fill-in scaffolds: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, state files, cron workflow. |
-| `scripts/` | Generic **working** CLIs: publish/append/update, queue client, `social/make-post` (image **or video**, multi-platform), `crawl/crawl.py`, `audit-quality`, the scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) and **`media/`** (stock B-roll, web screenshots, upload hosts). All env-only. |
-| `video-templates/` | 58 single-file HTML video templates plus **`CATALOG.md`** — every slot and character limit. Each carries its own CSS and animation, but still `<link>`s its fonts from Google Fonts, so rendering needs network. 176 more are one command away. |
-| `skills/` | 14 Claude Code skills: **`bootstrap-content-agent`** (the meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`**, **`new-template`**, **`motion-craft`**, **`geo-optimize`** — plus `registry.json`, which lists 18 more fetched on demand. |
-| `examples/ai-news-social/` | A complete worked example: an AI-news social agent (crawl → write → image → web + Make.com → cron). |
-| `examples/ai-video-social/` | The video counterpart: crawl → `script.json` → render 9:16 → TikTok / Shorts / Reels. |
-
-## Video
-
-Optional. Three backends — `html` (default, free, Chrome + FFmpeg), `api` (Veo/Imagen, **bills
-per second**), `remotion`. `script.json` keeps one shape across all three.
-
-```bash
-node scripts/video/tts-check.mjs                                          # audition voices
-node scripts/video/validate-script.mjs brain/<slug>/script.json --strict   # seconds
-node scripts/video/render.mjs          brain/<slug>/script.json            # ~3–5 minutes
-node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4              # then LOOK at it
-```
-
-| | |
-|---|---|
-| **6 voice providers** | `omnivoice` (local, free) · elevenlabs · vbee · fptai · viettel · `http` (env-only adapter). Narration is fingerprinted, so changing a voice re-reads only what changed |
-| **Real footage and screenshots** | Pexels/Pixabay + headless Chrome. Pinned in `media-lock.json`, so the same script gives the same video |
-| **Captions without CapCut** | `--captions burn` burns them into the picture. Scene starts are exact; inside a scene the split is by character count — said plainly to be an estimate, not forced alignment |
-| **Scene transitions** | `fade · swipe · slide · iris · pixelize`. The video's length does **not** change — the padding is worked out so the overlap eats back exactly what it added |
-| **A palette read off your own site** | `theme-from-url.mjs --url <site>` reads background, ink and accent from the live page, under the same WCAG contrast rule the validator already enforces |
-| **A robot watching the template registry** | 176 templates upstream, and that number was once wrong in nine places in the docs. `registry-watch.mjs` runs daily, diffs against the committed snapshot and opens exactly one PR when upstream changes — it **reports**, it does not add |
-| **58 templates, 12 genres** | `VIDEO_GENRES.template.json` answers "for a review, which frames and in what order" |
-| **Writing an answer engine can quote** | `geo-audit.mjs` grades a post by rule, with no AI in the loop: is the answer directly under the heading, does the paragraph stand on its own, does a number carry its source. A failed `must` rule exits 1 — so it works as a gate |
-| **One palette for the whole video** | `"theme": "paper-blue"` repaints everything on a **temporary copy**; the light/dark flip is **measured in Chrome**, not guessed from CSS |
-| **Look at what you made** | `contact-sheet.mjs` puts one labelled frame per scene in a single image. Four bugs that passed every rule were all visible at a glance |
-
-Rendering needs a real machine — **GitHub Actions cannot do it**.
-Detail: [`docs/14-video-generation.md`](docs/14-video-generation.md) ·
-[`docs/20-video-backends.md`](docs/20-video-backends.md) ·
-[`docs/16-template-registry.md`](docs/16-template-registry.md)
+---
 
 ## Requirements
 
-| | When |
-|---|---|
-| **Node ≥ 18** | always |
-| Python 3.12 + `scripts/crawl/requirements.txt` | only for crawl discovery |
-| **FFmpeg + ffprobe** and **Chrome/Chromium** | only for the video pipeline |
-| A TTS API key *or* a local OmniVoice server | only to render a real video |
+- **Node.js ≥ 18** (Required)
+- **Chrome/Chromium + FFmpeg/ffprobe** (Required for video rendering)
+- **Python 3.12** (Only needed when using the optional `crawl4ai` pipeline)
 
-**No `package.json`, no `node_modules`** — which is why the kit drops into any project with no
-install step. The one thing that cannot be rewritten here, the HTML→MP4 engine, is fetched by
-`npx` at render time and version-pinned. The constraint carries real weight: the AWS SigV4
-signer for Cloudflare R2 is written with `node:crypto` and checked against AWS's own published
-vector (`node scripts/media/host-check.mjs --selftest`).
+> **Zero `npm install` / No `package.json`**: The kit is fully self-contained and portable across any workspace.
 
-## Safety
+## License & Attribution
 
-- **Never commit `.env`.** Scripts read env only; a missing variable gives a clear error, never a silent fallback.
-- **The Make.com webhook URL *is* the secret** — it carries no auth header. Treat it like a password.
-- **Copyright:** the crawler stores **excerpts only** (≤1500 characters) plus a source link, never full text. Adapt and summarise in your own words.
-
-Full model, and how to report a vulnerability: **[`SECURITY.md`](SECURITY.md)**.
-
-## Contributing
-
-The most useful contributions come from people who have actually run it — a voice provider in
-your country, a new template, a craft rule you keep seeing the AI break. **There is no install
-step**: clone and run. CI runs offline too, with no keys.
-
-[Issues](https://github.com/XuHo-IT/Content-Agent-Kit/issues) ·
-[Discussions](https://github.com/XuHo-IT/Content-Agent-Kit/discussions) ·
-[`CONTRIBUTING.md`](CONTRIBUTING.md) · for a security bug **do not open an issue**, see
-[`SECURITY.md`](SECURITY.md)
-
-**Unverified adapters:** Cloudflare R2, Cloudinary, Viettel AI and the `api` video backend are
-written from official documentation but have **never been run with real credentials**. They say
-so themselves (`host-check.mjs --hosts`, `tts-check.mjs --providers`, `docs/20`). If you have an
-account and can confirm one works, a PR flipping that flag is a genuinely useful contribution.
-
-## License
-
-MIT — see [`LICENSE`](LICENSE).
-
-The video pipeline and templates derive from MIT / Apache-2.0 open source
-([AI-auto-generate-video](https://github.com/huytranvan2010/AI-auto-generate-video),
-[nexu-io/html-video](https://github.com/nexu-io/html-video),
-[heygen-com/hyperframes](https://github.com/heygen-com/hyperframes)). Attribution lives in
-**[`NOTICE.md`](NOTICE.md)** and in each `video-templates/*/NOTICE.md`, and the full Apache-2.0
-text is at [`LICENSES/Apache-2.0.txt`](LICENSES/Apache-2.0.txt) — keep those files, they are a
-licence condition rather than a courtesy.
+- License: **MIT** (see [`LICENSE`](LICENSE)).
+- Lineage & third-party attributions: see **[`NOTICE.md`](NOTICE.md)**.

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>GEO Density Heatmap</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body {
+                background: #022c22;
+                color: #f8fafc;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                overflow: hidden;
+                width: 1920px;
+                height: 1080px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #root {
+                width: 1920px;
+                height: 1080px;
+                position: relative;
+                overflow: hidden;
+                padding: 60px 80px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                background: radial-gradient(circle at 60% 40%, #064e3b 0%, #022c22 100%);
+            }
+
+            /* Map Coordinate Grid */
+            .map-grid {
+                position: absolute; inset: 0;
+                background-image: linear-gradient(rgba(52, 211, 153, 0.08) 1px, transparent 1px),
+                                  linear-gradient(90deg, rgba(52, 211, 153, 0.08) 1px, transparent 1px);
+                background-size: 50px 50px;
+            }
+
+            /* Header bar */
+            .header-bar {
+                position: relative; z-index: 5;
+                display: flex; justify-content: space-between; align-items: flex-start;
+                background: rgba(2, 44, 34, 0.85); border: 1px solid rgba(52, 211, 153, 0.3);
+                border-radius: 16px; padding: 18px 28px; backdrop-filter: blur(12px);
+            }
+            .kicker-pill {
+                display: inline-flex; align-items: center; gap: 8px;
+                background: rgba(239, 68, 68, 0.2); border: 1px solid rgba(239, 68, 68, 0.5);
+                color: #f87171; font-family: "JetBrains Mono", monospace;
+                font-size: 14px; font-weight: 800; padding: 6px 14px; border-radius: 999px;
+            }
+            .main-title {
+                font-size: 38px; font-weight: 900; color: #ffffff; letter-spacing: -0.5px; margin-top: 4px;
+            }
+            .heat-legend {
+                display: flex; align-items: center; gap: 10px;
+                font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 700; color: #94a3b8;
+            }
+            .gradient-bar {
+                width: 140px; height: 10px; border-radius: 999px;
+                background: linear-gradient(to right, #38bdf8, #34d399, #facc15, #ef4444);
+            }
+
+            /* Cartographic Stage with Vector Landmasses & Heat Radiance */
+            .stage-area {
+                position: relative; width: 100%; height: 560px;
+                border-radius: 20px; overflow: hidden;
+                border: 2px solid rgba(52, 211, 153, 0.3);
+                background: rgba(4, 47, 36, 0.85);
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            }
+
+            .map-svg {
+                position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
+            }
+
+            /* Regional Heat Spots */
+            .heat-blob {
+                position: absolute; border-radius: 50%;
+                filter: blur(40px); opacity: 0.85; pointer-events: none;
+                animation: heatPulse 3s ease-in-out infinite alternate;
+                z-index: 2;
+            }
+            .blob-1 {
+                width: 320px; height: 320px; left: 22%; top: 20%;
+                background: radial-gradient(circle, #ef4444 0%, #f97316 45%, #facc15 70%, transparent 85%);
+            }
+            .blob-2 {
+                width: 260px; height: 260px; left: 48%; top: 38%;
+                background: radial-gradient(circle, #f97316 0%, #facc15 50%, #34d399 75%, transparent 90%);
+                animation-delay: 1s;
+            }
+            .blob-3 {
+                width: 280px; height: 280px; left: 68%; top: 30%;
+                background: radial-gradient(circle, #ef4444 0%, #f97316 40%, #38bdf8 70%, transparent 90%);
+                animation-delay: 2s;
+            }
+
+            /* Pin tags */
+            .geo-pin {
+                position: absolute; z-index: 5;
+                background: rgba(2, 44, 34, 0.9); border: 2px solid #ffffff;
+                padding: 8px 18px; border-radius: 999px; font-weight: 800; font-size: 16px;
+                color: #ffffff; box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+                display: flex; align-items: center; gap: 8px;
+            }
+            .pin-dot { width: 10px; height: 10px; border-radius: 50%; }
+            .p1 { left: 28%; top: 32%; } .p1 .pin-dot { background: #ef4444; box-shadow: 0 0 10px #ef4444; }
+            .p2 { left: 52%; top: 48%; } .p2 .pin-dot { background: #facc15; box-shadow: 0 0 10px #facc15; }
+            .p3 { left: 72%; top: 42%; } .p3 .pin-dot { background: #ef4444; box-shadow: 0 0 10px #ef4444; }
+
+            /* Bottom Telemetry Bar */
+            .telemetry-grid {
+                position: relative; z-index: 5;
+                display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;
+            }
+            .stat-box {
+                background: rgba(4, 47, 36, 0.85); border: 1px solid rgba(52, 211, 153, 0.3);
+                border-left: 6px solid #34d399;
+                border-radius: 14px; padding: 18px 24px; backdrop-filter: blur(12px);
+            }
+            .stat-box.hot { border-left-color: #ef4444; }
+            .stat-box.mid { border-left-color: #facc15; }
+            .stat-lbl {
+                font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 700;
+                color: #6ee7b7; letter-spacing: 1px;
+            }
+            .stat-val { font-size: 22px; font-weight: 800; color: #ffffff; margin-top: 4px; }
+
+            @keyframes heatPulse { 0% { transform: scale(0.92); opacity: 0.75; } 100% { transform: scale(1.08); opacity: 0.95; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"Bản đồ nhiệt khu vực","heatmap_title":"Bản Đồ Nhiệt Nhu Cầu Dịch Vụ AI Theo Khu Vực","cluster_1_label":"HÀ NỘI & VÙNG THỦ ĐÔ","cluster_1_density":"MẬT ĐỘ CAO • 42.8%","cluster_2_label":"ĐÀ NẴNG & MIỀN TRUNG","cluster_2_density":"TĂNG TRƯỞNG NHANH • +68% YOY","cluster_3_label":"TP.HCM & ĐÔNG NAM BỘ","cluster_3_density":"TRỌNG ĐIỂM TIÊU THỤ • 51.7%","citation_source":"Dữ liệu phân tích lưu lượng tìm kiếm không gian toàn quốc 2026"}'
+        >
+            <div class="map-grid"></div>
+
+            <div class="header-bar">
+                <div>
+                    <div class="kicker-pill"><span class="kicker-txt"></span></div>
+                    <div class="main-title"></div>
+                </div>
+                <div class="heat-legend">
+                    <span class="leg-l"></span>
+                    <div class="gradient-bar"></div>
+                    <span class="leg-r"></span>
+                </div>
+            </div>
+
+            <div class="stage-area">
+                <svg class="map-svg" viewBox="0 0 1760 560">
+                    <path d="M 0,150 Q 400,60 900,200 T 1760,120" fill="none" stroke="rgba(52,211,153,0.15)" stroke-width="2" />
+                    <path d="M 0,320 Q 500,220 1100,380 T 1760,280" fill="none" stroke="rgba(52,211,153,0.15)" stroke-width="2" />
+                    <path d="M 0,480 Q 600,380 1300,500 T 1760,420" fill="none" stroke="rgba(52,211,153,0.15)" stroke-width="2" />
+                </svg>
+
+                <div class="heat-blob blob-1"></div>
+                <div class="heat-blob blob-2"></div>
+                <div class="heat-blob blob-3"></div>
+
+                <div class="geo-pin p1"><span class="pin-dot"></span><span class="c1-lbl"></span></div>
+                <div class="geo-pin p2"><span class="pin-dot"></span><span class="c2-lbl"></span></div>
+                <div class="geo-pin p3"><span class="pin-dot"></span><span class="c3-lbl"></span></div>
+            </div>
+
+            <div class="telemetry-grid">
+                <div class="stat-box hot">
+                    <div class="stat-lbl c1-title"></div>
+                    <div class="stat-val c1-val"></div>
+                </div>
+                <div class="stat-box mid">
+                    <div class="stat-lbl c2-title"></div>
+                    <div class="stat-val c2-val"></div>
+                </div>
+                <div class="stat-box hot">
+                    <div class="stat-lbl c3-title"></div>
+                    <div class="stat-val c3-val"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.heatmap_title);
+                set(".leg-l", "MẬT ĐỘ:");
+                set(".leg-r", "CỰC CAO");
+                set(".c1-lbl", v.cluster_1_label);
+                set(".c1-title", v.cluster_1_label);
+                set(".c1-val", v.cluster_1_density);
+                set(".c2-lbl", v.cluster_2_label);
+                set(".c2-title", v.cluster_2_label);
+                set(".c2-val", v.cluster_2_density);
+                set(".c3-lbl", v.cluster_3_label);
+                set(".c3-title", v.cluster_3_label);
+                set(".c3-val", v.cluster_3_density);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

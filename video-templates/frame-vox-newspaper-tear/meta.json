@@ -1,0 +1,16 @@
+{
+  "name": "frame-vox-newspaper-tear",
+  "description": "Trích đoạn bài báo xé viền phong cách tạp chí điều tra Vox với tiêu đề báo in cổ điển, drop-cap và callout trích dẫn",
+  "duration": 5,
+  "category": "vox",
+  "tags": ["vox", "newspaper", "editorial", "vintage", "journalism", "print"],
+  "inputs": {
+    "publication_name": "THE GLOBAL TECH TRIBUNE",
+    "issue_date": "THỨ BẢY, 15 THÁNG 8, 2026 • SỐ 4,190",
+    "headline": "BƯỚC NGOẶT LỚN CỦA NỀN CÔNG NGHIỆP BÁN DẪN TOÀN CẦU",
+    "lead_quote": "Khoản đầu tư 40 tỷ USD đánh dấu sự tái cấu trúc lớn nhất trong hai thập kỷ qua.",
+    "column_left": "Các nhà phân tích độc lập nhận định rằng chuỗi cung ứng đang dịch chuyển mạnh mẽ về khu vực châu Á - Thái Bình Dương.",
+    "column_right": "Tác động dây chuyền dự kiến sẽ làm thay đổi cấu trúc chi phí sản xuất vi mạch trong ít nhất 5 năm tới.",
+    "editor_note": "CHÚ THÍCH BIÊN TẬP: Dữ liệu được tổng hợp từ báo cáo tài chính quý 2."
+  }
+}

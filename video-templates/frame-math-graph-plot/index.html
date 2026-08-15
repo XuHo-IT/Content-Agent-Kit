@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Manim Function Graph Plot</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400;1,6..72,700&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body {
+                background: #0b0f19;
+                color: #f8fafc;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                overflow: hidden;
+                width: 1920px;
+                height: 1080px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #root {
+                width: 1920px;
+                height: 1080px;
+                position: relative;
+                overflow: hidden;
+                padding: 60px 80px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                background: radial-gradient(circle at 40% 40%, #151e32 0%, #080c16 100%);
+            }
+
+            /* Fine Manim Chalk Grid */
+            .chalk-grid {
+                position: absolute; inset: 0;
+                background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                                  linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+                background-size: 40px 40px;
+            }
+
+            .header-bar {
+                position: relative; z-index: 2;
+                display: flex; justify-content: space-between; align-items: flex-start;
+            }
+            .kicker-math {
+                display: inline-flex; align-items: center; gap: 8px;
+                background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.4);
+                color: #38bdf8; font-family: "JetBrains Mono", monospace;
+                font-size: 15px; font-weight: 700; padding: 6px 14px; border-radius: 6px;
+            }
+            .main-title {
+                font-size: 44px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; margin-top: 8px;
+            }
+
+            /* Stage: Graph Plot (Left) + Math Formulas (Right) */
+            .stage-grid {
+                position: relative; z-index: 2;
+                display: grid; grid-template-columns: 1fr 520px; gap: 60px;
+                align-items: center; height: 680px;
+            }
+
+            /* Coordinate System Plot */
+            .plot-box {
+                position: relative; width: 100%; height: 100%;
+                background: rgba(15, 23, 42, 0.7);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px; overflow: hidden;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            }
+
+            .graph-svg {
+                position: absolute; inset: 0; width: 100%; height: 100%;
+            }
+
+            .curve-path {
+                stroke-dasharray: 2000;
+                stroke-dashoffset: 2000;
+                animation: drawCurve 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+            }
+
+            /* Right Mathematical Formula Cards */
+            .formula-col {
+                display: flex; flex-direction: column; gap: 20px;
+            }
+
+            .math-card {
+                background: rgba(30, 41, 59, 0.75);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-left: 5px solid #38bdf8;
+                border-radius: 12px; padding: 22px 26px;
+                backdrop-filter: blur(16px);
+                opacity: 0; animation: slideLeft 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+            .math-card.d2 { border-left-color: #facc15; animation-delay: 0.2s; }
+            .math-card.d3 { border-left-color: #10b981; animation-delay: 0.4s; }
+
+            .math-label {
+                font-family: "JetBrains Mono", monospace; font-size: 14px;
+                font-weight: 700; color: #94a3b8; text-transform: uppercase;
+            }
+            .latex-text {
+                font-family: "Newsreader", serif; font-size: 32px;
+                font-style: italic; font-weight: 700; color: #ffffff; margin-top: 6px;
+            }
+            .point-txt {
+                font-family: "JetBrains Mono", monospace; font-size: 17px;
+                font-weight: 700; color: #e2e8f0; margin-top: 4px;
+            }
+
+            .bottom-bar {
+                position: relative; z-index: 2;
+                background: rgba(15, 23, 42, 0.85);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px; padding: 18px 28px;
+                font-size: 20px; font-weight: 600; color: #e2e8f0;
+            }
+
+            @keyframes drawCurve { to { stroke-dashoffset: 0; } }
+            @keyframes slideLeft { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"GIẢI TÍCH & KHẢO SÁT HÀM SỐ","formula_title":"Đạo Hàm & Điểm Cực Trị Toàn Cục","latex_func":"f(x) = x³ - 3x² + 2x + 1","latex_derivative":"f(x) = 3x² - 6x + 2 = 0","critical_point_1":"Cực Đại: x₁ = 0.42 • f(x₁) = 1.38","critical_point_2":"Cực Tiểu: x₂ = 1.58 • f(x₂) = 0.62","summary":"Tiếp tuyến nằm ngang tại hai nghiệm của đạo hàm bậc nhất xác định chính xác các điểm đảo chiều đồ thị."}'
+        >
+            <div class="chalk-grid"></div>
+
+            <div class="header-bar">
+                <div>
+                    <div class="kicker-math"><span class="kicker-txt"></span></div>
+                    <div class="main-title"></div>
+                </div>
+            </div>
+
+            <div class="stage-grid">
+                <div class="plot-box">
+                    <svg class="graph-svg" viewBox="0 0 1100 680">
+                        <!-- Axes -->
+                        <line x1="80" y1="580" x2="1040" y2="580" stroke="#64748b" stroke-width="2" />
+                        <line x1="180" y1="640" x2="180" y2="60" stroke="#64748b" stroke-width="2" />
+                        <!-- Axis Arrowheads -->
+                        <polygon points="1040,575 1055,580 1040,585" fill="#64748b" />
+                        <polygon points="175,60 180,45 185,60" fill="#64748b" />
+                        <!-- Function Curve -->
+                        <path
+                            class="curve-path"
+                            d="M 120,620 C 260,200 360,180 440,240 C 560,340 700,520 860,420 C 940,360 1000,120 1040,80"
+                            fill="none"
+                            stroke="#38bdf8"
+                            stroke-width="5"
+                        />
+                        <!-- Tangent line 1 -->
+                        <line x1="320" y1="215" x2="520" y2="215" stroke="#facc15" stroke-width="2" stroke-dasharray="6,6" />
+                        <circle cx="420" cy="215" r="8" fill="#facc15" />
+                        <!-- Tangent line 2 -->
+                        <line x1="720" y1="460" x2="920" y2="460" stroke="#10b981" stroke-width="2" stroke-dasharray="6,6" />
+                        <circle cx="820" cy="460" r="8" fill="#10b981" />
+                    </svg>
+                </div>
+
+                <div class="formula-col">
+                    <div class="math-card d1">
+                        <div class="math-label l1"></div>
+                        <div class="latex-text f-orig"></div>
+                    </div>
+                    <div class="math-card d2">
+                        <div class="math-label l2"></div>
+                        <div class="latex-text f-deriv"></div>
+                    </div>
+                    <div class="math-card d3">
+                        <div class="math-label l3"></div>
+                        <div class="point-txt pt1"></div>
+                        <div class="point-txt pt2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <span class="summary-txt"></span>
+            </div>
+        </div>
+
+        <script>
+            const vars = window.__hyperframes ? window.__hyperframes.getVariables() : {};
+            document.querySelector(".kicker-txt").textContent = vars.kicker || "";
+            document.querySelector(".main-title").textContent = vars.formula_title || "";
+            document.querySelector(".l1").textContent = "HÀM SỐ GỐC";
+            document.querySelector(".f-orig").textContent = vars.latex_func || "";
+            document.querySelector(".l2").textContent = "ĐẠO HÀM BẬC NHẤT";
+            document.querySelector(".f-deriv").textContent = vars.latex_derivative || "";
+            document.querySelector(".l3").textContent = "TỌA ĐỘ CỰC TRỊ";
+            document.querySelector(".pt1").textContent = vars.critical_point_1 || "";
+            document.querySelector(".pt2").textContent = vars.critical_point_2 || "";
+            document.querySelector(".summary-txt").textContent = vars.summary || "";
+        </script>
+    </body>
+</html>

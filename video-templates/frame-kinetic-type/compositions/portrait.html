@@ -3,75 +3,80 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=1080, height=1920" />
-        <title>Kinetic Type · Portrait 9:16</title>
-        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <title>Kinetic Type · Portrait</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800;900&family=JetBrains+Mono:wght@700;800&family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet" />
         <style>
-/*
- * frame-kinetic-type — one sentence, arriving a word at a time.
- *
- * Original work for this repo.
- *
- * Eighteen templates and every one of them presented text as a block that faded
- * or rose in one piece. That reads as a slide. Type becomes motion when the
- * words arrive in the order they are spoken, which is also the order a viewer
- * reads them — so the frame keeps pace with the narration instead of racing it.
- *
- * The sentence is split on whitespace in JS rather than authored as separate
- * elements, because a caller writing script.json passes a string. `accent` names
- * one word to hold longer and colour differently; it is matched case- and
- * punctuation-insensitively so "kém." still matches "kém".
- *
- * Wrapping is deliberate: words are inline-block inside a flex-wrap row, so a
- * long line reflows rather than overflowing the canvas. Nothing here measures
- * text, so nothing here can be defeated by a font that failed to load.
- */
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { overflow: hidden; }
-html, body { width: 1080px; height: 1920px; }
-#root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
-        font-family: "Be Vietnam Pro", sans-serif; }
-#root { background: #0d0f14; color: #f5f3ee; display: grid; align-content: center; }
-.kicker { font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
-          color: #8a93a6; opacity: 0; animation: rise 0.5s ease-out 0.1s forwards; }
-.line { font-family: "Playfair Display", serif; font-weight: 900; line-height: 1.06;
-        display: flex; flex-wrap: wrap; }
-.line span { display: inline-block; opacity: 0; transform: translateY(0.36em);
-             animation: word 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-.line span.accent { color: #ffd166; }
-.line span.accent::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0.06em;
-             height: 0.07em; background: #ffd166; transform: scaleX(0); transform-origin: left;
-             animation: underline 0.5s ease-out forwards; animation-delay: inherit; }
-.line span.accent { position: relative; }
-.footnote { color: #8a93a6; opacity: 0; animation: rise 0.6s ease-out 1.6s forwards; }
-@keyframes word { to { opacity: 1; transform: translateY(0); } }
-@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-@keyframes underline { to { transform: scaleX(1); } }
-#root { padding: 0 96px; }
-.kicker { font-size: 40px; margin-bottom: 52px; }
-.line { font-size: 116px; gap: 0 0.26em; }
-.footnote { font-size: 38px; margin-top: 64px; }
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html, body { overflow: hidden; width: 1080px; height: 1920px; }
+            #root {
+                position: relative; width: 1080px; height: 1920px; overflow: hidden;
+                background: #facc15; color: #090d16;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                display: flex; flex-direction: column; justify-content: center;
+                padding: 0 80px;
+            }
+
+            .vox-paper {
+                position: absolute; inset: 0;
+                background-image: radial-gradient(rgba(0,0,0,0.06) 1.5px, transparent 0);
+                background-size: 24px 24px; pointer-events: none;
+            }
+
+            .kicker {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 24px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
+                background: #dc2626; color: #ffffff;
+                padding: 8px 22px; border-radius: 4px; width: fit-content; margin-bottom: 50px;
+                opacity: 0; animation: rise 0.5s ease-out 0.1s forwards;
+            }
+
+            .line {
+                font-family: "Playfair Display", serif; font-weight: 900; line-height: 1.15;
+                font-size: 96px; display: flex; flex-wrap: wrap; gap: 0 0.3em;
+                color: #090d16; letter-spacing: -0.02em;
+            }
+
+            .line span {
+                display: inline-block; opacity: 0; transform: translateY(0.36em);
+                animation: word 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+
+            .line span.accent {
+                background: #090d16; color: #facc15;
+                padding: 0 16px; border-radius: 6px; position: relative;
+            }
+
+            .footnote {
+                font-family: "JetBrains Mono", monospace; font-size: 26px; font-weight: 700;
+                color: #4b5563; margin-top: 60px;
+                opacity: 0; animation: rise 0.6s ease-out 1.6s forwards;
+            }
+
+            @keyframes word { to { opacity: 1; transform: translateY(0); } }
+            @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
         </style>
     </head>
     <body>
         <div
             id="root"
-            data-composition-id="main"
+            data-composition-id="portrait"
             data-start="0"
             data-duration="6"
             data-width="1080"
             data-height="1920"
             data-composition-variables='{"kicker":"Nhận định","line":"Rerank không làm RAG nhanh hơn, nó làm RAG đúng hơn.","accent":"đúng","footnote":""}'
         >
+            <div class="vox-paper"></div>
             <div class="kicker"></div>
             <div class="line"></div>
             <div class="footnote"></div>
         </div>
         <script>
             (function () {
-                var v =
-                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
-                        ? window.__hyperframes.getVariables()
-                        : {};
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
                 var set = function (sel, text) {
                     var el = document.querySelector(sel);
                     if (el && text != null && String(text).length) el.textContent = String(text);
@@ -80,8 +85,6 @@ html, body { width: 1080px; height: 1920px; }
                     var el = document.querySelector(sel);
                     if (el) el.remove();
                 };
-                // A slot left empty removes its element rather than rendering a gap. An empty
-                // heading reads as missing data; an absent one reads as a deliberate omission.
                 var setOrDrop = function (sel, text) {
                     if (text == null || !String(text).trim()) return drop(sel);
                     set(sel, text);
@@ -89,8 +92,7 @@ html, body { width: 1080px; height: 1920px; }
                 set(".kicker", v.kicker);
                 setOrDrop(".footnote", v.footnote);
                 if (!String(v.kicker || "").trim()) drop(".kicker");
-                
-                // Split in JS: a caller passes a sentence, not a list of elements.
+
                 var words = String(v.line || "").trim().split(/\s+/).filter(Boolean);
                 var bare = function (s) { return s.toLowerCase().replace(/[^\p{L}\p{N}]/gu, ""); };
                 var accent = bare(String(v.accent || ""));
@@ -98,23 +100,13 @@ html, body { width: 1080px; height: 1920px; }
                 words.forEach(function (w, i) {
                     var el = document.createElement("span");
                     el.textContent = w;
-                    // Words land at ~7/sec — fast enough to feel spoken, slow enough to read.
-                    var delay = 0.32 + i * 0.14;
+                    el.style.animationDelay = (0.2 + i * 0.12) + "s";
                     if (accent && bare(w) === accent) {
-                        el.className = "accent";
-                        delay += 0.1;   // the emphasised word waits a beat, which is what makes it emphasis
+                        el.classList.add("accent");
                     }
-                    el.style.animationDelay = delay.toFixed(2) + "s";
                     line.appendChild(el);
                 });
-                if (!words.length) drop(".line");
             })();
-            window.__timelines = window.__timelines || {};
-            window.__timelines["main"] = {
-                pause: function () {},
-                seek: function () {},
-                paused: function () { return true; },
-            };
         </script>
     </body>
 </html>

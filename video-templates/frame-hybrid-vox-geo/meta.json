@@ -1,0 +1,18 @@
+{
+  "name": "frame-hybrid-vox-geo",
+  "description": "Template Hybrid đa kỹ năng kết hợp phóng sự điều tra Vox bên trái và bản đồ radar toạ độ GEO bên phải",
+  "duration": 5,
+  "category": "hybrid",
+  "tags": ["hybrid", "vox", "geo", "investigation", "map", "radar", "satellite", "journalism"],
+  "inputs": {
+    "kicker": "PHÓNG SỰ ĐIỀU TRA ĐA PHƯƠNG TIỆN • VOX + GEO",
+    "hybrid_title": "Hồ Sơ Mạng Lưới Trung Tâm Dữ Liệu Ngầm",
+    "vox_headline": "Dấu Vết 12 Cụm Máy Chủ Không Khai Báo",
+    "vox_excerpt": "Tài liệu bị rò rỉ cho thấy mức tiêu thụ điện năng bất thường tại các khu công nghệ cao.",
+    "vox_highlight": "TIÊU THỤ 1.2 GIGAWATT ĐIỆN MỖI GIỜ",
+    "geo_target_label": "TỌA ĐỘ MỤC TIÊU VỆ TINH",
+    "geo_coords": "LAT 21.033° N, LON 105.850° E (ZONE 4)",
+    "geo_status": "PHÁT HIỆN BỨC XẠ NHIỆT VƯỢT MỨC",
+    "takeaway": "Sự kết hợp giữa tài liệu nội bộ và ảnh vệ tinh xác nhận sự tồn tại của cơ sở tính toán quy mô lớn."
+  }
+}

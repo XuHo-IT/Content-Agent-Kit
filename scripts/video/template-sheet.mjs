@@ -42,36 +42,57 @@ const KIT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..
  */
 const ROLE_ORDER = [
   // hooks first — they are what a script picks before anything else
-  "frame-liquid-bg-hero", "frame-bold-poster", "frame-glitch-title", "frame-creative-voltage", "frame-vox-collage", "frame-vox-split-screen", "frame-vox-investigation-board", "frame-ui-glass-dashboard",
-  // statement / type / citation
-  "frame-kinetic-type", "frame-build-minimal", "frame-vignelli", "frame-analog-grain", "frame-vox-highlighter", "frame-vox-pull-quote",
-  // data
+  "frame-liquid-bg-hero", "frame-bold-poster", "frame-glitch-title", "frame-creative-voltage", "frame-vox-collage", "frame-vox-split-screen", "frame-ui-glass-dashboard", "frame-3d-spotlight",
+  // statement / type / vox journalism
+  "frame-kinetic-type", "frame-build-minimal", "frame-vignelli", "frame-analog-grain", "frame-vox-highlighter", "frame-vox-pull-quote", "frame-vox-investigation-board", "frame-vox-declassified", "frame-vox-newspaper-tear",
+  // data & analytics
   "frame-chart-bars", "frame-pentagram-stat", "frame-trend-line", "frame-dashboard",
   "frame-split-compare", "frame-timeline", "frame-node-graph", "frame-hud",
-  "frame-geo-markers", "frame-geo-route", "frame-funnel", "frame-progress", "frame-draw-on",
-  "frame-geo-region-stat", "frame-vox-data-callout",
-  // diagrams & system architecture
-  "frame-diagram-flywheel", "frame-diagram-quadrant", "frame-diagram-radar", "frame-diagram-architecture",
-  // evidence
+  "frame-funnel", "frame-progress", "frame-draw-on", "frame-vox-data-callout", "frame-canvas-gauge-dial",
+  // diagrams & mathematics (Manim/calculus)
+  "frame-diagram-flywheel", "frame-diagram-quadrant", "frame-diagram-radar", "frame-diagram-architecture", "frame-diagram-flowchart", "frame-math-manim", "frame-math-graph-plot", "frame-math-matrix-calc",
+  // footage, IDE, device & 3D
   "frame-screenshot", "frame-3d-device", "frame-terminal", "frame-ui-terminal-ide", "frame-broll", "frame-media-inset",
-  // depth
-  "frame-3d-flip", "frame-3d-stack",
-  // people / proof / local & search answers
-  "frame-quote-testimonial", "frame-chat-bubbles", "frame-review-verdict", "frame-geo-local-card", "frame-geo-faq-direct", "frame-geo-itinerary", "frame-geo-versus-city", "frame-geo-pin-detail",
-  // sequence / advice
+  "frame-3d-flip", "frame-3d-stack", "frame-3d-perspective-card", "frame-presentation-slide",
+  // GEO, maps, radar, heatmap & travel
+  "frame-geo-markers", "frame-geo-route", "frame-geo-region-stat", "frame-geo-local-card", "frame-geo-faq-direct", "frame-geo-itinerary", "frame-geo-versus-city", "frame-geo-pin-detail", "frame-geo-heatmap", "frame-geo-sonar-radar",
+  // sequence, proof, fitness, mascots & outro
   "frame-step-list", "frame-checklist", "frame-myth-fact", "frame-aicoding-list", "frame-aicoding-comparison",
-  // reveal / close
-  "frame-product-reveal", "frame-3d-spotlight", "frame-logo-outro", "frame-statement-outro",
+  "frame-quote-testimonial", "frame-chat-bubbles", "frame-review-verdict", "frame-fitness-workout", "frame-whiteboard-doodle", "frame-2d-sprite-mascot",
+  "frame-product-reveal", "frame-logo-outro", "frame-statement-outro",
+  // multi-skill hybrid frames
+  "frame-hybrid-vox-geo", "frame-hybrid-math-diagram",
 ];
 
 const PRESETS = {
   get all() {
     const have = listTemplateIds();
-    // Anything not yet placed in ROLE_ORDER still appears, at the end. A template missing
-    // from the catalogue image because someone forgot to list it here is exactly the kind
-    // of silent omission this repo keeps finding.
     return [...ROLE_ORDER.filter((id) => have.includes(id)), ...have.filter((id) => !ROLE_ORDER.includes(id))];
   },
+  "hooks": [
+    "frame-liquid-bg-hero", "frame-bold-poster", "frame-glitch-title", "frame-creative-voltage", "frame-vox-collage", "frame-vox-split-screen", "frame-ui-glass-dashboard", "frame-3d-spotlight"
+  ],
+  "vox": [
+    "frame-kinetic-type", "frame-build-minimal", "frame-vignelli", "frame-analog-grain", "frame-vox-highlighter", "frame-vox-pull-quote", "frame-vox-investigation-board", "frame-vox-declassified", "frame-vox-newspaper-tear"
+  ],
+  "data": [
+    "frame-chart-bars", "frame-pentagram-stat", "frame-trend-line", "frame-dashboard", "frame-split-compare", "frame-timeline", "frame-node-graph", "frame-hud", "frame-funnel", "frame-progress", "frame-draw-on", "frame-vox-data-callout", "frame-canvas-gauge-dial"
+  ],
+  "diagrams": [
+    "frame-diagram-flywheel", "frame-diagram-quadrant", "frame-diagram-radar", "frame-diagram-architecture", "frame-diagram-flowchart", "frame-math-manim", "frame-math-graph-plot", "frame-math-matrix-calc"
+  ],
+  "ui": [
+    "frame-screenshot", "frame-3d-device", "frame-terminal", "frame-ui-terminal-ide", "frame-broll", "frame-media-inset", "frame-3d-flip", "frame-3d-stack", "frame-3d-perspective-card", "frame-presentation-slide"
+  ],
+  "geo": [
+    "frame-geo-markers", "frame-geo-route", "frame-geo-region-stat", "frame-geo-local-card", "frame-geo-faq-direct", "frame-geo-itinerary", "frame-geo-versus-city", "frame-geo-pin-detail", "frame-geo-heatmap", "frame-geo-sonar-radar"
+  ],
+  "sequences": [
+    "frame-step-list", "frame-checklist", "frame-myth-fact", "frame-aicoding-list", "frame-aicoding-comparison", "frame-quote-testimonial", "frame-chat-bubbles", "frame-review-verdict", "frame-fitness-workout", "frame-whiteboard-doodle", "frame-2d-sprite-mascot", "frame-product-reveal", "frame-logo-outro", "frame-statement-outro"
+  ],
+  "hybrid": [
+    "frame-hybrid-vox-geo", "frame-hybrid-math-diagram"
+  ],
 };
 
 /**

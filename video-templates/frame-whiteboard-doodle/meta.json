@@ -1,0 +1,17 @@
+{
+  "title": "Whiteboard Doodle & Sketch Explainer",
+  "description": "Hand-drawn whiteboard doodle animation with SVG stroke sketch lines, handwritten notes and highlighter marks inspired by whiteboard explainers.",
+  "category": "Education & Explainer",
+  "tags": ["whiteboard", "doodle", "sketch", "handdrawn", "explainer", "education"],
+  "defaultVariables": {
+    "kicker": "BÀI HỌC THỰC CHIẾN // DOODLE",
+    "lesson_title": "3 Sai Lầm Chí Mạng Khi Bắt Đầu Đầu Tư",
+    "doodle_label_1": "01. Fomo Đu Đỉnh Theo Tin Tức",
+    "doodle_desc_1": "Mua vào khi thị trường đã tăng nóng hơn 80%.",
+    "doodle_label_2": "02. Không Đặt Điểm Cắt Lỗ Stop-Loss",
+    "doodle_desc_2": "Để khoản lỗ nhỏ 5% biến thành thảm họa 50%.",
+    "doodle_label_3": "03. Dồn Toàn Bộ Vốn Vào Một Mã",
+    "doodle_desc_3": "Thiếu phân bổ danh mục phòng ngừa rủi ro thiên nga đen.",
+    "takeaway": "Kỷ luật quản trị vốn quan trọng gấp 10 lần việc tìm kiếm siêu cổ phiếu."
+  }
+}

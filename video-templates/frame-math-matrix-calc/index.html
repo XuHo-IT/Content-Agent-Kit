@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Linear Algebra Matrix Calculation</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400;1,6..72,700&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body {
+                background: #090d16;
+                color: #f8fafc;
+                font-family: "JetBrains Mono", monospace;
+                overflow: hidden;
+                width: 1920px;
+                height: 1080px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #root {
+                width: 1920px;
+                height: 1080px;
+                position: relative;
+                overflow: hidden;
+                padding: 60px 80px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                background: radial-gradient(circle at 50% 30%, #151e32 0%, #080c16 100%);
+            }
+
+            .chalk-grid {
+                position: absolute; inset: 0;
+                background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                                  linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+                background-size: 40px 40px;
+            }
+
+            .header-bar {
+                position: relative; z-index: 2;
+                display: flex; justify-content: space-between; align-items: flex-start;
+            }
+            .kicker-math {
+                display: inline-flex; align-items: center; gap: 8px;
+                background: rgba(168, 85, 247, 0.15); border: 1px solid rgba(168, 85, 247, 0.4);
+                color: #c084fc; font-size: 15px; font-weight: 700; padding: 6px 14px; border-radius: 6px;
+            }
+            .main-title {
+                font-family: "Plus Jakarta Sans", sans-serif;
+                font-size: 44px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; margin-top: 8px;
+            }
+
+            /* Matrix Stage Formula Row */
+            .calc-stage {
+                position: relative; z-index: 2;
+                display: flex; align-items: center; justify-content: center; gap: 40px;
+                height: 580px;
+            }
+
+            .matrix-box {
+                background: rgba(15, 23, 42, 0.85);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 16px; padding: 32px 36px;
+                display: flex; flex-direction: column; align-items: center; gap: 16px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+                backdrop-filter: blur(16px);
+                opacity: 0; animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+            .matrix-box.m-w { border-top: 4px solid #38bdf8; }
+            .matrix-box.m-x { border-top: 4px solid #facc15; animation-delay: 0.2s; }
+            .matrix-box.m-y { border-top: 4px solid #10b981; animation-delay: 0.4s; }
+
+            .box-lbl {
+                font-size: 14px; font-weight: 700; color: #94a3b8; letter-spacing: 1px;
+            }
+
+            .bracket-wrap {
+                display: flex; align-items: center; gap: 12px;
+                font-size: 34px; font-weight: 800; color: #ffffff;
+            }
+            .bracket { font-size: 54px; font-weight: 300; color: #64748b; }
+
+            .operator-sym {
+                font-size: 48px; font-weight: 800; color: #94a3b8;
+            }
+
+            .bottom-bar {
+                position: relative; z-index: 2;
+                background: rgba(15, 23, 42, 0.85);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px; padding: 18px 28px;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                font-size: 20px; font-weight: 600; color: #e2e8f0;
+            }
+
+            @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"ĐẠI SỐ TUYẾN TÍNH & TÍNH TOÁN MA TRẬN","matrix_title":"Biến Đổi Không Gian & Tích Vô Hướng Vector","matrix_a_label":"MA TRẬN TRỌNG SỐ W (2x2)","matrix_a_vals":"[ [0.85, -0.40], [0.30, 0.95] ]","vector_x_label":"VECTOR ĐẦU VÀO X (2x1)","vector_x_vals":"[ [1.5], [2.0] ]","result_label":"KẾT QUẢ ĐẦU RA Y = W • X","result_vals":"[ [0.475], [2.350] ]","takeaway":"Phép nhân ma trận xoay và kéo giãn không gian vector 2 chiều theo đúng ma trận biến đổi trọng số."}'
+        >
+            <div class="chalk-grid"></div>
+
+            <div class="header-bar">
+                <div>
+                    <div class="kicker-math"><span class="kicker-txt"></span></div>
+                    <div class="main-title"></div>
+                </div>
+            </div>
+
+            <div class="calc-stage">
+                <div class="matrix-box m-w">
+                    <div class="box-lbl w-lbl"></div>
+                    <div class="bracket-wrap">
+                        <span class="bracket">[</span>
+                        <span class="w-vals"></span>
+                        <span class="bracket">]</span>
+                    </div>
+                </div>
+
+                <div class="operator-sym">×</div>
+
+                <div class="matrix-box m-x">
+                    <div class="box-lbl x-lbl"></div>
+                    <div class="bracket-wrap">
+                        <span class="bracket">[</span>
+                        <span class="x-vals"></span>
+                        <span class="bracket">]</span>
+                    </div>
+                </div>
+
+                <div class="operator-sym">=</div>
+
+                <div class="matrix-box m-y">
+                    <div class="box-lbl y-lbl"></div>
+                    <div class="bracket-wrap">
+                        <span class="bracket">[</span>
+                        <span class="y-vals"></span>
+                        <span class="bracket">]</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <span class="takeaway-txt"></span>
+            </div>
+        </div>
+
+        <script>
+            const vars = window.__hyperframes ? window.__hyperframes.getVariables() : {};
+            document.querySelector(".kicker-txt").textContent = vars.kicker || "";
+            document.querySelector(".main-title").textContent = vars.matrix_title || "";
+            document.querySelector(".w-lbl").textContent = vars.matrix_a_label || "";
+            document.querySelector(".w-vals").textContent = vars.matrix_a_vals || "";
+            document.querySelector(".x-lbl").textContent = vars.vector_x_label || "";
+            document.querySelector(".x-vals").textContent = vars.vector_x_vals || "";
+            document.querySelector(".y-lbl").textContent = vars.result_label || "";
+            document.querySelector(".y-vals").textContent = vars.result_vals || "";
+            document.querySelector(".takeaway-txt").textContent = vars.takeaway || "";
+        </script>
+    </body>
+</html>

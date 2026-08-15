@@ -1,0 +1,6 @@
+{
+  "compositions": [
+    { "id": "main", "path": "index.html" },
+    { "id": "portrait", "path": "compositions/portrait.html" }
+  ]
+}

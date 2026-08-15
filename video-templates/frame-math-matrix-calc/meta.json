@@ -1,0 +1,18 @@
+{
+  "name": "frame-math-matrix-calc",
+  "description": "Biểu diễn phép nhân ma trận & biến đổi vector đại số tuyến tính phong cách Manim 3Blue1Brown",
+  "duration": 5,
+  "category": "math",
+  "tags": ["math", "manim", "matrix", "linear-algebra", "vector", "tensor", "academic"],
+  "inputs": {
+    "kicker": "ĐẠI SỐ TUYẾN TÍNH & TÍNH TOÁN MA TRẬN",
+    "matrix_title": "Biến Đổi Không Gian & Tích Vô Hướng Vector",
+    "matrix_a_label": "MA TRẬN TRỌNG SỐ W (2x2)",
+    "matrix_a_vals": "[ [0.85, -0.40], [0.30, 0.95] ]",
+    "vector_x_label": "VECTOR ĐẦU VÀO X (2x1)",
+    "vector_x_vals": "[ [1.5], [2.0] ]",
+    "result_label": "KẾT QUẢ ĐẦU RA Y = W • X",
+    "result_vals": "[ [0.475], [2.350] ]",
+    "takeaway": "Phép nhân ma trận xoay và kéo giãn không gian vector 2 chiều theo đúng ma trận biến đổi trọng số."
+  }
+}

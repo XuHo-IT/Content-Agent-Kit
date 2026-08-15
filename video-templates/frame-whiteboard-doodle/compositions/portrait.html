@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0" />
+        <title>Whiteboard Doodle & Sketch Explainer - Portrait</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Plus+Jakarta+Sans:wght@700;800&family=Caveat:wght@600;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                background: #fdfbf7;
+                color: #1e293b;
+                font-family: "Patrick Hand", cursive, sans-serif;
+                width: 1080px; height: 1920px;
+                overflow: hidden;
+            }
+            #root {
+                width: 100%; height: 100%; position: relative;
+                display: flex; flex-direction: column; justify-content: space-between;
+                padding: 96px 64px;
+            }
+
+            .paper-bg {
+                position: absolute; inset: 0; z-index: 0;
+                background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+                background-size: 32px 32px;
+                opacity: 0.6;
+            }
+
+            .header-bar {
+                position: relative; z-index: 2;
+                opacity: 0; animation: doodleDrop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+            }
+            .kicker-tag {
+                display: inline-block; background: #fef08a; color: #854d0e;
+                border: 2px dashed #ca8a04; border-radius: 8px;
+                padding: 8px 22px; font-size: 22px; font-weight: 700;
+                margin-bottom: 12px; transform: rotate(-2deg);
+            }
+            .main-title {
+                font-family: "Plus Jakarta Sans", sans-serif;
+                font-size: 48px; font-weight: 800; color: #0f172a;
+                line-height: 1.2; text-decoration: underline wavy #38bdf8 3px;
+            }
+
+            .doodles-col {
+                position: relative; z-index: 2;
+                display: flex; flex-direction: column; gap: 24px;
+                margin: 20px 0;
+            }
+            .doodle-card {
+                background: #ffffff;
+                border: 3px solid #1e293b;
+                border-radius: 18px; padding: 24px 28px;
+                box-shadow: 8px 8px 0px #0f172a;
+                display: flex; align-items: center; gap: 20px;
+                opacity: 0; transform: translateY(30px);
+            }
+            .c-1 { animation: cardSlam 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; transform: rotate(-1deg); }
+            .c-2 { animation: cardSlam 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both; transform: rotate(1.2deg); }
+            .c-3 { animation: cardSlam 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both; transform: rotate(-0.8deg); }
+
+            .doodle-icon-box {
+                width: 70px; height: 70px; flex-shrink: 0;
+                background: #e0f2fe; border: 2px solid #0284c7;
+                border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                font-size: 34px;
+            }
+            .doodle-card-title {
+                font-family: "Plus Jakarta Sans", sans-serif;
+                font-size: 24px; font-weight: 800; color: #0f172a; line-height: 1.2;
+                margin-bottom: 4px;
+            }
+            .doodle-card-desc {
+                font-size: 22px; font-weight: 600; color: #475569; line-height: 1.3;
+            }
+
+            .bottom-bar {
+                position: relative; z-index: 2;
+                background: #fffbeb; border: 3px dashed #f59e0b;
+                border-radius: 16px; padding: 24px 28px;
+                display: flex; flex-direction: column; gap: 10px;
+                opacity: 0; animation: doodleDrop 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+            }
+            .takeaway-text {
+                font-size: 26px; font-weight: 700; color: #92400e; line-height: 1.4;
+            }
+            .pin-stamp {
+                align-self: flex-start;
+                background: #ef4444; color: #ffffff;
+                font-size: 18px; font-weight: 700; padding: 4px 14px;
+                border-radius: 6px; transform: rotate(2deg);
+            }
+
+            @keyframes doodleDrop { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: none; } }
+            @keyframes cardSlam { from { opacity: 0; transform: translateY(30px) scale(0.9); } to { opacity: 1; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"BÀI HỌC THỰC CHIẾN // DOODLE","lesson_title":"3 Sai Lầm Chí Mạng Khi Bắt Đầu Đầu Tư","doodle_label_1":"01. Fomo Đu Đỉnh Theo Tin Tức","doodle_desc_1":"Mua vào khi thị trường đã tăng nóng hơn 80%.","doodle_label_2":"02. Không Đặt Điểm Cắt Lỗ Stop-Loss","doodle_desc_2":"Để khoản lỗ nhỏ 5% biến thành thảm họa 50%.","doodle_label_3":"03. Dồn Toàn Bộ Vốn Vào Một Mã","doodle_desc_3":"Thiếu phân bổ danh mục phòng ngừa rủi ro thiên nga đen.","takeaway":"Kỷ luật quản trị vốn quan trọng gấp 10 lần việc tìm kiếm siêu cổ phiếu."}'
+        >
+            <div class="paper-bg"></div>
+
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="main-title"></div>
+            </div>
+
+            <div class="doodles-col">
+                <div class="doodle-card c-1">
+                    <div class="doodle-icon-box">⚡</div>
+                    <div>
+                        <div class="doodle-card-title d1-lbl"></div>
+                        <div class="doodle-card-desc d1-dsc"></div>
+                    </div>
+                </div>
+
+                <div class="doodle-card c-2">
+                    <div class="doodle-icon-box">⚠️</div>
+                    <div>
+                        <div class="doodle-card-title d2-lbl"></div>
+                        <div class="doodle-card-desc d2-dsc"></div>
+                    </div>
+                </div>
+
+                <div class="doodle-card c-3">
+                    <div class="doodle-icon-box">🎯</div>
+                    <div>
+                        <div class="doodle-card-title d3-lbl"></div>
+                        <div class="doodle-card-desc d3-dsc"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="pin-stamp"><span class="ps-txt"></span></div>
+                <div class="takeaway-text"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.lesson_title);
+                set(".d1-lbl", v.doodle_label_1);
+                set(".d1-dsc", v.doodle_desc_1);
+                set(".d2-lbl", v.doodle_label_2);
+                set(".d2-dsc", v.doodle_desc_2);
+                set(".d3-lbl", v.doodle_label_3);
+                set(".d3-dsc", v.doodle_desc_3);
+                set(".ps-txt", "LƯU Ý QUAN TRỌNG");
+                set(".takeaway-text", v.takeaway);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

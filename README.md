@@ -2,7 +2,7 @@
 
 # content-agent-kit
 
-**Nói cho IDE agentic biết bạn muốn xuất bản gì. Nó đọc repo này rồi tự dựng agent.**
+**Bộ công cụ tự động hoá nội dung đa kênh: crawl bài, viết chuẩn SEO/GEO, duyệt bài tự động và tạo video 9:16 chuyên nghiệp.**
 
 [![CI](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml/badge.svg)](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg?style=flat-square)](LICENSE)
@@ -17,228 +17,121 @@
 
 ---
 
-Bộ kit tái sử dụng để **dựng agent nội dung tự động** trong IDE agentic (**Claude Code** và
-**Antigravity / Gemini**). Clone về, nói cho AI biết bạn muốn làm gì, nó đọc repo này rồi tự
-dựng một agent riêng cho dự án của bạn: một *playbook* (nguồn sự thật duy nhất), file trạng
-thái, script đăng bài, pipeline crawl tìm ý tưởng, đăng mạng xã hội, lịch chạy, một cổng review
-trước khi đăng — và nếu bạn cần, **video dọc 9:16 có giọng đọc thật, cảnh quay stock và ảnh
-chụp trang web**.
+Bộ kit giúp các IDE agentic (**Claude Code**, **Antigravity / Gemini**) tự động thiết lập và vận hành một AI Content Agent hoàn chỉnh: từ tìm kiếm ý tưởng, soạn thảo, thẩm định chất lượng, đăng mạng xã hội đến **dựng video ngắn 9:16 chất lượng cao** với 74 template HTML động, giọng đọc TTS tự nhiên, B-roll và chụp màn hình thực tế.
 
-## Xem thử đầu ra trước đã
+## Xem nhanh kết quả mẫu
 
-Trước khi bỏ công dựng agent, hãy xem thứ nó làm ra. Cùng **một nguồn** — công bố Claude Fable 5
-của Anthropic — cho ra **hai định dạng**:
-
-| | |
+| Định dạng | Mô tả & Đường dẫn |
 |---|---|
-| 📄 **[Bài viết mẫu](examples/ai-news-social/sample-output/)** | 951 từ tiếng Việt — thân bài là **văn bản thuần**, meta/slug nằm ở trường riêng; kèm comment engagement và bảng đối chiếu 10 tiêu chí rubric |
-| 🖼️ **[Ảnh cover](examples/ai-news-social/sample-output/cover.jpg)** | 1024×1024, đi kèm bài viết trên |
-| 🎬 **[Video mẫu](examples/ai-video-social/sample-output/)** | 2 phút 12 giây · 1080×1920 · giọng Vbee thật · B-roll Pexels · ảnh chụp trang gốc |
+| 📄 **Bài viết** | [Bài viết mẫu](examples/ai-news-social/sample-output/) — 951 từ chuẩn SEO/GEO, kèm comment tương tác và bảng kiểm định chất lượng |
+| 🖼️ **Ảnh bìa** | [Ảnh cover](examples/ai-news-social/sample-output/cover.jpg) — 1024×1024 đồng bộ phong cách bài viết |
+| 🎬 **Video 9:16** | [Video mẫu](examples/ai-video-social/sample-output/) — 2 phút 12 giây, giọng đọc Vbee, footage Pexels, chụp web trực tiếp |
+| 🎨 **Theme đổi màu** | [Bản paper-blue](examples/ai-video-social/sample-output-paper-blue/) — 16 scene, dùng 14 trong số 74 template, đổi sang nền trắng chữ xanh biển qua `"theme": "paper-blue"` |
 
-**[▶️ Tải video mp4 (15,5 MB)](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0)**
-· hoặc render lại chính nó: `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
+> **Tải video mẫu MP4:** [Releases v0.1.0](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0) hoặc render bằng lệnh:
+> `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
 
-Và một **[mẫu thể loại review](examples/ai-video-social/sample-review-rag/)** — 8 scene, 80 giây,
-mọi con số đều đo thật từ [RAG-EVAL-VN](https://github.com/XuHo-IT/RAG-EVAL-VN), dành hẳn một
-scene cho **cái giá phải trả**: review chỉ liệt kê điểm tốt là quảng cáo, người xem nhận ra ngay.
+---
 
-Cùng chủ đề tin tức còn có **[bản nền trắng chữ xanh biển](examples/ai-video-social/sample-output-paper-blue/)**
-— 16 scene, dùng 14 trong số 58 template, đổi hẳn bảng màu chỉ bằng `"theme": "paper-blue"`:
-**không fork template nào, không sửa một dòng CSS nào trong `video-templates/`.**
+## Thư viện 74 Video Template (Phân loại theo chức năng)
 
-Và **[mẫu GEO](examples/ai-video-social/sample-geo/)** — hai thứ khác hẳn nhau cùng tên viết
-tắt, để chung một chỗ cho khỏi làm nhầm: thể loại video `local` (câu chuyện nằm ở *nơi chốn*),
-và `geo-audit.mjs` chấm xem một bài **bị trích ra một đoạn** thì còn nghĩa không. Đọc theo thứ
-tự `post-draft.md` → `geo-report.md` → `post-fixed.md` là thấy hết ý.
+Toàn bộ 74 template được chia thành **8 danh mục trực quan** với màu sắc và phong cách thiết kế riêng biệt:
 
-### Năm mươi tám template, xếp theo việc chúng làm
+### 1. 🌟 Khung Mở Đầu & Hook Thu Hút (Hooks & Heroes — 8 template)
+[![Khung Mở Đầu & Hook](examples/gallery/gallery-hooks.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-liquid-bg-hero`, `frame-bold-poster`, `frame-glitch-title`, `frame-creative-voltage`, `frame-vox-collage`, `frame-vox-split-screen`, `frame-ui-glass-dashboard`, `frame-3d-spotlight`.*
 
-[![Toàn bộ 58 template](examples/gallery/templates.jpg)](video-templates/CATALOG.md)
+### 2. 📰 Phóng Sự Điều Tra & Báo Chí (Vox, Statements & Typography — 9 template)
+[![Phóng Sự Điều Tra & Báo Chí](examples/gallery/gallery-vox.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-kinetic-type`, `frame-build-minimal`, `frame-vignelli`, `frame-analog-grain`, `frame-vox-highlighter`, `frame-vox-pull-quote`, `frame-vox-investigation-board`, `frame-vox-declassified`, `frame-vox-newspaper-tear`.*
 
-Hàng 1 **mở đầu**, **phát biểu** và **tài liệu** · hàng 2 & 3 **dữ liệu**, **bản đồ** và **bằng chứng** · hàng 4 **chiều sâu**, **con người** và **địa điểm / FAQ** · hàng 5 & 6 **sơ đồ**, **trình tự**, **lộ diện** và **kết**. Mỗi ô ghi tên khung
-của chính nó, nên nhìn ảnh là chọn được, không phải đếm ngược lên phần chữ.
+### 3. 📊 Số Liệu, Biểu Đồ & Phân Tích Kỹ Thuật (Data, Charts & Analytics — 13 template)
+[![Số Liệu & Biểu Đồ](examples/gallery/gallery-data.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-chart-bars`, `frame-pentagram-stat`, `frame-trend-line`, `frame-dashboard`, `frame-split-compare`, `frame-timeline`, `frame-node-graph`, `frame-hud`, `frame-funnel`, `frame-progress`, `frame-draw-on`, `frame-vox-data-callout`, `frame-canvas-gauge-dial`.*
 
-Trước đây chỗ này là ba dải xếp theo *đợt thêm vào* — "năm cái mới nhất", "bốn cái trước
-đó", "và bốn cái trước nữa". Người đi chọn khung không quan tâm cái nào ra mắt lúc nào.
+### 4. 🧠 Sơ Đồ Tư Duy & Toán Học Manim (Diagrams, Math & Architecture — 8 template)
+[![Sơ Đồ Tư Duy & Toán Học](examples/gallery/gallery-diagrams.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-diagram-flywheel`, `frame-diagram-quadrant`, `frame-diagram-radar`, `frame-diagram-architecture`, `frame-diagram-flowchart`, `frame-math-manim`, `frame-math-graph-plot`, `frame-math-matrix-calc`.*
 
-Bốn ô `frame-broll`, `frame-media-inset`, `frame-screenshot`, `frame-3d-device` là khung
-**nhận footage** — chữ là của chúng, hình là của bạn. Ảnh trong đó **mượn từ chính video
-mẫu**: cảnh quay là một khung của clip Pexels dùng ở scene 14, ảnh chụp màn hình là trang
-mà `frame-screenshot` vốn đã ghi sẵn trong slot `url` của nó. Slot và giới hạn ký tự từng
-cái ở **[`CATALOG.md`](video-templates/CATALOG.md)**.
+### 5. 💻 Footage, IDE Lập Trình, Thiết Bị & 3D (Footage, IDE & 3D — 10 template)
+[![Footage, IDE & 3D](examples/gallery/gallery-ui.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-screenshot`, `frame-3d-device`, `frame-terminal`, `frame-ui-terminal-ide`, `frame-broll`, `frame-media-inset`, `frame-3d-flip`, `frame-3d-stack`, `frame-3d-perspective-card`, `frame-presentation-slide`.*
 
-Ảnh này dựng lại được bằng một lệnh, và **tự lấy giá trị mặc định của từng template** nên
-không cần chép nội dung ra chỗ thứ hai:
+### 6. 🗺️ Bản Đồ, Địa Lý & Lịch Trình (GEO, Radar, Heatmap & Local — 10 template)
+[![Bản Đồ & Lịch Trình GEO](examples/gallery/gallery-geo.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-geo-markers`, `frame-geo-route`, `frame-geo-region-stat`, `frame-geo-local-card`, `frame-geo-faq-direct`, `frame-geo-itinerary`, `frame-geo-versus-city`, `frame-geo-pin-detail`, `frame-geo-heatmap`, `frame-geo-sonar-radar`.*
 
+### 7. 🏆 Trình Tự, Bài Tập Thể Thao, Hoạt Hình & Đóng Video (Sequences, Proof & Closers — 14 template)
+[![Trình Tự & Đóng Video](examples/gallery/gallery-sequences.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-step-list`, `frame-checklist`, `frame-myth-fact`, `frame-aicoding-list`, `frame-aicoding-comparison`, `frame-quote-testimonial`, `frame-chat-bubbles`, `frame-review-verdict`, `frame-fitness-workout`, `frame-whiteboard-doodle`, `frame-2d-sprite-mascot`, `frame-product-reveal`, `frame-logo-outro`, `frame-statement-outro`.*
+
+### 8. ⚡ Template Hybrid Đa Kỹ Năng (Multi-Skill Hybrid — 2 template)
+[![Template Hybrid](examples/gallery/gallery-hybrid.jpg)](video-templates/CATALOG.md)
+*Gồm: `frame-hybrid-vox-geo` (Báo chí Vox + Bản đồ Radar vệ tinh), `frame-hybrid-math-diagram` (Kiến trúc hệ thống + Đạo hàm giải tích Manim).*
+
+> Chi tiết tham số slots và giới hạn ký tự: **[`video-templates/CATALOG.md`](video-templates/CATALOG.md)**.
+> Xem cấu trúc kịch bản theo 12 thể loại video: **[`docs/21-video-genres.md`](docs/21-video-genres.md)** & **[`templates/VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**.
+
+---
+
+## Cấu trúc Bộ Kit
+
+| Thư mục | Chức năng chính |
+|---|---|
+| `docs/` | 22 tài liệu phương pháp luận ngắn gọn (bilingual EN + VI): viết bài chuẩn SEO, GEO audit, pipeline video, media stock, palette website, MCP quảng cáo/Canva |
+| `templates/` | Khung mẫu điền sẵn: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 ngành) |
+| `scripts/` | Công cụ CLI hoàn chỉnh (Zero dependency): crawl ý tưởng, publish social, kiểm định bài viết, render video, tải B-roll Pexels, chụp ảnh web |
+| `video-templates/` | 74 template video HTML một-file cùng **`CATALOG.md`** — mỗi template tự chứa CSS và animation, render offline mượt mà. 176 template nữa chỉ cách một câu lệnh. |
+| `skills/` | 14 skill tích hợp: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template` + `registry.json` (23 skill ngoài tải theo yêu cầu). |
+| `examples/` | 2 agent mẫu chạy thực tế: Agent tin tức social và Agent sản xuất video ngắn |
+
+---
+
+## Bắt đầu nhanh trong 3 bước
+
+### 1. Khởi tạo Agent mới
+- **Claude Code:** Chạy `/bootstrap-content-agent` — AI sẽ phỏng vấn ngành nghề và mục tiêu để scaffold toàn bộ agent.
+- **Antigravity / Gemini:** Nhập yêu cầu: *"Đọc `AGENTS.md` và `docs/`, sau đó tạo cho tôi một agent nội dung cho chủ đề [X]."*
+
+### 2. Vận hành hằng ngày
+- Chạy lệnh `/daily-run` để AI tự động crawl ý tưởng mới, viết bài, thẩm định qua cổng review và lên lịch đăng.
+
+### 3. Tạo Video Ngắn (Nếu cần)
 ```bash
-node scripts/video/template-sheet.mjs --preset all --per-row 10 --width 126 \
-  --out examples/gallery/templates.jpg
+# 1. Kiểm tra kịch bản (vài giây)
+node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
+
+# 2. Render video hoàn chỉnh (kèm giọng đọc TTS và footage)
+node scripts/video/render.mjs brain/<slug>/script.json
+
+# 3. Tạo ảnh contact sheet xem lại toàn bộ khung hình
+node scripts/video/contact-sheet.mjs brain/<slug>/video.mp4
 ```
 
-`--per-row 10 --width 126` không phải mặc định — mặc định là 4 và 240, xếp bốn mươi ô 9:16
-thành một cột cao 4520px phải cuộn mới hết. Mười ô một hàng giữ ảnh đúng bề ngang 1260px
-như xưa nay.
+---
 
-Cùng công cụ đó xem trước một script mà **không tốn một ký tự TTS nào**:
+## Điểm nổi bật & Tính năng cốt lõi
 
-```bash
-node scripts/video/template-sheet.mjs --script brain/<slug>/script.json --out frames.jpg
-```
-
-**Ngành của bạn viết và quay khác nhau thế nào?**
-**[`INDUSTRIES.template.json`](templates/INDUSTRIES.template.json)** có 16 ngành, mỗi ngành
-gồm **cả hai vế**: loại bài nên viết, cái gì tính là bằng chứng, cái gì phải tránh — rồi mới
-tới genre video, bộ khung và bảng màu.
-
-Ba ngành bị quản lý (**y tế · tài chính · bất động sản**) có thêm mục `legal` **kèm đường dẫn
-nguồn**: cấm quảng cáo thực phẩm chức năng như thuốc, cấm dùng hình ảnh nhân viên y tế, cấm
-cam kết lợi nhuận, cấm rao dự án chưa đủ điều kiện. Phần đó đọc từ nguồn thật chứ không viết
-theo trí nhớ — và test bắt buộc mỗi câu như vậy phải có link.
-
-Trường `missing` của từng ngành là **hàng đợi dựng thêm**, không phải lời than: gộp lại chỉ
-còn sáu họ khung, chứ không phải bảy mươi.
-
-Không biết dùng khung nào cho loại video nào? **[`docs/21-video-genres.md`](docs/21-video-genres.md)** và **[`VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**
-có sẵn trình tự cho bảy thể loại: review, hướng dẫn, bản tin, listicle, ra mắt, testimonial và
-**`local`** — thể loại mà câu chuyện chính là *ở đâu*.
-
-## Mô hình vận hành
-
-```
-                       ┌──────────── PLAYBOOK.md (nguồn sự thật duy nhất) ───────────┐
-                       │  nhịp đăng · schema · chuẩn chất lượng · bậc · dọn dẹp     │
-                       └─────────────────────────────────────────────────────────────┘
- (tuỳ chọn)                                     │ AI đọc lại mỗi lượt chạy
- [cron] → crawl.py (crawl4ai) → hàng đợi ý tưởng┤
-          sources.yaml, dedup qua queue API     ▼
-                              fan-out subagent → cổng REVIEW → đăng web + social (Make.com)
-                                     │                              │
-                              trạng thái: queue/ledger/history  báo cáo → brain/<id>/report.md
-
- (tuỳ chọn) item VIDEO đi thêm hai chặng trước cổng review:
-     script.json → validate-script.mjs → resolve media ──► render.mjs → video.mp4
-     (AI viết)     schema + luật craft    Pexels/Pixabay    TTS · SFX · template
-                                          + ảnh chụp        · ffmpeg
-```
-
-**Tám ý tưởng cốt lõi**, rút ra từ những agent chạy thật — chi tiết ở [`docs/`](docs/):
-
-| | |
+| Tính năng | Chi tiết |
 |---|---|
-| **Playbook là nguồn sự thật** | Agent đọc lại `PLAYBOOK.md` mỗi lượt, không dựa vào trí nhớ hội thoại |
-| **Trạng thái là file phẳng** | `queue` · `ledger` · `history`. Mọi thao tác idempotent — `409` nghĩa là "xong rồi" |
-| **Cổng review** | Một subagent độc lập duyệt trước khi đăng; trượt → sửa 2–3 vòng → bỏ và ghi log |
-| **Chất lượng viết được cưỡng chế** | `WRITING_CRAFT.md` đọc *trước khi* viết, rubric đo được chấm *trước khi* đăng |
-| **Bài đăng là văn bản thuần** | Caption không render markdown; `validate-post.mjs` chặn trước khi gửi |
-| **Bí mật chỉ nằm trong env** | Không token hay URL nào hardcode; thiếu biến thì báo lỗi rõ, không âm thầm thay thế |
-| **Lịch chạy** | `cron` GitHub Actions, `schtasks` Windows, hoặc scheduler in-process |
-| **Video: AI viết, code dựng** | AI lo `script.json`; validator biến luật soạn thảo thành lỗi máy kiểm được, nên script sai hỏng trong vài giây thay vì sau năm phút render |
+| **6 bộ giọng đọc TTS** | Tích hợp OmniVoice (local miễn phí), Vbee, Viettel AI, FPT AI, ElevenLabs, HTTP custom adapter |
+| **Cảnh quay & Ảnh thật** | Tự động tải B-roll Pexels/Pixabay và chụp ảnh website thực tế qua headless Chrome |
+| **Phụ đề & Chuyển cảnh** | Đốt phụ đề trực tiếp (`--captions burn`), 5 hiệu ứng chuyển cảnh điện ảnh mượt mà |
+| **Bảng màu tự động** | Trích xuất bảng màu thương hiệu từ website bất kỳ bằng `theme-from-url.mjs` |
+| **74 template, 12 thể loại** | Hỗ trợ 12 thể loại video: Review, Hướng dẫn, Tin tức, Listicle, Ra mắt, Testimonial, Local GEO, Vox Explainer, Toán học, Kiến trúc, Du lịch |
+| **Kiểm định GEO/SEO** | `geo-audit.mjs` tự động chấm điểm khả năng trích dẫn bài viết của các công cụ tìm kiếm AI (SearchGPT, Perplexity, Google Overviews) |
 
-## Bắt đầu nhanh
+---
 
-**Claude Code**
+## Yêu cầu môi trường
 
-1. Clone repo này cạnh (hoặc vào trong) dự án của bạn.
-2. Copy skill: `cp -r skills/* .claude/skills/` (hoặc trỏ Claude Code vào đó).
-3. Chạy meta-skill **`/bootstrap-content-agent`** — AI phỏng vấn bạn rồi dựng agent mới.
+- **Node.js ≥ 18** (Bắt buộc cho mọi tác vụ)
+- **Chrome/Chromium + FFmpeg/ffprobe** (Khi render video)
+- **Python 3.12** (Chỉ khi sử dụng module crawl mở rộng `crawl4ai`)
 
-**Antigravity / Gemini**
+> **Không cần `npm install` hay `package.json`**: Bộ kit hoạt động độc lập, sẵn sàng tái sử dụng cho mọi dự án.
 
-1. Clone repo này vào workspace.
-2. Bảo agent: *"Đọc `AGENTS.md` và `docs/`, rồi dựng cho tôi một agent làm việc X."*
-3. Nó đọc `skills/bootstrap-content-agent/SKILL.md` như một tài liệu chỉ dẫn thông thường.
+## Giấy phép & Đóng góp
 
-Hằng ngày thì chạy **`/daily-run`** — hoặc `schedule-prompt.md` được sinh ra, đặt trên cron.
-
-## Bên trong có gì
-
-| Đường dẫn | Nội dung |
-|---|---|
-| `docs/` | Phương pháp luận, song ngữ EN + VI, 22 tài liệu ngắn — gồm **`12-writing-craft.md`**, `14-video-generation.md`, **`15-media-sources.md`** (B-roll và ảnh chụp), **`16-template-registry.md`**, **`17-skills-registry.md`**, **`18-ads-and-marketing.md`**, **`19-design-canva.md`**, **`20-video-backends.md`**, **`21-video-genres.md`** và **`22-repurposing.md`**. |
-| `templates/` | Khung điền sẵn: `PLAYBOOK`, **`WRITING_CRAFT`**, **`VIDEO_CRAFT`**, `KNOWLEDGE`, **`VIDEO_SCRIPT.json`**, `sources.yaml`, file trạng thái, workflow cron. |
-| `scripts/` | CLI **chạy được thật**: publish/append/update, queue client, `social/make-post` (ảnh **hoặc video**, đa nền tảng), `crawl/crawl.py`, `audit-quality`, scheduler, **`video/`** (validate, render, `tts-check`, `contact-sheet`, `add-template`) và **`media/`** (B-roll kho mở, ảnh chụp web, host upload). Tất cả env-only. |
-| `video-templates/` | 58 template video HTML một-file cùng **`CATALOG.md`** — đủ slot và giới hạn ký tự từng cái. Mỗi file tự chứa CSS và animation, nhưng vẫn `<link>` font từ Google Fonts nên lúc render cần mạng. 176 template nữa chỉ cách một câu lệnh. |
-| `skills/` | 14 skill cho Claude Code: **`bootstrap-content-agent`** (meta-skill), `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, **`create-video`**, **`video-and-post`**, **`research-and-capture`**, **`ads-report`**, **`design-campaign`**, **`repurpose`**, **`new-template`**, **`motion-craft`**, **`geo-optimize`** — cộng `registry.json` liệt kê 18 skill ngoài tải theo yêu cầu. |
-| `examples/ai-news-social/` | Một agent mẫu hoàn chỉnh: agent tin AI (crawl → viết → ảnh → web + Make.com → cron). |
-| `examples/ai-video-social/` | Bản video của agent đó: crawl → `script.json` → render 9:16 → TikTok / Shorts / Reels. |
-
-## Video
-
-Tuỳ chọn. Ba bộ dựng — `html` (mặc định, miễn phí, Chrome + FFmpeg), `api` (Veo/Imagen, **tính
-tiền theo giây**), `remotion`. `script.json` giữ nguyên định dạng cho cả ba.
-
-```bash
-node scripts/video/tts-check.mjs                                          # nghe thử giọng
-node scripts/video/validate-script.mjs brain/<slug>/script.json --strict   # vài giây
-node scripts/video/render.mjs          brain/<slug>/script.json            # ~3–5 phút
-node scripts/video/contact-sheet.mjs   brain/<slug>/video.mp4              # rồi NHÌN nó
-```
-
-| | |
-|---|---|
-| **6 nhà cung cấp giọng** | `omnivoice` (local, miễn phí) · elevenlabs · vbee · fptai · viettel · `http` (adapter env-only). Lời đọc được đánh vân tay nên đổi giọng chỉ đọc lại phần cần |
-| **Cảnh quay và ảnh chụp thật** | Pexels/Pixabay + Chrome headless. Ghim vào `media-lock.json` → cùng script cho ra cùng video |
-| **Phụ đề tự ra, không cần CapCut** | `--captions burn` đốt thẳng vào hình. Mốc đầu mỗi cảnh chính xác tuyệt đối; trong cảnh chia theo số ký tự — nói rõ là ước lượng chứ không phải forced alignment |
-| **Chuyển cảnh** | `fade · swipe · slide · iris · pixelize`. Thời lượng video **không đổi** — phần đệm được tính để phần chồng ăn lại đúng bằng nó |
-| **Bảng màu từ website của bạn** | `theme-from-url.mjs --url <site>` đọc nền/mực/nhấn ngay trên trang, theo đúng luật tương phản WCAG mà validator đang áp |
-| **Robot canh kho template** | 176 template upstream, và con số đó từng sai ở 9 chỗ trong docs. `registry-watch.mjs` chạy hằng ngày, so với snapshot đã commit rồi mở đúng 1 PR khi upstream đổi — nó **báo**, không tự thêm |
-| **58 template, 12 thể loại** | `VIDEO_GENRES.template.json` trả lời "làm review thì dùng khung nào, theo thứ tự nào" |
-| **Viết cho máy trả lời trích được** | `geo-audit.mjs` chấm bài theo luật, không cần AI: câu trả lời có nằm ngay sau tiêu đề không, đoạn có đứng một mình được không, số có nguồn đi kèm không. Hỏng luật `must` thì exit 1 — dùng làm cổng |
-| **Một bảng màu cho cả video** | `"theme": "paper-blue"` sơn lại toàn bộ trên **bản sao tạm**; chiều lật sáng/tối là **đo bằng Chrome**, không đoán từ CSS |
-| **Nhìn lại thứ vừa làm ra** | `contact-sheet.mjs` gom mỗi scene một khung vào một ảnh. Bốn lỗi từng lọt qua mọi luật đều lộ ra trong một cái nhìn |
-
-Render cần máy thật — **GitHub Actions không làm được**.
-Chi tiết: [`docs/14-video-generation.md`](docs/14-video-generation.md) ·
-[`docs/20-video-backends.md`](docs/20-video-backends.md) ·
-[`docs/16-template-registry.md`](docs/16-template-registry.md)
-
-## Yêu cầu
-
-| | Khi nào cần |
-|---|---|
-| **Node ≥ 18** | luôn luôn |
-| Python 3.12 + `scripts/crawl/requirements.txt` | chỉ khi crawl tìm ý tưởng |
-| **FFmpeg + ffprobe** và **Chrome/Chromium** | chỉ khi dùng pipeline video |
-| API key TTS *hoặc* server OmniVoice local | chỉ khi render video thật |
-
-**Không `package.json`, không `node_modules`** — đó là lý do kit copy được vào bất kỳ dự án nào
-mà không cần bước cài. Thứ duy nhất không tự viết lại được, engine HTML→MP4, do `npx` tải lúc
-render và đã ghim phiên bản. Ràng buộc này chịu lực thật: phần ký AWS SigV4 cho Cloudflare R2
-viết bằng `node:crypto` và đối chiếu với chính vector chuẩn AWS công bố
-(`node scripts/media/host-check.mjs --selftest`).
-
-## An toàn
-
-- **Không bao giờ commit `.env`.** Script chỉ đọc env; thiếu biến thì báo lỗi rõ ràng, không âm thầm thay thế.
-- **URL webhook Make.com chính là bí mật** — nó không có header xác thực. Ai biết URL thì đăng được lên kênh của bạn. Đối xử với nó như mật khẩu.
-- **Bản quyền:** crawler chỉ lưu **trích đoạn** (≤1500 ký tự) kèm link nguồn, không bao giờ lưu toàn văn. Hãy viết lại và tóm tắt bằng lời của bạn.
-
-Mô hình đầy đủ và cách báo lỗi bảo mật: **[`SECURITY.md`](SECURITY.md)**.
-
-## Đóng góp
-
-Đóng góp giá trị nhất đến từ người đã thực sự chạy nó — một nhà cung cấp giọng ở nước bạn, một
-template mới, một luật craft mà bạn thấy AI hay vi phạm. **Không có bước cài đặt**: clone rồi
-chạy; CI cũng chạy offline, không cần key nào.
-
-[Issues](https://github.com/XuHo-IT/Content-Agent-Kit/issues) ·
-[Discussions](https://github.com/XuHo-IT/Content-Agent-Kit/discussions) ·
-[`CONTRIBUTING.md`](CONTRIBUTING.md) · lỗi bảo mật thì **đừng mở issue**, xem
-[`SECURITY.md`](SECURITY.md)
-
-**Adapter chưa kiểm chứng:** Cloudflare R2, Cloudinary, Viettel AI và backend video `api` viết
-theo tài liệu chính thức nhưng **chưa từng chạy với credential thật**. Chúng tự khai điều đó
-(`host-check.mjs --hosts`, `tts-check.mjs --providers`, `docs/20`). Có tài khoản và xác nhận
-được một cái chạy? PR đổi cờ ấy là đóng góp rất được việc.
-
-## Giấy phép
-
-MIT — xem [`LICENSE`](LICENSE).
-
-Pipeline video và các template kế thừa từ mã nguồn mở MIT / Apache-2.0
-([AI-auto-generate-video](https://github.com/huytranvan2010/AI-auto-generate-video),
-[nexu-io/html-video](https://github.com/nexu-io/html-video),
-[heygen-com/hyperframes](https://github.com/heygen-com/hyperframes)). Phần ghi công nằm ở
-**[`NOTICE.md`](NOTICE.md)** và trong từng `video-templates/*/NOTICE.md`, bản đầy đủ của
-Apache-2.0 nằm ở [`LICENSES/Apache-2.0.txt`](LICENSES/Apache-2.0.txt) — hãy giữ nguyên các
-file đó, chúng là **điều kiện giấy phép** chứ không phải phép lịch sự.
+- Giấy phép: **MIT** (xem [`LICENSE`](LICENSE)).
+- Phần ghi công và mã nguồn kế thừa: xem **[`NOTICE.md`](NOTICE.md)**.

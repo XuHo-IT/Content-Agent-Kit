@@ -1,0 +1,18 @@
+{
+  "name": "frame-hybrid-math-diagram",
+  "description": "Template Hybrid đa kỹ năng kết hợp sơ đồ luồng kiến trúc hệ thống bên trái và công thức đạo hàm toán học Manim bên phải",
+  "duration": 5,
+  "category": "hybrid",
+  "tags": ["hybrid", "math", "diagram", "manim", "architecture", "flowchart", "formula", "academic"],
+  "inputs": {
+    "kicker": "KIẾN TRÚC HỆ THỐNG & NỀN TẢNG TOÁN HỌC",
+    "hybrid_title": "Luồng Lan Truyền Ngược & Tối Ưu Hóa Gradient",
+    "step_1_node": "1. Forward Pass (Kích Hoạt Ma Trận A = σ(W • X))",
+    "step_2_node": "2. Tính Hàm Mất Mát Loss L(y, ŷ)",
+    "step_3_node": "3. Backward Pass (Lan Truyền Ngược ∂L/∂W)",
+    "math_formula_main": "∇L_W = (1/m) • (A - Y) • X^T",
+    "math_update_rule": "W_mới = W_cũ - η • ∇L_W",
+    "learning_rate": "Tốc Độ Học η = 0.001 • Momentum β = 0.9",
+    "takeaway": "Quy trình kết hợp chặt chẽ giữa thiết kế mạng nơ-ron và đạo hàm ma trận giúp tối ưu hội tụ sau 50 epoch."
+  }
+}

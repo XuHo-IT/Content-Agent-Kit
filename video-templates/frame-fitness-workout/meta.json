@@ -1,0 +1,16 @@
+{
+  "title": "Fitness Workout & Exercise Breakdown",
+  "description": "High-energy workout coaching card with muscle group tag, interval timer circle, sets/reps telemetry and form tips inspired by exercises-dataset.",
+  "category": "Health & Fitness",
+  "tags": ["fitness", "workout", "gym", "timer", "health", "exercise"],
+  "defaultVariables": {
+    "kicker": "GIÁO ÁN TĂNG CƠ GIẢM MỠ // HYPERTROPHY",
+    "exercise_name": "Barbell Incline Bench Press",
+    "muscle_target": "NGỰC TRÊN · VAI TRƯỚC",
+    "reps_sets": "4 HIỆP × 10-12 LẦN",
+    "timer_text": "45 GIÂY NGHỈ",
+    "intensity_level": "RPE 8.5 · MEDIUM-HEAVY",
+    "form_tip": "Gồng chặt cơ core, hạ tạ kiểm soát 3 giây chạm nhẹ ngực trên trước khi đẩy bộc phát lên.",
+    "takeaway": "Tập trung tối đa vào kỹ thuật hạ tạ eccentric để kích hoạt vi tổn thương sợi cơ hiệu quả nhất."
+  }
+}

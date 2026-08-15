@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0" />
+        <title>Circular Gauge & Speedometer Telemetry - Portrait</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                background: #080c14;
+                color: #f8fafc;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                width: 1080px; height: 1920px;
+                overflow: hidden;
+            }
+            #root {
+                width: 100%; height: 100%; position: relative;
+                display: flex; flex-direction: column; justify-content: space-between;
+                padding: 96px 64px;
+            }
+
+            .ambient-glow {
+                position: absolute; left: 10%; top: 25%; width: 500px; height: 500px;
+                background: radial-gradient(circle, rgba(14, 165, 233, 0.15), transparent 70%);
+                filter: blur(60px); pointer-events: none;
+            }
+
+            .header-bar {
+                position: relative; z-index: 2;
+                opacity: 0; animation: fadeDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+            }
+            .kicker-tag {
+                display: inline-flex; align-items: center; gap: 8px;
+                background: rgba(14, 165, 233, 0.15); color: #38bdf8;
+                border: 1px solid rgba(14, 165, 233, 0.4); border-radius: 9999px;
+                padding: 8px 22px; font-family: "JetBrains Mono", monospace;
+                font-size: 18px; font-weight: 700; letter-spacing: 1.5px;
+                text-transform: uppercase; margin-bottom: 16px;
+            }
+            .main-title {
+                font-size: 48px; font-weight: 800; letter-spacing: -0.02em;
+                color: #ffffff; line-height: 1.2; margin-bottom: 14px;
+            }
+            .status-pill {
+                display: inline-block; background: rgba(16, 185, 129, 0.15); color: #34d399;
+                border: 1px solid rgba(16, 185, 129, 0.4); border-radius: 8px;
+                padding: 8px 18px; font-family: "JetBrains Mono", monospace;
+                font-size: 16px; font-weight: 700;
+            }
+
+            .gauge-panel {
+                position: relative; z-index: 2;
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+                margin: 20px 0;
+            }
+            .gauge-wrapper {
+                position: relative; width: 440px; height: 360px;
+                display: flex; flex-direction: column; align-items: center; justify-content: center;
+                opacity: 0; animation: popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+            }
+            .gauge-svg { width: 420px; height: 280px; overflow: visible; }
+            .gauge-track { fill: none; stroke: #1e293b; stroke-width: 24; stroke-linecap: round; }
+            .gauge-fill {
+                fill: none; stroke: url(#gaugeGradV); stroke-width: 24; stroke-linecap: round;
+                stroke-dasharray: 600; stroke-dashoffset: 600;
+                animation: fillGauge 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+            }
+            .gauge-needle {
+                transform-origin: 210px 210px;
+                animation: sweepNeedle 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+            }
+            .needle-line { stroke: #f43f5e; stroke-width: 4; stroke-linecap: round; filter: drop-shadow(0 0 8px #f43f5e); }
+            .needle-hub { fill: #f43f5e; stroke: #ffffff; stroke-width: 3; }
+
+            .gauge-center-hud {
+                position: absolute; bottom: 30px;
+                display: flex; flex-direction: column; align-items: center;
+            }
+            .val-digital {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 60px; font-weight: 900; color: #ffffff;
+                text-shadow: 0 0 20px rgba(56, 189, 248, 0.6);
+            }
+            .unit-digital {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 16px; font-weight: 700; color: #38bdf8; letter-spacing: 2px;
+            }
+            .scale-min-max {
+                width: 380px; display: flex; justify-content: space-between;
+                font-family: "JetBrains Mono", monospace; font-size: 15px; font-weight: 700; color: #64748b;
+                margin-top: 10px;
+            }
+
+            .specs-col {
+                position: relative; z-index: 2;
+                display: flex; flex-direction: column; gap: 20px;
+            }
+            .spec-card {
+                background: rgba(15, 23, 42, 0.85);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 18px; padding: 24px 28px;
+                display: flex; justify-content: space-between; align-items: center;
+                backdrop-filter: blur(16px);
+                opacity: 0; transform: translateY(20px);
+            }
+            .sc-1 { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both; border-left: 6px solid #38bdf8; }
+            .sc-2 { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both; border-left: 6px solid #a855f7; }
+
+            .spec-name { font-size: 18px; font-weight: 700; color: #94a3b8; }
+            .spec-val-txt {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 32px; font-weight: 900; color: #ffffff;
+            }
+
+            .bottom-bar {
+                position: relative; z-index: 2;
+                background: rgba(30, 41, 59, 0.85);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px; padding: 26px 32px;
+                opacity: 0; animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.1s both;
+            }
+            .takeaway-text {
+                font-size: 24px; font-weight: 600; color: #e2e8f0; line-height: 1.4;
+            }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: none; } }
+            @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+            @keyframes fillGauge { to { stroke-dashoffset: 80; } }
+            @keyframes sweepNeedle { from { transform: rotate(-120deg); } to { transform: rotate(70deg); } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"ĐO LƯỜNG TỐC ĐỘ XỬ LÝ // BENCHMARK","dial_title":"Kiểm Tra Băng Thông Xử Lý Throughput","gauge_value":"94.8","gauge_unit":"REQ / MS","min_label":"0 MIN","max_label":"100 MAX","status_badge":"PERFORMANCE: OPTIMAL (TOP 1%)","spec_1_label":"ĐỘ TRỄ P99","spec_1_val":"14.2ms","spec_2_label":"TIÊU THỤ CPU","spec_2_val":"38.5%","takeaway":"Tốc độ phản hồi đạt mức kỷ lục 94.8 req/ms mà không hề xảy ra tình trạng rớt gói tin."}'
+        >
+            <div class="ambient-glow"></div>
+
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="main-title"></div>
+                <div class="status-pill"><span class="status-txt"></span></div>
+            </div>
+
+            <div class="gauge-panel">
+                <div class="gauge-wrapper">
+                    <svg class="gauge-svg" viewBox="0 0 420 280">
+                        <defs>
+                            <linearGradient id="gaugeGradV" x1="0" y1="0" x2="1" y2="0">
+                                <stop offset="0%" stop-color="#38bdf8" />
+                                <stop offset="70%" stop-color="#34d399" />
+                                <stop offset="100%" stop-color="#f43f5e" />
+                            </linearGradient>
+                        </defs>
+                        <path class="gauge-track" d="M 50,210 A 160,160 0 1,1 370,210" />
+                        <path class="gauge-fill" d="M 50,210 A 160,160 0 1,1 370,210" />
+                        <g class="gauge-needle">
+                            <line class="needle-line" x1="210" y1="210" x2="210" y2="60" />
+                            <circle class="needle-hub" cx="210" cy="210" r="10" />
+                        </g>
+                    </svg>
+
+                    <div class="gauge-center-hud">
+                        <div class="val-digital g-val"></div>
+                        <div class="unit-digital g-unit"></div>
+                    </div>
+
+                    <div class="scale-min-max">
+                        <span class="min-txt"></span>
+                        <span class="max-txt"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="specs-col">
+                <div class="spec-card sc-1">
+                    <div class="spec-name s1-lbl"></div>
+                    <div class="spec-val-txt s1-val"></div>
+                </div>
+
+                <div class="spec-card sc-2">
+                    <div class="spec-name s2-lbl"></div>
+                    <div class="spec-val-txt s2-val"></div>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="takeaway-text"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.dial_title);
+                set(".status-txt", v.status_badge || "OPTIMAL");
+                set(".g-val", v.gauge_value);
+                set(".g-unit", v.gauge_unit);
+                set(".min-txt", v.min_label);
+                set(".max-txt", v.max_label);
+                set(".s1-lbl", v.spec_1_label);
+                set(".s1-val", v.spec_1_val);
+                set(".s2-lbl", v.spec_2_label);
+                set(".s2-val", v.spec_2_val);
+                set(".takeaway-text", v.takeaway);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "frame-math-graph-plot",
+  "description": "Khảo sát hàm số giải tích phong cách Manim 3Blue1Brown với hệ trục toạ độ Oxy, đường cong hàm số và tiếp tuyến đạo hàm",
+  "duration": 5,
+  "category": "math",
+  "tags": ["math", "manim", "calculus", "graph", "formula", "derivative", "academic"],
+  "inputs": {
+    "kicker": "GIẢI TÍCH & KHẢO SÁT HÀM SỐ",
+    "formula_title": "Đạo Hàm & Điểm Cực Trị Toàn Cục",
+    "latex_func": "f(x) = x³ - 3x² + 2x + 1",
+    "latex_derivative": "f'(x) = 3x² - 6x + 2 = 0",
+    "critical_point_1": "Cực Đại: x₁ = 0.42 • f(x₁) = 1.38",
+    "critical_point_2": "Cực Tiểu: x₂ = 1.58 • f(x₂) = 0.62",
+    "summary": "Tiếp tuyến nằm ngang tại hai nghiệm của đạo hàm bậc nhất xác định chính xác các điểm đảo chiều đồ thị."
+  }
+}

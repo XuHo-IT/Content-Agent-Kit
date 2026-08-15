@@ -1,0 +1,17 @@
+{
+  "title": "3D Perspective Tilt Card",
+  "description": "3D spatial perspective card with gyro tilt animation, metallic holographic sheen and floating badges inspired by Three.js depth meshes.",
+  "category": "3D & Creative",
+  "tags": ["3d", "perspective", "threejs", "tilt", "sheen", "card"],
+  "defaultVariables": {
+    "kicker": "CÔNG NGHỆ BẢO MẬT LỚP TIẾP THEO",
+    "card_title": "Quantum Shield Enterprise Card",
+    "card_tier": "VIP TIER // BLACK EDITION",
+    "feature_1": "Mã hóa kháng lượng tử SHA-3 512-bit",
+    "feature_2": "Xác thực sinh trắc học Zero-Knowledge",
+    "feature_3": "Hạn mức giao dịch bảo vệ không giới hạn",
+    "card_chip": "NFC ACTIVE",
+    "card_id": "•••• 8920",
+    "takeaway": "Giải pháp bảo mật lượng tử tiên phong bảo vệ toàn diện tài sản số cấp ngân hàng."
+  }
+}

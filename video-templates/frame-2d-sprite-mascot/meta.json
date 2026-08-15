@@ -1,0 +1,16 @@
+{
+  "title": "2D Sprite Mascot & Speech Bubble",
+  "description": "Animated 2D sprite character with lively idle cycles, speech bubble dialog and action callout inspired by 2D sprite sheet animations.",
+  "category": "Animation & Mascot",
+  "tags": ["sprite", "2d", "animation", "mascot", "dialog", "character"],
+  "defaultVariables": {
+    "kicker": "MẸO HAY CÙNG TRỢ LÝ AI // MASCOT",
+    "topic_title": "Tối Ưu Hóa Bộ Nhớ Cache Trình Duyệt",
+    "speech_bubble": "Bạn có biết? Xóa cache DNS giúp giảm độ trễ mạng tới 40% ngay lập tức!",
+    "mascot_name": "ROBO-HELPER V2",
+    "mascot_emoji": "🤖",
+    "tip_badge": "HOT TIP",
+    "action_step": "Nhấn Win + R, gõ ipconfig /flushdns và nhấn Enter",
+    "takeaway": "Thực hiện thao tác này định kỳ mỗi tuần để tăng tốc độ kết nối internet mượt mà."
+  }
+}

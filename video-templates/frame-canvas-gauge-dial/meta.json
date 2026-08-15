@@ -1,0 +1,20 @@
+{
+  "title": "Circular Gauge & Speedometer Telemetry",
+  "description": "High-precision circular speedometer dial with sweeping needle, digital telemetry HUD and performance status inspired by Canvas UI.",
+  "category": "Data & Performance",
+  "tags": ["gauge", "speedometer", "dial", "telemetry", "canvas", "performance"],
+  "defaultVariables": {
+    "kicker": "ĐO LƯỜNG TỐC ĐỘ XỬ LÝ // BENCHMARK",
+    "dial_title": "Kiểm Tra Băng Thông Xử Lý Throughput",
+    "gauge_value": "94.8",
+    "gauge_unit": "REQ / MS",
+    "min_label": "0 MIN",
+    "max_label": "100 MAX",
+    "status_badge": "PERFORMANCE: OPTIMAL (TOP 1%)",
+    "spec_1_label": "ĐỘ TRỄ P99",
+    "spec_1_val": "14.2ms",
+    "spec_2_label": "TIÊU THỤ CPU",
+    "spec_2_val": "38.5%",
+    "takeaway": "Tốc độ phản hồi đạt mức kỷ lục 94.8 req/ms mà không hề xảy ra tình trạng rớt gói tin."
+  }
+}

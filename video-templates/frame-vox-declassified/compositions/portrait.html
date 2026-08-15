@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Vox Declassified Document (Portrait)</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=JetBrains+Mono:wght@500;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&family=Plus+Jakarta+Sans:wght@500;700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body {
+                background: #090d16;
+                color: #f8fafc;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                overflow: hidden;
+                width: 1080px;
+                height: 1920px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #root {
+                width: 1080px;
+                height: 1920px;
+                position: relative;
+                overflow: hidden;
+                padding: 100px 60px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background: radial-gradient(circle at 50% 30%, #151d2f 0%, #080c14 100%);
+            }
+
+            .doc-sheet {
+                position: relative;
+                width: 100%;
+                background: #0f172a;
+                border: 2px solid rgba(250, 204, 21, 0.35);
+                border-radius: 20px;
+                padding: 60px 48px;
+                display: flex;
+                flex-direction: column;
+                gap: 40px;
+                box-shadow: 0 35px 80px rgba(0, 0, 0, 0.9), inset 0 0 120px rgba(0, 0, 0, 0.5);
+                opacity: 0;
+                animation: docEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+
+            .classified-stamp {
+                position: absolute;
+                top: 48px;
+                right: 48px;
+                border: 4px solid #ef4444;
+                color: #ef4444;
+                font-family: "Cinzel", serif;
+                font-size: 22px;
+                font-weight: 900;
+                padding: 8px 18px;
+                text-transform: uppercase;
+                letter-spacing: 3px;
+                transform: rotate(-10deg) scale(1.3);
+                opacity: 0;
+                animation: stampSlam 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s both;
+            }
+
+            .header-meta {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+            }
+
+            .kicker-vox {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: #facc15;
+                color: #090d16;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 18px;
+                font-weight: 800;
+                padding: 6px 16px;
+                border-radius: 6px;
+                width: fit-content;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+            }
+
+            .doc-title {
+                font-family: "Newsreader", serif;
+                font-size: 48px;
+                font-weight: 700;
+                color: #ffffff;
+                letter-spacing: -0.5px;
+                line-height: 1.25;
+                margin-top: 8px;
+            }
+
+            .meta-bar {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 16px;
+                color: #94a3b8;
+                border-bottom: 1px dashed rgba(255, 255, 255, 0.15);
+                padding-bottom: 20px;
+                margin-top: 8px;
+            }
+
+            .doc-body {
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+            }
+
+            .body-text {
+                font-family: "Newsreader", serif;
+                font-size: 30px;
+                line-height: 1.6;
+                color: #cbd5e1;
+            }
+
+            .leak-container {
+                position: relative;
+                background: rgba(250, 204, 21, 0.08);
+                border-left: 6px solid #facc15;
+                padding: 24px 28px;
+                border-radius: 0 12px 12px 0;
+            }
+
+            .leak-text {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 30px;
+                font-weight: 800;
+                color: #facc15;
+                line-height: 1.4;
+                letter-spacing: 0.5px;
+                position: relative;
+                display: inline-block;
+            }
+
+            .redact-curtain {
+                position: absolute;
+                inset: -6px -10px;
+                background: #020617;
+                border-radius: 6px;
+                transform-origin: left center;
+                animation: revealSecret 0.8s cubic-bezier(0.77, 0, 0.175, 1) 1.2s forwards;
+            }
+
+            .doc-footer {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                background: rgba(15, 23, 42, 0.9);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                padding: 20px 24px;
+            }
+
+            .takeaway-text {
+                font-family: "Plus Jakarta Sans", sans-serif;
+                font-size: 22px;
+                font-weight: 700;
+                color: #e2e8f0;
+                line-height: 1.4;
+            }
+
+            .watermark {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 14px;
+                font-weight: 700;
+                color: #64748b;
+                letter-spacing: 2px;
+            }
+
+            @keyframes docEnter {
+                from { opacity: 0; transform: translateY(30px) scale(0.98); }
+                to { opacity: 1; transform: none; }
+            }
+            @keyframes stampSlam {
+                0% { opacity: 0; transform: rotate(-10deg) scale(2.2); }
+                70% { opacity: 1; transform: rotate(-10deg) scale(0.95); }
+                100% { opacity: 1; transform: rotate(-10deg) scale(1); }
+            }
+            @keyframes revealSecret {
+                0% { transform: scaleX(1); opacity: 1; }
+                100% { transform: scaleX(0); opacity: 0; }
+            }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="portrait"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"HỒ SƠ ĐIỀU TRA ĐỘC QUYỀN","stamp":"GIẢI MẬT / DECLASSIFIED","doc_title":"BÁO CÁO GIÁM SÁT THUẬT TOÁN AI","case_id":"MÃ TÀI LIỆU #VX-8092-B","date_issued":"NGÀY CÔNG BỐ: 15/08/2026","body_paragraph_1":"Theo các tài liệu nội bộ thu thập được, hệ thống đã tự động kích hoạt chế độ thu thập dữ liệu người dùng mà không có sự phê duyệt chính thức.","highlight_leak":"HƠN 4.8 TRIỆU BẢN GHI ĐÃ BỊ CHUYỂN HƯỚNG","body_paragraph_2":"Toàn bộ chuỗi nhật ký truy cập cho thấy dấu vết can thiệp thủ công vào lúc 02:41 sáng ngày 12 tháng 4.","takeaway":"Phát hiện này làm sáng tỏ nguyên nhân sự cố rò rỉ dữ liệu diện rộng."}'
+        >
+            <div class="doc-sheet">
+                <div class="classified-stamp"></div>
+
+                <div class="header-meta">
+                    <div class="kicker-vox"></div>
+                    <div class="doc-title"></div>
+                    <div class="meta-bar">
+                        <span class="case-id"></span>
+                        <span class="date-issued"></span>
+                    </div>
+                </div>
+
+                <div class="doc-body">
+                    <div class="body-text p1"></div>
+                    <div class="leak-container">
+                        <div class="leak-text">
+                            <div class="redact-curtain"></div>
+                            <span class="leak-content"></span>
+                        </div>
+                    </div>
+                    <div class="body-text p2"></div>
+                </div>
+
+                <div class="doc-footer">
+                    <div class="takeaway-text"></div>
+                    <div class="watermark"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const vars = window.__hyperframes ? window.__hyperframes.getVariables() : {};
+            document.querySelector(".kicker-vox").textContent = vars.kicker || "";
+            document.querySelector(".classified-stamp").textContent = vars.stamp || "";
+            document.querySelector(".doc-title").textContent = vars.doc_title || "";
+            document.querySelector(".case-id").textContent = vars.case_id || "";
+            document.querySelector(".date-issued").textContent = vars.date_issued || "";
+            document.querySelector(".p1").textContent = vars.body_paragraph_1 || "";
+            document.querySelector(".leak-content").textContent = vars.highlight_leak || "";
+            document.querySelector(".p2").textContent = vars.body_paragraph_2 || "";
+            document.querySelector(".takeaway-text").textContent = vars.takeaway || "";
+            document.querySelector(".watermark").textContent = "VOX INVESTIGATIVE DESK";
+        </script>
+    </body>
+</html>

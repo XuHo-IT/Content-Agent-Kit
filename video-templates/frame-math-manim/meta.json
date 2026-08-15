@@ -1,0 +1,18 @@
+{
+  "title": "Math & Formula Derivation (Manim Style)",
+  "description": "Mathematical formula step-by-step derivation, coordinate system grid, and algorithmic theorem proof inspired by 3Blue1Brown/Manim.",
+  "category": "Education & Math",
+  "tags": ["math", "manim", "formula", "algorithm", "stem", "equations"],
+  "defaultVariables": {
+    "kicker": "CHỨNG MINH TOÁN HỌC & GIẢI THUẬT",
+    "formula_title": "Biến Đổi Tối Ưu Hàm Mục Tiêu Loss Function",
+    "step_1_label": "BƯỚC 1: XÁC ĐỊNH HÀM",
+    "step_1_math": "L(θ) = - 1/N ∑ [y_i · log(p_i) + (1-y_i) · log(1-p_i)]",
+    "step_2_label": "BƯỚC 2: TÍNH ĐẠO HÀM GRADIENT",
+    "step_2_math": "∇_θ L(θ) = 1/N ∑ (p_i - y_i) · x_i  ➔  min L(θ)",
+    "step_3_label": "BƯỚC 3: CẬP NHẬT TRỌNG SỐ",
+    "step_3_math": "θ_{t+1} = θ_t - η · ∇_θ L(θ_t) + γ · v_{t-1}",
+    "graph_label": "CONVERGENCE RATE: O(1/k²)",
+    "takeaway": "Tốc độ hội tụ tối ưu đạt cực tiểu toàn cục nhanh hơn 3.8x so với gradient descent truyền thống."
+  }
+}

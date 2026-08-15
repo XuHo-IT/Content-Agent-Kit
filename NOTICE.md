@@ -101,7 +101,7 @@ respectively, so `listTemplateIds()` skips them and `validate.mjs` rejects them 
 attribution obligation does not depend on whether the code uses them, so their `NOTICE.md`
 files stay; each says plainly that deleting the folder is a reasonable call.
 
-Forty-seven are original to content-agent-kit (MIT, same as this repo):
+Sixty-three are original to content-agent-kit (MIT, same as this repo):
 
 `frame-broll` · `frame-media-inset` · `frame-screenshot` · `frame-review-verdict` ·
 `frame-quote-testimonial` · `frame-chart-bars` · `frame-step-list` ·
@@ -115,7 +115,11 @@ Forty-seven are original to content-agent-kit (MIT, same as this repo):
 `frame-diagram-flywheel` · `frame-diagram-quadrant` · `frame-diagram-radar` · `frame-diagram-architecture` ·
 `frame-geo-local-card` · `frame-geo-region-stat` · `frame-geo-faq-direct` ·
 `frame-geo-itinerary` · `frame-geo-versus-city` · `frame-geo-pin-detail` ·
-`frame-ui-glass-dashboard` · `frame-ui-terminal-ide`
+`frame-ui-glass-dashboard` · `frame-ui-terminal-ide` ·
+`frame-math-manim` · `frame-diagram-flowchart` · `frame-whiteboard-doodle` · `frame-fitness-workout` ·
+`frame-canvas-gauge-dial` · `frame-3d-perspective-card` · `frame-presentation-slide` · `frame-2d-sprite-mascot` ·
+`frame-vox-declassified` · `frame-vox-newspaper-tear` · `frame-geo-heatmap` · `frame-geo-sonar-radar` ·
+`frame-math-graph-plot` · `frame-math-matrix-calc` · `frame-hybrid-vox-geo` · `frame-hybrid-math-diagram`
 
 `frame-3d-spotlight` was written after reading how vibe-motion's `light-spotlight-render`
 describes the effect. No code was taken: that repository publishes no licence, and this kit

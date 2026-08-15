@@ -1244,6 +1244,162 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 ---
 
+## frame-math-manim
+
+**Role:** body — mathematical and algorithmic theorem explainer. KaTeX/LaTeX-styled step-by-step formula derivations with coordinate grid background, animated function curve, and global minima proof inspired by 3Blue1Brown/Manim.
+**Best for:** `type: "body"` — STEM education, algorithm breakdowns, loss function derivations, AI architecture math.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤34 | small uppercase math category tag |
+| `formula_title` | string | ≤60 | headline theorem/formula title |
+| `step_1_label` | string | ≤30 | step 1 header |
+| `step_1_math` | string | ≤80 | step 1 math formula string |
+| `step_2_label` | string | ≤30 | step 2 header |
+| `step_2_math` | string | ≤80 | step 2 math formula string |
+| `step_3_label` | string | ≤30 | step 3 header |
+| `step_3_math` | string | ≤80 | step 3 math formula string |
+| `graph_label` | string | ≤30 | convergence rate badge text |
+| `takeaway` | string | ≤140 | mathematical conclusion takeaway |
+
+---
+
+## frame-diagram-flowchart
+
+**Role:** body — animated decision tree and workflow flowchart. Structured start node, decision diamond with glowing animated SVG branching paths (pass / block outcomes) inspired by Draw.io.
+**Best for:** `type: "body"` — workflow explanation, risk gating, business logic, algorithmic decision trees.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤34 | process category tag |
+| `flowchart_title` | string | ≤60 | main workflow headline |
+| `start_node` | string | ≤30 | entry trigger node label |
+| `decision_node` | string | ≤30 | decision condition inside diamond |
+| `branch_no_label` | string | ≤20 | green outcome branch tag |
+| `branch_no_action` | string | ≤50 | pass action title |
+| `branch_yes_label` | string | ≤20 | red outcome branch tag |
+| `branch_yes_action` | string | ≤50 | block action title |
+| `summary` | string | ≤140 | workflow efficiency summary |
+
+---
+
+## frame-whiteboard-doodle
+
+**Role:** body — hand-drawn whiteboard sketch explainer. Rough sketch card borders, handwritten display typography, playful animated doodle cards and highlighter notes inspired by whiteboard animations.
+**Best for:** `type: "body"` — educational listicles, common mistakes, beginner guides, storytelling lessons.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | lesson category tag |
+| `lesson_title` | string | ≤60 | main lesson headline |
+| `doodle_label_1` | string | ≤40 | point 1 header |
+| `doodle_desc_1` | string | ≤70 | point 1 description |
+| `doodle_label_2` | string | ≤40 | point 2 header |
+| `doodle_desc_2` | string | ≤70 | point 2 description |
+| `doodle_label_3` | string | ≤40 | point 3 header |
+| `doodle_desc_3` | string | ≤70 | point 3 description |
+| `takeaway` | string | ≤140 | key lesson takeaway |
+
+---
+
+## frame-fitness-workout
+
+**Role:** body — workout breakdown and exercise routine card. Muscle group targeting tag, animated circular interval countdown timer, sets/reps telemetry, and pro coaching form tips.
+**Best for:** `type: "body"` — gym & fitness tutorials, exercise breakdowns, sports coaching, health routines.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤36 | workout program category tag |
+| `exercise_name` | string | ≤50 | exercise movement name |
+| `muscle_target` | string | ≤40 | targeted muscle anatomy |
+| `reps_sets` | string | ≤30 | sets & repetition scheme |
+| `timer_text` | string | ≤20 | rest countdown timer text |
+| `intensity_level` | string | ≤30 | RPE / intensity rating |
+| `form_tip` | string | ≤120 | coach technique instructions |
+| `takeaway` | string | ≤140 | hypertrophy / conditioning takeaway |
+
+---
+
+## frame-canvas-gauge-dial
+
+**Role:** body — analog/digital speedometer & telemetry dial. Circular gauge arc with sweeping LED needle, live digital metric readout, min/max thresholds and performance telemetry cards.
+**Best for:** `type: "body"` — benchmark results, performance speed tests, throughput telemetry, hardware reviews.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤34 | benchmark category tag |
+| `dial_title` | string | ≤60 | performance test headline |
+| `gauge_value` | string | ≤10 | large central digital readout |
+| `gauge_unit` | string | ≤20 | measurement unit |
+| `min_label` | string | ≤15 | minimum scale label |
+| `max_label` | string | ≤15 | maximum scale label |
+| `status_badge` | string | ≤36 | status rating badge |
+| `spec_1_label` | string | ≤24 | auxiliary metric 1 name |
+| `spec_1_val` | string | ≤20 | auxiliary metric 1 value |
+| `spec_2_label` | string | ≤24 | auxiliary metric 2 name |
+| `spec_2_val` | string | ≤20 | auxiliary metric 2 value |
+| `takeaway` | string | ≤140 | benchmark summary takeaway |
+
+---
+
+## frame-3d-perspective-card
+
+**Role:** body / showcase — 3D spatial perspective card. Dynamic 3D gyro tilt transformation with metallic sheen reflection, floating NFC/VIP chips, and security feature cards inspired by Three.js depth cards.
+**Best for:** `type: "body"` — premium fintech cards, membership tiers, hardware crypto wallets, cybersecurity features.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤34 | security category tag |
+| `card_title` | string | ≤40 | product / card name |
+| `card_tier` | string | ≤30 | tier badge |
+| `feature_1` | string | ≤60 | highlight feature 1 |
+| `feature_2` | string | ≤60 | highlight feature 2 |
+| `feature_3` | string | ≤60 | highlight feature 3 |
+| `card_chip` | string | ≤20 | card chip status badge |
+| `card_id` | string | ≤20 | masked card number / serial |
+| `takeaway` | string | ≤140 | enterprise value takeaway |
+
+---
+
+## frame-presentation-slide
+
+**Role:** body — executive presentation slide & pitch deck. Keynote-style structured slide layout with slide numbering, 3 bullet cards with top accent colors, speaker badge, and takeaway summary.
+**Best for:** `type: "body"` — pitch decks, corporate presentations, quarterly business reviews, strategic plans.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤34 | report category kicker |
+| `slide_title` | string | ≤60 | main slide headline |
+| `slide_num` | string | ≤20 | slide page index (e.g. "SLIDE 04 / 12") |
+| `presenter_tag` | string | ≤36 | speaker bio / title tag |
+| `bullet_1_title` | string | ≤40 | bullet 1 headline |
+| `bullet_1_desc` | string | ≤70 | bullet 1 description |
+| `bullet_2_title` | string | ≤40 | bullet 2 headline |
+| `bullet_2_desc` | string | ≤70 | bullet 2 description |
+| `bullet_3_title` | string | ≤40 | bullet 3 headline |
+| `bullet_3_desc` | string | ≤70 | bullet 3 description |
+| `takeaway` | string | ≤140 | strategic executive takeaway |
+
+---
+
+## frame-2d-sprite-mascot
+
+**Role:** body / engagement — animated 2D sprite mascot character. Lively idle bouncing avatar with comic speech bubble dialog, action step card and tip badge.
+**Best for:** `type: "body"` — tips & tricks, interactive tutorials, software onboarding, engaging social shorts.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤34 | mascot category tag |
+| `topic_title` | string | ≤60 | main topic headline |
+| `speech_bubble` | string | ≤90 | dialog text in speech balloon |
+| `mascot_name` | string | ≤24 | assistant / mascot name |
+| `mascot_emoji` | string | ≤4 | avatar emoji or character glyph |
+| `tip_badge` | string | ≤16 | action callout badge |
+| `action_step` | string | ≤60 | keyboard shortcut / actionable command |
+| `takeaway` | string | ≤140 | engagement takeaway |
+
+---
+
 ## What 3D actually costs
 
 The plan for these four assumed Chrome would raster `preserve-3d` more slowly and that the
@@ -1417,6 +1573,153 @@ it. Add a template, re-run the probe, commit `theme-map.json`.
 show everything: `frame-broll`, `frame-media-inset`, `frame-screenshot` and
 `frame-pentagram-stat` reveal their content through the hyperframes animation driver, so
 those four preview as bare canvases. Judge them from the contact sheet after a render.
+
+---
+
+## frame-vox-declassified
+
+**Role:** body / investigation. Classified government & corporate leak document with animated declassification reveal.
+**Best for:** Vox-style investigative documentaries, whistleblower reports, AI safety audit leaks.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | investigative department tag |
+| `stamp` | string | ≤24 | red top-secret / declassified stamp text |
+| `doc_title` | string | ≤50 | formal leaked document headline |
+| `case_id` | string | ≤24 | reference file code |
+| `date_issued` | string | ≤30 | publication / incident date |
+| `body_paragraph_1` | string | ≤120 | leading background context |
+| `highlight_leak` | string | ≤60 | secret text revealed from beneath black redact bar |
+| `body_paragraph_2` | string | ≤120 | forensic trail and discovery |
+| `takeaway` | string | ≤100 | bottom summary bar |
+
+---
+
+## frame-vox-newspaper-tear
+
+**Role:** body / print editorial. Vintage broadsheet newspaper excerpt with classic masthead, lead quote, and dual-column report.
+**Best for:** historical retrospectives, major industry milestones, investigative press reviews.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `publication_name` | string | ≤32 | newspaper masthead title |
+| `issue_date` | string | ≤40 | issue date and volume number |
+| `headline` | string | ≤60 | all-caps front page headline |
+| `lead_quote` | string | ≤90 | highlighted yellow editorial pull quote |
+| `column_left` | string | ≤120 | left journalistic column |
+| `column_right` | string | ≤120 | right journalistic column |
+| `editor_note` | string | ≤70 | bottom editorial footnote |
+
+---
+
+## frame-geo-heatmap
+
+**Role:** body / geo data. Dynamic heat distribution map across geographic regions with density telemetry.
+**Best for:** market demand hotspots, regional economic comparisons, compute cluster distribution.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | category tag |
+| `map_title` | string | ≤50 | heatmap title |
+| `zone_1_name` | string | ≤40 | region 1 name |
+| `zone_1_val` | string | ≤30 | region 1 metric / density |
+| `zone_2_name` | string | ≤40 | region 2 name |
+| `zone_2_val` | string | ≤30 | region 2 metric / growth |
+| `zone_3_name` | string | ≤40 | region 3 name |
+| `zone_3_val` | string | ≤30 | region 3 metric / share |
+| `takeaway` | string | ≤100 | bottom strategic takeaway |
+
+---
+
+## frame-geo-sonar-radar
+
+**Role:** body / tactical tracking. Military satellite radar sweep dish with real GPS coordinates and target lock-on blips.
+**Best for:** global telemetry, subsea cable tracking, satellite network monitoring, tactical briefings.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤35 | tactical system banner |
+| `radar_title` | string | ≤50 | radar mission headline |
+| `coords_1` | string | ≤50 | target 1 latitude/longitude & name |
+| `status_1` | string | ≤40 | target 1 connection status & bandwidth |
+| `coords_2` | string | ≤50 | target 2 latitude/longitude & name |
+| `status_2` | string | ≤40 | target 2 lock status & latency |
+| `scan_frequency` | string | ≤40 | radar sweep band and radius |
+| `takeaway` | string | ≤100 | tactical summary bar |
+
+---
+
+## frame-math-graph-plot
+
+**Role:** body / math explainer. 3Blue1Brown/Manim animated function curve with Oxy coordinate axes and tangent derivative slope.
+**Best for:** calculus tutorials, machine learning gradient loss curves, optimization theory, academic STEM explainers.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | academic topic tag |
+| `formula_title` | string | ≤50 | main theorem / curve topic |
+| `latex_func` | string | ≤40 | original mathematical function f(x) |
+| `latex_derivative` | string | ≤40 | first derivative f'(x) = 0 |
+| `critical_point_1` | string | ≤40 | local maximum coordinates & value |
+| `critical_point_2` | string | ≤40 | local minimum coordinates & value |
+| `summary` | string | ≤110 | analytical geometric conclusion |
+
+---
+
+## frame-math-matrix-calc
+
+**Role:** body / linear algebra. Animated matrix transformation with tensor multiplication brackets and dot product evaluation.
+**Best for:** AI neural network weights, 3D graphics transformation matrices, linear algebra proofs.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤35 | linear algebra topic banner |
+| `matrix_title` | string | ≤50 | vector space transform title |
+| `matrix_a_label` | string | ≤30 | weight matrix W label & dimension |
+| `matrix_a_vals` | string | ≤35 | matrix W components string |
+| `vector_x_label` | string | ≤30 | input vector X label & dimension |
+| `vector_x_vals` | string | ≤25 | vector X components string |
+| `result_label` | string | ≤30 | output product vector Y label |
+| `result_vals` | string | ≤25 | output vector result string |
+| `takeaway` | string | ≤110 | geometric transformation explanation |
+
+---
+
+## frame-hybrid-vox-geo
+
+**Role:** body / multi-skill hybrid. Dual-pane layout combining Vox investigative journalism on the left with GPS satellite radar map on the right.
+**Best for:** high-production documentary shorts, investigative tech exposes, geopolitical deep dives.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤40 | multi-skill header banner |
+| `hybrid_title` | string | ≤50 | investigative master headline |
+| `vox_headline` | string | ≤40 | left pane editorial headline |
+| `vox_excerpt` | string | ≤90 | left pane document excerpt |
+| `vox_highlight` | string | ≤40 | left pane yellow highlight banner |
+| `geo_target_label` | string | ≤30 | right pane satellite target label |
+| `geo_coords` | string | ≤40 | right pane GPS latitude/longitude |
+| `geo_status` | string | ≤40 | right pane thermal/signal telemetry |
+| `takeaway` | string | ≤110 | combined cross-source conclusion |
+
+---
+
+## frame-hybrid-math-diagram
+
+**Role:** body / multi-skill hybrid. Dual-pane layout combining system architecture flowchart nodes on the left with Manim gradient calculus formulas on the right.
+**Best for:** deep-learning backpropagation explainers, algorithm performance analysis, quantitative trading engineering.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤40 | multi-skill engineering banner |
+| `hybrid_title` | string | ≤50 | algorithm & mathematics headline |
+| `step_1_node` | string | ≤50 | flowchart forward pass node |
+| `step_2_node` | string | ≤40 | flowchart loss calculation node |
+| `step_3_node` | string | ≤40 | flowchart backpropagation node |
+| `math_formula_main` | string | ≤40 | matrix gradient equation |
+| `math_update_rule` | string | ≤40 | parameter update rule formula |
+| `learning_rate` | string | ≤40 | optimization hyperparameter metrics |
+| `takeaway` | string | ≤110 | engineering & calculus synergy summary |
 
 ---
 

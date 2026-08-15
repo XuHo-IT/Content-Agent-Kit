@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080, initial-scale=1.0" />
+        <title>Fitness Workout & Exercise Breakdown</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@700;800&family=Cabinet+Grotesk:wght@800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                background: #09090b;
+                color: #fafafa;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                width: 1920px; height: 1080px;
+                overflow: hidden;
+            }
+            #root {
+                width: 100%; height: 100%; position: relative;
+                display: flex; flex-direction: column; justify-content: space-between;
+                padding: 64px 88px;
+            }
+
+            .energy-glow {
+                position: absolute; top: -100px; right: -100px; width: 600px; height: 600px;
+                background: radial-gradient(circle, rgba(249, 115, 22, 0.15), transparent 70%);
+                filter: blur(60px); pointer-events: none;
+            }
+
+            .header-bar {
+                position: relative; z-index: 2;
+                display: flex; justify-content: space-between; align-items: flex-start;
+                opacity: 0; animation: fadeDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+            }
+            .kicker-tag {
+                display: inline-flex; align-items: center; gap: 8px;
+                background: rgba(249, 115, 22, 0.15); color: #f97316;
+                border: 1px solid rgba(249, 115, 22, 0.4); border-radius: 9999px;
+                padding: 6px 18px; font-family: "JetBrains Mono", monospace;
+                font-size: 15px; font-weight: 700; letter-spacing: 1.5px;
+                text-transform: uppercase; margin-bottom: 12px;
+            }
+            .main-title {
+                font-family: "Cabinet Grotesk", sans-serif;
+                font-size: 52px; font-weight: 900; letter-spacing: -0.02em;
+                color: #ffffff; line-height: 1.1; text-transform: uppercase;
+            }
+            .muscle-pill {
+                background: #27272a; color: #a1a1aa; border: 1px solid #3f3f46;
+                border-radius: 8px; padding: 10px 20px; font-family: "JetBrains Mono", monospace;
+                font-size: 16px; font-weight: 700;
+            }
+
+            /* Main Split */
+            .workout-stage {
+                position: relative; z-index: 2;
+                display: grid; grid-template-columns: 1fr 1fr; gap: 48px;
+                align-items: center; margin: 10px 0;
+            }
+
+            /* Left: Metrics & Timer */
+            .telemetry-col {
+                display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+            }
+            .tele-card {
+                background: #18181b; border: 1px solid #27272a;
+                border-radius: 16px; padding: 24px;
+                display: flex; flex-direction: column; justify-content: center;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+                opacity: 0; animation: popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+            }
+            .card-timer {
+                grid-column: span 2; display: flex; flex-direction: row;
+                align-items: center; gap: 28px; border-left: 4px solid #f97316;
+                animation-delay: 0.5s;
+            }
+            .timer-svg { width: 90px; height: 90px; }
+            .timer-track { fill: none; stroke: #27272a; stroke-width: 6; }
+            .timer-progress {
+                fill: none; stroke: #f97316; stroke-width: 6; stroke-linecap: round;
+                stroke-dasharray: 250; stroke-dashoffset: 250;
+                animation: drawCircle 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+            }
+            .timer-num { font-size: 26px; font-weight: 800; color: #ffffff; }
+
+            .tele-label {
+                font-family: "JetBrains Mono", monospace; font-size: 14px;
+                font-weight: 700; color: #71717a; text-transform: uppercase; margin-bottom: 6px;
+            }
+            .tele-val {
+                font-family: "Cabinet Grotesk", sans-serif;
+                font-size: 32px; font-weight: 900; color: #ffffff;
+            }
+
+            /* Right: Form Coaching */
+            .coaching-card {
+                background: linear-gradient(135deg, #18181b, #27272a);
+                border: 1px solid rgba(249, 115, 22, 0.3);
+                border-radius: 18px; padding: 32px;
+                display: flex; flex-direction: column; gap: 16px;
+                box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+                opacity: 0; animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+            }
+            .coach-tag {
+                display: inline-block; background: #f97316; color: #ffffff;
+                font-size: 14px; font-weight: 800; padding: 4px 14px;
+                border-radius: 6px; align-self: flex-start; text-transform: uppercase;
+            }
+            .coach-body {
+                font-size: 24px; font-weight: 600; color: #e4e4e7; line-height: 1.4;
+            }
+
+            /* Bottom Takeaway */
+            .bottom-bar {
+                position: relative; z-index: 2;
+                background: #18181b; border: 1px solid #27272a;
+                border-radius: 12px; padding: 20px 32px;
+                opacity: 0; animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+            }
+            .takeaway-text {
+                font-size: 22px; font-weight: 600; color: #d4d4d8; line-height: 1.4;
+            }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: none; } }
+            @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: none; } }
+            @keyframes drawCircle { to { stroke-dashoffset: 60; } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"GIÁO ÁN TĂNG CƠ GIẢM MỠ // HYPERTROPHY","exercise_name":"Barbell Incline Bench Press","muscle_target":"NGỰC TRÊN · VAI TRƯỚC","reps_sets":"4 HIỆP × 10-12 LẦN","timer_text":"45 GIÂY NGHỈ","intensity_level":"RPE 8.5 · MEDIUM-HEAVY","form_tip":"Gồng chặt cơ core, hạ tạ kiểm soát 3 giây chạm nhẹ ngực trên trước khi đẩy bộc phát lên.","takeaway":"Tập trung tối đa vào kỹ thuật hạ tạ eccentric để kích hoạt vi tổn thương sợi cơ hiệu quả nhất."}'
+        >
+            <div class="energy-glow"></div>
+
+            <div class="header-bar">
+                <div>
+                    <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                    <div class="main-title"></div>
+                </div>
+                <div class="muscle-pill"><span class="muscle-txt"></span></div>
+            </div>
+
+            <div class="workout-stage">
+                <div class="telemetry-col">
+                    <div class="tele-card">
+                        <div class="tele-label"><span class="lbl-sets"></span></div>
+                        <div class="tele-val rs-val"></div>
+                    </div>
+
+                    <div class="tele-card">
+                        <div class="tele-label"><span class="lbl-rpe"></span></div>
+                        <div class="tele-val rpe-val"></div>
+                    </div>
+
+                    <div class="tele-card card-timer">
+                        <svg class="timer-svg" viewBox="0 0 100 100">
+                            <circle class="timer-track" cx="50" cy="50" r="40" />
+                            <circle class="timer-progress" cx="50" cy="50" r="40" />
+                        </svg>
+                        <div>
+                            <div class="tele-label"><span class="lbl-rest"></span></div>
+                            <div class="timer-num time-val"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coaching-card">
+                    <div class="coach-tag"><span class="coach-txt"></span></div>
+                    <div class="coach-body tip-val"></div>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="takeaway-text"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.exercise_name);
+                set(".muscle-txt", v.muscle_target);
+                set(".lbl-sets", "KHỐI LƯỢNG & SỐ LẦN");
+                set(".rs-val", v.reps_sets);
+                set(".lbl-rpe", "CƯỜNG ĐỘ");
+                set(".rpe-val", v.intensity_level);
+                set(".lbl-rest", "THỜI GIAN NGHỈ");
+                set(".time-val", v.timer_text);
+                set(".coach-txt", "KỸ THUẬT CHUẨN FORM");
+                set(".tip-val", v.form_tip);
+                set(".takeaway-text", v.takeaway);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "frame-math-matrix-calc",
+  "version": "1.0.0",
+  "compositions": [
+    {
+      "id": "main",
+      "name": "Landscape",
+      "path": "index.html",
+      "width": 1920,
+      "height": 1080
+    },
+    {
+      "id": "portrait",
+      "name": "Portrait",
+      "path": "compositions/portrait.html",
+      "width": 1080,
+      "height": 1920
+    }
+  ]
+}

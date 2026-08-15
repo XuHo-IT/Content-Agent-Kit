@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080, initial-scale=1.0" />
+        <title>Master Presentation Slide & Pitch Deck</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;700;800&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                background: #0f172a;
+                color: #f8fafc;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                width: 1920px; height: 1080px;
+                overflow: hidden;
+            }
+            #root {
+                width: 100%; height: 100%; position: relative;
+                display: flex; flex-direction: column; justify-content: space-between;
+                padding: 64px 88px;
+            }
+
+            .slide-bg {
+                position: absolute; inset: 0; z-index: 0;
+                background-image: radial-gradient(#1e293b 1px, transparent 1px);
+                background-size: 32px 32px;
+            }
+
+            .top-nav {
+                position: relative; z-index: 2;
+                display: flex; justify-content: space-between; align-items: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 16px;
+                opacity: 0; animation: fadeDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+            }
+            .kicker-txt {
+                font-family: "JetBrains Mono", monospace; font-size: 15px;
+                font-weight: 700; color: #38bdf8; letter-spacing: 1.5px; text-transform: uppercase;
+            }
+            .slide-page-badge {
+                font-family: "JetBrains Mono", monospace; font-size: 15px;
+                font-weight: 700; color: #94a3b8;
+            }
+
+            .title-section {
+                position: relative; z-index: 2; margin-top: 14px;
+                opacity: 0; animation: fadeDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+            }
+            .main-title {
+                font-size: 46px; font-weight: 800; letter-spacing: -0.02em;
+                color: #ffffff; line-height: 1.2;
+            }
+
+            /* 3 Slide Bullet Columns */
+            .bullets-row {
+                position: relative; z-index: 2;
+                display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+                margin: 10px 0;
+            }
+            .bullet-card {
+                background: rgba(30, 41, 59, 0.6);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 16px; padding: 28px 24px;
+                display: flex; flex-direction: column; gap: 14px;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+                backdrop-filter: blur(12px);
+                opacity: 0; transform: translateY(20px);
+            }
+            .bc-1 { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; border-top: 4px solid #38bdf8; }
+            .bc-2 { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both; border-top: 4px solid #818cf8; }
+            .bc-3 { animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both; border-top: 4px solid #34d399; }
+
+            .b-title {
+                font-size: 22px; font-weight: 800; color: #ffffff; line-height: 1.3;
+            }
+            .b-desc {
+                font-size: 18px; font-weight: 500; color: #94a3b8; line-height: 1.5;
+            }
+
+            /* Bottom Speaker Bar */
+            .bottom-bar {
+                position: relative; z-index: 2;
+                background: #1e293b; border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px; padding: 18px 28px;
+                display: flex; justify-content: space-between; align-items: center;
+                opacity: 0; animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 1.0s both;
+            }
+            .presenter-pill {
+                font-family: "JetBrains Mono", monospace; font-size: 14px;
+                font-weight: 700; color: #38bdf8; background: rgba(56, 189, 248, 0.12);
+                padding: 6px 14px; border-radius: 6px;
+            }
+            .takeaway-text {
+                font-size: 20px; font-weight: 600; color: #e2e8f0; line-height: 1.4;
+            }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"BÁO CÁO CHIẾN LƯỢC KINH DOANH Q3","slide_title":"Động Lực Tăng Trưởng & Quy Mô Mở Rộng Thị Trường","slide_num":"SLIDE 04 / 12","presenter_tag":"DIỄN GIẢ: NGUYỄN VĂN A · CEO","bullet_1_title":"1. Mở Rộng Kênh Phân Phối B2B","bullet_1_desc":"Ký kết thành công hợp tác với 120 chuỗi bán lẻ trọng điểm.","bullet_2_title":"2. Giảm Chi Phí Thu Hút Khách Hàng (CAC)","bullet_2_desc":"Ứng dụng AI Automation cắt giảm 35% chi phí quảng cáo.","bullet_3_title":"3. Tỷ Lệ Giữ Chân Khách Hàng > 92%","bullet_3_desc":"Trải nghiệm cá nhân hóa nâng cao vòng đời giá trị người dùng.","takeaway":"Mô hình tăng trưởng bền vững dự kiến mang lại doanh thu 150 tỷ VNĐ trong năm tài chính."}'
+        >
+            <div class="slide-bg"></div>
+
+            <div class="top-nav">
+                <div class="kicker-txt"></div>
+                <div class="slide-page-badge s-num"></div>
+            </div>
+
+            <div class="title-section">
+                <div class="main-title"></div>
+            </div>
+
+            <div class="bullets-row">
+                <div class="bullet-card bc-1">
+                    <div class="b-title b1-ttl"></div>
+                    <div class="b-desc b1-dsc"></div>
+                </div>
+
+                <div class="bullet-card bc-2">
+                    <div class="b-title b2-ttl"></div>
+                    <div class="b-desc b2-dsc"></div>
+                </div>
+
+                <div class="bullet-card bc-3">
+                    <div class="b-title b3-ttl"></div>
+                    <div class="b-desc b3-dsc"></div>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="takeaway-text"></div>
+                <div class="presenter-pill pres-txt"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".s-num", v.slide_num || "SLIDE 01 / 10");
+                set(".main-title", v.slide_title);
+                set(".b1-ttl", v.bullet_1_title);
+                set(".b1-dsc", v.bullet_1_desc);
+                set(".b2-ttl", v.bullet_2_title);
+                set(".b2-dsc", v.bullet_2_desc);
+                set(".b3-ttl", v.bullet_3_title);
+                set(".b3-dsc", v.bullet_3_desc);
+                set(".pres-txt", v.presenter_tag || "SPEAKER");
+                set(".takeaway-text", v.takeaway);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

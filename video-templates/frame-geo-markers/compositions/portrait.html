@@ -30,26 +30,24 @@
  * zoom slot to get wrong, and no world map with three dots huddled in one corner.
  */
 * { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { overflow: hidden; }
-html, body { width: 1080px; height: 1920px; }
+html, body { overflow: hidden; width: 1080px; height: 1920px; }
 #root { position: relative; width: 1080px; height: 1920px; overflow: hidden;
-        font-family: "Be Vietnam Pro", sans-serif; }
-#root { background: #071018; color: #e6f3fb; }
+        font-family: "Be Vietnam Pro", sans-serif; background: #022c22; color: #f0fdf4; }
 .wrap { position: absolute; inset: 0; }
 .map { width: 100%; height: 100%; }
-.land { fill: #24425a; stroke: #4d7fa3; stroke-width: 1.1; vector-effect: non-scaling-stroke; }
+.land { fill: #059669; stroke: #34d399; stroke-width: 1.4; filter: drop-shadow(0 0 16px rgba(16,185,129,0.25)); vector-effect: non-scaling-stroke; }
 .pin { opacity: 0; animation: pop 0.45s cubic-bezier(0.16,1,0.3,1) both; }
-.pin circle.halo { fill: #38bdf8; opacity: 0.22; }
-.pin circle.dot { fill: #38bdf8; stroke: #071018; }
-.pin text { fill: #cdeafe; font-family: "Be Vietnam Pro", sans-serif; font-weight: 700;
-            paint-order: stroke; stroke: #071018; stroke-linejoin: round; }
+.pin circle.halo { fill: #ef4444; opacity: 0.35; }
+.pin circle.dot { fill: #ef4444; stroke: #ffffff; stroke-width: 2.5; }
+.pin text { fill: #ffffff; font-family: "Be Vietnam Pro", sans-serif; font-weight: 800;
+            paint-order: stroke; stroke: #022c22; stroke-width: 3.5px; stroke-linejoin: round; }
 .overlay { position: absolute; inset: 0; display: grid; align-content: start;
-           background: linear-gradient(to bottom, rgba(7,16,24,0.94) 0%, rgba(7,16,24,0.6) 22%, transparent 38%); }
-.kicker { font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: #38bdf8;
+           background: linear-gradient(to bottom, rgba(2,44,34,0.92) 0%, rgba(2,44,34,0.5) 24%, transparent 40%); }
+.kicker { font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: #34d399;
           opacity: 0; animation: rise 0.5s ease-out 0.1s both; }
-.title { font-weight: 800; letter-spacing: -0.02em; line-height: 1.08;
+.title { font-weight: 900; letter-spacing: -0.02em; line-height: 1.08; color: #ffffff;
          opacity: 0; animation: rise 0.55s ease-out 0.25s both; }
-.note { color: #7ea3bd; opacity: 0; animation: rise 0.5s ease-out 1.6s both; }
+.note { color: #a7f3d0; opacity: 0; animation: rise 0.5s ease-out 1.6s both; }
 @keyframes pop { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: none; } }
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 .overlay { padding: 150px 84px; }

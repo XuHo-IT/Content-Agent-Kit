@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920, initial-scale=1.0" />
+        <title>2D Sprite Mascot & Speech Bubble - Portrait</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=JetBrains+Mono:wght@700;800&family=Fredoka:wght@600;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body {
+                background: #0f172a;
+                color: #f8fafc;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                width: 1080px; height: 1920px;
+                overflow: hidden;
+            }
+            #root {
+                width: 100%; height: 100%; position: relative;
+                display: flex; flex-direction: column; justify-content: space-between;
+                padding: 96px 64px;
+            }
+
+            .retro-dots {
+                position: absolute; inset: 0; z-index: 0;
+                background-image: radial-gradient(rgba(244, 63, 94, 0.15) 1.5px, transparent 1.5px);
+                background-size: 28px 28px;
+            }
+
+            .header-bar {
+                position: relative; z-index: 2;
+                opacity: 0; animation: fadeDown 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+            }
+            .kicker-tag {
+                display: inline-flex; align-items: center; gap: 8px;
+                background: rgba(244, 63, 94, 0.15); color: #fb7185;
+                border: 1px solid rgba(244, 63, 94, 0.4); border-radius: 9999px;
+                padding: 8px 22px; font-family: "JetBrains Mono", monospace;
+                font-size: 18px; font-weight: 700; letter-spacing: 1.5px;
+                text-transform: uppercase; margin-bottom: 16px;
+            }
+            .main-title {
+                font-size: 48px; font-weight: 800; letter-spacing: -0.02em;
+                color: #ffffff; line-height: 1.2;
+            }
+
+            .mascot-stage {
+                position: relative; z-index: 2;
+                display: flex; flex-direction: column; align-items: center; gap: 24px;
+                margin: 20px 0;
+            }
+
+            .mascot-avatar {
+                width: 220px; height: 220px;
+                background: linear-gradient(135deg, #f43f5e, #fda4af);
+                border: 4px solid #ffffff; border-radius: 50%;
+                display: flex; align-items: center; justify-content: center;
+                font-size: 100px;
+                box-shadow: 0 20px 40px rgba(244, 63, 94, 0.4);
+                animation: mascotBounce 2s ease-in-out infinite alternate, popIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+            }
+            .mascot-name-tag {
+                font-family: "JetBrains Mono", monospace; font-size: 18px;
+                font-weight: 800; color: #fda4af; background: rgba(244, 63, 94, 0.15);
+                padding: 6px 20px; border-radius: 9999px;
+            }
+
+            .speech-bubble {
+                background: #ffffff; color: #0f172a;
+                border-radius: 24px; padding: 28px 32px;
+                font-family: "Fredoka", sans-serif; font-size: 30px; font-weight: 600;
+                line-height: 1.35; position: relative; text-align: center;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+                opacity: 0; animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
+            }
+            /* Speech bubble arrow pointing up */
+            .speech-bubble::before {
+                content: ""; position: absolute; top: -18px; left: 50%; transform: translateX(-50%);
+                width: 0; height: 0;
+                border-left: 15px solid transparent;
+                border-right: 15px solid transparent;
+                border-bottom: 20px solid #ffffff;
+            }
+
+            .action-card {
+                position: relative; z-index: 2;
+                background: rgba(30, 41, 59, 0.85);
+                border: 2px solid #38bdf8; border-radius: 16px;
+                padding: 22px 26px; display: flex; align-items: center; gap: 16px;
+                opacity: 0; animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+            }
+            .tip-badge-box {
+                background: #38bdf8; color: #0f172a;
+                font-family: "JetBrains Mono", monospace; font-size: 15px;
+                font-weight: 900; padding: 6px 14px; border-radius: 6px; flex-shrink: 0;
+            }
+            .action-txt {
+                font-family: "JetBrains Mono", monospace; font-size: 20px;
+                font-weight: 700; color: #f8fafc; line-height: 1.3;
+            }
+
+            .bottom-bar {
+                position: relative; z-index: 2;
+                background: rgba(30, 41, 59, 0.85);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 16px; padding: 26px 32px;
+                opacity: 0; animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+            }
+            .takeaway-text { font-size: 24px; font-weight: 600; color: #e2e8f0; line-height: 1.4; }
+
+            @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+            @keyframes popIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; } }
+            @keyframes mascotBounce {
+                0% { transform: translateY(0) rotate(-3deg); }
+                100% { transform: translateY(-16px) rotate(3deg); }
+            }
+            @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+            @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"MẸO HAY CÙNG TRỢ LÝ AI // MASCOT","topic_title":"Tối Ưu Hóa Bộ Nhớ Cache Trình Duyệt","speech_bubble":"Bạn có biết? Xóa cache DNS giúp giảm độ trễ mạng tới 40% ngay lập tức!","mascot_name":"ROBO-HELPER V2","mascot_emoji":"🤖","tip_badge":"HOT TIP","action_step":"Nhấn Win + R, gõ ipconfig /flushdns và nhấn Enter","takeaway":"Thực hiện thao tác này định kỳ mỗi tuần để tăng tốc độ kết nối internet mượt mà."}'
+        >
+            <div class="retro-dots"></div>
+
+            <div class="header-bar">
+                <div class="kicker-tag"><span class="kicker-txt"></span></div>
+                <div class="main-title"></div>
+            </div>
+
+            <div class="mascot-stage">
+                <div class="mascot-avatar"><span class="m-emoji"></span></div>
+                <div class="mascot-name-tag m-name"></div>
+                <div class="speech-bubble s-bubble"></div>
+            </div>
+
+            <div class="action-card">
+                <div class="tip-badge-box t-badge"></div>
+                <div class="action-txt a-step"></div>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="takeaway-text"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker-txt", v.kicker);
+                set(".main-title", v.topic_title);
+                set(".m-emoji", v.mascot_emoji || "🤖");
+                set(".m-name", v.mascot_name);
+                set(".s-bubble", v.speech_bubble);
+                set(".t-badge", v.tip_badge || "TIP");
+                set(".a-step", v.action_step);
+                set(".takeaway-text", v.takeaway);
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>

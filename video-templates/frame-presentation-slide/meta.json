@@ -1,0 +1,19 @@
+{
+  "title": "Master Presentation Slide & Pitch Deck",
+  "description": "Executive presentation slide with slide numbering, structured bullet cards, presenter bio slot and takeaway inspired by PPT Master.",
+  "category": "Presentation & Pitch",
+  "tags": ["presentation", "slide", "pitch", "deck", "powerpoint", "keynote"],
+  "defaultVariables": {
+    "kicker": "BÁO CÁO CHIẾN LƯỢC KINH DOANH Q3",
+    "slide_title": "Động Lực Tăng Trưởng & Quy Mô Mở Rộng Thị Trường",
+    "slide_num": "SLIDE 04 / 12",
+    "presenter_tag": "DIỄN GIẢ: NGUYỄN VĂN A · CEO",
+    "bullet_1_title": "1. Mở Rộng Kênh Phân Phối B2B",
+    "bullet_1_desc": "Ký kết thành công hợp tác với 120 chuỗi bán lẻ trọng điểm.",
+    "bullet_2_title": "2. Giảm Chi Phí Thu Hút Khách Hàng (CAC)",
+    "bullet_2_desc": "Ứng dụng AI Automation cắt giảm 35% chi phí quảng cáo.",
+    "bullet_3_title": "3. Tỷ Lệ Giữ Chân Khách Hàng > 92%",
+    "bullet_3_desc": "Trải nghiệm cá nhân hóa nâng cao vòng đời giá trị người dùng.",
+    "takeaway": "Mô hình tăng trưởng bền vững dự kiến mang lại doanh thu 150 tỷ VNĐ trong năm tài chính."
+  }
+}

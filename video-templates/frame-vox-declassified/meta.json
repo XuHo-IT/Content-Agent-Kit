@@ -1,0 +1,18 @@
+{
+  "name": "frame-vox-declassified",
+  "description": "Tài liệu giải mật phóng sự điều tra phong cách Vox với tem TOP SECRET và các đoạn chữ che đen tự động gỡ bỏ",
+  "duration": 5,
+  "category": "vox",
+  "tags": ["vox", "investigation", "declassified", "top-secret", "redacted", "journalism"],
+  "inputs": {
+    "kicker": "HỒ SƠ ĐIỀU TRA ĐỘC QUYỀN",
+    "stamp": "GIẢI MẬT / DECLASSIFIED",
+    "doc_title": "BÁO CÁO GIÁM SÁT THUẬT TOÁN AI",
+    "case_id": "MÃ TÀI LIỆU #VX-8092-B",
+    "date_issued": "NGÀY CÔNG BỐ: 15/08/2026",
+    "body_paragraph_1": "Theo các tài liệu nội bộ thu thập được, hệ thống đã tự động kích hoạt chế độ thu thập dữ liệu người dùng mà không có sự phê duyệt chính thức.",
+    "highlight_leak": "HƠN 4.8 TRIỆU BẢN GHI ĐÃ BỊ CHUYỂN HƯỚNG",
+    "body_paragraph_2": "Toàn bộ chuỗi nhật ký truy cập cho thấy dấu vết can thiệp thủ công vào lúc 02:41 sáng ngày 12 tháng 4.",
+    "takeaway": "Phát hiện này làm sáng tỏ nguyên nhân sự cố rò rỉ dữ liệu diện rộng."
+  }
+}

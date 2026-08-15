@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Hybrid Math and Diagram (Portrait)</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400;1,6..72,700&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body {
+                background: #090d16;
+                color: #f8fafc;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                overflow: hidden;
+                width: 1080px;
+                height: 1920px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #root {
+                width: 1080px;
+                height: 1920px;
+                position: relative;
+                overflow: hidden;
+                padding: 100px 50px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                background: radial-gradient(circle at center, #151e32 0%, #080c16 100%);
+            }
+
+            .chalk-grid {
+                position: absolute; inset: 0;
+                background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                                  linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+                background-size: 40px 40px;
+            }
+
+            .header-bar {
+                position: relative; z-index: 2;
+                display: flex; flex-direction: column; gap: 12px;
+            }
+            .kicker-hybrid {
+                display: inline-flex; align-items: center; gap: 8px;
+                background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4);
+                color: #34d399; font-family: "JetBrains Mono", monospace;
+                font-size: 16px; font-weight: 700; padding: 6px 16px; border-radius: 6px; width: fit-content;
+            }
+            .main-title {
+                font-size: 46px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; line-height: 1.25;
+            }
+
+            .stage-col {
+                position: relative; z-index: 2;
+                display: flex; flex-direction: column; gap: 24px;
+            }
+
+            .flow-box {
+                position: relative;
+                background: rgba(15, 23, 42, 0.75);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 16px; padding: 24px 28px;
+                display: flex; flex-direction: column; gap: 12px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+                opacity: 0; animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+
+            .flow-node {
+                background: rgba(30, 41, 59, 0.8);
+                border: 1px solid rgba(56, 189, 248, 0.3);
+                border-left: 5px solid #38bdf8;
+                border-radius: 8px; padding: 14px 20px;
+                font-family: "JetBrains Mono", monospace; font-size: 16px; font-weight: 700;
+                color: #e2e8f0;
+            }
+            .flow-node.n2 { border-left-color: #facc15; }
+            .flow-node.n3 { border-left-color: #ef4444; }
+
+            .flow-arrow {
+                text-align: center; color: #64748b; font-size: 20px; font-weight: 800; margin: -6px 0;
+            }
+
+            .math-box {
+                position: relative;
+                background: rgba(15, 23, 42, 0.85);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                border-radius: 16px; padding: 24px 28px;
+                display: flex; flex-direction: column; gap: 14px;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+                opacity: 0; animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+            }
+
+            .math-header-tag {
+                font-family: "JetBrains Mono", monospace; font-size: 13px; font-weight: 700;
+                color: #38bdf8; letter-spacing: 1px;
+            }
+
+            .eq-card {
+                background: rgba(30, 41, 59, 0.7);
+                border-radius: 10px; padding: 14px 18px;
+                border-left: 5px solid #10b981;
+            }
+            .eq-card.alt { border-left-color: #c084fc; }
+
+            .eq-label {
+                font-family: "JetBrains Mono", monospace; font-size: 12px; font-weight: 700;
+                color: #94a3b8; text-transform: uppercase;
+            }
+            .eq-math {
+                font-family: "Newsreader", serif; font-size: 30px; font-style: italic;
+                font-weight: 700; color: #ffffff; margin-top: 2px;
+            }
+
+            .param-tag {
+                font-family: "JetBrains Mono", monospace; font-size: 15px; font-weight: 700;
+                color: #facc15;
+            }
+
+            .bottom-bar {
+                position: relative; z-index: 2;
+                background: rgba(15, 23, 42, 0.9);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px; padding: 20px 24px;
+                font-size: 20px; font-weight: 600; color: #e2e8f0; line-height: 1.4;
+            }
+
+            @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="portrait"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"kicker":"KIẾN TRÚC HỆ THỐNG & NỀN TẢNG TOÁN HỌC","hybrid_title":"Luồng Lan Truyền Ngược & Tối Ưu Hóa Gradient","step_1_node":"1. Forward Pass (Kích Hoạt Ma Trận A = σ(W • X))","step_2_node":"2. Tính Hàm Mất Mát Loss L(y, ŷ)","step_3_node":"3. Backward Pass (Lan Truyền Ngược ∂L/∂W)","math_formula_main":"∇L_W = (1/m) • (A - Y) • X^T","math_update_rule":"W_mới = W_cũ - η • ∇L_W","learning_rate":"Tốc Độ Học η = 0.001 • Momentum β = 0.9","takeaway":"Quy trình kết hợp chặt chẽ giữa thiết kế mạng nơ-ron và đạo hàm ma trận giúp tối ưu hội tụ sau 50 epoch."}'
+        >
+            <div class="chalk-grid"></div>
+
+            <div class="header-bar">
+                <div class="kicker-hybrid"><span class="kicker-txt"></span></div>
+                <div class="main-title"></div>
+            </div>
+
+            <div class="stage-col">
+                <div class="flow-box">
+                    <div class="flow-node n1 node-1-txt"></div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-node n2 node-2-txt"></div>
+                    <div class="flow-arrow">↓</div>
+                    <div class="flow-node n3 node-3-txt"></div>
+                </div>
+
+                <div class="math-box">
+                    <div class="math-header-tag"></div>
+                    <div class="eq-card">
+                        <div class="eq-label l1"></div>
+                        <div class="eq-math f-main"></div>
+                    </div>
+                    <div class="eq-card alt">
+                        <div class="eq-label l2"></div>
+                        <div class="eq-math f-rule"></div>
+                    </div>
+                    <div class="param-tag lr-txt"></div>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <span class="takeaway-txt"></span>
+            </div>
+        </div>
+
+        <script>
+            const vars = window.__hyperframes ? window.__hyperframes.getVariables() : {};
+            document.querySelector(".kicker-txt").textContent = vars.kicker || "";
+            document.querySelector(".main-title").textContent = vars.hybrid_title || "";
+            document.querySelector(".node-1-txt").textContent = vars.step_1_node || "";
+            document.querySelector(".node-2-txt").textContent = vars.step_2_node || "";
+            document.querySelector(".node-3-txt").textContent = vars.step_3_node || "";
+            document.querySelector(".math-header-tag").textContent = "ĐẠO HÀM GRADIENT & CẬP NHẬT TRỌNG SỐ";
+            document.querySelector(".l1").textContent = "ĐẠO HÀM GRADIENT MA TRẬN";
+            document.querySelector(".f-main").textContent = vars.math_formula_main || "";
+            document.querySelector(".l2").textContent = "QUY TẮC CẬP NHẬT TRỌNG SỐ";
+            document.querySelector(".f-rule").textContent = vars.math_update_rule || "";
+            document.querySelector(".lr-txt").textContent = vars.learning_rate || "";
+            document.querySelector(".takeaway-txt").textContent = vars.takeaway || "";
+        </script>
+    </body>
+</html>

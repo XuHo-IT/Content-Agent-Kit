@@ -1,0 +1,17 @@
+{
+  "name": "frame-geo-sonar-radar",
+  "description": "Màn hình radar sonar quét toạ độ không gian địa lý quân sự/vệ tinh với toạ độ GPS và ping khoá mục tiêu",
+  "duration": 5,
+  "category": "geo",
+  "tags": ["geo", "radar", "sonar", "gps", "coordinates", "tactical", "tracking"],
+  "inputs": {
+    "kicker": "HỆ THỐNG GIÁM SÁT VỆ TINH TOÀN CẦU",
+    "radar_title": "Quét Toạ Độ & Định Vị Nút Mạng Hạ Tầng",
+    "coords_1": "LAT 21.0285° N, LON 105.8542° E (TRẠM HÀ NỘI)",
+    "status_1": "KẾT NỐI HOẠT ĐỘNG • BĂNG THÔNG 800 Gbps",
+    "coords_2": "LAT 10.8231° N, LON 106.6297° E (TRẠM TP. HCM)",
+    "status_2": "KHÓA MỤC TIÊU • ĐỘ TRỄ 1.8ms",
+    "scan_frequency": "TẦN SỐ QUÉT: 9.4 GHz • BÁN KÍNH: 1,200 KM",
+    "takeaway": "Hệ thống radar xác nhận toàn bộ luồng truyền dẫn cáp quang biển đang vận hành ở công suất tối ưu."
+  }
+}

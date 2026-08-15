@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>GEO Sonar Radar</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body {
+                background: #020617;
+                color: #f8fafc;
+                font-family: "JetBrains Mono", monospace;
+                overflow: hidden;
+                width: 1920px;
+                height: 1080px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #root {
+                width: 1920px;
+                height: 1080px;
+                position: relative;
+                overflow: hidden;
+                padding: 60px 80px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                background: radial-gradient(circle at center, #062b24 0%, #020617 80%);
+            }
+
+            .header-bar {
+                position: relative; z-index: 2;
+                display: flex; justify-content: space-between; align-items: flex-start;
+            }
+            .kicker-tactical {
+                display: inline-flex; align-items: center; gap: 8px;
+                background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4);
+                color: #34d399; font-size: 15px; font-weight: 700; padding: 6px 14px; border-radius: 4px;
+            }
+            .main-title {
+                font-family: "Plus Jakarta Sans", sans-serif;
+                font-size: 44px; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; margin-top: 8px;
+            }
+            .scan-freq {
+                font-size: 14px; font-weight: 700; color: #10b981;
+                border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 16px; border-radius: 6px;
+            }
+
+            /* Stage: Radar Dish (Left) + Data Telemetry (Right) */
+            .stage-grid {
+                position: relative; z-index: 2;
+                display: grid; grid-template-columns: 600px 1fr; gap: 60px;
+                align-items: center; height: 680px;
+            }
+
+            /* Sonar Radar Screen */
+            .radar-dish {
+                position: relative; width: 560px; height: 560px;
+                border: 2px solid rgba(16, 185, 129, 0.4); border-radius: 50%;
+                background: rgba(4, 30, 24, 0.7); box-shadow: 0 0 50px rgba(16, 185, 129, 0.2);
+                overflow: hidden;
+            }
+            .ring-1 { position: absolute; inset: 60px; border: 1px dashed rgba(16, 185, 129, 0.3); border-radius: 50%; }
+            .ring-2 { position: absolute; inset: 140px; border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 50%; }
+            .ring-3 { position: absolute; inset: 210px; border: 1px dashed rgba(16, 185, 129, 0.2); border-radius: 50%; }
+            .cross-h { position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(16, 185, 129, 0.3); }
+            .cross-v { position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: rgba(16, 185, 129, 0.3); }
+
+            /* Sweep beam */
+            .sweep-beam {
+                position: absolute; inset: 0; border-radius: 50%;
+                background: conic-gradient(from 0deg, rgba(16, 185, 129, 0.5) 0deg, transparent 60deg);
+                animation: rotateRadar 4s linear infinite;
+            }
+
+            /* Blips */
+            .blip-1 {
+                position: absolute; left: 65%; top: 30%; width: 12px; height: 12px;
+                background: #ef4444; border-radius: 50%; box-shadow: 0 0 16px #ef4444;
+                animation: blipPulse 1.2s ease-in-out infinite;
+            }
+            .blip-2 {
+                position: absolute; left: 35%; top: 68%; width: 12px; height: 12px;
+                background: #38bdf8; border-radius: 50%; box-shadow: 0 0 16px #38bdf8;
+                animation: blipPulse 1.5s ease-in-out infinite;
+            }
+
+            /* Telemetry Cards */
+            .telemetry-col {
+                display: flex; flex-direction: column; gap: 24px;
+            }
+            .tactical-card {
+                background: rgba(15, 23, 42, 0.8);
+                border: 1px solid rgba(16, 185, 129, 0.3);
+                border-left: 6px solid #10b981;
+                border-radius: 12px; padding: 24px 28px;
+                box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+                backdrop-filter: blur(12px);
+                opacity: 0; animation: slideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+            .tactical-card.t2 { border-left-color: #38bdf8; animation-delay: 0.2s; }
+
+            .coord-line { font-size: 16px; font-weight: 700; color: #a7f3d0; margin-bottom: 6px; }
+            .status-line { font-size: 24px; font-weight: 800; color: #ffffff; }
+
+            .bottom-bar {
+                position: relative; z-index: 2;
+                background: rgba(15, 23, 42, 0.9);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 10px; padding: 18px 28px;
+                font-family: "Plus Jakarta Sans", sans-serif;
+                font-size: 20px; font-weight: 600; color: #e2e8f0;
+            }
+
+            @keyframes rotateRadar { to { transform: rotate(360deg); } }
+            @keyframes blipPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.6); opacity: 0.5; } }
+            @keyframes slideIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: none; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"HỆ THỐNG GIÁM SÁT VỆ TINH TOÀN CẦU","radar_title":"Quét Toạ Độ & Định Vị Nút Mạng Hạ Tầng","coords_1":"LAT 21.0285° N, LON 105.8542° E (TRẠM HÀ NỘI)","status_1":"KẾT NỐI HOẠT ĐỘNG • BĂNG THÔNG 800 Gbps","coords_2":"LAT 10.8231° N, LON 106.6297° E (TRẠM TP. HCM)","status_2":"KHÓA MỤC TIÊU • ĐỘ TRỄ 1.8ms","scan_frequency":"TẦN SỐ QUÉT: 9.4 GHz • BÁN KÍNH: 1,200 KM","takeaway":"Hệ thống radar xác nhận toàn bộ luồng truyền dẫn cáp quang biển đang vận hành ở công suất tối ưu."}'
+        >
+            <div class="header-bar">
+                <div>
+                    <div class="kicker-tactical"><span class="kicker-txt"></span></div>
+                    <div class="main-title"></div>
+                </div>
+                <div class="scan-freq"></div>
+            </div>
+
+            <div class="stage-grid">
+                <div class="radar-dish">
+                    <div class="ring-1"></div>
+                    <div class="ring-2"></div>
+                    <div class="ring-3"></div>
+                    <div class="cross-h"></div>
+                    <div class="cross-v"></div>
+                    <div class="sweep-beam"></div>
+                    <div class="blip-1"></div>
+                    <div class="blip-2"></div>
+                </div>
+
+                <div class="telemetry-col">
+                    <div class="tactical-card t1">
+                        <div class="coord-line c1"></div>
+                        <div class="status-line s1"></div>
+                    </div>
+                    <div class="tactical-card t2">
+                        <div class="coord-line c2"></div>
+                        <div class="status-line s2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-bar">
+                <span class="takeaway-txt"></span>
+            </div>
+        </div>
+
+        <script>
+            const vars = window.__hyperframes ? window.__hyperframes.getVariables() : {};
+            document.querySelector(".kicker-txt").textContent = vars.kicker || "";
+            document.querySelector(".main-title").textContent = vars.radar_title || "";
+            document.querySelector(".scan-freq").textContent = vars.scan_frequency || "";
+            document.querySelector(".c1").textContent = vars.coords_1 || "";
+            document.querySelector(".s1").textContent = vars.status_1 || "";
+            document.querySelector(".c2").textContent = vars.coords_2 || "";
+            document.querySelector(".s2").textContent = vars.status_2 || "";
+            document.querySelector(".takeaway-txt").textContent = vars.takeaway || "";
+        </script>
+    </body>
+</html>

@@ -207,6 +207,61 @@
       "licenseFile": "LICENSE",
       "summary": "190+ design reasoning rules, color palettes, typography scale ratios and UX patterns across multiple industry stacks.",
       "why": "Provides visual hierarchy, WCAG AAA contrast and typography scaling principles applied directly to HTML video frames and web layouts."
+    },
+    "drawio": {
+      "repo": "Agents365-ai/drawio-skill",
+      "ref": "main",
+      "path": ".",
+      "installAs": "drawio",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Draw.io XML/SVG diagram generation and flowchart structure mapping for system workflows and architectures.",
+      "why": "Powers automated flowchart, decision tree and architecture diagram generation."
+    },
+    "manim-math": {
+      "repo": "ManimCommunity/manim",
+      "ref": "main",
+      "path": ".",
+      "installAs": "manim-math",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Mathematical animation reasoning and scene script structuring for STEM educational explainers.",
+      "why": "Assists agents in structuring complex math formulas, step-by-step proofs and coordinate systems."
+    },
+    "whiteboard": {
+      "repo": "geeklee/srt-whiteboard-animation",
+      "ref": "master",
+      "path": ".",
+      "installAs": "whiteboard",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Whiteboard doodle and hand-drawn sketch timing synchronized with narration and subtitles.",
+      "why": "Creates engaging hand-drawn storyboard explainer videos."
+    },
+    "canvas-widgets": {
+      "repo": "DavidHDev/canvas-ui",
+      "ref": "main",
+      "path": ".",
+      "installAs": "canvas-widgets",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "High-performance HTML5 Canvas UI elements, speedometers, circular gauges and real-time telemetry dials.",
+      "why": "Supplies custom canvas dials and visualizers for technical benchmarks and performance videos."
+    },
+    "fitness": {
+      "repo": "hasaneyldrm/exercises-dataset",
+      "ref": "main",
+      "path": ".",
+      "installAs": "fitness",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Structured exercise database with muscle targeting, workout progressions, rep schemes and rest timers.",
+      "why": "Enables automated generation of fitness coaching, workout routine and exercise breakdown content."
     }
   },
   "_marketing": [

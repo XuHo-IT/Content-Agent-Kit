@@ -1,120 +1,111 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=1080, height=1920" />
-        <title>Geo Local Card · 9:16</title>
+        <title>Geo Local Card · Portrait</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap"
             rel="stylesheet"
         />
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
-            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #071018; }
+            html, body { width: 1080px; height: 1920px; overflow: hidden; background: #022c22; }
             #root {
                 position: relative; width: 1080px; height: 1920px;
-                background: #071018; color: #e6f3fb;
-                font-family: "Be Vietnam Pro", sans-serif;
+                background: #022c22; color: #f0fdf4;
+                font-family: "Plus Jakarta Sans", sans-serif;
                 overflow: hidden;
             }
 
-            .grid-map {
-                position: absolute; inset: 0;
-                background-image: radial-gradient(rgba(56, 189, 248, 0.15) 1.5px, transparent 0);
-                background-size: 36px 36px;
-                pointer-events: none;
-            }
-
-            .radar-glow {
-                position: absolute; top: 30%; right: -10%; width: 600px; height: 600px;
-                background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, rgba(56, 189, 248, 0.02) 60%, transparent 80%);
-                border-radius: 50%;
-                animation: pulse 3s ease-in-out infinite alternate;
+            .map-svg-bg {
+                position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
             }
 
             .top-bar {
-                position: absolute; top: 120px; left: 80px; right: 80px;
-                display: flex; flex-direction: column; gap: 16px; align-items: flex-start;
+                position: absolute; top: 100px; left: 60px; right: 60px; z-index: 5;
+                display: flex; align-items: center; justify-content: space-between;
                 opacity: 0; animation: fadeDown 0.5s ease-out 0.1s both;
             }
             .kicker-tag {
-                font-family: "Space Mono", monospace; font-size: 22px; font-weight: 700;
-                letter-spacing: 2px; text-transform: uppercase; color: #38bdf8;
-                display: flex; align-items: center; gap: 10px;
+                font-family: "JetBrains Mono", monospace; font-size: 15px; font-weight: 800;
+                letter-spacing: 2px; text-transform: uppercase; color: #34d399;
+                display: flex; align-items: center; gap: 8px;
+                background: rgba(2, 44, 34, 0.85); padding: 8px 16px; border-radius: 8px;
+                border: 1px solid rgba(52, 211, 153, 0.3);
             }
-            .kicker-tag::before { content: "📍"; font-size: 24px; }
+            .kicker-tag::before { content: "📍"; font-size: 16px; }
             .badge-tag {
                 background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff;
-                padding: 8px 20px; border-radius: 999px; font-weight: 700; font-size: 18px;
+                padding: 8px 18px; border-radius: 999px; font-weight: 800; font-size: 13px;
                 letter-spacing: 1px; text-transform: uppercase;
                 box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
             }
 
             .card-wrapper {
-                position: absolute; top: 280px; left: 80px; right: 80px; bottom: 180px;
+                position: absolute; top: 220px; left: 60px; right: 60px; bottom: 120px; z-index: 5;
                 display: flex; flex-direction: column; justify-content: space-between;
-                background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(56, 189, 248, 0.3);
-                border-radius: 28px; padding: 60px 50px;
+                background: rgba(4, 47, 36, 0.92); border: 2px solid rgba(52, 211, 153, 0.4);
+                border-radius: 24px; padding: 40px 36px;
                 box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-                backdrop-filter: blur(12px);
-                opacity: 0; animation: cardIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+                backdrop-filter: blur(16px);
+                opacity: 0; animation: cardRise 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
             }
 
-            .place-header {
-                display: flex; flex-direction: column; gap: 16px;
-            }
+            .place-header { margin-bottom: 20px; }
             .place-name {
-                font-size: 68px; font-weight: 900; line-height: 1.15; color: #ffffff;
-                letter-spacing: -0.02em;
+                font-size: 40px; font-weight: 900; color: #ffffff; letter-spacing: -0.02em; line-height: 1.2;
             }
             .place-address {
-                font-size: 28px; color: #94a3b8; font-weight: 500; line-height: 1.4;
+                font-size: 20px; font-weight: 600; color: #cbd5e1; margin-top: 10px;
+                display: flex; align-items: center; gap: 8px; line-height: 1.35;
             }
 
             .rating-section {
-                display: flex; align-items: center; gap: 28px;
-                background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(255, 255, 255, 0.08);
-                border-radius: 20px; padding: 24px 32px;
-                opacity: 0; animation: fadeUp 0.5s ease-out 0.4s both;
+                display: flex; align-items: center; gap: 20px;
+                background: rgba(2, 44, 34, 0.6); border: 1px solid rgba(52, 211, 153, 0.3);
+                border-radius: 16px; padding: 18px 24px; width: fit-content;
             }
             .score-big {
-                font-family: "Space Mono", monospace; font-size: 64px; font-weight: 900; color: #fbbf24;
-                line-height: 1;
+                font-family: "JetBrains Mono", monospace; font-size: 42px; font-weight: 900; color: #34d399;
             }
-            .stars-col {
-                display: flex; flex-direction: column; gap: 6px;
-            }
-            .stars { font-size: 30px; color: #fbbf24; letter-spacing: 2px; }
-            .review-count { font-size: 20px; color: #94a3b8; }
+            .stars-col { display: flex; flex-direction: column; gap: 4px; }
+            .stars { font-size: 18px; color: #facc15; }
+            .review-count { font-size: 14px; font-weight: 600; color: #94a3b8; }
 
             .highlights-box {
-                display: flex; flex-direction: column; gap: 16px;
-                opacity: 0; animation: fadeUp 0.5s ease-out 0.55s both;
+                display: flex; flex-direction: column; gap: 14px; margin-top: 20px;
             }
             .hl-pill {
-                background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35);
-                color: #bae6fd; padding: 18px 24px; border-radius: 14px;
-                font-size: 26px; font-weight: 600;
+                background: rgba(52, 211, 153, 0.15); border: 1px solid rgba(52, 211, 153, 0.35);
+                color: #f0fdf4; font-size: 18px; font-weight: 700; padding: 12px 20px; border-radius: 12px;
+                line-height: 1.35;
             }
 
             @keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
-            @keyframes cardIn { from { opacity: 0; transform: translateY(24px) scale(0.98); } to { opacity: 1; transform: none; } }
-            @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-            @keyframes pulse { from { opacity: 0.6; } to { opacity: 1; } }
+            @keyframes cardRise { from { opacity: 0; transform: translateY(30px) scale(0.96); } to { opacity: 1; transform: none; } }
         </style>
     </head>
     <body>
         <div
             id="root"
-            data-composition-id="main"
+            data-composition-id="portrait"
             data-start="0"
             data-duration="5"
             data-width="1080"
             data-height="1920"
             data-composition-variables='{"kicker":"ĐỊA ĐIỂM NỔI BẬT · ĐÀ NẴNG","badge":"TOP 1 CHECK-IN","place_name":"The Workshop Specialty Coffee","address":"27 Ngô Đức Kế, Quận 1, TP. Hồ Chí Minh","rating":"4.9","rating_count":"Hơn 1.250","highlights":"View ngắm hoàng hôn|Specialty Coffee rang mộc|Không gian làm việc yên tĩnh"}'
         >
-            <div class="grid-map"></div>
-            <div class="radar-glow"></div>
+            <svg class="map-svg-bg" viewBox="0 0 1080 1920">
+                <path d="M 0,0 C 200,400 300,1000 150,1920 L 0,1920 Z" fill="#042f2e" opacity="0.6" />
+                <path d="M 900,0 C 800,600 950,1200 1080,1920 L 1080,0 Z" fill="#042f2e" opacity="0.6" />
+                <path d="M 0,400 L 1080,400 M 0,900 L 1080,900 M 0,1400 L 1080,1400" stroke="rgba(52,211,153,0.12)" stroke-width="2" />
+                <path d="M 250,0 L 250,1920 M 650,0 L 650,1920" stroke="rgba(52,211,153,0.12)" stroke-width="2" />
+                <circle cx="800" cy="1100" r="140" fill="none" stroke="rgba(239,68,68,0.3)" stroke-width="2" stroke-dasharray="6,6" />
+                <circle cx="800" cy="1100" r="16" fill="#ef4444" />
+            </svg>
 
             <div class="top-bar">
                 <div class="kicker-tag"><span class="kicker-txt"></span></div>
@@ -171,7 +162,7 @@
                 }
             })();
             window.__timelines = window.__timelines || {};
-            window.__timelines["main"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+            window.__timelines["portrait"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
         </script>
     </body>
 </html>

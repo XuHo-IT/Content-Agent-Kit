@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1080, height=1920" />
+        <title>Vox Newspaper Tear (Portrait)</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Cinzel:wght@800;900&family=JetBrains+Mono:wght@600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;0,6..72,800;1,6..72,400;1,6..72,700&family=Plus+Jakarta+Sans:wght@700;800&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body {
+                background: #090d16;
+                color: #1a1a1a;
+                font-family: "Newsreader", serif;
+                overflow: hidden;
+                width: 1080px;
+                height: 1920px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            #root {
+                width: 1080px;
+                height: 1920px;
+                position: relative;
+                overflow: hidden;
+                padding: 80px 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: radial-gradient(circle at center, #1e293b 0%, #090d16 100%);
+            }
+
+            .newsprint-sheet {
+                position: relative;
+                width: 100%;
+                background: #fbf7ee;
+                border: 1px solid #dcd3be;
+                border-radius: 8px;
+                padding: 50px 44px;
+                display: flex;
+                flex-direction: column;
+                gap: 28px;
+                box-shadow: 0 35px 80px rgba(0, 0, 0, 0.8);
+                opacity: 0;
+                animation: paperSlide 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+            }
+
+            .masthead {
+                text-align: center;
+                border-bottom: 3px double #2c2824;
+                padding-bottom: 16px;
+            }
+
+            .pub-name {
+                font-family: "Cinzel", serif;
+                font-size: 34px;
+                font-weight: 900;
+                letter-spacing: 4px;
+                color: #1c1917;
+                text-transform: uppercase;
+            }
+
+            .issue-bar {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+                align-items: center;
+                font-family: "JetBrains Mono", monospace;
+                font-size: 14px;
+                font-weight: 700;
+                color: #78716c;
+                border-top: 1px solid #2c2824;
+                margin-top: 10px;
+                padding-top: 8px;
+                letter-spacing: 1px;
+            }
+
+            .main-headline {
+                font-family: "Newsreader", serif;
+                font-size: 46px;
+                font-weight: 800;
+                color: #0c0a09;
+                line-height: 1.2;
+                letter-spacing: -0.5px;
+                text-transform: uppercase;
+                text-align: center;
+            }
+
+            .lead-quote-box {
+                background: #facc15;
+                color: #090d16;
+                padding: 20px 24px;
+                border-radius: 4px;
+                border-left: 8px solid #1c1917;
+                opacity: 0;
+                animation: fadeIn 0.5s ease 0.4s both;
+            }
+
+            .lead-quote-txt {
+                font-family: "Newsreader", serif;
+                font-size: 28px;
+                font-style: italic;
+                font-weight: 700;
+                line-height: 1.35;
+            }
+
+            .column-p {
+                font-family: "Newsreader", serif;
+                font-size: 26px;
+                line-height: 1.55;
+                color: #292524;
+                text-align: justify;
+            }
+
+            .paper-footer {
+                border-top: 1px solid #2c2824;
+                padding-top: 14px;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .note-txt {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 15px;
+                font-weight: 700;
+                color: #78716c;
+                text-transform: uppercase;
+                line-height: 1.3;
+            }
+
+            .edition-tag {
+                font-family: "Plus Jakarta Sans", sans-serif;
+                font-size: 13px;
+                font-weight: 800;
+                color: #ef4444;
+                border: 1px solid #ef4444;
+                padding: 2px 8px;
+                border-radius: 2px;
+                letter-spacing: 1px;
+                width: fit-content;
+            }
+
+            @keyframes paperSlide {
+                from { opacity: 0; transform: translateY(24px) rotate(-1deg); }
+                to { opacity: 1; transform: none; }
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: scale(0.98); }
+                to { opacity: 1; transform: none; }
+            }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="portrait"
+            data-start="0"
+            data-duration="5"
+            data-width="1080"
+            data-height="1920"
+            data-composition-variables='{"publication_name":"THE GLOBAL TECH TRIBUNE","issue_date":"THỨ BẢY, 15 THÁNG 8, 2026 • SỐ 4,190","headline":"BƯỚC NGOẶT LỚN CỦA NỀN CÔNG NGHIỆP BÁN DẪN TOÀN CẦU","lead_quote":"Khoản đầu tư 40 tỷ USD đánh dấu sự tái cấu trúc lớn nhất trong hai thập kỷ qua.","column_left":"Các nhà phân tích độc lập nhận định rằng chuỗi cung ứng đang dịch chuyển mạnh mẽ về khu vực châu Á - Thái Bình Dương.","column_right":"Tác động dây chuyền dự kiến sẽ làm thay đổi cấu trúc chi phí sản xuất vi mạch trong ít nhất 5 năm tới.","editor_note":"CHÚ THÍCH BIÊN TẬP: Dữ liệu được tổng hợp từ báo cáo tài chính quý 2."}'
+        >
+            <div class="newsprint-sheet">
+                <div class="masthead">
+                    <div class="pub-name"></div>
+                    <div class="issue-bar">
+                        <span class="issue-date"></span>
+                        <span class="edition-tag"></span>
+                    </div>
+                </div>
+
+                <div class="main-headline"></div>
+
+                <div class="lead-quote-box">
+                    <div class="lead-quote-txt"></div>
+                </div>
+
+                <div class="column-p col-left"></div>
+                <div class="column-p col-right"></div>
+
+                <div class="paper-footer">
+                    <div class="note-txt ed-note"></div>
+                    <div class="note-txt desk-note"></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const vars = window.__hyperframes ? window.__hyperframes.getVariables() : {};
+            document.querySelector(".pub-name").textContent = vars.publication_name || "";
+            document.querySelector(".issue-date").textContent = vars.issue_date || "";
+            document.querySelector(".edition-tag").textContent = "SPECIAL INVESTIGATIVE EDITION";
+            document.querySelector(".main-headline").textContent = vars.headline || "";
+            document.querySelector(".lead-quote-txt").textContent = vars.lead_quote || "";
+            document.querySelector(".col-left").textContent = vars.column_left || "";
+            document.querySelector(".col-right").textContent = vars.column_right || "";
+            document.querySelector(".ed-note").textContent = vars.editor_note || "";
+            document.querySelector(".desk-note").textContent = "VOX MEDIA EDITORIAL DESK";
+        </script>
+    </body>
+</html>
