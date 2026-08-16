@@ -84,7 +84,40 @@
 
             @keyframes slideDown { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: none; } }
             @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
-        </style>
+        
+  /* DOCUMENT PANE MEDIA — supplied via the scene's media block */
+  .doc-media, .doc-media-ph {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+  }
+  .doc-media { object-fit: cover; }
+  /* Shapes only, never words — a stand-in that says something says it on every video that
+     forgets its clip. */
+  .doc-media-ph {
+    background: #0a0c14;
+    background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.03) 0 30px, transparent 30px 60px);
+  }
+  /* A FIXED scrim, not an adaptive one: the pipeline picks clips nobody previewed, so the
+     text has to stay readable over a bright frame and a dark one alike. Same reasoning as
+     frame-broll's. */
+  .doc-scrim {
+    position: absolute; inset: 0;
+    /* .45 in the middle was not enough: over bright water the small furniture (case id,
+       VERIFIED, the doc title) washed out while only the big quote stayed readable. Rendered
+       and looked at — .66 holds all of them without burying the footage. */
+    background: linear-gradient(180deg, rgba(6,8,14,.86) 0%, rgba(6,8,14,.66) 42%, rgba(6,8,14,.90) 100%);
+  }
+  .has-media { background: #0a0c14 !important; color: #f2ede2 !important; }
+  .has-media .paper-texture { display: none; }
+  .has-media .hud-header  { border-bottom-color: rgba(255,255,255,.35); }
+  .has-media .doc-title,
+  .has-media .doc-quote   { color: #f2ede2; text-shadow: 0 4px 24px rgba(0,0,0,.9); }
+  .has-media .timecode,
+  .has-media .evidence-id,
+  .has-media .verified-stamp { color: rgba(242,237,226,.85); text-shadow: 0 2px 12px rgba(0,0,0,.9); }
+  .has-media .doc-body,
+  .has-media .hud-header,
+  .has-media .doc-footer  { position: relative; z-index: 2; }
+</style>
     </head>
     <body>
         <div
@@ -144,9 +177,50 @@
                 set(".main-headline", v.headline);
                 set(".takeaway-text", v.takeaway);
                 set(".source-txt", v.source ? "Nguồn: " + v.source : "");
+                // Real footage in the document pane, when the scene supplies it. Without it
+                // the pane keeps its cream-paper look and nothing below runs.
+                window.__docMedia = null;
+                if (v.media_kind) {
+                    var pane = document.querySelector(".top-panel") || document.querySelector(".left-panel");
+                    if (pane) {
+                        pane.className += " has-media";
+                        var ph = document.createElement("div");
+                        ph.className = "doc-media-ph";
+                        ph.setAttribute("data-media-fallback", "");
+                        // BEFORE the media: both are positioned, so the later one in the
+                        // markup paints on top. A stand-in after the clip would cover it.
+                        pane.insertBefore(ph, pane.firstChild);
+
+                        var el;
+                        if (String(v.media_kind) === "video") {
+                            el = document.createElement("video");
+                            el.src = "assets/media.mp4";
+                            el.muted = true; el.playsInline = true; el.preload = "auto";
+                            window.__docMedia = el;
+                        } else {
+                            el = document.createElement("img");
+                            el.src = "assets/media.png";
+                            el.alt = "";
+                            // Empty alt suppresses alt TEXT, not Chrome's own broken-image
+                            // mark on a sized element. Hide it so a missing file leaves the
+                            // stand-in alone.
+                            el.onerror = function () { el.style.display = "none"; };
+                        }
+                        el.className = "doc-media";
+                        pane.insertBefore(el, ph.nextSibling);
+
+                        var scrim = document.createElement("div");
+                        scrim.className = "doc-scrim";
+                        pane.insertBefore(scrim, el.nextSibling);
+                    }
+                }
             })();
             window.__timelines = window.__timelines || {};
-            window.__timelines["main"] = window.__timelines["portrait"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+            window.__timelines["main"] = window.__timelines["portrait"] = {
+                pause: function () {},
+                seek: function (t) { var m = window.__docMedia; if (m) { try { m.currentTime = t; } catch (e) {} } },
+                paused: function () { return true; },
+            };
         </script>
     </body>
 </html>

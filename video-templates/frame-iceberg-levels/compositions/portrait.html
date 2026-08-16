@@ -38,7 +38,23 @@
       .ib-footer { background: rgba(0,0,0,0.7); border: 1px solid #38BDF8; border-radius: 12px; padding: 14px 20px; text-align: center; }
       .ib-takeaway-txt { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; color: #E0F2FE; margin: 0; font-weight: 700; }
     
-  </style>
+  
+  /* AMBIENT — hai lớp sóng khúc xạ chạy ngược chiều nhau, đúng cảm giác nhìn từ dưới nước lên. */
+  #root::before {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background: linear-gradient(102deg, transparent 38%, rgba(150,220,255,.06) 50%, transparent 62%);
+    background-size: 220% 100%;
+    animation: ambCaustA 16s ease-in-out infinite alternate;
+  }
+  #root::after {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background: linear-gradient(78deg, transparent 40%, rgba(150,220,255,.045) 50%, transparent 60%);
+    background-size: 260% 100%;
+    animation: ambCaustB 21s ease-in-out infinite alternate-reverse;
+  }
+  @keyframes ambCaustA { from { background-position: -40% 0; } to { background-position: 140% 0; } }
+  @keyframes ambCaustB { from { background-position: 140% 0; } to { background-position: -40% 0; } }
+</style>
 </head>
 <body>
   <div id="root" data-composition-id="portrait" data-start="0" data-duration="5" data-width="1080" data-height="1920" data-composition-variables='{"headline":"Mô Hình Tảng Băng Nhận Thức","tag_surface":"TẦNG 1: BỀ MẶT (10%)","level_1":"Hành vi quan sát được & Lời nói bên ngoài","tag_middle":"TẦNG 2: ẨN GIẤU (40%)","level_2":"Cảm xúc, nỗi sợ & Định kiến vô thức","tag_deep":"TẦNG 3: GỐC RỄ (50%)","level_3":"Hệ niềm tin cốt lõi & Chấn thương thời thơ ấu","water_label":"~~~~~~~~ MẶT NƯỚC ~~~~~~~~","depth_0m":"0m","depth_500m":"-500m","depth_2000m":"-2000m","takeaway":"Muốn thay đổi hành vi bền vững, phải chạm vào tầng sâu nhất."}'>

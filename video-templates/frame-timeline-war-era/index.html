@@ -33,7 +33,25 @@
 
       .wt-footer { background: #1C1814; border-left: 4px solid #D4AF37; padding: 14px 20px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; color: #D4AF37; font-weight: 700; }
     
-  </style>
+  
+  /* AMBIENT — hạt phim và một vignette thở. Đúng chất tư liệu cũ, và nó che bớt sự phẳng
+     của một dòng thời gian tĩnh. */
+  #root::before {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background-image: radial-gradient(rgba(255,255,255,.035) 1px, transparent 0);
+    background-size: 3px 3px;
+    animation: ambFilm 11s steps(6) infinite;
+  }
+  #root::after {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background: radial-gradient(78% 62% at 50% 46%, transparent 52%, rgba(0,0,0,.30) 100%);
+    animation: ambVig 17s ease-in-out infinite alternate;
+  }
+  /* steps() cố ý: hạt phim nhảy nấc mới ra chất máy chiếu, chuyển động mượt thì thành sương. */
+  @keyframes ambFilm { from { transform: translate3d(0, 0, 0); }
+                       to   { transform: translate3d(3px, 3px, 0); } }
+  @keyframes ambVig  { from { opacity: .6; } to { opacity: 1; } }
+</style>
 </head>
 <body>
   <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"Cuộc Chiến Giành Thị Phần Trình Duyệt","event_1":"1995: Netscape thống trị 90% người dùng web","event_2":"1998: Microsoft tung IE tích hợp thẳng vào Windows","event_3":"2008: Google Chrome ra mắt thay đổi hoàn toàn cục diện","conclusion":"Tốc độ và hệ sinh thái mở luôn đánh bại sự độc quyền khép kín."}'>

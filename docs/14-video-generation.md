@@ -607,6 +607,21 @@ chỉ chạy với scene có khối `media`, và kết quả được ghim trong
 Cờ hay dùng: `--estimate` (xem TTS tốn bao nhiêu rồi dừng) · `--refresh-media` (lấy lại B-roll,
 bỏ qua lock) · `--strict` · `--skip-validate` / `--skip-preflight`.
 
+**Đóng dấu thương hiệu** — chạy sau khi render, trên video đã ghép xong:
+
+```bash
+node scripts/video/brand-bar.mjs <dir>/video.mp4 --logo brand/logo.png --text "The UnTolds"
+```
+
+Nó **chừa chỗ** chứ không vẽ đè: mọi template trong kit đều đã dùng góc trái trên cho kicker,
+nên vẽ đè là che mất. Ảnh được thu nhỏ và viền hai bên, **không bị bóp méo**. Chạy một lần trên
+video đã concat nên thanh không thể lệch giữa các scene.
+
+- `--bg` phải khớp nền của logo nếu logo **không có kênh alpha** — nền của nó sẽ hiện thành một
+  ô vuông. Logo `rgb24` nền đen thì đặt `--bg "#000000"`.
+- Chạy hai lần sẽ chồng hai thanh. Script tự chặn khi thấy `<tên>-nobar.mp4` nằm cạnh, và in ra
+  đúng câu lệnh để làm lại từ bản sạch.
+
 **Rồi nhìn kết quả** — validator không nhìn được hình:
 
 ```bash

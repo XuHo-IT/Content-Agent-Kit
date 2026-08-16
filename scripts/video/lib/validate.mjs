@@ -12,6 +12,7 @@ import { SOURCE_IDS } from "../../media/lib/sources/index.mjs";
 // Read from the source itself so the accepted values cannot drift between the gate that
 // enforces them and the module that documents them.
 import { RIGHTS as SOCIAL_RIGHTS, RIGHTS_NEEDING_NOTE as SOCIAL_RIGHTS_NEEDING_NOTE } from "../../media/lib/sources/social.mjs";
+import { ALLOWED_LICENCES as MUSIC_LICENCES } from "./music.mjs";
 import { resolveTheme, loadThemeMap, THEME_IDS, contrastRatio, hexToRgb } from "./theme.mjs";
 import { TRANSITIONS } from "./ffmpeg-video.mjs";
 
@@ -50,7 +51,7 @@ export const CRAFT_DEFAULTS = {
 const CHAR_ANIMATED_FIELDS = { "frame-build-minimal": ["hero"] };
 
 /** Templates that actually show a resolved clip/still. Anything else silently ignores it. */
-const MEDIA_TEMPLATES = ["frame-broll", "frame-media-inset", "frame-screenshot", "frame-meme", "frame-vox-photo-grid", "frame-logo-outro"];
+const MEDIA_TEMPLATES = ["frame-broll", "frame-media-inset", "frame-screenshot", "frame-meme", "frame-vox-photo-grid", "frame-logo-outro", "frame-vox-split-screen"];
 
 /**
  * Templates that draw MORE than the first picture. Everything else takes `assets/media.*`
@@ -61,6 +62,28 @@ const MULTI_MEDIA_TEMPLATES = ["frame-vox-photo-grid"];
 
 /** Four cells is what a 9:16 frame can show before each is too small to read. */
 const MAX_MEDIA_PER_SCENE = 4;
+
+/**
+ * Templates that can actually PLAY a clip. This is a much shorter list than the ones that
+ * accept media, and the difference is not cosmetic.
+ *
+ * hyperframes calls a composition's seek() synchronously and never awaits it — there is no
+ * `await` before any `.seek(` in its bundle. Chrome's `video.currentTime = t` is async, so
+ * the screenshot is taken before the new frame has decoded. Whether that race is won comes
+ * down to how much decode work the frame is asking for, which was measured, not guessed:
+ *
+ *   frame-broll           one full-frame clip, declared in markup  -> plays correctly
+ *   frame-vox-split-screen  one pane clip + scrim + paper texture  -> pane BLANKS mid-scene
+ *   frame-vox-photo-grid    four cell clips                        -> black, then frozen
+ *
+ * So a clip is allowed only where it is the whole background. Anywhere else the resolver
+ * takes a still frame from it instead — see stillFrom() in scripts/media/lib/normalize.mjs.
+ * A frozen clip is worse than a still: it looks like the render broke.
+ */
+const VIDEO_SAFE_TEMPLATES = ["frame-broll"];
+
+/** One clip per frame. Two is the grid case above, which froze both. */
+const MAX_VIDEO_PER_SCENE = 1;
 
 const ASPECTS = ["9:16", "16:9"]; // 1:1 maps to a composition no template ships
 const SCENE_TYPES = ["hook", "body", "outro"];
@@ -146,6 +169,37 @@ export function validateScript(script, opts = {}) {
       );
     } else if (ratio < 7) {
       W(`theme: contrast ${ratio.toFixed(1)}:1 is legible but not comfortable at phone size`);
+    }
+  }
+
+  // ── music bed (optional) ─────────────────────────────────────────────────
+  if (script.music !== undefined) {
+    const m = script.music;
+    if (!isObj(m)) {
+      E(`music must be an object — {query} or {file}, plus an optional negative gainDb`);
+    } else {
+      if (!m.query && !m.file) E(`music needs a "query" (searched) or a "file" (one you supply)`);
+      if (m.query && m.file) E(`music has both "query" and "file" — pick one`);
+
+      // A bed louder than the narration is not a taste someone might have, it is a mistake,
+      // and it is one you only notice after a full render with headphones on.
+      if (m.gainDb !== undefined) {
+        if (typeof m.gainDb !== "number" || Number.isNaN(m.gainDb))
+          E(`music.gainDb must be a number in dB, got ${JSON.stringify(m.gainDb)}`);
+        else if (m.gainDb >= 0)
+          E(`music.gainDb is ${m.gainDb} — a bed sits UNDER the voice, so this must be negative (try -20).`);
+        else if (m.gainDb > -8)
+          W(`music.gainDb ${m.gainDb} is loud for a bed; -16 to -24 is the usual range for narration.`);
+      }
+
+      if (m.license !== undefined && !MUSIC_LICENCES.includes(String(m.license))) {
+        E(`music.license "${m.license}" is not one of: ${MUSIC_LICENCES.join(" | ")}. ` +
+          `Anything else cannot be cleared for a published video.`);
+      }
+      if (String(m.license ?? "cc0") === "by") {
+        W(`music.license "by" requires crediting the author wherever you publish — the render ` +
+          `prints the exact attribution and writes it to media-lock.json. Use "cc0" to avoid the obligation.`);
+      }
     }
   }
 
@@ -263,6 +317,12 @@ export function validateScript(script, opts = {}) {
         }
       }
 
+      const clips = entries.filter((m) => isObj(m) && (m.kind ?? "video") === "video");
+      if (clips.length > MAX_VIDEO_PER_SCENE) {
+        E(`${label} asks for ${clips.length} clips in one frame; at most ${MAX_VIDEO_PER_SCENE} ` +
+          `decodes in time. The rest render frozen — make them kind:"image".`);
+      }
+
       const sceneLabel = label;
       entries.forEach((m, mi) => {
       // Name the slot when there are several, so "which of the four pictures" is answerable
@@ -274,6 +334,12 @@ export function validateScript(script, opts = {}) {
         const kind = m.kind ?? "video";
         if (!["video", "image", "screenshot"].includes(kind))
           E(`${label}.media.kind must be video | image | screenshot, got ${JSON.stringify(m.kind)}`);
+        // A clip anywhere but a full-frame background renders black, frozen, or flickering.
+        // See VIDEO_SAFE_TEMPLATES for the measurements behind this.
+        if (kind === "video" && !VIDEO_SAFE_TEMPLATES.includes(scene.templateId))
+          E(`${label}.media.kind is "video" but ${scene.templateId} cannot play a clip — ` +
+            `it renders black or frozen. Use kind:"image" (a still is taken from the clip ` +
+            `automatically), or move this beat to: ${VIDEO_SAFE_TEMPLATES.join(", ")}.`);
         if (kind === "screenshot") {
           if (!m.url) E(`${label}.media needs a "url" when kind is "screenshot"`);
           else if (!/^https?:\/\//i.test(m.url)) E(`${label}.media.url must be http(s), got "${m.url}"`);

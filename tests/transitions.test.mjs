@@ -131,11 +131,18 @@ test("the default transition fits inside the inter-scene silence", () => {
 test("every transition name maps to a real ffmpeg xfade transition", () => {
   // These are ffmpeg's own names. A typo here fails at concat time, an hour
   // into a render, after TTS has already been paid for.
+  //
+  // A curated SUBSET, not the whole vocabulary — ffmpeg ships ~57 and this lists the ones the
+  // kit has had a use for. The list is hand-maintained because the CI runner has no ffmpeg to
+  // ask (same reason tests/wiring.test.mjs decodes a JPEG header by hand), so adding a
+  // transition means adding it here too. Verify against the real thing before you do:
+  //   ffmpeg -h filter=xfade
   const FFMPEG_XFADE = [
     "fade", "wipeleft", "wiperight", "wipeup", "wipedown",
     "slideleft", "slideright", "slideup", "slidedown",
     "circleopen", "circleclose", "pixelize", "dissolve",
     "smoothleft", "smoothright", "fadeblack", "fadewhite",
+    "zoomin",
   ];
   for (const [name, kind] of Object.entries(TRANSITIONS)) {
     if (name === "none") {

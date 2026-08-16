@@ -60,7 +60,23 @@ html, body { width: 1920px; height: 1080px; }
 .layer { flex-direction: column; justify-content: space-around; align-items: center; }
 .node { width: 230px; min-height: 108px; padding: 20px 22px; font-size: 28px; }
 .note { font-size: 28px; margin-top: 60px; }
-        </style>
+        
+  /* AMBIENT — xung chạy dọc các đường nối, cộng một quầng sáng đảo quanh. Đây là template về
+     LIÊN KẾT, nên thứ phải chuyển động là chính các đường nối. */
+  #root::before {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background: repeating-linear-gradient(90deg, rgba(255,255,255,.05) 0 2px, transparent 2px 26px);
+    animation: ambPulse 9s linear infinite;
+  }
+  #root::after {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background: radial-gradient(40% 30% at 30% 30%, rgba(140,200,255,.07), transparent 70%);
+    animation: ambOrbit 19s ease-in-out infinite alternate;
+  }
+  @keyframes ambPulse { from { background-position: 0 0; } to { background-position: 26px 0; } }
+  @keyframes ambOrbit { from { transform: translate3d(-3%, -2%, 0); }
+                        to   { transform: translate3d(3%, 2%, 0); } }
+</style>
     </head>
     <body>
         <div

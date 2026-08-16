@@ -121,10 +121,19 @@
     <div class="kicker"></div>
     <h1></h1>
     <div class="grid">
-      <div class="cell cell-1"><div class="ph" data-media-fallback></div><div class="cap"></div></div>
-      <div class="cell cell-2"><div class="ph" data-media-fallback></div><div class="cap"></div></div>
-      <div class="cell cell-3"><div class="ph" data-media-fallback></div><div class="cap"></div></div>
-      <div class="cell cell-4"><div class="ph" data-media-fallback></div><div class="cap"></div></div>
+      <!--
+        The img is declared INLINE so it preloads from page load rather than being created
+        at render time. The video element deliberately carries NO src: a clip in a grid cell does
+        not render — hyperframes calls seek() synchronously and never awaits it, so four
+        cells never finish decoding and capture black, then freeze. validate.mjs rejects
+        kind:"video" here for that reason (see VIDEO_SAFE_TEMPLATES), and the resolver takes
+        a still from the clip instead. The element and its JS branch survive only so a script
+        rendered with --skip-validate degrades visibly instead of throwing.
+      -->
+      <div class="cell cell-1"><div class="ph" data-media-fallback></div><video class="mv" data-src="" muted playsinline preload="auto"></video><img class="mi" src="assets/media-1.png" alt=""><div class="cap"></div></div>
+      <div class="cell cell-2"><div class="ph" data-media-fallback></div><video class="mv" data-src="" muted playsinline preload="auto"></video><img class="mi" src="assets/media-2.png" alt=""><div class="cap"></div></div>
+      <div class="cell cell-3"><div class="ph" data-media-fallback></div><video class="mv" data-src="" muted playsinline preload="auto"></video><img class="mi" src="assets/media-3.png" alt=""><div class="cap"></div></div>
+      <div class="cell cell-4"><div class="ph" data-media-fallback></div><video class="mv" data-src="" muted playsinline preload="auto"></video><img class="mi" src="assets/media-4.png" alt=""><div class="cap"></div></div>
       <div class="sheen"></div>
     </div>
     <div class="takeaway"></div>
@@ -164,21 +173,18 @@
         if (i > count) { cell.parentNode.removeChild(cell); continue; }
 
         var kind = (kinds[i - 1] || "image").trim();
-        var el;
-        if (kind === "video") {
-          el = document.createElement("video");
-          el.src = "assets/media-" + i + ".mp4";
-          el.muted = true; el.playsInline = true; el.preload = "auto";
-          videos.push(el);
-        } else {
-          el = document.createElement("img");
-          el.src = "assets/media-" + i + ".png";
-          el.alt = "";
-          // Empty alt suppresses alt TEXT, not Chrome's own broken-image mark on a sized
-          // element. Hide it so a missing file leaves the stand-in alone.
-          el.onerror = (function (n) { return function () { n.style.display = "none"; }; })(el);
-        }
-        cell.insertBefore(el, cell.querySelector(".cap"));
+        var vid = cell.querySelector("video.mv");
+        var img = cell.querySelector("img.mi");
+        var keep = kind === "video" ? vid : img;
+        var drop = kind === "video" ? img : vid;
+
+        // Drop the losing candidate rather than hiding it, so it stops fetching and cannot
+        // steal decode budget from the one being captured.
+        if (drop && drop.parentNode) { drop.removeAttribute("src"); drop.parentNode.removeChild(drop); }
+        // Empty alt suppresses alt TEXT, not Chrome's own broken-image mark on a sized
+        // element. Hide it so a missing file leaves the stand-in alone.
+        if (keep) keep.onerror = (function (n) { return function () { n.style.display = "none"; }; })(keep);
+        if (kind === "video" && keep) { keep.src = "assets/media-" + i + ".mp4"; videos.push(keep); }
 
         set(".cell-" + i + " .cap", v["cap_" + i]);
       }

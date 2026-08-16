@@ -24,7 +24,9 @@ import { preflight, reportPreflight } from "./lib/preflight.mjs";
 import { createTtsClient, ttsConfig } from "./lib/tts.mjs";
 import { fingerprint, checkCache, writeCache } from "./lib/voice-cache.mjs";
 import { pLimit } from "./lib/proc.mjs";
-import { getDurationSec, concatWithSilence, mixSfxOntoVoice, applySpeed } from "./lib/ffmpeg-audio.mjs";
+import { getDurationSec, concatWithSilence, mixSfxOntoVoice, applySpeed, mixMusicBed } from "./lib/ffmpeg-audio.mjs";
+import { search as searchMusic, credit as musicCredit } from "./lib/music.mjs";
+import { download } from "../media/lib/normalize.mjs";
 import {
   fitClipToDuration,
   concatVideos,
@@ -277,8 +279,54 @@ try {
     });
   }
   await mixSfxOntoVoice(voiceRawMp3, sfxList, voiceMp3);
+
+  // STEP 5b — music bed, if the script asked for one. Last in the audio chain so it ducks
+  // under the narration AND its SFX, and so a script with no `music` block produces byte-for
+  // byte what it did before.
+  if (script.music) {
+    const musicFile = path.join(outputDir, "music.mp3");
+    let creditLine = null;
+
+    if (script.music.file) {
+      const given = path.resolve(outputDir, script.music.file);
+      if (!fs.existsSync(given)) throw new Error(`music.file not found: ${given}`);
+      fs.copyFileSync(given, musicFile);
+      info(`music: ${script.music.file} (supplied)`);
+    } else if (!fs.existsSync(musicFile) || argv.includes("--refresh-media")) {
+      const found = await searchMusic(script.music.query, {
+        licence: script.music.license ?? "cc0",
+        minSec: 15,
+      });
+      if (found.length === 0) throw new Error(`music: nothing usable for "${script.music.query}"`);
+      const c = musicCredit(found[0]);
+      await download(found[0].url, musicFile);
+      creditLine = c;
+      info(`music: "${c.title}" — ${c.license}${c.creditRequired ? " (CREDIT REQUIRED)" : ""}`);
+    } else {
+      info(`music: reusing music.mp3 — delete it or pass --refresh-media to pick another`);
+    }
+
+    const mixed = path.join(outputDir, "voice-music.mp3");
+    await mixMusicBed(voiceMp3, musicFile, mixed, { gainDb: script.music.gainDb ?? -20 });
+    fs.copyFileSync(mixed, voiceMp3);
+    fs.rmSync(mixed, { force: true });
+
+    // The licence lives in the lock file next to every other credit, so "what is this track
+    // and may I publish it" is answerable from disk rather than from memory.
+    if (creditLine) {
+      const lockFile = path.join(outputDir, "media-lock.json");
+      const lock = fs.existsSync(lockFile) ? JSON.parse(fs.readFileSync(lockFile, "utf8")) : {};
+      lock["#music"] = { ...creditLine, file: "music.mp3", resolvedAt: new Date().toISOString() };
+      fs.writeFileSync(lockFile, JSON.stringify(lock, null, 2) + "\n", "utf8");
+      if (creditLine.creditRequired) {
+        console.warn(`[video] ! music is ${creditLine.license} — this attribution MUST appear where you publish:`);
+        console.warn(`[video]   ${creditLine.attribution}`);
+      }
+    }
+  }
+
   const totalAudioSec = await getDurationSec(voiceMp3);
-  info(`voice.mp3: ${totalAudioSec.toFixed(2)}s, ${sfxList.length} SFX`);
+  info(`voice.mp3: ${totalAudioSec.toFixed(2)}s, ${sfxList.length} SFX${script.music ? " + music bed" : ""}`);
 
   // STEP 6 — resolve B-roll / screenshots (idempotent via media-lock.json)
   step(6, "Resolve media");

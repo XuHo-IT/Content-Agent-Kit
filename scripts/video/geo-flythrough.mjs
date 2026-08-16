@@ -27,7 +27,7 @@ import path from "node:path";
 import os from "node:os";
 import { optionalEnv } from "../lib/env.mjs";
 import { run } from "./lib/proc.mjs";
-import { concatWithTransitions, transitionPlan, TRANSITIONS } from "./lib/ffmpeg-video.mjs";
+import { concatWithTransitions, transitionPlan } from "./lib/ffmpeg-video.mjs";
 import { TILE_SOURCE_IDS, getTileSource, gridFor, tileGrid, cropWindow } from "./lib/tiles.mjs";
 
 const argv = process.argv.slice(2);
@@ -461,7 +461,10 @@ try {
     const base = clips.map(() => per);
     const secs = base.slice(0, -1).map(() => fade);
     const { offsets } = transitionPlan(base, secs);
-    await concatWithTransitions(clips, outPath, { offsets, kinds: secs.map(() => TRANSITIONS.fade), secs, fps });
+    // `kinds` takes the KIT's names, not ffmpeg's — transitionGraph does the lookup itself.
+    // Passing `TRANSITIONS.fade` worked only because that one maps to the identical ffmpeg
+    // name; `TRANSITIONS.iris` would have looked up TRANSITIONS["circleopen"] and thrown.
+    await concatWithTransitions(clips, outPath, { offsets, kinds: secs.map(() => "fade"), secs, fps });
   }
 
   if (!has("--keep-frames")) fs.rmSync(workDir, { recursive: true, force: true });

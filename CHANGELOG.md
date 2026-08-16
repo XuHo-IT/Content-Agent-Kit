@@ -10,9 +10,70 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
-**No breaking change.** Nothing that validated before stops validating, no slot renamed, no
-environment variable added to the required list — every new variable is optional and every
-new capability degrades to something the kit could already do.
+**One breaking change**, called out here because it will reject scripts that used to
+validate: `media.kind: "video"` is now an error on every template except `frame-broll`, and
+more than one clip per scene is an error too. See below for the measurements behind it. Other
+than that: nothing renamed, no new required environment variable.
+
+### A clip only renders in `frame-broll` — measured, then enforced
+
+hyperframes calls a composition's `seek()` **synchronously and never awaits it** (there is no
+`await` before any `.seek(` in its bundle), so Chrome has not decoded the new frame when the
+screenshot is taken. Whether that race is won depends on how much decode work the frame asks
+for, and the results are not subtle:
+
+| template | what it actually rendered |
+|---|---|
+| `frame-broll` — one full-frame clip in markup | plays correctly |
+| `frame-vox-split-screen` — one clip behind a scrim | pane **blanks mid-scene** |
+| `frame-vox-photo-grid` — four cell clips | **black, then frozen** |
+
+- `validate.mjs` grew `VIDEO_SAFE_TEMPLATES` and `MAX_VIDEO_PER_SCENE`, both with the reason
+  written next to them. The error names the fix rather than the rule.
+- A clip landing in a still slot is not an error — `pexels.mjs` is video-only, so the
+  resolver takes a frame out of it. Same asset, same credit line, no frozen cell.
+- Pinning `id` instead of `query` lets a slot change `kind` without changing which clip it
+  is, so `post.md` credits do not have to be rewritten.
+
+### Nine more templates stopped being still frames
+
+The ambient pass previously covered 14 templates. Nine more — the documentary/horror end of
+the library — measured **zero** infinite loops in both aspects, which is the "bullet points
+appear and then nothing" failure a reader notices immediately.
+
+Each got its **own** motion signature rather than one shared effect: a scan bar for
+`frame-document-redacted`, lamp flicker and dust for `frame-magnates-polaroid-desk`,
+counter-running caustics for `frame-iceberg-levels`, `steps()` film grain for
+`frame-timeline-war-era`, a rotating `conic-gradient` for `frame-pentagram-stat`, and so on.
+Sharing one effect across nine templates would have cleared the test and produced nine
+identical-looking frames, which loses the thing the pass was for. Periods are coprime (9s–24s)
+so neighbouring scenes never resync.
+
+### `brand-bar.mjs` — the channel mark, without covering anything
+
+Reserves a strip along the top and puts a logo at one end and a wordmark at the other. It
+**reserves** rather than overlays because every template in this kit already uses its top-left
+corner for the kicker. The picture is scaled and matted, never squeezed. Runs once over the
+concatenated video, so it cannot drift between scenes. Refuses to run twice against the same
+file — stacking two strips looks deliberate enough that nobody notices until it is published.
+
+### `motion-craft` now documents what the renderer can actually drive
+
+The kit used CSS and nothing else, which is one seventh of what ships. hyperframes has seek
+adapters for `css`, `waapi`, `gsap`, `animejs`, `lottie`, `three` and `typegpu`. The one that
+matters most needs no library at all: **`waapi` seeks every animation in the document**, so
+any `@keyframes` is already frame-accurate and the fade-up vocabulary was self-imposed. The
+skill now covers `clip-path` reveals, SVG `stroke-dashoffset` draw-on, `mask-image` sweeps,
+`background-clip: text`, 3D transforms and `steps()` — and states plainly that a raw
+`requestAnimationFrame` loop does **not** survive a seek, because nothing shims the clock.
+
+### `new-template` — a signature frame per episode, without landfill
+
+A series that wants one bespoke frame per video is in tension with "never start from what
+would be cool". The skill resolves it instead of suspending it: the gap has to belong to the
+*episode* ("nothing can hold two numbers that mirror each other"), only one is built per
+video, it is named for its job rather than its episode, and the pile is reviewed every ~10
+episodes — reused frames graduate, single-use frames get deleted.
 
 ### Topic research — answering "what should today's video be about?"
 
@@ -95,6 +156,50 @@ rather than against its own output, including the two that bite: **Esri's tile p
 `z/y/x` while every other source is `z/x/y`** (swap them and you get a valid tile of somewhere
 else entirely), and latitude is Mercator, not linear — pinned to the analytic ratio 1.39749,
 where a linear stand-in gives exactly 1.
+
+### A music bed that stays under the voice
+
+`script.json` takes a `music` block — a query searched on Openverse, or a file you supply.
+Openverse needs **no key** (anonymous quota 20/min, 200/day) and every request is filtered to
+`license_type=commercial,modification`: the licences that clear a monetised, edited video.
+CC0 is the default because it carries no obligation; CC-BY is allowed and then the render
+**prints the attribution and writes it to `media-lock.json`**, which is where the licence,
+creator and source URL live from then on.
+
+Two mechanisms keep it under the narration, because one is not enough. `volume=<gainDb>` sets
+where it sits in the gaps — and **a non-negative gain is an error, not a preference**, caught
+by `validate.mjs` in the step that costs seconds rather than after a full render with
+headphones on. Then `sidechaincompress` keyed on the voice pulls it further down under every
+spoken word and lets it back up between them; a fixed level quiet enough never to mask a soft
+consonant is quiet enough to be inaudible everywhere else. Measured on a real render: voice
+alone **-18.8 LUFS**, voice + bed **-19.1 LUFS** — the bed adds no perceived loudness.
+
+Two things worth knowing before relying on it. Openverse answers **401** — not 429 — when you
+exceed the anonymous burst, which reads as a credential error for an API that takes no
+credentials; the message now says so and names the real quota. And **CC0 means "not
+copyright-encumbered", not "will not be Content-ID claimed"** — widely-used CC0 audio gets
+registered by distributors with no right to it. The claim is disputable because the licence is
+in the lock file, but it can still happen.
+
+### `zoom` — a transition for the beat where something is FOUND
+
+`TRANSITIONS` gains `zoom` (ffmpeg's `zoomin`), for the join after a radar lock or a map
+arriving on its target, where a fade says "and then" but the picture should say "there".
+
+Adding it surfaced a **latent bug in `geo-flythrough.mjs`**: it passed `TRANSITIONS.fade` where
+`concatWithTransitions` wants the kit's own name and does the lookup itself. That worked only
+because `fade` maps to the identical ffmpeg name — `TRANSITIONS.iris` would have looked up
+`TRANSITIONS["circleopen"]` and thrown. Now passes `"fade"`.
+
+### `frame-vox-split-screen` can hold real footage
+
+Its pane was already labelled "Document scan", and the kit had run out of places to put moving
+footage: only six templates draw media and `maxSameTemplate: 2` capped a script at five media
+scenes. The pane now takes a clip — cream paper and dark text without one, a dark panel with
+the footage behind a fixed scrim and light text with one, because this pipeline picks clips
+nobody has previewed.
+
+Its `seek` was a no-op, so any clip would have rendered as a single frozen frame. Fixed.
 
 ### Multi-media: a scene can show four pictures, not one
 

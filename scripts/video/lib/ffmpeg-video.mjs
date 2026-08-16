@@ -69,6 +69,12 @@ export const TRANSITIONS = {
   slide: "slideup",
   iris: "circleopen",
   pixelize: "pixelize",
+  // Punch into the next scene. For the beat where something is FOUND — a radar lock, a map
+  // arriving on its target — where a fade says "and then" but the picture should say "there".
+  // Note what it is not: xfade acts on the JOIN, so this pushes the incoming scene toward the
+  // viewer. It is not a camera move on the outgoing one, and the pipeline has no concept of
+  // an effect a scene leaves on.
+  zoom: "zoomin",
 };
 
 /** Under the 0.3s of inter-scene silence the audio already leaves for it. */

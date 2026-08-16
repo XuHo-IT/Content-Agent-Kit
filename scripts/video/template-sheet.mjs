@@ -167,6 +167,8 @@ const STILL_FOR = {
   "frame-vox-photo-grid": "media-still.jpg",
   // The outro can carry a real brand mark; the catalogue tile just proves it draws one.
   "frame-logo-outro": "media-still.jpg",
+  // Its "document scan" pane takes real footage; the tile only has to prove it draws one.
+  "frame-vox-split-screen": "media-still.jpg",
   "frame-screenshot": "screenshot-still.jpg",
   // Reads assets/media.png exactly as frame-screenshot does. It was missing from the list
   // this replaced, so its tile was a dark empty screen — see tests/templates.test.mjs.
@@ -262,6 +264,19 @@ try {
   const thumbW = Number(flag("--width", "240"));
   const aspect = flag("--aspect", "9:16");
   const atSec = Number(flag("--at", "4"));
+  // Templates are authored at data-duration="5". Sampling past that renders the clips fine
+  // and then dies inside ffmpeg with "Error opening input file .../t00.png" — an error that
+  // names a temp file and never mentions the flag that caused it. Cost a full 9-template
+  // render to diagnose once; it does not get to happen twice.
+  const TEMPLATE_SEC = 5;
+  if (!Number.isFinite(atSec) || atSec < 0 || atSec >= TEMPLATE_SEC) {
+    console.error(
+      `template-sheet: --at ${flag("--at")} is outside the clip. Templates are ${TEMPLATE_SEC}s long,\n` +
+      `  so --at must be between 0 and ${TEMPLATE_SEC} (exclusive). Try --at 4.5 for a late frame,\n` +
+      `  or --at 0 to catch an animation that shows its ending first.`,
+    );
+    process.exit(1);
+  }
   const theme = flag("--theme") ? resolveTheme(flag("--theme")) : null;
   const out = path.resolve(flag("--out") ?? path.join(KIT, "video-templates", `${ids[0]}-sheet.jpg`));
 

@@ -38,6 +38,33 @@ Do the survey, bring back **two or three candidates with the gap each one fills*
 them pick. Do not build five because "new templates" was plural — five templates nobody
 needed is worse than one they will use.
 
+### A SIGNATURE FRAME every episode — how to do it without rotting the library
+
+A series can ask for one bespoke frame per episode so no two videos look alike. That is a
+legitimate goal, and it is in tension with §0 above. Resolve it this way, not by suspending
+the rule:
+
+**The gap for a signature frame is the episode, not the library.** It sounds like *"this
+episode turns on 40 days of quarantine against 40 days of fundraising, and nothing in the
+library can hold two numbers that mirror each other and mean opposite things."* It does not
+sound like *"episode 7 needs its own look."* If you cannot name the one image the episode
+turns on, the episode does not need a frame — it needs a better script.
+
+**Build ONE, for the beat that carries the video.** Usually the reveal or the twist. The other
+fifteen scenes reuse library frames; that is what makes the signature one land.
+
+**Name it for its job, not its episode.** `frame-mirror-numbers`, not `frame-poveglia-40`.
+An episode-specific name guarantees nobody reuses it, which is how you end up with forty
+single-use folders.
+
+**Every contract in §2 still applies** — both aspects, both timeline keys, CATALOG entry,
+ambient layer, the lot. A signature frame that renders black is not distinctive, it is broken.
+
+**Review the pile every ~10 episodes.** Frames used twice or more graduate into the general
+library and get documented as such. Frames used once and never again get deleted — leaving
+them costs a CATALOG row, a theme probe, and a slower test suite for nothing. This review is
+the whole reason the practice stays affordable; skip it and the library is landfill in a year.
+
 ## 1. Pulling from upstream is often the right answer
 
 176 items live in the HyperFrames registry, and `registry-watch.mjs` reports what arrived

@@ -40,6 +40,18 @@ const AMBIENT_REQUIRED = [
   "frame-broll",
   "frame-media-inset",
   "frame-logo-outro",
+  // Đợt hai — chín template hợp thể loại tư liệu/kinh dị, mỗi cái một chữ ký chuyển động
+  // riêng chứ không dùng chung một hiệu ứng: dùng chung thì hết khung chết nhưng lại thành
+  // chín khung giống hệt nhau, mất đúng thứ đang cần.
+  "frame-document-redacted",
+  "frame-magnates-polaroid-desk",
+  "frame-iceberg-levels",
+  "frame-vox-pull-quote",
+  "frame-vox-highlighter",
+  "frame-kinetic-type",
+  "frame-timeline-war-era",
+  "frame-node-graph",
+  "frame-pentagram-stat",
 ];
 
 const compositions = (id) =>

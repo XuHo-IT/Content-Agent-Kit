@@ -84,7 +84,40 @@
 
             @keyframes slideInLeft { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: none; } }
             @keyframes fadeInRight { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: none; } }
-        </style>
+        
+  /* DOCUMENT PANE MEDIA — supplied via the scene's media block */
+  .doc-media, .doc-media-ph {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+  }
+  .doc-media { object-fit: cover; }
+  /* Shapes only, never words — a stand-in that says something says it on every video that
+     forgets its clip. */
+  .doc-media-ph {
+    background: #0a0c14;
+    background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.03) 0 30px, transparent 30px 60px);
+  }
+  /* A FIXED scrim, not an adaptive one: the pipeline picks clips nobody previewed, so the
+     text has to stay readable over a bright frame and a dark one alike. Same reasoning as
+     frame-broll's. */
+  .doc-scrim {
+    position: absolute; inset: 0;
+    /* .45 in the middle was not enough: over bright water the small furniture (case id,
+       VERIFIED, the doc title) washed out while only the big quote stayed readable. Rendered
+       and looked at — .66 holds all of them without burying the footage. */
+    background: linear-gradient(180deg, rgba(6,8,14,.86) 0%, rgba(6,8,14,.66) 42%, rgba(6,8,14,.90) 100%);
+  }
+  .has-media { background: #0a0c14 !important; color: #f2ede2 !important; }
+  .has-media .paper-texture { display: none; }
+  .has-media .hud-header  { border-bottom-color: rgba(255,255,255,.35); }
+  .has-media .doc-title,
+  .has-media .doc-quote   { color: #f2ede2; text-shadow: 0 4px 24px rgba(0,0,0,.9); }
+  .has-media .timecode,
+  .has-media .evidence-id,
+  .has-media .verified-stamp { color: rgba(242,237,226,.85); text-shadow: 0 2px 12px rgba(0,0,0,.9); }
+  .has-media .doc-body,
+  .has-media .hud-header,
+  .has-media .doc-footer  { position: relative; z-index: 2; }
+</style>
     </head>
     <body>
         <div
@@ -97,6 +130,18 @@
             data-composition-variables='{"kicker":"ĐIỀU TRA ĐỘC LẬP","tag_label":"TÀI LIỆU GỐC","doc_title":"Trích Lục Báo Cáo Tài Chính 2026","doc_snippet":"Toàn bộ chi phí ẩn đã bị che giấu suốt 18 tháng qua các hợp đồng gia công bên ngoài.","headline":"Sự Thật Đằng Sau Báo Cáo Nghìn Tỷ","takeaway":"Dữ liệu nội bộ xác thực sai lệch lên tới 42% so với công bố chính thức.","source":"Hồ sơ kiểm toán độc lập 2026"}'
         >
             <div class="left-panel">
+                <!--
+                  The img is declared INLINE so it preloads from page load. The video element
+                  deliberately carries NO src: hyperframes calls seek() synchronously and
+                  never awaits it, and a clip behind this pane's scrim and paper texture
+                  loses that race — measured, the pane BLANKS mid-scene. validate.mjs
+                  rejects kind:"video" here (see VIDEO_SAFE_TEMPLATES) and the resolver
+                  takes a still instead. Order is deliberate: stand-in, media, scrim.
+                -->
+                <div class="doc-media-ph" data-media-fallback></div>
+                <video class="doc-media mv" data-src="" muted playsinline preload="auto"></video>
+                <img class="doc-media mi" src="assets/media.png" alt="">
+                <div class="doc-scrim"></div>
                 <div class="paper-texture"></div>
                 <div class="hud-header">
                     <div class="tag-pill"><span class="tag-txt"></span></div>
@@ -144,9 +189,45 @@
                 set(".main-headline", v.headline);
                 set(".takeaway-text", v.takeaway);
                 set(".source-txt", v.source ? "Nguồn: " + v.source : "");
+                // Real footage in the document pane, when the scene supplies it. Without it
+                // the pane keeps its cream-paper look and nothing below runs.
+                window.__docMedia = null;
+                var pane = document.querySelector(".top-panel") || document.querySelector(".left-panel");
+                var mv = pane && pane.querySelector("video.mv");
+                var mi = pane && pane.querySelector("img.mi");
+                var drop = function (el) { if (el && el.parentNode) { el.removeAttribute("src"); el.parentNode.removeChild(el); } };
+
+                if (v.media_kind) {
+                    if (pane) {
+                        pane.className += " has-media";
+                        var keep = String(v.media_kind) === "video" ? mv : mi;
+                        // Drop the losing candidate rather than hiding it, so it stops
+                        // fetching and cannot steal decode budget from the captured one.
+                        drop(String(v.media_kind) === "video" ? mi : mv);
+                        if (keep) {
+                            // Empty alt suppresses alt TEXT, not Chrome's own broken-image
+                            // mark on a sized element. Hide it so a missing file leaves the
+                            // stand-in alone.
+                            keep.onerror = function () { keep.style.display = "none"; };
+                            if (String(v.media_kind) === "video") { keep.src = "assets/media.mp4"; window.__docMedia = keep; }
+                        }
+                    }
+                } else if (pane) {
+                    // No media: strip every candidate AND the furniture that only exists to
+                    // frame one, so the pane falls back to its cream-paper look.
+                    drop(mv); drop(mi);
+                    var ph = pane.querySelector(".doc-media-ph");
+                    var scrim = pane.querySelector(".doc-scrim");
+                    if (ph && ph.parentNode) ph.parentNode.removeChild(ph);
+                    if (scrim && scrim.parentNode) scrim.parentNode.removeChild(scrim);
+                }
             })();
             window.__timelines = window.__timelines || {};
-            window.__timelines["main"] = window.__timelines["portrait"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+            window.__timelines["main"] = window.__timelines["portrait"] = {
+                pause: function () {},
+                seek: function (t) { var m = window.__docMedia; if (m) { try { m.currentTime = t; } catch (e) {} } },
+                paused: function () { return true; },
+            };
         </script>
     </body>
 </html>

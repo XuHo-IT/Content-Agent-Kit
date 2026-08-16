@@ -82,9 +82,15 @@ whole video a transition, and a scene can override how it enters:
 { "transition": "fade", "scenes": [{ "id": "s2", "transition": "swipe" }] }
 ```
 
-`fade` · `swipe` · `slide` · `iris` · `pixelize` · `none`. The finished video is exactly the
-same length either way — the padding is worked out for you — but a transition forces a
-re-encode of the join, so `--no-transitions` is there while you iterate. **If a scene carries
+`fade` · `swipe` · `slide` · `iris` · `pixelize` · `zoom` · `none`. The finished video is
+exactly the same length either way — the padding is worked out for you — but a transition
+forces a re-encode of the join, so `--no-transitions` is there while you iterate.
+
+**`zoom` is for the beat where something is FOUND** — a radar lock, a map arriving on its
+target, a name matching a record. A fade says "and then"; the picture should say "there".
+Use it once or twice in a video, on the join that earns it: a punch on every cut is a tic.
+It acts on the JOIN, pushing the incoming scene forward — it is not a camera move on the
+outgoing one. **If a scene carries
 a `whoosh`, `swoosh` or `page-flip` SFX, give it a transition**: that sound is describing a
 movement, and over a hard cut it describes one that never happens.
 
@@ -157,6 +163,29 @@ live in `VIDEO_CRAFT.md` §4b and `docs/15-media-sources.md`.
 - **STEM & Explainer formulas**: Use `manim-math` for math proofs (`frame-math-manim`) and `drawio` for flowchart/architecture mapping (`frame-diagram-architecture`, `frame-diagram-flowchart`).
 - **Motion & Transition tokens**: Use `ui-transitions` and `motion-craft` for curated easing curves (`cubic-bezier`), delays, and micro-animations across HTML frames.
 - **Design hierarchy**: Use `ui-ux-pro` for WCAG AAA contrast and typography ratios.
+
+**Does it want a music bed?** One optional block, and the bed is mixed under the narration:
+
+```json
+{ "music": { "query": "dark ambient drone", "gainDb": -20 } }
+```
+
+Openverse, **no key**, filtered to licences that clear a monetised and edited video. `gainDb`
+**must be negative** — the validator refuses otherwise, because a bed louder than the voice is
+a mistake rather than a taste, and one you only hear after a full render. The music is also
+ducked under every spoken word, so it comes up in the gaps instead of sitting at one level.
+
+Audition before committing: `node scripts/video/music-search.mjs --query "…" --get 1 --out /tmp/bed.mp3`,
+then use `{ "file": "bed.mp3" }` to pin that exact track. Prefer CC0 — CC-BY works but then the
+attribution must appear wherever you publish, and the render prints it.
+
+> **CC0 means "not copyright-encumbered". It does not mean "will not be Content-ID claimed"** —
+> widely-used CC0 audio gets registered by distributors with no right to it. Disputable, since
+> the licence is in `media-lock.json`, but not impossible.
+
+**Captions**: `--captions burn` writes them into the picture, and they pick up the script's
+`theme`, so a themed video gets themed captions with no extra work. Most short-form is watched
+with the sound off; `--captions file` instead writes a `.ass` any editor can import.
 
 ## Step 4 — Validate (do not skip)
 

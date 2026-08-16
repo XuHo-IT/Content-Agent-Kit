@@ -40,7 +40,24 @@
       .confidential-seal { background: #DC2626; color: #FFF; font-family: 'Courier Prime', monospace; font-size: 13px; font-weight: 700; padding: 4px 8px; }
       .verdict-text { font-family: 'Special Elite', cursive; font-size: 16px; color: #D6D3D1; margin: 0; }
     
-  </style>
+  
+  /* AMBIENT — đèn bàn chập chờn rất nhẹ, và một lớp bụi trôi ngang. Hai chu kỳ lệch nhau
+     (13s / 19s) nên chúng không bao giờ khớp lại thành một nhịp dễ đoán. */
+  #root::before {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background: radial-gradient(58% 44% at 28% 12%, rgba(255,226,170,.10), transparent 70%);
+    animation: ambLamp 13s ease-in-out infinite alternate;
+  }
+  #root::after {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background-image: radial-gradient(rgba(255,255,255,.05) 1.2px, transparent 0);
+    background-size: 46px 46px;
+    animation: ambDust 19s linear infinite;
+  }
+  @keyframes ambLamp { from { opacity: .62; } to { opacity: 1; } }
+  @keyframes ambDust { from { transform: translate3d(0, 0, 0); }
+                       to   { transform: translate3d(46px, -30px, 0); } }
+</style>
 </head>
 <body>
   <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"headline":"Đại Án Thao Túng Thị Trường","case_no":"HỒ SƠ MẬT #8492-X","target_a":"Nhân vật A: Chủ tịch Tập đoàn","target_b":"Tổ chức B: Quỹ đầu tư vỏ bọc","connection":"Giao dịch ngầm: 5,000 tỷ VNĐ","seal_text":"TỐI MẬT","verdict":"Toàn bộ mạng lưới công ty con bị phong tỏa tài sản."}'>

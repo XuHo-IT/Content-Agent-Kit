@@ -139,6 +139,58 @@ export async function concatWithSilence(inputPaths, gapSec, outPath) {
  *
  * @param {{path:string,startSec:number,volume:number}[]} sfxList
  */
+/**
+ * Lay a music bed under the narration.
+ *
+ * THE BED MUST NEVER FIGHT THE VOICE. Two mechanisms, and they do different jobs:
+ *
+ *   · `volume=<gainDb>` sets where the music sits when nobody is talking. Negative, always —
+ *     `validate.mjs` rejects a non-negative gain, because "music louder than narration" is
+ *     not a taste someone might have, it is a mistake.
+ *   · `sidechaincompress` keyed on the voice pulls the music down FURTHER whenever a word is
+ *     spoken, and lets it back up in the gaps. A fixed level cannot do that: quiet enough to
+ *     never mask a soft consonant is quiet enough to be inaudible everywhere else.
+ *
+ * The voice is `asplit`, because it is both the compressor's key and part of the output.
+ *
+ * Beds are short (a 30–90s loop under a 2–3 minute video), so the music input is looped and
+ * then trimmed to the narration. Fades at both ends stop it starting and stopping dead.
+ *
+ * @param {string} voicePath   narration (already has its SFX, if any)
+ * @param {string} musicPath   the bed
+ * @param {number} durationSec how long the finished audio must be
+ */
+export async function mixMusicBed(voicePath, musicPath, outPath, { gainDb = -20, fadeInSec = 2, fadeOutSec = 3 } = {}) {
+  if (gainDb >= 0) {
+    throw new Error(`mixMusicBed: gainDb must be negative (a bed sits under the voice), got ${gainDb}`);
+  }
+  const dur = await getDurationSec(voicePath);
+  const fadeOutAt = Math.max(0, dur - fadeOutSec);
+
+  const filter = [
+    // -stream_loop is an INPUT option (below); atrim is what actually stops it.
+    `[0:a]aresample=44100,aformat=sample_fmts=fltp:channel_layouts=mono,` +
+      `atrim=0:${dur.toFixed(3)},asetpts=N/SR/TB,` +
+      `volume=${gainDb}dB,` +
+      `afade=t=in:st=0:d=${fadeInSec},afade=t=out:st=${fadeOutAt.toFixed(3)}:d=${fadeOutSec}[mus]`,
+    `[1:a]aresample=44100,aformat=sample_fmts=fltp:channel_layouts=mono,asplit=2[vkey][vout]`,
+    // threshold/ratio tuned for speech: duck fast enough not to clip the first syllable,
+    // release slow enough that the bed does not pump between words.
+    `[mus][vkey]sidechaincompress=threshold=0.05:ratio=8:attack=20:release=500[duck]`,
+    `[duck][vout]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[out]`,
+  ].join(";");
+
+  await run("ffmpeg", [
+    "-y",
+    "-stream_loop", "-1", "-i", musicPath,
+    "-i", voicePath,
+    "-filter_complex", filter,
+    "-map", "[out]",
+    ...MP3_OUT,
+    outPath,
+  ]);
+}
+
 export async function mixSfxOntoVoice(voicePath, sfxList, outPath) {
   if (sfxList.length === 0) {
     await run("ffmpeg", ["-y", "-i", voicePath, ...MP3_OUT, outPath]);

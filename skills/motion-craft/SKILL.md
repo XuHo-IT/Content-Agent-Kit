@@ -129,6 +129,63 @@ and prints how much of the library still has no ambient layer rather than lettin
 unstated. It caught a real one on its first run — `frame-bold-poster` had four loops in 9:16
 and none at all in 16:9.
 
+## What hyperframes can actually drive — seven adapters, not one
+
+The kit uses CSS and nothing else, which is a fraction of what the renderer supports. Read
+out of `hyperframes/dist/cli.js`, its seek layer ships **seven** adapters:
+
+| adapter | how it is driven | needs a library? |
+|---|---|---|
+| `css` | `element.getAnimations()` → `currentTime`, then pause | no |
+| `waapi` | `document.getAnimations()` → same, document-wide | no |
+| `gsap` | the registered timeline's `totalTime(t, false)` | GSAP |
+| `animejs` | every instance in `anime.running` → `.seek(ms)` | anime.js |
+| `lottie` | `window.lottie` registered animations → `.seek(%)` | lottie-web |
+| `three` | sets `window.__hfThreeTime = t` | Three.js |
+| `typegpu` | sets `window.__hfTypegpuTime = t` | TypeGPU |
+
+**The important consequence: `waapi` seeks EVERY animation in the document.** You do not have
+to register anything, and you are not limited to the fade-up vocabulary this kit grew up on.
+Any `@keyframes` you write is already frame-accurate.
+
+### What does NOT survive a seek
+
+**A raw `requestAnimationFrame` loop.** There is no rAF shim in the bundle — nothing rewrites
+the clock for it. A canvas particle system driven by `rAF` advances by wall-clock time while
+the renderer screenshots, so it captures whatever happened to be on screen. That is the same
+class of bug as the `<video>` race in `VIDEO_SAFE_TEMPLATES`, and it fails the same way:
+plausible in preview, wrong in the render.
+
+If you want canvas, drive it from `window.__hfThreeTime` and redraw on demand — never from
+`rAF` deltas.
+
+### Seek-safe techniques worth more than another fade-up
+
+All pure CSS, all handled by `waapi`, no dependency added:
+
+- **`clip-path` reveals** — wipe, iris, polygon morph. A shape opening reads as a camera move.
+- **SVG `stroke-dashoffset`** — a line, route, or underline *drawing itself*. This is the
+  single biggest upgrade available for diagram, map, and timeline frames.
+- **`mask-image` sweeps** — a gradient mask travelling across text or an image, so content is
+  revealed by light rather than by opacity.
+- **`background-clip: text` + moving gradient** — the fill of a headline moves while the
+  letters stay put. Costs nothing and never shifts layout.
+- **3D transforms with `perspective`** — a card turning, a page lifting. Cheap, and it makes
+  a flat frame read as an object.
+- **`conic-gradient` rotation** — sweeping radar or ring light without an image.
+- **`steps()` easing** — mechanical judder. Film grain and ticking counters need it; smoothed
+  they turn to fog. Deliberate, not a mistake.
+- **Two loops at coprime periods** (13s and 19s, not 12s and 24s) — they never resync, so the
+  frame never settles into a pattern a viewer can predict.
+
+### If you reach for GSAP
+
+It is genuinely supported, and its timeline is the only one that gives real orchestration
+(overlapping tweens, labels, stagger with easing per item). The cost: a CDN `<script>` at
+render time. Templates already fetch Google Fonts, so this is not a new *kind* of dependency —
+but it is one more thing that can be slow or down while a render is running. Use it when the
+motion genuinely needs orchestration, not to do what four `@keyframes` already do.
+
 ## What not to animate
 
 - **Nothing after the last word.** The outro holds ~3s past the narration; movement there

@@ -102,7 +102,23 @@
             @keyframes cardRise { from { opacity: 0; transform: translateY(30px) scale(0.98); } to { opacity: 1; transform: none; } }
             @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
             @keyframes highlightDraw { from { background-size: 0% 100%; } to { background-size: 100% 100%; } }
-        </style>
+        
+  /* AMBIENT — mực highlight ánh lên rồi dịu đi, giấy trôi nhẹ dưới nó. */
+  #root::before {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background: radial-gradient(52% 30% at 50% 46%, rgba(255,232,120,.085), transparent 74%);
+    animation: ambInk 12s ease-in-out infinite alternate;
+  }
+  #root::after {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background-image: radial-gradient(rgba(0,0,0,.02) 1px, transparent 0);
+    background-size: 4px 4px;
+    animation: ambPaper 20s ease-in-out infinite alternate;
+  }
+  @keyframes ambInk   { from { opacity: .45; } to { opacity: 1; } }
+  @keyframes ambPaper { from { transform: translate3d(-.35%, -.25%, 0); }
+                        to   { transform: translate3d(.35%, .25%, 0); } }
+</style>
     </head>
     <body>
         <div

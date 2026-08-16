@@ -33,7 +33,24 @@
 
       .memo-footer { font-family: 'Courier Prime', monospace; font-size: 15px; background: #E7E0D3; padding: 12px 16px; border-radius: 4px; font-weight: 700; }
     
-  </style>
+  
+  /* AMBIENT — thanh sáng quét dọc trang như đang soi tài liệu, cộng hạt giấy trôi rất chậm. */
+  #root::before {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background: linear-gradient(180deg, transparent 42%, rgba(255,255,255,.055) 50%, transparent 58%);
+    background-size: 100% 260%;
+    animation: ambScan 14s linear infinite;
+  }
+  #root::after {
+    content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0;
+    background-image: radial-gradient(rgba(255,255,255,.028) 1px, transparent 0);
+    background-size: 3px 3px;
+    animation: ambGrain 17s ease-in-out infinite alternate;
+  }
+  @keyframes ambScan  { from { background-position: 0 -130%; } to { background-position: 0 130%; } }
+  @keyframes ambGrain { from { opacity: .5; transform: translate3d(-.4%, .3%, 0); }
+                        to   { opacity: 1;  transform: translate3d(.4%, -.3%, 0); } }
+</style>
 </head>
 <body>
   <div id="root" data-composition-id="main" data-start="0" data-duration="5" data-width="1920" data-height="1080" data-composition-variables='{"classification":"BÁO CÁO MẬT ĐÃ GIẢI MẬT","doc_title":"HỒ SƠ THỎA THUẬN NGẦM GIỮA 2 ÔNG LỚN","redact_tag":"ĐIỀU KHOẢN BÍ MẬT:","secret_text":"Cam kết chia đôi thị trường và giữ giá cao nhân tạo","revealed_info":"Hành vi vi phạm luật chống độc quyền kéo dài suốt 7 năm.","summary":"Tài liệu nội bộ rò rỉ làm bằng chứng kết tội trước tòa án."}'>
