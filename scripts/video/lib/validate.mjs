@@ -9,6 +9,9 @@
 import { listTemplateIds } from "./paths.mjs";
 import { PROVIDERS, PROVIDER_SPECS } from "./tts.mjs";
 import { SOURCE_IDS } from "../../media/lib/sources/index.mjs";
+// Read from the source itself so the accepted values cannot drift between the gate that
+// enforces them and the module that documents them.
+import { RIGHTS as SOCIAL_RIGHTS, RIGHTS_NEEDING_NOTE as SOCIAL_RIGHTS_NEEDING_NOTE } from "../../media/lib/sources/social.mjs";
 import { resolveTheme, loadThemeMap, THEME_IDS, contrastRatio, hexToRgb } from "./theme.mjs";
 import { TRANSITIONS } from "./ffmpeg-video.mjs";
 
@@ -47,7 +50,17 @@ export const CRAFT_DEFAULTS = {
 const CHAR_ANIMATED_FIELDS = { "frame-build-minimal": ["hero"] };
 
 /** Templates that actually show a resolved clip/still. Anything else silently ignores it. */
-const MEDIA_TEMPLATES = ["frame-broll", "frame-media-inset", "frame-screenshot"];
+const MEDIA_TEMPLATES = ["frame-broll", "frame-media-inset", "frame-screenshot", "frame-meme", "frame-vox-photo-grid", "frame-logo-outro"];
+
+/**
+ * Templates that draw MORE than the first picture. Everything else takes `assets/media.*`
+ * and ignores the rest — which renders happily and silently drops three of your four
+ * images, so passing an array to one of those is an error rather than a warning.
+ */
+const MULTI_MEDIA_TEMPLATES = ["frame-vox-photo-grid"];
+
+/** Four cells is what a 9:16 frame can show before each is too small to read. */
+const MAX_MEDIA_PER_SCENE = 4;
 
 const ASPECTS = ["9:16", "16:9"]; // 1:1 maps to a composition no template ships
 const SCENE_TYPES = ["hook", "body", "outro"];
@@ -231,9 +244,30 @@ export function validateScript(script, opts = {}) {
     if (scene.inputs !== undefined && !isObj(scene.inputs))
       E(`${label}.inputs must be an object of text slots`);
 
-    // ── media (B-roll / screenshot) ────────────────────────────────────────
+    // ── media (B-roll / screenshot / meme / social / photo grid) ──────────
+    // `media` is one object, or an array for a frame that shows several pictures at once.
+    // Every entry then goes through exactly the same rules — the array form must not become
+    // a way to skip the rights or fit checks below.
     if (scene.media !== undefined) {
-      const m = scene.media;
+      const entries = Array.isArray(scene.media) ? scene.media : [scene.media];
+
+      if (Array.isArray(scene.media)) {
+        if (scene.media.length === 0) {
+          E(`${label}.media is an empty array — remove it, or give it at least one entry`);
+        } else if (scene.media.length > MAX_MEDIA_PER_SCENE) {
+          E(`${label}.media has ${scene.media.length} entries; at most ${MAX_MEDIA_PER_SCENE} fit a frame`);
+        }
+        if (scene.media.length > 1 && !MULTI_MEDIA_TEMPLATES.includes(scene.templateId)) {
+          E(`${label} passes ${scene.media.length} media but "${scene.templateId}" draws only the first. ` +
+            `Use one of: ${MULTI_MEDIA_TEMPLATES.join(", ")}.`);
+        }
+      }
+
+      const sceneLabel = label;
+      entries.forEach((m, mi) => {
+      // Name the slot when there are several, so "which of the four pictures" is answerable
+      // from the message alone.
+      const label = entries.length > 1 ? `${sceneLabel}[${mi + 1}]` : sceneLabel;
       if (!isObj(m)) {
         E(`${label}.media must be an object — {kind, source, query|id|url}`);
       } else {
@@ -249,6 +283,31 @@ export function validateScript(script, opts = {}) {
         if (m.source && !SOURCE_IDS.includes(m.source))
           E(`${label}.media.source "${m.source}" is unknown. Known: ${SOURCE_IDS.join(" | ")}. ` +
             `Sites without an API go through "manual" — see docs/15-media-sources.md.`);
+
+        // A meme's text runs to its own edges, and `fit` defaults to "cover" — which crops
+        // it to fill the frame and takes the punchline with it. The damage is done in
+        // normalizeImage, before the template can do anything about it, and the render
+        // succeeds with a full frame so nothing downstream notices. Hence: say it out loud.
+        if (m.source === "meme" && (m.fit ?? "cover") !== "contain") {
+          E(`${label}.media is a meme, so it needs "fit": "contain". ` +
+            `The default "cover" crops it to fill the frame and cuts the text off.`);
+        }
+
+        // Third-party footage has to say on what basis it is being used. Checked HERE, in
+        // the step that costs seconds, rather than after a 3–5 minute render — and checked
+        // at all because a clip whose provenance is nowhere is the one you cannot answer
+        // for when a takedown arrives. See docs/15 and NOTICE.md §2f.
+        if (m.source === "social") {
+          if (!m.rights) {
+            E(`${label}.media is a third-party clip and declares no "rights". ` +
+              `Add one of: ${SOCIAL_RIGHTS.join(" | ")}. It is recorded in media-lock.json.`);
+          } else if (!SOCIAL_RIGHTS.includes(m.rights)) {
+            E(`${label}.media.rights "${m.rights}" is not one of: ${SOCIAL_RIGHTS.join(" | ")}.`);
+          } else if (SOCIAL_RIGHTS_NEEDING_NOTE.includes(m.rights) && !String(m.rights_note ?? "").trim()) {
+            E(`${label}.media.rights is "${m.rights}", which is a claim about someone else's ` +
+              `permission — add "rights_note" naming who granted it and when.`);
+          }
+        }
         if (m.query && !m.id)
           W(`${label}.media uses a search query, so the first render picks the clip and pins it ` +
             `in media-lock.json. Commit that file, or the video is not reproducible elsewhere.`);
@@ -256,6 +315,7 @@ export function validateScript(script, opts = {}) {
           W(`${label} has media but "${scene.templateId}" does not display it. ` +
             `Use one of: ${MEDIA_TEMPLATES.join(", ")}.`);
       }
+      });
     }
 
     // A scene's transition describes how it ENTERS, so the first scene has

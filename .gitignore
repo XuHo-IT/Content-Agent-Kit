@@ -21,6 +21,10 @@ brain/
 output/
 *.log
 
+# Built geo flythrough clips, cached by request hash so a re-render is not re-billed
+# (scripts/media/lib/sources/geo.mjs). Regenerated on demand; costs cents, not nothing.
+.cache/
+
 # Video: rendered artifacts + the SFX library (fetched with scripts/video/sfx-*.mjs).
 # video-templates/ IS committed — it is the kit's template library.
 assets/sfx/

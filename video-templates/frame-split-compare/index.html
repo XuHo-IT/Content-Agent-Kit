@@ -68,7 +68,21 @@ html, body { width: 1920px; height: 1080px; }
 .delta { top: 50%; left: 50%; transform-origin: center; margin: -46px 0 0 -92px;
          width: 184px; height: 92px; display: grid; place-items: center; font-size: 44px; }
 .caption { bottom: 76px; font-size: 32px; }
-        </style>
+        
+  /* AMBIENT LAYER — skills/motion-craft, "Two layers" */
+  /* The CONTENT layer still settles by ~2s so everything stays readable; this is the
+     canvas, which never dies. inset -10% keeps the moving edge outside the frame — a
+     gradient that drifts within its own box shows you its own boundary. */
+  #root::after {
+    content: ""; position: absolute; inset: -10%;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(45% 60% at 22% 50%, rgba(139,233,255,.05), transparent 72%),
+      radial-gradient(45% 60% at 78% 50%, rgba(168,85,247,.05), transparent 72%);
+    animation: ambLean 14s ease-in-out infinite alternate;
+  }
+  @keyframes ambLean { from { transform: translate3d(-1.5%, 0, 0); } to { transform: translate3d(1.5%, 0, 0); } }
+</style>
     </head>
     <body>
         <div

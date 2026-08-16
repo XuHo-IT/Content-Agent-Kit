@@ -115,7 +115,23 @@
             @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
             @keyframes fadeRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: none; } }
             @keyframes drawLine { to { transform: scaleX(1); } }
-        </style>
+        
+  /* AMBIENT LAYER — skills/motion-craft, "Two layers" */
+  /* The CONTENT layer still settles by ~2s so everything stays readable; this is the
+     canvas, which never dies. inset -10% keeps the moving edge outside the frame — a
+     gradient that drifts within its own box shows you its own boundary. */
+  #root::after {
+    content: ""; position: absolute; inset: -10%;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(52% 38% at 50% 42%, rgba(255,214,102,.06), transparent 72%),
+      linear-gradient(115deg, transparent 46%, rgba(255,255,255,.035) 52%, transparent 58%);
+    background-size: auto, 240% 100%;
+    animation: ambGrid 13s ease-in-out infinite alternate, ambSweep 12s linear infinite;
+  }
+  @keyframes ambGrid  { from { opacity: .7; } to { opacity: 1; } }
+@keyframes ambSweep { from { background-position: 0 0, 130% 0; } to { background-position: 0 0, -130% 0; } }
+</style>
     </head>
     <body>
         <div

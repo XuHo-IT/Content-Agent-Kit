@@ -4,12 +4,36 @@
 // give portrait sources; Pixabay's video API is landscape-only, so its clips ALWAYS need
 // cropping. And a 5s clip in a 9s scene would freeze on its last frame, so short clips
 // are looped rather than held.
-import { writeFile } from "node:fs/promises";
+import { writeFile, copyFile } from "node:fs/promises";
+import { existsSync, statSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { run } from "../../video/lib/proc.mjs";
 import { getDurationSec } from "../../video/lib/ffmpeg-audio.mjs";
 
-/** Download to disk. Kept here so every source shares one timeout/error shape. */
+/**
+ * Fetch to disk. Kept here so every source shares one timeout/error shape.
+ *
+ * A source may hand back a LOCAL PATH instead of a URL — `manual` has documented that
+ * since it was written ("paste its direct URL (or a local path) here") and `geo` builds
+ * its clip on disk before returning it. Node's fetch refuses both `file://` and bare
+ * paths, so those were failing with "Failed to parse URL", which reads like a broken
+ * entry rather than an unimplemented case. Copy them instead.
+ */
 export async function download(url, outPath) {
+  const local = /^file:\/\//i.test(url)
+    ? fileURLToPath(url)
+    : /^[a-z][a-z0-9+.-]*:\/\//i.test(url)
+      ? null
+      : url;
+
+  if (local !== null) {
+    if (!existsSync(local)) throw new Error(`Local media not found: ${local}`);
+    const bytes = statSync(local).size;
+    if (bytes === 0) throw new Error(`Local media is empty: ${local}`);
+    await copyFile(local, outPath);
+    return bytes;
+  }
+
   const res = await fetch(url, { signal: AbortSignal.timeout(180000) });
   if (!res.ok) throw new Error(`Download failed (status ${res.status}): ${url.slice(0, 100)}`);
   const buf = Buffer.from(await res.arrayBuffer());
@@ -68,5 +92,10 @@ export async function normalizeImage(inPath, outPath, { width = 1080, height = 1
     fit === "cover"
       ? `scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height}`
       : `scale=${width}:${height}:force_original_aspect_ratio=decrease`;
-  await run("ffmpeg", ["-y", "-i", inPath, "-vf", vf, outPath]);
+  // `-frames:v 1 -update 1`: the input is not always a single-frame file. A stock "image"
+  // can arrive as a clip (Pexels' catalogue is video), and an animated meme is a GIF — both
+  // make the image2 muxer refuse with "Cannot write more than one file with the same name",
+  // which reads as a broken path rather than "you handed me a movie". Taking the first frame
+  // is what an image output means anyway; the kit's own catalogue still is exactly that.
+  await run("ffmpeg", ["-y", "-i", inPath, "-vf", vf, "-frames:v", "1", "-update", "1", outPath]);
 }

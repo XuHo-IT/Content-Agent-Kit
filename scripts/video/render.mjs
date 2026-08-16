@@ -40,7 +40,7 @@ import { buildCues, toAss } from "./lib/captions.mjs";
 import { composeTemplate } from "./lib/compose.mjs";
 import { sfxDir } from "./lib/paths.mjs";
 import { resolveTheme, themeKey } from "./lib/theme.mjs";
-import { resolveSceneMedia } from "../media/lib/resolve.mjs";
+import { resolveSceneMediaList } from "../media/lib/resolve.mjs";
 import { loadProfile, resolveSettings } from "./lib/profile.mjs";
 import { assertBackend, loadBackend, describeBackends } from "./lib/backends/index.mjs";
 
@@ -323,12 +323,12 @@ try {
   } else {
     for (const scene of withMedia) {
       const visualDur = plan.padded[scenes.indexOf(scene)];
-      const got = await resolveSceneMedia(scene, outputDir, {
+      const got = await resolveSceneMediaList(scene, outputDir, {
         durationSec: visualDur,
         refresh: argv.includes("--refresh-media"),
         log: info,
       });
-      if (got) sceneMedia[scene.id] = got;
+      if (got.length) sceneMedia[scene.id] = got;
     }
   }
 
@@ -370,12 +370,22 @@ try {
           ...(scene.inputs ?? {}),
           // Templates switch between <video> and <img> on this, so it has to reflect
           // what was actually resolved, not what the author guessed.
-          ...(media ? { media_kind: media.kind === "video" ? "video" : "image" } : {}),
+          ...(media?.length ? { media_kind: media[0].kind === "video" ? "video" : "image" } : {}),
+          // How many pictures actually resolved, so a grid frame hides the cells it has
+          // nothing for instead of drawing empty boxes.
+          ...(media?.length ? { media_count: String(media.length) } : {}),
+          // Per-cell kinds, because a grid can mix a satellite CLIP with three stills and
+          // each cell has to know whether to draw <video> or <img>. Guessing by trying one
+          // and falling back on error would swap the element mid-render, and hyperframes
+          // seeks frame by frame — the swapped frame would render blank.
+          ...(media?.length > 1
+            ? { media_kinds: media.map((m) => (m.kind === "video" ? "video" : "image")).join(",") }
+            : {}),
         },
         aspect,
         outputPath: rawClip,
         fps: RENDER_FPS,
-        mediaFile: media?.file,
+        mediaFiles: media?.map((m) => m.file),
         theme,
         log: (m) => console.warn(`[video] ! ${m}`),
       });

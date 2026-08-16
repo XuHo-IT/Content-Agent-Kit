@@ -94,12 +94,60 @@ screenshot of the page you are citing:
 ```json
 "media": { "kind": "video", "source": "pexels", "id": "28709421" }
 "media": { "kind": "screenshot", "url": "https://…" }
+"media": { "kind": "video", "source": "geo", "query": "Aokigahara, Japan" }
 ```
 
 Use `frame-broll` when the footage *is* the scene, `frame-media-inset` when it illustrates a
 point the words carry, `frame-screenshot` to show a page the viewer might doubt. **Never put
 footage under a statistic** — a number needs a text template to stay readable, and never let
 more than about a third of scenes be B-roll.
+
+**Does the video need a change of energy?** A run of text frames and stock B-roll is one tone
+for ninety seconds. `frame-meme` costs one scene and resets attention:
+
+```json
+"media": { "kind": "image", "source": "meme", "id": "drake|Viết tay|Dùng agent", "fit": "contain" }
+```
+
+- **About one meme per six to eight scenes**, and never two in a row. A meme every third
+  scene is not a change of energy, it is the energy — and then nothing is a change.
+- **It has to carry the point of that beat**, not decorate it. If the caption would still say
+  the same thing with the meme removed, the meme is filler.
+- **`fit: "contain"` is required** — `cover` crops the image to fill the frame and takes the
+  punchline with it, before this template ever sees the file. The validator refuses without it.
+- **Write the meme lines SHORT.** memegen fits each line to one rendered line; a line that
+  wraps has its second half clipped off the image. `drake` wraps at about 15 Vietnamese
+  characters, `afraid` at 23 — it depends on the template, so render it and look:
+  `node scripts/media/meme-search.mjs --render "drake|…|…" --out /tmp/m.png`
+- The lines are **on-screen text, not narration** — `voiceText` still has to make sense with
+  the sound off the picture. Do not read the meme aloud word for word.
+
+**Is the scene about a real place?** The `geo` source builds a flythrough of it — map tiles
+falling from the whole world onto the coordinates, then satellite, then street level. It makes
+a strong `frame-broll` hook when *where* is the story. **Free and keyless.** Look before you
+commit: `node scripts/video/geo-flythrough.mjs --place "…" --dry-run`.
+
+Two things it will tell you, and both matter: whether a **font** was found for the
+attribution — a tile carries no credit of its own, and publishing without one breaks the
+licence — and whether **street-level imagery** exists there at all (Mapillary's coverage is
+much thinner than Street View's; no coverage is normal, and the clip is then map-only).
+Prefer `--lat/--lng` over `--place`: geocoding a name happily returns a café with the same
+name in another country. For a stylised map instead of photographic, use the vector frames —
+`frame-geo-markers` → `frame-geo-route` → `frame-geo-pin-detail`.
+
+**Is the footage somebody else's TikTok / Douyin post?** The `social` source fetches it
+through a service you run — and the scene must say on what basis:
+
+```json
+"media": { "kind": "video", "source": "social", "url": "https://www.douyin.com/video/7…",
+           "rights": "permitted", "rights_note": "author @abc agreed by DM, 2026-08-14" }
+```
+
+`rights` is one of `own` · `licensed` · `permitted` · `public-domain`; the last two are claims
+about someone else's permission and must name it in `rights_note`. The validator refuses a
+scene without a declaration, and `media-lock.json` records it beside the original URL. There
+is no `unknown` value — **if you cannot say which of the four it is, use Pexels instead.**
+Studying a post's hook rather than shipping its footage? `social-fetch.mjs --analyze`.
 
 For choosing clips and capturing pages, follow the **`research-and-capture`** skill; the rules
 live in `VIDEO_CRAFT.md` §4b and `docs/15-media-sources.md`.

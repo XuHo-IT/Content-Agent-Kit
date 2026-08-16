@@ -82,6 +82,22 @@
   .footer .meta .red { color: #D8000F; }
 
   @keyframes fade { to { opacity: 1; } }
+
+  /* AMBIENT LAYER — skills/motion-craft, "Two layers" */
+  /* The 9:16 composition floats four bubbles (.bb1-.bb4) on 9-17s loops; this composition
+     never had them, so it rendered a still image after its entrance while its own portrait
+     twin stayed alive. Found by tests/motion.test.mjs. Landscape has no room for the
+     bubbles, so it gets the same idea as a drifting field instead. */
+  #root::after {
+    content: ""; position: absolute; inset: -10%;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(38% 46% at 16% 26%, rgba(92,225,230,.06), transparent 70%),
+      radial-gradient(34% 42% at 88% 74%, rgba(56,189,248,.055), transparent 70%);
+    animation: ambPoster 15s ease-in-out infinite alternate;
+  }
+  @keyframes ambPoster { from { transform: translate3d(-1.4%, -.9%, 0); opacity: .7; }
+                           to { transform: translate3d(1.4%, .9%, 0);  opacity: 1; } }
 </style>
 </head>
 <body>

@@ -44,7 +44,7 @@ const ROLE_ORDER = [
   // hooks first — they are what a script picks before anything else
   "frame-liquid-bg-hero", "frame-bold-poster", "frame-glitch-title", "frame-creative-voltage", "frame-vox-collage", "frame-vox-split-screen", "frame-ui-glass-dashboard", "frame-3d-spotlight",
   // statement / type / vox journalism
-  "frame-kinetic-type", "frame-build-minimal", "frame-vignelli", "frame-analog-grain", "frame-vox-highlighter", "frame-vox-pull-quote", "frame-vox-investigation-board", "frame-vox-declassified", "frame-vox-newspaper-tear",
+  "frame-kinetic-type", "frame-build-minimal", "frame-vignelli", "frame-analog-grain", "frame-vox-highlighter", "frame-vox-pull-quote", "frame-vox-investigation-board", "frame-vox-declassified", "frame-vox-newspaper-tear", "frame-vox-photo-grid",
   // data & analytics
   "frame-chart-bars", "frame-pentagram-stat", "frame-trend-line", "frame-dashboard",
   "frame-split-compare", "frame-timeline", "frame-node-graph", "frame-hud",
@@ -85,6 +85,7 @@ const PRESETS = {
     "frame-liquid-bg-hero", "frame-bold-poster", "frame-glitch-title", "frame-creative-voltage", "frame-vox-collage", "frame-vox-split-screen", "frame-ui-glass-dashboard", "frame-3d-spotlight"
   ],
   "vox": [
+    "frame-vox-photo-grid",
     "frame-kinetic-type", "frame-build-minimal", "frame-vignelli", "frame-analog-grain", "frame-vox-highlighter", "frame-vox-pull-quote", "frame-vox-investigation-board", "frame-vox-declassified", "frame-vox-newspaper-tear"
   ],
   "data": [
@@ -94,7 +95,7 @@ const PRESETS = {
     "frame-diagram-flywheel", "frame-diagram-quadrant", "frame-diagram-radar", "frame-diagram-architecture", "frame-diagram-flowchart", "frame-math-manim", "frame-math-graph-plot", "frame-math-matrix-calc"
   ],
   "ui": [
-    "frame-screenshot", "frame-3d-device", "frame-terminal", "frame-ui-terminal-ide", "frame-broll", "frame-media-inset", "frame-3d-flip", "frame-3d-stack", "frame-3d-perspective-card", "frame-presentation-slide"
+    "frame-screenshot", "frame-3d-device", "frame-terminal", "frame-ui-terminal-ide", "frame-broll", "frame-media-inset", "frame-meme", "frame-3d-flip", "frame-3d-stack", "frame-3d-perspective-card", "frame-presentation-slide"
   ],
   "geo": [
     "frame-geo-markers", "frame-geo-route", "frame-geo-region-stat", "frame-geo-local-card", "frame-geo-faq-direct", "frame-geo-itinerary", "frame-geo-versus-city", "frame-geo-pin-detail", "frame-geo-heatmap", "frame-geo-sonar-radar"
@@ -156,6 +157,16 @@ function defaultInputs(id, aspect) {
 const STILL_FOR = {
   "frame-broll": "media-still.jpg",
   "frame-media-inset": "media-still.jpg",
+  // Deliberately the stock frame and NOT an actual meme. memegen renders are derived from
+  // copyrighted film and TV stills; committing one into an MIT repo to fill a catalogue
+  // tile would be borrowing a licence problem for a thumbnail. The tile only has to prove
+  // the frame draws its media.
+  "frame-meme": "media-still.jpg",
+  // Every cell of the grid gets the same stand-in — the catalogue tile only has to prove
+  // the frame draws its pictures, not to be four different pictures.
+  "frame-vox-photo-grid": "media-still.jpg",
+  // The outro can carry a real brand mark; the catalogue tile just proves it draws one.
+  "frame-logo-outro": "media-still.jpg",
   "frame-screenshot": "screenshot-still.jpg",
   // Reads assets/media.png exactly as frame-screenshot does. It was missing from the list
   // this replaced, so its tile was a dark empty screen — see tests/templates.test.mjs.

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<!--
+  frame-vox-photo-grid — up to four pictures at once, each with its own caption.
+
+  The kit could show one picture per scene and nothing else; Vox-style visual journalism is
+  built on several at once, so this is the frame that closes that gap. The pipeline resolves
+  a scene's media ARRAY into assets/media-1..4 (scripts/media/lib/resolve.mjs), and
+  media_kinds says which cells are clips and which are stills — a satellite flythrough and
+  three photographs is the ordinary case.
+
+  A cell with no picture is REMOVED rather than left empty: three pictures should read as
+  three, not as three and a hole.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;800&family=Lora:wght@600;700&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #000; }
+  #root {
+    position: relative; overflow: hidden;
+    font-family: "Be Vietnam Pro", "Inter Tight", system-ui, sans-serif;
+    color: #fff;
+    background:
+      radial-gradient(900px 700px at 108% -12%, #1b2440 0%, transparent 62%),
+      radial-gradient(900px 700px at -8% 112%, #2a1740 0%, transparent 62%),
+      #05060a;
+  }
+
+  .kicker {
+    position: absolute; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+    color: #8be9ff;
+    opacity: 0; animation: up .7s cubic-bezier(.2,.8,.2,1) .15s both;
+  }
+  h1 {
+    position: absolute; margin: 0; font-family: "Lora", Georgia, serif;
+    font-weight: 700; line-height: 1.08; letter-spacing: -.01em;
+    opacity: 0; animation: up .8s cubic-bezier(.2,.8,.2,1) .3s both;
+  }
+
+  .grid { position: absolute; display: grid; gap: var(--gap); }
+  .cell {
+    position: relative; overflow: hidden; border-radius: 14px;
+    background: #0a0c14;
+    opacity: 0; animation: cellIn .6s cubic-bezier(.16,1,.3,1) both;
+  }
+  /* Stagger is pacing: four pictures arriving together read as one block, not as four
+     things worth looking at separately. */
+  .cell:nth-child(1) { animation-delay: .50s; }
+  .cell:nth-child(2) { animation-delay: .64s; }
+  .cell:nth-child(3) { animation-delay: .78s; }
+  .cell:nth-child(4) { animation-delay: .92s; }
+
+  .cell .ph { position: absolute; inset: 0; background: #0a0c14;
+              background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.03) 0 30px, transparent 30px 60px); }
+  .cell img, .cell video {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    /* AMBIENT — each cell drifts on its own period so the grid never sits still. Scale
+       delta is 0.04 and periods are 13–19s: at that size it reads as depth, not motion,
+       and it does not compete with the caption. */
+    animation: drift var(--per) ease-in-out infinite alternate;
+  }
+  .cell:nth-child(1) img, .cell:nth-child(1) video { --per: 13s; animation-direction: alternate; }
+  .cell:nth-child(2) img, .cell:nth-child(2) video { --per: 17s; animation-direction: alternate-reverse; }
+  .cell:nth-child(3) img, .cell:nth-child(3) video { --per: 15s; animation-direction: alternate-reverse; }
+  .cell:nth-child(4) img, .cell:nth-child(4) video { --per: 19s; animation-direction: alternate; }
+
+  .cap {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: var(--cap-pad); background: linear-gradient(180deg, transparent, rgba(4,6,12,.92) 46%);
+    font-weight: 400; color: rgba(255,255,255,.94);
+  }
+
+  /* AMBIENT — one slow sheen across the whole grid. A single travelling highlight is the
+     cheapest way to say "this frame is live" without adding a fifth moving thing. */
+  .sheen {
+    position: absolute; inset: 0; pointer-events: none; border-radius: 14px; overflow: hidden;
+    background: linear-gradient(105deg, transparent 42%, rgba(255,255,255,.05) 50%, transparent 58%);
+    background-size: 260% 100%;
+    animation: sheen 11s linear infinite;
+  }
+
+  .takeaway {
+    position: absolute; font-weight: 600; color: #fff;
+    border-left: 5px solid #8be9ff; padding-left: 22px;
+    opacity: 0; animation: up .8s cubic-bezier(.2,.8,.2,1) 1.15s both;
+  }
+  .source {
+    position: absolute; font-weight: 400; color: rgba(255,255,255,.5);
+    opacity: 0; animation: up .7s ease-out 1.35s both;
+  }
+
+  @keyframes up     { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+  @keyframes cellIn { from { opacity: 0; transform: translateY(26px) scale(.97); } to { opacity: 1; transform: none; } }
+  /* linear on the loop: an eased sheen stutters visibly at the seam. */
+  @keyframes sheen  { from { background-position: 130% 0; } to { background-position: -130% 0; } }
+  @keyframes drift  { from { transform: scale(1.02) translate(-.6%, -.4%); } to { transform: scale(1.06) translate(.6%, .4%); } }
+
+  #root { width: 1080px; height: 1920px; }
+  .kicker   { top: 132px; left: 80px; right: 80px; font-size: 32px; }
+  h1        { top: 196px; left: 80px; right: 80px; font-size: 74px; }
+  .grid     { left: 70px; top: 430px; width: 940px; height: 940px;
+              grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; --gap: 18px; }
+  .cap      { font-size: 27px; line-height: 1.3; --cap-pad: 46px 20px 18px; }
+  .takeaway { left: 80px; right: 80px; top: 1452px; font-size: 40px; line-height: 1.34; }
+  .source   { left: 80px; right: 80px; top: 1660px; font-size: 27px; }
+</style>
+</head>
+<body>
+  <div
+    id="root"
+    data-composition-id="main"
+    data-start="0"
+    data-duration="5"
+    data-width="1080"
+    data-height="1920"
+    data-composition-variables='{"kicker":"HỒ SƠ ẢNH","headline":"Bốn khung hình của một hòn đảo","cap_1":"Ảnh vệ tinh — vị trí thật","cap_2":"Khu cách ly, thế kỷ 18","cap_3":"Hành lang bỏ hoang","cap_4":"Đầm nước lúc rạng sáng","takeaway":"Bốn góc nhìn, một nơi mà nhà nước Ý vẫn cấm đặt chân lên.","source":"Nguồn: povegliapertutti.org","media_count":"4","media_kinds":"image,image,image,image"}'
+  >
+    <div class="kicker"></div>
+    <h1></h1>
+    <div class="grid">
+      <div class="cell cell-1"><div class="ph" data-media-fallback></div><div class="cap"></div></div>
+      <div class="cell cell-2"><div class="ph" data-media-fallback></div><div class="cap"></div></div>
+      <div class="cell cell-3"><div class="ph" data-media-fallback></div><div class="cap"></div></div>
+      <div class="cell cell-4"><div class="ph" data-media-fallback></div><div class="cap"></div></div>
+      <div class="sheen"></div>
+    </div>
+    <div class="takeaway"></div>
+    <div class="source"></div>
+  </div>
+
+  <script>
+    (function () {
+      var v =
+        window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+          ? window.__hyperframes.getVariables()
+          : {};
+
+      var set = function (sel, val) {
+        var el = document.querySelector(sel);
+        if (!el) return;
+        var s = val == null ? "" : String(val);
+        el.textContent = s;
+        if (!s) el.style.display = "none";
+      };
+
+      set(".kicker", v.kicker);
+      set("h1", v.headline);
+      set(".takeaway", v.takeaway);
+      set(".source", v.source);
+
+      var count = Math.max(0, Math.min(4, parseInt(v.media_count, 10) || 0));
+      var kinds = String(v.media_kinds || "").split(",");
+      var videos = [];
+
+      for (var i = 1; i <= 4; i++) {
+        var cell = document.querySelector(".cell-" + i);
+        if (!cell) continue;
+
+        // A cell with no picture is REMOVED, not left as an empty box: three pictures in a
+        // 2x2 should read as three, not as three plus a hole.
+        if (i > count) { cell.parentNode.removeChild(cell); continue; }
+
+        var kind = (kinds[i - 1] || "image").trim();
+        var el;
+        if (kind === "video") {
+          el = document.createElement("video");
+          el.src = "assets/media-" + i + ".mp4";
+          el.muted = true; el.playsInline = true; el.preload = "auto";
+          videos.push(el);
+        } else {
+          el = document.createElement("img");
+          el.src = "assets/media-" + i + ".png";
+          el.alt = "";
+          // Empty alt suppresses alt TEXT, not Chrome's own broken-image mark on a sized
+          // element. Hide it so a missing file leaves the stand-in alone.
+          el.onerror = (function (n) { return function () { n.style.display = "none"; }; })(el);
+        }
+        cell.insertBefore(el, cell.querySelector(".cap"));
+
+        set(".cell-" + i + " .cap", v["cap_" + i]);
+      }
+
+      // BOTH keys are required. A composition registering only "main" leaves Puppeteer
+      // waiting 45 seconds for the sub-composition ready signal — a 10x render slowdown.
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = window.__timelines["portrait"] = {
+        pause: function () {},
+        seek: function (t) {
+          for (var i = 0; i < videos.length; i++) {
+            try { videos[i].currentTime = t; } catch (e) {}
+          }
+        },
+        paused: function () { return true; },
+      };
+    })();
+  </script>
+</body>
+</html>

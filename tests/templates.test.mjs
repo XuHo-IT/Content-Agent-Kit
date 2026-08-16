@@ -191,7 +191,10 @@ test("every template that draws supplied media gets a still in the catalogue ima
 
   const draws = ids.filter((id) =>
     compositions(id).some((f) =>
-      fs.readFileSync(path.join(templatesDir(), id, f), "utf8").includes("assets/media."),
+      // `media.` OR `media-`: multi-media templates build "assets/media-" + i + ".png",
+      // which the original substring missed — so a grid template was silently exempt from
+      // the very check that exists to stop a media frame shipping with an empty tile.
+      /assets\/media[.-]/.test(fs.readFileSync(path.join(templatesDir(), id, f), "utf8")),
     ),
   );
   const missing = draws.filter((id) => !table.includes(`"${id}"`));
@@ -222,7 +225,11 @@ test("every composition that draws supplied media has a stand-in behind it", () 
   for (const id of ids) {
     for (const f of compositions(id)) {
       const html = fs.readFileSync(path.join(templatesDir(), id, f), "utf8");
-      const media = html.search(/(?:src=["']|img\.src\s*=\s*["'])assets\/media\./);
+      // `media[.-]` and any `<var>.src`: a multi-media template builds
+      // `el.src = "assets/media-" + i + ".png"`, which the original pattern — hard-coded to
+      // `img.src` and a literal dot — missed entirely, exempting a grid frame from the
+      // stand-in check it most needs.
+      const media = html.search(/(?:src=["']|\w+\.src\s*=\s*["'])assets\/media[.-]/);
       if (media < 0) continue;
 
       const ph = html.indexOf("data-media-fallback");
@@ -235,7 +242,7 @@ test("every composition that draws supplied media has a stand-in behind it", () 
       // empty alt does not suppress it, which is what the comments here used to claim. It
       // landed in the corner of the stand-in on every one of these until it was rendered
       // and looked at. <video> needs no such guard: a broken one paints nothing.
-      if (/<img[^>]+assets\/media\.|img\.src\s*=\s*["']assets\/media\./.test(html)) {
+      if (/<img[^>]+assets\/media[.-]|\w+\.src\s*=\s*["']assets\/media[.-]/.test(html)) {
         assert.match(html, /onerror/, `${id}/${f}: an <img> can fail here with no onerror to hide it`);
       }
     }

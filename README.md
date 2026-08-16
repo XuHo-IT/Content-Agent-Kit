@@ -17,7 +17,7 @@
 
 ---
 
-A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity / Gemini**) to autonomously build and operate production-grade Content Agents: idea ingestion, editorial writing, quality auditing, social publishing, and **vertical 9:16 video generation** powered by 104 single-file HTML templates, realistic TTS narration, stock B-roll, and live web captures.
+A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity / Gemini**) to autonomously build and operate production-grade Content Agents: idea ingestion, editorial writing, quality auditing, social publishing, and **vertical 9:16 video generation** powered by 106 single-file HTML templates, realistic TTS narration, stock B-roll, and live web captures.
 
 ## Sample Outputs
 
@@ -26,7 +26,7 @@ A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity 
 | 📄 **Article** | [Sample Post](examples/ai-news-social/sample-output/) — SEO/GEO-compliant article with engagement prompts and 10-point quality audit |
 | 🖼️ **Cover Image** | [Cover Image](examples/ai-news-social/sample-output/cover.jpg) — 1024×1024 visual asset matching the article |
 | 🎬 **9:16 Video** | [Sample Video](examples/ai-video-social/sample-output/) — 2m 12s, natural TTS narration, Pexels footage, live website capture |
-| 🎨 **Theme Repainting** | [Paper-Blue Sample](examples/ai-video-social/sample-output-paper-blue/) — 16 scenes across 14 of the 104 templates, repainted to white-and-ocean-blue via `"theme": "paper-blue"` |
+| 🎨 **Theme Repainting** | [Paper-Blue Sample](examples/ai-video-social/sample-output-paper-blue/) — 16 scenes across 14 of the 106 templates, repainted to white-and-ocean-blue via `"theme": "paper-blue"` |
 
 > **Download Sample MP4:** [Releases v0.1.0](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0) or render locally:
 > `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
@@ -39,17 +39,17 @@ A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity 
 
 ---
 
-## 104 Scene Templates (Organized by Visual Category)
+## 106 Scene Templates (Organized by Visual Category)
 
-All 104 templates are structured into **14 distinct visual categories** with dedicated aesthetic identities:
+All 106 templates are structured into **14 distinct visual categories** with dedicated aesthetic identities:
 
 ### 1. 🌟 Hooks & Attention Openers (Hooks & Heroes — 8 templates)
 [![Hooks & Heroes](examples/gallery/gallery-hooks.jpg)](video-templates/CATALOG.md)
 *Includes: `frame-liquid-bg-hero`, `frame-bold-poster`, `frame-glitch-title`, `frame-creative-voltage`, `frame-vox-collage`, `frame-vox-split-screen`, `frame-ui-glass-dashboard`, `frame-3d-spotlight`.*
 
-### 2. 📰 Visual Journalism & Statements (Vox, Statements & Typography — 9 templates)
+### 2. 📰 Visual Journalism & Statements (Vox, Statements & Typography — 10 templates)
 [![Visual Journalism & Statements](examples/gallery/gallery-vox.jpg)](video-templates/CATALOG.md)
-*Includes: `frame-kinetic-type`, `frame-build-minimal`, `frame-vignelli`, `frame-analog-grain`, `frame-vox-highlighter`, `frame-vox-pull-quote`, `frame-vox-investigation-board`, `frame-vox-declassified`, `frame-vox-newspaper-tear`.*
+*Includes: `frame-kinetic-type`, `frame-build-minimal`, `frame-vignelli`, `frame-analog-grain`, `frame-vox-highlighter`, `frame-vox-pull-quote`, `frame-vox-investigation-board`, `frame-vox-declassified`, `frame-vox-newspaper-tear`, `frame-vox-photo-grid`.*
 
 ### 3. 📊 Data, Charts & Technical Metrics (Data, Charts & Analytics — 13 templates)
 [![Data & Charts](examples/gallery/gallery-data.jpg)](video-templates/CATALOG.md)
@@ -59,9 +59,9 @@ All 104 templates are structured into **14 distinct visual categories** with ded
 [![Diagrams & Architecture](examples/gallery/gallery-diagrams.jpg)](video-templates/CATALOG.md)
 *Includes: `frame-diagram-flywheel`, `frame-diagram-quadrant`, `frame-diagram-radar`, `frame-diagram-architecture`, `frame-diagram-flowchart`, `frame-math-manim`, `frame-math-graph-plot`, `frame-math-matrix-calc`.*
 
-### 5. 💻 Footage, Developer IDE & 3D (Footage, IDE & 3D — 10 templates)
+### 5. 💻 Footage, Developer IDE & 3D (Footage, IDE & 3D — 11 templates)
 [![Footage, IDE & 3D](examples/gallery/gallery-ui.jpg)](video-templates/CATALOG.md)
-*Includes: `frame-screenshot`, `frame-3d-device`, `frame-terminal`, `frame-ui-terminal-ide`, `frame-broll`, `frame-media-inset`, `frame-3d-flip`, `frame-3d-stack`, `frame-3d-perspective-card`, `frame-presentation-slide`.*
+*Includes: `frame-screenshot`, `frame-3d-device`, `frame-terminal`, `frame-ui-terminal-ide`, `frame-broll`, `frame-media-inset`, `frame-meme`, `frame-3d-flip`, `frame-3d-stack`, `frame-3d-perspective-card`, `frame-presentation-slide`.*
 
 ### 6. 🗺️ Maps, Local & Travel (GEO, Radar, Heatmap & Local — 10 templates)
 [![Maps & Local GEO](examples/gallery/gallery-geo.jpg)](video-templates/CATALOG.md)
@@ -111,8 +111,8 @@ All 104 templates are structured into **14 distinct visual categories** with ded
 | `docs/` | 22 concise methodology guides (bilingual EN + VI): SEO/GEO writing, video pipeline, media sourcing, theme palettes, ad MCPs, and repurposing |
 | `templates/` | Scaffolds: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 industries) |
 | `scripts/` | Working zero-dependency CLIs: crawl engine, social publisher, quality auditor, video renderer, stock B-roll search, screenshot capture |
-| `video-templates/` | 104 single-file HTML video templates plus **`CATALOG.md`** — each carries self-contained CSS & animations for offline rendering. 176 more are one command away. |
-| `skills/` | 14 runtime skills: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template` + `registry.json` (23 on-demand skills). |
+| `video-templates/` | 106 single-file HTML video templates plus **`CATALOG.md`** — each carries self-contained CSS & animations for offline rendering. 176 more are one command away. |
+| `skills/` | 16 runtime skills: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template` + `registry.json` (23 on-demand skills). |
 | `examples/` | 2 end-to-end reference implementations: AI News Social Agent and Vertical Video Production Agent |
 
 ---
@@ -148,7 +148,7 @@ node scripts/video/contact-sheet.mjs brain/<slug>/video.mp4
 | **Real Footage & Captures** | Automatic stock B-roll fetching from Pexels/Pixabay + headless Chrome web captures |
 | **Burned Captions & Transitions** | In-frame captions (`--captions burn`), 5 cinematic transitions (fade, swipe, slide, iris, pixelize) |
 | **Instant URL Theming** | Extract brand colors directly from any website using `theme-from-url.mjs` |
-| **104 templates, 12 genres** | 12 complete video genres: Review, Tutorial, News, Listicle, Launch, Testimonial, Local GEO, Vox Explainer, Math Derivation, Architecture, Travel |
+| **106 templates, 12 genres** | 12 complete video genres: Review, Tutorial, News, Listicle, Launch, Testimonial, Local GEO, Vox Explainer, Math Derivation, Architecture, Travel |
 | **GEO / Answer Engine Optimization** | `geo-audit.mjs` validates content for AI citation readiness (SearchGPT, Perplexity, Google Overviews) |
 
 ---

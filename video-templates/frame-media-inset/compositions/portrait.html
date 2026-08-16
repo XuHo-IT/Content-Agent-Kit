@@ -92,6 +92,19 @@
   @keyframes up   { from { opacity: 0; transform: translateY(38px); } to { opacity: 1; transform: none; } }
   @keyframes win  { to { opacity: 1; transform: none; } }
   @keyframes rule { to { width: 190px; } }
+
+  /* AMBIENT LAYER — skills/motion-craft, "Two layers" */
+  /* The CONTENT layer still settles by ~2s so everything stays readable; this is the
+     canvas, which never dies. inset -10% keeps the moving edge outside the frame — a
+     gradient that drifts within its own box shows you its own boundary. */
+  #root::after {
+    content: ""; position: absolute; inset: -10%;
+    pointer-events: none; z-index: 0;
+    background: radial-gradient(70% 50% at 76% 92%, rgba(255,193,102,.05), transparent 72%);
+    animation: ambBreath 16s ease-in-out infinite alternate;
+  }
+  @keyframes ambBreath { from { opacity: .5; transform: translate3d(0, .6%, 0); }
+                                         to { opacity: 1;  transform: translate3d(0, -.6%, 0); } }
 </style>
 </head>
 <body>

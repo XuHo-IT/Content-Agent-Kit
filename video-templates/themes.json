@@ -1,0 +1,17 @@
+{
+  "_comment": [
+    "Palettes read off real pages by scripts/video/theme-from-url.mjs, or written by hand.",
+    "Use one with \"theme\": \"<id>\" in a script.json, exactly like a shipped preset.",
+    "",
+    "These are NOT part of the kit: they describe someone's brand, so they belong to",
+    "whoever's repo they sit in. Delete the file to remove them all."
+  ],
+  "theuntolds": {
+    "label": "read from https://www.theuntolds.com/",
+    "bg": "#0c0b0a",
+    "ink": "#c9a86b",
+    "hue": 40,
+    "spread": 12,
+    "saturation": 0.76
+  }
+}

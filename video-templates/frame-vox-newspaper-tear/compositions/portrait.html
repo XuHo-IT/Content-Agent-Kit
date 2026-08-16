@@ -155,7 +155,22 @@
                 from { opacity: 0; transform: scale(0.98); }
                 to { opacity: 1; transform: none; }
             }
-        </style>
+        
+  /* AMBIENT LAYER — skills/motion-craft, "Two layers" */
+  /* The CONTENT layer still settles by ~2s so everything stays readable; this is the
+     canvas, which never dies. inset -10% keeps the moving edge outside the frame — a
+     gradient that drifts within its own box shows you its own boundary. */
+  #root::after {
+    content: ""; position: absolute; inset: -10%;
+    pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(70% 50% at 30% 8%, rgba(255,246,220,.06), transparent 72%),
+      radial-gradient(60% 45% at 78% 96%, rgba(0,0,0,.05), transparent 70%);
+    animation: ambPaper 17s ease-in-out infinite alternate;
+  }
+  @keyframes ambPaper { from { transform: translate3d(-1%, .6%, 0) scale(1.01); }
+                                        to { transform: translate3d(1%, -.6%, 0) scale(1.03); } }
+</style>
     </head>
     <body>
         <div

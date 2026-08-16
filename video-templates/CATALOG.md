@@ -2209,3 +2209,77 @@ text, and never re-enable wrapping on per-character spans.
 | `code` | string | ≤30 | promo coupon code |
 | `condition` | string | ≤60 | eligibility condition |
 | `cta` | string | ≤80 | call to action link instruction |
+
+---
+
+## frame-meme
+
+**Role:** body / change of energy. A meme as the whole scene, in its own colours.
+**Best for:** breaking the rhythm. A run of text frames and stock B-roll is one tone for
+ninety seconds; a meme costs one scene and resets the viewer's attention.
+**Needs a `media` block** with `source: "meme"` — see `docs/15-media-sources.md`.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `chip` | string | ≤22 | pill top-left. Emoji fine. Empty removes it |
+| `kicker` | string | ≤30 | cyan uppercase label. 28 chars already reaches the right edge |
+| `caption` | string | ≤90 | the line under the meme; wraps to 3 lines with room to spare |
+| `media_kind` | string | — | set by the pipeline (`image`/`video`). Do not hand-set |
+
+```json
+"media": { "kind": "image", "source": "meme", "id": "drake|Viết tay|Dùng agent", "fit": "contain" }
+```
+
+> **`"fit": "contain"` is required and the validator enforces it.** `fit` defaults to
+> `cover`, which crops the image to fill the frame — and a meme's text runs to its own
+> edges, so cover takes the punchline with it. The crop happens in `normalizeImage`, before
+> this template sees the file, and the render then succeeds with a full frame: nothing
+> downstream can tell.
+
+> **The meme is never filtered or tinted**, unlike `frame-media-inset` which tints its media
+> into the palette on purpose. A meme recoloured to match a dark brand palette is no longer
+> the meme — its colour is part of how the joke lands. The frame around it is themed; the
+> image is not.
+
+> **Keep each meme line short.** memegen fits text to ONE line inside the template's own text
+> box; a line that wraps has its second half clipped off. How much fits depends on which meme
+> template — `drake` (two half-width panels) wraps at about 15 Vietnamese characters, while
+> `afraid` (full-width box) takes 23. There is no number to look up:
+> `node scripts/media/meme-search.mjs --render "…" --out /tmp/m.png` and open it.
+
+---
+
+## frame-vox-photo-grid
+
+**Role:** body / visual journalism. Up to four pictures at once, each with its own caption.
+**Best for:** the Vox register — showing several pieces of evidence together rather than one
+at a time. A satellite frame beside three photographs says more in one scene than four scenes
+of one picture each.
+**Needs a `media` ARRAY** — this is the only template that draws more than the first entry.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | cyan uppercase label |
+| `headline` | string | ≤60 | serif headline above the grid |
+| `cap_1`…`cap_4` | string | ≤60 | caption per cell; a cell with no picture is **removed**, not left blank |
+| `takeaway` | string | ≤110 | the line under the grid, cyan rule |
+| `source` | string | ≤50 | citation |
+| `media_count` | string | — | set by the pipeline. Do not hand-set |
+| `media_kinds` | string | — | set by the pipeline (`video,image,image,…`). Do not hand-set |
+
+```json
+"media": [
+  { "kind": "video", "source": "geo",    "id": "45.3792,12.3311" },
+  { "kind": "image", "source": "pexels", "query": "abandoned hospital corridor" },
+  { "kind": "image", "source": "manual", "ref": "ai-ward" }
+]
+```
+
+> **A cell can be a clip or a still, and it has to be told which.** `media_kinds` exists
+> because a grid routinely mixes a satellite flythrough with photographs. Detecting it by
+> loading an `<img>` and swapping to `<video>` on error would change the element mid-render —
+> and hyperframes seeks frame by frame, so the swapped frame renders blank.
+
+> **Each cell drifts on its own period** (13–19s, alternating) with one slow sheen across the
+> grid. The content layer still settles by ~2s so the captions stay readable. See
+> `skills/motion-craft/SKILL.md` §"Two layers".

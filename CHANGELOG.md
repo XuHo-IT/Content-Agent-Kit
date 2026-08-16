@@ -10,6 +10,218 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+**No breaking change.** Nothing that validated before stops validating, no slot renamed, no
+environment variable added to the required list — every new variable is optional and every
+new capability degrades to something the kit could already do.
+
+### Topic research — answering "what should today's video be about?"
+
+The kit could always turn *a thing you already had* into a video. It had no answer for the
+question people actually start the morning with. `crawl-and-queue` is the nearest thing and
+answers a different one: it crawls a fixed `sources.yaml` on a schedule for an agent that
+already knows its beat, and cannot take a topic somebody says out loud at 8am.
+
+- `scripts/research/hot-sources.mjs` — Reddit, Hacker News, GitHub and Google News, all
+  **keyless**. `GITHUB_TOKEN` is read if present but only raises a rate limit, never unlocks
+  a source: a research layer needing five API keys is one most people never switch on.
+- `scripts/research/topic-radar.mjs` — fetch → dedup → score → drop-what-was-already-used →
+  write `brain/radar/<date>-<topic>.json` + a readable brief.
+- `skills/topic-radar` and `skills/daily-topic-video` — the shortlist, and the whole
+  radar → primary sources → `create-video` → review gate → publish chain in one ask.
+- `docs/23-topic-research.md`.
+
+`score = heat × freshness × crossSource`. Three things went wrong while building it, all of
+them the kind that pass every test and still rank the wrong story first:
+
+- **Heat had to be a percentile within its own source.** Ten thousand upvotes, ten thousand
+  stars and ten thousand points are three different quantities, and normalising by the maximum
+  lets one runaway post flatten everything beneath it to nearly zero.
+- **It had to be measured BEFORE the merge.** Dedup first, and a story carried by Reddit and
+  HN has one summed engagement and one arbitrary `source` — whichever part arrived first — so
+  it gets ranked inside a group it never competed in, landing at the bottom of Reddit while
+  sitting top of Hacker News. Each part is now scored in its own source and the story takes
+  the best percentile it achieved anywhere.
+- **Title matching could not be a prefix key.** "OpenAI launches a new coding model" and the
+  same headline plus "today" reduce to a four-word and a five-word key and never meet — which
+  is exactly the case the check existed for. It is Jaccard over the signal words now, at a
+  threshold pinned by the pair that must *not* merge: "releases GPT model" vs "releases Sora
+  model" sits at 0.6, so the cutoff is 0.7.
+
+Two smaller notes: a source with no engagement numbers at all (an RSS wire) gets a **neutral**
+heat rather than the floor, because *no signal* and *the weakest signal* are different claims;
+and Reddit's JSON API now 403s unauthenticated clients, so the source falls back to its Atom
+feed — posts but no vote counts — and **says so in the report**, because a ranking that quietly
+got weaker is much harder to debug than one that explains itself.
+
+The seen-ledger records what the radar **handed out**, not everything it found. Recording
+everything would bury a story that ranked 40th on Monday and was shown to nobody.
+
+### `geo` — a real place as B-roll, free and keyless
+
+`scripts/video/geo-flythrough.mjs` builds a 9:16 hook by stitching raster map tiles at four
+zoom levels falling from the whole world onto a set of coordinates, then optional street-level
+imagery, each still given a Ken Burns push and cross-faded into the next. Registered as a
+fifth media source, so a scene asks for it the way it asks for stock footage:
+
+```json
+"media": { "kind": "video", "source": "geo", "query": "Aokigahara, Japan" }
+```
+
+**Nothing here needs an account and nothing is billed.** Wide shots come from CARTO's
+OpenStreetMap basemaps, close-ups from Esri World Imagery, with `osm` and `opentopo` also
+available; geocoding is Nominatim. Street level is [Mapillary](https://www.mapillary.com/) —
+crowd-sourced, CC BY-SA, free token — whose coverage is far thinner than Street View's, so no
+coverage is the ordinary case rather than an error.
+
+No API renders a video flythrough, and there is no free static-map API worth depending on.
+Tiles are the raw material every web map is made of, the projection maths is public, and
+stitching them is a dozen requests and an ffmpeg filtergraph. About 54 requests per clip, with
+an 80ms pause between them — these are donated and free-tier servers, not a CDN to hammer —
+and built clips are cached by request hash so a re-render fetches nothing.
+
+**The one thing a tile does not bring with it is its credit.** A Google static image arrives
+with the attribution already burned in; a raster tile does not, and attribution is a licence
+condition of every source here. So the script draws it onto every still itself, writes
+`<clip>.credits.txt` beside the output, and the `geo` source copies that into
+`media-lock.json` — which `docs/15` already calls the credits ledger. If no usable font can be
+found it refuses to pretend otherwise: it says so loudly and prints the exact string that must
+appear on screen instead. See `NOTICE.md` §2d for the per-source terms.
+
+`scripts/video/lib/tiles.mjs` holds the projection and the source registry, separately from
+the CLI, because it is the part that is wrong invisibly — a map centred one tile off still
+looks exactly like a map, and satellite imagery of the wrong suburb looks exactly like
+satellite imagery. `tests/tiles.test.mjs` checks it against hand-computable slippy-map cases
+rather than against its own output, including the two that bite: **Esri's tile path is
+`z/y/x` while every other source is `z/x/y`** (swap them and you get a valid tile of somewhere
+else entirely), and latitude is Mercator, not linear — pinned to the analytic ratio 1.39749,
+where a linear stand-in gives exactly 1.
+
+### Multi-media: a scene can show four pictures, not one
+
+`scene.media` now accepts an **array**. `resolveSceneMediaList()` resolves each entry to
+`assets/media-1.*` … `media-4.*`, and **still writes the first to `assets/media.*`** so every
+template built before this keeps working untouched — a silently blank frame is the failure
+mode that change would otherwise have, and it would not have been an error.
+
+The lock key carries the slot (`"grid#2"`) so the existing `sameRequest` reuse logic works
+per picture, unchanged; a single-object `media` keeps its bare scene id, so lock files written
+before this still hit. Validation runs **every** entry through the same rules — the array form
+must not become a way around the `rights` or `fit` gates — and an array on a template that
+draws only the first picture is an error, not a warning, because that renders happily while
+dropping three of your four images.
+
+`media_kinds` is passed to the template because a grid routinely mixes a satellite **clip**
+with three **stills**. Detecting it by loading an `<img>` and falling back to `<video>` on
+error would swap the element mid-render, and hyperframes seeks frame by frame — the swapped
+frame would come out blank.
+
+### `frame-vox-photo-grid` — the frame that needed it
+
+The 106th template, and the only one that draws more than the first picture: a 2×2 grid, a
+caption per cell, headline and takeaway. A cell with no picture is **removed**, not left
+empty — three pictures should read as three, not as three and a hole.
+
+### The ambient layer: nine frames that were going dead
+
+Measured, not guessed. Nine of the templates this kit reaches for finished their entrance at
+~2s and then rendered an **identical frame** for the remaining 4–8 seconds of the scene.
+`frame-geo-pin-detail` was the extreme: 190 lines of CSS and exactly two animations.
+
+The three templates people call good — `frame-analog-grain`, `frame-geo-sonar-radar`,
+`frame-bold-poster` — all ran continuous loops and none of them said so. So `motion-craft` was
+not wrong, it was **half-written**: it documented the content layer ("everything settled by
+~2.0s") and never named the ambient one. That omission is what produced the dead frames.
+
+Both layers are now written down, and `#root::after` gives the nine an ambient layer with its
+own character each — a scanner bar down a document, paper grain under newsprint, light leaning
+between two compared sides. Periods 6–19s, opacity delta ≤0.15, scale delta ≤0.04, never on
+text.
+
+`tests/motion.test.mjs` holds the set, checks **both aspects**, and prints how much of the
+library is still dead (30 of 106 have a layer) rather than letting the gap sit unstated. It
+caught a real bug on its first run: **`frame-bold-poster` floated four shapes in 9:16 and had
+nothing at all in 16:9** — half its renders were a still image, and had been for releases.
+
+### Fixed
+
+- `scripts/media/lib/normalize.mjs` — `normalizeImage()` takes **one frame**. A stock "image"
+  routinely arrives as a clip (Pexels' catalogue is video) and an animated meme is a GIF; both
+  made the image2 muxer fail with *"Cannot write more than one file with the same name"*,
+  which reads as a broken path rather than "you handed me a movie".
+- `tests/templates.test.mjs` — the media-template checks matched only `assets/media.`, so a
+  template building `"assets/media-" + i + ".png"` was **silently exempt** from both the
+  catalogue-still and the stand-in check. Widened to `media[.-]` and any `<var>.src`.
+- `frame-logo-outro` accepts a **brand mark** via the scene's media block; the built-in SVG
+  glyph stays as the stand-in, so a channel that passes no logo still gets a mark.
+
+### `meme` — a change of energy, in its own colours
+
+`scripts/media/lib/sources/meme.mjs` renders through memegen.link (free, keyless, MIT, ~400
+templates) and a new **`frame-meme`** template displays it — the 105th, and the only one that
+**never tints its media**. `frame-media-inset` tints media into the palette on purpose; a meme
+recoloured to match a dark brand palette is no longer the meme, because its colour is part of
+how the joke lands. The frame is themed, the image is not, and `tests/meme-social.test.mjs`
+asserts no filter creeps onto `.meme` later.
+
+```json
+"media": { "kind": "image", "source": "meme", "id": "drake|Viết tay|Dùng agent", "fit": "contain" }
+```
+
+Three things here were found by rendering and looking, not by reading documentation:
+
+- **The font had to be `notosans`, not memegen's own `impact`.** Impact has no Vietnamese
+  diacritics: "Viết script bằng tay" renders as "VI T SCRIPT BẰNG TAY" and "Để agent viết bước
+  đầu" as "Đ AGENT VI T B C Đ U". The glyphs are dropped silently, the API still returns 200,
+  and nothing downstream can tell.
+- **`fit: "contain"` is now required and enforced.** `fit` defaults to `cover`, which crops
+  the image to fill the frame and takes the punchline with it — in `normalizeImage`, before
+  the template sees the file, after which the render succeeds with a full frame.
+- **Meme lines have to fit ONE rendered line.** memegen sizes text to a single line inside the
+  template's text box and clips the overflow off the image. The limit is per-template, not
+  global: `drake` (two half-width panels) wraps at about 15 Vietnamese characters while
+  `afraid` (full-width) takes 23. So `meme-search.mjs --render` writes a PNG to open, and the
+  catalogue says to measure rather than estimate.
+
+Text goes to memegen by **POST**, not built into the URL path. Its path encoding (`_` space,
+`__` underscore, `--` dash, `~q` `~s` `~a` `~p` `~h`, `''`) is a minefield for Vietnamese
+punctuation; POST takes a plain array and escapes server-side.
+
+### `social` — Douyin / TikTok / Bilibili / Kuaishou, with the paperwork attached
+
+`scripts/media/lib/sources/social.mjs` resolves one post you name, and `social-fetch.mjs`
+fetches it from the command line. **The kit ships no downloader and vendors nothing** — it is
+a thin client for a self-hosted `Douyin_TikTok_Download_API` (Apache-2.0) reached via
+`SOCIAL_API_BASE`, the same arrangement as the servers in `.mcp.json`. Cookies stay in that
+service's own config.
+
+The clip is somebody else's work, and removing a watermark does not remove a copyright. The
+kit does not make that judgement — it refuses to let it go unrecorded. A scene using this
+source must declare `rights` (`own` · `licensed` · `permitted` · `public-domain`); the two
+that claim someone else's permission must name it in `rights_note`; `validate-script.mjs`
+fails the script otherwise, in seconds rather than after a 3–5 minute render; and the
+declaration lands in `media-lock.json` beside the original URL and author — the file `docs/15`
+already calls the credits ledger.
+
+There is deliberately **no `unknown` and no `fair-use`**, and a test asserts they never
+appear: a value meaning "I did not check" turns the whole field into decoration.
+
+`social-fetch.mjs --analyze` is the mode with no legal question attached — it downloads a post
+so you can study its hook and cut rhythm, then you write your own and shoot or licence the
+footage. It pairs with `topic-radar` and the `fb-hook-extractor` registry skill.
+
+### Fixed
+
+- `scripts/media/lib/resolve.mjs` — a `url` on a non-screenshot scene now resolves through the
+  source instead of falling through to *"media needs one of id / ref / query / url"*, which is
+  a confusing thing to be told when you passed a url.
+- `scripts/media/lib/resolve.mjs` — `kind` is passed to a source's `byId`/`search`, because a
+  source can need it to pick a FORMAT: an animated meme must arrive as a `.gif` for
+  `kind:"video"` and a `.png` for `kind:"image"`. Sources that do not care ignore it.
+- `scripts/media/lib/normalize.mjs` — `download()` now copies a **local path or `file://` URL**
+  instead of handing it to `fetch`, which refuses both. `manual`'s header has promised this
+  since it was written ("paste its direct URL (or a local path) here"); it failed with "Failed
+  to parse URL", which reads like a broken entry rather than an unimplemented case.
+
 ## [0.5.0] — 2026-08-10
 
 Eighteen pull requests since v0.4.0. **No breaking change** — nothing that validated before

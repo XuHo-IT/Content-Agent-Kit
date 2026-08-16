@@ -125,7 +125,8 @@ Sixty-three are original to content-agent-kit (MIT, same as this repo):
 `frame-magnates-polaroid-desk` · `frame-stock-ticker-tape` · `frame-timeline-war-era` · `frame-document-redacted` · `frame-money-flow-conduit` ·
 `frame-tier-list` · `frame-notification-stack` · `frame-poll-voting` · `frame-speedrun-timer` · `frame-card-pack-opening` ·
 `frame-saas-pricing-tier` · `frame-api-request-response` · `frame-diff-code-editor` · `frame-git-branch-graph` · `frame-ai-benchmark-leaderboard` ·
-`frame-pros-cons-scale` · `frame-receipt-slip` · `frame-unboxing-specs` · `frame-radar-rating-star` · `frame-discount-coupon-tear`
+`frame-pros-cons-scale` · `frame-receipt-slip` · `frame-unboxing-specs` · `frame-radar-rating-star` · `frame-discount-coupon-tear` ·
+`frame-meme` · `frame-vox-photo-grid`
 
 `frame-3d-spotlight` was written after reading how vibe-motion's `light-spotlight-render`
 describes the effect. No code was taken: that repository publishes no licence, and this kit
@@ -156,13 +157,80 @@ the lock file is what makes a render reproducible. One frame is the exception:
 
 | file | what it is | licence |
 |---|---|---|
-| `examples/gallery/media-still.jpg` | a single frame of [*A person busy working on his laptop*](https://www.pexels.com/video/a-person-busy-working-on-his-laptop-5495899/) by [Pavel Danilyuk](https://www.pexels.com/@pavel-danilyuk) — the same clip `sample-output` uses for `body-11` | Pexels License |
+| `examples/gallery/media-still.jpg` | a single frame of [*A person busy working on his laptop*](https://www.pexels.com/video/a-person-busy-working-on-his-laptop-5495899/) by [Pavel Danilyuk](https://www.pexels.com/@pavel-danilyuk) — the same clip `sample-output` uses for `body-11`, and the stand-in for `frame-meme`'s catalogue tile (see §2e) | Pexels License |
 | `examples/gallery/screenshot-still.jpg` | a capture of [github.com/XuHo-IT/RAG-EVAL-VN](https://github.com/XuHo-IT/RAG-EVAL-VN), a repository of this project's own | MIT, same owner |
 
 Both exist for one job: standing in for the media slot of the four footage-led templates in
 `examples/gallery/gallery-ui.jpg`, so the catalogue does not show four holes. Attribution is
 not required by the Pexels License; it is here because a committed frame of someone's work
 should be traceable to them without opening a lock file.
+
+## 2d. Map imagery — source `geo`
+
+`scripts/video/geo-flythrough.mjs` and `scripts/media/lib/sources/geo.mjs` stitch raster map
+tiles into a clip. Every source is free and keyless, and **every one of them requires
+attribution** — which, unlike the stock footage above, is not a courtesy but a licence term.
+
+**The critical difference from a Google static image: a raster tile carries no credit of its
+own.** Nothing is burned in at the source, so the credit has to be added. The script draws it
+onto every still, writes `<clip>.credits.txt` beside the output, and the `geo` source copies
+that string into `media-lock.json`. If no font can be found it refuses to pretend otherwise
+and prints the exact text that must appear on screen instead.
+
+| source | required credit | terms |
+|---|---|---|
+| CARTO basemaps (`carto-dark` / `carto-light` / `carto-voyager`) | `© OpenStreetMap contributors © CARTO` | [CARTO basemap terms](https://carto.com/legal/) · data [ODbL](https://www.openstreetmap.org/copyright) |
+| OpenStreetMap standard (`osm`) | `© OpenStreetMap contributors` | [Tile usage policy](https://operations.osmfoundation.org/policies/tiles/) — run on donated hardware; a video a day is fine, bulk rendering is not |
+| Esri World Imagery (`esri-satellite`) | `Imagery © Esri, Maxar, Earthstar Geographics` | [Esri terms of use](https://www.esri.com/en-us/legal/terms/full-master-agreement) |
+| OpenTopoMap (`opentopo`) | `© OpenStreetMap contributors, SRTM \| © OpenTopoMap (CC-BY-SA)` | CC-BY-SA |
+| Mapillary street level (optional) | `Street-level imagery © Mapillary contributors (CC BY-SA)` | [Mapillary terms](https://www.mapillary.com/terms) |
+| Nominatim (geocoding only) | — | [Usage policy](https://operations.osmfoundation.org/policies/nominatim/) — requires an identifying User-Agent, which `RESEARCH_USER_AGENT` supplies |
+
+- The tile servers are donated or free-tier. The script pauses 80ms between requests and
+  caches built clips by request hash, so a re-render fetches nothing. `.cache/geo/` holds
+  **rendered clips**, not a tile store — none of these licences permit bulk tile caching.
+- Nothing fetched is committed to this repository: `.cache/` is gitignored.
+
+The kit also draws places without touching any of the above, using its own `frame-geo-*`
+templates over `video-templates/world-path.json` — Natural Earth data, public domain, already
+covered in §2.
+
+## 2e. Memes — source `meme`
+
+`scripts/media/lib/sources/meme.mjs` renders through **[memegen.link](https://memegen.link)**
+(MIT, Jace Browning). The service is free and needs no account.
+
+**Nothing from it is committed to this repository.** That is deliberate and not just tidiness:
+meme templates are overwhelmingly frames from copyrighted films, television and photographs,
+circulated as internet culture. Their legal position varies by jurisdiction and by use, and
+none of it is this repo's to grant. So the kit generates them on demand into a gitignored
+working directory, and the catalogue tile for `frame-meme` uses the same Pexels-licensed still
+as `frame-broll` rather than a real meme.
+
+Each template's `source` field points at its origin (usually Know Your Meme) and is carried
+into `media-lock.json` as `pageUrl`, so any meme in a finished render stays traceable.
+
+Judging whether a given meme is fine to publish in a given market is the publisher's call.
+
+## 2f. Social video — source `social`
+
+`scripts/media/lib/sources/social.mjs` is a client for
+**[Evil0ctal/Douyin_TikTok_Download_API](https://github.com/Evil0ctal/Douyin_TikTok_Download_API)**
+(Apache-2.0), which you run yourself. Nothing from that project is vendored here; this kit
+contains no downloader, no cookies and no credentials for any platform.
+**[jiji262/douyin-downloader](https://github.com/jiji262/douyin-downloader)** (MIT) is
+referenced in `docs/15-media-sources.md` as the better tool for archiving your own account,
+and is likewise not vendored.
+
+**Copyright in a fetched clip belongs to whoever made it.** Nothing this kit does transfers
+it, and stripping a watermark does not affect it. Downloading may also be against the
+platform's terms of service independently of copyright.
+
+The kit's position is not to decide, but to refuse to let the decision go unrecorded: a scene
+using this source must declare `rights` (`own` · `licensed` · `permitted` · `public-domain`),
+`licensed` and `permitted` must name who granted permission and when, `validate-script.mjs`
+fails the script otherwise, and the declaration is written into `media-lock.json` beside the
+original URL and author. There is deliberately no `unknown` and no `fair-use` value.
 
 ## 3. Runtime tools (not redistributed)
 

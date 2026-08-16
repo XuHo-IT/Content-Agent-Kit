@@ -30,14 +30,17 @@ const ASPECT_ENTRY = {
  * @param {{templateId:string, inputs:object, outputPath:string,
  *          aspect?:"9:16"|"16:9", fps?:number, quality?:"draft"|"standard"|"high",
  *          mediaFile?:string, theme?:object, log?:Function}} args
- *   mediaFile — a resolved clip or still for this ONE scene. Templates reference it at the
- *   fixed path `assets/media.mp4` / `assets/media.png`.
+ *   mediaFile  — a resolved clip or still for this ONE scene, at `assets/media.mp4|png`.
+ *   mediaFiles — several, for a frame that shows a grid of pictures. They land at
+ *   `assets/media-1.*` … `assets/media-4.*`, AND the first is ALSO written to
+ *   `assets/media.*` so every template built before this kept working unchanged.
  *   theme — a resolved theme (lib/theme.mjs). Recolours a COPY; the vendored template
  *   keeps the palette it was authored with.
  * @returns {Promise<string>} absolute path of the rendered mp4
  */
 export async function composeTemplate(args) {
-  const { templateId, inputs, fps = 30, quality = "standard", aspect, mediaFile, theme, log } = args;
+  const { templateId, inputs, fps = 30, quality = "standard", aspect, mediaFile, mediaFiles, theme, log } = args;
+  const files = (mediaFiles ?? (mediaFile ? [mediaFile] : [])).filter(Boolean);
   const vendored = join(templatesDir(), templateId);
   if (!existsSync(join(vendored, "index.html"))) {
     throw new Error(
@@ -54,17 +57,23 @@ export async function composeTemplate(args) {
   // overwrite each other's clip, and would leave junk in a git-tracked dir.
   let templateDir = vendored;
   let scratch = null;
-  if (mediaFile || theme) {
+  if (files.length || theme) {
     scratch = mkdtempSync(join(tmpdir(), "cak-tpl-"));
     templateDir = join(scratch, templateId);
     cpSync(vendored, templateDir, { recursive: true });
   }
 
-  if (mediaFile) {
-    if (!existsSync(mediaFile)) throw new Error(`Media file not found: ${mediaFile}`);
-    const ext = extname(mediaFile).toLowerCase() === ".png" ? ".png" : ".mp4";
+  if (files.length) {
     mkdirSync(join(templateDir, "assets"), { recursive: true });
-    cpSync(mediaFile, join(templateDir, "assets", `media${ext}`));
+    files.forEach((f, i) => {
+      if (!existsSync(f)) throw new Error(`Media file not found: ${f}`);
+      const ext = extname(f).toLowerCase() === ".png" ? ".png" : ".mp4";
+      cpSync(f, join(templateDir, "assets", `media-${i + 1}${ext}`));
+      // The first also goes to the original fixed path. Without this every template written
+      // before multi-media existed would stop finding its file the moment a caller switched
+      // to the array form — a silently blank frame, not an error.
+      if (i === 0) cpSync(f, join(templateDir, "assets", `media${ext}`));
+    });
   }
 
   let themedInputs = inputs;

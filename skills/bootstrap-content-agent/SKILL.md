@@ -109,7 +109,11 @@ From `templates/` + `scripts/`, produce:
 - **`schedule-prompt.md`** — from the template, wired to this agent's phases.
 - **On Claude Code**: copy the runtime skills into `.claude/skills/`: `daily-run`,
   `review-gate`, `crawl-and-queue` (if crawling), `audit-and-fix`, plus `create-video` and
-  `video-and-post` and `research-and-capture` if the agent makes videos, `ads-report` (it works with no ad spend too — pasted numbers), `repurpose` if they publish
+  `video-and-post` and `research-and-capture` if the agent makes videos, `topic-radar` +
+  `daily-topic-video` if the agent works from a topic the user names each morning rather
+  than from a crawled queue (they need no keys — every source is keyless — and
+  `daily-topic-video` is the whole radar→video→publish chain in one ask),
+  `ads-report` (it works with no ad spend too — pasted numbers), `repurpose` if they publish
   to more than one channel, `geo-optimize` if anything they publish is meant to be found —
   it carries `scripts/geo-audit.mjs`, which gates a draft on whether a passage still means
   anything once an answer engine quotes it alone — and

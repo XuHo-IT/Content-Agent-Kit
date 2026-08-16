@@ -18,6 +18,17 @@
 Follow `skills/daily-run/SKILL.md` (or the generated project's `PLAYBOOK.md`):
 determine today's phase, fan out, **review-gate before publish**, schedule, report.
 
+## When the user just names a topic — "hôm nay có gì hot về X" / "what's hot in X"
+Follow `skills/topic-radar/SKILL.md`. Four **keyless** sources (Reddit, Hacker News, GitHub,
+Google News), merged, scored by heat × freshness × cross-source, and de-repeated against what
+earlier runs already handed out:
+```bash
+node scripts/research/topic-radar.mjs --topic "AI coding agents" --top 8   # prints RADAR=<path>
+```
+If they want the video too — the usual case — `skills/daily-topic-video/SKILL.md` runs the
+whole chain: radar → primary sources → `create-video` → review gate → publish.
+Method: `docs/23-topic-research.md`.
+
 ## When the user says "tạo video" / "make a video" / "làm short/reel"
 Follow `skills/create-video/SKILL.md` — read `templates/VIDEO_CRAFT.template.md` **and**
 `video-templates/CATALOG.md` first, write `script.json`, then:
@@ -35,6 +46,34 @@ node scripts/media/stock-search.mjs --query "data center servers"   # read WHAT 
 node scripts/media/screenshot.mjs --url "https://…" --out shot.png
 node scripts/video/add-template.mjs --preset news                   # transitions, captions, charts
 ```
+For a **meme** — the cheapest way to break a run of text frames. Free, no keys:
+```bash
+node scripts/media/meme-search.mjs --query drake
+node scripts/media/meme-search.mjs --render "drake|Viết tay|Dùng agent" --out /tmp/m.png   # LOOK at it
+```
+`"media": { "kind":"image", "source":"meme", "id":"drake|…|…", "fit":"contain" }` on a
+`frame-meme` scene. `fit:"contain"` is required — `cover` crops the punchline off. The font
+defaults to **notosans**, not Impact, which has no Vietnamese diacritics.
+
+For a **social clip** (Douyin / TikTok / Bilibili / Kuaishou) — the kit ships no downloader,
+it talks to a service you run (`SOCIAL_API_BASE`, see `docs/15`). The clip is somebody else's
+work, so every scene must declare `"rights"` and the validator refuses without it:
+```bash
+node scripts/media/social-fetch.mjs --url "https://www.douyin.com/video/7…" --analyze
+```
+`--analyze` studies a post's hook and rhythm without shipping its footage — the mode with no
+legal question attached, and usually the one you actually want.
+
+For a **real place** — a map falling out of the sky onto it, then street level. Free, no keys:
+```bash
+node scripts/video/geo-flythrough.mjs --sources                               # tile sources
+node scripts/video/geo-flythrough.mjs --place "Aokigahara, Japan" --dry-run   # what it fetches
+```
+…or let a scene ask for it: `"media": { "kind":"video", "source":"geo", "query":"…" }`.
+Stitched from OpenStreetMap-derived tiles (CARTO, Esri satellite) — **attribution is a licence
+condition and is not baked into a tile**, so the script draws it on and writes a
+`.credits.txt`. Never crop it out. Street level via a free Mapillary token, or the kit's own
+offline vector map: `frame-geo-markers` → `frame-geo-route` → `frame-geo-pin-detail`.
 Method: `docs/15-media-sources.md` and `docs/16-template-registry.md`.
 
 ## Non-negotiable conventions (see `docs/03-conventions.md`)
