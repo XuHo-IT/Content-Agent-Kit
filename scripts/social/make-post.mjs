@@ -141,17 +141,26 @@ try {
   if (hashtags) body.hashtags = hashtags;
   if (platforms.length) body.platforms = platforms;
 
+  // Fall off the end instead of process.exit(0). A dry run that uploaded a local file has
+  // just left an armed AbortSignal.timeout behind it (the media hosts give uploads a 5-minute
+  // ceiling), and forcing the process down while that handle is live aborts on Windows —
+  // libuv's `!(handle->flags & UV_HANDLE_CLOSING)` assertion, exit code 127, AFTER the upload
+  // and the payload print both succeeded. Which is the worst shape a bug can have here: the
+  // obvious wrapper, `make-post.mjs --dry-run && make-post.mjs ...`, never runs its second
+  // half, so checking the payload first appears to make posting fail.
+  //
+  // Nothing keeps the loop alive once the fetch settles, so a natural exit is immediate and
+  // returns 0. Keep it that way — do not "tidy" this back into an explicit exit.
   if (dryRun) {
     console.log(JSON.stringify(body, null, 2));
     console.log(`[social] ✓ dry-run — nothing sent`);
-    process.exit(0);
+  } else {
+    const { ok, status, text } = await postJson(webhook, body);
+    if (!ok) throw new Error(`webhook ${status}: ${text.slice(0, 200)}`);
+    onDone(true);
+    const to = platforms.length ? ` → ${platforms.join(", ")}` : "";
+    console.log(`[social] ✓ posted ${kind}${mediaUrl ? " (with media)" : ""}${to}`);
   }
-
-  const { ok, status, text } = await postJson(webhook, body);
-  if (!ok) throw new Error(`webhook ${status}: ${text.slice(0, 200)}`);
-  onDone(true);
-  const to = platforms.length ? ` → ${platforms.join(", ")}` : "";
-  console.log(`[social] ✓ posted ${kind}${mediaUrl ? " (with media)" : ""}${to}`);
 } catch (e) {
   onDone(false, e.message);
   console.error(`[social] ✗ ${e.message}`);
