@@ -1,0 +1,123 @@
+{
+  "name": "content-agent-kit — Facebook Page video + first comment",
+  "flow": [
+    {
+      "id": 1,
+      "module": "gateway:CustomWebHook",
+      "version": 1,
+      "parameters": {
+        "hook": null,
+        "maxResults": 1
+      },
+      "mapper": {},
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "restore": {
+          "parameters": {
+            "hook": {
+              "data": { "editable": "true" },
+              "label": "Video webhook — paste its URL into MAKE_WEBHOOK_URL"
+            }
+          }
+        },
+        "parameters": [
+          { "name": "hook", "type": "hook:gateway-webhook", "label": "Webhook", "required": true },
+          { "name": "maxResults", "type": "number", "label": "Maximum number of results" }
+        ],
+        "interface": [
+          { "name": "kind", "type": "text", "label": "\"video\" | \"image\" — set by make-post.mjs" },
+          { "name": "mediaUrl", "type": "text", "label": "Public URL of the rendered mp4" },
+          { "name": "post", "type": "text", "label": "Caption — becomes the video description" },
+          { "name": "comment", "type": "text", "label": "First comment — sources / link" },
+          { "name": "title", "type": "text", "label": "Only platforms that need one (YouTube)" },
+          { "name": "hashtags", "type": "text", "label": "e.g. #ai #coding" },
+          { "name": "durationSec", "type": "number", "label": "Video length, when known" }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "module": "facebook-pages:UploadVideo",
+      "version": 6,
+      "parameters": { "__IMTCONN__": null },
+      "mapper": {
+        "url": "{{1.mediaUrl}}",
+        "type": "url",
+        "page_id": "",
+        "description": "{{1.post}}"
+      },
+      "metadata": {
+        "designer": { "x": 300, "y": 0 },
+        "restore": {
+          "expect": {
+            "type": { "mode": "chose", "label": "download a video from URL" },
+            "page_id": { "mode": "chose", "label": "PICK YOUR PAGE ON IMPORT" }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": { "scoped": "true", "connection": "facebook" },
+              "label": "PICK YOUR FACEBOOK CONNECTION ON IMPORT"
+            }
+          }
+        },
+        "parameters": [
+          { "name": "__IMTCONN__", "type": "account:facebook", "label": "Connection", "required": true }
+        ],
+        "expect": [
+          { "name": "page_id", "type": "select", "label": "Page", "required": true },
+          {
+            "name": "type",
+            "type": "select",
+            "label": "Type",
+            "required": true,
+            "validate": { "enum": ["data", "url"] }
+          },
+          { "name": "description", "type": "text", "label": "Video caption" },
+          { "name": "url", "type": "url", "label": "URL", "required": true }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "module": "facebook-pages:CreateComment",
+      "version": 6,
+      "parameters": { "__IMTCONN__": null },
+      "mapper": {
+        "id": "{{2.id}}",
+        "message": "{{1.comment}}",
+        "page_id": ""
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 },
+        "restore": {
+          "expect": {
+            "id": { "mode": "edit" },
+            "page_id": { "mode": "chose", "label": "PICK THE SAME PAGE AS MODULE 2" },
+            "attachment": { "mode": "chose", "label": "Empty" }
+          },
+          "parameters": {
+            "__IMTCONN__": {
+              "data": { "scoped": "true", "connection": "facebook" },
+              "label": "PICK YOUR FACEBOOK CONNECTION ON IMPORT"
+            }
+          }
+        },
+        "parameters": [
+          { "name": "__IMTCONN__", "type": "account:facebook", "label": "Connection", "required": true }
+        ],
+        "expect": [
+          { "name": "page_id", "type": "select", "label": "Page", "required": true },
+          { "name": "message", "type": "text", "label": "Comment text" },
+          {
+            "name": "attachment",
+            "type": "select",
+            "label": "Attachment type",
+            "validate": { "enum": ["url", "share"] }
+          },
+          { "name": "id", "type": "select", "label": "Post ID", "required": true }
+        ]
+      }
+    }
+  ],
+  "metadata": { "version": 1 }
+}

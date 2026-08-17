@@ -97,6 +97,9 @@ Method: `docs/15-media-sources.md` and `docs/16-template-registry.md`.
 - `video-templates/` — the 104 scene templates + `CATALOG.md` (slots + character limits).
   A folder only counts as a template when it has `index.html`; two vendored folders
   (`caption-kinetic-slam`, `transitions-blur`) do not, so 106 folders means 104 usable.
+  `CATALOG.md` says what each one is *for*; `node scripts/video/motion-index.mjs` says how each
+  one *moves* and which sample to copy an effect from. Its `**Motion:**` lines are generated —
+  regenerate with `--write-catalog`, never hand-edit. Traps: `skills/motion-craft/SKILL.md`.
 - `templates/VIDEO_GENRES.template.json` — scene sequences for 12 genres (review, tutorial, news,
   listicle, launch, testimonial, local, vox-explainer, geo-answer, technical-deepdive, growth-strategy, geo-itinerary). Answers 'which frames, in what order'
   rather than 'what shape is a script'. Method: `docs/21-video-genres.md`.

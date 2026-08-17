@@ -21,7 +21,15 @@ first, and be able to say it in one sentence before writing any CSS.
 # what exists, and what each one is FOR
 node -e "import('./scripts/video/lib/paths.mjs').then(m=>console.log(m.listTemplateIds().join('\n')))"
 grep -n '^\*\*Role:\*\*' video-templates/CATALOG.md
+
+# and how they MOVE — which techniques are well covered, which are nearly absent
+node scripts/video/motion-index.mjs
 ```
+
+The second command answers a question the first cannot. A gap is not only "no frame does this
+job" — it is also "no frame moves this way". `mask-sweep` and `clip-reveal` have two samples
+each; `draw-on` has thirteen. A new template that fills a thin row is worth more than one that
+adds a fourteenth way to draw a line, and the counts tell you which is which.
 
 Then read `templates/VIDEO_GENRES.template.json` and ask which beat has no good frame.
 

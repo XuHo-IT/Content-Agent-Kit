@@ -161,22 +161,34 @@ If you want canvas, drive it from `window.__hfThreeTime` and redraw on demand �
 
 ### Seek-safe techniques worth more than another fade-up
 
-All pure CSS, all handled by `waapi`, no dependency added:
+All pure CSS, all handled by `waapi`, no dependency added.
 
-- **`clip-path` reveals** — wipe, iris, polygon morph. A shape opening reads as a camera move.
-- **SVG `stroke-dashoffset`** — a line, route, or underline *drawing itself*. This is the
-  single biggest upgrade available for diagram, map, and timeline frames.
-- **`mask-image` sweeps** — a gradient mask travelling across text or an image, so content is
-  revealed by light rather than by opacity.
-- **`background-clip: text` + moving gradient** — the fill of a headline moves while the
-  letters stay put. Costs nothing and never shifts layout.
-- **3D transforms with `perspective`** — a card turning, a page lifting. Cheap, and it makes
-  a flat frame read as an object.
-- **`conic-gradient` rotation** — sweeping radar or ring light without an image.
-- **`steps()` easing** — mechanical judder. Film grain and ticking counters need it; smoothed
-  they turn to fog. Deliberate, not a mistake.
+**Open the sample before you write the CSS.** Every technique below already exists somewhere in
+this library, and copying a working one beats writing a new one from the description. The kit
+was never short of advanced motion — it was short of a path to it, which is what the last
+column is. The list is generated, so it does not drift from the templates:
+
+```bash
+node scripts/video/motion-index.mjs                      # the whole table
+node scripts/video/motion-index.mjs --technique draw-on  # just the ids
+```
+
+| technique | what it buys you | copy from |
+|---|---|---|
+| **SVG `stroke-dashoffset`** — a line, route or underline *drawing itself*. The single biggest upgrade available for diagram, map and timeline frames. | attention follows the tip of the line | `frame-geo-route` (a route drawn on a map — the genre case), `frame-draw-on`, `frame-math-manim`, `frame-vox-investigation-board` · **13 total** |
+| **`clip-path` reveals** — wipe, iris, polygon morph. A shape opening reads as a camera move. | reveal without a fade | `frame-split-compare` and `frame-terminal` (both `inset()`) · **only 2** — `frame-3d-spotlight`'s `polygon` is a static light cone, not a reveal, so it is not a sample |
+| **`mask-image` sweeps** — a gradient mask travelling across text or an image, so content is revealed by light rather than by opacity. | the richest-looking reveal here | `frame-aicoding-comparison`, `frame-aicoding-list` · **only 2, both AI-coding themed** — thin cover for documentary work |
+| **`background-clip: text` + moving gradient** — the fill of a headline moves while the letters stay put. Costs nothing, never shifts layout. | a live headline | `frame-liquid-bg-hero`, `frame-bold-poster`, `frame-pentagram-stat` · **8 total** |
+| **3D transforms with `perspective`** — a card turning, a page lifting. | a flat frame reads as an object | `frame-3d-flip`, `frame-3d-perspective-card`, `frame-3d-device` · **3** |
+| **`conic-gradient` rotation** — sweeping radar or ring light, no image needed. | motion with zero assets | `frame-geo-sonar-radar`, `frame-hud`, `frame-pentagram-stat` · **3** |
+| **`steps()` easing** — mechanical judder. Film grain and ticking counters need it; smoothed they turn to fog. Deliberate, not a mistake. | anything that should feel like a machine | `frame-analog-grain`, `frame-terminal`, `frame-timeline-war-era` · **3** |
+
 - **Two loops at coprime periods** (13s and 19s, not 12s and 24s) — they never resync, so the
-  frame never settles into a pattern a viewer can predict.
+  frame never settles into a pattern a viewer can predict. `frame-bold-poster` runs four.
+
+**The two thin rows are the gap.** `clip-reveal` and `mask-sweep` have two samples each, and
+both `mask-image` ones are AI-coding frames. If you are building a new template and either
+would fit, building it there is worth more than a seventh `draw-on`.
 
 ### If you reach for GSAP
 

@@ -92,6 +92,11 @@ to any platform itself — it just tells the scenario where the post is meant to
 
 ### Building the Make scenario, step by step
 
+**If you only publish to one Facebook Page, import the blueprint instead of building it:**
+`templates/make/facebook-video-url.blueprint.json` (Webhook → Upload a Video → Create a
+Comment, three modules, no Router). Setup and the two failure modes that bite are in
+`templates/make/README.md`. Come back here when you add a second platform.
+
 The kit sends the payload; the scenario does everything else. Roughly ten minutes:
 
 1. **New scenario → Webhooks → Custom webhook → Add.** Copy the URL into `MAKE_WEBHOOK_URL`
@@ -160,6 +165,11 @@ tảng nào — chỉ báo cho kịch bản biết bài này định đăng đi 
 (`tiktok`, `youtube_shorts` cần `title`, `facebook_reels`, `instagram_reels` cần URL công khai).
 
 ### Dựng kịch bản Make từng bước
+
+**Chỉ đăng lên một Facebook Page thì import blueprint thay vì dựng tay:**
+`templates/make/facebook-video-url.blueprint.json` (Webhook → Upload a Video → Create a
+Comment, ba module, không Router). Hướng dẫn và hai chỗ hay gãy nằm ở
+`templates/make/README.md`. Quay lại mục này khi thêm nền tảng thứ hai.
 
 Kit gửi payload; scenario lo phần còn lại. Khoảng mười phút:
 

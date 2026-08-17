@@ -18,6 +18,16 @@ uses `compositions/portrait.html`) or **`"16:9"`** (1920×1080 — uses `index.h
 > **Licensing.** These templates are vendored from MIT / Apache-2.0 projects. Each
 > folder's `NOTICE.md` records its lineage and modifications — keep them. See the
 > root `NOTICE.md`.
+>
+> **`**Motion:**` is generated, not written.** It appears only on templates that move by
+> something beyond `opacity`/`translate`, and it is there so you can find a working sample to
+> copy instead of reinventing the effect. Regenerate it after editing a template — never hand-
+> edit the line:
+> ```bash
+> node scripts/video/motion-index.mjs                      # the table, and what to copy from
+> node scripts/video/motion-index.mjs --write-catalog       # rewrite the lines below
+> ```
+> Techniques and their traps: `skills/motion-craft/SKILL.md`.
 
 > Vietnamese: visual text (inputs) keeps normal formatting ("5.5", "82.7%").
 > Only `voiceText` must spell numbers out phonetically (see the skill rules).
@@ -32,6 +42,7 @@ uses `compositions/portrait.html`) or **`"16:9"`** (1920×1080 — uses `index.h
 **Role:** the frame a review video is built around. Score ring that sweeps to the number,
 verdict in one line, then pros and cons. Dark canvas, green accent.
 **Best for:** `type: "body"`, usually right before the outro of a review.
+**Motion:** draw-on
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -100,6 +111,7 @@ green accent.
 **Role:** hook / strong statement. 1970s editorial poster — giant red figure,
 3-line tilted headline (middle line auto-red), serif standfirst.
 **Best for:** the opening hook, or a punchy single-claim body beat.
+**Motion:** gradient-text · continuous loop
 
 | slot           | type     | limit                    | notes                                                |
 | -------------- | -------- | ------------------------ | ---------------------------------------------------- |
@@ -134,6 +146,7 @@ name, muted source, ink rule.
 faint oversized cyan number bleeding off the right, a small bar chart (cyan hero
 bar), dark footer bar with a cyan rule.
 **Best for:** a single hero statistic / benchmark / percentage with a premium,
+**Motion:** conic, gradient-text · continuous loop
 high-tech dark look.
 
 | slot           | type   | limit | notes                                                      |
@@ -190,6 +203,7 @@ beat (variety vs the white/paper templates).
 a glowing segmented logo mark that assembles in, brand name with a shimmer
 sweep, tagline, and a footer URL.
 **Best for:** the final scene (`type: "outro"`) — a polished brand sign-off.
+**Motion:** gradient-text · continuous loop
 
 | slot          | type   | limit | notes                                                       |
 | ------------- | ------ | ----- | ----------------------------------------------------------- |
@@ -207,6 +221,7 @@ sweep, tagline, and a footer URL.
 with large soft floating colour blobs + faint grid; a centred white headline,
 subheadline and a rounded CTA pill.
 **Best for:** the opening hook (`type: "hook"`) — a modern, premium intro.
+**Motion:** gradient-text · continuous loop
 
 | slot          | type   | limit | notes                                              |
 | ------------- | ------ | ----- | -------------------------------------------------- |
@@ -229,6 +244,7 @@ blue panel (mono meta + a handwritten script accent + hand-drawn underline) and
 a dark panel with a stacked display title, one line outlined in electric blue.
 Bold, energetic, design-forward.
 **Best for:** a punchy hook or a strong creative body statement (a few short words).
+**Motion:** draw-on, gradient-text
 
 | slot            | type     | limit            | notes                                                            |
 | --------------- | -------- | ---------------- | ---------------------------------------------------------------- |
@@ -258,6 +274,7 @@ with a cyan×magenta RGB-split glitch. High-energy, edgy.
 glow, a big gradient-accent title + subtitle, then a stack of rounded item cards
 — each with a coloured icon chip, title + description, and a coloured level tag.
 **Best for:** any scene that is a **list / ranking / comparison of 2–5 items**
+**Motion:** gradient-text, mask-sweep · continuous loop
 (who's affected, pros vs cons, tiers, a checklist).
 
 | slot       | type     | limit       | notes                                                        |
@@ -286,6 +303,7 @@ glow, a pill badge, a "X vs Y" headline with two differently-coloured gradient
 sides, two framed cards (big gradient label + bullets, a WIN badge on the winner)
 and an optional stat row.
 **Best for:** comparing **two things** (old vs new, A vs B, before vs after).
+**Motion:** gradient-text, mask-sweep
 
 | slot       | type   | limit | notes                                                            |
 | ---------- | ------ | ----- | ---------------------------------------------------------------- |
@@ -411,6 +429,7 @@ scales in behind it, so the two are one gesture rather than two overlapping anim
 times with the red and cyan copies offset — which is what chromatic aberration *is*, rather
 than a filter approximating it.
 **Best for:** an aside, a memory, a "back when" — and as relief from frames that all look
+**Motion:** mechanical · continuous loop
 machine-clean.
 
 | slot | type | limit | notes |
@@ -430,6 +449,7 @@ machine-clean.
 **Role:** body / evidence. Two states of the same thing, uncovered by a line that travels.
 `frame-chart-bars` compares magnitudes; this compares **states**, which is a different claim.
 **Best for:** before/after, A/B, with-and-without.
+**Motion:** clip-reveal · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -451,6 +471,7 @@ machine-clean.
 text. The command types itself with a `clip-path` sweep — one animation rather than a timer
 per character, so it cannot drift out of step.
 **Best for:** the step someone will actually run, and the error they will actually hit.
+**Motion:** clip-reveal, mechanical · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -552,6 +573,7 @@ Paper canvas, red rule.
 
 **Role:** body / structure. Boxes and the connections between them, **laid out from the data**.
 **Best for:** a workflow, a supply chain, an architecture, a document flow — the four things
+**Motion:** draw-on · continuous loop
 `INDUSTRIES.template.json` asks for most.
 
 | slot | type | limit | notes |
@@ -579,6 +601,7 @@ Paper canvas, red rule.
 
 **Role:** body / data. One value moving over time, drawn from the numbers.
 **Best for:** finance and environment — the two verticals that asked for it.
+**Motion:** draw-on
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -625,6 +648,7 @@ Paper canvas, red rule.
 
 **Role:** body / instrument chrome around one reading.
 **Best for:** games and tech — a number that belongs to a machine rather than to a document.
+**Motion:** conic · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -672,6 +696,7 @@ Paper canvas, red rule.
 
 **Role:** body / journey. Stops in order, with the arcs between them drawn one after another.
 **Best for:** a delivery route, an itinerary, "we expanded to N markets".
+**Motion:** draw-on
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -767,6 +792,7 @@ produces a map that looks almost right, with coastlines doubling back on themsel
 
 **Role:** body / annotation. A mark drawing itself, the way a hand would.
 **Best for:** education — ringing the answer, ticking the right one, underlining the point.
+**Motion:** draw-on
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -796,6 +822,7 @@ path data in a 100×100 box, so a caller who needs a specific shape can give one
 
 **Role:** body / media. A capture on a screen, tilted in space.
 **Best for:** "here is the thing running" — a product, an app, this kit's own terminal.
+**Motion:** dimensional · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -828,6 +855,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body. A card that turns over to show what was behind it.
 **Best for:** question → answer, before → after, claim → correction, in one gesture.
+**Motion:** dimensional
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -886,6 +914,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** hook / outro. A light swings across and the words are there when it passes.
 **Best for:** a single line that wants weight — an opening claim, a closing thought.
+**Motion:** gradient-text · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1021,6 +1050,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** hook / body — detective corkboard. Archival pinboard with 3 pinned evidence cards, animated connecting red strings, and a slamming red "CONFIRMED" rubber stamp.
 **Best for:** `type: "hook"` or `type: "body"` — connecting multiple clues, root cause analysis, or investigative breakdowns.
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1203,6 +1233,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** hook / body — glassmorphic control panel. Frosted glass card in Linear/macOS style with 3 live KPI cards, animated SVG sparkline chart, and telemetry status.
 **Best for:** `type: "hook"` or `type: "body"` — SaaS launches, infrastructure monitoring, analytics showcases.
+**Motion:** draw-on
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1248,6 +1279,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body — mathematical and algorithmic theorem explainer. KaTeX/LaTeX-styled step-by-step formula derivations with coordinate grid background, animated function curve, and global minima proof inspired by 3Blue1Brown/Manim.
 **Best for:** `type: "body"` — STEM education, algorithm breakdowns, loss function derivations, AI architecture math.
+**Motion:** draw-on
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1268,6 +1300,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body — animated decision tree and workflow flowchart. Structured start node, decision diamond with glowing animated SVG branching paths (pass / block outcomes) inspired by Draw.io.
 **Best for:** `type: "body"` — workflow explanation, risk gating, business logic, algorithmic decision trees.
+**Motion:** draw-on
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1306,6 +1339,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body — workout breakdown and exercise routine card. Muscle group targeting tag, animated circular interval countdown timer, sets/reps telemetry, and pro coaching form tips.
 **Best for:** `type: "body"` — gym & fitness tutorials, exercise breakdowns, sports coaching, health routines.
+**Motion:** draw-on
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1324,6 +1358,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body — analog/digital speedometer & telemetry dial. Circular gauge arc with sweeping LED needle, live digital metric readout, min/max thresholds and performance telemetry cards.
 **Best for:** `type: "body"` — benchmark results, performance speed tests, throughput telemetry, hardware reviews.
+**Motion:** draw-on
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1346,6 +1381,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body / showcase — 3D spatial perspective card. Dynamic 3D gyro tilt transformation with metallic sheen reflection, floating NFC/VIP chips, and security feature cards inspired by Three.js depth cards.
 **Best for:** `type: "body"` — premium fintech cards, membership tiers, hardware crypto wallets, cybersecurity features.
+**Motion:** dimensional · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1635,6 +1671,7 @@ those four preview as bare canvases. Judge them from the contact sheet after a r
 
 **Role:** body / tactical tracking. Military satellite radar sweep dish with real GPS coordinates and target lock-on blips.
 **Best for:** global telemetry, subsea cable tracking, satellite network monitoring, tactical briefings.
+**Motion:** conic · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1653,6 +1690,7 @@ those four preview as bare canvases. Judge them from the contact sheet after a r
 
 **Role:** body / math explainer. 3Blue1Brown/Manim animated function curve with Oxy coordinate axes and tangent derivative slope.
 **Best for:** calculus tutorials, machine learning gradient loss curves, optimization theory, academic STEM explainers.
+**Motion:** draw-on
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1959,6 +1997,7 @@ text, and never re-enable wrapping on per-character spans.
 ## frame-timeline-war-era
 **Role:** body / documentary (historical). Burnt parchment historical timeline with pulsing chronological milestones.
 **Best for:** wars, economic crises, historical eras, corporate evolutions.
+**Motion:** mechanical · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
