@@ -26,6 +26,8 @@
     "frame-api-request-response/index.html": "dark",
     "frame-bell-curve-iq/compositions/portrait.html": "dark",
     "frame-bell-curve-iq/index.html": "dark",
+    "frame-blueprint-draw/compositions/portrait.html": "light",
+    "frame-blueprint-draw/index.html": "light",
     "frame-bold-poster/compositions/portrait.html": "dark",
     "frame-bold-poster/index.html": "light",
     "frame-brain-synapse/compositions/portrait.html": "dark",

@@ -1,0 +1,6 @@
+{
+  "name": "Blueprint Draw-On",
+  "description": "Architectural floor plan that draws itself with stroke-dashoffset — perimeter, blocks, watchtowers, then a highlighted route in accent that the plan itself does not account for. Paper palette.",
+  "tags": ["diagram", "blueprint", "floorplan", "draw-on", "paper", "architecture", "geo", "history"],
+  "author": "content-agent-kit"
+}

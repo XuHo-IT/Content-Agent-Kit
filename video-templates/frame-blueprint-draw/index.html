@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Blueprint Draw-On · 16:9</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Space+Mono:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+
+            :root {
+                --paper:    #e9e0cd;
+                --paper-2:  #f6f1e4;
+                --ink:      #22292f;
+                --ink-soft: #5d6672;
+                --accent:   #a8331d;
+                --grid:     rgba(34, 41, 47, 0.075);
+            }
+
+            html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--paper); }
+
+            #root {
+                position: relative; width: 1920px; height: 1080px;
+                background: var(--paper); color: var(--ink);
+                font-family: "Be Vietnam Pro", sans-serif;
+                overflow: hidden; padding: 76px 90px;
+                display: flex; gap: 70px; align-items: stretch;
+            }
+
+            .grid-bg {
+                position: absolute; inset: 0; pointer-events: none;
+                background-image:
+                    linear-gradient(to right,  var(--grid) 1px, transparent 1px),
+                    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+                background-size: 48px 48px;
+            }
+            .tooth {
+                position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
+                background-image:
+                    radial-gradient(circle at 20% 30%, rgba(120,100,70,0.10), transparent 55%),
+                    radial-gradient(circle at 80% 70%, rgba(120,100,70,0.09), transparent 55%);
+            }
+
+            /* ── left: the plan ───────────────────────────────── */
+            .plan-wrap {
+                position: relative; flex: 0 0 800px;
+                background: var(--paper-2); border: 3px solid var(--ink);
+                box-shadow: 14px 14px 0 rgba(34,41,47,0.14);
+                padding: 30px; display: flex; align-items: center;
+            }
+            .plan-label {
+                position: absolute; top: -19px; left: 34px;
+                background: var(--paper-2); border: 3px solid var(--ink);
+                font-family: "Space Mono", monospace; font-size: 19px; font-weight: 700;
+                letter-spacing: 2px; text-transform: uppercase; padding: 4px 16px;
+            }
+            svg.plan { display: block; width: 100%; height: auto; }
+
+            .draw {
+                stroke-dasharray: 1; stroke-dashoffset: 1;
+                animation: drawOn 1.05s cubic-bezier(0.65, 0, 0.35, 1) both;
+            }
+            .p-wall   { animation-delay: 0.45s; }
+            .p-blockA { animation-delay: 1.25s; }
+            .p-blockB { animation-delay: 1.42s; }
+            .p-blockC { animation-delay: 1.59s; }
+            .p-blockD { animation-delay: 1.76s; }
+            .p-route  { animation-delay: 2.35s; animation-duration: 1.35s; }
+
+            .tower { opacity: 0; animation: popIn 0.4s cubic-bezier(0.16,1,0.3,1) both; }
+            .t1 { animation-delay: 1.62s; } .t2 { animation-delay: 1.72s; }
+            .t3 { animation-delay: 1.82s; } .t4 { animation-delay: 1.92s; }
+
+            .tick { opacity: 0; animation: fadeIn 0.5s ease-out 2.0s both; }
+
+            .exit-dot { opacity: 0; animation: popIn 0.4s cubic-bezier(0.16,1,0.3,1) 3.6s both; }
+            .exit-ring {
+                transform-origin: center; transform-box: fill-box;
+                animation: ping 1.9s ease-out 3.8s infinite;
+            }
+            .route-tag {
+                opacity: 0; animation: fadeIn 0.45s ease-out 3.7s both;
+                font-family: "Space Mono", monospace; font-size: 27px; font-weight: 700;
+                fill: var(--accent); letter-spacing: 1px;
+            }
+
+            /* ── right: the words ─────────────────────────────── */
+            .side { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 34px; }
+            .head { opacity: 0; animation: fadeDown 0.55s ease-out 0.05s both; }
+            .kicker {
+                font-family: "Space Mono", monospace; font-size: 22px; font-weight: 700;
+                color: var(--accent); letter-spacing: 4px; text-transform: uppercase;
+                margin-bottom: 16px;
+            }
+            .title { font-size: 60px; font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; }
+            .rule {
+                margin-top: 24px; height: 3px; background: var(--ink); opacity: 0.85;
+                transform-origin: left center; animation: wipeX 0.7s cubic-bezier(0.16,1,0.3,1) 0.35s both;
+            }
+
+            .stats { display: flex; gap: 22px; }
+            .stat {
+                flex: 1; background: var(--paper-2); border: 3px solid var(--ink);
+                padding: 20px 24px; opacity: 0;
+                animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
+            }
+            .stat.s1 { animation-delay: 2.55s; }
+            .stat.s2 { animation-delay: 2.72s; }
+            .stat-l {
+                font-family: "Space Mono", monospace; font-size: 17px; font-weight: 700;
+                color: var(--ink-soft); letter-spacing: 2.5px; text-transform: uppercase;
+                margin-bottom: 8px;
+            }
+            .stat-v { font-size: 42px; font-weight: 900; line-height: 1; letter-spacing: -0.02em; }
+            .stat.s2 .stat-v { color: var(--accent); }
+
+            .note {
+                border-left: 8px solid var(--accent); padding: 4px 0 4px 22px;
+                font-size: 26px; font-weight: 600; line-height: 1.4;
+                opacity: 0; animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) 2.95s both;
+            }
+
+            @keyframes drawOn  { to { stroke-dashoffset: 0; } }
+            @keyframes fadeDown{ from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: none; } }
+            @keyframes fadeUp  { from { opacity: 0; transform: translateY(18px); }  to { opacity: 1; transform: none; } }
+            @keyframes fadeIn  { to { opacity: 1; } }
+            @keyframes popIn   { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
+            @keyframes wipeX   { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+            @keyframes ping    { 0% { transform: scale(1); opacity: 0.85; } 70%, 100% { transform: scale(2.6); opacity: 0; } }
+        </style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="5"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"SƠ ĐỒ MẶT BẰNG","title":"Bản vẽ gốc, và một đường không có trong bản vẽ","plan_label":"BẢN VẼ · 1896","stat_1_label":"Diện tích gốc","stat_1_value":"12.908 m²","stat_2_label":"Còn lại hôm nay","stat_2_value":"2.434 m²","route_label":"CỐNG NGẦM","note":"Tường cao bốn mét, dày nửa mét, bốn vọng gác. Bản vẽ tính hết — trừ đường thoát nước."}'
+        >
+            <div class="grid-bg"></div>
+            <div class="tooth"></div>
+
+            <div class="plan-wrap">
+                <div class="plan-label"></div>
+                <svg class="plan" viewBox="0 0 900 940" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g class="tick" stroke="#5d6672" stroke-width="2">
+                        <path d="M 130 78 L 770 78" stroke-dasharray="8 10" />
+                        <path d="M 130 64 L 130 92" />
+                        <path d="M 770 64 L 770 92" />
+                    </g>
+
+                    <path class="draw p-wall"
+                          d="M 130 140 L 770 196 L 742 716 L 300 852 L 120 540 Z"
+                          pathLength="1" stroke="#22292f" stroke-width="9"
+                          stroke-linejoin="round" stroke-linecap="round" />
+
+                    <path class="draw p-blockA" d="M 202 246 H 384 V 424 H 202 Z" pathLength="1"
+                          stroke="#22292f" stroke-width="5" />
+                    <path class="draw p-blockB" d="M 436 276 H 692 V 436 H 436 Z" pathLength="1"
+                          stroke="#22292f" stroke-width="5" />
+                    <path class="draw p-blockC" d="M 224 502 H 434 V 692 H 224 Z" pathLength="1"
+                          stroke="#22292f" stroke-width="5" />
+                    <path class="draw p-blockD" d="M 482 492 H 700 V 662 H 482 Z" pathLength="1"
+                          stroke="#22292f" stroke-width="5" />
+
+                    <g stroke="#22292f" stroke-width="5" fill="#f6f1e4">
+                        <circle class="tower t1" cx="130" cy="140" r="19" />
+                        <circle class="tower t2" cx="770" cy="196" r="19" />
+                        <circle class="tower t3" cx="742" cy="716" r="19" />
+                        <circle class="tower t4" cx="300" cy="852" r="19" />
+                    </g>
+
+                    <path class="draw p-route"
+                          d="M 330 646 L 306 726 L 252 786 L 176 836 L 74 886"
+                          pathLength="1" stroke="#a8331d" stroke-width="8"
+                          stroke-linecap="round" stroke-linejoin="round"
+                          stroke-dasharray="1" />
+                    <g>
+                        <circle class="exit-ring" cx="74" cy="886" r="15" fill="none"
+                                stroke="#a8331d" stroke-width="4" />
+                        <circle class="exit-dot" cx="74" cy="886" r="13" fill="#a8331d" />
+                    </g>
+                    <text class="route-tag" x="348" y="762"></text>
+                </svg>
+            </div>
+
+            <div class="side">
+                <div class="head">
+                    <div class="kicker"></div>
+                    <div class="title"></div>
+                    <div class="rule"></div>
+                </div>
+                <div class="stats">
+                    <div class="stat s1">
+                        <div class="stat-l s1l"></div>
+                        <div class="stat-v s1v"></div>
+                    </div>
+                    <div class="stat s2">
+                        <div class="stat-l s2l"></div>
+                        <div class="stat-v s2v"></div>
+                    </div>
+                </div>
+                <div class="note"></div>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                var v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                    ? window.__hyperframes.getVariables() : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).trim() !== "") el.textContent = String(text);
+                };
+                set(".kicker", v.kicker);
+                set(".title", v.title);
+                set(".plan-label", v.plan_label);
+                set(".s1l", v.stat_1_label);
+                set(".s1v", v.stat_1_value);
+                set(".s2l", v.stat_2_label);
+                set(".s2v", v.stat_2_value);
+                set(".route-tag", v.route_label);
+                set(".note", v.note);
+
+                if (!v.stat_2_value && !v.stat_2_label) {
+                    var s2 = document.querySelector(".stat.s2");
+                    if (s2) s2.style.display = "none";
+                }
+                if (v.route === "off") {
+                    [".p-route", ".exit-dot", ".exit-ring", ".route-tag"].forEach(function (s) {
+                        var el = document.querySelector(s);
+                        if (el) el.style.display = "none";
+                    });
+                }
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = window.__timelines["portrait"] = { pause: function () {}, seek: function () {}, paused: function () { return true; } };
+        </script>
+    </body>
+</html>
