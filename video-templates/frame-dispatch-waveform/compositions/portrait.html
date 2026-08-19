@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Dispatch Waveform · Portrait 9:16</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
+  --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
+  display:flex;flex-direction:column}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  opacity:0;animation:fadeUp .55s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Scanlines. Static, not animated — an animated raster crawls at a different phase in every
+   rendered frame and reads as compression noise. */
+.crt{position:absolute;inset:0;pointer-events:none;z-index:30;opacity:.5;
+  background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.32) 50%);background-size:100% 4px}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:29;
+  background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(0,0,0,.7) 100%)}
+
+:root{--kick:24px}
+#root{padding:80px 58px;justify-content:space-between;background:#08080a}
+.rec{display:flex;align-items:center;gap:16px;color:var(--red);
+  font-size:24px;font-weight:700;letter-spacing:.16em;
+  opacity:0;animation:fadeIn .45s ease .15s both}
+/* Three deliberate blinks, then it stays on. A dot blinking forever samples differently on
+   every render; three and stop is the same every time. */
+.dot{width:18px;aspect-ratio:1;background:var(--red);border-radius:50%;
+  box-shadow:0 0 14px var(--red);animation:blink .6s steps(1,end) .3s 3 both}
+@keyframes blink{0%,49%{opacity:.15}50%,100%{opacity:1}}
+.wave{display:flex;align-items:center;justify-content:center;gap:6px;
+  height:300px;margin:auto 0}
+.bar{flex:1 1 0;max-width:17px;border-radius:3px;background:#3f3f46;
+  transform:scaleY(0);transform-origin:center;
+  animation:play .35s cubic-bezier(.2,.9,.3,1) both}
+@keyframes play{to{transform:scaleY(1);background:#fafafa;box-shadow:0 0 10px rgba(255,255,255,.45)}}
+.tc{text-align:center;font-size:24px;letter-spacing:.2em;color:#52525b;
+  margin-bottom:34px;opacity:0;animation:fadeIn .5s ease 2.6s both}
+.quote{border-left:3px solid var(--red);background:var(--panel);
+  padding:26px 28px;opacity:0;animation:fadeUp .6s ease 2.9s both}
+.who{font-size:21px;letter-spacing:.2em;color:#71717a;
+  margin-bottom:12px}
+.said{font-size:34px;line-height:1.45;color:#fafafa}
+.note{font-size:26px;line-height:1.5;color:#71717a;margin-top:26px;
+  opacity:0;animation:fadeUp .6s ease 3.6s both}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="portrait"
+  data-start="0"
+  data-duration="6"
+  data-width="1080"
+  data-height="1920"
+  data-composition-variables='{"rec_label":"ĐANG GHI — TỔNG ĐÀI KHẨN CẤP","timecode":"00:14","speaker_label":"TỔNG ĐÀI VIÊN","transcript":"Cứ bình tĩnh. Cho tôi biết có bao nhiêu người đang đứng ngoài cửa?","note":"Đoạn băng dừng ở đây. Không có câu trả lời nào được ghi lại."}'
+>
+
+  <div class="rec mono"><span class="dot"></span><span data-slot="rec_label"></span></div>
+  <div class="wave" id="wave"></div>
+  <div class="tc mono" data-slot="timecode"></div>
+  <div class="quote grp">
+    <div class="who mono" data-slot="speaker_label"></div>
+    <p class="said req" data-slot="transcript"></p>
+  </div>
+  <p class="note" data-slot="note"></p>
+  <div class="vignette"></div>
+  <div class="crt"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  // Record group membership BEFORE filling — after the fill the evidence is gone.
+  var groups = [];
+  document.querySelectorAll(".grp").forEach(function (g) {
+    groups.push({ el: g, hadReq: !!g.querySelector(".req") });
+  });
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  // A group that lost its substance leaves behind labels and rules — a speaker name with
+  // nothing said, a row label with no value. Where a group marks one child "req", that child
+  // IS the group's reason to exist and its absence removes the whole thing; otherwise the
+  // group survives as long as any slot in it did.
+  groups.forEach(function (o) {
+    var dead = o.hadReq ? !o.el.querySelector(".req") : !o.el.querySelector("[data-slot]");
+    if (dead) o.el.remove();
+  });
+
+  var wave = document.getElementById("wave");
+  if (wave) {
+    // Heights come from the transcript's own characters. A hand-typed set of bar heights is
+    // the same picture in every episode, which is exactly the sameness this family exists to
+    // break; derived heights make each recording look like itself.
+    var src = String(v.transcript || "");
+    var N = 34, frag = document.createDocumentFragment();
+    for (var i = 0; i < N; i++) {
+      var c = src.length ? src.charCodeAt(i % src.length) : 60;
+      var d = src.length ? src.charCodeAt((i * 7 + 3) % src.length) : 90;
+      var hpc = 12 + ((c * 31 + d * 17) % 78); // 12%-90% of the lane
+      var b = document.createElement("div");
+      b.className = "bar";
+      b.style.height = hpc + "%";
+      // Swept left to right across 1.6s so it reads as playback, not as a bar chart.
+      b.style.animationDelay = (0.5 + i * 0.047).toFixed(3) + "s";
+      frag.appendChild(b);
+    }
+    wave.appendChild(frag);
+  }
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>

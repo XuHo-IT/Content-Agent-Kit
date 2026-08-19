@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vox Mystery & Horror - 12 Advanced Interactive Templates</title>
+  <!-- Google Fonts: Editorial Serif, Monospace, Clean Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;600;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800&family=VT323&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ========================================================= */
+    /* 0. RESET & DARK STUDIO BASE                               */
+    /* ========================================================= */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #0A0A0C;
+      color: #FAFAFA;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 15px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    h1 { font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
+    p.sub { color: #A1A1AA; font-size: 13px; margin-top: 4px; }
+
+    /* GRID CONTROLS */
+    .tab-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 25px;
+      justify-content: center;
+      max-width: 950px;
+    }
+    .tab-btn {
+      background: #121215;
+      border: 1px solid #27272A;
+      color: #A1A1AA;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: inherit;
+    }
+    .tab-btn:hover {
+      border-color: #FAFAFA;
+      color: #FAFAFA;
+    }
+    .tab-btn.active {
+      background: #FAFAFA;
+      color: #000000;
+      border-color: #FAFAFA;
+      box-shadow: 0 0 15px rgba(255,255,255,0.25);
+    }
+
+    /* PHONE 9:16 ENCLOSURE */
+    .phone-mockup {
+      width: 360px;
+      height: 640px;
+      background: #000;
+      border-radius: 28px;
+      border: 4px solid #27272A;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.9), 0 0 25px rgba(255,255,255,0.03);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tpl-screen {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      background: #0D0D11;
+    }
+    .tpl-screen.active { display: block; }
+
+    /* GLOBAL CRT SCANLINES OVERLAY */
+    .crt-lines::after {
+      content: " ";
+      display: block;
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+      background-size: 100% 4px;
+      z-index: 20;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    /* ========================================================= */
+    /* 01. POLYGRAPH LIE DETECTOR (Máy Đo Nói Dối Biến Động)     */
+    /* ========================================================= */
+    .poly-wrap {
+      height: 100%;
+      background: #090A0F;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: 'Space Mono', monospace;
+    }
+    .poly-stat-box {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      border-bottom: 1px solid #1E1E24;
+      padding-bottom: 8px;
+    }
+    .heart-wave {
+      position: relative;
+      height: 120px;
+      border-top: 1px dashed #27272A;
+      border-bottom: 1px dashed #27272A;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+    }
+    .pulse-line {
+      width: 200%;
+      height: 60px;
+      stroke: #E11D48;
+      stroke-width: 2;
+      fill: none;
+      animation: polyMove 3s infinite linear;
+    }
+    @keyframes polyMove { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    
+    .stress-bar-wrap {
+      background: #18181B;
+      border: 1px solid #27272A;
+      border-radius: 4px;
+      padding: 10px;
+    }
+    .stress-fill {
+      height: 8px;
+      background: #E11D48;
+      width: 88%;
+      animation: stressAlert 1.5s infinite alternate ease-in-out;
+      border-radius: 2px;
+      box-shadow: 0 0 10px #E11D48;
+    }
+    @keyframes stressAlert { 0% { width: 45%; } 100% { width: 94%; } }
+
+    /* ========================================================= */
+    /* 02. MORGUE AUTOPSY TAG (Thẻ Tử Thi Phòng Pháp Y)         */
+    /* ========================================================= */
+    .autopsy-wrap {
+      height: 100%;
+      background: #0B0C0E;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier Prime', monospace;
+    }
+    .corpse-tag {
+      width: 280px;
+      background: #E4E4E7;
+      color: #18181B;
+      border-radius: 4px;
+      padding: 20px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+      position: relative;
+      transform: rotate(-1deg);
+    }
+    .tag-hole {
+      width: 14px;
+      height: 14px;
+      background: #0B0C0E;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      border: 2px solid #71717A;
+    }
+    .tag-title { font-size: 13px; font-weight: 700; text-align: center; border-bottom: 2px solid #18181B; padding-bottom: 6px; }
+    .tag-row { font-size: 11px; margin-top: 8px; display: flex; justify-content: space-between; }
+    .stamp-classified {
+      margin-top: 15px;
+      border: 2px solid #DC2626;
+      color: #DC2626;
+      font-weight: 700;
+      text-align: center;
+      font-size: 14px;
+      padding: 4px;
+      letter-spacing: 2px;
+      transform: rotate(-8deg);
+    }
+
+    /* ========================================================= */
+    /* 03. NIGHT VISION THERMAL CAM (Camera Hồng Ngoại Ban Đêm) */
+    /* ========================================================= */
+    .thermal-wrap {
+      height: 100%;
+      background: #041008;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      color: #22C55E;
+      font-family: 'VT323', monospace;
+      position: relative;
+    }
+    .night-overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.8) 95%);
+      pointer-events: none;
+    }
+    .crosshair {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120px; height: 120px;
+      border: 1px dashed #22C55E;
+      border-radius: 50%;
+      animation: scanSpin 6s infinite linear;
+    }
+    @keyframes scanSpin { 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    /* ========================================================= */
+    /* 04. NEWSPAPER ARCHIVE SCAN (Trang Báo Lưu Trữ Cũ)         */
+    /* ========================================================= */
+    .news-wrap {
+      height: 100%;
+      background: #18181B;
+      padding: 24px 18px;
+      color: #18181B;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .paper-sheet {
+      background: #E2E2E6;
+      height: 100%;
+      padding: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+    }
+    .paper-name { font-family: 'Syne', serif; font-size: 16px; font-weight: 800; text-align: center; border-bottom: 2px solid #000; padding-bottom: 4px; }
+    .news-headline { font-size: 18px; font-weight: 900; line-height: 1.1; margin: 12px 0 8px; text-transform: uppercase; }
+    .news-grid { display: flex; gap: 8px; margin-top: 8px; }
+    .news-img { width: 90px; height: 110px; background: #000; filter: grayscale(100%) contrast(150%); }
+    .news-text { font-size: 10px; line-height: 1.3; font-family: 'Courier Prime', monospace; }
+
+    /* ========================================================= */
+    /* 05. SUSPECT INTERROGATION LOG (Biên Bản Thẩm Vấn Căng Thẳng) */
+    /* ========================================================= */
+    .interrogate-wrap {
+      height: 100%;
+      background: #09090C;
+      padding: 24px 18px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .dialog-line { margin-bottom: 14px; line-height: 1.5; }
+    .speaker-label { font-weight: 700; color: #FAFAFA; }
+    .speaker-officer { color: #A1A1AA; }
+    .speaker-suspect { color: #E11D48; }
+
+    /* ========================================================= */
+    /* 06. FORENSIC DNA MATCH (Đối Chiếu Dấu Vân Tay & ADN)     */
+    /* ========================================================= */
+    .dna-wrap {
+      height: 100%;
+      background: #08080C;
+      padding: 24px 20px;
+      font-family: 'Space Mono', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .fingerprint-box {
+      width: 140px; height: 170px;
+      margin: 15px auto;
+      border: 1px solid #27272A;
+      position: relative;
+      overflow: hidden;
+      background: #111116 url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?q=80&w=300&auto=format&fit=crop') center/cover;
+      filter: grayscale(100%) brightness(70%);
+    }
+    .laser-scan {
+      position: absolute;
+      width: 100%; height: 2px;
+      background: #E11D48;
+      box-shadow: 0 0 10px #E11D48;
+      animation: laserSweep 2s infinite ease-in-out;
+    }
+    @keyframes laserSweep { 0% { top: 0; } 100% { top: 100%; } }
+
+    /* ========================================================= */
+    /* 07. SATELLITE COLD CASE TRACKER (Định Vị Vệ Tinh Độ Cao) */
+    /* ========================================================= */
+    .sat-wrap {
+      height: 100%;
+      background: #050608 url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=400&auto=format&fit=crop') center/cover;
+      position: relative;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: 'Space Mono', monospace;
+    }
+    .sat-dimmer { position: absolute; inset: 0; background: rgba(5,6,8,0.85); backdrop-filter: grayscale(100%); }
+    .sat-ui { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+    .target-box {
+      width: 100px; height: 100px;
+      border: 2px solid #FFF;
+      position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%);
+      animation: targetLock 2s infinite alternate ease-in-out;
+    }
+    @keyframes targetLock { 0% { width: 120px; height: 120px; } 100% { width: 90px; height: 90px; border-color: #E11D48; } }
+
+    /* ========================================================= */
+    /* 08. ANALOG GLITCH VHS TAPE (Tua Băng CCTV Bị Lỗi)        */
+    /* ========================================================= */
+    .vhs-wrap {
+      height: 100%;
+      background: #000;
+      position: relative;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: 'VT323', monospace;
+      color: #FAFAFA;
+      font-size: 20px;
+    }
+    .glitch-noise {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 1px, transparent 1px, transparent 2px);
+      animation: glitchShudder 0.15s infinite;
+      pointer-events: none;
+    }
+    @keyframes glitchShudder { 0% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+
+    /* ========================================================= */
+    /* 09. CIPHER DECRYPTION MATRIX (Giải Mã Mật Mã Tội Phạm)   */
+    /* ========================================================= */
+    .cipher-wrap {
+      height: 100%;
+      background: #07080A;
+      padding: 24px 20px;
+      font-family: 'Space Mono', monospace;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .matrix-code {
+      font-size: 11px;
+      color: #71717A;
+      line-height: 1.7;
+      word-break: break-all;
+    }
+    .solved-word {
+      color: #FAFAFA;
+      background: #18181B;
+      border: 1px solid #FAFAFA;
+      padding: 2px 4px;
+      font-weight: 700;
+    }
+
+    /* ========================================================= */
+    /* 10. SUSPECT LINEUP SHADOW (Nhận Diện Nghi Phạm Xếp Hàng)  */
+    /* ========================================================= */
+    .lineup-wrap {
+      height: 100%;
+      background: #09090C;
+      position: relative;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: 'Space Mono', monospace;
+    }
+    .lineup-wall {
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(0deg, #18181B, #18181B 1px, transparent 1px, transparent 25px);
+      opacity: 0.6;
+    }
+    .shadow-silhouette {
+      width: 140px; height: 260px;
+      background: #000;
+      margin: 40px auto 0;
+      border-radius: 70px 70px 0 0;
+      box-shadow: 0 0 35px rgba(255,255,255,0.08);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ========================================================= */
+    /* 11. 3D BALLISTICS & BULLET PATH (Quỹ Đạo Đầu Đạn Pháp Y)  */
+    /* ========================================================= */
+    .ballistic-wrap {
+      height: 100%;
+      background: #07080B;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: 'Space Mono', monospace;
+    }
+    .traj-canvas {
+      width: 100%; height: 200px;
+      border: 1px solid #27272A;
+      background: #101015;
+      position: relative;
+    }
+    .bullet-laser {
+      position: absolute;
+      top: 30px; left: 10px;
+      width: 250px; height: 2px;
+      background: #E11D48;
+      transform: rotate(28deg);
+      transform-origin: left;
+      box-shadow: 0 0 10px #E11D48;
+    }
+
+    /* ========================================================= */
+    /* 12. EYEWITNESS POLAROID RECON (Ảnh Phục Chế Nhân Chứng)  */
+    /* ========================================================= */
+    .polaroid-wrap {
+      height: 100%;
+      background: #0C0D10;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier Prime', monospace;
+    }
+    .pola-card {
+      width: 240px;
+      background: #ECECEF;
+      padding: 12px 12px 28px;
+      box-shadow: 0 20px 45px rgba(0,0,0,0.8);
+      transform: rotate(2deg);
+      color: #18181B;
+    }
+    .pola-img {
+      width: 100%; height: 220px;
+      background: url('https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop') center/cover;
+      filter: grayscale(100%) contrast(140%) blur(1px);
+    }
+    .pola-caption { margin-top: 12px; font-size: 11px; text-align: center; font-weight: 700; }
+  </style>
+</head>
+<body class="crt-lines">
+
+  <header>
+    <h1>12 VOX MYSTERY & HORROR TEMPLATES</h1>
+    <p class="sub">Hệ thống Frame tương tác động cho Video Trinh thám / Phá án / Kỳ bí</p>
+  </header>
+
+  <!-- TAB SELECTOR (12 TEMPLATES) -->
+  <div class="tab-grid">
+    <button class="tab-btn active" onclick="showTpl('tpl-01', this)">01. Lie Detector</button>
+    <button class="tab-btn" onclick="showTpl('tpl-02', this)">02. Morgue Tag</button>
+    <button class="tab-btn" onclick="showTpl('tpl-03', this)">03. Thermal Night Cam</button>
+    <button class="tab-btn" onclick="showTpl('tpl-04', this)">04. Archive Newspaper</button>
+    <button class="tab-btn" onclick="showTpl('tpl-05', this)">05. Interrogation Log</button>
+    <button class="tab-btn" onclick="showTpl('tpl-06', this)">06. Forensic DNA</button>
+    <button class="tab-btn" onclick="showTpl('tpl-07', this)">07. Satellite Tracker</button>
+    <button class="tab-btn" onclick="showTpl('tpl-08', this)">08. Glitch VHS Cam</button>
+    <button class="tab-btn" onclick="showTpl('tpl-09', this)">09. Cipher Decrypt</button>
+    <button class="tab-btn" onclick="showTpl('tpl-10', this)">10. Suspect Lineup</button>
+    <button class="tab-btn" onclick="showTpl('tpl-11', this)">11. Ballistics 3D</button>
+    <button class="tab-btn" onclick="showTpl('tpl-12', this)">12. Witness Polaroid</button>
+  </div>
+
+  <!-- 9:16 PHONE WORKSPACE -->
+  <div class="phone-mockup">
+
+    <!-- 01. LIE DETECTOR -->
+    <div id="tpl-01" class="tpl-screen active">
+      <div class="poly-wrap">
+        <div class="poly-stat-box">
+          <span>SUBJECT: UNKNOWN</span>
+          <span>BPM: 142 [CRITICAL]</span>
+        </div>
+        <div class="heart-wave">
+          <svg class="pulse-line" viewBox="0 0 500 60">
+            <path d="M0,30 L50,30 L60,10 L70,50 L80,20 L90,40 L100,30 L200,30 L210,5 L220,55 L230,15 L240,45 L250,30 L350,30 L360,5 L370,55 L380,30 L500,30" />
+          </svg>
+        </div>
+        <div class="stress-bar-wrap">
+          <div style="font-size: 10px; margin-bottom: 6px; display:flex; justify-content:space-between;">
+            <span>MICRO-TREMOR INDEX</span>
+            <span style="color:#E11D48; font-weight:bold;">DECEPTION DETECTED</span>
+          </div>
+          <div class="stress-fill"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02. MORGUE TAG -->
+    <div id="tpl-02" class="tpl-screen">
+      <div class="autopsy-wrap">
+        <div class="corpse-tag">
+          <div class="tag-hole"></div>
+          <div class="tag-title">CORONER IDENTIFICATION TAG</div>
+          <div class="tag-row"><span>CASE NO:</span> <strong>#NYC-8492-X</strong></div>
+          <div class="tag-row"><span>FOUND AT:</span> <strong>03:15 AM - PIER 54</strong></div>
+          <div class="tag-row"><span>CAUSE:</span> <strong>UNIDENTIFIED TRAUMA</strong></div>
+          <div class="stamp-classified">BIOHAZARD HOLD</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03. THERMAL NIGHT CAM -->
+    <div id="tpl-03" class="tpl-screen">
+      <div class="thermal-wrap">
+        <div class="night-overlay"></div>
+        <div style="display:flex; justify-content:space-between; z-index:2;">
+          <span>FLIR-SYS // NIGHT RECON</span>
+          <span>GAIN: +24dB</span>
+        </div>
+        <div class="crosshair"></div>
+        <div style="z-index:2; font-size:16px;">
+          TARGET: 01 HEAT SIGNATURE<br>
+          RANGE: 42.8 METERS
+        </div>
+      </div>
+    </div>
+
+    <!-- 04. NEWSPAPER ARCHIVE -->
+    <div id="tpl-04" class="tpl-screen">
+      <div class="news-wrap">
+        <div class="paper-sheet">
+          <div class="paper-name">THE DAILY CHRONICLE</div>
+          <div class="news-headline">VỤ BIẾN MẤT BÍ ẨN TẠI TẦNG HẦM SỐ 4</div>
+          <div class="news-grid">
+            <div class="news-img"></div>
+            <div class="news-text">
+              Nhân chứng cuối cùng khai nhận đã nghe thấy tiếng va đập mạnh trước khi toàn bộ hệ thống chiếu sáng bị ngắt...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 05. INTERROGATION LOG -->
+    <div id="tpl-05" class="tpl-screen">
+      <div class="interrogate-wrap">
+        <div style="color: #71717A; border-bottom:1px solid #27272A; padding-bottom:8px;">
+          ROOM 3B // AUDIO LOG TRANSCRIPT
+        </div>
+        <div>
+          <div class="dialog-line">
+            <span class="speaker-label speaker-officer">ĐIỀU TRA VIÊN:</span><br>
+            "23 giờ đêm đó, anh đã ở đâu?"
+          </div>
+          <div class="dialog-line">
+            <span class="speaker-label speaker-suspect">NGHI PHẠM:</span><br>
+            "Tôi... tôi chỉ đi ngang qua ngã tư đó thôi."
+          </div>
+          <div class="dialog-line">
+            <span class="speaker-label speaker-officer">ĐIỀU TRA VIÊN:</span><br>
+            "Camera hành trình cho thấy xe của anh đã dừng lại suốt 40 phút."
+          </div>
+        </div>
+        <div style="color: #E11D48; font-size: 10px;">[PAUSE: 8 SECONDS OF SILENCE]</div>
+      </div>
+    </div>
+
+    <!-- 06. FORENSIC DNA -->
+    <div id="tpl-06" class="tpl-screen">
+      <div class="dna-wrap">
+        <div style="font-size:11px; color:#A1A1AA;">CRIME LAB // BIOMETRICS</div>
+        <div class="fingerprint-box">
+          <div class="laser-scan"></div>
+        </div>
+        <div style="background:#121215; border:1px solid #27272A; padding:10px; font-size:11px;">
+          MATCH FOUND: 99.87%<br>
+          <span style="color:#E11D48; font-weight:bold;">SUSPECT PROFILE: MATCHED</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 07. SATELLITE TRACKER -->
+    <div id="tpl-07" class="tpl-screen">
+      <div class="sat-wrap">
+        <div class="sat-dimmer"></div>
+        <div class="sat-ui">
+          <div style="font-size:10px; color:#AAA;">SAT-ORBIT: KH-11 // LAT: 45.241</div>
+          <div class="target-box"></div>
+          <div style="font-size:11px; background:rgba(0,0,0,0.8); padding:8px; border:1px solid #333;">
+            TỌA ĐỘ CUỐI CÙNG:<br>
+            Khu rừng phòng hộ phía Bắc (03:40 AM)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 08. GLITCH VHS CAM -->
+    <div id="tpl-08" class="tpl-screen">
+      <div class="vhs-wrap">
+        <div class="glitch-noise"></div>
+        <div>PLAY ► SP 0:24:12</div>
+        <div style="text-align:center; font-size:32px; letter-spacing:4px; margin:auto 0;">
+          NO SIGNAL
+        </div>
+        <div>CAM_04 [CORRIDOR B]</div>
+      </div>
+    </div>
+
+    <!-- 09. CIPHER DECRYPT -->
+    <div id="tpl-09" class="tpl-screen">
+      <div class="cipher-wrap">
+        <div style="font-size:11px; color:#A1A1AA;">CRYPTANALYSIS ENGINE v2.4</div>
+        <div class="matrix-code">
+          84 68 65 <span class="solved-word">SECRET</span> 20 6B 65 79 
+          20 69 73 20 <span class="solved-word">BEHIND</span> 20 74 68 
+          65 20 <span class="solved-word">MIRROR</span> 0A 44 4F 
+          4E 27 54 20 4F 50 45 4E
+        </div>
+        <div style="background:#18181B; padding:10px; border-left:2px solid #FAFAFA; font-size:11px;">
+          BẢN DỊCH: "Chìa khóa nằm phía sau tấm gương. Đừng mở."
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. SUSPECT LINEUP -->
+    <div id="tpl-10" class="tpl-screen">
+      <div class="lineup-wrap">
+        <div class="lineup-wall"></div>
+        <div style="position:relative; z-index:2; font-size:11px; color:#A1A1AA;">
+          LINEUP ID // WITNESS VIEW
+        </div>
+        <div class="shadow-silhouette"></div>
+        <div style="position:relative; z-index:2; text-align:center; font-size:11px; background:#18181B; padding:6px; border:1px solid #333;">
+          NGHI PHẠM SỐ 3 (Chiều cao ~1m82)
+        </div>
+      </div>
+    </div>
+
+    <!-- 11. BALLISTICS 3D -->
+    <div id="tpl-11" class="tpl-screen">
+      <div class="ballistic-wrap">
+        <div style="font-size:11px; color:#A1A1AA;">BALLISTICS // TRAJECTORY 3D</div>
+        <div class="traj-canvas">
+          <div class="bullet-laser"></div>
+          <span style="position:absolute; bottom:8px; right:8px; font-size:10px; color:#E11D48;">GÓC BẮN: 28.4°</span>
+        </div>
+        <div style="font-size:11px; line-height:1.5;">
+          Phát đạn được bắn từ cửa sổ tầng 3 tòa nhà đối diện ở cự ly 140 mét.
+        </div>
+      </div>
+    </div>
+
+    <!-- 12. WITNESS POLAROID -->
+    <div id="tpl-12" class="tpl-screen">
+      <div class="polaroid-wrap">
+        <div class="pola-card">
+          <div class="pola-img"></div>
+          <div class="pola-caption">PHÁC THẢO NHÂN CHỨNG (02/1984)</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showTpl(tplId, btn) {
+      document.querySelectorAll('.tpl-screen').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(tplId).classList.add('active');
+      btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>

@@ -41,6 +41,41 @@ writes original text from the idea — never republish the crawled text.
 **Heavy dep.** crawl4ai needs Chromium (`crawl4ai-setup`) → run in CI or on a machine,
 **not** serverless/edge.
 
+### WordPress sources — `wp-fetch.mjs` instead
+
+If the source runs WordPress and exposes `/wp-json/`, skip all of the above. One GET per post
+beats a headless browser, and there is no Python, no Chromium and no queue API in the path:
+
+```bash
+node scripts/crawl/wp-fetch.mjs --base https://example.com --categories        # find the ids
+node scripts/crawl/wp-fetch.mjs --base https://example.com --category 93 \
+     --limit 2 --state wp-state.json --out sources/ [--dry-run]
+```
+
+It writes `<out>/<slug>/source.json` per post — `{id, slug, link, date, title, subtitle,
+excerpt, words, text, images[], categories[]}` — and prints `SOURCE=<dir>` for each, the way
+`render.mjs` prints `VIDEO=`. Dedup memory is a local `{"fetchedIds":[…]}` file, **keyed on
+the WordPress post id**, not the title (see `docs/04-state-and-dedup.md` for why that matters).
+
+Three things it does that a naive read of `content.rendered` does not:
+
+- **Stops at the byline.** A single-post template appends "related posts" widgets carrying
+  *other* posts' images and titles. `cutAtByline()` ends the article at its own
+  "Written by …" heading, so a cover image can never come from a different article.
+- **Collapses responsive variants.** WordPress offers one upload as `photo-300x200.webp`,
+  `photo-768x512.webp`, `photo-1024x683.webp` and `photo.webp`. Stripping the `-WxH` suffix
+  turns four "images" back into one, and into the largest copy. `srcset` and the
+  lazy-loading attributes are read too — a lazy page hides the real file in `data-src` and
+  serves a base64 placeholder as `src`.
+- **Refuses paywalled posts.** A membership plugin replaces the body with its upsell before
+  the REST API ever sees it, so a gated post looks like a very short article rather than an
+  error. `isGated()` matches Paid Memberships Pro, MemberPress and Restrict Content. Do not
+  substitute a category check: on the site this was built against, a category literally named
+  "Free Cases" holds 130 posts of which **51 are gated**.
+
+Same copyright rule as above. `source.json` is *material to write from*, kept in a scratch
+folder; what gets published is original text with a credit and a link.
+
 ---
 
 ## Tiếng Việt
@@ -60,3 +95,33 @@ mark`, Bearer auth, unique `source_url`, `posted` giữ vĩnh viễn, GC `new` s
 
 **Bản quyền:** chỉ excerpt ≤1500 ký tự + link; ưu tiên public-domain; agent viết nguyên
 tác. **crawl4ai nặng** (cần Chromium) → chạy CI/máy, KHÔNG serverless.
+
+### Nguồn WordPress — dùng `wp-fetch.mjs`
+
+Nguồn chạy WordPress và mở `/wp-json/` thì bỏ hết phần trên: một GET/bài, không Python,
+không Chromium, không cần Queue API.
+
+```bash
+node scripts/crawl/wp-fetch.mjs --base https://example.com --categories        # tra id
+node scripts/crawl/wp-fetch.mjs --base https://example.com --category 93 \
+     --limit 2 --state wp-state.json --out sources/ [--dry-run]
+```
+
+Ghi `<out>/<slug>/source.json` mỗi bài, in `SOURCE=<dir>` (giống `render.mjs` in `VIDEO=`).
+Dedup bằng file `{"fetchedIds":[…]}`, **khoá theo post id chứ không theo tiêu đề** —
+`docs/04-state-and-dedup.md` giải thích vì sao.
+
+Ba việc nó làm mà đọc thẳng `content.rendered` không có:
+
+- **Cắt tại dòng ký tên.** Template WordPress chèn widget "related posts" sau bài, mang ảnh
+  và tiêu đề của bài KHÁC. `cutAtByline()` kết thúc bài ở heading "Written by …" của chính
+  nó, nên ảnh bìa không bao giờ lấy nhầm từ bài khác.
+- **Gộp các bản responsive.** WordPress phát một ảnh thành `-300x200`, `-768x512`,
+  `-1024x683` và bản gốc. Bỏ hậu tố `-WxH` là bốn "ảnh" quay về một, và về bản lớn nhất.
+  Đọc cả `srcset` và các thuộc tính lazy — trang lazy giấu file thật ở `data-src` và trả
+  base64 placeholder ở `src`.
+- **Từ chối bài sau paywall.** Plugin membership thay thân bài bằng lời mời mua trước khi
+  REST API nhìn thấy, nên bài bị khoá trông giống bài rất ngắn chứ không phải lỗi.
+  `isGated()` bắt Paid Memberships Pro, MemberPress, Restrict Content. **Đừng thay bằng
+  cách lọc theo category:** ở site dùng để dựng tính năng này, category tên đúng nghĩa đen
+  là "Free Cases" chứa 130 bài mà **51 bài bị khoá**.

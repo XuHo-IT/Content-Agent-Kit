@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Satellite Track · Portrait 9:16</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
+  --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
+  display:flex;flex-direction:column}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  opacity:0;animation:fadeUp .55s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Scanlines. Static, not animated — an animated raster crawls at a different phase in every
+   rendered frame and reads as compression noise. */
+.crt{position:absolute;inset:0;pointer-events:none;z-index:30;opacity:.5;
+  background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.32) 50%);background-size:100% 4px}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:29;
+  background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(0,0,0,.7) 100%)}
+
+:root{--kick:22px}
+#root{background:#050608}
+.ph{position:absolute;inset:0;background:
+  radial-gradient(ellipse at 38% 30%,#1a1c22,#08090c 70%),
+  repeating-linear-gradient(112deg,rgba(255,255,255,.03) 0 2px,transparent 2px 26px)}
+.media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(100%) contrast(120%) brightness(.55)}
+.dim{position:absolute;inset:0;background:rgba(5,6,8,.78)}
+.hud{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;
+  justify-content:space-between;padding:78px 56px}
+.top{display:flex;justify-content:space-between;gap:20px;font-size:22px;
+  letter-spacing:.14em;color:#a1a1aa;opacity:0;animation:fadeIn .5s ease .2s both}
+.st{color:var(--red);font-weight:700}
+/* The path it took, drawn under the reticle so the movement leaves a record instead of just
+   happening. */
+.track{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.track line{stroke:rgba(225,29,72,.55);stroke-width:2;stroke-dasharray:8 8}
+/* Travels, then tightens onto the target. Both endpoints come from slots — a reticle that
+   always crosses the same diagonal is a decoration. */
+.box{position:absolute;z-index:2;width:150px;aspect-ratio:1;
+  border:2px solid #fafafa;transform:translate(-50%,-50%);
+  animation:travel 2.4s cubic-bezier(.35,0,.25,1) .7s both,
+            lockred .01s linear 3.05s both}
+@keyframes lockred{to{border-color:var(--red);box-shadow:0 0 24px rgba(225,29,72,.5)}}
+@keyframes travel{
+  from{left:var(--x1);top:var(--y1);opacity:0;transform:translate(-50%,-50%) scale(1.7)}
+  12%{opacity:1}
+  to{left:var(--x2);top:var(--y2);opacity:1;transform:translate(-50%,-50%) scale(1);
+     border-color:var(--red)}}
+.panel{background:rgba(8,9,12,.9);border:1px solid #2a2a32;
+  padding:26px 28px;opacity:0;animation:fadeUp .6s ease 3.2s both}
+.seen{font-size:21px;letter-spacing:.18em;color:var(--red)}
+.place{font-size:34px;font-weight:700;margin-top:12px}
+.ptext{font-size:27px;line-height:1.5;color:#a1a1aa;margin-top:14px}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="portrait"
+  data-start="0"
+  data-duration="6"
+  data-width="1080"
+  data-height="1920"
+  data-composition-variables='{"sat_label":"VỆ TINH KH-11 // QUỸ ĐẠO THẤP","status_line":"ĐANG BÁM TÍN HIỆU","from_xy":"22,68","to_xy":"63,34","last_seen":"TÍN HIỆU CUỐI 03:40","place_label":"Rìa khu rừng phòng hộ phía bắc","note":"Sau mốc này thiết bị không phát thêm lần nào nữa."}'
+>
+
+  <div class="ph" data-media-fallback></div>
+  <img class="media" src="assets/media.png" alt="" onerror="this.style.display='none'">
+  <div class="dim"></div>
+  <div class="hud">
+    <div class="top mono"><span data-slot="sat_label"></span><span class="st" data-slot="status_line"></span></div>
+    <svg class="track" id="track"></svg>
+    <div class="box" id="box"></div>
+    <div class="panel grp">
+      <div class="seen mono" data-slot="last_seen"></div>
+      <div class="place req" data-slot="place_label"></div>
+      <p class="ptext" data-slot="note"></p>
+    </div>
+  </div>
+  <div class="vignette"></div>
+  <div class="crt"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  // Record group membership BEFORE filling — after the fill the evidence is gone.
+  var groups = [];
+  document.querySelectorAll(".grp").forEach(function (g) {
+    groups.push({ el: g, hadReq: !!g.querySelector(".req") });
+  });
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  // A group that lost its substance leaves behind labels and rules — a speaker name with
+  // nothing said, a row label with no value. Where a group marks one child "req", that child
+  // IS the group's reason to exist and its absence removes the whole thing; otherwise the
+  // group survives as long as any slot in it did.
+  groups.forEach(function (o) {
+    var dead = o.hadReq ? !o.el.querySelector(".req") : !o.el.querySelector("[data-slot]");
+    if (dead) o.el.remove();
+  });
+
+  // Both ends of the track are slots, so a different pursuit draws a different path. The two
+  // source mock-ups drew this and the scene map as the same fixed diagonal.
+  function xy(s, dx, dy) {
+    var parts = String(s || "").split(",");
+    var a = parseFloat(parts[0]), b = parseFloat(parts[1]);
+    return [isFinite(a) ? Math.max(6, Math.min(94, a)) : dx,
+            isFinite(b) ? Math.max(8, Math.min(90, b)) : dy];
+  }
+  var from = xy(v.from_xy, 22, 68), to = xy(v.to_xy, 63, 34);
+  var box = document.getElementById("box");
+  if (box) {
+    box.style.setProperty("--x1", from[0] + "%");
+    box.style.setProperty("--y1", from[1] + "%");
+    box.style.setProperty("--x2", to[0] + "%");
+    box.style.setProperty("--y2", to[1] + "%");
+  }
+  var svg = document.getElementById("track");
+  if (svg) {
+    var ln = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    ln.setAttribute("x1", from[0] + "%"); ln.setAttribute("y1", from[1] + "%");
+    ln.setAttribute("x2", to[0] + "%"); ln.setAttribute("y2", to[1] + "%");
+    svg.appendChild(ln);
+  }
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>

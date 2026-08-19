@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Cipher Decrypt · Landscape 16:9</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
+  --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
+  display:flex;flex-direction:column}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  opacity:0;animation:fadeUp .55s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Scanlines. Static, not animated — an animated raster crawls at a different phase in every
+   rendered frame and reads as compression noise. */
+.crt{position:absolute;inset:0;pointer-events:none;z-index:30;opacity:.5;
+  background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.32) 50%);background-size:100% 4px}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:29;
+  background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(0,0,0,.7) 100%)}
+
+:root{--kick:20px}
+#root{padding:62px 120px;justify-content:space-between;background:#07080a}
+.mid{margin:auto 0}
+.matrix{margin-bottom:30px;font-size:21px;line-height:2;
+  color:#52525b;word-break:break-all;letter-spacing:.06em}
+/* Each matched word swaps out of the noise on its own beat. The eye should catch three
+   separate moments of recognition, not one wall lighting up. */
+/* nowrap + inline-block: break-all is what lets the hex stream fill the column edge to edge,
+   but a recovered word split across two lines is the one thing on screen that must stay whole. */
+.hit{display:inline-block;white-space:nowrap;
+  color:#fafafa;background:#18181b;border:1px solid #fafafa;padding:1px 7px;font-weight:700;
+  animation:solve .35s ease both}
+@keyframes solve{
+  from{opacity:.25;background:transparent;border-color:transparent;color:#52525b;
+    letter-spacing:.35em}
+  to{opacity:1;letter-spacing:normal}}
+.hit:nth-of-type(1){animation-delay:1.1s}
+.hit:nth-of-type(2){animation-delay:1.9s}
+.hit:nth-of-type(3){animation-delay:2.7s}
+.out{border-left:3px solid #fafafa;background:var(--panel);
+  padding:20px 24px;opacity:0;animation:fadeUp .6s ease 3.5s both}
+.out-label{font-size:17px;letter-spacing:.24em;color:var(--dim);
+  margin-bottom:9px}
+.out-text{font-size:29px;line-height:1.45;font-weight:600}
+.note{font-size:17px;letter-spacing:.1em;color:#5b5b63;margin-top:22px;
+  opacity:0;animation:fadeIn .6s ease 4.1s both}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="main"
+  data-start="0"
+  data-duration="6"
+  data-width="1920"
+  data-height="1080"
+  data-composition-variables='{"kicker":"BỘ GIẢI MÃ v2.4","out_label":"BẢN DỊCH","translation":"Chìa khoá nằm phía sau tấm gương. Đừng mở.","solved_1":"CHÌA KHOÁ","solved_2":"TẤM GƯƠNG","solved_3":"ĐỪNG MỞ","note":"Ba cụm được khớp trước, phần còn lại suy ra từ đó"}'
+>
+
+  <div class="kicker" data-slot="kicker"></div>
+  <div class="mid">
+    <div class="matrix mono" id="matrix"></div>
+    <div class="out grp">
+      <div class="out-label mono" data-slot="out_label"></div>
+      <p class="out-text req" data-slot="translation"></p>
+    </div>
+  </div>
+  <div class="note mono" data-slot="note"></div>
+  <div class="vignette"></div>
+  <div class="crt"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  // Record group membership BEFORE filling — after the fill the evidence is gone.
+  var groups = [];
+  document.querySelectorAll(".grp").forEach(function (g) {
+    groups.push({ el: g, hadReq: !!g.querySelector(".req") });
+  });
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  // A group that lost its substance leaves behind labels and rules — a speaker name with
+  // nothing said, a row label with no value. Where a group marks one child "req", that child
+  // IS the group's reason to exist and its absence removes the whole thing; otherwise the
+  // group survives as long as any slot in it did.
+  groups.forEach(function (o) {
+    var dead = o.hadReq ? !o.el.querySelector(".req") : !o.el.querySelector("[data-slot]");
+    if (dead) o.el.remove();
+  });
+
+  var mx = document.getElementById("matrix");
+  if (mx) {
+    var src = String(v.translation || "");
+    var bytes = [];
+    for (var i = 0; i < src.length; i++) {
+      var c = src.charCodeAt(i) & 0xff;
+      bytes.push(("0" + c.toString(16).toUpperCase()).slice(-2));
+    }
+    // Too few bytes leaves the panel looking half-empty; repeat the stream rather than pad
+    // with invented values, so every pair on screen traces back to a real character.
+    while (bytes.length < 42) bytes = bytes.concat(bytes);
+    var words = [v.solved_1, v.solved_2, v.solved_3]
+      .map(function (w) { return w == null ? "" : String(w).trim(); })
+      .filter(function (w) { return w.length; });
+    var per = Math.max(4, Math.floor(bytes.length / (words.length + 1)));
+    var html = "", wi = 0;
+    for (var j = 0; j < bytes.length; j++) {
+      if (wi < words.length && j > 0 && j % per === 0) {
+        html += '<span class="hit"></span> ';
+        // textContent, not innerHTML — copy is user data and must never be parsed as markup.
+        wi++;
+      }
+      html += bytes[j] + " ";
+    }
+    mx.innerHTML = html;
+    var hits = mx.querySelectorAll(".hit");
+    for (var k = 0; k < hits.length; k++) hits[k].textContent = words[k];
+  }
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>

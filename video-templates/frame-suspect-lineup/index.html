@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Suspect Lineup · Landscape 16:9</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
+  --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
+  display:flex;flex-direction:column}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  opacity:0;animation:fadeUp .55s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Scanlines. Static, not animated — an animated raster crawls at a different phase in every
+   rendered frame and reads as compression noise. */
+.crt{position:absolute;inset:0;pointer-events:none;z-index:30;opacity:.5;
+  background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.32) 50%);background-size:100% 4px}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:29;
+  background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(0,0,0,.7) 100%)}
+
+:root{--kick:20px}
+#root{padding:56px 110px 0;background:#09090c}
+.stage{position:relative;flex:1;margin-top:22px;overflow:hidden}
+/* Height rules on the wall, spaced evenly — the backdrop of every lineup room. */
+.wall{position:absolute;inset:0;opacity:0;animation:fadeIn .6s ease .3s both;
+  background:repeating-linear-gradient(0deg,#1b1b20,#1b1b20 2px,transparent 2px,transparent 44px)}
+.body{position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:230px;height:74%;background:#000;
+  border-radius:115px 115px 0 0;
+  box-shadow:0 0 60px rgba(255,255,255,.14);
+  animation:step .9s cubic-bezier(.25,.9,.3,1) .8s both}
+/* Steps forward out of the dark rather than fading in — it is a person walking into the room. */
+@keyframes step{from{opacity:0;transform:translateX(-50%) scale(.9) translateY(40px)}
+  to{opacity:1;transform:translateX(-50%) scale(1) translateY(0)}}
+.mark{position:absolute;left:0;right:0;height:2px;background:var(--red);z-index:3;
+  box-shadow:0 0 14px rgba(225,29,72,.7);
+  transform-origin:left;animation:growX .7s cubic-bezier(.2,.8,.3,1) 2s both}
+.mark-label{position:absolute;right:0;bottom:9px;font-size:21px;
+  font-weight:700;letter-spacing:.1em;color:var(--red);
+  opacity:0;animation:fadeIn .4s ease 2.6s both}
+.ident{padding:26px 0 0}
+.who{font-size:27px;font-weight:700;letter-spacing:.18em;color:#fafafa;
+  opacity:0;animation:fadeUp .55s ease 1.6s both}
+.d{font-size:25px;line-height:1.5;color:#a1a1aa;margin-top:12px;
+  opacity:0;animation:fadeUp .55s ease both}
+.d:nth-of-type(1){animation-delay:2.9s}
+.d:nth-of-type(2){animation-delay:3.3s}
+.foot{padding:22px 0 56px;font-size:17px;
+  letter-spacing:.18em;color:#5b5b63;opacity:0;animation:fadeIn .6s ease 3.9s both}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="main"
+  data-start="0"
+  data-duration="6"
+  data-width="1920"
+  data-height="1080"
+  data-composition-variables='{"kicker":"NHẬN DẠNG // GÓC NHÌN NHÂN CHỨNG","subject_label":"NGƯỜI THỨ BA","height_label":"≈ 1m82","height_pct":"74","detail_1":"Áo khoác sẫm màu, mũ trùm kéo lên","detail_2":"Không ai trong ba nhân chứng chỉ cùng một người","footer":"Chưa ai bị truy tố"}'
+>
+
+  <div class="kicker" data-slot="kicker"></div>
+  <div class="stage">
+    <div class="wall"></div>
+    <div class="mark" id="mark"><span class="mark-label mono" data-slot="height_label"></span></div>
+    <div class="body"></div>
+  </div>
+  <div class="ident">
+    <div class="who mono" data-slot="subject_label"></div>
+    <p class="d" data-slot="detail_1"></p>
+    <p class="d" data-slot="detail_2"></p>
+  </div>
+  <div class="foot mono" data-slot="footer"></div>
+  <div class="vignette"></div>
+  <div class="crt"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  // Record group membership BEFORE filling — after the fill the evidence is gone.
+  var groups = [];
+  document.querySelectorAll(".grp").forEach(function (g) {
+    groups.push({ el: g, hadReq: !!g.querySelector(".req") });
+  });
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  // A group that lost its substance leaves behind labels and rules — a speaker name with
+  // nothing said, a row label with no value. Where a group marks one child "req", that child
+  // IS the group's reason to exist and its absence removes the whole thing; otherwise the
+  // group survives as long as any slot in it did.
+  groups.forEach(function (o) {
+    var dead = o.hadReq ? !o.el.querySelector(".req") : !o.el.querySelector("[data-slot]");
+    if (dead) o.el.remove();
+  });
+
+  var mark = document.getElementById("mark");
+  var figure = document.querySelector(".body");
+  if (mark) {
+    // ONE number drives both the marker line and the height of the figure it measures. Left as
+    // two independent values they drift apart on the first edit, and a ruler that does not
+    // touch the head of the person it is measuring is a frame that lies about its own data.
+    var pct = parseFloat(v.height_pct);
+    if (!isFinite(pct)) pct = 74;
+    pct = Math.max(20, Math.min(92, pct));
+    mark.style.bottom = pct + "%";
+    if (figure) figure.style.height = pct + "%";
+  }
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>

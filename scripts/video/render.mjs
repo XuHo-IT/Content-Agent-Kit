@@ -40,6 +40,7 @@ import {
 import { indexSfxLibrary, pickSfxForScene, defaultPlayback } from "./lib/sfx.mjs";
 import { buildCues, toAss } from "./lib/captions.mjs";
 import { composeTemplate } from "./lib/compose.mjs";
+import { checkClipDrawn } from "./lib/blank-check.mjs";
 import { sfxDir } from "./lib/paths.mjs";
 import { resolveTheme, themeKey } from "./lib/theme.mjs";
 import { resolveSceneMediaList } from "../media/lib/resolve.mjs";
@@ -385,6 +386,8 @@ try {
   const clipsDir = path.join(outputDir, "clips");
   await mkdir(clipsDir, { recursive: true });
   const fittedClips = [];
+  // Collected so the run can end with one clear verdict instead of a warning scrolled past.
+  const blankScenes = [];
 
   // Cached clips are keyed by the palette they were rendered with. Without this, editing
   // `theme` and re-running silently returns the previous colours — the reuse rule that
@@ -438,6 +441,20 @@ try {
         log: (m) => console.warn(`[video] ! ${m}`),
       });
     }
+    // Nothing upstream can tell a frame apart from an empty frame: ffprobe sees a valid clip
+    // of the right length either way. Two published episodes shipped with five blank scenes
+    // each before a human opened the contact sheet, so the pipeline says it out loud now.
+    const drawn = await checkClipDrawn(rawClip);
+    if (drawn.flat) {
+      blankScenes.push(scene.id);
+      console.warn(
+        `[video] ! scene ${scene.id} (${scene.templateId}) rendered a FLAT frame — ` +
+          `luma range ${drawn.range}, nothing was drawn on it.\n` +
+          `[video]   Usually the inputs do not match the template's slots:\n` +
+          `[video]     node scripts/video/template-sheet.mjs --slots ${scene.templateId}`,
+      );
+    }
+
     await fitClipToDuration(rawClip, visualDur, fitClip, RENDER_FPS);
     info(`scene ${scene.id}: ${scene.templateId} → ${visualDur.toFixed(2)}s`);
     fittedClips.push(fitClip);
@@ -495,6 +512,20 @@ try {
     console.log(`[video]   captions: ${assPath}   (${capMode === "burn" ? "burned in" : "import into any editor"})`);
   }
   console.log(`VIDEO=${videoPath}`);
+
+  // Said last, and said as a failure. A warning printed forty lines up during a ten-minute
+  // render is a warning nobody reads — which is exactly how two episodes were published with
+  // five blank scenes each. The file is still written, so a human can look; the exit code is
+  // what stops an automated run from posting it.
+  if (blankScenes.length) {
+    console.error(
+      `\n[video] ✗ ${blankScenes.length} scene(s) rendered BLANK: ${blankScenes.join(", ")}\n` +
+        `[video]   The video was written, but those scenes have nothing on them. Do not publish it.\n` +
+        `[video]   Fix the inputs, delete clips/scene-<id>.mp4 for each, and render again —\n` +
+        `[video]   an existing clip is reused, so a blank one survives a re-render untouched.`,
+    );
+    process.exitCode = 1;
+  }
 } catch (e) {
   console.error(`[video] ✗ ${e.message}`);
   process.exit(1);

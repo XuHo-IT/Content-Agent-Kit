@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Archive Newspaper · Landscape 16:9</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
+  --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
+  display:flex;flex-direction:column}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  opacity:0;animation:fadeUp .55s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Scanlines. Static, not animated — an animated raster crawls at a different phase in every
+   rendered frame and reads as compression noise. */
+.crt{position:absolute;inset:0;pointer-events:none;z-index:30;opacity:.5;
+  background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.32) 50%);background-size:100% 4px}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:29;
+  background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(0,0,0,.7) 100%)}
+
+:root{--kick:20px}
+#root{padding:52px 108px;justify-content:space-between;background:#131316}
+/* Softer than the family default. The sheet is the frame's one light surface, and the standard
+   vignette drains it to grey — newsprint that reads grey reads as a rendering, not a scan. */
+.vignette{background:radial-gradient(ellipse at 50% 45%,transparent 56%,rgba(0,0,0,.4) 100%)}
+/* The sheet lands slightly turned, as a page photographed on a table does. Straight, it reads
+   as a web layout with a beige background. */
+.sheet{background:#e6e4dd;color:#18181b;padding:30px 40px;
+  margin:18px 0;box-shadow:0 26px 60px rgba(0,0,0,.75);
+  transform:rotate(-.7deg);opacity:0;animation:fadeUp .8s ease .3s both}
+.masthead{font-family:'Playfair Display',serif;font-weight:900;text-align:center;
+  font-size:32px;letter-spacing:.02em;border-bottom:3px double #18181b;
+  padding-bottom:9px}
+.dateline{text-align:center;font-size:15px;letter-spacing:.14em;color:#57534e;
+  margin-top:9px}
+.head{font-family:'Playfair Display',serif;font-weight:900;text-transform:uppercase;
+  font-size:40px;line-height:1.06;margin:16px 0 11px;
+  opacity:0;animation:fadeUp .6s ease .9s both}
+.stand{font-size:21px;line-height:1.45;color:#3f3f46;font-weight:600;
+  border-bottom:1px solid #a8a29e;padding-bottom:14px;
+  opacity:0;animation:fadeUp .6s ease 1.2s both}
+.cols{display:flex;gap:18px;margin-top:16px;align-items:flex-start}
+.cut{position:relative;flex:none;width:34%;aspect-ratio:4/5;background:#1c1c22;
+  overflow:hidden;opacity:0;animation:fadeIn .7s ease 1.5s both}
+.ph{position:absolute;inset:0;background:
+  repeating-linear-gradient(45deg,#3f3f46,#3f3f46 10px,#33333a 10px,#33333a 20px)}
+/* Halftone, not just greyscale: a full-tone photo on a newsprint page is the giveaway that the
+   page is a rendering rather than a scan. */
+.media{position:relative;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(100%) contrast(165%) brightness(.95)}
+.col{font-size:18px;line-height:1.5;color:#3f3f46;
+  opacity:0;animation:fadeUp .6s ease 1.8s both}
+.photocap{font-size:15px;font-style:italic;color:#57534e;
+  margin-top:12px;opacity:0;animation:fadeIn .5s ease 2.2s both}
+.foot{font-size:17px;letter-spacing:.14em;color:#6b6b74;
+  opacity:0;animation:fadeIn .5s ease 2.7s both}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="main"
+  data-start="0"
+  data-duration="6"
+  data-width="1920"
+  data-height="1080"
+  data-composition-variables='{"kicker":"Lưu trữ báo chí","paper_name":"NHẬT BÁO ĐỊA PHƯƠNG","issue_date":"SỐ RA NGÀY 14 THÁNG 3, 1984","headline":"MẤT TÍCH BÍ ẨN Ở TẦNG HẦM SỐ 4","standfirst":"Nhân chứng cuối cùng khai đã nghe một tiếng va đập trước khi toàn bộ đèn tắt.","column_text":"Cảnh sát phong toả khu nhà trong bốn ngày. Không có ai bị bắt giữ, và hồ sơ được xếp lại vào tháng sau đó.","photo_caption":"Ảnh tư liệu đăng kèm bài báo","footer":"Chụp lại từ bản vi phim của thư viện tỉnh"}'
+>
+
+  <div class="kicker" data-slot="kicker"></div>
+  <div class="sheet">
+    <div class="masthead" data-slot="paper_name"></div>
+    <div class="dateline mono" data-slot="issue_date"></div>
+    <h1 class="head" data-slot="headline"></h1>
+    <p class="stand" data-slot="standfirst"></p>
+    <div class="cols">
+      <div class="cut">
+        <div class="ph" data-media-fallback></div>
+        <img class="media" src="assets/media.png" alt="" onerror="this.style.display='none'">
+      </div>
+      <p class="col" data-slot="column_text"></p>
+    </div>
+    <div class="photocap" data-slot="photo_caption"></div>
+  </div>
+  <div class="foot mono" data-slot="footer"></div>
+  <div class="vignette"></div>
+  <div class="crt"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  // Record group membership BEFORE filling — after the fill the evidence is gone.
+  var groups = [];
+  document.querySelectorAll(".grp").forEach(function (g) {
+    groups.push({ el: g, hadReq: !!g.querySelector(".req") });
+  });
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  // A group that lost its substance leaves behind labels and rules — a speaker name with
+  // nothing said, a row label with no value. Where a group marks one child "req", that child
+  // IS the group's reason to exist and its absence removes the whole thing; otherwise the
+  // group survives as long as any slot in it did.
+  groups.forEach(function (o) {
+    var dead = o.hadReq ? !o.el.querySelector(".req") : !o.el.querySelector("[data-slot]");
+    if (dead) o.el.remove();
+  });
+
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Corkboard Threads · Portrait 9:16</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
+  --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
+  display:flex;flex-direction:column}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  opacity:0;animation:fadeUp .55s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Scanlines. Static, not animated — an animated raster crawls at a different phase in every
+   rendered frame and reads as compression noise. */
+.crt{position:absolute;inset:0;pointer-events:none;z-index:30;opacity:.5;
+  background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.32) 50%);background-size:100% 4px}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:29;
+  background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(0,0,0,.7) 100%)}
+
+:root{--kick:24px}
+#root{padding:76px 52px;justify-content:space-between;background:#141419}
+.board{position:relative;flex:1;margin:34px 0}
+.threads{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;
+  overflow:visible}
+.threads line{stroke:var(--red);stroke-width:2.5;stroke-linecap:round;
+  filter:drop-shadow(0 0 6px rgba(225,29,72,.55))}
+/* NO opacity:0 on the element here. The tack keyframes declare only a "from", so the implicit
+   "to" takes the element's OWN value — with opacity:0 in the rule, the cards animated in and
+   then filled straight back to invisible, leaving three threads drawn between nothing. The
+   "both" fill already hides them through their delay. */
+.card{position:absolute;z-index:2;background:#1c1c22;border:1px solid #3f3f46;
+  padding:10px;box-shadow:0 14px 30px rgba(0,0,0,.85);
+  animation:tack .5s cubic-bezier(.2,1.3,.4,1) both}
+.c1{top:2%;left:2%;width:40%;transform:rotate(-3deg);animation-delay:.4s}
+.c2{top:2%;right:2%;width:40%;transform:rotate(3.5deg);animation-delay:.7s}
+.c3{bottom:6%;left:50%;width:48%;margin-left:-24%;
+  transform:rotate(-1deg);animation-delay:1s}
+@keyframes tack{from{opacity:0;transform:scale(1.12) rotate(0deg)}}
+.pin{position:absolute;top:-7px;left:50%;margin-left:-6px;
+  width:12px;height:12px;background:var(--red);border-radius:50%;box-shadow:0 0 8px var(--red)}
+.pic{position:relative;width:100%;aspect-ratio:4/3;background:#101014;overflow:hidden}
+.ph{position:absolute;inset:0;background:
+  repeating-linear-gradient(45deg,#2a2a32,#2a2a32 9px,#22222a 9px,#22222a 18px)}
+.pic img{position:relative;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(100%) contrast(125%) brightness(.85)}
+.lbl{margin-top:10px;text-align:center;font-size:20px;
+  font-weight:700;letter-spacing:.1em;color:#fafafa}
+.note-card{font-size:22px;line-height:1.4;color:#e4e4e7;padding:8px 4px}
+.stamp{align-self:flex-end;border:2px solid var(--red);color:var(--red);font-weight:700;
+  font-size:22px;letter-spacing:.18em;padding:6px 14px;
+  animation:stampHit .35s cubic-bezier(.3,1.5,.5,1) 3.4s both}
+@keyframes stampHit{from{opacity:0;transform:rotate(-14deg) scale(2.2)}
+  to{opacity:1;transform:rotate(-8deg) scale(1)}}
+.concl{font-size:30px;line-height:1.45;color:#d4d4d8;
+  margin-top:22px;opacity:0;animation:fadeUp .6s ease 3.8s both}@keyframes thread{to{stroke-dashoffset:0}}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="portrait"
+  data-start="0"
+  data-duration="6"
+  data-width="1080"
+  data-height="1920"
+  data-composition-variables='{"board_label":"BẢNG LIÊN KẾT","card_1_label":"NGƯỜI GỌI","card_2_label":"NGƯỜI NHẬN","card_3_label":"CUỘC GỌI 23:50","conclusion":"Ba người, một số máy, không ai thừa nhận đã bấm gọi.","stamp":"GIẢ THUYẾT","media_count":"2"}'
+>
+
+  <div class="kicker" data-slot="board_label"></div>
+  <div class="board" id="board">
+    <svg class="threads" id="threads"></svg>
+    <div class="card c1"><span class="pin"></span><div class="pic" data-media-cell="1"><div class="ph" data-media-fallback></div></div><div class="lbl mono" data-slot="card_1_label"></div></div>
+    <div class="card c2"><span class="pin"></span><div class="pic" data-media-cell="2"><div class="ph" data-media-fallback></div></div><div class="lbl mono" data-slot="card_2_label"></div></div>
+    <div class="card c3"><span class="pin"></span><div class="note-card mono" data-slot="card_3_label"></div></div>
+  </div>
+  <div class="stamp mono" data-slot="stamp"></div>
+  <p class="concl" data-slot="conclusion"></p>
+  <div class="vignette"></div>
+  <div class="crt"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  // Record group membership BEFORE filling — after the fill the evidence is gone.
+  var groups = [];
+  document.querySelectorAll(".grp").forEach(function (g) {
+    groups.push({ el: g, hadReq: !!g.querySelector(".req") });
+  });
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  // A group that lost its substance leaves behind labels and rules — a speaker name with
+  // nothing said, a row label with no value. Where a group marks one child "req", that child
+  // IS the group's reason to exist and its absence removes the whole thing; otherwise the
+  // group survives as long as any slot in it did.
+  groups.forEach(function (o) {
+    var dead = o.hadReq ? !o.el.querySelector(".req") : !o.el.querySelector("[data-slot]");
+    if (dead) o.el.remove();
+  });
+
+  // Pictures first: the pipeline drops a scene's media array into assets/media-1..N.
+  var count = Math.max(0, Math.min(2, parseInt(v.media_count, 10) || 0));
+  for (var i = 1; i <= count; i++) {
+    var cell = document.querySelector('[data-media-cell="' + i + '"]');
+    if (!cell) continue;
+    var im = document.createElement("img");
+    im.alt = "";
+    // Chrome paints its own broken-image mark on a sized <img>; hide the element so the
+    // stand-in behind it is all a missing file leaves on screen.
+    im.onerror = (function (el) { return function () { el.style.display = "none"; }; })(im);
+    im.src = "assets/media-" + i + ".png";
+    cell.appendChild(im);
+  }
+
+  // Threads are measured from where the cards LANDED, not typed in. The source mock-up wrote
+  // SVG pixel coordinates against a 360x640 preview, so the same file could never draw a
+  // correct line at 1080x1920, let alone at both aspects.
+  var board = document.getElementById("board"), svg = document.getElementById("threads");
+  var cards = [document.querySelector(".c1"), document.querySelector(".c2"), document.querySelector(".c3")]
+    .filter(function (c) { return c && c.querySelector("[data-slot]"); });
+  if (board && svg && cards.length > 1) {
+    var b = board.getBoundingClientRect();
+    var centre = function (el) {
+      var r = el.getBoundingClientRect();
+      return [r.left - b.left + r.width / 2, r.top - b.top + r.height / 2];
+    };
+    var pairs = [];
+    for (var a = 0; a < cards.length; a++)
+      for (var c = a + 1; c < cards.length; c++) pairs.push([cards[a], cards[c]]);
+    pairs.forEach(function (pr, k) {
+      var p1 = centre(pr[0]), p2 = centre(pr[1]);
+      var len = Math.sqrt(Math.pow(p2[0] - p1[0], 2) + Math.pow(p2[1] - p1[1], 2));
+      var ln = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      ln.setAttribute("x1", p1[0]); ln.setAttribute("y1", p1[1]);
+      ln.setAttribute("x2", p2[0]); ln.setAttribute("y2", p2[1]);
+      // Drawn one after another: the frame's subject is a connection being made.
+      ln.style.strokeDasharray = len;
+      ln.style.strokeDashoffset = len;
+      ln.style.animation = "thread .55s ease-out " + (1.5 + k * 0.5).toFixed(2) + "s both";
+      svg.appendChild(ln);
+    });
+  }
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>

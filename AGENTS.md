@@ -76,6 +76,18 @@ condition and is not baked into a tile**, so the script draws it on and writes a
 offline vector map: `frame-geo-markers` → `frame-geo-route` → `frame-geo-pin-detail`.
 Method: `docs/15-media-sources.md` and `docs/16-template-registry.md`.
 
+## When the user wants articles from a specific site
+If it runs WordPress and exposes `/wp-json/` — most of the WordPress web does — use
+`scripts/crawl/wp-fetch.mjs`, not `crawl.py`. No Python, no Chromium, no queue API:
+```bash
+node scripts/crawl/wp-fetch.mjs --base https://example.com --categories       # find the ids
+node scripts/crawl/wp-fetch.mjs --base https://example.com --category 93 --limit 2 --dry-run
+```
+It stops the article at its byline (so "related posts" widgets can't donate their images),
+collapses WordPress's responsive copies of one photo back into one, and **refuses posts behind
+a membership paywall**. Do not filter for free articles by category — a category named "Free
+Cases" was 39% gated on the site this was built against. Method: `docs/10-crawl-discovery.md`.
+
 ## Non-negotiable conventions (see `docs/03-conventions.md`)
 - **Env-only secrets** — never hardcode a token, webhook, or key. If env is missing, stop with a clear message.
 - **Review gate** — nothing publishes without passing an independent review subagent.

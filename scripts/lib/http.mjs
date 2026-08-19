@@ -29,12 +29,15 @@ export async function postJson(url, body, { token, timeoutMs = 60000, headers = 
 }
 
 /** GET JSON with optional Bearer token. */
-export async function getJson(url, { token, timeoutMs = 60000 } = {}) {
+export async function getJson(url, { token, timeoutMs = 60000, headers = {} } = {}) {
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
     const res = await fetch(url, {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...headers,
+      },
       signal: ctrl.signal,
     });
     const text = await res.text();

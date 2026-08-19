@@ -246,6 +246,54 @@ character-animated field · wrong scene shape, order or count.
 270–360 words · fewer than 8 scenes · non-standard hook/outro template · one template used
 more than twice.
 
+#### `inputs` keys are checked against the template's slots
+
+An input key the template does not read is not a harmless extra. hyperframes **replaces** the
+template's defaults with whatever `inputs` contains, so every slot the template *does* read
+arrives `undefined`, "an empty slot removes its element" fires, and the scene renders **blank**
+— with no error anywhere. ffprobe sees a valid clip; the pipeline reports success.
+
+Two episodes were published with five blank scenes each before anyone opened the contact sheet.
+The tell was two unrelated videos producing byte-identical clips: an empty frame is
+deterministic.
+
+So the gate now errors on an unknown key, suggests the nearest real one, and says plainly when
+a scene supplies nothing the template reads. Look them up instead of guessing:
+
+```bash
+node scripts/video/template-sheet.mjs --slots frame-myth-fact frame-timeline
+# frame-myth-fact  fact, factLabel, myth, mythLabel, source
+# frame-timeline   events, kicker, note, title
+```
+
+A slot whose default is an **array** (`frame-bold-poster.headline`) is read with
+`Array.isArray` and drops anything else on the floor, so passing a string there is an error too.
+
+Missing keys stay legal — leaving a slot out to remove its element is a feature.
+
+### How much text fits — `slot-limits.mjs`
+
+The name of a slot is only half the contract; the other half is how much it holds. Overrunning
+it throws **no error at all** — the text clips inside its box, or shoves the footer off the
+canvas, and the render log says nothing either way.
+
+```bash
+node scripts/video/slot-limits.mjs --template frame-morgue-tag
+#   stamp        ≤52 (lines)
+#   row_3_label  ≤58 (lines)
+node scripts/video/slot-limits.mjs --template frame-morgue-tag --md   # CATALOG.md rows
+```
+
+It opens the real composition in headless Chrome, waits for the webfonts (a limit measured
+against a fallback font is a different number), then binary-searches with Vietnamese filler
+until one of two rules trips: the element gets clipped or grows the canvas, or it takes more
+line boxes than the shipped sample copy was drawn around, plus one. The number printed is the
+smaller of the two aspects, and the rule that bound it is printed beside it — a slot reported
+as `≤0` is a layout fault, not a tight limit.
+
+Every `limit` in `CATALOG.md` was written by eye before this existed; the detective family's
+numbers come from this command, and re-running it is the right move after changing any layout.
+
 ### The renderer — `render.mjs`
 
 ```bash

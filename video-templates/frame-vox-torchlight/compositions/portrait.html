@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Torchlight Document · Portrait 9:16</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#0b0908}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#e8dcca;
+  display:flex;flex-direction:column;justify-content:center}
+.kicker{font-size:var(--kick);letter-spacing:.34em;text-transform:uppercase;
+  font-weight:700;color:#c9a86b;opacity:0;animation:fadeUp .6s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+/* Grain sits over everything so the paper never reads as flat digital colour. */
+.grain{position:absolute;inset:0;pointer-events:none;opacity:.16;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
+.vignette{position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 45%,transparent 30%,rgba(0,0,0,.72) 100%)}
+
+:root{--kick:26px}
+#root{background:
+  radial-gradient(ellipse at 50% 40%,#1a1512 0%,#0b0908 70%)}
+.sheet{position:relative;margin:0 auto;width:86%;
+  padding:72px 60px;
+  background:linear-gradient(160deg,#171310,#100d0b);
+  border:1px solid rgba(201,168,107,.22);
+  box-shadow:0 40px 90px rgba(0,0,0,.7)}
+.stamp{position:absolute;top:34px;right:40px;
+  font-family:'JetBrains Mono',monospace;font-size:20px;
+  letter-spacing:.2em;color:#8a6f45;border:1px solid #6b563a;padding:6px 12px;
+  transform:rotate(-6deg);opacity:0;animation:fadeIn .5s ease 1.9s both}
+.doc-title{font-family:'Playfair Display',serif;font-weight:900;
+  font-size:64px;line-height:1.08;margin-top:18px;color:#efe3d0;
+  opacity:0;animation:fadeUp .7s ease .3s both}
+.rule{height:2px;background:linear-gradient(90deg,#c9a86b,transparent);margin:26px 0 30px;
+  transform-origin:left;transform:scaleX(0);animation:grow .8s ease .55s both}
+@keyframes grow{to{transform:scaleX(1)}}
+.body-wrap{position:relative}
+.body-wrap p{font-size:34px;line-height:1.62;font-weight:400}
+/* The dim copy is what the room shows. The lit copy is the same text, brighter, masked to a
+   moving pool of light — so the beam does not "highlight" text, it is the only reason any of
+   it is legible. */
+/* The gap between these two colours IS the effect. Too close and the sweep reads as a faint
+   sheen instead of as the only light in the room. */
+.dim{color:#2b2620}
+.lit{position:absolute;inset:0;color:#fdf6e8;text-shadow:0 0 30px rgba(233,201,140,.75);
+  -webkit-mask-image:radial-gradient(circle,#000 0%,#000 40%,transparent 72%);
+  mask-image:radial-gradient(circle,#000 0%,#000 40%,transparent 72%);
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-size:1000px 1000px;
+  mask-size:1000px 1000px;
+  animation:sweep 4.6s cubic-bezier(.45,0,.4,1) .35s both}
+/* Ends parked over the closing line rather than travelling off — the last thing the beam
+   leaves lit is the thing the narration is on by then. */
+@keyframes sweep{
+  0%{-webkit-mask-position:-70% 24%;mask-position:-70% 24%}
+  45%{-webkit-mask-position:38% 52%;mask-position:38% 52%}
+  100%{-webkit-mask-position:88% 78%;mask-position:88% 78%}}
+/* A pool you can actually see, travelling with the mask. Without it the text brightens for no
+   visible reason, which reads as a flicker rather than as a torch. */
+.pool{position:absolute;inset:-10%;pointer-events:none;mix-blend-mode:screen;
+  background-image:radial-gradient(circle,rgba(240,214,160,.34) 0%,rgba(233,201,140,.14) 34%,transparent 68%);
+  background-repeat:no-repeat;
+  background-size:1000px 1000px;
+  animation:poolMove 4.6s cubic-bezier(.45,0,.4,1) .35s both}
+/* Same curve and same delay as the mask — the pool and the legibility must travel together,
+   or it reads as two animations that happen to finish at the same time. */
+@keyframes poolMove{
+  0%{background-position:-70% 24%}
+  45%{background-position:38% 52%}
+  100%{background-position:88% 78%}}
+.hl{margin-top:40px;padding-left:22px;
+  border-left:4px solid #c9a86b;font-size:32px;
+  font-weight:600;color:#e9c98c;line-height:1.42;
+  opacity:0;animation:fadeUp .7s ease 3.5s both}
+.foot{margin-top:44px;font-family:'JetBrains Mono',monospace;
+  font-size:22px;letter-spacing:.12em;color:#7d6a4e;
+  opacity:0;animation:fadeIn .6s ease 4s both}
+/* A slow bloom that keeps travelling after the text has settled, so the frame never dies. */
+.beam{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:.5;
+  background:radial-gradient(circle at 20% 40%,rgba(233,201,140,.20),transparent 42%);
+  animation:drift 9s ease-in-out infinite alternate}
+@keyframes drift{to{background-position:60% 20%}}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="portrait"
+  data-start="0"
+  data-duration="6"
+  data-width="1080"
+  data-height="1920"
+  data-composition-variables='{"kicker":"Hồ sơ chưa công bố","doc_title":"Biên bản khám nghiệm","body_text":"Bản ghi dài bốn trang, viết tay, không có chữ ký người lập. Ba đoạn ở giữa đã bị gạch bỏ bằng mực khác màu, và không ai giải thích được vì sao.","highlight":"Ba đoạn giữa bị gạch bỏ bằng mực khác màu","stamp":"LƯU TRỮ","footer":"Không rõ người lập"}'
+>
+
+  <div class="sheet">
+    <div class="stamp" data-slot="stamp"></div>
+    <div class="kicker" data-slot="kicker"></div>
+    <h1 class="doc-title" data-slot="doc_title"></h1>
+    <div class="rule"></div>
+    <div class="body-wrap">
+      <p class="dim" data-slot="body_text"></p>
+      <p class="lit" data-slot="body_text"></p>
+    </div>
+    <div class="hl" data-slot="highlight"></div>
+    <div class="foot" data-slot="footer"></div>
+  </div>
+  <div class="pool"></div>
+  <div class="beam"></div>
+  <div class="grain"></div>
+  <div class="vignette"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  var facts = document.querySelector(".facts");
+  if (facts && !facts.children.length) facts.remove();
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>

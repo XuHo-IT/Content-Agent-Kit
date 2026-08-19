@@ -37,6 +37,51 @@ uses `compositions/portrait.html`) or **`"16:9"`** (1920×1080 — uses `index.h
 
 ---
 
+## frame-blueprint-draw
+
+**Role:** body / diagram. An architectural floor plan that draws itself with `stroke-dashoffset` — perimeter, blocks, watchtowers, then a route in accent that the plan itself does not account for.
+**Best for:** a place whose LAYOUT is the story: a prison, a compound, a route nobody was meant to take.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤28 | label above the plan |
+| `title` | string | ≤44 | what the plan is of |
+| `plan_label` | string | ≤30 | caption on the drawing itself |
+| `stat_1_label` | string | ≤22 | |
+| `stat_1_value` | string | ≤14 | |
+| `stat_2_label` | string | ≤22 | |
+| `stat_2_value` | string | ≤14 | |
+| `route_label` | string | ≤34 | names the accent line — the thing the plan did not plan for |
+| `note` | string | ≤80 | |
+
+> Paper palette, so it is one of the 19 LIGHT-canvas templates. Under a dark brand theme it stays
+> light — budget it as one of your two deliberate light frames, or pick a dark diagram instead.
+> Ships **portrait only**; a 16:9 render falls back to `index.html`.
+
+---
+
+
+## frame-papercut-diorama
+
+**Role:** hook / body — place with depth. Cut-paper planes stacked in perspective, each drifting at its own rate, under a single moon.
+**Best for:** establishing a location as a PLACE rather than as a document. The beat right after the map lands and before the story starts.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤24 | |
+| `title` | string | ≤40 | serif display, two lines safely |
+| `subtitle` | string | ≤90 | |
+| `caption` | string | ≤44 | mono, under the subtitle — good for a sourcing note |
+| `footer_left` | string | ≤22 | |
+| `footer_right` | string | ≤22 | |
+
+> The depth comes from the four planes drifting at **different** rates (26s / 20s / 15s / 11s).
+> One shared rate reads as a flat picture panning, which is the thing this frame exists to avoid.
+> Fills `dimensional`, which had 3 samples in 107 templates.
+
+---
+
+
 ## frame-review-verdict
 
 **Role:** the frame a review video is built around. Score ring that sweeps to the number,
@@ -1029,6 +1074,28 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 ---
 
+## frame-vox-silhouette-file
+
+**Role:** body / dossier. A person presented WITHOUT a face — drawn silhouette, a band where the face would be, and three attributed facts.
+**Best for:** anyone a court has not convicted. True-crime and horror rules forbid showing their face, and a portrait is then unusable; this is the frame to fall back on.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤34 | e.g. "Nghi phạm · chưa bị truy tố" |
+| `band_text` | string | ≤26 | the band across the face — say why it is blank |
+| `subject_label` | string | ≤46 | how the person is referred to, not their name |
+| `fact_1` | string | ≤64 | |
+| `fact_2` | string | ≤64 | |
+| `fact_3` | string | ≤64 | empty facts remove their row |
+| `status` | string | ≤52 | the legal position, boxed — the line that keeps this lawful |
+| `footer` | string | ≤34 | |
+
+> The bust is **drawn, not photographed**: there is no face to redact because none was ever
+> rendered. Do not pair this frame with a portrait in an adjacent scene — that defeats it.
+
+---
+
+
 ## frame-vox-split-screen
 
 **Role:** hook / body — investigative split-screen. Left half displays archival document scan with live timecode HUD and stamp; right half features bold display typography conclusion.
@@ -1315,6 +1382,28 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 | `summary` | string | ≤140 | workflow efficiency summary |
 
 ---
+
+## frame-vox-torchlight
+
+**Role:** body / investigation. A document in a dark room, legible only where a torch beam falls. The beam sweeps, then parks on the line that matters.
+**Best for:** a source that is partly unreadable, partly damning — and for making the audience read at the pace you choose rather than all at once.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | |
+| `doc_title` | string | ≤44 | serif, two lines safely |
+| `body_text` | string | ≤210 | the paragraph the beam travels over — longer than this outruns the sweep |
+| `highlight` | string | ≤64 | appears at 3.5s and stays lit; the one line to remember |
+| `stamp` | string | ≤14 | rotated corner stamp |
+| `footer` | string | ≤34 | |
+
+> The dim copy and the lit copy are the SAME text; the mask decides which one you see. Widen the
+> gap between those two colours before widening anything else — too close and the sweep reads as
+> a sheen rather than as the only light in the room.
+> Fills `mask-sweep`, the thinnest motion row in the library (2 of 107).
+
+---
+
 
 ## frame-whiteboard-doodle
 
@@ -2322,3 +2411,417 @@ of one picture each.
 > **Each cell drifts on its own period** (13–19s, alternating) with one slow sheen across the
 > grid. The content layer still settles by ~2s so the captions stay readable. See
 > `skills/motion-craft/SKILL.md` §"Two layers".
+
+---
+
+# Detective / forensic family
+
+Seventeen frames rebuilt from two design mock-ups for horror, true-crime and investigation
+work. Shared palette (near-black canvas, one red accent, JetBrains Mono for anything a machine
+would have printed), so an episode can cut between them without the colour moving under the
+narration. Emitted by `scripts/video/lib/build-detective-templates.mjs` — edit that, not the
+HTML.
+
+Limits below are **measured**, not estimated: `node scripts/video/slot-limits.mjs --template
+<id>` fills each slot with Vietnamese text and binary-searches the point where the element
+outgrows the line budget the design shipped with. Re-run it after changing a layout.
+
+## frame-interrogation-log
+
+**Role:** body / investigation. A typed transcript of two people in a room — question, answer,
+question, silence. Turns arrive one at a time, ~0.8s apart.
+**Best for:** the moment an account stops holding together. Pairs against
+`frame-dispatch-waveform`, which is the same material presented as something you are *hearing*;
+this one is what someone wrote down afterwards. No audio, no device, no UI.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `room_label` | string | ≤98 | mono header above the rule |
+| `officer_label` | string | ≤115 | shown above every question; grey |
+| `suspect_label` | string | ≤115 | shown above every answer; **red — the only red on screen** |
+| `q_1` | string | ≤101 | arrives 0.5s |
+| `a_1` | string | ≤101 | arrives 1.3s |
+| `q_2` | string | ≤101 | arrives 2.1s |
+| `a_2` | string | ≤101 | arrives 2.9s. Leave empty to end on an unanswered question |
+| `pause_note` | string | ≤115 | red, 3.7s — the silence, or what happened next |
+
+> **Empty `a_2` removes the whole turn, speaker name included.** That is the intended way to
+> land on a question nobody answered. Leaving a name with nothing under it was a bug once.
+
+## frame-morgue-tag
+
+**Role:** body / record. A pale card falling into a dark room and settling crooked, then
+stamped at 2.2s.
+**Best for:** a short fielded record — case number, time, cause. The library's only *light*
+physical object; every other document frame is a dark panel with light text on it.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤109 | above the card |
+| `tag_title` | string | ≤68 | mono, centred, under the eyelet |
+| `row_1_label` | string | ≤58 | left column, grey. Keep all three labels ≤58 so the pairs align |
+| `row_1_value` | string | ≤65 | right column, bold |
+| `row_2_label` | string | ≤58 | |
+| `row_2_value` | string | ≤65 | |
+| `row_3_label` | string | ≤58 | |
+| `row_3_value` | string | ≤65 | |
+| `stamp` | string | ≤52 | slams in oversized at 2.2s and settles. Two or three words |
+| `footer` | string | ≤125 | under the card |
+
+> **A row with no value removes itself, label and all** — three rows is the maximum, not the
+> requirement. An empty `stamp` removes the stamp rather than printing an empty red box.
+
+## frame-cipher-decrypt
+
+**Role:** body / process. A machine still working: hex noise on screen, three phrases snapping
+out of it at 1.1s / 1.9s / 2.7s, the finished sentence at 3.5s.
+**Best for:** anything decoded, reconstructed or pieced together — a cipher, a burnt page, a
+recovered drive. `frame-terminal` shows a machine's finished *output*; this shows the work.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤97 | tool name |
+| `out_label` | string | ≤103 | label above the result panel, e.g. `BẢN DỊCH` |
+| `translation` | string | ≤99 | the decoded sentence — **and the source of the hex on screen** |
+| `solved_1` | string | ~20 | seated inside the stream, revealed first. **Not measured** — built by script, so no element exists for the prober to fill |
+| `solved_2` | string | ~20 | second |
+| `solved_3` | string | ~20 | third. Leave any of the three empty for fewer reveals |
+| `note` | string | ≤128 | bottom line |
+
+> **The ciphertext is generated from `translation` itself** — its code points, in hex, at
+> render time. Change the sentence and the noise changes with it. Nothing on screen is filler
+> somebody typed, which is the difference between a frame that shows decryption and one that
+> draws it.
+
+> Keep `solved_*` short: they sit inline in the stream and are held to one line each, so a long
+> phrase is the one thing that will break the column.
+
+## frame-vhs-nosignal
+
+**Role:** hook / body. Tape OSD, a title blooming out of blur at 0.5s, two head-switching tears
+sweeping the frame once each.
+**Best for:** **the absence of footage** — the tape ran out, the camera was already off, the
+recording was taken. `frame-analog-grain` and `frame-glitch-title` degrade an image that
+exists; nothing else in the library can say there is no image at all.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `play_state` | string | ≤77 | top-left OSD |
+| `timecode` | string | ≤83 | top-right OSD |
+| `big_text` | string | ≤31 | **the frame.** Wide letter-spacing — two or three words |
+| `cam_label` | string | ≤93 | bottom OSD, mono |
+| `note` | string | ≤125 | bottom line, sans — the sentence the OSD cannot say |
+
+> **Jitter runs on `steps()`, not a smooth curve.** The renderer seeks to a timestamp, so a
+> continuously-interpolated shake lands on a different random offset every pass; discrete steps
+> land on the same few positions every time.
+
+## frame-suspect-lineup
+
+**Role:** body / person. A figure stepping out of the dark against a height wall, with a
+measuring line drawn across at 2.0s.
+**Best for:** a description nobody can agree on. Companion to `frame-vox-silhouette-file` and
+deliberately not a duplicate: that frame is a *file* about a person, this is the moment of
+being looked at.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤97 | |
+| `subject_label` | string | ≤70 | mono, bold |
+| `height_label` | string | ≤101 | printed at the right end of the marker line |
+| `height_pct` | string | — | **0–92.** Sets the marker AND the figure's height — one number for both |
+| `detail_1` | string | ≤123 | 2.9s |
+| `detail_2` | string | ≤123 | 3.3s |
+| `footer` | string | ≤117 | |
+
+> **`height_pct` drives the drawing, not just the label.** Left as two independent values the
+> ruler and the figure drift apart on the first edit, and a marker that does not touch the head
+> of the person it measures is a frame lying about its own data. Values outside 20–92 are
+> clamped.
+
+> **Nobody is identified here.** The silhouette is drawn, not photographed, so there is no face
+> to redact — the same reason `frame-vox-silhouette-file` exists. Do not feed it a photograph.
+
+## frame-polygraph
+
+**Role:** body / instrument. A pulse trace drawn across the frame, then a stress meter that
+fills to its measured value at 3.1s and a verdict at 4.1s.
+**Best for:** the moment a body gives someone away — and, with the right `note`, for saying why
+that is weaker evidence than it looks. Nothing else in the library reads a person's body.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤97 | |
+| `subject_label` | string | ≤110 | left of the rule |
+| `vitals` | string | ≤110 | right of the rule |
+| `trace_label` | string | ≤115 | above the meter |
+| `stress_pct` | string | — | **0–100.** Sets the bar width AND prints the percentage |
+| `verdict` | string | ≤97 | red, 4.1s |
+| `note` | string | ≤224 | the caveat. Use it — a polygraph frame without one overstates its case |
+
+> **`stress_pct` is one number with two jobs.** The mock-up this was rebuilt from had a bar
+> pinned at 88% in CSS, keyframes running 45%→94%, and a label saying something else again.
+
+> **The trace is drawn once, left to right, and stops.** A trace that scrolls forever samples at
+> a different phase on every render pass — the same script would produce a different frame each
+> time it was rebuilt.
+
+## frame-thermal-cam
+
+**Role:** hook / body. Night-vision green. A heat source blooms at 0.5s and a reticle sweeps in
+and locks onto it by 3.0s.
+**Best for:** something detected but not identified — a signature, a return, a presence. This is
+the library's **only green frame**, so cutting to it after a run of near-black ones reads as
+switching instrument rather than switching scene. Spend it once per episode.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `system_label` | string | ≤85 | top-left |
+| `gain_label` | string | ≤77 | top-right |
+| `heat_pct` | string | — | **0–100.** Brightness of the heat source itself |
+| `target_line` | string | ≤78 | large mono readout |
+| `range_line` | string | ≤78 | large mono readout |
+| `caption` | string | ≤136 | the sentence the readouts cannot say |
+
+> **`heat_pct` draws something.** Below ~15 the source all but disappears and the readouts end
+> up describing an empty crosshair — which is a frame that contradicts itself.
+
+## frame-ballistics-path
+
+**Role:** body / reconstruction. A trajectory growing from origin to impact across 1.3s, with
+the angle printed from the same number that rotates it.
+**Best for:** any reconstructed path — a shot, a fall, a route, a line of sight. The `note` is
+where the reconstruction becomes an argument.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤97 | |
+| `angle_deg` | string | — | **−80 to 80.** Rotates the path AND prints the label. Positive reads upward |
+| `angle_prefix` | string | ≤115 | the words before the number, e.g. `GÓC BẮN` |
+| `origin_label` | string | ≤115 | bottom-left of the canvas |
+| `impact_label` | string | ≤115 | top-right, arrives 2.4s |
+| `distance_label` | string | ≤77 | large, under the canvas |
+| `note` | string | ≤208 | what the angle proves — or rules out |
+
+> **The drawn angle and the printed angle are the same value.** The source mock-up drew
+> `rotate(28deg)` under a label reading `28.4°`; a frame whose picture and caption disagree is
+> worse than no frame.
+
+## frame-dispatch-waveform
+
+**Role:** body / audio. A record light blinking three times, a waveform playing across 1.6s, the
+line itself at 2.9s.
+**Best for:** a call, a recording, a voicemail — anything the audience should experience as
+**heard**. The deliberate opposite of `frame-interrogation-log`, which is the same material as
+something someone wrote down afterwards. Choose by which claim you are making.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `rec_label` | string | ≤100 | beside the blinking dot |
+| `timecode` | string | ≤99 | centred under the waveform |
+| `speaker_label` | string | ≤103 | above the quote |
+| `transcript` | string | ≤155 | **the line — and the source of the waveform's shape** |
+| `note` | string | ≤147 | what the recording does not contain |
+
+> **The bar heights are derived from `transcript`'s own characters.** A hand-drawn waveform is
+> the same picture in every episode; this one is different for every recording, and nothing on
+> screen is invented.
+
+## frame-forensic-chat
+
+**Role:** body / evidence. Four messages arriving 0.7s apart, one of them recovered rather than
+received.
+**Best for:** a thread that was deleted, a last message, a reply that never came.
+`frame-chat-bubbles` shows a conversation; it cannot show a **recovered** message or a reply
+still being typed when the record ends, and those two states are why this frame exists.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `time_label` | string | ≤100 | status bar left |
+| `sender_label` | string | ≤110 | status bar right |
+| `msg_1` | string | ≤98 | incoming, 0.5s |
+| `msg_2` | string | ≤94 | outgoing (white), 1.2s |
+| `msg_deleted` | string | ≤115 | **dashed red, italic** — the recovered one, 1.9s |
+| `msg_3` | string | ≤98 | incoming, 2.7s, faint red outline |
+| `typing_note` | string | ≤118 | 3.5s, resolves into nothing |
+| `footer` | string | ≤123 | where the extraction came from |
+
+> **Never style an ordinary message as the deleted one.** The dashed red state is a claim about
+> provenance — that this text was recovered, not sent — and the frame is unusable as evidence if
+> that distinction is decorative.
+
+> This frame carries a softer vignette than the rest of the family on purpose: the bubbles reach
+> both edges, and the standard one greys the white outgoing bubble into the incoming ones.
+
+## frame-redacted-dossier
+
+**Role:** body / file. A case folder: photograph with an `UNSOLVED`-style stamp at 1.5s, then
+two black bars sliding off on separate beats (2.4s, 3.4s).
+**Best for:** a document whose contents were withheld, and the moment they stop being withheld.
+`frame-document-redacted` also blacks out text — it cannot carry the **photograph** the file was
+built around, and it lifts everything at once.
+
+**Takes a picture** — `media` block, `kind: "image"`. Renders legibly with none supplied.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `case_no` | string | ≤109 | header left |
+| `classification` | string | ≤94 | header right |
+| `stamp` | string | ≤24 | slams onto the photo corner at 1.5s. Two words |
+| `photo_caption` | string | ≤137 | under the photo |
+| `field_1_label` | string | ≤69 | |
+| `field_1_value` | string | ≤125 | plain |
+| `field_2_label` | string | ≤69 | |
+| `field_2_value` | string | ≤125 | **starts blacked out**, uncovered at 2.4s |
+| `body_text` | string | ≤208 | the paragraph |
+| `revealed` | string | ≤117 | **starts blacked out**, uncovered at 3.4s — the name, the word |
+| `footer` | string | ≤128 | |
+
+> **Only put something in `revealed` that the narration reaches at ~3.4s.** The bar lifting is
+> the beat; uncovering a phrase the voice-over passed two sentences ago wastes it.
+
+## frame-archive-newspaper
+
+**Role:** body / source. A whole newspaper page lying slightly turned under the camera —
+masthead, date line, headline, and the photograph that ran with it.
+**Best for:** what was published at the time, and how it was framed then.
+`frame-vox-newspaper-tear` is a torn *clipping* with two columns and a pull quote; use that for
+a fragment and this for the page.
+
+**Takes a picture** — `media` block, `kind: "image"`. The image is rendered high-contrast
+greyscale so it sits on newsprint rather than on top of it.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤98 | above the sheet, on the dark ground |
+| `paper_name` | string | ≤87 | masthead, serif — the publication |
+| `issue_date` | string | ≤136 | date line under the masthead |
+| `headline` | string | ≤62 | serif, uppercase. **The tightest slot on the page** |
+| `standfirst` | string | ≤153 | the stand-first under the headline |
+| `column_text` | string | ≤184 | the column beside the picture |
+| `photo_caption` | string | ≤200 | italic, under the columns |
+| `footer` | string | ≤128 | on the dark ground — where the scan came from |
+
+> **Name the archive in `footer`.** A newspaper page is the frame most likely to be mistaken for
+> a document the production owns; saying which library or microfilm it came from is the whole
+> difference between citing a source and fabricating one.
+
+## frame-fingerprint-match
+
+**Role:** body / comparison. A sample under a scan line that crosses once, then a match figure
+and a bar drawn to it.
+**Best for:** any biometric or forensic comparison — and, through `note`, for saying what a
+match does *not* establish.
+
+**Takes a picture** — `media` block, `kind: "image"`. Without one the stand-in draws a ridge
+pattern, so the frame still reads.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `lab_label` | string | ≤98 | |
+| `sample_label` | string | ≤125 | under the scan window |
+| `match_pct` | string | — | **0–100.** Prints the figure AND fills the bar. Decimals allowed |
+| `verdict` | string | ≤70 | red, 3.4s |
+| `note` | string | ≤224 | the limit of the claim. **Do not leave this empty** |
+
+> **A match percentage is a statement about two samples, not about a person.** The frame is
+> built with room for that caveat because a forensic figure shown bare is the single easiest way
+> for this kind of video to mislead.
+
+## frame-witness-polaroid
+
+**Role:** body / person. An instant photograph dropping into frame and developing across 2.4s,
+with a caption in the white border.
+**Best for:** a reconstruction, a sketch, a description — something that stands in for a person
+rather than showing one. `frame-magnates-polaroid-desk` is a desk with two targets and a
+verdict; this is one picture and a doubt about it.
+
+**Takes a picture** — `media` block, `kind: "image"`.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤98 | centred, above the card |
+| `caption` | string | ≤78 | in the white border. Short — it is a written-on caption |
+| `date_label` | string | ≤123 | under the card |
+| `note` | string | ≤217 | how the reconstruction was made, and when |
+| `footer` | string | ≤125 | |
+
+> **Do not feed it a photograph of a real person who has not been convicted.** The frame is
+> designed for a *drawing* — the develop effect and the "not a photograph" footer both exist to
+> keep that distinction visible. Use `frame-vox-silhouette-file` when there is no image at all.
+
+## frame-crime-scene-map
+
+**Role:** body / place. A dimmed aerial or map still with a pin that drops at 0.8s and one ring
+that goes out and is gone.
+**Best for:** **where it happened** — settled, established, over. Its twin
+`frame-satellite-track` is for something still being followed; the source mock-ups drew the two
+as the same picture, and keeping them apart is what makes either mean anything.
+
+**Takes a picture** — `media` block, `kind: "image"` (a map tile, an aerial, a street view).
+Without one the stand-in draws a grid, so the frame still reads.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `coords` | string | ≤99 | top-left |
+| `time_label` | string | ≤86 | top-right |
+| `pin_x` | string | — | **4–96.** Percent across. The pin goes where the location is |
+| `pin_y` | string | — | **6–88.** Percent down. Keep above ~70 or the panel covers it |
+| `kicker` | string | ≤99 | in the panel |
+| `place_label` | string | ≤101 | the place, bold |
+| `panel_text` | string | ≤200 | what was found there |
+| `footer` | string | ≤128 | credit the map source here |
+
+> **Nothing on this frame pulses.** A pin that keeps beating says "live signal", which is the
+> other frame's claim. If the scene is about pursuit, use `frame-satellite-track`.
+
+## frame-satellite-track
+
+**Role:** body / pursuit. A reticle travelling between two given points across 2.4s, locking
+red at 3.05s, leaving its path drawn behind it.
+**Best for:** a last known position, a route being followed, a signal that stopped. Deliberately
+**not** the same frame as `frame-crime-scene-map` — that one is where something *is*, this is
+where something *went*.
+
+**Takes a picture** — `media` block, `kind: "image"`.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `sat_label` | string | ≤98 | top-left |
+| `status_line` | string | ≤83 | top-right, red |
+| `from_xy` | string | — | `"x,y"` in percent — where the track starts |
+| `to_xy` | string | — | `"x,y"` in percent — where it locks. Keep `y` under ~60 |
+| `last_seen` | string | ≤110 | red, in the panel |
+| `place_label` | string | ≤101 | bold |
+| `note` | string | ≤134 | what happened after the last signal |
+
+> **Set both ends.** Left at the defaults every episode draws the same diagonal, which is
+> exactly the "every video looks alike" problem this family was built to break.
+
+## frame-corkboard-threads
+
+**Role:** body / connection. Cards tacked up at 0.4s / 0.7s / 1.0s, then red threads drawn
+between them one at a time from 1.5s, then a stamp.
+**Best for:** the moment a link is **proposed** — and the `stamp` slot is there so it can be
+labelled as a theory rather than a finding. `frame-vox-investigation-board` presents a finished
+board; use that one when the connection is already established.
+
+**Takes up to two pictures** — `media` array, images. `media_count` says how many; a card with
+no picture shows its stand-in rather than an empty hole.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `board_label` | string | ≤98 | |
+| `card_1_label` | string | ≤52 | under the first picture |
+| `card_2_label` | string | ≤52 | under the second picture |
+| `card_3_label` | string | ≤68 | the note card at the bottom — text, no picture |
+| `conclusion` | string | ≤126 | the line under the board |
+| `stamp` | string | ≤10 | **very short.** It is rotated and right-aligned; longer runs off the canvas |
+| `media_count` | string | — | `0`–`2`. Set by the pipeline from the `media` array |
+
+> **The threads are measured, not drawn by hand.** Endpoints come from where the cards actually
+> landed, which is the only reason one file works at both 9:16 and 16:9 — the design this was
+> rebuilt from wrote SVG pixel coordinates against a 360×640 preview.
+
+> **Empty a card's label and the card goes away, threads included.** Two cards give one thread;
+> three give three. Do not leave a card up with nothing on it to make the triangle.

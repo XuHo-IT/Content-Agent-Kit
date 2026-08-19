@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Redacted Dossier · Landscape 16:9</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
+  --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
+  display:flex;flex-direction:column}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  opacity:0;animation:fadeUp .55s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Scanlines. Static, not animated — an animated raster crawls at a different phase in every
+   rendered frame and reads as compression noise. */
+.crt{position:absolute;inset:0;pointer-events:none;z-index:30;opacity:.5;
+  background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.32) 50%);background-size:100% 4px}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:29;
+  background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(0,0,0,.7) 100%)}
+
+:root{--kick:20px}
+#root{padding:54px 110px;justify-content:space-between;
+  background:#111116;
+  background-image:radial-gradient(#20202a 1px,transparent 1px);background-size:18px 18px}
+.hdr{display:flex;justify-content:space-between;font-size:18px;
+  letter-spacing:.16em;color:#8a8a94;border-bottom:1px dashed #3f3f46;
+  padding-bottom:12px;opacity:0;animation:fadeIn .5s ease .1s both}
+.photo-wrap{position:relative;margin:22px auto 0;
+  width:26%;aspect-ratio:5/6;background:#1c1c22;border:3px solid #3f3f46;
+  padding:8px;box-shadow:0 18px 40px rgba(0,0,0,.7);
+  transform:rotate(-1.6deg);opacity:0;animation:fadeUp .7s ease .45s both}
+.ph{position:absolute;inset:8px;background:
+  repeating-linear-gradient(45deg,#26262e,#26262e 12px,#1e1e25 12px,#1e1e25 24px)}
+.media{position:relative;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(100%) contrast(140%) brightness(.82)}
+.stamp{position:absolute;bottom:10px;right:-12px;
+  border:2px solid var(--red);color:var(--red);font-size:18px;font-weight:700;
+  padding:4px 9px;letter-spacing:.14em;background:rgba(10,10,12,.85);
+  animation:stampHit .35s cubic-bezier(.3,1.5,.5,1) 1.5s both}
+@keyframes stampHit{from{opacity:0;transform:rotate(-16deg) scale(2.2)}
+  to{opacity:1;transform:rotate(-11deg) scale(1)}}
+.cap{text-align:center;font-size:16px;color:#6b6b74;letter-spacing:.1em;
+  margin-top:16px;opacity:0;animation:fadeIn .5s ease 1s both}
+.fields{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+.f{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;
+  opacity:0;animation:fadeUp .5s ease both}
+.f:nth-child(1){animation-delay:1.2s}
+.f:nth-child(2){animation-delay:1.45s}
+.fl{font-size:17px;letter-spacing:.14em;color:#71717a;flex:none}
+.fv{font-size:24px;color:#e4e4e7;font-weight:600}
+/* The bar slides off rather than fading. Redaction being LIFTED is an event; a crossfade
+   reads as the frame loading slowly. */
+.black{position:relative}
+.black::after{content:"";position:absolute;inset:-2px -6px;background:#000;
+  transform-origin:left;animation:unblack .5s cubic-bezier(.4,0,.2,1) both}
+@keyframes unblack{from{transform:scaleX(1)}to{transform:scaleX(0);transform-origin:right}}
+.b1::after{animation-delay:2.4s}
+.b2::after{animation-delay:3.4s}
+.body{font-size:23px;line-height:1.55;color:#a8a8b2;
+  margin-top:20px;opacity:0;animation:fadeUp .6s ease 1.8s both}
+.reveal{margin-top:12px;font-size:26px;font-weight:700;
+  color:#fafafa;opacity:0;animation:fadeIn .4s ease 3.2s both}
+.reveal .black{display:inline-block}
+.foot{font-size:16px;letter-spacing:.14em;color:#5b5b63;
+  margin-top:18px;opacity:0;animation:fadeIn .5s ease 4s both}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="main"
+  data-start="0"
+  data-duration="6"
+  data-width="1920"
+  data-height="1080"
+  data-composition-variables='{"case_no":"HỒ SƠ #1984-X","classification":"HẠN CHẾ","stamp":"CHƯA KHÉP","photo_caption":"Ảnh chụp tại hiện trường, tháng 3","field_1_label":"NGƯỜI LIÊN QUAN","field_1_value":"David Miller, 34 tuổi","field_2_label":"ĐỊA ĐIỂM","field_2_value":"Căn nhà bỏ hoang cuối đường","body_text":"Vật duy nhất thu được ở hiện trường là một cuốn sổ tay. Hai trang cuối đã bị xé, và trang còn lại chỉ có một cái tên.","revealed":"người đàn ông đeo mặt nạ","footer":"Bản sao lưu trữ — không phải bản gốc"}'
+>
+
+  <div class="hdr mono"><span data-slot="case_no"></span><span data-slot="classification"></span></div>
+  <div class="photo-wrap">
+    <div class="ph" data-media-fallback></div>
+    <img class="media" src="assets/media.png" alt="" onerror="this.style.display='none'">
+    <div class="stamp mono" data-slot="stamp"></div>
+  </div>
+  <div class="cap mono" data-slot="photo_caption"></div>
+  <div class="fields">
+    <div class="f grp"><span class="fl mono" data-slot="field_1_label"></span><span class="fv req" data-slot="field_1_value"></span></div>
+    <div class="f grp"><span class="fl mono" data-slot="field_2_label"></span><span class="fv req black b1" data-slot="field_2_value"></span></div>
+  </div>
+  <p class="body" data-slot="body_text"></p>
+  <p class="reveal"><span class="black b2" data-slot="revealed"></span></p>
+  <div class="foot mono" data-slot="footer"></div>
+  <div class="vignette"></div>
+  <div class="crt"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  // Record group membership BEFORE filling — after the fill the evidence is gone.
+  var groups = [];
+  document.querySelectorAll(".grp").forEach(function (g) {
+    groups.push({ el: g, hadReq: !!g.querySelector(".req") });
+  });
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  // A group that lost its substance leaves behind labels and rules — a speaker name with
+  // nothing said, a row label with no value. Where a group marks one child "req", that child
+  // IS the group's reason to exist and its absence removes the whole thing; otherwise the
+  // group survives as long as any slot in it did.
+  groups.forEach(function (o) {
+    var dead = o.hadReq ? !o.el.querySelector(".req") : !o.el.querySelector("[data-slot]");
+    if (dead) o.el.remove();
+  });
+
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>

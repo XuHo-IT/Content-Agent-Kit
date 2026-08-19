@@ -25,6 +25,7 @@ import { fileURLToPath } from "node:url";
 import { findFont, labelledTile, grid } from "./lib/sheet.mjs";
 import { composeTemplate } from "./lib/compose.mjs";
 import { listTemplateIds } from "./lib/paths.mjs";
+import { declaredSlots, defaultInputs } from "./lib/slots.mjs";
 import { resolveTheme } from "./lib/theme.mjs";
 import { run } from "./lib/proc.mjs";
 
@@ -133,12 +134,6 @@ const PRESETS = {
  * back blank, which is how a sheet of 27 templates would otherwise be 27 empty frames.
  * Reading them here is what makes `--preset all` need no second copy of the content.
  */
-function defaultInputs(id, aspect) {
-  const file = aspect === "16:9" ? "index.html" : "compositions/portrait.html";
-  const html = fs.readFileSync(path.join(KIT, "video-templates", id, file), "utf8");
-  const m = html.match(/data-composition-variables='([^']*)'/);
-  return m ? JSON.parse(m[1]) : {};
-}
 
 /**
  * Templates that draw supplied media, and the committed still that stands in for it here.
@@ -156,6 +151,15 @@ function defaultInputs(id, aspect) {
  */
 const STILL_FOR = {
   "frame-broll": "media-still.jpg",
+  // The four detective frames that take a picture. The tile only has to prove each one draws
+  // its media; they are deliberately the same still, as the grid frame above already is.
+  "frame-redacted-dossier": "media-still.jpg",
+  "frame-archive-newspaper": "media-still.jpg",
+  "frame-fingerprint-match": "media-still.jpg",
+  "frame-witness-polaroid": "media-still.jpg",
+  "frame-crime-scene-map": "media-still.jpg",
+  "frame-satellite-track": "media-still.jpg",
+  "frame-corkboard-threads": "media-still.jpg",
   "frame-media-inset": "media-still.jpg",
   // Deliberately the stock frame and NOT an actual meme. memegen renders are derived from
   // copyrighted film and TV stills; committing one into an MIT repo to fill a catalogue
@@ -216,11 +220,27 @@ if (argv.includes("--help") || argv.length === 0) {
       `  --aspect <a>     9:16 (default) | 16:9\n` +
       `  --at <sec>       when to sample each clip (default 4 — after animations settle)\n` +
       `  --theme <id>     render through a theme\n` +
+      `  --slots <id>…    print the slot names each template reads, then exit (no render)\n` +
       `env: none (needs Chrome + ffmpeg)`,
   );
   process.exit(argv.length === 0 ? 1 : 0);
 }
 const flag = (n, d = null) => (argv.includes(n) ? argv[argv.indexOf(n) + 1] : d);
+
+// Look them up rather than guessing. Guessing is what produced two published episodes with
+// five blank scenes each: a slot name the template does not read means the template gets
+// `undefined`, removes the element, and renders an empty frame without any error.
+if (argv.includes("--slots")) {
+  const ids = argv.slice(argv.indexOf("--slots") + 1).filter((a) => !a.startsWith("-"));
+  const asp = flag("--aspect", "9:16");
+  const targets = ids.length ? ids : listTemplateIds();
+  const pad = Math.max(...targets.map((t) => t.length));
+  for (const id of targets) {
+    const slots = declaredSlots(id, asp);
+    console.log(`${id.padEnd(pad)}  ${slots.length ? slots.join(", ") : "(none declared)"}`);
+  }
+  process.exit(0);
+}
 
 try {
   const preset = flag("--preset");

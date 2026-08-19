@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vox Trinh Thám & Kinh Dị - Template Live Preview</title>
+  <!-- Google Fonts: Phông chữ chuẩn Vox Motion & Monospace -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;600;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* RESET & WORKSPACE THEME */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #0A0A0C;
+      color: #FAFAFA;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+    p.sub { color: #A1A1AA; font-size: 14px; margin-top: 5px; }
+
+    /* TAB SELECTOR */
+    .tab-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 25px;
+      justify-content: center;
+      max-width: 900px;
+    }
+    .tab-btn {
+      background: #121215;
+      border: 1px solid #27272A;
+      color: #A1A1AA;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+    .tab-btn:hover {
+      border-color: #FAFAFA;
+      color: #FAFAFA;
+    }
+    .tab-btn.active {
+      background: #FAFAFA;
+      color: #000000;
+      border-color: #FAFAFA;
+      box-shadow: 0 0 15px rgba(255,255,255,0.2);
+    }
+
+    /* PHONE FRAME CONTAINER (9:16) */
+    .phone-mockup {
+      width: 360px;
+      height: 640px;
+      background: #000;
+      border-radius: 24px;
+      border: 4px solid #27272A;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.8), 0 0 20px rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .template-screen {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+      background: #0D0D11;
+    }
+    .template-screen.active { display: block; }
+
+    /* ========================================================= */
+    /* 1. THE REDACTED DOSSIER (Hồ Sơ Bị Bôi Đen)                */
+    /* ========================================================= */
+    .dossier-bg {
+      background: #111116 radial-gradient(#202028 1px, transparent 1px);
+      background-size: 16px 16px;
+      height: 100%;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Courier Prime', monospace;
+    }
+    .dossier-header {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed #444;
+      padding-bottom: 8px;
+      font-size: 11px;
+      color: #888;
+    }
+    .dossier-photo-wrap {
+      margin: 20px auto 10px;
+      width: 170px;
+      height: 200px;
+      background: #1C1C22;
+      border: 2px solid #3F3F46;
+      position: relative;
+      padding: 6px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+      transform: rotate(-1.5deg);
+    }
+    .dossier-photo {
+      width: 100%;
+      height: 100%;
+      background: url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop') center/cover;
+      filter: grayscale(100%) contrast(140%) brightness(80%);
+    }
+    .stamp-unsolved {
+      position: absolute;
+      bottom: 10px;
+      right: -10px;
+      border: 2px solid #E11D48;
+      color: #E11D48;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 2px 6px;
+      transform: rotate(-12deg);
+      background: rgba(10,10,12,0.8);
+      letter-spacing: 1px;
+    }
+    .dossier-body {
+      margin-top: 15px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #DDD;
+    }
+    /* Redacted Blackout Animation */
+    .redacted {
+      background: #000;
+      color: transparent;
+      padding: 0 4px;
+      position: relative;
+      display: inline-block;
+      user-select: none;
+      cursor: pointer;
+    }
+    .redacted::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #FAFAFA;
+      animation: revealRedact 4s infinite alternate ease-in-out;
+    }
+    @keyframes revealRedact {
+      0%, 40% { transform: scaleX(1); transform-origin: left; background: #FFF; }
+      60%, 100% { transform: scaleX(0); transform-origin: right; }
+    }
+
+    /* ========================================================= */
+    /* 2. THE CRIME SCENE MAP (Bản Đồ Hiện Trường & Radar)       */
+    /* ========================================================= */
+    .map-bg {
+      height: 100%;
+      background: #08090C url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=600&auto=format&fit=crop') center/cover;
+      position: relative;
+    }
+    .map-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 9, 12, 0.88);
+      backdrop-filter: blur(2px);
+    }
+    .map-hud {
+      position: relative;
+      z-index: 2;
+      padding: 20px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .radar-ping {
+      position: absolute;
+      top: 42%;
+      left: 48%;
+      width: 14px;
+      height: 14px;
+      background: #E11D48;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #E11D48;
+    }
+    .radar-ping::before {
+      content: '';
+      position: absolute;
+      inset: -15px;
+      border: 1px solid #E11D48;
+      border-radius: 50%;
+      animation: radarPulse 2s infinite linear;
+    }
+    @keyframes radarPulse {
+      0% { transform: scale(0.5); opacity: 1; }
+      100% { transform: scale(3.5); opacity: 0; }
+    }
+    .cctv-box {
+      width: 100%;
+      background: #121215;
+      border: 1px solid #27272A;
+      border-radius: 8px;
+      padding: 10px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+    }
+    .cctv-header {
+      display: flex;
+      justify-content: space-between;
+      color: #E11D48;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    /* ========================================================= */
+    /* 3. CONSPIRACY CORKBOARD (Bảng Dây Đỏ Nối Tội Phạm)        */
+    /* ========================================================= */
+    .corkboard {
+      height: 100%;
+      background: #141419;
+      position: relative;
+      padding: 20px;
+    }
+    .cork-card {
+      position: absolute;
+      background: #1C1C22;
+      border: 1px solid #3F3F46;
+      padding: 6px;
+      width: 125px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+      font-size: 10px;
+      font-family: 'Space Mono', monospace;
+    }
+    .card-suspect { top: 70px; left: 20px; transform: rotate(-3deg); }
+    .card-victim { top: 70px; right: 20px; transform: rotate(4deg); }
+    .card-evidence { bottom: 120px; left: 110px; width: 140px; transform: rotate(-1deg); }
+    
+    .cork-pin {
+      width: 8px; height: 8px; background: #E11D48; border-radius: 50%;
+      position: absolute; top: -4px; left: 50%; transform: translateX(-50%);
+      box-shadow: 0 0 5px #E11D48;
+    }
+    .cork-img {
+      width: 100%; height: 85px; object-fit: cover;
+      filter: grayscale(100%) contrast(120%);
+      margin-bottom: 4px;
+    }
+    .cork-label { text-align: center; color: #FFF; font-weight: 700; }
+    
+    /* SVG Red Thread */
+    .svg-strings {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ========================================================= */
+    /* 4. ANALOG 911 AUDIO (Băng Ghi Âm & Sóng Âm Oscilloscope)  */
+    /* ========================================================= */
+    .audio-screen {
+      height: 100%;
+      background: #08080A;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      font-family: 'Space Mono', monospace;
+    }
+    .rec-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #E11D48;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .rec-dot {
+      width: 10px; height: 10px; background: #E11D48; border-radius: 50%;
+      animation: blink 1s infinite alternate;
+    }
+    @keyframes blink { 0% { opacity: 0.2; } 100% { opacity: 1; } }
+
+    .waveform-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      height: 80px;
+      margin: 40px 0;
+    }
+    .wave-bar {
+      width: 4px;
+      background: #FAFAFA;
+      border-radius: 2px;
+      animation: waveMove 1.2s infinite ease-in-out alternate;
+    }
+    @keyframes waveMove {
+      0% { height: 8px; background: #555; }
+      100% { height: 75px; background: #FFF; box-shadow: 0 0 8px #FFF; }
+    }
+    .transcript-box {
+      background: #121215;
+      border-left: 2px solid #E11D48;
+      padding: 12px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #DDD;
+    }
+
+    /* ========================================================= */
+    /* 5. DIGITAL FORENSIC UI (Điều Tra Màn Hình Chat Nửa Đêm)   */
+    /* ========================================================= */
+    .chat-screen {
+      height: 100%;
+      background: #0B0B0E;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px 16px;
+    }
+    .phone-status-bar {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #71717A;
+      font-family: 'Space Mono', monospace;
+      border-bottom: 1px solid #1E1E24;
+      padding-bottom: 8px;
+    }
+    .chat-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: auto 0;
+    }
+    .bubble {
+      max-width: 80%;
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .bubble.received {
+      background: #18181B;
+      color: #FAFAFA;
+      border: 1px solid #27272A;
+      align-self: flex-start;
+      border-bottom-left-radius: 2px;
+    }
+    .bubble.deleted {
+      border: 1px dashed #E11D48;
+      color: #E11D48;
+      font-style: italic;
+      align-self: flex-start;
+    }
+    .bubble.sent {
+      background: #FAFAFA;
+      color: #000;
+      font-weight: 600;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
+    }
+    .typing-indicator {
+      font-size: 10px;
+      color: #A1A1AA;
+      font-family: 'Space Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>VOX MYSTERY & HORROR TEMPLATES</h1>
+    <p class="sub">Hệ thống Frame tương tác trực quan cho Video Trinh thám / Phân tích vụ án</p>
+  </header>
+
+  <!-- TAB NAVIGATION -->
+  <div class="tab-container">
+    <button class="tab-btn active" onclick="switchTemplate('tpl-dossier', this)">01. Redacted Dossier</button>
+    <button class="tab-btn" onclick="switchTemplate('tpl-map', this)">02. Crime Scene Map</button>
+    <button class="tab-btn" onclick="switchTemplate('tpl-board', this)">03. Conspiracy Board</button>
+    <button class="tab-btn" onclick="switchTemplate('tpl-audio', this)">04. 911 Audio Dispatch</button>
+    <button class="tab-btn" onclick="switchTemplate('tpl-chat', this)">05. Forensic Chat UI</button>
+  </div>
+
+  <!-- 9:16 PREVIEW BOX -->
+  <div class="phone-mockup">
+    
+    <!-- 1. REDACTED DOSSIER -->
+    <div id="tpl-dossier" class="template-screen active">
+      <div class="dossier-bg">
+        <div class="dossier-header">
+          <span>CASE FILE #1984-X</span>
+          <span>TOP SECRET</span>
+        </div>
+        <div class="dossier-photo-wrap">
+          <div class="dossier-photo"></div>
+          <div class="stamp-unsolved">UNSOLVED</div>
+        </div>
+        <div class="dossier-body">
+          <p><strong>NẠN NHÂN:</strong> David Miller (34t)</p>
+          <p style="margin-top: 6px;"><strong>ĐỊA ĐIỂM:</strong> <span class="redacted">Căn biệt thự bỏ hoang</span></p>
+          <p style="margin-top: 10px; font-size: 11px; color: #AAA;">
+            Manh mối duy nhất cảnh sát thu được tại hiện trường là một đoạn nhật ký ghi lại tên của <span class="redacted">kẻ đeo mặt nạ</span>...
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. CRIME SCENE MAP -->
+    <div id="tpl-map" class="template-screen">
+      <div class="map-bg">
+        <div class="map-overlay"></div>
+        <div class="map-hud">
+          <div style="font-family:'Space Mono', monospace; font-size:10px; color:#A1A1AA;">
+            GPS: 45°24'12.1"N 73°34'08.4"W<br>
+            TIME: 02:45 AM (EST)
+          </div>
+          <div class="radar-ping"></div>
+          <div class="cctv-box">
+            <div class="cctv-header">
+              <span>● LIVE RECON</span>
+              <span>CAM #04</span>
+            </div>
+            <div style="color: #FAFAFA; font-size: 11px;">
+              Phát hiện tín hiệu định vị cuối cùng trước khi thiết bị bị vô hiệu hóa hoàn toàn.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. CONSPIRACY BOARD -->
+    <div id="tpl-board" class="template-screen">
+      <div class="corkboard">
+        <svg class="svg-strings">
+          <line x1="85" y1="120" x2="270" y2="120" stroke="#E11D48" stroke-width="2" stroke-dasharray="4"/>
+          <line x1="85" y1="120" x2="180" y2="440" stroke="#E11D48" stroke-width="2"/>
+          <line x1="270" y1="120" x2="180" y2="440" stroke="#E11D48" stroke-width="2"/>
+        </svg>
+
+        <div class="cork-card card-suspect">
+          <div class="cork-pin"></div>
+          <img class="cork-img" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop">
+          <div class="cork-label">NGHI PHẠM A</div>
+        </div>
+
+        <div class="cork-card card-victim">
+          <div class="cork-pin"></div>
+          <img class="cork-img" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop">
+          <div class="cork-label">NHÂN CHỨNG B</div>
+        </div>
+
+        <div class="cork-card card-evidence">
+          <div class="cork-pin"></div>
+          <div style="font-size: 9px; color: #E11D48; font-weight: bold; margin-bottom: 2px;">VẬT CHỨNG #01</div>
+          <div>Cuộc gọi lúc 23h50 không có tiếng phản hồi.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. ANALOG 911 AUDIO -->
+    <div id="tpl-audio" class="template-screen">
+      <div class="audio-screen">
+        <div class="rec-badge">
+          <div class="rec-dot"></div>
+          <span>REC [911 TAPE RECORDING]</span>
+        </div>
+
+        <div class="waveform-wrap">
+          <div class="wave-bar" style="animation-delay: 0.1s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.4s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.2s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.6s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.3s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.8s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.5s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.2s;"></div>
+          <div class="wave-bar" style="animation-delay: 0.7s;"></div>
+        </div>
+
+        <div class="transcript-box">
+          <div style="color: #888; font-size: 10px; margin-bottom: 4px;">OPERATOR (00:14)</div>
+          <div>"Cứ bình tĩnh, cho tôi biết có bao nhiêu người đang ở bên ngoài cửa?"</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. FORENSIC CHAT UI -->
+    <div id="tpl-chat" class="template-screen">
+      <div class="chat-screen">
+        <div class="phone-status-bar">
+          <span>03:14 AM</span>
+          <span>UNKNOWN SENDER</span>
+        </div>
+
+        <div class="chat-body">
+          <div class="bubble received">
+            Cậu đã về đến nhà chưa?
+          </div>
+          <div class="bubble sent">
+            Tôi vừa về, có chuyện gì vậy?
+          </div>
+          <div class="bubble deleted">
+            ⚠ Tin nhắn này đã bị người gửi thu hồi
+          </div>
+          <div class="bubble received">
+            Đừng mở cửa sổ phía sau nhà.
+          </div>
+        </div>
+
+        <div class="typing-indicator">
+          <span>User is typing...</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchTemplate(tplId, btn) {
+      document.querySelectorAll('.template-screen').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      document.getElementById(tplId).classList.add('active');
+      btn.classList.add('active');
+    }
+  </script>
+</body>
+</html>

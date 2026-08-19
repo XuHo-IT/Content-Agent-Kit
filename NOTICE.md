@@ -101,7 +101,7 @@ respectively, so `listTemplateIds()` skips them and `validate.mjs` rejects them 
 attribution obligation does not depend on whether the code uses them, so their `NOTICE.md`
 files stay; each says plainly that deleting the folder is a reasonable call.
 
-Sixty-three are original to content-agent-kit (MIT, same as this repo):
+One hundred and sixteen are original to content-agent-kit (MIT, same as this repo):
 
 `frame-broll` · `frame-media-inset` · `frame-screenshot` · `frame-review-verdict` ·
 `frame-quote-testimonial` · `frame-chart-bars` · `frame-step-list` ·
@@ -126,7 +126,12 @@ Sixty-three are original to content-agent-kit (MIT, same as this repo):
 `frame-tier-list` · `frame-notification-stack` · `frame-poll-voting` · `frame-speedrun-timer` · `frame-card-pack-opening` ·
 `frame-saas-pricing-tier` · `frame-api-request-response` · `frame-diff-code-editor` · `frame-git-branch-graph` · `frame-ai-benchmark-leaderboard` ·
 `frame-pros-cons-scale` · `frame-receipt-slip` · `frame-unboxing-specs` · `frame-radar-rating-star` · `frame-discount-coupon-tear` ·
-`frame-meme` · `frame-vox-photo-grid`
+`frame-meme` · `frame-vox-photo-grid` · `frame-blueprint-draw` ·
+`frame-vox-torchlight` · `frame-papercut-diorama` · `frame-vox-silhouette-file` ·
+`frame-interrogation-log` · `frame-morgue-tag` · `frame-cipher-decrypt` · `frame-vhs-nosignal` · `frame-suspect-lineup` ·
+`frame-polygraph` · `frame-thermal-cam` · `frame-ballistics-path` · `frame-dispatch-waveform` · `frame-forensic-chat` ·
+`frame-redacted-dossier` · `frame-archive-newspaper` · `frame-fingerprint-match` · `frame-witness-polaroid` ·
+`frame-crime-scene-map` · `frame-satellite-track` · `frame-corkboard-threads`
 
 `frame-3d-spotlight` was written after reading how vibe-motion's `light-spotlight-render`
 describes the effect. No code was taken: that repository publishes no licence, and this kit

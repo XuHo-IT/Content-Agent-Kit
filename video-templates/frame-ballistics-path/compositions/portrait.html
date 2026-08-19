@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Ballistics Path · Portrait 9:16</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
+  --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
+  display:flex;flex-direction:column}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  opacity:0;animation:fadeUp .55s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Scanlines. Static, not animated — an animated raster crawls at a different phase in every
+   rendered frame and reads as compression noise. */
+.crt{position:absolute;inset:0;pointer-events:none;z-index:30;opacity:.5;
+  background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.32) 50%);background-size:100% 4px}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:29;
+  background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(0,0,0,.7) 100%)}
+
+:root{--kick:24px}
+#root{padding:80px 58px;justify-content:space-between;background:#07080b}
+.bottom{margin-bottom:10px}
+.canvas{position:relative;height:540px;margin:auto 0;
+  border:1px solid var(--line);background:#101015;overflow:hidden}
+.grid{position:absolute;inset:0;opacity:.5;
+  background:
+    repeating-linear-gradient(0deg,#24242d,#24242d 1px,transparent 1px,transparent 54px),
+    repeating-linear-gradient(90deg,#24242d,#24242d 1px,transparent 1px,transparent 54px)}
+/* Grows from the muzzle to the impact rather than appearing whole — the frame's claim is
+   about a direction, and a direction has to be travelled to be read. */
+.path{position:absolute;left:8%;bottom:22%;height:3px;
+  width:86%;background:linear-gradient(90deg,rgba(225,29,72,.25),var(--red));
+  transform-origin:left center;box-shadow:0 0 16px rgba(225,29,72,.75);
+  animation:fire 1.3s cubic-bezier(.25,.9,.3,1) .9s both}
+@keyframes fire{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.tip{position:absolute;right:-7px;top:-6px;width:15px;height:15px;border-radius:50%;
+  background:#fff;box-shadow:0 0 22px rgba(255,255,255,.95);
+  opacity:0;animation:fadeIn .25s ease 2.2s both}
+.src,.dst,.ang{position:absolute;font-size:22px;letter-spacing:.12em;
+  color:#a1a1aa;opacity:0;animation:fadeIn .45s ease both}
+.src{left:6%;bottom:10%;animation-delay:.6s}
+.dst{right:6%;top:10%;animation-delay:2.4s}
+.ang{right:6%;bottom:10%;color:var(--red);animation-delay:2.7s}
+.ang b{font-weight:700}
+.dist{font-size:34px;font-weight:700;letter-spacing:.14em;color:#fafafa;
+  opacity:0;animation:fadeUp .55s ease 3.1s both}
+.note{font-size:28px;line-height:1.5;color:#a1a1aa;margin-top:22px;
+  opacity:0;animation:fadeUp .6s ease 3.5s both}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="portrait"
+  data-start="0"
+  data-duration="6"
+  data-width="1080"
+  data-height="1920"
+  data-composition-variables='{"kicker":"ĐẠN ĐẠO // DỰNG LẠI ĐƯỜNG BAY","angle_deg":"28.4","angle_prefix":"GÓC BẮN","origin_label":"CỬA SỔ TẦNG 3","impact_label":"ĐIỂM CHẠM","distance_label":"140 MÉT","note":"Góc này chỉ khớp nếu người bắn đứng, không phải quỳ như lời khai ban đầu."}'
+>
+
+  <div class="kicker" data-slot="kicker"></div>
+  <div class="canvas">
+    <div class="grid"></div>
+    <div class="path" id="path"><span class="tip"></span></div>
+    <div class="src mono" data-slot="origin_label"></div>
+    <div class="dst mono" data-slot="impact_label"></div>
+    <div class="ang mono"><span data-slot="angle_prefix"></span> <b id="ang"></b></div>
+  </div>
+  <div class="bottom">
+    <div class="dist mono grp"><span data-slot="distance_label"></span></div>
+    <p class="note" data-slot="note"></p>
+  </div>
+  <div class="vignette"></div>
+  <div class="crt"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  // Record group membership BEFORE filling — after the fill the evidence is gone.
+  var groups = [];
+  document.querySelectorAll(".grp").forEach(function (g) {
+    groups.push({ el: g, hadReq: !!g.querySelector(".req") });
+  });
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  // A group that lost its substance leaves behind labels and rules — a speaker name with
+  // nothing said, a row label with no value. Where a group marks one child "req", that child
+  // IS the group's reason to exist and its absence removes the whole thing; otherwise the
+  // group survives as long as any slot in it did.
+  groups.forEach(function (o) {
+    var dead = o.hadReq ? !o.el.querySelector(".req") : !o.el.querySelector("[data-slot]");
+    if (dead) o.el.remove();
+  });
+
+  // The drawn angle and the printed angle are one value. Two of them is how the mock-up ended
+  // up drawing 28 degrees under a label that read 28.4.
+  var pathEl = document.getElementById("path"), angEl = document.getElementById("ang");
+  var deg = parseFloat(v.angle_deg);
+  if (!isFinite(deg)) deg = 0;
+  deg = Math.max(-80, Math.min(80, deg));
+  // Screen y grows downward, so a positive firing angle has to rotate negative to read as up.
+  if (pathEl) pathEl.style.transform = "rotate(" + (-deg) + "deg)";
+  if (angEl) angEl.textContent = deg + "°";
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>

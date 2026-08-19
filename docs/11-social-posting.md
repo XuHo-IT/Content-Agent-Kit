@@ -133,6 +133,16 @@ The kit sends the payload; the scenario does everything else. Roughly ten minute
 Put the resulting webhook URL in `MAKE_WEBHOOK_URL`. A worked payload lives in
 `examples/ai-video-social/sample-post/post.json`.
 
+**Two scenarios, two hooks.** Uploading a video and posting a photo are different modules, so
+they are usually different scenarios with different webhook URLs. Set `MAKE_WEBHOOK_VIDEO` and
+`make-post.mjs` routes video posts there by itself; leave it unset and everything goes to
+`MAKE_WEBHOOK_URL` exactly as before. `--webhook-env <NAME>` forces a specific variable.
+
+This has to be a decision inside the script rather than something the caller exports first,
+because `register-tasks.mjs` builds a bare `schtasks /tr` command line that carries no
+environment of its own. And getting it wrong is invisible: a video payload sent to the image
+hook returns 200 and leaves the Page empty.
+
 **Check the payload before spending an operation:** `--dry-run` prints the exact JSON and sends
 nothing.
 
@@ -192,6 +202,15 @@ Kit gửi payload; scenario lo phần còn lại. Khoảng mười phút:
 7. **Chạy "Run once" trước khi bật scenario**, rồi kiểm tra bài trên từng nền tảng.
 
 Payload mẫu đầy đủ: `examples/ai-video-social/sample-post/post.json`.
+
+**Hai scenario, hai hook.** Upload video và đăng ảnh là hai bộ module khác nhau, nên thường là
+hai scenario với hai webhook khác nhau. Đặt `MAKE_WEBHOOK_VIDEO` thì `make-post.mjs` tự định
+tuyến bài video sang đó; để trống thì mọi thứ đi qua `MAKE_WEBHOOK_URL` y như cũ.
+`--webhook-env <TÊN>` để ép một biến cụ thể.
+
+Việc chọn hook phải nằm trong script chứ không phải người gọi tự export trước, vì
+`register-tasks.mjs` dựng dòng lệnh `schtasks /tr` trần, không mang theo environment nào. Và
+chọn sai thì không nhìn thấy được: payload video bắn vào hook ảnh trả 200 rồi Trang vẫn trống.
 
 **Soi payload trước khi tốn operation:** `--dry-run` in đúng JSON sẽ gửi và không gửi gì cả.
 

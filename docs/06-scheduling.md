@@ -20,6 +20,14 @@ For posting **at randomized times through the day** on a Windows box that's alwa
 `build-queue.mjs` assigns times → `register-tasks.mjs` creates one `schtasks /sc once`
 job per item → each fires `run-item.mjs <id>`.
 
+When the slots are a decision rather than a spread — lunch, the commute home — name them:
+```bash
+node scripts/scheduler/build-queue.mjs items.json --at "09:00,11:00,12:00,15:00,18:30"
+```
+`--at` takes one time per item, in order, and skips the window/jitter maths entirely. Fewer
+times than items is an error rather than a reused slot: two posts firing in the same minute
+look like a bug on the Page, and nobody notices until they are already live.
+
 ### 3. In-process scheduler
 `node` process that `setTimeout`s to each item's time. Simplest, but dies if the
 process stops. Fine for a laptop session.
@@ -61,7 +69,10 @@ Ba lựa chọn, ưu tiên giảm dần:
    `templates/workflows/crawl.yml.template`. `cron` + `workflow_dispatch` (nút chạy tay).
 2. **Windows Task Scheduler (`schtasks`).** Để đăng **rải giờ random** trên máy luôn
    bật: `build-queue.mjs` chia giờ → `register-tasks.mjs` tạo task/item → chạy
-   `run-item.mjs <id>`.
+   `run-item.mjs <id>`. Muốn giờ cố định (trưa, chiều tối) thì
+   `build-queue.mjs items.json --at "09:00,11:00,12:00,15:00,18:30"` — một giờ cho một item,
+   theo thứ tự, bỏ qua phần jitter. Thiếu giờ so với số item là LỖI chứ không dùng lại slot:
+   hai bài bắn cùng một phút trông như bug trên Trang, và chỉ phát hiện khi đã lên rồi.
 3. **In-process scheduler.** Tiến trình `node` `setTimeout` tới giờ từng item. Đơn
    giản nhưng tắt tiến trình là mất.
 

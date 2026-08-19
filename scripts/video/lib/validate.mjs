@@ -14,6 +14,7 @@ import { SOURCE_IDS } from "../../media/lib/sources/index.mjs";
 import { RIGHTS as SOCIAL_RIGHTS, RIGHTS_NEEDING_NOTE as SOCIAL_RIGHTS_NEEDING_NOTE } from "../../media/lib/sources/social.mjs";
 import { ALLOWED_LICENCES as MUSIC_LICENCES } from "./music.mjs";
 import { resolveTheme, loadThemeMap, THEME_IDS, contrastRatio, hexToRgb } from "./theme.mjs";
+import { defaultInputs, declaredSlots, nearestSlot } from "./slots.mjs";
 import { TRANSITIONS } from "./ffmpeg-video.mjs";
 
 // ── tunables (all overridable by the caller) ────────────────────────────────
@@ -297,6 +298,57 @@ export function validateScript(script, opts = {}) {
 
     if (scene.inputs !== undefined && !isObj(scene.inputs))
       E(`${label}.inputs must be an object of text slots`);
+
+    // ── inputs keys vs the template's actual slots ───────────────────────
+    // A key the template does not read is not a harmless extra: hyperframes REPLACES the
+    // template's defaults with whatever `inputs` contains, so every slot the template does read
+    // arrives `undefined`, "empty slot removes its element" fires, and the scene renders BLANK.
+    // No error anywhere — ffprobe reports a valid clip and the pipeline reports success.
+    //
+    // Two published episodes shipped with five blank scenes each before a human noticed. The
+    // giveaway was byte-identical clips across two unrelated videos: an empty frame is
+    // deterministic. This check is what turns that ten-minute silent failure into a two-second
+    // error, so it is worth an error rather than a warning.
+    if (isObj(scene.inputs) && scene.templateId && (!known.length || known.includes(scene.templateId))) {
+      const asp = script.aspect === "16:9" ? "16:9" : "9:16";
+      const defaults = defaultInputs(scene.templateId, asp);
+      const slots = declaredSlots(scene.templateId, asp);
+      const passed = Object.keys(scene.inputs);
+      if (slots.length && passed.length) {
+        const unknown = passed.filter((k) => !slots.includes(k));
+        for (const k of unknown) {
+          const near = nearestSlot(k, slots);
+          E(
+            `${label}.inputs has no slot "${k}" on "${scene.templateId}"` +
+              (near ? `. Did you mean "${near}"?` : ".") +
+              ` Slots: ${slots.join(", ")}`,
+          );
+        }
+        // Every key wrong means nothing the template draws was supplied — a guaranteed blank
+        // frame. Said separately because a list of five near-miss names does not make it
+        // obvious that the outcome is an empty scene.
+        if (unknown.length === passed.length) {
+          E(
+            `${label} supplies no slot "${scene.templateId}" reads — it will render BLANK. ` +
+              `Look them up: node scripts/video/template-sheet.mjs --slots ${scene.templateId}`,
+          );
+        }
+        // A template whose default is an array reads it with Array.isArray and drops anything
+        // else on the floor. frame-bold-poster.headline is the live example: a string there
+        // renders an empty poster, silently.
+        for (const [k, v] of Object.entries(scene.inputs)) {
+          if (!(k in defaults)) continue;
+          const wantArray = Array.isArray(defaults[k]);
+          if (wantArray !== Array.isArray(v)) {
+            E(
+              `${label}.inputs.${k} must be ${wantArray ? "an array of lines" : "a string"} ` +
+                `for "${scene.templateId}" — the template reads it with Array.isArray and ` +
+                `ignores the other shape, which renders empty.`,
+            );
+          }
+        }
+      }
+    }
 
     // ── media (B-roll / screenshot / meme / social / photo grid) ──────────
     // `media` is one object, or an array for a frame that shows several pictures at once.

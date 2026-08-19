@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1080, height=1920" />
+<title>Fingerprint Match · Portrait 9:16</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
+  --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
+  display:flex;flex-direction:column}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  opacity:0;animation:fadeUp .55s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Scanlines. Static, not animated — an animated raster crawls at a different phase in every
+   rendered frame and reads as compression noise. */
+.crt{position:absolute;inset:0;pointer-events:none;z-index:30;opacity:.5;
+  background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.32) 50%);background-size:100% 4px}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:29;
+  background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(0,0,0,.7) 100%)}
+
+:root{--kick:24px}
+#root{padding:76px 56px;justify-content:space-between;background:#08080c}
+.scan{position:relative;margin:38px auto 0;
+  width:62%;aspect-ratio:5/6;border:1px solid var(--line);overflow:hidden;
+  background:#111116;opacity:0;animation:fadeIn .6s ease .3s both}
+.ph{position:absolute;inset:0;background:
+  radial-gradient(ellipse at 50% 50%,#2a2a33 0%,#15151b 70%),
+  repeating-radial-gradient(circle at 50% 55%,transparent 0 7px,rgba(255,255,255,.05) 7px 8px)}
+.media{position:relative;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(100%) brightness(.72) contrast(150%)}
+/* One pass, top to bottom, and gone. A laser bouncing forever is a screensaver; a scan that
+   completes is a measurement that produced the number underneath it. */
+.laser{position:absolute;left:0;right:0;height:3px;background:var(--red);
+  box-shadow:0 0 18px var(--red);animation:sweep 1.8s cubic-bezier(.4,0,.6,1) .7s both}
+@keyframes sweep{from{top:-2%;opacity:1}90%{opacity:1}to{top:100%;opacity:0}}
+.corner{position:absolute;width:26px;height:26px;
+  border:2px solid var(--red);opacity:0;animation:fadeIn .3s ease 2.5s both}
+.tl{top:8px;left:8px;border-right:0;border-bottom:0}
+.tr{top:8px;right:8px;border-left:0;border-bottom:0}
+.bl{bottom:8px;left:8px;border-right:0;border-top:0}
+.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.sample{text-align:center;font-size:21px;letter-spacing:.14em;color:#71717a;
+  margin-top:22px;opacity:0;animation:fadeIn .5s ease 2.7s both}
+.result{margin-top:34px}
+.pctline{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.big{font-size:62px;font-weight:700;color:#fafafa;
+  opacity:0;animation:fadeUp .5s ease 2.9s both}
+.vd{font-size:26px;font-weight:700;letter-spacing:.16em;color:var(--red);
+  opacity:0;animation:fadeIn .4s ease 3.4s both}
+.bar{height:14px;background:#18181b;border:1px solid var(--line);
+  border-radius:3px;overflow:hidden;margin-top:16px}
+.fill{height:100%;width:0;background:var(--red);box-shadow:0 0 14px rgba(225,29,72,.75);
+  animation:rise 1s cubic-bezier(.2,.8,.3,1) 3s both}
+.note{font-size:26px;line-height:1.5;color:#8b8b93;
+  margin-top:28px;opacity:0;animation:fadeUp .6s ease 3.9s both}@keyframes rise{to{width:var(--w,0%)}}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="portrait"
+  data-start="0"
+  data-duration="6"
+  data-width="1080"
+  data-height="1920"
+  data-composition-variables='{"lab_label":"PHÒNG KỸ THUẬT HÌNH SỰ","sample_label":"MẪU THU TẠI HIỆN TRƯỜNG","match_pct":"99.87","verdict":"TRÙNG KHỚP","note":"Con số này nói hai mẫu giống nhau. Nó không nói ai đã để lại mẫu đó, hay khi nào."}'
+>
+
+  <div class="kicker" data-slot="lab_label"></div>
+  <div class="scan">
+    <div class="ph" data-media-fallback></div>
+    <img class="media" src="assets/media.png" alt="" onerror="this.style.display='none'">
+    <div class="laser"></div>
+    <div class="corner tl"></div><div class="corner tr"></div>
+    <div class="corner bl"></div><div class="corner br"></div>
+  </div>
+  <div class="sample mono" data-slot="sample_label"></div>
+  <div class="result">
+    <div class="pctline mono"><span class="big" id="pct"></span><span class="vd" data-slot="verdict"></span></div>
+    <div class="bar"><div class="fill" id="fill"></div></div>
+  </div>
+  <p class="note" data-slot="note"></p>
+  <div class="vignette"></div>
+  <div class="crt"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  // Record group membership BEFORE filling — after the fill the evidence is gone.
+  var groups = [];
+  document.querySelectorAll(".grp").forEach(function (g) {
+    groups.push({ el: g, hadReq: !!g.querySelector(".req") });
+  });
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  // A group that lost its substance leaves behind labels and rules — a speaker name with
+  // nothing said, a row label with no value. Where a group marks one child "req", that child
+  // IS the group's reason to exist and its absence removes the whole thing; otherwise the
+  // group survives as long as any slot in it did.
+  groups.forEach(function (o) {
+    var dead = o.hadReq ? !o.el.querySelector(".req") : !o.el.querySelector("[data-slot]");
+    if (dead) o.el.remove();
+  });
+
+  // The printed percentage and the bar are the same number, and the bar is drawn to it — a
+  // match figure a viewer can read off the picture is the only kind worth showing.
+  var pctEl = document.getElementById("pct"), fill = document.getElementById("fill");
+  var n = parseFloat(v.match_pct);
+  if (!isFinite(n)) n = 0;
+  n = Math.max(0, Math.min(100, n));
+  if (pctEl) pctEl.textContent = v.match_pct + "%";
+  if (fill) fill.style.setProperty("--w", n + "%");
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Morgue Tag · Landscape 16:9</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
+  --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
+  display:flex;flex-direction:column}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  opacity:0;animation:fadeUp .55s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Scanlines. Static, not animated — an animated raster crawls at a different phase in every
+   rendered frame and reads as compression noise. */
+.crt{position:absolute;inset:0;pointer-events:none;z-index:30;opacity:.5;
+  background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.32) 50%);background-size:100% 4px}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:29;
+  background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(0,0,0,.7) 100%)}
+
+:root{--kick:20px}
+#root{align-items:center;justify-content:center;padding:0 120px;
+  background:radial-gradient(ellipse at 50% 42%,#15161a 0%,#08090b 72%)}
+.kicker{position:absolute;top:62px;left:0;right:0;text-align:center}
+/* Falls in and settles crooked. A tag hung by hand is never straight, and the crookedness is
+   most of what makes it read as an object rather than a card component. */
+.tag{width:42%;background:#e4e4e7;color:#18181b;border-radius:5px;
+  padding:32px 30px 26px;
+  box-shadow:0 30px 70px rgba(0,0,0,.85);position:relative;
+  transform-origin:50% 0;animation:tagDrop .85s cubic-bezier(.2,.9,.3,1) .25s both}
+@keyframes tagDrop{
+  from{opacity:0;transform:translateY(-40px) rotate(4deg)}
+  60%{opacity:1;transform:translateY(6px) rotate(-2.6deg)}
+  to{opacity:1;transform:translateY(0) rotate(-1.4deg)}}
+.hole{width:20px;aspect-ratio:1;background:#08090b;border-radius:50%;
+  margin:0 auto 16px;border:3px solid #a1a1aa}
+.tag-title{font-size:21px;font-weight:700;text-align:center;letter-spacing:.14em;
+  border-bottom:3px solid #18181b;padding-bottom:11px}
+.row{display:flex;justify-content:space-between;gap:18px;
+  font-size:18px;margin-top:14px;
+  opacity:0;animation:fadeIn .45s ease both}
+.row span{color:#52525b;letter-spacing:.1em}
+.row strong{font-weight:700;text-align:right}
+.row:nth-of-type(1){animation-delay:1.15s}
+.row:nth-of-type(2){animation-delay:1.4s}
+.row:nth-of-type(3){animation-delay:1.65s}
+/* Lands hard and oversized, then settles to size — a stamp is pressed, not faded in. */
+/* 82% wide, not full: rotating a full-width box makes its corners overhang the card, and a
+   stamp printed past the edge of the card it is stamped on breaks the object. */
+.stamp{width:82%;margin:24px auto 0;border:3px solid #dc2626;color:#dc2626;
+  font-weight:700;text-align:center;font-size:23px;
+  padding:8px;letter-spacing:.22em;
+  animation:stampHit .4s cubic-bezier(.3,1.5,.5,1) 2.2s both}
+@keyframes stampHit{
+  from{opacity:0;transform:rotate(-8deg) scale(2.4)}
+  to{opacity:1;transform:rotate(-7deg) scale(1)}}
+.foot{position:absolute;left:0;right:0;bottom:58px;text-align:center;
+  font-size:18px;letter-spacing:.18em;color:#6b6b73;
+  opacity:0;animation:fadeIn .6s ease 2.9s both}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="main"
+  data-start="0"
+  data-duration="6"
+  data-width="1920"
+  data-height="1080"
+  data-composition-variables='{"kicker":"Phòng pháp y","tag_title":"THẺ NHẬN DẠNG","row_1_label":"SỐ HỒ SƠ","row_1_value":"#NYC-8492-X","row_2_label":"PHÁT HIỆN LÚC","row_2_value":"03:15 — BẾN 54","row_3_label":"NGUYÊN NHÂN","row_3_value":"CHƯA XÁC ĐỊNH","stamp":"TẠM GIỮ","footer":"Hồ sơ chưa khép lại"}'
+>
+
+  <div class="kicker" data-slot="kicker"></div>
+  <div class="tag">
+    <div class="hole"></div>
+    <div class="tag-title mono" data-slot="tag_title"></div>
+    <div class="row grp"><span class="mono" data-slot="row_1_label"></span><strong class="mono req" data-slot="row_1_value"></strong></div>
+    <div class="row grp"><span class="mono" data-slot="row_2_label"></span><strong class="mono req" data-slot="row_2_value"></strong></div>
+    <div class="row grp"><span class="mono" data-slot="row_3_label"></span><strong class="mono req" data-slot="row_3_value"></strong></div>
+    <div class="stamp mono" data-slot="stamp"></div>
+  </div>
+  <div class="foot mono" data-slot="footer"></div>
+  <div class="vignette"></div>
+  <div class="crt"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  // Record group membership BEFORE filling — after the fill the evidence is gone.
+  var groups = [];
+  document.querySelectorAll(".grp").forEach(function (g) {
+    groups.push({ el: g, hadReq: !!g.querySelector(".req") });
+  });
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  // A group that lost its substance leaves behind labels and rules — a speaker name with
+  // nothing said, a row label with no value. Where a group marks one child "req", that child
+  // IS the group's reason to exist and its absence removes the whole thing; otherwise the
+  // group survives as long as any slot in it did.
+  groups.forEach(function (o) {
+    var dead = o.hadReq ? !o.el.querySelector(".req") : !o.el.querySelector("[data-slot]");
+    if (dead) o.el.remove();
+  });
+
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>

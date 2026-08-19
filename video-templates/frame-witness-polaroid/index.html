@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=1920, height=1080" />
+<title>Witness Polaroid · Landscape 16:9</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
+#root{width:100%;height:100%;position:relative;overflow:hidden;
+  font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
+  --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
+  display:flex;flex-direction:column}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  opacity:0;animation:fadeUp .55s ease .1s both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+/* Scanlines. Static, not animated — an animated raster crawls at a different phase in every
+   rendered frame and reads as compression noise. */
+.crt{position:absolute;inset:0;pointer-events:none;z-index:30;opacity:.5;
+  background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,.32) 50%);background-size:100% 4px}
+.vignette{position:absolute;inset:0;pointer-events:none;z-index:29;
+  background:radial-gradient(ellipse at 50% 45%,transparent 34%,rgba(0,0,0,.7) 100%)}
+
+:root{--kick:20px}
+#root{padding:56px 112px;justify-content:space-between;background:#0c0d10}
+.kicker{text-align:center}
+.card{width:30%;margin:22px auto 0;
+  background:#eceaE4;padding:12px 12px 34px;
+  box-shadow:0 26px 60px rgba(0,0,0,.85);transform:rotate(1.8deg);
+  animation:drop .8s cubic-bezier(.2,.9,.3,1) .3s both}
+@keyframes drop{from{opacity:0;transform:rotate(6deg) translateY(-34px)}
+  to{opacity:1;transform:rotate(1.8deg) translateY(0)}}
+.win{position:relative;width:100%;aspect-ratio:1;background:#15151a;overflow:hidden}
+.ph{position:absolute;inset:0;background:
+  linear-gradient(160deg,#2a2a32,#17171d),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 2px,transparent 2px 5px)}
+.media{position:relative;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(100%) contrast(135%) brightness(.9)}
+/* The emulsion clearing. It is the one thing that makes the object read as instant film rather
+   than as a white-bordered picture, and it finishes — it does not pulse. */
+.develop{position:absolute;inset:0;background:#d8d5cc;
+  animation:develop 2.4s ease-out 1s both}
+@keyframes develop{from{opacity:1}to{opacity:0}}
+.cap{margin-top:15px;text-align:center;color:#3f3f46;
+  font-family:'JetBrains Mono',monospace;font-size:17px;font-weight:700;
+  letter-spacing:.1em;opacity:0;animation:fadeIn .5s ease 3s both}
+.date{text-align:center;font-size:18px;letter-spacing:.12em;color:#8b8b93;
+  margin-top:20px;opacity:0;animation:fadeIn .5s ease 3.4s both}
+.note{font-size:22px;line-height:1.5;color:#a1a1aa;text-align:center;
+  margin-top:14px;opacity:0;animation:fadeUp .6s ease 3.8s both}
+.foot{text-align:center;font-size:17px;letter-spacing:.18em;color:#5b5b63;
+  opacity:0;animation:fadeIn .5s ease 4.3s both}</style>
+</head>
+<body>
+<div
+  id="root"
+  data-composition-id="main"
+  data-start="0"
+  data-duration="6"
+  data-width="1920"
+  data-height="1080"
+  data-composition-variables='{"kicker":"Phác thảo theo lời nhân chứng","caption":"DỰNG LẠI THÁNG 2, 1984","date_label":"Ba nhân chứng, ba bản mô tả","note":"Bản phác thảo này được vẽ sáu tuần sau đêm đó, từ trí nhớ của một người duy nhất.","footer":"Không phải ảnh chụp"}'
+>
+
+  <div class="kicker" data-slot="kicker"></div>
+  <div class="card">
+    <div class="win">
+      <div class="ph" data-media-fallback></div>
+      <img class="media" src="assets/media.png" alt="" onerror="this.style.display='none'">
+      <div class="develop"></div>
+    </div>
+    <div class="cap" data-slot="caption"></div>
+  </div>
+  <div class="date mono" data-slot="date_label"></div>
+  <p class="note" data-slot="note"></p>
+  <div class="foot mono" data-slot="footer"></div>
+  <div class="vignette"></div>
+  <div class="crt"></div>
+</div>
+<script>
+(function () {
+  // getVariables() is the renderer's channel; the attribute is only the editor's preview
+  // default. Read the first, fall back to the second, so the file previews AND renders.
+  var v = {};
+  try {
+    v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+      ? window.__hyperframes.getVariables() : {};
+  } catch (e) {}
+  if (!v || !Object.keys(v).length) {
+    try { v = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); }
+    catch (e2) { v = {}; }
+  }
+  // Record group membership BEFORE filling — after the fill the evidence is gone.
+  var groups = [];
+  document.querySelectorAll(".grp").forEach(function (g) {
+    groups.push({ el: g, hadReq: !!g.querySelector(".req") });
+  });
+  document.querySelectorAll("[data-slot]").forEach(function (el) {
+    var k = el.getAttribute("data-slot");
+    var val = v[k];
+    // An empty slot removes its element rather than leaving a gap. An empty line reads as
+    // missing data; an absent one reads as a deliberate omission.
+    if (val == null || !String(val).trim()) { el.remove(); return; }
+    el.textContent = String(val);
+  });
+  // A group that lost its substance leaves behind labels and rules — a speaker name with
+  // nothing said, a row label with no value. Where a group marks one child "req", that child
+  // IS the group's reason to exist and its absence removes the whole thing; otherwise the
+  // group survives as long as any slot in it did.
+  groups.forEach(function (o) {
+    var dead = o.hadReq ? !o.el.querySelector(".req") : !o.el.querySelector("[data-slot]");
+    if (dead) o.el.remove();
+  });
+
+})();
+// Both keys, always. A composition that registers only "main" makes Puppeteer wait 45s for a
+// ready signal that never comes — a 10x render slowdown that looks like a slow machine.
+window.__timelines = window.__timelines || {};
+window.__timelines["main"] = window.__timelines["portrait"] = {
+  pause: function () {},
+  seek: function () {},
+  paused: function () { return true; },
+  duration: function () { return 6; }
+};
+</script>
+</body>
+</html>
