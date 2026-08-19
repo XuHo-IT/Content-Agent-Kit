@@ -2,6 +2,7 @@
 // Reads process.env first, then a local .env / .env.local (walking up a few dirs).
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 let loaded = false;
 
@@ -30,16 +31,32 @@ function parseInto(file) {
   }
 }
 
-/** Load .env / .env.local from cwd and up to 4 parent dirs (first found wins per key). */
+/**
+ * Load .env / .env.local, first found wins per key.
+ *
+ * Searched from TWO roots: the working directory, and the directory this file lives in.
+ * The second is not redundant — it is the only one that works when nothing chose the working
+ * directory. Windows Task Scheduler starts a task in C:\Windows\System32 unless a "Start in"
+ * is set, and `schtasks /create` has no flag for it; cron and systemd have the same shape of
+ * default. From System32 the walk up finds Windows, then C:\, then stops, so every var came
+ * back missing and every scheduled post failed with exit 1 while the same command run by hand
+ * worked perfectly.
+ *
+ * This is the same fault the SFX and template directories already had (see NOTICE §1):
+ * resolving from the caller's cwd instead of from the code's own location.
+ */
 export function loadEnv() {
   if (loaded) return;
   loaded = true;
-  let dir = process.cwd();
-  for (let up = 0; up < 5; up++) {
-    for (const name of [".env.local", ".env"]) parseInto(path.join(dir, name));
-    const parent = path.dirname(dir);
-    if (parent === dir) break;
-    dir = parent;
+  const here = path.dirname(fileURLToPath(import.meta.url));
+  for (const start of [process.cwd(), here]) {
+    let dir = start;
+    for (let up = 0; up < 5; up++) {
+      for (const name of [".env.local", ".env"]) parseInto(path.join(dir, name));
+      const parent = path.dirname(dir);
+      if (parent === dir) break;
+      dir = parent;
+    }
   }
 }
 

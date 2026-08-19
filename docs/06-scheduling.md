@@ -28,6 +28,28 @@ node scripts/scheduler/build-queue.mjs items.json --at "09:00,11:00,12:00,15:00,
 times than items is an error rather than a reused slot: two posts firing in the same minute
 look like a bug on the Page, and nobody notices until they are already live.
 
+**The working directory is the trap here.** Task Scheduler starts a task in
+`C:\Windows\System32` unless a "Start in" is set, and `schtasks /create` has no flag for it.
+`.env` is found by walking **up from the working directory**, and from System32 that walk
+reaches `C:\` and stops — so every secret comes back missing and the post dies with exit 1,
+while the identical command run by hand from the project folder publishes fine. The symptom
+reads as "the scheduler never fired" when it fired exactly on time.
+
+`run-item.mjs` therefore runs every child process from the directory holding the `--queue`
+file, which is where the operation's `.env` lives. If you write your own task, point it at
+`run-item.mjs` with an absolute `--queue` path and it inherits that. Check a suspect task with:
+
+```powershell
+schtasks /query /tn "\YourTask" /fo LIST /v | Select-String "Last Result|Next Run"
+```
+
+`Last Result: 1` means it ran and the command failed — read it as a real failure, not as a
+scheduling problem. `267011` means it has never run at all.
+
+**A retry and an armed timer can both fire.** `run-item.mjs` skips any item already marked
+`posted` and exits 0, so fixing a failed slot by hand does not produce a second copy of the
+post when the original task comes round. Pass `--force` to publish it again on purpose.
+
 ### 3. In-process scheduler
 `node` process that `setTimeout`s to each item's time. Simplest, but dies if the
 process stops. Fine for a laptop session.
