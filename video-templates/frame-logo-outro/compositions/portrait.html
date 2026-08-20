@@ -253,7 +253,7 @@
             <!-- brand-bar removed in content-agent-kit — see the hero template's note. -->
 
             <div class="logo-wrap">
-                <svg data-media-fallback viewBox="0 0 140 140" fill="none">
+                <svg data-media-fallback viewBox="0 0 140 140" fill="none" style="display:none">
                     <!-- "</>" code glyph, assembled from 3 pieces -->
                     <path
                         class="piece"
@@ -279,6 +279,13 @@
                         stroke-linejoin="round"
                     />
                 </svg>
+                <!-- The brand mark, when the scene supplies one. It sits ON TOP of the
+                     glyph rather than replacing it: built in JS, the swap raced the
+                     renderer's screenshot and the placeholder glyph shipped instead of
+                     the channel logo. In the markup, hyperframes waits for it like any
+                     other image, and a missing file just falls back to the glyph. -->
+                <img class="logo-img" src="assets/media.png" alt=""
+                     onerror="this.style.display='none';var s=this.parentNode.querySelector('svg');if(s)s.style.display=''">
             </div>
 
             <h1 class="brand"><span class="shimmer"></span></h1>
@@ -328,22 +335,7 @@
             // A real brand mark, when the scene supplies one. The built-in SVG glyph is
                 // the stand-in and stays in the markup ahead of this — a channel that passes
                 // no logo still gets a mark rather than a hole.
-                if (v.media_kind) {
-                    var wrap = document.querySelector(".logo-wrap");
-                    var svg = wrap && wrap.querySelector("svg");
-                    if (wrap) {
-                        var lg = document.createElement("img");
-                        lg.className = "logo-img";
-                        lg.src = "assets/media." + (String(v.media_kind) === "video" ? "mp4" : "png");
-                        lg.alt = "";
-                        // Empty alt suppresses alt TEXT, not Chrome's own broken-image mark on
-                        // a sized element — so a missing file must put the glyph back rather
-                        // than leave a torn icon over it.
-                        lg.onerror = function () { lg.style.display = "none"; if (svg) svg.style.display = ""; };
-                        lg.onload = function () { if (svg) svg.style.display = "none"; };
-                        wrap.appendChild(lg);
-                    }
-                }
+                /* logo now lives in the markup above */
 
             window.__timelines = window.__timelines || {};
             window.__timelines["main"] = window.__timelines["portrait"] = {

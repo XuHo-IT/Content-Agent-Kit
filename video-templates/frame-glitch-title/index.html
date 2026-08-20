@@ -40,7 +40,11 @@
     97% { transform: translate(0,0); }
   }
   .glitch-host { position: relative; display: inline-block; z-index: 6; animation: glitch 4s infinite; }
-  .glitch-text { font-weight: 900; letter-spacing: -2px; line-height: 0.9; font-size: 188px;
+  /* An explicit colour, not an inherited one. Inheriting left the headline at whatever the
+     themed body colour happened to be, and on a dark-canvas theme that came out as dark
+     amber on near-black — the opening frame of an episode, unreadable. applyTheme maps a
+     stated colour by lightness, so a near-white here becomes the theme's ink. */
+  .glitch-text { color: #f4ece0; font-weight: 900; letter-spacing: -2px; line-height: 0.9; font-size: 188px;
     text-align: center; text-transform: uppercase; }
   .layer { position: absolute; inset: 0; mix-blend-mode: screen; }
   .layer-c { color: #00f0ff; transform: translate(-3px, 1px); }
@@ -69,7 +73,7 @@
     data-duration="5"
     data-width="1920"
     data-height="1080"
-    data-composition-variables='{"title":"Sự thật","subtitle":"04 · GIẢI MÃ · điều không ai nói cho bạn"}'
+    data-composition-variables='{"title":"Sự thật","subtitle":"04 · GIẢI MÃ · điều không ai nói cho bạn","signal_label":"","rec_label":"","eyebrow":"","corner_left":"","corner_right":""}'
   >
     <svg width="0" height="0" style="position:absolute">
       <defs>
@@ -82,8 +86,8 @@
       </defs>
     </svg>
 
-    <div class="chrome tl mono">&gt;&gt; SIGNAL · CH-04 · 14:32:08</div>
-    <div class="chrome tr mono">REC ●</div>
+    <div class="chrome tl mono" data-slot="signal_label"></div>
+    <div class="chrome tr mono" data-slot="rec_label"></div>
     <pre class="ascii a1 mono">█▓▒░ █▓▒░
 ▒▓█▓ ░▒▓
 ░▒▓█ ▓▒░░</pre>
@@ -91,7 +95,7 @@
 ▒░░▓ ░▒▓█
 ▓▒░░ █▓▒░</pre>
 
-    <div class="overline mono">— Transmission —</div>
+    <div class="overline mono" data-slot="eyebrow"></div>
     <div class="glitch-host">
       <h1 class="glitch-text base"></h1>
       <h1 class="glitch-text layer layer-c"></h1>
@@ -99,8 +103,8 @@
     </div>
     <p class="subtitle mono"></p>
 
-    <div class="chrome bl mono">HTML / VFX · GLITCH</div>
-    <div class="chrome br mono">CHROMATIC · CYAN × MAGENTA</div>
+    <div class="chrome bl mono" data-slot="corner_left"></div>
+    <div class="chrome br mono" data-slot="corner_right"></div>
 
     <div class="grain"></div>
     <div class="vignette"></div>

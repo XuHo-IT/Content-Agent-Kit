@@ -25,12 +25,22 @@ const ENCODE = (fps) => [
  * frame (`tpad=stop_mode=clone`) so the poster holds while narration continues;
  * shorter → trim.
  */
-export async function fitClipToDuration(inPath, targetSec, outPath, fps = 30) {
+export async function fitClipToDuration(inPath, targetSec, outPath, fps = 30, log = null) {
   const inDur = await getDurationSec(inPath);
   const target = Math.max(0.1, targetSec);
   const args = ["-y", "-i", inPath];
   if (target > inDur + 0.02) {
     const ext = target - inDur;
+    // Freezing is now the fallback, not the norm — render.mjs asks the composition to run the
+    // scene's real length. When this branch still fires, the frame stands still for `ext`
+    // seconds and NOTHING else reports it: ffprobe sees a valid clip of the right duration.
+    // Silence here is what let every episode ship with several motionless seconds per scene.
+    if (ext > 0.5) {
+      (log ?? ((m) => console.warn(`[video] ! ${m}`)))(
+        `${inPath.split(/[\\/]/).pop()}: composition is ${inDur.toFixed(1)}s but the scene needs ` +
+          `${target.toFixed(1)}s — holding the last frame for ${ext.toFixed(1)}s`,
+      );
+    }
     args.push("-vf", `tpad=stop_mode=clone:stop_duration=${ext.toFixed(3)}`);
   }
   args.push("-t", target.toFixed(3), ...ENCODE(fps), outPath);

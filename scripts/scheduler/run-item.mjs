@@ -92,6 +92,30 @@ if (item.type === "video" && !item.videoPath && item.scriptPath) {
   }
 }
 
+/**
+ * Say how old the file being published is, before publishing it.
+ *
+ * A queue entry names a PATH, and nothing guarantees the file at that path is the render you
+ * think it is. This went out live: the queue pointed at `brain/<slug>/video.mp4`, a copy taken
+ * at 09:17; the episode was re-rendered at 11:24 into the render directory; the 12:00 slot
+ * published the 09:17 copy. Both files existed, both were valid MP4s, and the log said
+ * "posted video" either way.
+ *
+ * One line of age is enough to catch it — a file older than the working session is a file
+ * nobody meant to publish.
+ */
+for (const key of ["videoPath", "image", "thumbnail"]) {
+  const p = item[key];
+  if (!p || typeof p !== "string" || /^https?:\/\//i.test(p)) continue;
+  const abs = path.isAbsolute(p) ? p : path.join(opDir, p);
+  if (!fs.existsSync(abs)) continue;
+  const st = fs.statSync(abs);
+  const ageH = (Date.now() - st.mtimeMs) / 3.6e6;
+  const line = `${key}=${p} · ${(st.size / 1048576).toFixed(1)} MB · dựng cách đây ${ageH < 1 ? `${Math.round(ageH * 60)} phút` : `${ageH.toFixed(1)} giờ`}`;
+  if (ageH > 6) console.warn(`[run] ! ${line} — CŨ. Đã dựng lại mà quên chép sang đây?`);
+  else console.log(`[run] ${line}`);
+}
+
 let cmd;
 if (item.type === "social" || item.type === "video") {
   cmd = [path.join(here, "..", "social", "make-post.mjs"), "--queue", queueFile, "--id", String(id)];

@@ -39,7 +39,7 @@ const ASPECT_ENTRY = {
  * @returns {Promise<string>} absolute path of the rendered mp4
  */
 export async function composeTemplate(args) {
-  const { templateId, inputs, fps = 30, quality = "standard", aspect, mediaFile, mediaFiles, theme, log } = args;
+  const { templateId, inputs, fps = 30, quality = "standard", aspect, mediaFile, mediaFiles, theme, durationSec, log } = args;
   const files = (mediaFiles ?? (mediaFile ? [mediaFile] : [])).filter(Boolean);
   const vendored = join(templatesDir(), templateId);
   if (!existsSync(join(vendored, "index.html"))) {
@@ -57,7 +57,7 @@ export async function composeTemplate(args) {
   // overwrite each other's clip, and would leave junk in a git-tracked dir.
   let templateDir = vendored;
   let scratch = null;
-  if (files.length || theme) {
+  if (files.length || theme || durationSec) {
     scratch = mkdtempSync(join(tmpdir(), "cak-tpl-"));
     templateDir = join(scratch, templateId);
     cpSync(vendored, templateDir, { recursive: true });
@@ -74,6 +74,31 @@ export async function composeTemplate(args) {
       // to the array form — a silently blank frame, not an error.
       if (i === 0) cpSync(f, join(templateDir, "assets", `media${ext}`));
     });
+  }
+
+  /**
+   * Render the composition for as long as the scene actually runs.
+   *
+   * Templates are authored at a fixed 5–6s, but a scene lasts as long as its narration —
+   * 8 to 10 seconds is normal. The gap used to be filled by freezing the last frame
+   * (`tpad=stop_mode=clone` in ffmpeg-video.mjs), so a ten-second scene showed a still
+   * photograph for its final four. With entrances finishing around the four-second mark, more
+   * than half of some scenes had nothing moving at all, and the whole video read as a
+   * slideshow.
+   *
+   * Rewriting `data-duration` in the throwaway copy is the honest fix: the ambient layers keep
+   * running, the freeze branch stops firing, and no template file changes on disk.
+   */
+  if (durationSec) {
+    const target = join(templateDir, entryFile);
+    const html = readFileSync(target, "utf8");
+    const secs = Math.max(1, Math.round(durationSec * 100) / 100);
+    const patched = html.replace(/data-duration="[^"]*"/, `data-duration="${secs}"`);
+    if (patched === html) {
+      log?.(`duration: ${templateId} has no data-duration attribute — leaving its own length`);
+    } else {
+      writeFileSync(target, patched, "utf8");
+    }
   }
 
   let themedInputs = inputs;

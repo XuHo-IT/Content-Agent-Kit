@@ -5,7 +5,7 @@
 // cropping. And a 5s clip in a 9s scene would freeze on its last frame, so short clips
 // are looped rather than held.
 import { writeFile, copyFile } from "node:fs/promises";
-import { existsSync, statSync } from "node:fs";
+import { existsSync, statSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { run } from "../../video/lib/proc.mjs";
 import { getDurationSec } from "../../video/lib/ffmpeg-audio.mjs";
@@ -98,4 +98,47 @@ export async function normalizeImage(inPath, outPath, { width = 1080, height = 1
   // which reads as a broken path rather than "you handed me a movie". Taking the first frame
   // is what an image output means anyway; the kit's own catalogue still is exactly that.
   await run("ffmpeg", ["-y", "-i", inPath, "-vf", vf, "-frames:v", "1", "-update", "1", outPath]);
+  if (/\.png$/i.test(outPath)) stripPngColourChunks(outPath);
+}
+
+/**
+ * Delete the colour-space chunks ffmpeg copies from the source clip into a PNG still.
+ *
+ * `cICP` declares coding-independent code points — the chunk that says "these pixels are
+ * HDR". ffmpeg writes it whenever the source video carried colour tags, which most stock
+ * footage does. The pixels it writes are still ordinary 8-bit sRGB.
+ *
+ * hyperframes believes the chunk. It switches to its layered-HDR capture path and then dies
+ * decoding the file it was just handed:
+ *
+ *     decodePngToRgb48le: unsupported bit depth 8 (expected 16)
+ *     Aborting render to avoid shipping missing HDR image layers
+ *
+ * The render fails after the narration has already been synthesised and paid for, and which
+ * stills trip it looks random — it comes down to which chunks ffmpeg happened to emit for
+ * that particular clip. Two images from the same search, one renders and one kills the run.
+ *
+ * Stripping the chunks here rather than passing ffmpeg colour flags: the flags differ by
+ * version and would have to be right on every path that ever writes a still, whereas a PNG
+ * is a chunk list and removing three entries from it is exact.
+ */
+function stripPngColourChunks(file) {
+  const DROP = new Set(["cICP", "iCCP", "cHRM", "gAMA", "sRGB", "mDCv", "cLLi"]);
+  const buf = readFileSync(file);
+  const SIG = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+  if (!buf.subarray(0, 8).equals(SIG)) return; // not a PNG after all — leave it alone
+  const keep = [buf.subarray(0, 8)];
+  let off = 8;
+  let dropped = 0;
+  while (off + 8 <= buf.length) {
+    const len = buf.readUInt32BE(off);
+    const type = buf.toString("latin1", off + 4, off + 8);
+    const end = off + 12 + len;
+    if (end > buf.length) break; // truncated: keep what we have rather than corrupt it
+    if (DROP.has(type)) dropped++;
+    else keep.push(buf.subarray(off, end));
+    off = end;
+    if (type === "IEND") break;
+  }
+  if (dropped) writeFileSync(file, Buffer.concat(keep));
 }

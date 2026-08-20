@@ -13,7 +13,7 @@ import { SOURCE_IDS } from "../../media/lib/sources/index.mjs";
 // enforces them and the module that documents them.
 import { RIGHTS as SOCIAL_RIGHTS, RIGHTS_NEEDING_NOTE as SOCIAL_RIGHTS_NEEDING_NOTE } from "../../media/lib/sources/social.mjs";
 import { ALLOWED_LICENCES as MUSIC_LICENCES } from "./music.mjs";
-import { resolveTheme, loadThemeMap, THEME_IDS, contrastRatio, hexToRgb } from "./theme.mjs";
+import { resolveTheme, loadThemeMap, THEME_IDS, contrastRatio, hexToRgb, canvasOf } from "./theme.mjs";
 import { defaultInputs, declaredSlots, nearestSlot } from "./slots.mjs";
 import { TRANSITIONS } from "./ffmpeg-video.mjs";
 
@@ -51,15 +51,34 @@ export const CRAFT_DEFAULTS = {
 /** Fields animated character-by-character — emoji there shatters the animation. */
 const CHAR_ANIMATED_FIELDS = { "frame-build-minimal": ["hero"] };
 
-/** Templates that actually show a resolved clip/still. Anything else silently ignores it. */
-const MEDIA_TEMPLATES = ["frame-broll", "frame-media-inset", "frame-screenshot", "frame-meme", "frame-vox-photo-grid", "frame-logo-outro", "frame-vox-split-screen"];
+/**
+ * Templates that actually show a resolved clip/still. Anything else silently ignores it.
+ *
+ * KEEP THIS IN STEP WITH THE FOLDER. A template earns a place here by drawing
+ * `assets/media.*` in its markup, and `tests/templates.test.mjs` fails if the two disagree —
+ * because they already did once, expensively. Eight templates shipped with a real picture well
+ * and were missing from this list, so attaching a photo to them was a hard ERROR and the
+ * frames published with an empty grey well instead. Two whole episodes went out that way, and
+ * nothing in the pipeline said a word: the author had followed the rule, and the rule was wrong.
+ */
+export const MEDIA_TEMPLATES = [
+  "frame-broll", "frame-media-inset", "frame-screenshot", "frame-meme",
+  "frame-vox-photo-grid", "frame-logo-outro", "frame-vox-split-screen",
+  "frame-3d-device",
+  "frame-archive-newspaper", "frame-corkboard-threads", "frame-crime-scene-map",
+  "frame-fingerprint-match", "frame-redacted-dossier", "frame-satellite-track",
+  "frame-witness-polaroid",
+];
 
 /**
  * Templates that draw MORE than the first picture. Everything else takes `assets/media.*`
  * and ignores the rest — which renders happily and silently drops three of your four
  * images, so passing an array to one of those is an error rather than a warning.
  */
-const MULTI_MEDIA_TEMPLATES = ["frame-vox-photo-grid"];
+/* id → how many cells it actually draws, counted from `data-media-cell` in the markup.
+   A count rather than a flag: the corkboard has two pinned cards, and passing it three
+   pictures would drop one exactly as silently as passing two to a single-well frame. */
+export const MULTI_MEDIA_TEMPLATES = { "frame-vox-photo-grid": 4, "frame-corkboard-threads": 2 };
 
 /** Four cells is what a 9:16 frame can show before each is too small to read. */
 const MAX_MEDIA_PER_SCENE = 4;
@@ -149,7 +168,7 @@ export function validateScript(script, opts = {}) {
     else if (t > 0.3) W(`transitionSec ${t}s overruns the 0.3s gap between scenes — the blend will cover speech`);
   }
 
-  // ── theme (optional) ─────────────────────────────────────────────────────
+  // ── theme ────────────────────────────────────────────────────────────────
   // A bad palette is only visible after a full render, so the cheap checks happen here.
   let theme = null;
   if (script.theme != null) {
@@ -157,6 +176,43 @@ export function validateScript(script, opts = {}) {
       theme = resolveTheme(script.theme);
     } catch (err) {
       E(`theme: ${err.message} (presets: ${THEME_IDS.join(", ")})`);
+    }
+  } else {
+    // A warning rather than an error, because a one-off render with each template's own
+    // palette is a legitimate thing to want. Under --strict it fails, which is what any
+    // pipeline producing a series should be running.
+    //
+    // Without a theme every template keeps its own colours, and a single video comes out
+    // part cream, part bright yellow, part navy, part white paper. That has now shipped
+    // twice: it was fixed for episodes 01–02 by writing the rule down, and the rule was
+    // simply not followed for 05–06 because nothing here checked.
+    W(`no "theme" — every template will render its OWN palette and the video will change ` +
+      `colour scene to scene. Add one alongside "scenes", e.g. ` +
+      `{"bg":"#0b0908","ink":"#d9c193","hue":38,"spread":18,"saturation":1.0}, ` +
+      `or a preset: ${THEME_IDS.join(", ")}`);
+  }
+
+  // A theme adjusts colours; it does NOT flip a light canvas dark. Put pale-paper frames in a
+  // dark episode and they arrive as bright rectangles between black ones — and pale ink on
+  // pale paper is often unreadable outright. theme-map.json already records what each
+  // composition measured, so this is a lookup, not a guess.
+  if (script.theme != null && Array.isArray(script.scenes)) {
+    const entryFile = aspect === "16:9" ? "index.html" : "compositions/portrait.html";
+    const light = [...new Set(
+      script.scenes
+        .map((s) => s?.templateId)
+        .filter((id) => typeof id === "string" && canvasOf(id, entryFile) === "light"),
+    )];
+    // One pale frame among dark ones is an editorial beat — the correction, the outro card —
+    // and firing on it every time would train everyone to ignore this line. Two or more is
+    // the failure: the video stops having a palette. So the threshold is where the meaning
+    // changes, not at the first occurrence.
+    const lightShare = light.length / Math.max(1, script.scenes.length);
+    if (light.length >= 2 || lightShare > 0.25) {
+      W(`${light.length} light-canvas templates in a themed video: ${light.join(", ")}. ` +
+        `The theme tints colours but never darkens a pale canvas, so these frames flash bright ` +
+        `between the dark ones and the video stops having one palette. Keep at most one as a ` +
+        `deliberate break. Check any template with: node scripts/video/theme-probe.mjs --template <id>`);
     }
   }
   if (theme) {
@@ -363,9 +419,11 @@ export function validateScript(script, opts = {}) {
         } else if (scene.media.length > MAX_MEDIA_PER_SCENE) {
           E(`${label}.media has ${scene.media.length} entries; at most ${MAX_MEDIA_PER_SCENE} fit a frame`);
         }
-        if (scene.media.length > 1 && !MULTI_MEDIA_TEMPLATES.includes(scene.templateId)) {
-          E(`${label} passes ${scene.media.length} media but "${scene.templateId}" draws only the first. ` +
-            `Use one of: ${MULTI_MEDIA_TEMPLATES.join(", ")}.`);
+        const cells = MULTI_MEDIA_TEMPLATES[scene.templateId] ?? 1;
+        if (scene.media.length > cells) {
+          E(`${label} passes ${scene.media.length} media but "${scene.templateId}" draws ` +
+            `${cells === 1 ? "only the first" : `only ${cells}`}. ` +
+            `Frames that draw more: ${Object.entries(MULTI_MEDIA_TEMPLATES).map(([k, n]) => `${k} (${n})`).join(", ")}.`);
         }
       }
 

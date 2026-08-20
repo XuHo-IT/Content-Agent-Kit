@@ -59,7 +59,17 @@
     (function () {
       var root = document.getElementById("root");
       var v = {};
-      try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      // getVariables() is the renderer's channel; the attribute is only the editor's preview
+      // default. Reading only the attribute meant every value the caller passed was thrown
+      // away and the frame published its stock demo copy instead — a laptop spec sheet in a
+      // horror episode. Renderer first, attribute as the fallback that keeps preview working.
+      try {
+        v = window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+          ? (window.__hyperframes.getVariables() || {}) : {};
+      } catch (e) {}
+      if (!v || !Object.keys(v).length) {
+        try { v = JSON.parse(root.getAttribute("data-composition-variables") || "{}"); } catch (e2) {}
+      }
       
       document.querySelectorAll("[data-slot]").forEach(function (el) {
         var k = el.getAttribute("data-slot");

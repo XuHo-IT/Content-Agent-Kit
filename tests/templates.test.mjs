@@ -10,6 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { listTemplateIds, templatesDir } from "../scripts/video/lib/paths.mjs";
+import { MEDIA_TEMPLATES, MULTI_MEDIA_TEMPLATES } from "../scripts/video/lib/validate.mjs";
 
 const KIT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const ids = listTemplateIds();
@@ -133,13 +134,12 @@ test("no template burns caller-facing text into the markup", () => {
   // then an aspect-ratio label and a "Bản tin" category chip in frame-liquid-bg-hero, both
   // of which reached a finished render before anyone noticed.
   //
-  // Decorative chrome that IS the design — the broadcast furniture in frame-glitch-title —
-  // is exempt by name. Naming the exceptions is the point: a new one has to be argued for
-  // rather than added quietly.
-  const DECORATIVE = new Set(["frame-glitch-title"]);
-
+  // There is no exemption list any more. frame-glitch-title used to hold one, on the argument
+  // that its broadcast furniture WAS the design — and then it opened an episode about a forest
+  // in Romania with the corner labels "VFX / GLITCH" and "CYAN x MAGENTA" on screen. Chrome
+  // that belongs to the design still belongs to the CALLER: those five labels are slots now,
+  // empty by default, so the furniture is there when someone fills it and gone when nobody does.
   for (const id of ids) {
-    if (DECORATIVE.has(id)) continue;
     for (const f of compositions(id)) {
       const html = fs.readFileSync(path.join(templatesDir(), id, f), "utf8");
       const body = html.slice(html.indexOf("<body>")).replace(/<script[\s\S]*?<\/script>/g, "");
@@ -333,6 +333,76 @@ test("every beat explains what it is for", () => {
     assert.ok(g.label && g.whenToUse, `genre "${name}" needs a label and whenToUse`);
     for (const beat of g.beats) {
       assert.ok(beat.beat && beat.beat.length > 20, `genre "${name}" has a beat with no reasoning`);
+    }
+  }
+});
+
+test("the media allowlist matches the templates that actually draw media", () => {
+  // This test exists because the two lists drifted, and the cost was two published episodes.
+  //
+  // Eight templates shipped with a real picture well — markup drawing `assets/media.*` behind
+  // a placeholder — while MEDIA_TEMPLATES still named only the original seven. Attaching a
+  // photo to one of them was therefore a hard validation ERROR, so the author dutifully left
+  // the picture out, and the frame published with an empty grey well. Nothing anywhere said
+  // the rule was wrong; the pipeline was enforcing a list that had stopped describing the
+  // folder. Deriving the truth from the markup is what makes that unrepeatable.
+  const draws = ids.filter((id) => {
+    const f = path.join(templatesDir(), id, "compositions", "portrait.html");
+    return fs.existsSync(f) && fs.readFileSync(f, "utf8").includes("assets/media");
+  });
+  assert.deepEqual([...MEDIA_TEMPLATES].sort(), draws.sort(),
+    "MEDIA_TEMPLATES is out of step with the templates whose markup draws assets/media.*");
+});
+
+test("a template that draws several media cells declares how many", () => {
+  // The cap has to be the real cell count, not a yes/no. Passing three pictures to a frame
+  // with two wells drops one as silently as passing two to a frame with one.
+  for (const id of ids) {
+    const f = path.join(templatesDir(), id, "compositions", "portrait.html");
+    if (!fs.existsSync(f)) continue;
+    const cells = new Set([...fs.readFileSync(f, "utf8").matchAll(/data-media-cell="(\d+)"/g)].map((m) => m[1]));
+    if (cells.size > 1) {
+      assert.equal(MULTI_MEDIA_TEMPLATES[id], cells.size,
+        `${id} draws ${cells.size} media cells — MULTI_MEDIA_TEMPLATES must say so`);
+    }
+  }
+});
+
+test("every template that binds slots reads them from the renderer", () => {
+  // Thirty templates read ONLY `data-composition-variables` — the editor's preview default —
+  // and never called getVariables(). So every value a caller passed was discarded and the
+  // frame rendered its stock demo copy: a laptop spec sheet inside a horror episode, a
+  // market-manipulation headline on a scene about a bridge. It renders, it validates, it
+  // looks deliberate, and the only way to catch it is to look at the frame.
+  //
+  // The attribute is still read, but only as the fallback that keeps the file previewable.
+  for (const id of ids) {
+    for (const rel of ["index.html", "compositions/portrait.html"]) {
+      const f = path.join(templatesDir(), id, rel);
+      if (!fs.existsSync(f)) continue;
+      const html = fs.readFileSync(f, "utf8");
+      if (!html.includes("data-slot")) continue;
+      assert.ok(html.includes("getVariables"),
+        `${id}/${rel} binds slots but never calls window.__hyperframes.getVariables() — ` +
+        `it will publish its demo content no matter what the caller passes`);
+    }
+  }
+});
+
+test("no media-bearing template uses a blend mode", () => {
+  // These two features cannot coexist in this renderer. A CSS blend mode makes hyperframes
+  // take its layered-HDR capture path, and that path decodes images as 16-bit PNG only:
+  //   decodePngToRgb48le: unsupported bit depth 8 (expected 16)
+  // Real photographs are 8-bit, so the render ABORTS partway — after the TTS has been paid
+  // for. Blend modes are fine anywhere media never lands, which is why this checks only the
+  // frames that draw a picture.
+  for (const id of MEDIA_TEMPLATES) {
+    for (const rel of ["index.html", "compositions/portrait.html"]) {
+      const f = path.join(templatesDir(), id, rel);
+      if (!fs.existsSync(f)) continue;
+      const css = fs.readFileSync(f, "utf8").replace(/<!--[\s\S]*?-->/g, "").replace(/\/\*[\s\S]*?\*\//g, "");
+      assert.ok(!/mix-blend-mode\s*:/.test(css),
+        `${id}/${rel} draws media AND uses mix-blend-mode — the render will abort on an 8-bit PNG`);
     }
   }
 });

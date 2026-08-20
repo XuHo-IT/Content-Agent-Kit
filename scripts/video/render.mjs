@@ -438,6 +438,10 @@ try {
         fps: RENDER_FPS,
         mediaFiles: media?.map((m) => m.file),
         theme,
+        // Render the frame for exactly as long as the scene runs. Without this the clip comes
+        // out at the template's authored 5–6s and the last frame is frozen to fill the rest,
+        // which is how a nine-second scene ended up motionless for its final four.
+        durationSec: visualDur,
         log: (m) => console.warn(`[video] ! ${m}`),
       });
     }

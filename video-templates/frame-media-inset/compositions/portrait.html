@@ -26,7 +26,7 @@
     color: #fff;
   }
   .noise {
-    position: absolute; inset: 0; opacity: .05; mix-blend-mode: overlay;
+    position: absolute; inset: 0; opacity: .05; /* no mix-blend-mode: it forces hyperframes onto its layered-HDR capture path, which decodes images as 16-bit PNG only and aborts the render on a real 8-bit photograph */
     background-image: radial-gradient(rgba(255,255,255,.9) 1px, transparent 1px);
     background-size: 4px 4px;
   }
