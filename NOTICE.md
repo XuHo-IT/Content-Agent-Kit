@@ -131,7 +131,8 @@ One hundred and sixteen are original to content-agent-kit (MIT, same as this rep
 `frame-interrogation-log` · `frame-morgue-tag` · `frame-cipher-decrypt` · `frame-vhs-nosignal` · `frame-suspect-lineup` ·
 `frame-polygraph` · `frame-thermal-cam` · `frame-ballistics-path` · `frame-dispatch-waveform` · `frame-forensic-chat` ·
 `frame-redacted-dossier` · `frame-archive-newspaper` · `frame-fingerprint-match` · `frame-witness-polaroid` ·
-`frame-crime-scene-map` · `frame-satellite-track` · `frame-corkboard-threads`
+`frame-crime-scene-map` · `frame-satellite-track` · `frame-corkboard-threads` ·
+`frame-forensic-instrument` · `frame-case-dashboard`
 
 `frame-3d-spotlight` was written after reading how vibe-motion's `light-spotlight-render`
 describes the effect. No code was taken: that repository publishes no licence, and this kit

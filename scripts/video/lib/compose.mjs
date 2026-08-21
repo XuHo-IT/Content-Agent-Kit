@@ -137,24 +137,34 @@ async function renderWith(templateDir, { inputs, fps, quality, entryFile, output
   // Pass variables via a TEMP FILE, not --variables: a JSON argument through
   // npx + shell:true on Windows mangles quotes and Unicode (em-dash, Vietnamese
   // diacritics) and the render silently no-ops. A file is shell-safe and UTF-8 clean.
-  const varsFile = join(mkdtempSync(join(tmpdir(), "cak-hf-vars-")), "variables.json");
+  const varsDir = mkdtempSync(join(tmpdir(), "cak-hf-vars-"));
+  const varsFile = join(varsDir, "variables.json");
   writeFileSync(varsFile, JSON.stringify(inputs ?? {}), "utf8");
 
+  const quoteIfSpace = (s) => (s && typeof s === "string" && s.includes(" ") && !s.startsWith('"') ? `"${s}"` : s);
+
+  try {
   await runInherit(
     "npx",
     [
       "-y", // never prompt to install
       `hyperframes@${HYPERFRAMES_VERSION}`,
       "render",
-      templateDir,
+      quoteIfSpace(templateDir),
       "--composition", entryFile,
-      "--output", outputPath,
+      "--output", quoteIfSpace(outputPath),
       "--fps", String(fps),
       "--quality", quality,
-      "--variables-file", varsFile,
+      "--variables-file", quoteIfSpace(varsFile),
     ],
     { shell: true }, // required for npx resolution on Windows
   );
+  } finally {
+    // One directory per SCENE, and nothing ever removed them: 919 had piled up in %TEMP%
+    // before anyone looked. Each holds a few hundred bytes, which is exactly why it went
+    // unnoticed — it is the COUNT that grows, once per scene of every render, forever.
+    try { rmSync(varsDir, { recursive: true, force: true }); } catch { }
+  }
 
   return outputPath;
 }

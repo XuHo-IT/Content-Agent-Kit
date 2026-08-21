@@ -2825,3 +2825,75 @@ no picture shows its stand-in rather than an empty hole.
 
 > **Empty a card's label and the card goes away, threads included.** Two cards give one thread;
 > three give three. Do not leave a card up with nothing on it to make the triangle.
+
+## frame-forensic-instrument
+
+**Role:** body / evidence. Kicker at 0.1s, the instrument draws itself from 0.5s, readouts at
+1.8s, caption at 2.2s. One ambient layer keeps moving after everything has landed.
+**Best for:** the beat where a measurement is the point — a reading, a match, a trace, a route.
+
+**One frame, nineteen instruments.** `panel` picks which. This replaces what would otherwise
+have been thirty-eight near-identical templates: the source designs were all the same layout
+with a different dial in the middle, and sixteen of them duplicated frames the library already
+had (`frame-geo-sonar-radar`, `frame-geo-heatmap`, `frame-polygraph`, `frame-chart-bars`…).
+
+**The numbers ARE the drawing.** `value_1..3` set the fluid level, the arc sweep, the point on
+the curve, the marker position. A caption saying 84% cannot sit above a bar drawn at 45%.
+
+| `panel` | what it says |
+| --- | --- |
+| `toxicology` | three vials; `value_1..3` are the levels, anything at or over `threshold` turns red |
+| `xray` | drawn skeletal scan with a lesion ring at `value_1`% / `value_2`% |
+| `dental` | 16-position arch; `value_1`% decides how many teeth light up, and prints the figure |
+| `algor-curve` | body-temperature decay; the dot sits **on** the curve at `value_1`% along it |
+| `microscope` | lens over a single ink stroke — forged signatures, pen pressure |
+| `evidence-bag` | sealed bag with a barcode — chain of custody |
+| `web-history` | three search rows; prefix a `label_` with `!` to mark that line red |
+| `ip-trace` | proxy hops, last one red — where an account really came from |
+| `gps-dashcam` | speedometer; `value_1`% is the arc, `label_1` the figure it reads |
+| `spectrogram` | audio spectrum with a band rising out of the noise |
+| `lidar-mesh` | slowly rotating wireframe volume — a 3-D model of a space |
+| `terrain-contour` | contour lines drawing in, with a marked point |
+| `sewer-cutaway` | cross-section of an underground tunnel |
+| `flight-radar` | flight track ending in signal loss at `value_1`% of the way across |
+| `bts-triangulate` | three coverage circles meeting at one point — phone location |
+| `smuggle-route` | a border-crossing route drawn through waypoints |
+| `ais-vessel` | maritime readout, three label/value rows |
+| `money-chain` | accounts the money passed through, last one red |
+| `doppler-storm` | weather radar — the storm that erased the scene |
+
+Limits measured with `slot-limits.mjs`, not estimated:
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `panel` | string | — | one of the ids above; a wrong name warns and falls back to `toxicology` |
+| `kicker` | string | ≤83 | `PHÁP Y // XÉT NGHIỆM MÁU` |
+| `value_1` `value_2` `value_3` | string | — | 0–100 for most panels; `web-history`, `ais-vessel` and `money-chain` print them verbatim |
+| `label_1` | string | ≤12 | inside the instrument |
+| `label_2` | string | ≤12 | |
+| `label_3` | string | ≤17 | |
+| `threshold` | string | — | `toxicology` only; default 70 |
+| `readout_1` | string | ≤100 | mono line under the instrument |
+| `readout_2` | string | ≤100 | second line, drawn red |
+| `caption` | string | ≤145 | the sentence the narration is on |
+
+## frame-case-dashboard
+
+**Role:** body / overview. Status bar at 0.1s, cells at 0.5–1.25s, ticker at 2.6s.
+**Best for:** the beat where a case is shown as a **whole** — several lines of enquiry open at
+once, none of them concluded. Every other frame in the library presents one fact at a time.
+
+**Same instrument library as `frame-forensic-instrument`.** `cells` is a comma-separated list
+of two to four panel ids; an instrument written once works in both frames. Naming an id that
+does not exist warns in the console and is skipped rather than drawing an empty box. An odd
+number of cells stretches the last one across both columns.
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `cells` | string | 2–4 | e.g. `toxicology,ip-trace,bts-triangulate,money-chain` |
+| `status_line` | string | ≤78 | top-left |
+| `status_right` | string | ≤68 | top-right |
+| `cell_1_label` … `cell_4_label` | string | ≤26 | above each cell; omit one and that cell shows no header |
+| `value_1` `value_2` `value_3` | string | ≤19/22/28 | shared by every cell — the instruments read the same figures |
+| `label_1` `label_2` `label_3` | string | ≤17/12/17 | |
+| `ticker` | string | ≤118 | the line along the bottom |
