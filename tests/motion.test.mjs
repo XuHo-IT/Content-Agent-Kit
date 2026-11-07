@@ -43,8 +43,8 @@ const AMBIENT_REQUIRED = [
   // Đợt hai — chín template hợp thể loại tư liệu/kinh dị, mỗi cái một chữ ký chuyển động
   // riêng chứ không dùng chung một hiệu ứng: dùng chung thì hết khung chết nhưng lại thành
   // chín khung giống hệt nhau, mất đúng thứ đang cần.
-  "frame-document-redacted",
-  "frame-magnates-polaroid-desk",
+  "frame-redacted-dossier",
+  "frame-witness-polaroid",
   "frame-iceberg-levels",
   "frame-vox-pull-quote",
   "frame-vox-highlighter",
@@ -52,6 +52,12 @@ const AMBIENT_REQUIRED = [
   "frame-timeline-war-era",
   "frame-node-graph",
   "frame-pentagram-stat",
+  "frame-opus-cursor-flow",
+  "frame-opus-handdrawn",
+  "frame-opus-collage-stopmo",
+  "frame-opus-shader-orb",
+  "frame-opus-pixel-arcade",
+  "frame-opus-kinetic-reel",
 ];
 
 const compositions = (id) =>

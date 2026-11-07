@@ -61,6 +61,28 @@ an Apify account.
 The forensic half of `fb-humanizer` is already built into `validate-post.mjs`; install the
 skill when you want the English style rules on top.
 
+### The Opus 5.5 & media-generation shelf
+
+Nine entries in `skills/registry.json` cover code-rendered video, visual style recipes, and
+media intelligence:
+
+| id | upstream | what it brings |
+|---|---|---|
+| `opus-55-videos` | `yihui-dev/awesome-opus5-5-videos` (MIT) | Curated catalog and prompt bank of viral Claude Opus 5.5 code-generated animations, 3D WebGL scenes, explainers, and interactive demos. |
+| `opus-video-skills` | `tuzhechen2005/opus-video-skills` (MIT) | Standalone Claude Code video skills generating hand-painted strokes, kinetic typography reels, and procedural audio in code. |
+| `opus-video-styles` | `HiAPIAI/awesome-opus-5-5-video-styles` (CC-BY-4.0) | 425 verified prompts sorted into 12 copy-ready visual style recipes (`productui`, `explainer`, `collage`, `handdrawn`, `pixel`, `lowpoly`, `generative`, `photoreal`). |
+| `claude-video-hub` | `zhuyansen/awesome-claude-video-skills` (MIT) | Security-graded directory and benchmark hub of 180+ open-source coding-agent video skills. |
+| `explainroo` | `vincentsch/explainroo` (MIT) | Local-first narrated explainer generator pairing JS canvas rendering, Kokoro TTS, Whisper word alignment, and FFmpeg. |
+| `motion-video-kit` | `echris6/motion-video-kit` (MIT) | Business-grade launch video skill with HTML/GSAP choreography, Three.js 3D elements, and an independent critic QA loop. |
+| `claude-animation-base` | `JohnHeibel/ClaudeAnimationBase` (MIT) | Hand-painted 2D cartoon and character animation kit using `p5.js` and `p5.brush`. |
+| `pixijs-skills` | `pixijs/pixijs-skills` (MIT) | Official PixiJS v8 agent skills for hardware-accelerated 2D WebGL/WebGPU scenes, particles, and shaders. |
+| `video-lens` | `kar2phi/video-lens` (MIT) | Keyless YouTube video intelligence and transcript extraction into structured executive HTML reports. |
+
+The six `frame-opus-*` templates in `video-templates/` (`frame-opus-cursor-flow`,
+`frame-opus-handdrawn`, `frame-opus-collage-stopmo`, `frame-opus-shader-orb`,
+`frame-opus-pixel-arcade`, `frame-opus-kinetic-reel`) bring the flagship Opus 5.5 visual styles
+straight into the kit's deterministic HTML renderer without requiring an external install.
+
 ### Remotion's own skills
 
 Remotion maintains 11 first-party skills for writing Remotion well. `remotion-dev/skills`
@@ -213,5 +235,14 @@ phối lại, đóng gói vào sản phẩm, hay cấp phép lại thì không.*
 
 Mục có `"via": "skills"` thì uỷ quyền cho `npx skills add <repo>` thay vì tự đi API — cần cho
 repo lớn (`video-shotcraft` nặng **181 MB**, mà API không xác thực chỉ cho **60 request/giờ**).
+
+### Nhóm skill Opus 5.5 & Media
+
+9 mục mới trong `skills/registry.json` bổ sung hệ sinh thái video bằng code của Claude Opus 5.5 và xử lý media:
+- **`opus-55-videos`** (`yihui-dev/awesome-opus5-5-videos`, MIT) — Kho tổng hợp prompt và kiến trúc video code-driven (HTML, Canvas 2D, SVG, GSAP, Three.js, GLSL shader).
+- **`opus-video-skills`** (`tuzhechen2005/opus-video-skills`, MIT) — Kỹ năng dựng video kinetic typography, nét vẽ tay và âm thanh thủ tục bằng code.
+- **`opus-video-styles`** (`HiAPIAI/awesome-opus-5-5-video-styles`, CC-BY-4.0) — 425 prompt đã kiểm chứng chia thành 12 công thức phong cách thị giác (`productui`, `explainer`, `collage`, `handdrawn`, `pixel`, `lowpoly`, `generative`, `photoreal`).
+- **`claude-video-hub`** (`zhuyansen/awesome-claude-video-skills`, MIT) — Danh mục hơn 180 video skill mã nguồn mở kèm đánh giá bảo mật.
+- **`explainroo`**, **`motion-video-kit`**, **`claude-animation-base`**, **`pixijs-skills`**, **`video-lens`** — Các bộ công cụ chuyên sâu cho explainer đồng bộ từng từ, video ra mắt sản phẩm, hoạt hình vẽ tay `p5.brush`, đồ hoạ 2D WebGL/WebGPU và bóc tách nội dung YouTube không cần API key.
 
 Xoá thư mục là gỡ cài đặt. Không có gì khác thay đổi.

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, height=1080">
+  <title>Opus 5.5 Cursor UI Flow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@500;700;800&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; font-family: 'Be Vietnam Pro', sans-serif; }
+    
+  :root {
+    --spring-soft: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --spring-snappy: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001);
+  }
+
+    
+      #root {
+        position: relative; width: 100%; height: 100%;
+        background: radial-gradient(circle at 22% 18%, #162447 0%, #0a0f1d 55%, #060913 100%);
+        color: #f8fafc; perspective: 1400px; overflow: hidden;
+      }
+      #root::after {
+        content: ""; position: absolute; inset: -12%; pointer-events: none;
+        background: radial-gradient(circle at 75% 28%, rgba(56, 189, 248, 0.14), transparent 48%),
+                    radial-gradient(circle at 25% 78%, rgba(129, 140, 248, 0.12), transparent 52%);
+        animation: ambDrift 11s ease-in-out infinite alternate;
+      }
+      @keyframes ambDrift {
+        0% { transform: translate3d(-2%, -1.5%, 0) scale(1); }
+        100% { transform: translate3d(2.5%, 2%, 0) scale(1.03); }
+      }
+      .stage {
+        position: relative; z-index: 2; width: 100%; height: 100%;
+        display: flex; flex-direction: column; justify-content: center; align-items: center;
+      }
+      .kicker {
+        font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 0.18em;
+        text-transform: uppercase; color: #38bdf8;
+        background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.32);
+        border-radius: 999px; padding: 8px 20px;
+        opacity: 0; animation: fadeRise 0.45s var(--spring-soft) 0.1s forwards;
+      }
+      .headline {
+        font-weight: 900; line-height: 1.12; text-align: center;
+        background: linear-gradient(90deg, #ffffff 0%, #bae6fd 45%, #818cf8 100%);
+        background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+        opacity: 0; animation: fadeRise 0.55s var(--spring-soft) 0.2s forwards, gradShift 2.4s ease-out 0.2s forwards;
+      }
+      .ui-window {
+        background: rgba(15, 23, 42, 0.88);
+        border: 1px solid rgba(148, 163, 184, 0.24);
+        border-radius: 24px;
+        box-shadow: 0 36px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(56, 189, 248, 0.14);
+        transform-style: preserve-3d;
+        opacity: 0;
+        animation: cardTilt 0.7s var(--spring-soft) 0.28s forwards;
+        position: relative;
+        overflow: hidden;
+      }
+      @keyframes cardTilt {
+        0% { opacity: 0; transform: rotateX(16deg) rotateY(-10deg) translateY(48px) scale(0.94); }
+        100% { opacity: 1; transform: rotateX(4deg) rotateY(-3deg) translateY(0) scale(1); }
+      }
+      .win-bar {
+        display: flex; align-items: center; gap: 12px;
+        padding: 18px 26px; background: rgba(30, 41, 59, 0.75);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+      }
+      .dots { display: flex; gap: 8px; }
+      .dot { width: 12px; height: 12px; border-radius: 50%; background: #475569; }
+      .dot.r { background: #fb7185; } .dot.y { background: #fbbf24; } .dot.g { background: #34d399; }
+      .win-title { font-family: 'JetBrains Mono', monospace; color: #94a3b8; font-size: 18px; margin-left: 8px; }
+      .win-body { padding: 32px; display: flex; flex-direction: column; gap: 24px; }
+      .subtext { color: #cbd5e1; line-height: 1.48; }
+      .cta-row { display: flex; align-items: center; gap: 20px; position: relative; }
+      .cta-btn {
+        position: relative; display: inline-flex; align-items: center; gap: 14px;
+        background: linear-gradient(135deg, #0284c7, #4f46e5);
+        color: #ffffff; font-weight: 800; border-radius: 16px; padding: 18px 30px;
+        box-shadow: 0 12px 30px rgba(56, 189, 248, 0.35);
+        animation: btnPress 0.35s var(--spring-snappy) 0.95s both;
+      }
+      @keyframes btnPress {
+        0%, 100% { transform: scale(1); }
+        45% { transform: scale(0.93); box-shadow: 0 4px 16px rgba(56, 189, 248, 0.75); }
+      }
+      .status-badge {
+        font-family: 'JetBrains Mono', monospace; font-weight: 700;
+        color: #34d399; background: rgba(16, 185, 129, 0.14);
+        border: 1px solid rgba(52, 211, 153, 0.4); border-radius: 10px; padding: 10px 18px;
+        opacity: 0; animation: fadeRise 0.4s var(--spring-soft) 1.1s forwards;
+      }
+      .result-drawer {
+        background: rgba(2, 132, 199, 0.12);
+        border: 1px solid rgba(56, 189, 248, 0.32);
+        border-radius: 18px; padding: 24px 28px;
+        display: flex; align-items: baseline; gap: 22px;
+        clip-path: inset(0 100% 0 0 round 18px);
+        animation: drawerReveal 0.65s cubic-bezier(0.16, 1, 0.3, 1) 1.15s forwards;
+      }
+      @keyframes drawerReveal {
+        0% { clip-path: inset(0 100% 0 0 round 18px); }
+        100% { clip-path: inset(0 0% 0 0 round 18px); }
+      }
+      .result-metric { font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #38bdf8; }
+      .result-caption { color: #e2e8f0; font-weight: 500; }
+      .cursor-wrap {
+        position: absolute; left: 160px; top: 150px; pointer-events: none; z-index: 10;
+        opacity: 0; animation: cursorGlide 0.75s var(--spring-snappy) 0.35s forwards;
+      }
+      @keyframes cursorGlide {
+        0% { opacity: 0; transform: translate3d(280px, 140px, 40px) scale(1.25); }
+        100% { opacity: 1; transform: translate3d(0px, 0px, 20px) scale(1); }
+      }
+      .click-ripple {
+        position: absolute; left: -18px; top: -18px; width: 52px; height: 52px;
+        border-radius: 50%; border: 3px solid #38bdf8; opacity: 0;
+        animation: ripplePop 0.55s ease-out 0.96s forwards;
+      }
+      @keyframes ripplePop {
+        0% { opacity: 0.95; transform: scale(0.3); }
+        100% { opacity: 0; transform: scale(2.2); }
+      }
+      .footer {
+        position: absolute; bottom: 42px; font-family: 'JetBrains Mono', monospace;
+        color: #64748b; letter-spacing: 0.08em;
+      }
+      @keyframes fadeRise {
+        0% { opacity: 0; transform: translateY(20px); }
+        100% { opacity: 1; transform: translateY(0); }
+      }
+      @keyframes gradShift {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 200% 50%; }
+      }
+    
+    
+      .stage { padding: 64px 120px; gap: 26px; }
+      .kicker { font-size: 16px; }
+      .headline { font-size: 62px; max-width: 1400px; }
+      .ui-window { width: 1240px; }
+      .subtext { font-size: 26px; }
+      .cta-btn { font-size: 24px; }
+      .status-badge { font-size: 18px; }
+      .result-metric { font-size: 56px; }
+      .result-caption { font-size: 24px; }
+      .footer { font-size: 16px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="5" data-composition-variables='{"kicker":"PRODUCT UI FLOW","window_title":"agent-deploy.config — v2.4","headline":"Triển khai chỉ với 1 cú nhấp","subtext":"Từ mã nguồn sang môi trường thực tế trong 180ms mà không cần cấu hình thủ công.","action_label":"Chạy tác vụ tự động","status_badge":"ĐÃ KÍCH HOẠT","result_metric":"180ms","result_caption":"Độ trễ phản hồi trung bình trên toàn cụm máy chủ","footer":""}'>
+    
+      <div class="stage">
+        <div class="kicker" data-slot="kicker"></div>
+        <h1 class="headline" data-slot="headline"></h1>
+        <div class="ui-window">
+          <div class="win-bar">
+            <div class="dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+            <span class="win-title" data-slot="window_title"></span>
+          </div>
+          <div class="win-body">
+            <p class="subtext" data-slot="subtext"></p>
+            <div class="cta-row">
+              <div class="cta-btn">
+                <span data-slot="action_label"></span>
+              </div>
+              <span class="status-badge" data-slot="status_badge"></span>
+              <div class="cursor-wrap">
+                <div class="click-ripple"></div>
+                <svg width="42" height="42" viewBox="0 0 36 36" fill="none">
+                  <path d="M7 4L29 16.5L18.5 19.5L14 30L7 4Z" fill="#ffffff" stroke="#0f172a" stroke-width="2.5" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+            <div class="result-drawer">
+              <span class="result-metric" data-slot="result_metric"></span>
+              <span class="result-caption" data-slot="result_caption"></span>
+            </div>
+          </div>
+        </div>
+        <div class="footer" data-slot="footer"></div>
+      </div>
+    
+  </div>
+  <script>
+    function getVariables() {
+      try {
+        if (window.__compositionVariables && Object.keys(window.__compositionVariables).length > 0) {
+          return window.__compositionVariables;
+        }
+        const el = document.getElementById("root");
+        return JSON.parse(el.getAttribute("data-composition-variables") || "{}");
+      } catch (e) {
+        return {};
+      }
+    }
+    function applySlots() {
+      const v = getVariables();
+      document.querySelectorAll("[data-slot]").forEach((el) => {
+        const key = el.getAttribute("data-slot");
+        const val = v[key];
+        if (val === undefined || val === null || String(val).trim() === "") {
+          el.remove();
+        } else {
+          el.textContent = String(val);
+        }
+      });
+      
+    }
+    applySlots();
+    const timeline = {
+      duration: 5,
+      seek(t) {
+        document.getAnimations().forEach((a) => {
+          a.pause();
+          a.currentTime = t * 1000;
+        });
+      }
+    };
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = timeline;
+  </script>
+</body>
+</html>

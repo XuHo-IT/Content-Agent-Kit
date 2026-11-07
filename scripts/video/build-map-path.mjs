@@ -86,6 +86,12 @@ export function landPath(topology, decimals = 1) {
 
 // ── CLI ───────────────────────────────────────────────────────────────────────
 if (process.argv[1] && import.meta.url === (await import("node:url")).pathToFileURL(process.argv[1]).href) {
+  if (process.argv.includes("--help") || process.argv.includes("-h")) {
+    console.log("Usage: node scripts/video/build-map-path.mjs [--check]");
+    console.log("  (no args)  Fetch Natural Earth 1:110m TopoJSON and write video-templates/world-path.json");
+    console.log("  --check    Verify the committed world-path.json offline without fetching");
+    process.exit(0);
+  }
   const check = process.argv.includes("--check");
   try {
     if (check) {

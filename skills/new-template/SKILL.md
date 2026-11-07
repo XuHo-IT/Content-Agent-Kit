@@ -75,8 +75,11 @@ the whole reason the practice stays affordable; skip it and the library is landf
 
 ## 1. Pulling from upstream is often the right answer
 
-176 items live in the HyperFrames registry, and `registry-watch.mjs` reports what arrived
-since the last check.
+367 items live in the HyperFrames registry, and `registry-watch.mjs` reports what arrived
+since the last check. For code-driven motion prompts and 12 visual style recipes (`productui`,
+`explainer`, `collage`, `handdrawn`, `pixel`, `lowpoly`, `generative`, `photoreal`), also check
+`opus-55-videos` (`yihui-dev/awesome-opus5-5-videos`) and `opus-video-styles` via
+`node scripts/install-skills.mjs --list`.
 
 ```bash
 node scripts/video/registry-watch.mjs                       # anything new upstream?

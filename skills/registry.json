@@ -242,17 +242,6 @@
       "summary": "High-performance HTML5 Canvas UI elements, speedometers, circular gauges and real-time telemetry dials.",
       "why": "Supplies custom canvas dials and visualizers for technical benchmarks and performance videos."
     },
-    "fitness": {
-      "repo": "hasaneyldrm/exercises-dataset",
-      "ref": "main",
-      "path": ".",
-      "installAs": "fitness",
-      "via": "skills",
-      "license": "MIT",
-      "licenseFile": "LICENSE",
-      "summary": "Structured exercise database with muscle targeting, workout progressions, rep schemes and rest timers.",
-      "why": "Enables automated generation of fitness coaching, workout routine and exercise breakdown content."
-    },
     "ui-transitions": {
       "repo": "Jakubantalik/transitions.dev",
       "ref": "main",
@@ -263,6 +252,105 @@
       "licenseFile": "LICENSE",
       "summary": "Production-ready UI motion patterns and transitions (card expand, modal, pop-in, micro-interactions) with prefers-reduced-motion accessibility.",
       "why": "Provides refined animation curves and timing tokens to make HTML/CSS video templates and web interfaces feel fluid and state-of-the-art."
+    },
+    "opus-55-videos": {
+      "repo": "yihui-dev/awesome-opus5-5-videos",
+      "ref": "main",
+      "path": ".",
+      "installAs": "opus-55-videos",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Curated gallery and prompt bank of Claude Opus 5.5 code-generated animations, 3D WebGL scenes, explainers, and interactive demos.",
+      "why": "Reference prompts and architecture patterns for building self-contained HTML, Canvas 2D, SVG, GSAP, Three.js, and GLSL shader video frames."
+    },
+    "opus-video-skills": {
+      "repo": "tuzhechen2005/opus-video-skills",
+      "ref": "main",
+      "path": ".",
+      "installAs": "opus-video-skills",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Standalone Claude Code video skills generating hand-painted brush strokes, kinetic typography reels, and procedural audio purely in code.",
+      "why": "Directly applicable techniques for deterministic HTML/Canvas choreography and kinetic type reels without external paid APIs."
+    },
+    "opus-video-styles": {
+      "repo": "HiAPIAI/awesome-opus-5-5-video-styles",
+      "ref": "main",
+      "path": ".",
+      "installAs": "opus-video-styles",
+      "via": "skills",
+      "license": "CC-BY-4.0",
+      "licenseFile": "LICENSE",
+      "summary": "425 verified Claude Opus 5.5 video prompts organized into 12 visual style recipes (productui, explainer, collage, handdrawn, pixel, lowpoly, generative, photoreal).",
+      "why": "Supplies copy-ready style systems and art direction tokens for crafting distinctive scene templates and signature episode frames."
+    },
+    "claude-video-hub": {
+      "repo": "zhuyansen/awesome-claude-video-skills",
+      "ref": "main",
+      "path": ".",
+      "installAs": "claude-video-hub",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Security-graded directory and benchmark hub of 180+ open-source coding-agent video skills across Remotion, Manim, FFmpeg, and HTML.",
+      "why": "Helps agents audit and select the safest open-source video toolchains, subtitle pipelines, and motion libraries."
+    },
+    "explainroo": {
+      "repo": "vincentsch/explainroo",
+      "ref": "main",
+      "path": ".",
+      "installAs": "explainroo",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Local-first narrated explainer video generator combining JavaScript canvas rendering, Kokoro TTS, Whisper word alignment, and FFmpeg.",
+      "why": "Reference architecture for word-level timestamp alignment and canvas-drawn educational explainers."
+    },
+    "motion-video-kit": {
+      "repo": "echris6/motion-video-kit",
+      "ref": "main",
+      "path": ".",
+      "installAs": "motion-video-kit",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Business-grade launch and commercial video skill combining HTML/GSAP choreography, Three.js 3D elements, and an independent critic QA loop.",
+      "why": "Adds commercial product launch pacing and an automated visual QA critic pattern that complements this kit's review-gate."
+    },
+    "claude-animation-base": {
+      "repo": "JohnHeibel/ClaudeAnimationBase",
+      "ref": "main",
+      "path": ".",
+      "installAs": "claude-animation-base",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Hand-painted 2D cartoon and character animation kit using p5.js and p5.brush for watercolor, charcoal, and ink-wash motion.",
+      "why": "Brings organic hand-painted brush textures and character animation patterns to HTML canvas scenes."
+    },
+    "pixijs-skills": {
+      "repo": "pixijs/pixijs-skills",
+      "ref": "main",
+      "path": ".",
+      "installAs": "pixijs-skills",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Official PixiJS v8 agent skills for hardware-accelerated 2D WebGL/WebGPU scenes, particle emitters, sprites, and custom filters.",
+      "why": "Powers high-frame-rate 2D particle systems and shader effects when standard DOM/CSS animations hit layout limits."
+    },
+    "video-lens": {
+      "repo": "kar2phi/video-lens",
+      "ref": "main",
+      "path": ".",
+      "installAs": "video-lens",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Keyless YouTube video intelligence and transcript extraction into structured executive HTML briefings.",
+      "why": "Feeds the research-and-capture and repurpose workflows by turning long-form YouTube videos into structured notes and quotable beats."
     },
     "social-post-master": {
       "repo": "Hao0321/claude-skill-social-post",

@@ -121,8 +121,11 @@ From `templates/` + `scripts/`, produce:
   `new-template` and `motion-craft` belong in a kit checkout rather than a generated agent:
   they edit `video-templates/` and the gates around it, which a downstream agent does not own.
 - **Skills from elsewhere** (optional): `node scripts/install-skills.mjs --list` shows an SEO
-  auditor, design skills and six marketing skills, all MIT and fetched on demand rather than
-  vendored. Suggest `seo` and `mkt-context` as the two with the broadest payoff. On Antigravity, tell the user the scheduled task
+  auditor, design skills, Opus 5.5 code-video & media skills (`opus-55-videos`,
+  `opus-video-skills`, `opus-video-styles`, `motion-video-kit`, `explainroo`, `video-lens`),
+  and marketing skills, fetched on demand rather than vendored. Suggest `seo` and
+  `mkt-context` (plus `opus-55-videos` and `opus-video-styles` for video agents) as the ones
+  with the broadest payoff. On Antigravity, tell the user the scheduled task
   should say "Read PLAYBOOK.md and execute today's phase".
 
 ## Phase 4 — Wire & verify

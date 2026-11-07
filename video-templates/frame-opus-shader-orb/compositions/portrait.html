@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1080, height=1920">
+  <title>Opus 5.5 Generative Shader Orb Hero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@500;700;800&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1920px; overflow: hidden; font-family: 'Be Vietnam Pro', sans-serif; }
+    
+  :root {
+    --spring-soft: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --spring-snappy: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001);
+  }
+
+    
+      #root {
+        position: relative; width: 100%; height: 100%;
+        background: radial-gradient(circle at 50% 50%, #0d1326 0%, #05070f 75%);
+        color: #f8fafc; overflow: hidden;
+      }
+      #root::after {
+        content: ""; position: absolute; inset: -15%; pointer-events: none;
+        background: conic-gradient(from 0deg at 50% 50%, rgba(56, 189, 248, 0.14), rgba(168, 85, 247, 0.14), rgba(16, 185, 129, 0.1), rgba(56, 189, 248, 0.14));
+        filter: blur(48px);
+        animation: orbRotate 13s linear infinite;
+      }
+      .orb-ring {
+        position: absolute; left: 50%; top: 50%; width: 760px; height: 760px;
+        margin-left: -380px; margin-top: -380px; border-radius: 50%; pointer-events: none;
+        background: conic-gradient(from 90deg, transparent 0deg, rgba(56, 189, 248, 0.35) 90deg, transparent 180deg, rgba(236, 72, 153, 0.32) 270deg, transparent 360deg);
+        -webkit-mask-image: radial-gradient(circle, transparent 58%, #000 62%, #000 66%, transparent 70%);
+        mask-image: radial-gradient(circle, transparent 58%, #000 62%, #000 66%, transparent 70%);
+        animation: orbRotate 17s linear infinite reverse;
+      }
+      @keyframes orbRotate {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      .center-stage {
+        position: relative; z-index: 2; width: 100%; height: 100%;
+        display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+      }
+      .kicker {
+        font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 0.2em;
+        color: #38bdf8; text-transform: uppercase;
+        opacity: 0; animation: riseIn 0.45s var(--spring-soft) 0.1s forwards;
+      }
+      .hero-stat {
+        font-family: 'JetBrains Mono', monospace; font-weight: 900; line-height: 1;
+        background: linear-gradient(90deg, #38bdf8 0%, #f472b6 50%, #34d399 100%);
+        background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+        -webkit-mask-image: linear-gradient(110deg, #000 35%, rgba(0,0,0,0.3) 50%, #000 65%);
+        mask-image: linear-gradient(110deg, #000 35%, rgba(0,0,0,0.3) 50%, #000 65%);
+        -webkit-mask-size: 240% 100%; mask-size: 240% 100%;
+        opacity: 0;
+        animation: riseIn 0.55s var(--spring-soft) 0.22s forwards, maskSweep 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.22s forwards, textShimmer 9s linear infinite;
+      }
+      @keyframes maskSweep {
+        0% { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+        100% { -webkit-mask-position: 0% 0; mask-position: 0% 0; }
+      }
+      @keyframes textShimmer {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 200% 50%; }
+      }
+      .headline {
+        font-weight: 800; line-height: 1.16; color: #ffffff;
+        opacity: 0; animation: riseIn 0.55s var(--spring-soft) 0.38s forwards;
+      }
+      .subtext {
+        color: #94a3b8; font-weight: 500;
+        opacity: 0; animation: riseIn 0.5s var(--spring-soft) 0.52s forwards;
+      }
+      .pills {
+        display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;
+        opacity: 0; animation: riseIn 0.5s var(--spring-soft) 0.68s forwards;
+      }
+      .pill {
+        font-family: 'JetBrains Mono', monospace; font-weight: 700;
+        padding: 12px 26px; border-radius: 999px;
+        background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(148, 163, 184, 0.25);
+        color: #e2e8f0;
+      }
+      .footer { font-family: 'JetBrains Mono', monospace; color: #64748b; }
+      @keyframes riseIn {
+        0% { opacity: 0; transform: translateY(24px) scale(0.95); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+      }
+    
+    
+      .center-stage { padding: 110px 72px; gap: 32px; }
+      .kicker { font-size: 19px; }
+      .hero-stat { font-size: 92px; }
+      .headline { font-size: 54px; }
+      .subtext { font-size: 28px; }
+      .pill { font-size: 20px; }
+      .footer { font-size: 18px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="portrait" data-width="1080" data-height="1920" data-start="0" data-duration="5" data-composition-variables='{"kicker":"TRÍ TUỆ NHÂN TẠO ĐA TÁC VỤ","hero_stat":"10.4 TFLOPS","headline":"Năng lượng suy luận thời gian thực ngay trên thiết bị","subtext":"Không phụ thuộc đám mây · Bảo mật tuyệt đối · Độ trễ bằng không","pill_left":"LƯỢNG TỬ HÓA 4-BIT","pill_right":"TỰ ĐỘNG ĐIỀU PHỐI","footer":""}'>
+    
+      <div class="orb-ring"></div>
+      <div class="center-stage">
+        <div class="kicker" data-slot="kicker"></div>
+        <div class="hero-stat" data-slot="hero_stat"></div>
+        <h1 class="headline" data-slot="headline"></h1>
+        <p class="subtext" data-slot="subtext"></p>
+        <div class="pills">
+          <span class="pill" data-slot="pill_left"></span>
+          <span class="pill" data-slot="pill_right"></span>
+        </div>
+        <div class="footer" data-slot="footer"></div>
+      </div>
+    
+  </div>
+  <script>
+    function getVariables() {
+      try {
+        if (window.__compositionVariables && Object.keys(window.__compositionVariables).length > 0) {
+          return window.__compositionVariables;
+        }
+        const el = document.getElementById("root");
+        return JSON.parse(el.getAttribute("data-composition-variables") || "{}");
+      } catch (e) {
+        return {};
+      }
+    }
+    function applySlots() {
+      const v = getVariables();
+      document.querySelectorAll("[data-slot]").forEach((el) => {
+        const key = el.getAttribute("data-slot");
+        const val = v[key];
+        if (val === undefined || val === null || String(val).trim() === "") {
+          el.remove();
+        } else {
+          el.textContent = String(val);
+        }
+      });
+      
+    }
+    applySlots();
+    const timeline = {
+      duration: 5,
+      seek(t) {
+        document.getAnimations().forEach((a) => {
+          a.pause();
+          a.currentTime = t * 1000;
+        });
+      }
+    };
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = timeline;
+  </script>
+</body>
+</html>

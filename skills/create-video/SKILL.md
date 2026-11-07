@@ -82,9 +82,20 @@ whole video a transition, and a scene can override how it enters:
 { "transition": "fade", "scenes": [{ "id": "s2", "transition": "swipe" }] }
 ```
 
-`fade` · `swipe` · `slide` · `iris` · `pixelize` · `zoom` · `none`. The finished video is
+`fade` · `swipe` · `slide` · `iris` · `pixelize` · `zoom` · `whip` · `radial` · `slice` · `squeeze` · `reveal` · `cover` · `none`. The finished video is
 exactly the same length either way — the padding is worked out for you — but a transition
 forces a re-encode of the join, so `--no-transitions` is there while you iterate.
+
+| transition | ffmpeg xfade | when it earns its place |
+|---|---|---|
+| `fade` | `fade` | Gentle topic shift or time passing |
+| `swipe` / `slide` | `wipeleft` / `slideup` | Stepping to the next item in a sequence or list |
+| `iris` / `radial` | `circleopen` / `radial` | Opening onto a map, diagram, or clock-sweep reveal |
+| `zoom` | `zoomin` | The beat where something is **FOUND** — a radar lock, a map arriving on its target |
+| `whip` | `hblur` | High-energy whip-pan between contrasting beats (`whoosh` SFX) |
+| `slice` / `squeeze` | `hlslice` / `squeezev` | Glitch, terminal, or mechanical dossier cuts |
+| `reveal` / `cover` | `revealup` / `coverleft` | Editorial page-turn or curtain-lift into a verdict |
+| `pixelize` | `pixelize` | Retro/arcade beat or digital deconstruction |
 
 **`zoom` is for the beat where something is FOUND** — a radar lock, a map arriving on its
 target, a name matching a record. A fade says "and then"; the picture should say "there".
@@ -159,9 +170,11 @@ For choosing clips and capturing pages, follow the **`research-and-capture`** sk
 live in `VIDEO_CRAFT.md` §4b and `docs/15-media-sources.md`.
 
 **Pairing with specialized registry skills:**
+- **Opus 5.5 code-video & visual style recipes**: Use `opus-55-videos` (`yihui-dev/awesome-opus5-5-videos`), `opus-video-skills`, and `opus-video-styles` (`HiAPIAI/awesome-opus-5-5-video-styles`) for 12 art-direction recipes (`productui`, `explainer`, `collage`, `handdrawn`, `pixel`, `generative`) paired with the `frame-opus-*` templates.
+- **Commercial launch & critic QA**: Use `motion-video-kit` for product launch choreography and visual critic loops, or `video-lens` to extract structured beats from reference YouTube videos.
 - **Hook & CRO optimization**: Use `marketing-core` (`product-marketing.md`) or `fb-hook-extractor` to analyze hook formulas before writing scene 1.
-- **STEM & Explainer formulas**: Use `manim-math` for math proofs (`frame-math-manim`) and `drawio` for flowchart/architecture mapping (`frame-diagram-architecture`, `frame-diagram-flowchart`).
-- **Motion & Transition tokens**: Use `ui-transitions` and `motion-craft` for curated easing curves (`cubic-bezier`), delays, and micro-animations across HTML frames.
+- **STEM & Explainer formulas**: Use `manim-math` for math proofs (`frame-math-manim`), `explainroo` for word-aligned canvas explainers, and `drawio` for flowchart/architecture mapping (`frame-diagram-architecture`, `frame-diagram-flowchart`).
+- **Motion & Transition tokens**: Use `ui-transitions` and `motion-craft` for curated easing curves (`cubic-bezier`, `linear()` springs), delays, and micro-animations across HTML frames.
 - **Design hierarchy**: Use `ui-ux-pro` for WCAG AAA contrast and typography ratios.
 
 **Does it want a music bed?** One optional block, and the bed is mixed under the narration:

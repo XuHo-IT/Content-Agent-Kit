@@ -85,6 +85,12 @@ export const TRANSITIONS = {
   // viewer. It is not a camera move on the outgoing one, and the pipeline has no concept of
   // an effect a scene leaves on.
   zoom: "zoomin",
+  whip: "hblur",
+  radial: "radial",
+  slice: "hlslice",
+  squeeze: "squeezev",
+  reveal: "revealup",
+  cover: "coverleft",
 };
 
 /** Under the 0.3s of inter-scene silence the audio already leaves for it. */

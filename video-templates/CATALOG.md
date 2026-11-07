@@ -41,6 +41,7 @@ uses `compositions/portrait.html`) or **`"16:9"`** (1920×1080 — uses `index.h
 
 **Role:** body / diagram. An architectural floor plan that draws itself with `stroke-dashoffset` — perimeter, blocks, watchtowers, then a route in accent that the plan itself does not account for.
 **Best for:** a place whose LAYOUT is the story: a prison, a compound, a route nobody was meant to take.
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -65,6 +66,7 @@ uses `compositions/portrait.html`) or **`"16:9"`** (1920×1080 — uses `index.h
 
 **Role:** hook / body — place with depth. Cut-paper planes stacked in perspective, each drifting at its own rate, under a single moon.
 **Best for:** establishing a location as a PLACE rather than as a document. The beat right after the map lands and before the story starts.
+**Motion:** dimensional · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -87,7 +89,7 @@ uses `compositions/portrait.html`) or **`"16:9"`** (1920×1080 — uses `index.h
 **Role:** the frame a review video is built around. Score ring that sweeps to the number,
 verdict in one line, then pros and cons. Dark canvas, green accent.
 **Best for:** `type: "body"`, usually right before the outro of a review.
-**Motion:** draw-on
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -289,7 +291,7 @@ blue panel (mono meta + a handwritten script accent + hand-drawn underline) and
 a dark panel with a stacked display title, one line outlined in electric blue.
 Bold, energetic, design-forward.
 **Best for:** a punchy hook or a strong creative body statement (a few short words).
-**Motion:** draw-on, gradient-text
+**Motion:** draw-on, gradient-text · continuous loop
 
 | slot            | type     | limit            | notes                                                            |
 | --------------- | -------- | ---------------- | ---------------------------------------------------------------- |
@@ -348,7 +350,7 @@ glow, a pill badge, a "X vs Y" headline with two differently-coloured gradient
 sides, two framed cards (big gradient label + bullets, a WIN badge on the winner)
 and an optional stat row.
 **Best for:** comparing **two things** (old vs new, A vs B, before vs after).
-**Motion:** gradient-text, mask-sweep
+**Motion:** gradient-text, mask-sweep · continuous loop
 
 | slot       | type   | limit | notes                                                            |
 | ---------- | ------ | ----- | ---------------------------------------------------------------- |
@@ -646,7 +648,7 @@ Paper canvas, red rule.
 
 **Role:** body / data. One value moving over time, drawn from the numbers.
 **Best for:** finance and environment — the two verticals that asked for it.
-**Motion:** draw-on
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -741,7 +743,7 @@ Paper canvas, red rule.
 
 **Role:** body / journey. Stops in order, with the arcs between them drawn one after another.
 **Best for:** a delivery route, an itinerary, "we expanded to N markets".
-**Motion:** draw-on
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -837,7 +839,7 @@ produces a map that looks almost right, with coastlines doubling back on themsel
 
 **Role:** body / annotation. A mark drawing itself, the way a hand would.
 **Best for:** education — ringing the answer, ticking the right one, underlining the point.
-**Motion:** draw-on
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -900,7 +902,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body. A card that turns over to show what was behind it.
 **Best for:** question → answer, before → after, claim → correction, in one gesture.
-**Motion:** dimensional
+**Motion:** dimensional · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1300,7 +1302,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** hook / body — glassmorphic control panel. Frosted glass card in Linear/macOS style with 3 live KPI cards, animated SVG sparkline chart, and telemetry status.
 **Best for:** `type: "hook"` or `type: "body"` — SaaS launches, infrastructure monitoring, analytics showcases.
-**Motion:** draw-on
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1346,7 +1348,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body — mathematical and algorithmic theorem explainer. KaTeX/LaTeX-styled step-by-step formula derivations with coordinate grid background, animated function curve, and global minima proof inspired by 3Blue1Brown/Manim.
 **Best for:** `type: "body"` — STEM education, algorithm breakdowns, loss function derivations, AI architecture math.
-**Motion:** draw-on
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1367,7 +1369,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body — animated decision tree and workflow flowchart. Structured start node, decision diamond with glowing animated SVG branching paths (pass / block outcomes) inspired by Draw.io.
 **Best for:** `type: "body"` — workflow explanation, risk gating, business logic, algorithmic decision trees.
-**Motion:** draw-on
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1387,6 +1389,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body / investigation. A document in a dark room, legible only where a torch beam falls. The beam sweeps, then parks on the line that matters.
 **Best for:** a source that is partly unreadable, partly damning — and for making the audience read at the pace you choose rather than all at once.
+**Motion:** mask-sweep · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1428,7 +1431,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body — workout breakdown and exercise routine card. Muscle group targeting tag, animated circular interval countdown timer, sets/reps telemetry, and pro coaching form tips.
 **Best for:** `type: "body"` — gym & fitness tutorials, exercise breakdowns, sports coaching, health routines.
-**Motion:** draw-on
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1447,7 +1450,7 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 
 **Role:** body — analog/digital speedometer & telemetry dial. Circular gauge arc with sweeping LED needle, live digital metric readout, min/max thresholds and performance telemetry cards.
 **Best for:** `type: "body"` — benchmark results, performance speed tests, throughput telemetry, hardware reviews.
-**Motion:** draw-on
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -1483,45 +1486,6 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 | `card_chip` | string | ≤20 | card chip status badge |
 | `card_id` | string | ≤20 | masked card number / serial |
 | `takeaway` | string | ≤140 | enterprise value takeaway |
-
----
-
-## frame-presentation-slide
-
-**Role:** body — executive presentation slide & pitch deck. Keynote-style structured slide layout with slide numbering, 3 bullet cards with top accent colors, speaker badge, and takeaway summary.
-**Best for:** `type: "body"` — pitch decks, corporate presentations, quarterly business reviews, strategic plans.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `kicker` | string | ≤34 | report category kicker |
-| `slide_title` | string | ≤60 | main slide headline |
-| `slide_num` | string | ≤20 | slide page index (e.g. "SLIDE 04 / 12") |
-| `presenter_tag` | string | ≤36 | speaker bio / title tag |
-| `bullet_1_title` | string | ≤40 | bullet 1 headline |
-| `bullet_1_desc` | string | ≤70 | bullet 1 description |
-| `bullet_2_title` | string | ≤40 | bullet 2 headline |
-| `bullet_2_desc` | string | ≤70 | bullet 2 description |
-| `bullet_3_title` | string | ≤40 | bullet 3 headline |
-| `bullet_3_desc` | string | ≤70 | bullet 3 description |
-| `takeaway` | string | ≤140 | strategic executive takeaway |
-
----
-
-## frame-2d-sprite-mascot
-
-**Role:** body / engagement — animated 2D sprite mascot character. Lively idle bouncing avatar with comic speech bubble dialog, action step card and tip badge.
-**Best for:** `type: "body"` — tips & tricks, interactive tutorials, software onboarding, engaging social shorts.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `kicker` | string | ≤34 | mascot category tag |
-| `topic_title` | string | ≤60 | main topic headline |
-| `speech_bubble` | string | ≤90 | dialog text in speech balloon |
-| `mascot_name` | string | ≤24 | assistant / mascot name |
-| `mascot_emoji` | string | ≤4 | avatar emoji or character glyph |
-| `tip_badge` | string | ≤16 | action callout badge |
-| `action_step` | string | ≤60 | keyboard shortcut / actionable command |
-| `takeaway` | string | ≤140 | engagement takeaway |
 
 ---
 
@@ -1592,7 +1556,7 @@ Drop a folder `video-templates/<id>/` with `index.html` (16:9 root, `data-compos
 `NOTICE.md` if vendored. Use a Vietnamese-capable font stack (Alfa Slab One /
 Lora / Be Vietnam Pro are known-good). Then add a row here.
 
-Or pull one from the upstream registry — 176 items, no hand-copying:
+Or pull one from the upstream registry — 367 items, no hand-copying:
 
 ```bash
 node scripts/video/add-template.mjs --list
@@ -1779,7 +1743,7 @@ those four preview as bare canvases. Judge them from the contact sheet after a r
 
 **Role:** body / math explainer. 3Blue1Brown/Manim animated function curve with Oxy coordinate axes and tangent derivative slope.
 **Best for:** calculus tutorials, machine learning gradient loss curves, optimization theory, academic STEM explainers.
-**Motion:** draw-on
+**Motion:** draw-on · continuous loop
 
 | slot | type | limit | notes |
 | --- | --- | --- | --- |
@@ -2055,21 +2019,6 @@ text, and never re-enable wrapping on per-character spans.
 
 ---
 
-## frame-magnates-polaroid-desk
-**Role:** body / documentary (investigative). Detective desk with pinned Polaroid photos and red conspiracy yarn.
-**Best for:** business wars, corporate scandals, financial investigations.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | headline |
-| `case_no` | string | ≤30 | confidential case stamp |
-| `target_a` | string | ≤40 | character A description |
-| `target_b` | string | ≤40 | entity B description |
-| `connection` | string | ≤50 | secret link / money transaction |
-| `verdict` | string | ≤80 | investigative conclusion |
-
----
-
 ## frame-stock-ticker-tape
 **Role:** body / documentary (breaking news). Amber LED dot-matrix scrolling ticker with breaking market alerts.
 **Best for:** Wall Street panics, breaking market crashes, emergency news.
@@ -2095,20 +2044,6 @@ text, and never re-enable wrapping on per-character spans.
 | `event_2` | string | ≤60 | historical event 2 |
 | `event_3` | string | ≤60 | historical event 3 |
 | `conclusion` | string | ≤80 | historical lesson |
-
----
-
-## frame-document-redacted
-**Role:** body / documentary (classified). Declassified secret report where black ink redaction evaporates.
-**Best for:** secret agreements, leaks, exclusive investigation findings.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `classification` | string | ≤30 | top secret stamp |
-| `doc_title` | string | ≤40 | internal document title |
-| `secret_text` | string | ≤60 | revealed secret clause |
-| `revealed_info` | string | ≤80 | context elaboration |
-| `summary` | string | ≤80 | summary statement |
 
 ---
 
@@ -2179,20 +2114,6 @@ text, and never re-enable wrapping on per-character spans.
 | `milestone_2` | string | ≤50 | milestone 2 |
 | `milestone_3` | string | ≤50 | milestone 3 |
 | `outcome` | string | ≤80 | record outcome badge |
-
----
-
-## frame-card-pack-opening
-**Role:** body / gamification (gacha). Holographic card pack opening revealing a rare item card.
-**Best for:** feature reveals, major product drops, super skills.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | headline |
-| `card_name` | string | ≤30 | card name |
-| `power_stat` | string | ≤30 | power level metric |
-| `attribute` | string | ≤40 | category / elemental attribute |
-| `rarity` | string | ≤30 | rarity badge (e.g. "ULTRA RARE") |
 
 ---
 
@@ -2308,21 +2229,6 @@ text, and never re-enable wrapping on per-character spans.
 | `spec_screen` | string | ≤40 | display spec |
 | `spec_weight` | string | ≤40 | form factor spec |
 | `verdict` | string | ≤80 | hardware summary |
-
----
-
-## frame-radar-rating-star
-**Role:** body / review (scorecard). 5-criterion star rating scorecard with aggregated overall score badge.
-**Best for:** app reviews, restaurant reviews, course reviews, product teardowns.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | title |
-| `crit_1` | string | ≤40 | criterion 1 rating |
-| `crit_2` | string | ≤40 | criterion 2 rating |
-| `crit_3` | string | ≤40 | criterion 3 rating |
-| `crit_4` | string | ≤40 | criterion 4 rating |
-| `overall_badge` | string | ≤60 | overall score badge |
 
 ---
 
@@ -2501,6 +2407,7 @@ recovered drive. `frame-terminal` shows a machine's finished *output*; this show
 **Role:** hook / body. Tape OSD, a title blooming out of blur at 0.5s, two head-switching tears
 sweeping the frame once each.
 **Best for:** **the absence of footage** — the tape ran out, the camera was already off, the
+**Motion:** mechanical · continuous loop
 recording was taken. `frame-analog-grain` and `frame-glitch-title` degrade an image that
 exists; nothing else in the library can say there is no image at all.
 
@@ -2547,6 +2454,7 @@ being looked at.
 **Role:** body / instrument. A pulse trace drawn across the frame, then a stress meter that
 fills to its measured value at 3.1s and a verdict at 4.1s.
 **Best for:** the moment a body gives someone away — and, with the right `note`, for saying why
+**Motion:** draw-on · continuous loop
 that is weaker evidence than it looks. Nothing else in the library reads a person's body.
 
 | slot | type | limit | notes |
@@ -2591,6 +2499,7 @@ switching instrument rather than switching scene. Spend it once per episode.
 **Role:** body / reconstruction. A trajectory growing from origin to impact across 1.3s, with
 the angle printed from the same number that rotates it.
 **Best for:** any reconstructed path — a shot, a fall, a route, a line of sight. The `note` is
+**Motion:** clip-reveal · continuous loop
 where the reconstruction becomes an argument.
 
 | slot | type | limit | notes |
@@ -2612,6 +2521,7 @@ where the reconstruction becomes an argument.
 **Role:** body / audio. A record light blinking three times, a waveform playing across 1.6s, the
 line itself at 2.9s.
 **Best for:** a call, a recording, a voicemail — anything the audience should experience as
+**Motion:** mechanical · continuous loop
 **heard**. The deliberate opposite of `frame-interrogation-log`, which is the same material as
 something someone wrote down afterwards. Choose by which claim you are making.
 
@@ -2803,6 +2713,7 @@ where something *went*.
 **Role:** body / connection. Cards tacked up at 0.4s / 0.7s / 1.0s, then red threads drawn
 between them one at a time from 1.5s, then a stamp.
 **Best for:** the moment a link is **proposed** — and the `stamp` slot is there so it can be
+**Motion:** draw-on · continuous loop
 labelled as a theory rather than a finding. `frame-vox-investigation-board` presents a finished
 board; use that one when the connection is already established.
 
@@ -2831,6 +2742,7 @@ no picture shows its stand-in rather than an empty hole.
 **Role:** body / evidence. Kicker at 0.1s, the instrument draws itself from 0.5s, readouts at
 1.8s, caption at 2.2s. One ambient layer keeps moving after everything has landed.
 **Best for:** the beat where a measurement is the point — a reading, a match, a trace, a route.
+**Motion:** conic, dimensional, draw-on · continuous loop
 
 **One frame, nineteen instruments.** `panel` picks which. This replaces what would otherwise
 have been thirty-eight near-identical templates: the source designs were all the same layout
@@ -2881,6 +2793,7 @@ Limits measured with `slot-limits.mjs`, not estimated:
 
 **Role:** body / overview. Status bar at 0.1s, cells at 0.5–1.25s, ticker at 2.6s.
 **Best for:** the beat where a case is shown as a **whole** — several lines of enquiry open at
+**Motion:** conic, dimensional, draw-on · continuous loop
 once, none of them concluded. Every other frame in the library presents one fact at a time.
 
 **Same instrument library as `frame-forensic-instrument`.** `cells` is a comma-separated list
@@ -2897,3 +2810,114 @@ number of cells stretches the last one across both columns.
 | `value_1` `value_2` `value_3` | string | ≤19/22/28 | shared by every cell — the instruments read the same figures |
 | `label_1` `label_2` `label_3` | string | ≤17/12/17 | |
 | `ticker` | string | ≤118 | the line along the bottom |
+
+---
+
+## frame-opus-cursor-flow
+
+**Role:** body / launch (`productui` recipe). 3D perspective SaaS window where an animated cursor glides in on a spring curve, clicks the CTA with a ripple ring at 0.95s, and reveals a telemetry drawer via `clip-path`.
+**Best for:** SaaS launches, one-click workflow demos, feature announcements, before/after latency proof.
+**Motion:** clip-reveal, dimensional, gradient-text · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤28 | top pill tag |
+| `window_title` | string | ≤36 | browser/app bar title |
+| `headline` | string | ≤56 | main feature claim |
+| `subtext` | string | ≤110 | description above the button |
+| `action_label` | string | ≤28 | button text the cursor clicks |
+| `status_badge` | string | ≤22 | green confirmation badge |
+| `result_metric` | string | ≤14 | big revealed figure |
+| `result_caption` | string | ≤72 | explanation beside the figure |
+| `footer` | string | ≤50 | optional bottom line |
+
+---
+
+## frame-opus-handdrawn
+
+**Role:** body / explainer (`handdrawn` recipe). Warm drafting paper with self-drawing SVG ink curves (`stroke-dashoffset`), dashed sketch cards, and a subtle 12fps `steps(3, end)` cel line-boil.
+**Best for:** conceptual explainers, architectural trade-offs, mental models, STEM breakdowns.
+**Motion:** draw-on, mechanical · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤28 | top notebook label |
+| `headline` | string | ≤64 | question or thesis |
+| `sketch_left` | string | ≤68 | old/heavy approach |
+| `sketch_right` | string | ≤68 | new/smart approach (circled in green ink) |
+| `callout_note` | string | ≤80 | italic margin note |
+| `verdict` | string | ≤48 | bottom-right metric summary |
+| `footer` | string | ≤50 | optional bottom line |
+
+---
+
+## frame-opus-collage-stopmo
+
+**Role:** hook / body (`collage` recipe). Halftone newsprint backdrop, jagged `clip-path: polygon()` paper cutouts, tilted zine typography, and 12fps `steps(4, end)` stop-motion frame snaps.
+**Best for:** contrarian hooks, culture/creator-economy commentary, myth-busting beats, pattern interrupts.
+**Motion:** clip-reveal, conic, mechanical · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `sticker_tag` | string | ≤28 | yellow cutout sticker |
+| `headline` | string | ≤56 | bold zine statement |
+| `cutout_stat` | string | ≤12 | giant figure on the red paper cutout |
+| `cutout_label` | string | ≤64 | caption under the figure |
+| `tape_quote` | string | ≤96 | serif note taped beside the cutout |
+| `stamp_text` | string | ≤24 | angled blue rubber stamp |
+| `footer` | string | ≤50 | optional bottom line |
+
+---
+
+## frame-opus-shader-orb
+
+**Role:** hook / hero (`generative` recipe). Coprime `conic-gradient` orbital plasma rings, a `mask-image` light sweep across the central figure, and a live `background-clip: text` shimmer.
+**Best for:** AI/hardware launch hooks, flagship benchmark reveals, futuristic thesis statements.
+**Motion:** conic, gradient-text, mask-sweep · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤32 | mono uppercase kicker |
+| `hero_stat` | string | ≤16 | centerpiece metric or version |
+| `headline` | string | ≤64 | main claim |
+| `subtext` | string | ≤90 | supporting line |
+| `pill_left` | string | ≤26 | left capability pill |
+| `pill_right` | string | ≤26 | right capability pill |
+| `footer` | string | ≤50 | optional bottom line |
+
+---
+
+## frame-opus-pixel-arcade
+
+**Role:** body / comparison (`pixel` recipe). 8-bit grid scanlines, stepped HUD progress bars (`steps(8, end)`), and a retro arcade head-to-head scoreboard.
+**Best for:** head-to-head model benchmarks, gamified challenges, speed/accuracy showdowns.
+**Motion:** clip-reveal, mechanical · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `stage_label` | string | ≤32 | arcade stage header |
+| `headline` | string | ≤48 | benchmark title |
+| `player_1_name` | string | ≤20 | top contender label |
+| `player_1_score` | string | ≤12 | top contender score |
+| `player_2_name` | string | ≤20 | baseline contender label |
+| `player_2_score` | string | ≤12 | baseline contender score |
+| `arcade_prompt` | string | ≤52 | bottom arcade prompt |
+| `footer` | string | ≤50 | optional bottom line |
+
+---
+
+## frame-opus-kinetic-reel
+
+**Role:** hook / statement (`kinetic-reel` recipe). Brutalist stacked typography revealed by `mask-image` + `clip-path` shutter wipes with a live gradient third line.
+**Best for:** high-tempo hooks, manifesto beats, three-part punchlines.
+**Motion:** clip-reveal, gradient-text, mask-sweep · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `top_tag` | string | ≤32 | top-left mono label |
+| `counter_badge` | string | ≤12 | top-right scene counter |
+| `line_1` | string | ≤28 | first shutter line |
+| `line_2` | string | ≤28 | second shutter line |
+| `line_3` | string | ≤28 | third shutter line (gradient fill) |
+| `punchline` | string | ≤68 | bottom callout |
+| `footer` | string | ≤50 | optional bottom line |

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, height=1080">
+  <title>Opus 5.5 Split-Mask Kinetic Reel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@500;700;800&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1920px; height: 1080px; overflow: hidden; font-family: 'Be Vietnam Pro', sans-serif; }
+    
+  :root {
+    --spring-soft: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --spring-snappy: linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001);
+  }
+
+    
+      #root {
+        position: relative; width: 100%; height: 100%;
+        background: #08090e; color: #ffffff; overflow: hidden;
+      }
+      #root::after {
+        content: ""; position: absolute; inset: -12%; pointer-events: none;
+        background: radial-gradient(circle at 80% 20%, rgba(244, 63, 94, 0.14), transparent 50%),
+                    radial-gradient(circle at 20% 80%, rgba(56, 189, 248, 0.14), transparent 50%);
+        animation: reelPulse 10s ease-in-out infinite alternate;
+      }
+      @keyframes reelPulse {
+        0% { transform: translate3d(-2%, 1%, 0) scale(1); }
+        100% { transform: translate3d(2%, -1.5%, 0) scale(1.04); }
+      }
+      .reel-stage {
+        position: relative; z-index: 2; width: 100%; height: 100%;
+        display: flex; flex-direction: column; justify-content: center;
+      }
+      .header-row {
+        display: flex; justify-content: space-between; align-items: center;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.14); padding-bottom: 20px;
+      }
+      .top-tag {
+        font-family: 'JetBrains Mono', monospace; font-weight: 700;
+        color: #f43f5e; letter-spacing: 0.18em;
+      }
+      .counter-badge {
+        font-family: 'JetBrains Mono', monospace; font-weight: 800;
+        color: #38bdf8; background: rgba(56, 189, 248, 0.12);
+        padding: 8px 18px; border-radius: 999px;
+      }
+      .stack { display: flex; flex-direction: column; gap: 12px; }
+      .k-line {
+        font-weight: 900; line-height: 1.04; letter-spacing: -0.02em;
+        clip-path: inset(0 0 100% 0);
+        -webkit-mask-image: linear-gradient(90deg, #000 60%, rgba(0,0,0,0.4) 80%, #000 100%);
+        mask-image: linear-gradient(90deg, #000 60%, rgba(0,0,0,0.4) 80%, #000 100%);
+        animation: shutterUp 0.52s var(--spring-soft) 0.15s forwards;
+      }
+      .k-line.l2 {
+        color: #e2e8f0; animation-delay: 0.32s;
+      }
+      .k-line.l3 {
+        background: linear-gradient(90deg, #f43f5e 0%, #fbbf24 50%, #38bdf8 100%);
+        background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+        animation: shutterUp 0.58s var(--spring-soft) 0.5s forwards, gradSweep 7s linear infinite;
+      }
+      @keyframes shutterUp {
+        0% { clip-path: inset(0 0 100% 0); transform: translateY(28px); }
+        100% { clip-path: inset(0 0 0% 0); transform: translateY(0); }
+      }
+      @keyframes gradSweep {
+        0% { background-position: 0% 50%; }
+        100% { background-position: 200% 50%; }
+      }
+      .punchline {
+        font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #94a3b8;
+        border-left: 4px solid #f43f5e; padding-left: 20px;
+        opacity: 0; animation: fadeIn 0.5s ease-out 0.8s forwards;
+      }
+      .footer { font-family: 'JetBrains Mono', monospace; color: #64748b; }
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateX(-16px); }
+        to { opacity: 1; transform: translateX(0); }
+      }
+    
+    
+      .reel-stage { padding: 72px 140px; gap: 34px; }
+      .top-tag, .counter-badge { font-size: 18px; }
+      .k-line { font-size: 86px; }
+      .punchline { font-size: 26px; }
+      .footer { font-size: 16px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="5" data-composition-variables='{"top_tag":"NHỊP ĐIỆU THỊ GIÁC // OPUS 5.5","line_1":"ĐỪNG CHỈ ĐỌC KỊCH BẢN","line_2":"HÃY ĐỂ TỪNG CON CHỮ","line_3":"DẪN DẮT ÁNH NHÌN","punchline":"Tốc độ 7 từ/giây · Dừng đúng nhịp nhấn","counter_badge":"01 / 06","footer":""}'>
+    
+      <div class="reel-stage">
+        <div class="header-row">
+          <span class="top-tag" data-slot="top_tag"></span>
+          <span class="counter-badge" data-slot="counter_badge"></span>
+        </div>
+        <div class="stack">
+          <div class="k-line l1" data-slot="line_1"></div>
+          <div class="k-line l2" data-slot="line_2"></div>
+          <div class="k-line l3" data-slot="line_3"></div>
+        </div>
+        <div class="punchline" data-slot="punchline"></div>
+        <div class="footer" data-slot="footer"></div>
+      </div>
+    
+  </div>
+  <script>
+    function getVariables() {
+      try {
+        if (window.__compositionVariables && Object.keys(window.__compositionVariables).length > 0) {
+          return window.__compositionVariables;
+        }
+        const el = document.getElementById("root");
+        return JSON.parse(el.getAttribute("data-composition-variables") || "{}");
+      } catch (e) {
+        return {};
+      }
+    }
+    function applySlots() {
+      const v = getVariables();
+      document.querySelectorAll("[data-slot]").forEach((el) => {
+        const key = el.getAttribute("data-slot");
+        const val = v[key];
+        if (val === undefined || val === null || String(val).trim() === "") {
+          el.remove();
+        } else {
+          el.textContent = String(val);
+        }
+      });
+      
+    }
+    applySlots();
+    const timeline = {
+      duration: 5,
+      seek(t) {
+        document.getAnimations().forEach((a) => {
+          a.pause();
+          a.currentTime = t * 1000;
+        });
+      }
+    };
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = timeline;
+  </script>
+</body>
+</html>

@@ -65,7 +65,33 @@ Do not reach past these without a reason.
 | `ease-out` | **fades and small rises** | Cheap, correct, and nobody notices it. Most of the frames here are this. |
 | `linear` | **loops only** — a rotation, a scan line | A looping ease has a visible stutter at the seam. |
 
-`steps()` belongs to typing and blinking, nowhere else.
+`steps()` belongs to typing, blinking, and 12fps stop-motion collage (`steps(2, end)` / `steps(4, end)`), nowhere else.
+
+### Physics springs in pure CSS: `linear()`
+
+A `cubic-bezier()` has only two control points, so it can overshoot **once** and cannot oscillate. CSS `linear()` (Baseline 2023, Chrome 113+) samples a real spring equation into piecewise stops and is 100% seek-safe under `waapi`. Copy one of these three tokens into `:root` when an arrival needs physical weight:
+
+```css
+:root {
+  /* damped spring — settles with one soft rebound (~650ms) */
+  --spring-soft: linear(
+    0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%,
+    1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%,
+    1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%,
+    0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1
+  );
+  /* snappy UI overshoot — cursor clicks, badge pops, modal reveals (~500ms) */
+  --spring-snappy: linear(
+    0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%,
+    0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001
+  );
+  /* anticipate — pulls back 6% before launching forward (~600ms) */
+  --ease-anticipate: linear(
+    0, -0.02 8%, -0.06 18%, -0.04 26%, 0.08 36%, 0.42 52%, 0.78 68%,
+    0.96 82%, 1.02 92%, 1
+  );
+}
+```
 
 ## Duration and delay
 
@@ -175,20 +201,27 @@ node scripts/video/motion-index.mjs --technique draw-on  # just the ids
 
 | technique | what it buys you | copy from |
 |---|---|---|
-| **SVG `stroke-dashoffset`** — a line, route or underline *drawing itself*. The single biggest upgrade available for diagram, map and timeline frames. | attention follows the tip of the line | `frame-geo-route` (a route drawn on a map — the genre case), `frame-draw-on`, `frame-math-manim`, `frame-vox-investigation-board` · **13 total** |
-| **`clip-path` reveals** — wipe, iris, polygon morph. A shape opening reads as a camera move. | reveal without a fade | `frame-split-compare` and `frame-terminal` (both `inset()`) · **only 2** — `frame-3d-spotlight`'s `polygon` is a static light cone, not a reveal, so it is not a sample |
-| **`mask-image` sweeps** — a gradient mask travelling across text or an image, so content is revealed by light rather than by opacity. | the richest-looking reveal here | `frame-aicoding-comparison`, `frame-aicoding-list` · **only 2, both AI-coding themed** — thin cover for documentary work |
-| **`background-clip: text` + moving gradient** — the fill of a headline moves while the letters stay put. Costs nothing, never shifts layout. | a live headline | `frame-liquid-bg-hero`, `frame-bold-poster`, `frame-pentagram-stat` · **8 total** |
-| **3D transforms with `perspective`** — a card turning, a page lifting. | a flat frame reads as an object | `frame-3d-flip`, `frame-3d-perspective-card`, `frame-3d-device` · **3** |
-| **`conic-gradient` rotation** — sweeping radar or ring light, no image needed. | motion with zero assets | `frame-geo-sonar-radar`, `frame-hud`, `frame-pentagram-stat` · **3** |
-| **`steps()` easing** — mechanical judder. Film grain and ticking counters need it; smoothed they turn to fog. Deliberate, not a mistake. | anything that should feel like a machine | `frame-analog-grain`, `frame-terminal`, `frame-timeline-war-era` · **3** |
+| **SVG `stroke-dashoffset`** — a line, route or underline *drawing itself*. The single biggest upgrade available for diagram, map and timeline frames. | attention follows the tip of the line | `frame-geo-route` (a route drawn on a map — the genre case), `frame-draw-on`, `frame-opus-handdrawn`, `frame-math-manim`, `frame-vox-investigation-board` |
+| **`clip-path` reveals** — wipe, iris, polygon morph. A shape opening reads as a camera move. | reveal without a fade | `frame-split-compare`, `frame-terminal`, `frame-opus-cursor-flow`, `frame-opus-collage-stopmo`, `frame-opus-pixel-arcade` |
+| **`mask-image` sweeps** — a gradient mask travelling across text or an image, so content is revealed by light rather than by opacity. | the richest-looking reveal here | `frame-aicoding-comparison`, `frame-opus-shader-orb`, `frame-opus-kinetic-reel` |
+| **`background-clip: text` + moving gradient** — the fill of a headline moves while the letters stay put. Costs nothing, never shifts layout. | a live headline | `frame-liquid-bg-hero`, `frame-bold-poster`, `frame-pentagram-stat`, `frame-opus-shader-orb`, `frame-opus-kinetic-reel` |
+| **3D transforms with `perspective`** — a card turning, a page lifting. | a flat frame reads as an object | `frame-3d-flip`, `frame-3d-perspective-card`, `frame-3d-device`, `frame-opus-cursor-flow` |
+| **`conic-gradient` rotation** — sweeping radar or ring light, no image needed. | motion with zero assets | `frame-geo-sonar-radar`, `frame-hud`, `frame-pentagram-stat`, `frame-opus-shader-orb` |
+| **`steps()` easing** — mechanical judder. Film grain, 12fps collage stop-motion and ticking counters need it; smoothed they turn to fog. Deliberate, not a mistake. | anything that should feel like a machine or stop-motion | `frame-analog-grain`, `frame-terminal`, `frame-timeline-war-era`, `frame-opus-collage-stopmo`, `frame-opus-pixel-arcade` |
 
 - **Two loops at coprime periods** (13s and 19s, not 12s and 24s) — they never resync, so the
   frame never settles into a pattern a viewer can predict. `frame-bold-poster` runs four.
 
-**The two thin rows are the gap.** `clip-reveal` and `mask-sweep` have two samples each, and
-both `mask-image` ones are AI-coding frames. If you are building a new template and either
-would fit, building it there is worth more than a seventh `draw-on`.
+### Opus 5.5 Code-Video Style Recipes
+
+Distilled from `yihui-dev/awesome-opus5-5-videos`, `HiAPIAI/awesome-opus-5-5-video-styles`, and `tuzhechen2005/opus-video-skills`, these six code-driven aesthetics are implemented natively in `video-templates/frame-opus-*` and are seek-safe out of the box:
+
+1. **`productui` (`frame-opus-cursor-flow`)** — SaaS interface card in 3D perspective (`rotateX`/`rotateY`), an animated SVG pointer gliding on `--spring-snappy` to click a button, a ripple ring at impact (`0.95s`), and a `clip-path: inset()` drawer reveal.
+2. **`handdrawn` (`frame-opus-handdrawn`)** — Warm architectural parchment, self-drawing ink paths (`stroke-dashoffset`), hand-drawn annotation arrows, and a subtle `steps(3, end)` frame jitter that mimics classic 12fps cel/whiteboard line-boil.
+3. **`collage` (`frame-opus-collage-stopmo`)** — Halftone dot paper, jagged polygon cutout badges (`clip-path: polygon(...)`), ransom-note tilted typography, and `steps(4, end)` stop-motion frame snaps.
+4. **`generative` (`frame-opus-shader-orb`)** — Layered `conic-gradient` orbital plasma rings rotating at coprime periods, `mask-image` light sweep across the hero metric, and a live `background-clip: text` shimmer.
+5. **`pixel` (`frame-opus-pixel-arcade`)** — Crisp pixel-grid scanlines, stepped progress bars (`steps(8, end)`), 8-bit corner brackets, and a mechanical score readout.
+6. **`kinetic-reel` (`frame-opus-kinetic-reel`)** — Brutalist split-mask kinetic typography (`mask-image` + `clip-path` shutter bands) with staggered word beats and a high-contrast progress ticker.
 
 ### If you reach for GSAP
 

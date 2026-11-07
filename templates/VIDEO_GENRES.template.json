@@ -70,9 +70,10 @@
       "label": "Ra mắt sản phẩm",
       "whenToUse": "You built something and it is now available. The beat everything is arranged around is the moment it gets named — before that the viewer does not know what you are talking about, and after it they either care or they do not.",
       "beats": [
-        { "templateId": "frame-kinetic-type", "type": "hook", "beat": "The problem, in one sentence, arriving a word at a time. Not the product — nobody has a reason to care about it yet." },
+        { "templateId": "frame-opus-kinetic-reel", "type": "hook", "beat": "The problem, in three stacked shutter lines. Not the product — nobody has a reason to care about it yet." },
         { "templateId": "frame-split-compare", "type": "body", "beat": "How it was against how it is. The gap between the two is the whole argument for the thing existing." },
         { "templateId": "frame-product-reveal", "type": "body", "beat": "The name, finally. This is the frame the video was built to arrive at." },
+        { "templateId": "frame-opus-cursor-flow", "type": "body", "beat": "The product in motion — a 3D UI window where the cursor clicks the action CTA and reveals the live result." },
         { "templateId": "frame-step-list", "type": "body", "beat": "What it actually does — two or three capabilities, not a feature list." },
         { "templateId": "frame-logo-outro", "type": "outro", "beat": "Where to get it. One link, one action." }
       ]
@@ -132,8 +133,9 @@
       "label": "Phân tích kỹ thuật chuyên sâu (Technical Deep-Dive)",
       "whenToUse": "Software engineering, system architecture breakdowns, benchmark evaluations, and developer product launches.",
       "beats": [
-        { "templateId": "frame-ui-glass-dashboard", "type": "hook", "beat": "The production telemetry panel: live RPS, latency, and uptime proof." },
+        { "templateId": "frame-opus-shader-orb", "type": "hook", "beat": "The flagship throughput or latency figure inside an orbital shader ring." },
         { "templateId": "frame-diagram-architecture", "type": "body", "beat": "The end-to-end data pipeline flow and distributed node topology." },
+        { "templateId": "frame-opus-handdrawn", "type": "body", "beat": "The conceptual trade-off sketched on drafting paper with self-drawing ink paths." },
         { "templateId": "frame-ui-terminal-ide", "type": "body", "beat": "The implementation code and passing test suite execution log." },
         { "templateId": "frame-diagram-radar", "type": "body", "beat": "The multi-axis spider benchmark proving competitive advantages." },
         { "templateId": "frame-statement-outro", "type": "outro", "beat": "The architectural conclusion and key developer takeaway." }

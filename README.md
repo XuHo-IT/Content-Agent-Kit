@@ -17,7 +17,7 @@
 
 ---
 
-A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity / Gemini**) to autonomously build and operate production-grade Content Agents: idea ingestion, editorial writing, quality auditing, social publishing, and **vertical 9:16 video generation** powered by 106 single-file HTML templates, realistic TTS narration, stock B-roll, and live web captures.
+A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity / Gemini**) to autonomously build and operate production-grade Content Agents: idea ingestion, editorial writing, quality auditing, social publishing, and **vertical 9:16 video generation** powered by 129 single-file HTML templates, realistic TTS narration, stock B-roll, and live web captures.
 
 ## Sample Outputs
 
@@ -26,7 +26,7 @@ A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity 
 | 📄 **Article** | [Sample Post](examples/ai-news-social/sample-output/) — SEO/GEO-compliant article with engagement prompts and 10-point quality audit |
 | 🖼️ **Cover Image** | [Cover Image](examples/ai-news-social/sample-output/cover.jpg) — 1024×1024 visual asset matching the article |
 | 🎬 **9:16 Video** | [Sample Video](examples/ai-video-social/sample-output/) — 2m 12s, natural TTS narration, Pexels footage, live website capture |
-| 🎨 **Theme Repainting** | [Paper-Blue Sample](examples/ai-video-social/sample-output-paper-blue/) — 16 scenes across 14 of the 106 templates, repainted to white-and-ocean-blue via `"theme": "paper-blue"` |
+| 🎨 **Theme Repainting** | [Paper-Blue Sample](examples/ai-video-social/sample-output-paper-blue/) — 16 scenes across 14 of the 129 templates, repainted to white-and-ocean-blue via `"theme": "paper-blue"` |
 
 > **Download Sample MP4:** [Releases v0.1.0](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0) or render locally:
 > `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
@@ -39,65 +39,69 @@ A modular scaffolding kit enabling agentic IDEs (**Claude Code**, **Antigravity 
 
 ---
 
-## 106 Scene Templates (Organized by Visual Category)
+## 129 Scene Templates (Organized by Visual Category)
 
-All 106 templates are structured into **14 distinct visual categories** with dedicated aesthetic identities:
+All 129 templates are structured into **15 distinct visual categories** with dedicated aesthetic identities and continuous ambient motion layers:
 
-### 1. 🌟 Hooks & Attention Openers (Hooks & Heroes — 8 templates)
+### 1. 🌟 Hooks & Attention Openers (Hooks & Heroes — 10 templates)
 [![Hooks & Heroes](examples/gallery/gallery-hooks.jpg)](video-templates/CATALOG.md)
-*Includes: `frame-liquid-bg-hero`, `frame-bold-poster`, `frame-glitch-title`, `frame-creative-voltage`, `frame-vox-collage`, `frame-vox-split-screen`, `frame-ui-glass-dashboard`, `frame-3d-spotlight`.*
+*Includes: `frame-liquid-bg-hero`, `frame-bold-poster`, `frame-glitch-title`, `frame-creative-voltage`, `frame-vox-collage`, `frame-vox-split-screen`, `frame-ui-glass-dashboard`, `frame-3d-spotlight`, `frame-opus-shader-orb`, `frame-opus-kinetic-reel`.*
 
-### 2. 📰 Visual Journalism & Statements (Vox, Statements & Typography — 10 templates)
+### 2. ✨ Opus 5.5 Code-Video Style Recipes (Opus 5.5 Recipes — 6 templates)
+[![Opus 5.5 Style Recipes](examples/gallery/gallery-opus.jpg)](video-templates/CATALOG.md)
+*Includes: `frame-opus-cursor-flow` (3D SaaS UI + spring cursor click), `frame-opus-handdrawn` (SVG `stroke-dashoffset` sketch + 12fps line-boil), `frame-opus-collage-stopmo` (halftone cutout + `steps()` stop-motion), `frame-opus-shader-orb` (coprime conic plasma rings + `mask-image` sweep), `frame-opus-pixel-arcade` (8-bit HUD scoreboard), `frame-opus-kinetic-reel` (split-mask shutter typography).*
+
+### 3. 📰 Visual Journalism & Statements (Vox, Statements & Typography — 12 templates)
 [![Visual Journalism & Statements](examples/gallery/gallery-vox.jpg)](video-templates/CATALOG.md)
-*Includes: `frame-kinetic-type`, `frame-build-minimal`, `frame-vignelli`, `frame-analog-grain`, `frame-vox-highlighter`, `frame-vox-pull-quote`, `frame-vox-investigation-board`, `frame-vox-declassified`, `frame-vox-newspaper-tear`, `frame-vox-photo-grid`.*
+*Includes: `frame-kinetic-type`, `frame-build-minimal`, `frame-vignelli`, `frame-analog-grain`, `frame-vox-highlighter`, `frame-vox-pull-quote`, `frame-vox-investigation-board`, `frame-vox-declassified`, `frame-vox-newspaper-tear`, `frame-vox-photo-grid`, `frame-vox-torchlight`, `frame-vox-silhouette-file`.*
 
-### 3. 📊 Data, Charts & Technical Metrics (Data, Charts & Analytics — 13 templates)
+### 4. 📊 Data, Charts & Technical Metrics (Data, Charts & Analytics — 13 templates)
 [![Data & Charts](examples/gallery/gallery-data.jpg)](video-templates/CATALOG.md)
 *Includes: `frame-chart-bars`, `frame-pentagram-stat`, `frame-trend-line`, `frame-dashboard`, `frame-split-compare`, `frame-timeline`, `frame-node-graph`, `frame-hud`, `frame-funnel`, `frame-progress`, `frame-draw-on`, `frame-vox-data-callout`, `frame-canvas-gauge-dial`.*
 
-### 4. 🧠 Diagrams, Math & Architecture (Diagrams, Math & Architecture — 8 templates)
+### 5. 🧠 Diagrams, Math & Architecture (Diagrams, Math & Blueprint — 10 templates)
 [![Diagrams & Architecture](examples/gallery/gallery-diagrams.jpg)](video-templates/CATALOG.md)
-*Includes: `frame-diagram-flywheel`, `frame-diagram-quadrant`, `frame-diagram-radar`, `frame-diagram-architecture`, `frame-diagram-flowchart`, `frame-math-manim`, `frame-math-graph-plot`, `frame-math-matrix-calc`.*
+*Includes: `frame-diagram-flywheel`, `frame-diagram-quadrant`, `frame-diagram-radar`, `frame-diagram-architecture`, `frame-diagram-flowchart`, `frame-math-manim`, `frame-math-graph-plot`, `frame-math-matrix-calc`, `frame-blueprint-draw`, `frame-papercut-diorama`.*
 
-### 5. 💻 Footage, Developer IDE & 3D (Footage, IDE & 3D — 11 templates)
+### 6. 💻 Footage, Developer IDE & 3D (Footage, IDE & 3D — 11 templates)
 [![Footage, IDE & 3D](examples/gallery/gallery-ui.jpg)](video-templates/CATALOG.md)
-*Includes: `frame-screenshot`, `frame-3d-device`, `frame-terminal`, `frame-ui-terminal-ide`, `frame-broll`, `frame-media-inset`, `frame-meme`, `frame-3d-flip`, `frame-3d-stack`, `frame-3d-perspective-card`, `frame-presentation-slide`.*
+*Includes: `frame-screenshot`, `frame-3d-device`, `frame-terminal`, `frame-ui-terminal-ide`, `frame-broll`, `frame-media-inset`, `frame-meme`, `frame-3d-flip`, `frame-3d-stack`, `frame-3d-perspective-card`, `frame-opus-cursor-flow`.*
 
-### 6. 🗺️ Maps, Local & Travel (GEO, Radar, Heatmap & Local — 10 templates)
+### 7. 🗺️ Maps, Local & Travel (GEO, Radar, Heatmap & Local — 10 templates)
 [![Maps & Local GEO](examples/gallery/gallery-geo.jpg)](video-templates/CATALOG.md)
 *Includes: `frame-geo-markers`, `frame-geo-route`, `frame-geo-region-stat`, `frame-geo-local-card`, `frame-geo-faq-direct`, `frame-geo-itinerary`, `frame-geo-versus-city`, `frame-geo-pin-detail`, `frame-geo-heatmap`, `frame-geo-sonar-radar`.*
 
-### 7. 🏆 Sequences, Proof, Fitness & Closers (Sequences, Fitness & Closers — 14 templates)
+### 8. 🏆 Sequences, Proof, Sketch & Closers (Sequences & Closers — 14 templates)
 [![Sequences, Fitness & Closers](examples/gallery/gallery-sequences.jpg)](video-templates/CATALOG.md)
-*Includes: `frame-step-list`, `frame-checklist`, `frame-myth-fact`, `frame-aicoding-list`, `frame-aicoding-comparison`, `frame-quote-testimonial`, `frame-chat-bubbles`, `frame-review-verdict`, `frame-fitness-workout`, `frame-whiteboard-doodle`, `frame-2d-sprite-mascot`, `frame-product-reveal`, `frame-logo-outro`, `frame-statement-outro`.*
+*Includes: `frame-step-list`, `frame-checklist`, `frame-myth-fact`, `frame-aicoding-list`, `frame-aicoding-comparison`, `frame-quote-testimonial`, `frame-chat-bubbles`, `frame-review-verdict`, `frame-fitness-workout`, `frame-whiteboard-doodle`, `frame-opus-handdrawn`, `frame-product-reveal`, `frame-logo-outro`, `frame-statement-outro`.*
 
-### 8. ⚡ Multi-Skill Hybrid Templates (Multi-Skill Hybrid — 2 templates)
+### 9. ⚡ Multi-Skill Hybrid Templates (Multi-Skill Hybrid — 2 templates)
 [![Multi-Skill Hybrid](examples/gallery/gallery-hybrid.jpg)](video-templates/CATALOG.md)
 *Includes: `frame-hybrid-vox-geo` (Vox Journalism + Satellite Radar Map), `frame-hybrid-math-diagram` (System Architecture + Manim Calculus).*
 
-### 9. 📈 FinTech, Crypto & Trading (FinTech & Trading — 5 templates)
+### 10. 📈 FinTech, Crypto & Trading (FinTech & Trading — 5 templates)
 [![FinTech & Trading](examples/gallery/gallery-fintech.jpg)](video-templates/CATALOG.md)
 *Includes: `frame-stock-candlestick`, `frame-crypto-orderbook`, `frame-wealth-compound`, `frame-portfolio-donut`, `frame-inflation-purchasing-power`.*
 
-### 10. 🧠 Science, Psychology & Edu-Tech (Science & Psychology — 5 templates)
+### 11. 🧠 Science, Psychology & Edu-Tech (Science & Psychology — 5 templates)
 [![Science & Psychology](examples/gallery/gallery-science.jpg)](video-templates/CATALOG.md)
 *Includes: `frame-iceberg-levels`, `frame-brain-synapse`, `frame-habit-loop`, `frame-dna-helix-breakdown`, `frame-bell-curve-iq`.*
 
-### 11. 🕵️‍♂️ Documentary, Investigation & Business Wars (Documentary & Crime — 5 templates)
+### 12. 🕵️‍♂️ Documentary, Forensics & Investigative Dossiers (Documentary & Forensics — 22 templates)
 [![Documentary & Crime](examples/gallery/gallery-documentary.jpg)](video-templates/CATALOG.md)
-*Includes: `frame-magnates-polaroid-desk`, `frame-stock-ticker-tape`, `frame-timeline-war-era`, `frame-document-redacted`, `frame-money-flow-conduit`.*
+*Includes: `frame-redacted-dossier`, `frame-witness-polaroid`, `frame-archive-newspaper`, `frame-fingerprint-match`, `frame-crime-scene-map`, `frame-satellite-track`, `frame-corkboard-threads`, `frame-forensic-instrument`, `frame-case-dashboard`, `frame-interrogation-log`, `frame-morgue-tag`, `frame-cipher-decrypt`, `frame-vhs-nosignal`, `frame-suspect-lineup`, `frame-polygraph`, `frame-thermal-cam`, `frame-ballistics-path`, `frame-dispatch-waveform`, `frame-forensic-chat`, `frame-stock-ticker-tape`, `frame-timeline-war-era`, `frame-money-flow-conduit`.*
 
-### 12. 🎮 Gamification, Viral Hooks & High-Retention (Viral Retention Hooks — 5 templates)
+### 13. 🎮 Gamification, Collage & Viral Hooks (Viral Retention Hooks — 6 templates)
 [![Viral Retention Hooks](examples/gallery/gallery-viral.jpg)](video-templates/CATALOG.md)
-*Includes: `frame-tier-list`, `frame-notification-stack`, `frame-poll-voting`, `frame-speedrun-timer`, `frame-card-pack-opening`.*
+*Includes: `frame-tier-list`, `frame-notification-stack`, `frame-poll-voting`, `frame-speedrun-timer`, `frame-opus-collage-stopmo`, `frame-opus-pixel-arcade`.*
 
-### 13. 💻 SaaS, AI Tooling & Dev Engineering (Dev & Tech Explainers — 5 templates)
+### 14. 💻 SaaS, AI Tooling & Dev Engineering (Dev & Tech Explainers — 5 templates)
 [![SaaS & Dev Engineering](examples/gallery/gallery-saas.jpg)](video-templates/CATALOG.md)
 *Includes: `frame-saas-pricing-tier`, `frame-api-request-response`, `frame-diff-code-editor`, `frame-git-branch-graph`, `frame-ai-benchmark-leaderboard`.*
 
-### 14. ⚖️ E-Commerce, Unboxing & Honest Reviews (E-Commerce & Reviews — 5 templates)
+### 15. ⚖️ E-Commerce, Unboxing & Honest Reviews (E-Commerce & Reviews — 4 templates)
 [![E-Commerce & Reviews](examples/gallery/gallery-ecommerce.jpg)](video-templates/CATALOG.md)
-*Includes: `frame-pros-cons-scale`, `frame-receipt-slip`, `frame-unboxing-specs`, `frame-radar-rating-star`, `frame-discount-coupon-tear`.*
+*Includes: `frame-pros-cons-scale`, `frame-receipt-slip`, `frame-unboxing-specs`, `frame-discount-coupon-tear`.*
 
 > Slot contracts and character limits: **[`video-templates/CATALOG.md`](video-templates/CATALOG.md)**.
 > Scene sequences across 12 genres: **[`docs/21-video-genres.md`](docs/21-video-genres.md)** & **[`templates/VIDEO_GENRES.template.json`](templates/VIDEO_GENRES.template.json)**.
@@ -108,11 +112,11 @@ All 106 templates are structured into **14 distinct visual categories** with ded
 
 | Directory | Role |
 |---|---|
-| `docs/` | 22 concise methodology guides (bilingual EN + VI): SEO/GEO writing, video pipeline, media sourcing, theme palettes, ad MCPs, and repurposing |
+| `docs/` | 23 concise methodology guides (bilingual EN + VI): SEO/GEO writing, topic radar, video pipeline, media sourcing, theme palettes, ad MCPs, and repurposing |
 | `templates/` | Scaffolds: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 industries) |
 | `scripts/` | Working zero-dependency CLIs: crawl engine, social publisher, quality auditor, video renderer, stock B-roll search, screenshot capture |
-| `video-templates/` | 129 single-file HTML video templates plus **`CATALOG.md`** — each carries self-contained CSS & animations for offline rendering. 176 more are one command away. |
-| `skills/` | 16 runtime skills: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template` + `registry.json` (23 on-demand skills). |
+| `video-templates/` | 129 single-file HTML video templates plus **`CATALOG.md`** — each carries self-contained CSS & animations for offline rendering. 367 more are one command away. |
+| `skills/` | 16 runtime skills: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template` + `registry.json` (31 on-demand skills incl. `opus-55-videos`, `opus-video-skills`, `opus-video-styles`). |
 | `examples/` | 2 end-to-end reference implementations: AI News Social Agent and Vertical Video Production Agent |
 
 ---
@@ -146,9 +150,9 @@ node scripts/video/contact-sheet.mjs brain/<slug>/video.mp4
 |---|---|
 | **6 Voice Providers** | OmniVoice (local, free), Vbee, Viettel AI, FPT AI, ElevenLabs, HTTP custom adapter |
 | **Real Footage & Captures** | Automatic stock B-roll fetching from Pexels/Pixabay + headless Chrome web captures |
-| **Burned Captions & Transitions** | In-frame captions (`--captions burn`), 5 cinematic transitions (fade, swipe, slide, iris, pixelize) |
+| **Burned Captions & Transitions** | In-frame captions (`--captions burn`), 12 cinematic transitions (fade, swipe, slide, iris, pixelize, zoom, whip, radial, slice, squeeze, reveal, cover) |
 | **Instant URL Theming** | Extract brand colors directly from any website using `theme-from-url.mjs` |
-| **129 templates, 12 genres** | 12 complete video genres: Review, Tutorial, News, Listicle, Launch, Testimonial, Local GEO, Vox Explainer, Math Derivation, Architecture, Travel |
+| **129 templates, 12 genres** | 12 complete video genres: Review, Tutorial, News, Listicle, Launch, Testimonial, Local GEO, Vox Explainer, GEO Answer, Technical Deep-Dive, Growth Strategy, GEO Itinerary |
 | **GEO / Answer Engine Optimization** | `geo-audit.mjs` validates content for AI citation readiness (SearchGPT, Perplexity, Google Overviews) |
 
 ---

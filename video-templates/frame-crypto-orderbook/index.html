@@ -41,6 +41,9 @@
       .radar-tag { font-family: 'Chakra Petch', sans-serif; font-size: 13px; font-weight: 800; background: #38BDF8; color: #0F172A; padding: 4px 8px; border-radius: 4px; letter-spacing: 1px; }
       .ob-insight-text { font-family: 'Be Vietnam Pro', sans-serif; font-size: 16px; color: #E2E8F0; margin: 0; font-weight: 600; }
     
+  
+    #root::after { content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0; background: radial-gradient(circle at 72% 28%, rgba(148, 163, 184, 0.08), transparent 55%), radial-gradient(circle at 24% 76%, rgba(56, 189, 248, 0.06), transparent 58%); animation: cakAmbDrift 13s ease-in-out infinite alternate; }
+    @keyframes cakAmbDrift { 0% { transform: translate3d(-1.5%, -1%, 0) scale(1); } 100% { transform: translate3d(1.5%, 1.2%, 0) scale(1.025); } }
   </style>
 </head>
 <body>

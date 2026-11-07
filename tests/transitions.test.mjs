@@ -142,7 +142,8 @@ test("every transition name maps to a real ffmpeg xfade transition", () => {
     "slideleft", "slideright", "slideup", "slidedown",
     "circleopen", "circleclose", "pixelize", "dissolve",
     "smoothleft", "smoothright", "fadeblack", "fadewhite",
-    "zoomin",
+    "zoomin", "hblur", "radial", "hlslice", "squeezev",
+    "revealup", "coverleft",
   ];
   for (const [name, kind] of Object.entries(TRANSITIONS)) {
     if (name === "none") {

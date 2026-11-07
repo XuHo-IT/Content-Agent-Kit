@@ -33,6 +33,9 @@
 
       .tb-verdict { background: #FFD700; color: #000; font-family: 'Montserrat', sans-serif; font-size: 16px; font-weight: 900; padding: 14px 20px; border-radius: 8px; border: 3px solid #000; text-align: center; }
     
+  
+    #root::after { content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0; background: radial-gradient(circle at 72% 28%, rgba(148, 163, 184, 0.08), transparent 55%), radial-gradient(circle at 24% 76%, rgba(56, 189, 248, 0.06), transparent 58%); animation: cakAmbDrift 13s ease-in-out infinite alternate; }
+    @keyframes cakAmbDrift { 0% { transform: translate3d(-1.5%, -1%, 0) scale(1); } 100% { transform: translate3d(1.5%, 1.2%, 0) scale(1.025); } }
   </style>
 </head>
 <body>

@@ -212,6 +212,7 @@
         "genre": "tutorial",
         "frames": [
           "frame-kinetic-type",
+          "frame-opus-handdrawn",
           "frame-step-list",
           "frame-myth-fact",
           "frame-checklist",
@@ -244,8 +245,10 @@
       "video": {
         "genre": "review",
         "frames": [
+          "frame-opus-shader-orb",
           "frame-glitch-title",
           "frame-terminal",
+          "frame-opus-cursor-flow",
           "frame-chart-bars",
           "frame-split-compare",
           "frame-review-verdict",
@@ -279,6 +282,7 @@
         "frames": [
           "frame-bold-poster",
           "frame-terminal",
+          "frame-opus-cursor-flow",
           "frame-screenshot",
           "frame-3d-device",
           "frame-step-list",
@@ -343,6 +347,8 @@
       "video": {
         "genre": "launch",
         "frames": [
+          "frame-opus-kinetic-reel",
+          "frame-opus-collage-stopmo",
           "frame-kinetic-type",
           "frame-split-compare",
           "frame-product-reveal",
@@ -500,6 +506,7 @@
         "genre": "review",
         "frames": [
           "frame-glitch-title",
+          "frame-opus-pixel-arcade",
           "frame-broll",
           "frame-chart-bars",
           "frame-review-verdict",

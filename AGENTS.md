@@ -106,9 +106,8 @@ Cases" was 39% gated on the site this was built against. Method: `docs/10-crawl-
 - `docs/` — methodology (bilingual). Start at `01-architecture.md`.
 - `templates/` — fill-in scaffolds.
 - `scripts/` — generic working CLIs (env-only), incl. `scripts/video/`.
-- `video-templates/` — the 104 scene templates + `CATALOG.md` (slots + character limits).
-  A folder only counts as a template when it has `index.html`; two vendored folders
-  (`caption-kinetic-slam`, `transitions-blur`) do not, so 106 folders means 104 usable.
+- `video-templates/` — the 129 scene templates + `CATALOG.md` (slots + character limits),
+  including the 6 Claude Opus 5.5 style-recipe templates (`frame-opus-*`).
   `CATALOG.md` says what each one is *for*; `node scripts/video/motion-index.mjs` says how each
   one *moves* and which sample to copy an effect from. Its `**Motion:**` lines are generated —
   regenerate with `--write-catalog`, never hand-edit. Traps: `skills/motion-craft/SKILL.md`.

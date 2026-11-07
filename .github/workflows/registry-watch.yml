@@ -32,9 +32,9 @@ jobs:
   watch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: "22"
 
@@ -83,7 +83,9 @@ jobs:
           fi
 
           # One long-lived branch, force-pushed. A branch per day would leave a graveyard of
-          # stale PRs, each one superseded by the next morning's.
+          # stale PRs, each one superseded by the next morning's. Fetch the remote ref first so
+          # --force-with-lease does not fail with "(stale info)" on a single-branch checkout.
+          git fetch origin "$BRANCH" || true
           git checkout -B "$BRANCH"
           git add video-templates/registry-snapshot.json README.md README.vi.md \
                   docs/16-template-registry.md scripts/video/add-template.mjs \

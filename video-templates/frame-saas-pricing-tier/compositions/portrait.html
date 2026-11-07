@@ -30,6 +30,9 @@
 
       .pricing-note { background: #1E293B; border-radius: 12px; padding: 14px; font-family: 'Inter', sans-serif; font-size: 15px; color: #94A3B8; text-align: center; font-weight: 600; }
     
+  
+    #root::after { content: ""; position: absolute; inset: -10%; pointer-events: none; z-index: 0; background: radial-gradient(circle at 72% 28%, rgba(148, 163, 184, 0.08), transparent 55%), radial-gradient(circle at 24% 76%, rgba(56, 189, 248, 0.06), transparent 58%); animation: cakAmbDrift 13s ease-in-out infinite alternate; }
+    @keyframes cakAmbDrift { 0% { transform: translate3d(-1.5%, -1%, 0) scale(1); } 100% { transform: translate3d(1.5%, 1.2%, 0) scale(1.025); } }
   </style>
 </head>
 <body>

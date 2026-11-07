@@ -44,6 +44,9 @@ export const CRAFT_DEFAULTS = {
     "frame-geo-faq-direct",
     "frame-ui-glass-dashboard",
     "frame-3d-spotlight",
+    "frame-opus-shader-orb",
+    "frame-opus-kinetic-reel",
+    "frame-opus-collage-stopmo",
   ],
   outroTemplates: ["frame-logo-outro", "frame-statement-outro"],
 };
