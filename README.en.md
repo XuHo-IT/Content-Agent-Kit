@@ -31,7 +31,7 @@ its English twin.
 | 🎬 **13 new "trend" templates** | 2026 code-video grammar: active-word kinetic captions, search-bar morph, bar-race leaderboard, odometer stat, before/after wipe, exploded 3D cutaway, infinite zoom, phone notification storm, reply-to-comment, price slam. **They replace 27 older templates** that rendered as small cards in an empty frame with outdated copy |
 | 🎨 **16 industry palettes** | One preset per vertical, on-trend and **free of AI-slop tells** (no violet→cyan gradients, no neon glow, no gradient-filled type) → [`docs/25`](docs/25-palettes.md) |
 | ✂️ **Silence auto-cut** | `autocut.mjs`: raw talking-head take in, jump-cut reel out — punch-ins, -16 LUFS, 9:16, ffmpeg only. Method from [ghost-editor](https://github.com/kurbaitaev/ghost-editor) → [`docs/26`](docs/26-auto-edit.md) |
-| 💬 **Active-word captions** | `--caption-style active`: 2–3 words per card, the spoken word lit in the theme accent |
+| 💬 **Active-word captions** | 2–3 words per card, the spoken word lit in the theme accent — burned over footage and talking heads (`talking-head.mjs`, `--caption-style active`); template frames carry their own kinetic text |
 | 🔍 **Competitor analysis** | `competitor-scan.mjs`: YouTube channels + any RSS site (Vietnamese news sections included) → breakouts, title devices, posting slots, and **topic gaps** against your own history → [`docs/24`](docs/24-competitor-analysis.md) |
 | 📈 **Multi-platform trends** | New keyless **Google Trends (Vietnam)** source. With `APIFY_TOKEN`, the radar and competitor scan add **TikTok, Instagram, YouTube, Facebook** via Apify (optional, paid, with a cost knob) |
 | 🧹 **Outdated parts fixed** | hyperframes 0.6 → 0.9.28 (render-verified); four registry skills that no longer installed repaired; ElevenLabs default switched to a model that **speaks Vietnamese**; the Veo backend lists the models a key can call before billing (the preview ids were retired) |
@@ -69,10 +69,10 @@ its English twin.
 ### 3. Make the video
 ```bash
 node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
-node scripts/video/render.mjs brain/<slug>/script.json --captions burn --caption-style active
+node scripts/video/render.mjs brain/<slug>/script.json
 node scripts/video/contact-sheet.mjs brain/<slug>/video.mp4
-# your own footage? tighten it first
-node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12
+# someone speaking on camera? cut, reframe 9:16, active-word captions
+node scripts/video/talking-head.mjs take.mp4 --transcript take.json --theme <preset>
 ```
 
 ---

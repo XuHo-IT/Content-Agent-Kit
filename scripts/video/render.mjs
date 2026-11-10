@@ -493,7 +493,9 @@ try {
     // as the frames under them; without a theme it is the classic caption yellow.
     const hex = (c) => "#" + [c.r, c.g, c.b].map((x) => Math.round(x * 255).toString(16).padStart(2, "0")).join("");
     const accent = theme ? hex(hslToRgb(theme.hue, 0.9, 0.58)) : null;
-    const ass = capStyle === "active" ? toAssActive(cues, { ...canvas, theme, font, accent }) : toAss(cues, { ...canvas, theme, font });
+    // render.mjs captions sit over designed frames, so the active style is boxed here; the
+    // unboxed look is for raw footage (talking-head.mjs).
+    const ass = capStyle === "active" ? toAssActive(cues, { ...canvas, theme, font, accent, boxed: true }) : toAss(cues, { ...canvas, theme, font });
     await writeFile(assPath, ass, "utf8");
     info(`captions.ass: ${cues.length} cues, ${capStyle} style${capMode === "burn" ? " — burning (re-encodes the mux)" : ""}`);
   }

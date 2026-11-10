@@ -1,0 +1,68 @@
+{
+  "_niche": "Bán hàng & TMĐT",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "tomato-cream",
+  "metadata": {
+    "title": "Flash sale bình giữ nhiệt",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-trend-phone-notifs",
+      "voiceText": "Đây là điện thoại của shop sau đúng một buổi sáng mở bán. Đơn về liên tục, và lý do nằm ở một món đồ rất nhỏ.",
+      "inputs": {
+        "time": "09:41",
+        "date": "Thứ Hai",
+        "app_1": "Shopee",
+        "msg_1": "Bạn có đơn hàng mới cần xác nhận",
+        "app_2": "Zalo",
+        "msg_2": "Chị ơi còn màu xanh rêu không ạ?",
+        "app_3": "TikTok Shop",
+        "msg_3": "Sản phẩm của bạn đang được xem nhiều",
+        "app_4": "Ngân hàng",
+        "msg_4": "Bạn vừa nhận thanh toán đơn hàng",
+        "headline": "Một buổi sáng mở bán"
+      }
+    },
+    {
+      "id": "product",
+      "type": "body",
+      "templateId": "frame-product-reveal",
+      "voiceText": "Bình giữ nhiệt năm trăm mi li lít, giữ đá lạnh cả ngày, nhẹ, vừa ngăn bên của balo. Món đồ nhỏ nhưng ai dùng rồi cũng mang theo mỗi ngày.",
+      "inputs": {
+        "badge": "MỚI VỀ",
+        "name": "Bình giữ nhiệt 500ml",
+        "tagline": "Giữ lạnh cả ngày · vừa ngăn balo",
+        "teaser": "Sản phẩm minh hoạ"
+      }
+    },
+    {
+      "id": "price",
+      "type": "outro",
+      "templateId": "frame-trend-price-drop",
+      "voiceText": "Hôm nay giảm còn một trăm bốn mươi chín nghìn, chỉ trong bốn mươi tám giờ. Link ở phần mô tả.",
+      "inputs": {
+        "kicker": "FLASH SALE · HÔM NAY",
+        "product": "Bình giữ nhiệt 500ml",
+        "old_price": "299.000đ",
+        "new_price": "149.000đ",
+        "badge": "-50%",
+        "note": "Chỉ trong 48 giờ · sản phẩm minh hoạ",
+        "cta": "Link ở bio 👆"
+      }
+    }
+  ]
+}

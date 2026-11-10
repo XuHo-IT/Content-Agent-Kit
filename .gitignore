@@ -72,3 +72,7 @@ Thumbs.db
 
 # hyperframes >= 0.9 writes per-template render/lint state here (history-id, video-state.json)
 .hyperframes/
+
+# The README's sample videos are deliberate, compressed (540p, <1 MB each) and documented in
+# examples/niche-samples/README.md — the one place a rendered video.mp4 belongs in the repo.
+!examples/niche-samples/*/video.mp4

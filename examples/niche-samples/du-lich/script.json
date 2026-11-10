@@ -1,0 +1,64 @@
+{
+  "_niche": "Du lịch",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "terracotta-sand",
+  "metadata": {
+    "title": "Một ngày ở Hội An",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-trend-search-morph",
+      "voiceText": "Chỉ có một ngày ở Hội An thì đi đâu? Đây là lịch trình gọn, đi bộ được hết, không cần thuê xe.",
+      "inputs": {
+        "kicker": "Đi đâu khi chỉ có 1 ngày",
+        "query": "hội an 1 ngày đi đâu",
+        "result_1": "Phố cổ lúc sáng sớm",
+        "result_2": "Chùa Cầu và các nhà cổ",
+        "result_3": "Thả đèn hoa đăng buổi tối",
+        "footer": ""
+      }
+    },
+    {
+      "id": "timeline",
+      "type": "body",
+      "templateId": "frame-trend-timeline-flight",
+      "voiceText": "Sáng sớm dạo phố cổ khi còn vắng. Trưa ăn một tô cao lầu. Chiều ghé Chùa Cầu và vài nhà cổ. Tối ra sông Hoài thả đèn hoa đăng.",
+      "inputs": {
+        "title": "Một ngày ở Hội An",
+        "year_1": "06:30",
+        "label_1": "Dạo phố cổ khi còn vắng",
+        "year_2": "11:30",
+        "label_2": "Ăn trưa một tô cao lầu",
+        "year_3": "15:00",
+        "label_3": "Chùa Cầu và nhà cổ",
+        "year_4": "19:00",
+        "label_4": "Thả đèn trên sông Hoài"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Lưu lại cho chuyến đi tới, và theo dõi để xem lịch trình các thành phố khác.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Lưu lại cho chuyến đi tới",
+        "channel": "Kênh Mẫu",
+        "source": ""
+      }
+    }
+  ]
+}

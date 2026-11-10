@@ -15,7 +15,7 @@
 // It is not good enough for a two-minute unbroken take, and this file does not pretend to be.
 
 /** ASS has no escape for braces — they open an override block. Replace, do not strip. */
-const escapeAss = (s) =>
+export const escapeAss = (s) =>
   String(s).replace(/\{/g, "(").replace(/\}/g, ")").replace(/\r?\n/g, " ").replace(/\s+/g, " ").trim();
 
 const dense = (s) => s.replace(/\s+/g, "").length; // speaking time tracks syllables, not spaces
@@ -184,7 +184,7 @@ export function activeWordGroups(cues, { maxWords = 3, maxChars = 20 } = {}) {
  * word recoloured and scaled. Placed in the lower-middle third — under a speaker's chin on a
  * talking head, clear of the platform's caption/like rail at the very bottom.
  */
-export function toAssActive(cues, { width, height, theme = null, font = "Arial", accent = null, sizeRatio = 0.062, upper = false, maxWords = 3 } = {}) {
+export function toAssActive(cues, { width, height, theme = null, font = "Arial", accent = null, sizeRatio = 0.062, upper = false, maxWords = 3, boxed = false, _groups: opts_groups = null } = {}) {
   const size = Math.round(height * sizeRatio);
   const marginV = Math.round(height * 0.26);
   const marginH = Math.round(width * 0.07);
@@ -203,16 +203,22 @@ export function toAssActive(cues, { width, height, theme = null, font = "Arial",
     "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour," +
       " Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline," +
       " Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-    // BorderStyle 1 = outline + shadow, no box: the box is what reads as auto-captions.
-    `Style: Word,${font},${size},${ink},${ink},${outline},${assColour("#000000", 0.4)},` +
-      `-1,0,0,0,100,100,0,0,1,${Math.max(3, Math.round(size * 0.09))},${Math.max(2, Math.round(size * 0.05))},2,${marginH},${marginH},${marginV},1`,
+    // BorderStyle 1 = outline + shadow, no box: the box is what reads as auto-captions — over
+    // footage. Over a designed frame the accent word can land on a panel of the SAME colour
+    // (an orange word on frame-trend-compare-wipe's orange pane), so `boxed` puts a dark
+    // translucent plate behind the line (BorderStyle 3) and the accent always reads.
+    boxed
+      ? `Style: Word,${font},${size},${ink},${ink},${assColour("#000000", 0.35)},${assColour("#000000", 0.35)},` +
+        `-1,0,0,0,100,100,0,0,3,${Math.max(8, Math.round(size * 0.22))},0,2,${marginH},${marginH},${marginV},1`
+      : `Style: Word,${font},${size},${ink},${ink},${outline},${assColour("#000000", 0.4)},` +
+        `-1,0,0,0,100,100,0,0,1,${Math.max(3, Math.round(size * 0.09))},${Math.max(2, Math.round(size * 0.05))},2,${marginH},${marginH},${marginV},1`,
     "",
     "[Events]",
     "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
   ];
   const fmt = (w) => escapeAss(upper ? w.toLocaleUpperCase("vi") : w);
   const body = [];
-  for (const g of activeWordGroups(cues, { maxWords })) {
+  for (const g of opts_groups ?? activeWordGroups(cues, { maxWords })) {
     g.words.forEach((cur, i) => {
       const text = g.words
         .map((x, j) => (j === i ? `{\\c${hot}&\\fscx112\\fscy112}${fmt(x.w)}{\\r}` : fmt(x.w)))
@@ -223,6 +229,60 @@ export function toAssActive(cues, { width, height, theme = null, font = "Arial",
     });
   }
   return `${[...head, ...body].join("\n")}\n`;
+}
+
+// ── real word timings (talking-head footage) ─────────────────────────────────
+//
+// For narration this kit synthesised, word times are estimated (see above). For someone
+// actually speaking on camera they come from a speech-to-text pass — faster-whisper,
+// whisperX or whisper.cpp — and are exact. These read the common JSON shapes those tools
+// write, so the kit stays dependency-free and the transcript step stays the user's choice.
+
+/** Flatten a transcript into [{w, start, end}]. Accepts {segments:[{words:[…]}]}, a bare word array, or whisper.cpp's {transcription:[…]}. */
+export function wordsFromTranscript(t) {
+  const out = [];
+  const push = (w) => {
+    const text = String(w.w ?? w.word ?? w.text ?? "").trim();
+    const start = Number(w.start ?? w.offsets?.from / 1000);
+    const end = Number(w.end ?? w.offsets?.to / 1000);
+    if (text && Number.isFinite(start) && Number.isFinite(end) && end >= start) out.push({ w: text, start, end });
+  };
+  if (Array.isArray(t)) t.forEach(push);
+  else if (Array.isArray(t?.segments)) for (const s of t.segments) (s.words ?? []).forEach(push);
+  else if (Array.isArray(t?.transcription)) t.transcription.forEach(push);
+  return out.sort((a, b) => a.start - b.start);
+}
+
+/**
+ * Group timed words into 2–3-word cards. A card closes at a sentence end, at maxWords /
+ * maxChars, or at a gap longer than `maxGap` — a caption should not hang across a pause.
+ * Each word is extended to the next word's start so the active highlight never blinks off.
+ */
+export function groupTimedWords(words, { maxWords = 3, maxChars = 20, maxGap = 0.6 } = {}) {
+  const groups = [];
+  let cur = [];
+  const flush = () => {
+    if (cur.length) groups.push({ start: cur[0].start, end: cur[cur.length - 1].end, words: cur });
+    cur = [];
+  };
+  words.forEach((w, i) => {
+    const prev = cur[cur.length - 1];
+    const len = cur.map((x) => x.w).join(" ").length + w.w.length + 1;
+    if (cur.length && (cur.length >= maxWords || len > maxChars || w.start - prev.end > maxGap)) flush();
+    const next = words[i + 1];
+    const end = next && next.start - w.end <= maxGap ? next.start : w.end;
+    cur.push({ ...w, end });
+    if (/[.!?…]$/.test(w.w)) flush();
+  });
+  flush();
+  return groups;
+}
+
+/** Active-word ASS from real word timings. Same look as toAssActive. */
+export function toAssActiveWords(words, opts = {}) {
+  const groups = groupTimedWords(words, opts);
+  // Re-use toAssActive's header and line format by handing it pre-timed groups.
+  return toAssActive([], { ...opts, _groups: groups });
 }
 
 /** Is a #rrggbb colour dark? (Light-canvas themes keep white captions with a black outline.) */

@@ -156,7 +156,9 @@ vertical's preset from `INDUSTRIES.template.json`. One material canvas, one acce
 ask a scene for violet→cyan gradients, gradient-filled headlines or neon glows: viewers read
 those as "made by AI" before they read the words (`docs/25-palettes.md`).
 
-**Captions.** Burn active-word captions on short-form: `--captions burn --caption-style active`.
+**Captions.** Template frames already carry their key words as kinetic type — do not burn
+captions over them. Burn active-word captions (`--captions burn --caption-style active`) when
+scenes are footage or a person speaking (`scripts/video/talking-head.mjs` for real takes).
 
 **Vary them.** Reusing one template for every body beat makes the video look like a
 slideshow. The validator warns above {{MAX_SAME_TEMPLATE|2}} uses of the same template.

@@ -52,7 +52,7 @@ const skillDirs = fs
   .map((d) => d.name);
 
 const bootstrap = read("skills/bootstrap-content-agent/SKILL.md");
-const readmes = read("README.md") + read("README.en.md") + read("AGENTS.md");
+const readmes = read("README.md") + read("docs/00-huong-dan-chi-tiet.md") + read("README.en.md") + read("AGENTS.md");
 
 test("every skill has a SKILL.md with frontmatter", () => {
   for (const n of skillDirs) {
@@ -220,12 +220,13 @@ test("the two READMEs name the same tools", () => {
   const named = (f) => new Set(read(f).match(/[a-z0-9-]+\.mjs|[A-Z_]+\.template\.json|crawl\.py/g) ?? []);
   // November 2026: README.md is Vietnamese again (the kit is tuned for Vietnamese creators)
   // and English lives in README.en.md; README.vi.md is a pointer kept so old links resolve.
-  const vi = named("README.md");
+  // README.md is now the short non-technical page; its technical twin is docs/00.
+  const vi = named("docs/00-huong-dan-chi-tiet.md");
   const en = named("README.en.md");
   const noEn = [...vi].filter((n) => !en.has(n)).sort();
   const noVi = [...en].filter((n) => !vi.has(n)).sort();
-  assert.deepEqual(noEn, [], `README.md names these and README.en.md does not: ${noEn.join(", ")}`);
-  assert.deepEqual(noVi, [], `README.en.md names these and README.md does not: ${noVi.join(", ")}`);
+  assert.deepEqual(noEn, [], `docs/00 names these and README.en.md does not: ${noEn.join(", ")}`);
+  assert.deepEqual(noVi, [], `README.en.md names these and docs/00 does not: ${noVi.join(", ")}`);
 });
 
 test("every doc is linked from somewhere", () => {

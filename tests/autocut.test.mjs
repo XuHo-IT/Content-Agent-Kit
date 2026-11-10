@@ -69,3 +69,8 @@ test("source timestamps remap onto the cut timeline", () => {
   assert.equal(remapTime(2, keep), 1.6); // inside a removed pause → the cut point
   assert.equal(remapTime(3, keep), 2.1);
 });
+
+test("a source crop runs before the vertical reframe", () => {
+  const f = buildFilter([{ start: 0, end: 1 }], { vertical: true, crop: "405:600:438:0" });
+  assert.ok(f.indexOf("crop=405:600:438:0") < f.indexOf("scale=1080:1920"));
+});

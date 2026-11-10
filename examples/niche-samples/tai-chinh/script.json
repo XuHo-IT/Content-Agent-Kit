@@ -1,0 +1,74 @@
+{
+  "_niche": "Tài chính cá nhân",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "ledger-green",
+  "metadata": {
+    "title": "Lãi kép: bắt đầu sớm quan trọng hơn bắt đầu nhiều",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-trend-search-morph",
+      "voiceText": "Câu hỏi người trẻ tìm nhiều nhất về tiền: mỗi tháng nên để dành bao nhiêu? Câu trả lời ngắn là: ít cũng được, nhưng phải đều và phải sớm.",
+      "inputs": {
+        "kicker": "Người trẻ hay hỏi",
+        "query": "mỗi tháng nên tiết kiệm bao nhiêu",
+        "result_1": "Ít cũng được, miễn là đều",
+        "result_2": "Bắt đầu càng sớm càng lợi",
+        "result_3": "Tự động trích ngay khi có lương",
+        "footer": ""
+      }
+    },
+    {
+      "id": "number",
+      "type": "body",
+      "templateId": "frame-trend-stat-odometer",
+      "voiceText": "Ví dụ minh hoạ: gửi một triệu mỗi tháng, lãi giả định sáu phần trăm một năm. Sau mười năm bạn có khoảng một trăm sáu mươi tư triệu, trong đó gần bốn mươi tư triệu là tiền lãi.",
+      "inputs": {
+        "kicker": "SAU 10 NĂM",
+        "value": "163.880.000",
+        "unit": "đồng",
+        "label": "Gửi 1 triệu/tháng, lãi giả định 6%/năm, ghép lãi hằng tháng",
+        "delta": "≈ 43,9 triệu là tiền lãi",
+        "source": "Tính minh hoạ — không phải lời khuyên đầu tư"
+      }
+    },
+    {
+      "id": "myth",
+      "type": "body",
+      "templateId": "frame-myth-fact",
+      "voiceText": "Nhiều người nghĩ phải có thật nhiều tiền mới bắt đầu. Thực tế, với lãi kép, thời gian quan trọng hơn số vốn ban đầu. Năm năm chậm trễ có thể bằng cả một khoản lớn.",
+      "inputs": {
+        "mythLabel": "Ai cũng nghĩ",
+        "myth": "Phải có nhiều tiền mới bắt đầu",
+        "factLabel": "Thực tế",
+        "fact": "Với lãi kép, thời gian quan trọng hơn số vốn",
+        "source": ""
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Lưu video này lại, và bắt đầu ngay tháng này, dù chỉ một khoản nhỏ.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Lưu lại và bắt đầu tháng này",
+        "channel": "Kênh Mẫu",
+        "source": ""
+      }
+    }
+  ]
+}
