@@ -1,0 +1,159 @@
+{
+  "_niche": "Doanh nghiệp",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "cobalt-slate",
+  "metadata": {
+    "title": "Viết mục tiêu quý (OKR) cho nhóm nhỏ trong một buổi họp",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-liquid-bg-hero",
+      "voiceText": "Cuối quý, cả nhóm ngồi lại và không ai chắc mình đã làm tốt hay chưa. Lý do thường nằm ở cách viết mục tiêu từ đầu quý. Đây là cách viết OKR gọn cho một nhóm nhỏ.",
+      "inputs": {
+        "kicker": "QUẢN LÝ NHÓM",
+        "brand": "",
+        "headline": "Mục tiêu quý của nhóm bạn có đo được không?",
+        "subheadline": "Cách viết OKR gọn cho nhóm năm đến mười người, xong trong một buổi họp.",
+        "cta": "Xem cách viết",
+        "chip_top": "OKR",
+        "chip_bot": "1 buổi họp"
+      }
+    },
+    {
+      "id": "flip",
+      "type": "body",
+      "templateId": "frame-3d-flip",
+      "voiceText": "Cải thiện chăm sóc khách hàng nghe hay nhưng không đo được. Lật lại thành kết quả cụ thể: trả lời trong hai giờ cho chín mươi phần trăm yêu cầu. Giờ cả nhóm biết đích đến.",
+      "inputs": {
+        "frontLabel": "Mục tiêu mơ hồ",
+        "front": "Cải thiện chăm sóc khách hàng",
+        "backLabel": "Đo được",
+        "back": "Trả lời trong 2 giờ cho 90% yêu cầu",
+        "note": "Ví dụ minh hoạ"
+      }
+    },
+    {
+      "id": "stack",
+      "type": "body",
+      "templateId": "frame-3d-stack",
+      "voiceText": "Một OKR có bốn tầng. Trên cùng là mục tiêu, một câu truyền cảm hứng. Bên dưới là ba kết quả then chốt, đo được bằng con số. Rồi đến việc làm hằng tuần, và buổi check-in để giữ nhịp.",
+      "inputs": {
+        "kicker": "Cấu trúc",
+        "title": "Một OKR gồm những gì",
+        "layers": "Một mục tiêu truyền cảm hứng|Ba kết quả đo được|Việc làm hằng tuần|Check-in mỗi tuần",
+        "note": "Đừng quá ba mục tiêu cho một quý"
+      }
+    },
+    {
+      "id": "dashboard",
+      "type": "body",
+      "templateId": "frame-dashboard",
+      "voiceText": "Giữa quý, một bảng như thế này cho cả nhóm thấy ngay mình đang ở đâu. Mỗi kết quả có số hiện tại và mục tiêu. Không cần báo cáo dài, chỉ cần cập nhật mỗi tuần.",
+      "inputs": {
+        "kicker": "Ví dụ minh hoạ",
+        "title": "Giữa quý: đang ở đâu?",
+        "cells": "Trả lời dưới 2 giờ:72%:đích 90%|Đánh giá trung bình:4,6:đích 4,8|Yêu cầu tồn đọng:31:đích 10|Tuần còn lại:7:trên 13",
+        "note": "Số minh hoạ — cập nhật mỗi thứ Hai"
+      }
+    },
+    {
+      "id": "seventy",
+      "type": "body",
+      "templateId": "frame-pentagram-stat",
+      "voiceText": "Một điều bất ngờ. Với mục tiêu tham vọng, đạt khoảng bảy mươi phần trăm thường đã là tốt. Nếu quý nào nhóm cũng đạt trọn trăm phần trăm, có lẽ mục tiêu đang đặt quá thấp.",
+      "inputs": {
+        "label": "Mức hoàn thành được coi là tốt",
+        "headline": "70%",
+        "subtitle": "Với mục tiêu tham vọng, đạt khoảng 70% đã là tốt. Quý nào cũng đạt 100% nghĩa là mục tiêu đặt quá thấp.",
+        "anchor": "70",
+        "footer_left": "Cách chấm OKR phổ biến",
+        "footer_right": ""
+      }
+    },
+    {
+      "id": "checkin",
+      "type": "body",
+      "templateId": "frame-chat-bubbles",
+      "voiceText": "Buổi check-in chỉ cần mười lăm phút. Con số tuần này là bao nhiêu, cái gì đang làm chậm, và tuần tới thử gì. Không phải để trách ai, mà để tìm ra điểm nghẽn sớm.",
+      "inputs": {
+        "title": "Check-in thứ Hai",
+        "messages": "them:Tuần này trả lời dưới 2 giờ được bao nhiêu?|me:78%, tăng 6 điểm|them:Cái gì đang làm chậm?|me:Cuối tuần không ai trực|them:Thử xếp lịch trực luân phiên nhé",
+        "note": "Ví dụ minh hoạ"
+      }
+    },
+    {
+      "id": "flywheel",
+      "type": "body",
+      "templateId": "frame-diagram-flywheel",
+      "voiceText": "Cuối quý, chấm điểm từng kết quả, rồi hỏi điều gì đã hiệu quả và điều gì không. Bài học đó đi vào mục tiêu quý sau. Sau vài vòng, nhóm đặt mục tiêu sát thực tế hơn hẳn.",
+      "inputs": {
+        "kicker": "NHỊP MỖI QUÝ",
+        "title": "Vòng lặp giúp nhóm giỏi lên sau mỗi quý",
+        "core_label": "HỌC NHANH HƠN",
+        "node_1": "Đặt mục tiêu đo được",
+        "node_2": "Check-in hằng tuần",
+        "node_3": "Chấm điểm cuối quý",
+        "node_4": "Rút kinh nghiệm cho quý sau",
+        "takeaway": "Giá trị lớn nhất của OKR không nằm ở điểm số, mà ở việc nhóm hiểu rõ điều gì thật sự tạo ra kết quả."
+      }
+    },
+    {
+      "id": "sheet",
+      "type": "body",
+      "templateId": "frame-opus-cursor-flow",
+      "voiceText": "Về công cụ, bạn không cần phần mềm đắt tiền. Một bảng tính chia sẻ là đủ. Mỗi người tự cập nhật con số của mình trước buổi họp, nên buổi check-in chỉ còn là bàn cách làm.",
+      "inputs": {
+        "kicker": "MỘT NƠI DUY NHẤT",
+        "window_title": "OKR quý này — bảng chung",
+        "headline": "Một bảng chung, ai cũng cập nhật được",
+        "subtext": "Mỗi người tự điền con số của mình trước check-in. Một bảng tính chia sẻ là đủ.",
+        "action_label": "Cập nhật số tuần này",
+        "status_badge": "ĐÃ LƯU",
+        "result_metric": "15 phút",
+        "result_caption": "cho buổi check-in khi số đã có sẵn trong bảng",
+        "footer": ""
+      }
+    },
+    {
+      "id": "quarter",
+      "type": "body",
+      "templateId": "frame-progress",
+      "voiceText": "Một quý có mười ba tuần. Tuần đầu đặt mục tiêu, giữa quý rà lại xem có cần điều chỉnh không, tuần cuối chấm điểm. Còn lại là những buổi check-in ngắn, đều đặn mỗi tuần.",
+      "inputs": {
+        "kicker": "Lộ trình một quý",
+        "title": "13 tuần, 3 mốc lớn",
+        "value": "6",
+        "total": "13",
+        "milestones": "1:Đặt OKR|6:Rà giữa quý|13:Chấm điểm",
+        "note": "Ví dụ: đang ở tuần thứ 6"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Lưu lại mẫu này cho buổi họp đầu quý, và theo dõi kênh để xem thêm cách quản lý nhóm nhỏ.",
+      "templateId": "frame-logo-outro",
+      "inputs": {
+        "brand_name": "Kênh Mẫu",
+        "tagline": "Quản lý nhóm nhỏ, mỗi tuần một cách làm cụ thể",
+        "primary_url": "",
+        "corner_left": "Theo dõi",
+        "corner_right": "Lưu lại"
+      }
+    }
+  ]
+}

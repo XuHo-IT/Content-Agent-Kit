@@ -6,7 +6,7 @@
   <title>Trend · Reply To Comment</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,700;0,800;0,900;1,800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0b0b0d; }
     
@@ -23,7 +23,7 @@
   }
   @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
   .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
+  .mono { font-family: 'Roboto Mono', monospace; }
   @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
@@ -44,7 +44,7 @@
       .at::after { content: ""; display: block; height: .12em; width: 3.2em; margin-top: .25em; background: #fe2c55; border-radius: 6px; }
       .pts { display: flex; flex-direction: column; }
       .p { display: flex; align-items: center; font-weight: 700; line-height: 1.2; opacity: 0; animation: rise .5s var(--out) forwards; }
-      .p b { flex: none; display: grid; place-items: center; border-radius: 22px; font-family: 'JetBrains Mono', monospace; font-weight: 800; background: #fe2c55; color: #ffffff; }
+      .p b { flex: none; display: grid; place-items: center; border-radius: 22px; font-family: 'Roboto Mono', monospace; font-weight: 800; background: #fe2c55; color: #ffffff; }
       .p:nth-child(2) b { background: #25f4ee; color: #0b0b0d; } .p:nth-child(3) b { background: #ffffff; color: #0b0b0d; }
     
     

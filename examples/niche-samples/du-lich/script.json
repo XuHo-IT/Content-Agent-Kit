@@ -5,7 +5,7 @@
   "aspect": "9:16",
   "theme": "terracotta-sand",
   "metadata": {
-    "title": "Một ngày ở Hội An",
+    "title": "Hội An trong một ngày: đi gì, ăn gì, tránh gì",
     "source": {
       "url": "https://example.com",
       "domain": "example.com",
@@ -21,43 +21,145 @@
     {
       "id": "hook",
       "type": "hook",
-      "templateId": "frame-trend-search-morph",
-      "voiceText": "Chỉ có một ngày ở Hội An thì đi đâu? Đây là lịch trình gọn, đi bộ được hết, không cần thuê xe.",
+      "templateId": "frame-broll",
+      "voiceText": "Rơi từ trên cao xuống phố cổ Hội An. Nếu bạn chỉ có đúng một ngày ở đây, đây là cách đi để không phí buổi nào.",
       "inputs": {
-        "kicker": "Đi đâu khi chỉ có 1 ngày",
-        "query": "hội an 1 ngày đi đâu",
-        "result_1": "Phố cổ lúc sáng sớm",
-        "result_2": "Chùa Cầu và các nhà cổ",
-        "result_3": "Thả đèn hoa đăng buổi tối",
+        "kicker": "Du lịch một ngày",
+        "headline": "Hội An trong một ngày",
+        "subheadline": "Đi gì, ăn gì, tránh gì",
+        "chip": "Quảng Nam",
+        "media_kind": "video"
+      },
+      "media": {
+        "kind": "video",
+        "source": "geo",
+        "id": "15.8771,108.3260"
+      }
+    },
+    {
+      "id": "distance",
+      "type": "body",
+      "templateId": "frame-myth-fact",
+      "voiceText": "Nhiều người nghĩ Hội An xa Đà Nẵng lắm. Thực ra chỉ khoảng ba mươi cây số, đi xe chừng bốn mươi lăm phút. Vì vậy rất nhiều người ở Đà Nẵng và đi Hội An trong ngày.",
+      "inputs": {
+        "mythLabel": "Nhiều người nghĩ",
+        "myth": "Hội An xa Đà Nẵng, phải ở lại qua đêm",
+        "factLabel": "Thực tế",
+        "fact": "Khoảng 30 km, chừng 45 phút đi xe: đi về trong ngày được",
+        "source": "Ước lượng theo đường bộ, tuỳ giao thông"
+      }
+    },
+    {
+      "id": "heritage",
+      "type": "body",
+      "templateId": "frame-vox-collage",
+      "voiceText": "Phố cổ Hội An được UNESCO công nhận là Di sản Văn hoá Thế giới năm một nghìn chín trăm chín mươi chín. Nơi đây giữ lại dấu vết của một thương cảng sầm uất nhiều thế kỷ trước.",
+      "inputs": {
+        "kicker": "VÌ SAO NÊN ĐẾN",
+        "stamp_label": "DI SẢN",
+        "headline": "Di sản Văn hoá Thế giới từ năm 1999",
+        "subhead": "Dấu vết của một thương cảng sầm uất, nơi thương nhân nhiều nước từng ghé lại.",
+        "source": "UNESCO",
+        "source_note": ""
+      }
+    },
+    {
+      "id": "itinerary",
+      "type": "body",
+      "templateId": "frame-step-list",
+      "voiceText": "Lịch trình gợi ý. Sáng sớm đi bộ phố cổ khi còn mát và vắng. Chiều đạp xe ra làng rau Trà Quế hoặc ra biển. Tối quay lại phố cổ ngắm đèn lồng bên sông Hoài.",
+      "inputs": {
+        "kicker": "LỊCH TRÌNH GỢI Ý",
+        "title": "Một ngày ở Hội An",
+        "steps": "Sáng sớm: đi bộ phố cổ khi còn mát|Chiều: đạp xe ra làng rau Trà Quế hoặc biển|Tối: ngắm đèn lồng bên sông Hoài"
+      }
+    },
+    {
+      "id": "bridge",
+      "type": "body",
+      "templateId": "frame-trend-word-pop",
+      "voiceText": "Điểm không thể bỏ qua là Chùa Cầu, cây cầu có mái được xây từ đầu thế kỷ mười bảy. Hãy đến thật sớm buổi sáng, trước khi các đoàn khách tới.",
+      "inputs": {
+        "tag": "KHÔNG THỂ BỎ QUA",
+        "line": "Chùa Cầu: đến trước khi đoàn khách tới",
+        "accent": "Chùa Cầu",
+        "sub": "Cây cầu có mái từ đầu thế kỷ XVII"
+      }
+    },
+    {
+      "id": "food",
+      "type": "body",
+      "templateId": "frame-opus-kinetic-reel",
+      "voiceText": "Ăn gì ở Hội An? Cao lầu với sợi mì dai đặc trưng. Mì Quảng đậm vị miền Trung. Và một ổ bánh mì nóng giòn cho bữa sáng. Ba món, ba bữa, đủ một ngày.",
+      "inputs": {
+        "top_tag": "ĂN GÌ Ở HỘI AN",
+        "counter_badge": "3",
+        "line_1": "Cao lầu",
+        "line_2": "Mì Quảng",
+        "line_3": "Bánh mì",
+        "punchline": "Ba món, ba bữa, đủ một ngày",
         "footer": ""
       }
     },
     {
-      "id": "timeline",
+      "id": "meme",
       "type": "body",
-      "templateId": "frame-trend-timeline-flight",
-      "voiceText": "Sáng sớm dạo phố cổ khi còn vắng. Trưa ăn một tô cao lầu. Chiều ghé Chùa Cầu và vài nhà cổ. Tối ra sông Hoài thả đèn hoa đăng.",
+      "templateId": "frame-meme",
+      "voiceText": "Và đây là khó khăn lớn nhất của chuyến đi: chọn cao lầu hay mì Quảng cho bữa trưa. Lời khuyên của mình là gọi cả hai, rồi chia với bạn đi cùng.",
       "inputs": {
-        "title": "Một ngày ở Hội An",
-        "year_1": "06:30",
-        "label_1": "Dạo phố cổ khi còn vắng",
-        "year_2": "11:30",
-        "label_2": "Ăn trưa một tô cao lầu",
-        "year_3": "15:00",
-        "label_3": "Chùa Cầu và nhà cổ",
-        "year_4": "19:00",
-        "label_4": "Thả đèn trên sông Hoài"
+        "chip": "Meme",
+        "kicker": "Bữa trưa ở Hội An",
+        "caption": "Gọi cả hai, rồi chia nhau",
+        "media_kind": "image"
+      },
+      "media": {
+        "kind": "image",
+        "source": "meme",
+        "id": "ds|Ăn cao lầu|Ăn mì Quảng",
+        "fit": "contain"
+      }
+    },
+    {
+      "id": "daynight",
+      "type": "body",
+      "templateId": "frame-interrogation-log",
+      "voiceText": "Câu hỏi hay gặp: nên đi Hội An ban ngày hay ban đêm? Cả hai. Ban ngày yên tĩnh, hợp để xem nhà cổ. Ban đêm rực rỡ đèn lồng. Buổi trưa thì nghỉ ở chỗ mát.",
+      "inputs": {
+        "room_label": "HỎI NHANH ĐÁP GỌN",
+        "officer_label": "BẠN HỎI",
+        "suspect_label": "KÊNH ĐÁP",
+        "q_1": "Nên đi Hội An ban ngày hay ban đêm?",
+        "a_1": "Cả hai: ngày xem nhà cổ, đêm ngắm đèn lồng.",
+        "q_2": "Còn buổi trưa thì sao?",
+        "a_2": "Nghỉ ở chỗ mát, tránh nắng gắt.",
+        "pause_note": "[BẠN ĐI HỘI AN VÀO GIỜ NÀO? BÌNH LUẬN NHÉ]"
+      }
+    },
+    {
+      "id": "avoid",
+      "type": "body",
+      "templateId": "frame-checklist",
+      "voiceText": "Còn tránh gì? Đừng đi bộ giữa trưa nắng gắt, và nhớ giữ trật tự trong những ngôi nhà cổ còn người ở. Mang theo nón, nước, và mua vé tham quan phố cổ.",
+      "inputs": {
+        "kicker": "TRÁNH GÌ",
+        "title": "Nên và không nên",
+        "doLabel": "Nên",
+        "dos": "Đi sớm hoặc chiều muộn|Mang nón và nước|Mua vé tham quan phố cổ",
+        "dontLabel": "Không nên",
+        "donts": "Đi bộ giữa trưa nắng gắt|Ồn ào trong nhà cổ còn người ở"
       }
     },
     {
       "id": "outro",
       "type": "outro",
-      "voiceText": "Lưu lại cho chuyến đi tới, và theo dõi để xem lịch trình các thành phố khác.",
-      "templateId": "frame-statement-outro",
+      "voiceText": "Lưu video này cho chuyến đi tới, và bình luận món bạn muốn thử nhất ở Hội An nhé.",
+      "templateId": "frame-logo-outro",
       "inputs": {
-        "cta": "Lưu lại cho chuyến đi tới",
-        "channel": "Kênh Mẫu",
-        "source": ""
+        "brand_name": "Kênh Mẫu",
+        "tagline": "Lưu lại cho chuyến đi tới",
+        "primary_url": "",
+        "corner_left": "Theo dõi",
+        "corner_right": "Hết"
       }
     }
   ]

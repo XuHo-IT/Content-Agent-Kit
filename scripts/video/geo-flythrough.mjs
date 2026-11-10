@@ -175,9 +175,13 @@ async function stitch({ tiles, files, cols, rows, size, crop, outPath, font, lab
     }
   }
 
-  const parts = [];
+  // Every tile is scaled to the size the grid was planned for. A server is free to change what
+  // it serves: CARTO's "@2x" URLs returned 256px tiles when checked on 2026-11-10, and hstack
+  // refuses inputs of different sizes while crop then reached past the canvas — a hard crash.
+  // Geometry is in tile units, so normalising here keeps every coordinate right.
+  const parts = tiles.map((_, i) => `[${i}:v]scale=${size}:${size}:flags=lanczos,setsar=1,format=rgb24[t${i}]`);
   for (let r = 0; r < rows; r++) {
-    const row = Array.from({ length: cols }, (_, c) => `[${r * cols + c}:v]`).join("");
+    const row = Array.from({ length: cols }, (_, c) => `[t${r * cols + c}]`).join("");
     parts.push(cols === 1 ? `${row}null[r${r}]` : `${row}hstack=inputs=${cols}[r${r}]`);
   }
   const rowsRef = Array.from({ length: rows }, (_, r) => `[r${r}]`).join("");
@@ -476,6 +480,8 @@ try {
   console.error(`[geo] credits: ${credits.join(" · ")}`);
   console.log(`GEO=${outPath}`);
 } catch (e) {
-  console.error(`[geo] ✗ ${e.message}`);
+  // Node's fetch says only "fetch failed"; the reason (DNS, refused, timeout) is in e.cause.
+  const why = e.cause?.code || e.cause?.message;
+  console.error(`[geo] ✗ ${e.message}${why ? ` (${why}${e.cause?.hostname ? ` ${e.cause.hostname}` : ""})` : ""}`);
   process.exit(1);
 }

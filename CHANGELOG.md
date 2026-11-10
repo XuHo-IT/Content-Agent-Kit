@@ -10,6 +10,42 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Longer, more varied samples; talking-head edit styles
+
+- **Sixteen niche samples, one per industry** (was eight): 76–92 s each, 9–10 scenes, no
+  template repeated within a video, 83 distinct templates across the set, every script passing
+  `validate-script --strict`. Scripts split into `examples/niche-samples/niches-1.mjs` and
+  `niches-2.mjs`; `make-scripts.mjs [<niche> …]` writes one or all.
+- **`talking-head.mjs --style`**: five finished looks — `clean`, `pop`, `editorial`,
+  `cinematic`, `kinetic-doc` (`scripts/video/lib/edit-styles.mjs`; ideas from ghost-editor's
+  presets). Caption treatment, grade applied before captions, punch-in amount, hook card,
+  optional `--progress` bar.
+- **`talking-head.mjs --edl`**: several source ranges, each with its own 9:16 crop, plus B-roll
+  cut-aways laid over the speaker while the voice runs on; captions follow source → assembled →
+  cut time (`lib/edl.mjs`). B-roll above ~35% of the runtime is refused.
+- **Talking-head demo** is now one 63 s edit (4 ranges, 3 B-roll shots from the same CC BY
+  report) in all five styles.
+- `toAssActive` gains `align`, `marginVRatio`, `lower`, `activeTag`, `restTag`, `popTag`, `ink`
+  and `boxColour`. Defaults reproduce the previous output exactly.
+
+### Fixed
+
+- **Vietnamese in monospace text.** JetBrains Mono (Google Fonts build) has no horn or
+  breve-dot glyphs, so ư ơ ặ ợ fell back to a serif mid-word. Every template and builder now
+  uses Roboto Mono; `font-check.mjs` rejects JetBrains Mono and IBM Plex Mono.
+- **Still images on `frame-meme`, `frame-broll`, `frame-media-inset`** aborted the render
+  (`VIDEO_SOURCE_UNRENDERABLE`): their static `<video src="assets/media.mp4">` failed
+  hyperframes' preflight. `compose.mjs` now writes an `<img>` into the throwaway copy.
+- **Stale scene clips.** `render.mjs` reused `clips/scene-<id>.mp4` whenever it existed; it now
+  re-renders a scene when its template file, inputs, media or length change
+  (`clips/scene-<id>.key`).
+- **`geo-flythrough` crash** when a tile server returns a different size than declared (CARTO's
+  `@2x` URLs now serve 256 px). Tiles are normalised before stitching; fetch errors now say why
+  (e.g. `ENOTFOUND`).
+- **`frame-build-minimal`** collapsed the spaces in its hero line.
+- **`frame-vox-newspaper-tear`** printed a real outlet's name ("VOX MEDIA EDITORIAL DESK") and a
+  fixed English tag. Both are now optional slots, `desk_note` and `edition_tag`, empty by default.
+
 ### November 2026 — trend templates, industry palettes, auto-edit, competitor scan
 
 **Breaking: 27 templates removed.** A `script.json` naming one of them no longer validates.

@@ -15,24 +15,33 @@ Không cần biết lập trình. Không cần biết dựng phim. Hầu hết t
 
 ---
 
-## 🎬 Video mẫu — mỗi ngành một phong cách
+## 🎬 Video mẫu — 16 ngành, 16 phong cách
 
-Tất cả video dưới đây do bộ kit tự làm từ một đoạn kịch bản: hình, chữ chạy, giọng đọc tiếng
-Việt và phụ đề sáng từng từ. Mỗi ngành có **bảng màu riêng**. Bấm vào ảnh để xem video có tiếng.
+Mỗi video dài khoảng 1 phút 20 giây, gồm 9–10 cảnh, do bộ kit tự làm từ một đoạn kịch bản:
+khung hình động, chữ chạy, giọng đọc tiếng Việt và nhạc nền. Mỗi ngành có **bảng màu riêng**
+và một bộ khung hình riêng (sơ đồ, biểu đồ, bản đồ vệ tinh, tờ báo cũ, cửa sổ code, meme…);
+16 video dùng tổng cộng 83 kiểu khung khác nhau. Bấm vào ảnh để xem video có tiếng.
 
 | | | | |
 |:---:|:---:|:---:|:---:|
-| [![AI & Công nghệ](examples/niche-samples/cong-nghe-ai/preview.webp)](examples/niche-samples/cong-nghe-ai/video.mp4) | [![Tài chính](examples/niche-samples/tai-chinh/preview.webp)](examples/niche-samples/tai-chinh/video.mp4) | [![Bán hàng](examples/niche-samples/thuong-mai-dien-tu/preview.webp)](examples/niche-samples/thuong-mai-dien-tu/video.mp4) | [![Giáo dục](examples/niche-samples/giao-duc/preview.webp)](examples/niche-samples/giao-duc/video.mp4) |
-| **AI & Công nghệ** | **Tài chính cá nhân** | **Bán hàng online** | **Giáo dục** |
-| [![Tin tức](examples/niche-samples/tin-tuc/preview.webp)](examples/niche-samples/tin-tuc/video.mp4) | [![Du lịch](examples/niche-samples/du-lich/preview.webp)](examples/niche-samples/du-lich/video.mp4) | [![Sức khoẻ](examples/niche-samples/y-te/preview.webp)](examples/niche-samples/y-te/video.mp4) | [![Bất động sản](examples/niche-samples/bat-dong-san/preview.webp)](examples/niche-samples/bat-dong-san/video.mp4) |
-| **Tin tức** | **Du lịch** | **Sức khoẻ** | **Bất động sản** |
+| [![AI & Công nghệ](examples/niche-samples/cong-nghe-ai/preview.webp)](examples/niche-samples/cong-nghe-ai/video.mp4) | [![Lập trình](examples/niche-samples/lap-trinh/preview.webp)](examples/niche-samples/lap-trinh/video.mp4) | [![Tài chính cá nhân](examples/niche-samples/tai-chinh/preview.webp)](examples/niche-samples/tai-chinh/video.mp4) | [![Doanh nghiệp](examples/niche-samples/doanh-nghiep/preview.webp)](examples/niche-samples/doanh-nghiep/video.mp4) |
+| **AI & Công nghệ** | **Lập trình** | **Tài chính cá nhân** | **Doanh nghiệp** |
+| [![Marketing](examples/niche-samples/marketing/preview.webp)](examples/niche-samples/marketing/video.mp4) | [![Bán hàng & TMĐT](examples/niche-samples/thuong-mai-dien-tu/preview.webp)](examples/niche-samples/thuong-mai-dien-tu/video.mp4) | [![Logistics](examples/niche-samples/logistics/preview.webp)](examples/niche-samples/logistics/video.mp4) | [![Game](examples/niche-samples/game/preview.webp)](examples/niche-samples/game/video.mp4) |
+| **Marketing** | **Bán hàng & TMĐT** | **Logistics** | **Game** |
+| [![Giáo dục](examples/niche-samples/giao-duc/preview.webp)](examples/niche-samples/giao-duc/video.mp4) | [![Lịch sử](examples/niche-samples/lich-su/preview.webp)](examples/niche-samples/lich-su/video.mp4) | [![Tin tức](examples/niche-samples/tin-tuc/preview.webp)](examples/niche-samples/tin-tuc/video.mp4) | [![Pháp lý](examples/niche-samples/phap-ly/preview.webp)](examples/niche-samples/phap-ly/video.mp4) |
+| **Giáo dục** | **Lịch sử** | **Tin tức** | **Pháp lý** |
+| [![Sức khoẻ](examples/niche-samples/y-te/preview.webp)](examples/niche-samples/y-te/video.mp4) | [![Môi trường](examples/niche-samples/moi-truong/preview.webp)](examples/niche-samples/moi-truong/video.mp4) | [![Du lịch](examples/niche-samples/du-lich/preview.webp)](examples/niche-samples/du-lich/video.mp4) | [![Bất động sản](examples/niche-samples/bat-dong-san/preview.webp)](examples/niche-samples/bat-dong-san/video.mp4) |
+| **Sức khoẻ** | **Môi trường** | **Du lịch** | **Bất động sản** |
 
-### Có sẵn video quay người nói? Kit dựng lại cho bạn
+### Có sẵn video quay người nói? Một đoạn quay, năm phong cách dựng
 
-[![Video người thật đã được dựng lại](examples/talking-head-demo/preview.webp)](examples/talking-head-demo/short.mp4)
+| Clean | Pop | Editorial | Cinematic | Kinetic doc |
+|:---:|:---:|:---:|:---:|:---:|
+| [![clean](examples/talking-head-demo/clean.webp)](examples/talking-head-demo/clean.mp4) | [![pop](examples/talking-head-demo/pop.webp)](examples/talking-head-demo/pop.mp4) | [![editorial](examples/talking-head-demo/editorial.webp)](examples/talking-head-demo/editorial.mp4) | [![cinematic](examples/talking-head-demo/cinematic.webp)](examples/talking-head-demo/cinematic.mp4) | [![kinetic-doc](examples/talking-head-demo/kinetic-doc.webp)](examples/talking-head-demo/kinetic-doc.mp4) |
 
-Một đoạn phóng sự quay ngang, có thanh chữ của đài truyền hình, được tự động: cắt khoảng lặng →
-cắt khung dọc 9:16 bỏ thanh chữ → thêm phụ đề sáng từng từ → thêm tiêu đề mở đầu.
+Một phóng sự truyền hình quay ngang dài 2 phút 26 giây, được kit tự dựng thành video dọc 1 phút:
+ghép 4 đoạn người dân, cán bộ và lời dẫn → chèn cảnh minh hoạ → cắt khoảng lặng → cắt khung dọc
+bỏ logo và thanh chữ của đài → phụ đề sáng từng từ → chỉnh màu theo phong cách.
 Nguồn: Đài PTTH Thanh Hoá, giấy phép CC BY 3.0 — [chi tiết](examples/talking-head-demo/).
 
 ---
@@ -59,7 +68,7 @@ Gõ những câu như thế này vào trợ lý AI:
 | Biết hôm nay có gì hot | *"Hôm nay có gì hot về **xe điện**?"* |
 | Làm một video | *"Làm video 60 giây về **cách chọn kem chống nắng**"* |
 | Soi đối thủ | *"Phân tích kênh **@ten-kenh-doi-thu** giúp tôi"* |
-| Dựng video tự quay | *"Cắt khoảng lặng và thêm phụ đề cho file **video-cua-toi.mp4**"* |
+| Dựng video tự quay | *"Cắt khoảng lặng và thêm phụ đề cho file **video-cua-toi.mp4**, phong cách **pop**"* |
 | Viết bài đăng mỗi ngày | *"Tạo nội dung hôm nay"* |
 
 AI sẽ tự đọc hướng dẫn trong bộ kit, làm từng bước và **cho bạn duyệt trước khi đăng**.

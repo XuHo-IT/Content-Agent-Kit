@@ -1,0 +1,174 @@
+{
+  "_niche": "Pháp lý",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "oxblood-paper",
+  "metadata": {
+    "title": "Hợp đồng thuê nhà: soi kỹ trước khi ký",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-vox-investigation-board",
+      "voiceText": "Mất tiền cọc khi trả nhà là chuyện nhiều người thuê từng gặp. Hôm nay mình mở hồ sơ một hợp đồng thuê nhà, và chỉ ra những chỗ cần soi kỹ trước khi đặt bút ký.",
+      "inputs": {
+        "kicker": "HỒ SƠ MỘT HỢP ĐỒNG THUÊ NHÀ",
+        "board_title": "Ba chỗ hay gây tranh chấp",
+        "card_1_label": "ĐẦU MỐI 01",
+        "card_1_text": "Tiền cọc: trả lại khi nào, trừ những gì?",
+        "card_2_label": "ĐẦU MỐI 02",
+        "card_2_text": "Trả nhà trước hạn: báo trước bao lâu?",
+        "card_3_label": "ĐẦU MỐI 03",
+        "card_3_text": "Hư hỏng: ai sửa, ai trả tiền?",
+        "stamp_text": "CẦN SOI",
+        "conclusion": "Cả ba đều phải được viết rõ, không chỉ nói miệng."
+      }
+    },
+    {
+      "id": "dossier",
+      "type": "body",
+      "templateId": "frame-vox-highlighter",
+      "voiceText": "Điều khoản đầu tiên là tiền cọc. Hợp đồng cần ghi rõ số tiền, khi nào được trả lại, và những trường hợp nào bị trừ. Câu chữ mơ hồ là nơi tranh chấp bắt đầu.",
+      "inputs": {
+        "kicker": "ĐIỀU KHOẢN TIỀN CỌC",
+        "document_title": "Hợp đồng thuê nhà (câu mẫu minh hoạ)",
+        "quote_pre": "Bên thuê được hoàn tiền cọc khi kết thúc hợp đồng, ",
+        "highlight_text": "trừ các trường hợp vi phạm",
+        "quote_post": " theo thoả thuận.",
+        "source": "",
+        "source_note": "Vi phạm là gì? Trừ bao nhiêu? Hoàn trong mấy ngày?"
+      }
+    },
+    {
+      "id": "decode",
+      "type": "body",
+      "templateId": "frame-trend-code-diff",
+      "voiceText": "Câu chữ có thể sửa trước khi ký. Thay vì dọn đi sớm là mất cọc, hãy đề nghị: báo trước ba mươi ngày thì được hoàn cọc đầy đủ. Chỉ một dòng, nhưng khác cả số tiền.",
+      "inputs": {
+        "file_name": "hop-dong-thue.docx",
+        "ctx_1": "Điều 5. Tiền cọc",
+        "line_del": "Trả nhà khi còn hạn: mất cọc.",
+        "line_add": "Báo 30 ngày: hoàn đủ tiền cọc.",
+        "ctx_2": "Điều 6. Bảo trì, hỏng hóc",
+        "status": "Đã gửi bản sửa cho chủ nhà",
+        "caption": "Sửa một dòng trước khi ký"
+      }
+    },
+    {
+      "id": "repairs",
+      "type": "body",
+      "templateId": "frame-vox-declassified",
+      "voiceText": "Điều khoản thứ hai: sửa chữa. Hư hỏng nhỏ do sử dụng hằng ngày thường do người thuê lo, còn hư hỏng lớn về kết cấu, điện nước thì sao? Hãy ghi rõ ai chịu, đến mức nào.",
+      "inputs": {
+        "kicker": "ĐIỀU KHOẢN HAY BỊ BỎ QUÊN",
+        "stamp": "CẦN THOẢ THUẬN",
+        "doc_title": "ĐIỀU KHOẢN SỬA CHỮA",
+        "case_id": "MỤC: TRÁCH NHIỆM CÁC BÊN",
+        "date_issued": "ÁP DỤNG: SUỐT THỜI HẠN THUÊ",
+        "body_paragraph_1": "Hư hỏng nhỏ do sử dụng hằng ngày như bóng đèn, vòi nước thường do bên thuê tự xử lý.",
+        "highlight_leak": "HƯ HỎNG LỚN: AI CHỊU, ĐẾN MỨC NÀO?",
+        "body_paragraph_2": "Máy lạnh, đường điện, thấm dột, kết cấu nhà nên được ghi rõ bên nào chịu chi phí.",
+        "takeaway": "Viết rõ từ đầu thì không phải cãi nhau về sau."
+      }
+    },
+    {
+      "id": "flow",
+      "type": "body",
+      "templateId": "frame-diagram-flowchart",
+      "voiceText": "Khi muốn trả nhà trước hạn, hãy đi theo một lối rõ ràng. Xem hợp đồng có điều khoản báo trước không. Có thì báo đúng hạn, bằng văn bản. Không có thì thương lượng và lập biên bản.",
+      "inputs": {
+        "kicker": "TRẢ NHÀ TRƯỚC HẠN",
+        "flowchart_title": "Đi theo lối nào?",
+        "start_node": "Muốn trả nhà sớm",
+        "decision_node": "Hợp đồng có điều khoản báo trước?",
+        "branch_yes_label": "CÓ",
+        "branch_yes_action": "Báo đúng hạn, bằng văn bản",
+        "branch_no_label": "KHÔNG",
+        "branch_no_action": "Thương lượng, lập biên bản",
+        "summary": "Mọi thoả thuận mới đều nên có chữ ký hai bên."
+      }
+    },
+    {
+      "id": "chat",
+      "type": "body",
+      "templateId": "frame-forensic-chat",
+      "voiceText": "Những gì nói miệng rất dễ bị quên. Hãy giữ lại tin nhắn thoả thuận với chủ nhà, chụp ảnh hiện trạng căn phòng ngày nhận nhà. Đó là bằng chứng của chính bạn.",
+      "inputs": {
+        "time_label": "21:05",
+        "sender_label": "CHỦ NHÀ (MINH HOẠ)",
+        "msg_1": "Máy lạnh hỏng thì anh cho thợ qua sửa nhé.",
+        "msg_2": "Dạ, em chụp ảnh hiện trạng phòng gửi anh luôn ạ.",
+        "msg_deleted": "Đã gửi 12 ảnh hiện trạng phòng ngày nhận nhà",
+        "msg_3": "Ok em, anh lưu rồi.",
+        "typing_note": "Đang soạn tin…",
+        "footer": "Lưu lại tin nhắn và ảnh: đó là bằng chứng của bạn"
+      }
+    },
+    {
+      "id": "checklist",
+      "type": "body",
+      "templateId": "frame-checklist",
+      "voiceText": "Trước khi ký, nên đọc hết mọi trang, hỏi lại chỗ chưa rõ và giữ một bản có chữ ký. Không nên ký khi còn chỗ để trống, hay tin vào những lời hứa không có trong hợp đồng.",
+      "inputs": {
+        "kicker": "TRƯỚC KHI KÝ",
+        "title": "Nên và không nên",
+        "doLabel": "Nên",
+        "dos": "Đọc hết mọi trang, kể cả phụ lục|Hỏi lại chỗ chưa rõ|Giữ một bản có đủ chữ ký",
+        "dontLabel": "Không nên",
+        "donts": "Ký khi còn chỗ để trống|Tin lời hứa không có trên giấy"
+      }
+    },
+    {
+      "id": "sketch",
+      "type": "body",
+      "templateId": "frame-opus-handdrawn",
+      "voiceText": "Hai người thuê cùng một căn phòng. Người thứ nhất đọc lướt rồi ký. Người thứ hai gạch chân ba điều khoản, hỏi lại và ghi bổ sung. Đến ngày trả nhà, kết quả khác hẳn.",
+      "inputs": {
+        "kicker": "HAI CÁCH KÝ HỢP ĐỒNG",
+        "headline": "Cùng một căn phòng, hai kết cục",
+        "sketch_left": "Đọc lướt rồi ký ngay",
+        "sketch_right": "Gạch chân, hỏi lại, ghi bổ sung",
+        "callout_note": "Mười lăm phút đọc kỹ đáng giá hơn tiền cọc",
+        "verdict": "Ngày trả nhà: người đọc kỹ ít bất ngờ hơn",
+        "footer": ""
+      }
+    },
+    {
+      "id": "rule",
+      "type": "body",
+      "templateId": "frame-kinetic-type",
+      "voiceText": "Nếu chỉ nhớ một điều, hãy nhớ điều này. Chưa đọc kỹ thì đừng ký. Mọi điều khoản đều có thể thương lượng trước khi ký, nhưng rất khó sửa sau khi đã ký.",
+      "inputs": {
+        "kicker": "Nhớ một điều",
+        "line": "Chưa đọc kỹ thì đừng ký.",
+        "accent": "đừng ký",
+        "footnote": "Thương lượng trước khi ký dễ hơn sửa sau khi ký"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Đây là kiến thức chung, không phải tư vấn pháp lý. Với trường hợp cụ thể, hãy hỏi luật sư.",
+      "templateId": "frame-logo-outro",
+      "inputs": {
+        "brand_name": "Kênh Mẫu",
+        "tagline": "Hỏi luật sư khi cần",
+        "primary_url": "",
+        "corner_left": "Theo dõi",
+        "corner_right": "Hết"
+      }
+    }
+  ]
+}

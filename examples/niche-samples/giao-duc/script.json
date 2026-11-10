@@ -5,7 +5,7 @@
   "aspect": "9:16",
   "theme": "chalk-marigold",
   "metadata": {
-    "title": "Nhớ từ vựng lâu hơn với lặp lại ngắt quãng",
+    "title": "Học ít mà nhớ lâu: bốn kỹ thuật có cơ sở",
     "source": {
       "url": "https://example.com",
       "domain": "example.com",
@@ -22,49 +22,146 @@
       "id": "hook",
       "type": "hook",
       "templateId": "frame-trend-comment-reply",
-      "voiceText": "Một bạn hỏi: học từ vựng tiếng Anh hôm trước, hôm sau quên sạch, làm sao để nhớ lâu hơn? Có ba bước rất đơn giản.",
+      "voiceText": "Có bạn hỏi: học thuộc tối hôm trước, sáng hôm sau đã quên gần hết, vậy là do mình kém trí nhớ? Không phải đâu. Vấn đề nằm ở cách học, và nó sửa được.",
       "inputs": {
         "reply_label": "Trả lời bình luận của",
-        "username": "@lan.hoc.anh",
-        "comment": "Học từ vựng hôm trước, hôm sau quên sạch. Làm sao nhớ lâu?",
-        "answer_title": "3 bước nhớ lâu",
-        "point_1": "",
-        "point_2": "",
-        "point_3": ""
+        "username": "@hoc.sinh.lop12",
+        "comment": "Học thuộc tối qua mà sáng nay quên sạch là sao ạ?",
+        "answer_title": "Không phải do bạn kém",
+        "point_1": "Não quên theo một đường cong",
+        "point_2": "Đọc lại tạo cảm giác quen, chưa phải nhớ",
+        "point_3": "Ôn đúng lúc thì đường cong thoải dần"
       }
     },
     {
-      "id": "steps",
+      "id": "curve",
       "type": "body",
-      "templateId": "frame-step-list",
-      "voiceText": "Bước một, ôn lại sau một ngày. Bước hai, ôn tiếp sau ba ngày, rồi một tuần. Bước ba, tự đặt câu với từ đó thay vì chỉ đọc lại. Đây là cách lặp lại ngắt quãng.",
+      "templateId": "frame-trend-line",
+      "voiceText": "Năm một nghìn tám trăm tám mươi lăm, nhà tâm lý học Ebbinghaus vẽ ra đường cong quên lãng. Trí nhớ tụt nhanh nhất ngay sau khi học. Sau một ngày chỉ còn chừng một phần ba.",
       "inputs": {
-        "kicker": "LẶP LẠI NGẮT QUÃNG",
-        "title": "Ôn đúng lúc sắp quên",
-        "steps": "Ôn lại sau 1 ngày|Rồi sau 3 ngày, 1 tuần|Tự đặt câu thay vì đọc lại"
+        "kicker": "Đường cong quên lãng",
+        "title": "Ebbinghaus, 1885",
+        "unit": "% còn giữ lại theo thời gian",
+        "points": "Lúc học:100|20 phút:58|1 giờ:44|9 giờ:36|1 ngày:34|6 ngày:25|31 ngày:21",
+        "highlight": "1 ngày",
+        "baseline": "zero"
       }
     },
     {
-      "id": "checklist",
+      "id": "techniques",
       "type": "body",
-      "templateId": "frame-checklist",
-      "voiceText": "Nên học ít từ mỗi ngày nhưng đều, và đặt từ vào câu. Không nên học một trăm từ trong một tối rồi bỏ cả tuần, cũng không nên chỉ chép đi chép lại.",
+      "templateId": "frame-whiteboard-doodle",
+      "voiceText": "Ba kỹ thuật được nghiên cứu nhiều nhất. Gợi nhớ chủ động: gấp sách lại và tự nhớ. Lặp lại ngắt quãng: ôn cách quãng xa dần. Và giảng lại cho người khác bằng lời của chính mình.",
       "inputs": {
-        "kicker": "MẸO NHỎ",
-        "title": "Nên và không nên",
-        "doLabel": "Nên",
-        "dontLabel": "Không nên",
-        "dos": "Ít từ mỗi ngày|Đặt từ vào câu|Ôn đúng lịch",
-        "donts": "Học dồn một tối|Chỉ chép lại|Bỏ cả tuần"
+        "kicker": "BẢNG ĐEN HÔM NAY",
+        "lesson_title": "Ba kỹ thuật học nhớ lâu",
+        "doodle_label_1": "01. Gợi nhớ chủ động",
+        "doodle_desc_1": "Gấp sách lại, tự viết ra những gì còn nhớ.",
+        "doodle_label_2": "02. Lặp lại ngắt quãng",
+        "doodle_desc_2": "Ôn sau một ngày, một tuần, rồi một tháng.",
+        "doodle_label_3": "03. Giảng lại",
+        "doodle_desc_3": "Giải thích cho bạn bè bằng lời của mình.",
+        "takeaway": "Khó hơn đọc lại, nhưng nhớ lâu hơn nhiều."
+      }
+    },
+    {
+      "id": "illusion",
+      "type": "body",
+      "templateId": "frame-3d-flip",
+      "voiceText": "Vì sao đọc lại nhiều lần vẫn quên? Vì đọc lại làm trang sách trông quen, và cảm giác quen rất dễ bị nhầm là đã hiểu. Người ta gọi đó là ảo giác thành thạo.",
+      "inputs": {
+        "frontLabel": "Cảm giác",
+        "front": "Đọc lại ba lần, chắc là thuộc rồi",
+        "backLabel": "Thực tế",
+        "back": "Gấp sách lại thì không nhớ ra",
+        "note": "Ảo giác thành thạo: quen mặt chữ chưa phải là nhớ"
+      }
+    },
+    {
+      "id": "sketch",
+      "type": "body",
+      "templateId": "frame-opus-handdrawn",
+      "voiceText": "So sánh hai cách dùng cùng một buổi tối. Một bên đọc lại ghi chép ba lần. Bên kia đọc một lần, rồi tự hỏi và trả lời không nhìn sách. Cách thứ hai mệt hơn, nhưng đọng lại.",
+      "inputs": {
+        "kicker": "PHÁC THẢO",
+        "headline": "Cùng một buổi tối, hai cách học",
+        "sketch_left": "Đọc lại ghi chép ba lần",
+        "sketch_right": "Đọc một lần, tự đố mình",
+        "callout_note": "Chỗ thấy khó chính là chỗ não đang ghi nhớ",
+        "verdict": "Tự kiểm tra: mệt hơn, nhớ lâu hơn",
+        "footer": ""
+      }
+    },
+    {
+      "id": "schedule",
+      "type": "body",
+      "templateId": "frame-timeline",
+      "voiceText": "Một lịch ôn đơn giản để bắt đầu. Ngày đầu học bài mới. Ngày hôm sau ôn lần một. Một tuần sau ôn lần hai. Một tháng sau ôn lần cuối. Mỗi lần chỉ cần mười lăm phút.",
+      "inputs": {
+        "kicker": "LỊCH ÔN GỢI Ý",
+        "title": "Ôn cách quãng xa dần",
+        "events": "Ngày 1:Học bài mới|Ngày 2:Ôn lần một|Ngày 7:Ôn lần hai|Ngày 30:Ôn lần cuối",
+        "note": "Mỗi lần ôn khoảng 15 phút"
+      }
+    },
+    {
+      "id": "pomodoro",
+      "type": "body",
+      "templateId": "frame-math-manim",
+      "voiceText": "Còn khi ngồi học, hãy chia thời gian thành từng khối. Hai mươi lăm phút tập trung, năm phút nghỉ. Bốn vòng như vậy là hai tiếng, rồi nghỉ dài hơn. Đây là kỹ thuật Pomodoro.",
+      "inputs": {
+        "kicker": "PHÉP TÍNH MỘT BUỔI HỌC",
+        "formula_title": "Chia buổi học thành khối",
+        "step_1_label": "MỘT KHỐI",
+        "step_1_math": "25 phút học + 5 phút nghỉ = 30 phút",
+        "step_2_label": "BỐN KHỐI",
+        "step_2_math": "4 × 30 phút = 120 phút",
+        "step_3_label": "SAU ĐÓ",
+        "step_3_math": "Nghỉ dài 15 – 30 phút",
+        "graph_label": "KỸ THUẬT POMODORO",
+        "takeaway": "Nghỉ ngắn đều đặn giữ sự tập trung lâu hơn ngồi lì."
+      }
+    },
+    {
+      "id": "meme",
+      "type": "body",
+      "templateId": "frame-meme",
+      "voiceText": "Tóm lại bằng một hình thôi. Đọc lại hoài thì dễ chịu nhưng nhanh quên. Tự kiểm tra thì hơi khó chịu, nhưng đó mới là lúc bạn thật sự đang học.",
+      "inputs": {
+        "chip": "Meme",
+        "kicker": "Học sinh khôn ngoan",
+        "caption": "Khó chịu một chút, nhớ lâu hơn nhiều",
+        "media_kind": "image"
+      },
+      "media": {
+        "kind": "image",
+        "source": "meme",
+        "id": "drake|Đọc lại hoài|Tự kiểm tra",
+        "fit": "contain"
+      }
+    },
+    {
+      "id": "note",
+      "type": "body",
+      "templateId": "frame-vox-highlighter",
+      "voiceText": "Nếu chỉ nhớ một câu từ video này, hãy nhớ câu được tô vàng. Học không phải là nhét thông tin vào đầu, mà là luyện cách lấy nó ra khi cần.",
+      "inputs": {
+        "kicker": "GHI CHÚ CUỐI BÀI",
+        "document_title": "Sổ tay học tập",
+        "quote_pre": "Học không phải là nhét thông tin vào đầu, mà là ",
+        "highlight_text": "luyện cách lấy nó ra",
+        "quote_post": " khi cần dùng.",
+        "source": "",
+        "source_note": "Tóm tắt của kênh"
       }
     },
     {
       "id": "outro",
       "type": "outro",
-      "voiceText": "Bạn muốn hỏi gì tiếp theo? Bình luận để được trả lời trong video sau.",
+      "voiceText": "Lưu video này lại, và thử ôn bằng cách tự kiểm tra ngay tối nay nhé.",
       "templateId": "frame-statement-outro",
       "inputs": {
-        "cta": "Bình luận câu hỏi tiếp theo",
+        "cta": "Lưu lại và thử ngay tối nay",
         "channel": "Kênh Mẫu",
         "source": ""
       }

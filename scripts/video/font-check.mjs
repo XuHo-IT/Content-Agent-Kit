@@ -26,7 +26,11 @@ export const NO_VIETNAMESE = new Map([
   ["Cinzel", "Cormorant SC"],
   ["Cinzel Decorative", "Cormorant SC"],
   ["Caveat", "Patrick Hand"],
-  ["Fira Code", "JetBrains Mono"],
+  ["Fira Code", "Roboto Mono"],
+  // Google lists a "vietnamese" subset for both, but neither draws the horn (ư ơ) or ặ/ợ — a
+  // render shows those letters in a fallback serif mid-word. Rendered and compared 2026-11-10.
+  ["JetBrains Mono", "Roboto Mono"],
+  ["IBM Plex Mono", "Roboto Mono"],
   ["Cabinet Grotesk", "Bricolage Grotesque"], // Fontshare, not Google — the <link> loads nothing
   ["Syne", "Unbounded"],
   ["Bebas Neue", "Anton"],

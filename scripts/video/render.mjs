@@ -11,8 +11,8 @@
 //
 // Outputs land NEXT TO the script.json: voice/, clips/, voice.mp3, script.txt, video.mp4.
 // IDEMPOTENT — narration is reused only when its fingerprint (provider, voice, speed,
-// model, text) still matches; clips are reused whenever they exist. Delete
-// clips/scene-<id>.mp4 to force one scene to re-render after editing its `inputs`.
+// model, text) still matches; clips are reused while their template, inputs, media and
+// length are unchanged (clips/scene-<id>.key). Delete a clip to force it anyway.
 //
 // ENV: TTS_PROVIDER, TTS_VOICE_ID, TTS_SPEED, TTS_CONCURRENCY, VIDEO_TEMPLATES_DIR,
 //      VIDEO_SFX_DIR (+ the provider's own key — see docs/14). Needs ffmpeg + Chrome.
@@ -45,6 +45,7 @@ import { sfxDir } from "./lib/paths.mjs";
 import { resolveTheme, themeKey, hslToRgb } from "./lib/theme.mjs";
 import { resolveSceneMediaList } from "../media/lib/resolve.mjs";
 import { loadProfile, resolveSettings } from "./lib/profile.mjs";
+import { sceneClipKey } from "./lib/clip-key.mjs";
 import { assertBackend, loadBackend, describeBackends } from "./lib/backends/index.mjs";
 
 const argv = process.argv.slice(2);
@@ -418,10 +419,17 @@ try {
 
     const rawClip = path.join(clipsDir, `scene-${scene.id}.mp4`);
     const fitClip = path.join(clipsDir, `scene-${scene.id}-fit.mp4`);
+    // A clip is reused only if what it was rendered FROM is unchanged. Keyed by scene id alone,
+    // editing a scene's inputs — or swapping its template — silently re-used the old picture,
+    // and the only remedy was deleting clips by hand.
+    const keyPath = path.join(clipsDir, `scene-${scene.id}.key`);
+    const clipKey = sceneClipKey(scene, sceneMedia[scene.id], visualDur, aspect);
+    const sameKey = fs.existsSync(keyPath) && fs.readFileSync(keyPath, "utf8").trim() === clipKey;
 
-    if (fs.existsSync(rawClip) && !themeChanged) {
-      info(`scene ${scene.id}: reuse clip — delete it to force a re-render`);
+    if (fs.existsSync(rawClip) && !themeChanged && sameKey) {
+      info(`scene ${scene.id}: reuse clip (template, inputs and length unchanged)`);
     } else {
+      if (fs.existsSync(rawClip)) info(`scene ${scene.id}: ${themeChanged ? "theme" : "template, inputs, media or length"} changed — re-rendering`);
       const media = sceneMedia[scene.id];
       await composeTemplate({
         templateId: scene.templateId,
@@ -452,6 +460,7 @@ try {
         durationSec: visualDur,
         log: (m) => console.warn(`[video] ! ${m}`),
       });
+      await writeFile(keyPath, `${clipKey}\n`, "utf8");
     }
     // Nothing upstream can tell a frame apart from an empty frame: ffprobe sees a valid clip
     // of the right length either way. Two published episodes shipped with five blank scenes
@@ -541,8 +550,8 @@ try {
     console.error(
       `\n[video] ✗ ${blankScenes.length} scene(s) rendered BLANK: ${blankScenes.join(", ")}\n` +
         `[video]   The video was written, but those scenes have nothing on them. Do not publish it.\n` +
-        `[video]   Fix the inputs, delete clips/scene-<id>.mp4 for each, and render again —\n` +
-        `[video]   an existing clip is reused, so a blank one survives a re-render untouched.`,
+        `[video]   Fix the inputs and render again — a scene whose inputs changed re-renders on its\n` +
+        `[video]   own. If the inputs were right, delete clips/scene-<id>.mp4 to force it.`,
     );
     process.exitCode = 1;
   }

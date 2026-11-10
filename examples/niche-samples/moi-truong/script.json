@@ -1,0 +1,171 @@
+{
+  "_niche": "Môi trường",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "moss-paper",
+  "metadata": {
+    "title": "Phân loại rác tại nhà: ba thùng là đủ",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-bold-poster",
+      "voiceText": "Phân loại rác nghe thì phức tạp, nhưng ở nhà bạn chỉ cần ba thùng. Bắt đầu từ tối nay, và đây là cách làm cho đúng.",
+      "inputs": {
+        "kicker": "Sống xanh tại nhà",
+        "date": "Tối nay",
+        "figure": "03",
+        "headline": [
+          "Ba thùng",
+          "là đủ.",
+          "Từ tối nay."
+        ],
+        "standfirst": "Phân loại rác tại nhà không cần phức tạp: ba nhóm, ba thùng, một thói quen.",
+        "footer_left": "Môi trường",
+        "footer_right": "Kênh Mẫu"
+      }
+    },
+    {
+      "id": "law",
+      "type": "body",
+      "templateId": "frame-vox-torchlight",
+      "voiceText": "Luật Bảo vệ môi trường năm hai nghìn hai mươi yêu cầu rác sinh hoạt được phân thành ba nhóm. Rác tái chế được, rác thực phẩm, và các loại rác còn lại.",
+      "inputs": {
+        "kicker": "VĂN BẢN GỐC",
+        "doc_title": "Luật Bảo vệ môi trường 2020",
+        "body_text": "Chất thải rắn sinh hoạt từ hộ gia đình được phân loại thành ba nhóm: chất thải có khả năng tái sử dụng, tái chế; chất thải thực phẩm; và chất thải rắn sinh hoạt khác.",
+        "highlight": "phân loại thành ba nhóm",
+        "stamp": "HIỆU LỰC",
+        "footer": "Tóm lược, xem văn bản luật để biết chi tiết"
+      }
+    },
+    {
+      "id": "groups",
+      "type": "body",
+      "templateId": "frame-opus-collage-stopmo",
+      "voiceText": "Thùng một cho giấy, bìa, chai nhựa, lon kim loại. Thùng hai cho rau củ, vỏ trái cây, thức ăn thừa. Thùng ba cho phần còn lại. Đơn giản vậy thôi.",
+      "inputs": {
+        "sticker_tag": "CẮT DÁN · GÓC BẾP",
+        "headline": "Ba thùng, ba số phận",
+        "cutout_stat": "3",
+        "cutout_label": "Tái chế · Thực phẩm · Còn lại",
+        "tape_quote": "Rác chỉ là rác khi bị trộn lẫn.",
+        "stamp_text": "LÀM ĐƯỢC NGAY",
+        "footer": ""
+      }
+    },
+    {
+      "id": "bottle",
+      "type": "body",
+      "templateId": "frame-math-manim",
+      "voiceText": "Một chai nhựa được phân loại đúng sẽ đi đâu? Nó được thu gom, làm sạch và băm nhỏ, rồi nấu chảy thành hạt nhựa tái sinh. Bỏ chung với thức ăn thừa thì quá trình này khó hơn nhiều.",
+      "inputs": {
+        "kicker": "HÀNH TRÌNH MỘT CHAI NHỰA",
+        "formula_title": "Từ thùng rác thành nguyên liệu",
+        "step_1_label": "BƯỚC 1",
+        "step_1_math": "Thu gom riêng → chai sạch, khô",
+        "step_2_label": "BƯỚC 2",
+        "step_2_math": "Làm sạch → băm nhỏ",
+        "step_3_label": "BƯỚC 3",
+        "step_3_math": "Nấu chảy → hạt nhựa tái sinh",
+        "graph_label": "BỊ TRỘN LẪN: KHÓ TÁI CHẾ",
+        "takeaway": "Phân loại ở nhà là bước quyết định cả chuỗi."
+      }
+    },
+    {
+      "id": "battery",
+      "type": "body",
+      "templateId": "frame-vox-silhouette-file",
+      "voiceText": "Có một đối tượng không thuộc thùng nào trong ba thùng kia: pin cũ. Pin, bóng đèn huỳnh quang và vỏ thuốc trừ sâu là chất thải nguy hại, cần để riêng và mang tới điểm thu gom.",
+      "inputs": {
+        "kicker": "Đối tượng cần lưu ý",
+        "band_text": "KHÔNG BỎ CHUNG VỚI RÁC THƯỜNG",
+        "subject_label": "Cục pin cũ trong ngăn kéo",
+        "fact_1": "Thuộc nhóm chất thải nguy hại",
+        "fact_2": "Đi cùng: bóng đèn huỳnh quang, vỏ thuốc trừ sâu",
+        "fact_3": "Để riêng, mang tới điểm thu gom",
+        "status": "Cần xử lý riêng",
+        "footer": "Hỏi tổ dân phố về điểm thu gom gần nhà"
+      }
+    },
+    {
+      "id": "which",
+      "type": "body",
+      "templateId": "frame-draw-on",
+      "voiceText": "Mẹo nhỏ cho thùng tái chế: tráng sơ cho sạch và để thật khô. Một hộp giấy dính đầy dầu mỡ thường khó tái chế, nên xếp nó vào nhóm rác còn lại.",
+      "inputs": {
+        "kicker": "Mẹo thùng tái chế",
+        "title": "Sạch và khô mới tái chế được",
+        "paths": "circle|check",
+        "caption": "Dính dầu mỡ thì xếp vào nhóm còn lại"
+      }
+    },
+    {
+      "id": "qa",
+      "type": "body",
+      "templateId": "frame-interrogation-log",
+      "voiceText": "Vài câu hỏi hay gặp. Hộp sữa giấy bỏ đâu? Tráng sạch, ép dẹt, cho vào thùng tái chế. Còn hộp xốp đựng cơm dính dầu? Thùng rác còn lại.",
+      "inputs": {
+        "room_label": "HỎI NHANH ĐÁP GỌN",
+        "officer_label": "BẠN HỎI",
+        "suspect_label": "KÊNH ĐÁP",
+        "q_1": "Hộp sữa giấy bỏ thùng nào?",
+        "a_1": "Tráng sạch, ép dẹt, bỏ thùng tái chế.",
+        "q_2": "Còn hộp xốp đựng cơm dính dầu?",
+        "a_2": "Thùng rác còn lại.",
+        "pause_note": "[BẠN CÒN THẮC MẮC GÌ? BÌNH LUẬN NHÉ]"
+      }
+    },
+    {
+      "id": "search",
+      "type": "body",
+      "templateId": "frame-trend-search-morph",
+      "voiceText": "Câu nhiều người tìm nhất: rác nào tái chế được. Giấy và bìa khô, chai nhựa và lon kim loại đã tráng sạch, chai lọ thuỷ tinh. Không chắc thì hỏi đơn vị thu gom ở địa phương.",
+      "inputs": {
+        "kicker": "Câu hỏi hay gặp",
+        "query": "rác nào tái chế được",
+        "result_1": "Giấy, bìa khô và sạch",
+        "result_2": "Chai nhựa, lon kim loại đã tráng",
+        "result_3": "Chai lọ thuỷ tinh",
+        "footer": "Quy định thu gom có thể khác nhau theo địa phương"
+      }
+    },
+    {
+      "id": "corner",
+      "type": "body",
+      "templateId": "frame-papercut-diorama",
+      "voiceText": "Bạn không cần một căn bếp rộng. Ba thùng nhỏ đặt dưới bồn rửa là đủ cho một gia đình. Khó nhất là tuần đầu, sau đó nó thành thói quen.",
+      "inputs": {
+        "kicker": "Góc phân loại",
+        "title": "Ba thùng dưới bồn rửa",
+        "subtitle": "Không cần bếp rộng, chỉ cần một thói quen.",
+        "caption": "Dựng lại bằng giấy cắt, minh hoạ",
+        "footer_left": "Tuần đầu",
+        "footer_right": "Thành thói quen"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Bắt đầu với ba thùng ngay tối nay, và kể cho kênh nghe tuần đầu của bạn thế nào nhé.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Bắt đầu tối nay",
+        "channel": "Kênh Mẫu",
+        "source": ""
+      }
+    }
+  ]
+}

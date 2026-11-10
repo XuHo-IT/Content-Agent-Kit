@@ -5,7 +5,7 @@
   "aspect": "9:16",
   "theme": "graphite-signal",
   "metadata": {
-    "title": "Dựng video ngắn bằng AI agent",
+    "title": "AI agent khác chatbot ở đâu, và khi nào nên dùng",
     "source": {
       "url": "https://example.com",
       "domain": "example.com",
@@ -21,54 +21,165 @@
     {
       "id": "hook",
       "type": "hook",
-      "templateId": "frame-trend-word-pop",
-      "voiceText": "Bạn đang mất ba tiếng để dựng một video ngắn? Có một cách nhanh hơn rất nhiều, và bạn không cần biết dựng phim.",
+      "templateId": "frame-opus-shader-orb",
+      "voiceText": "Chatbot trả lời câu hỏi. Agent thì làm việc thay bạn. Nghe giống nhau, nhưng chúng khác nhau ở đúng một chỗ, và chỗ đó quyết định bạn có nên dùng nó hay không.",
       "inputs": {
-        "tag": "MẸO AI",
-        "line": "Bạn đang mất 3 tiếng để dựng một video ngắn?",
-        "accent": "3 tiếng",
-        "sub": "Có cách nhanh hơn nhiều"
+        "kicker": "AI AGENT · GIẢI THÍCH NHANH",
+        "hero_stat": "Chat → Agent",
+        "headline": "Một bên trả lời, một bên làm việc thay bạn",
+        "subtext": "Khác nhau ở đúng một chỗ: agent được phép dùng công cụ",
+        "pill_left": "Đọc file · chạy lệnh",
+        "pill_right": "Tự kiểm tra kết quả",
+        "footer": ""
       }
     },
     {
-      "id": "compare",
+      "id": "flip",
       "type": "body",
-      "templateId": "frame-trend-compare-wipe",
-      "voiceText": "Cách cũ là cắt ghép tay, gõ phụ đề từng dòng, mỗi video một kiểu. Cách mới là viết kịch bản, để agent dựng khung hình, giọng đọc và phụ đề cùng lúc.",
+      "templateId": "frame-3d-flip",
+      "voiceText": "Chatbot và agent khác nhau ở đâu? Câu trả lời ngắn: agent được dùng công cụ. Bên dưới có thể là cùng một mô hình, nhưng agent được đọc file, chạy lệnh và xem kết quả.",
       "inputs": {
-        "title": "Dựng tay vs dùng agent",
-        "left_label": "TRƯỚC",
-        "left_1": "Cắt ghép thủ công",
-        "left_2": "Gõ phụ đề từng dòng",
-        "left_3": "Mỗi video một kiểu",
-        "right_label": "SAU",
-        "right_1": "Viết kịch bản là xong",
-        "right_2": "Phụ đề tự khớp từng từ",
-        "right_3": "Một bảng màu cho cả kênh",
-        "verdict": "Bạn chỉ còn việc duyệt"
+        "frontLabel": "Câu hỏi",
+        "front": "Chatbot và agent khác nhau ở đâu?",
+        "backLabel": "Trả lời",
+        "back": "Agent được dùng công cụ",
+        "note": "Bên dưới có thể là cùng một mô hình"
       }
     },
     {
       "id": "layers",
       "type": "body",
       "templateId": "frame-trend-exploded-layers",
-      "voiceText": "Bên trong một agent có bốn lớp. Giao diện để bạn ra lệnh, công cụ để chạy lệnh, bộ nhớ để nhớ bối cảnh, và mô hình để suy luận. Thiếu một lớp là nó thành chatbot.",
+      "voiceText": "Bên trong một agent có bốn lớp. Giao diện để bạn ra lệnh, công cụ để chạy lệnh, bộ nhớ để giữ bối cảnh, và mô hình để suy luận. Thiếu lớp công cụ, agent chỉ còn là chatbot.",
       "inputs": {
         "title": "Bên trong một AI agent",
         "layer_1": "Giao diện — nơi bạn ra lệnh",
         "layer_2": "Công cụ — đọc file, chạy lệnh",
-        "layer_3": "Bộ nhớ — nhớ bối cảnh",
-        "layer_4": "Mô hình — bộ não suy luận",
-        "caption": "Thiếu một lớp, agent thành chatbot"
+        "layer_3": "Bộ nhớ — giữ bối cảnh",
+        "layer_4": "Mô hình — suy luận, lập kế hoạch",
+        "caption": "Thiếu lớp công cụ, agent chỉ là chatbot"
+      }
+    },
+    {
+      "id": "loop",
+      "type": "body",
+      "templateId": "frame-diagram-architecture",
+      "voiceText": "Một agent làm việc theo vòng lặp. Nhận yêu cầu, chia thành từng bước, dùng công cụ để làm, rồi kiểm tra kết quả. Nếu chưa đạt, nó quay lại sửa. Bước kiểm tra chính là thứ chatbot không có.",
+      "inputs": {
+        "kicker": "MỘT VÒNG LÀM VIỆC",
+        "system_title": "Agent lặp lại vòng này đến khi xong việc",
+        "node_1_name": "Nhận yêu cầu",
+        "node_1_tech": "Bạn mô tả việc cần làm",
+        "node_2_name": "Lập kế hoạch",
+        "node_2_tech": "Chia thành từng bước nhỏ",
+        "node_3_name": "Dùng công cụ",
+        "node_3_tech": "Đọc file, chạy lệnh, tìm kiếm",
+        "node_4_name": "Kiểm tra",
+        "node_4_tech": "So kết quả với yêu cầu",
+        "throughput_metric": "LẶP ĐẾN KHI ĐẠT",
+        "summary": "Khác biệt nằm ở bước kiểm tra: agent nhìn thấy kết quả thật của việc mình làm, rồi tự sửa nếu sai."
+      }
+    },
+    {
+      "id": "compare",
+      "type": "body",
+      "templateId": "frame-trend-compare-wipe",
+      "voiceText": "Ví dụ một đoạn code bị lỗi. Chatbot đưa bạn đoạn sửa để tự chạy thử. Agent thì tự chạy, đọc lỗi thật, sửa và chạy lại tới khi qua. Bạn nhận kết quả, không chỉ lời khuyên.",
+      "inputs": {
+        "title": "Hỏi chatbot vs giao cho agent",
+        "left_label": "CHATBOT",
+        "left_1": "Đưa đoạn code để bạn tự chạy",
+        "left_2": "Không biết code có chạy không",
+        "left_3": "Bạn tự sửa khi gặp lỗi",
+        "right_label": "AGENT",
+        "right_1": "Tự chạy code trên máy",
+        "right_2": "Đọc lỗi thật từ terminal",
+        "right_3": "Sửa và chạy lại đến khi qua",
+        "verdict": "Agent trả kết quả, không chỉ câu trả lời"
+      }
+    },
+    {
+      "id": "log",
+      "type": "body",
+      "templateId": "frame-ui-glass-dashboard",
+      "voiceText": "Một agent tốt luôn để lại nhật ký. Nó đã làm những bước nào, chạy lệnh gì, tự sửa lỗi mấy lần. Đừng chỉ nhìn kết quả cuối cùng, hãy đọc nhật ký trước khi tin vào nó.",
+      "inputs": {
+        "kicker": "VÍ DỤ MINH HOẠ",
+        "app_name": "Nhật ký một lần chạy",
+        "status_pill": "HOÀN THÀNH · CHỜ BẠN DUYỆT",
+        "metric_1_label": "Bước đã làm",
+        "metric_1_value": "12",
+        "metric_1_change": "tự lên kế hoạch",
+        "metric_2_label": "Lệnh đã chạy",
+        "metric_2_value": "7",
+        "metric_2_change": "đều có log",
+        "metric_3_label": "Lần tự sửa lỗi",
+        "metric_3_value": "2",
+        "metric_3_change": "trước khi báo",
+        "chart_label": "Tiến độ theo từng bước",
+        "takeaway": "Đọc nhật ký trước khi tin kết quả: agent tốt luôn để lại dấu vết của từng việc nó đã làm."
+      }
+    },
+    {
+      "id": "meme",
+      "type": "body",
+      "templateId": "frame-meme",
+      "voiceText": "Ai cũng từng như thế này: hỏi chatbot, copy code, chạy thì lỗi, quay lại hỏi tiếp, lặp đi lặp lại cả buổi. Đó chính là vòng lặp mà agent làm thay cho bạn.",
+      "inputs": {
+        "chip": "Meme",
+        "kicker": "Ai cũng từng",
+        "caption": "Copy code từ chatbot, chạy lỗi, rồi quay lại hỏi tiếp",
+        "media_kind": "image"
+      },
+      "media": {
+        "kind": "image",
+        "source": "meme",
+        "id": "drake|Copy code từ chatbot rồi tự chạy thử|Để agent chạy, đọc lỗi và tự sửa",
+        "fit": "contain"
+      }
+    },
+    {
+      "id": "quadrant",
+      "type": "body",
+      "templateId": "frame-diagram-quadrant",
+      "voiceText": "Vậy khi nào nên dùng? Việc lặp lại nhiều mà sai cũng không sao, hãy giao hẳn. Lặp lại nhưng rủi ro cao, để agent làm và bạn duyệt. Việc một lần mà quan trọng, tự làm vẫn hơn.",
+      "inputs": {
+        "kicker": "KHI NÀO NÊN DÙNG AGENT",
+        "title": "Giao việc theo mức lặp lại và mức an toàn",
+        "axis_x": "Mức lặp lại ➔",
+        "axis_y": "An toàn ↑",
+        "q1_label": "Tuỳ bạn",
+        "q2_label": "Giao hẳn cho agent",
+        "q3_label": "Tự làm",
+        "q4_label": "Agent làm, bạn duyệt",
+        "highlight_entity": "★ BẮT ĐẦU Ở ĐÂY",
+        "summary": "Việc lặp lại nhiều mà sai cũng dễ sửa là chỗ tốt nhất để bắt đầu giao cho agent."
+      }
+    },
+    {
+      "id": "line",
+      "type": "body",
+      "templateId": "frame-creative-voltage",
+      "voiceText": "Nếu chỉ nhớ một câu, hãy nhớ câu này. Agent không thay bạn quyết định điều gì là đúng. Nó thay bạn làm phần lặp lại, để bạn có thời gian cho phần cần suy nghĩ.",
+      "inputs": {
+        "meta": "// NHỚ MỘT CÂU",
+        "display_lines": [
+          "Bạn",
+          "quyết định.",
+          "Agent làm."
+        ],
+        "accent_index": 2,
+        "script": "phần lặp lại",
+        "caption": "Agent không thay bạn quyết định điều gì là đúng"
       }
     },
     {
       "id": "outro",
       "type": "outro",
-      "voiceText": "Theo dõi kênh để xem từng bước dựng một video bằng agent.",
+      "voiceText": "Theo dõi kênh để xem từng bước giao một việc thật cho agent, từ đầu đến cuối.",
       "templateId": "frame-statement-outro",
       "inputs": {
-        "cta": "Theo dõi để xem từng bước",
+        "cta": "Theo dõi để xem bản làm thật",
         "channel": "Kênh Mẫu",
         "source": ""
       }

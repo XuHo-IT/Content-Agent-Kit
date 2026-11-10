@@ -1,0 +1,149 @@
+{
+  "_niche": "Logistics",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "safety-orange",
+  "metadata": {
+    "title": "Đơn hàng đi đâu sau khi bạn bấm đặt",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-trend-search-morph",
+      "voiceText": "Đơn hàng của tôi đang ở đâu? Ai mua hàng online cũng từng hỏi câu này. Mỗi đơn hàng thường đi qua khoảng năm chặng, và biết các chặng đó giúp bạn đọc trạng thái giao hàng dễ hơn nhiều.",
+      "inputs": {
+        "kicker": "Câu ai cũng từng gõ",
+        "query": "đơn hàng của tôi đang ở đâu",
+        "result_1": "Đã rời kho phân loại",
+        "result_2": "Đang trên tuyến liên tỉnh",
+        "result_3": "Đang giao đến bạn",
+        "footer": "Một đơn hàng đi qua năm chặng — xem tiếp"
+      }
+    },
+    {
+      "id": "route",
+      "type": "body",
+      "templateId": "frame-node-graph",
+      "voiceText": "Người bán đóng gói, bưu cục đến lấy hàng, đơn được đưa về kho phân loại, chuyển tới bưu cục gần bạn, rồi shipper mang đến tận nhà. Đơn đi liên tỉnh có thể qua thêm một kho nữa.",
+      "inputs": {
+        "kicker": "Hành trình",
+        "title": "Năm chặng của một đơn hàng",
+        "nodes": "a:Người bán đóng gói|b:Bưu cục lấy hàng|c:Kho phân loại|d:Bưu cục gần bạn|e:Shipper giao",
+        "edges": "a>b|b>c|c>d|d>e",
+        "note": "Đơn liên tỉnh có thể qua thêm một kho"
+      }
+    },
+    {
+      "id": "warehouse",
+      "type": "body",
+      "templateId": "frame-blueprint-draw",
+      "voiceText": "Ở kho phân loại, mỗi kiện hàng được quét mã khi vào, chia theo tuyến trên băng chuyền, rồi quét lần nữa khi ra. Mỗi lần quét là một lần trạng thái đơn hàng của bạn được cập nhật.",
+      "inputs": {
+        "kicker": "KHO PHÂN LOẠI",
+        "title": "Nơi đơn hàng được chia theo tuyến",
+        "plan_label": "SƠ ĐỒ MINH HOẠ",
+        "stat_1_label": "Vào kho",
+        "stat_1_value": "Quét mã",
+        "stat_2_label": "Ra kho",
+        "stat_2_value": "Quét lại",
+        "route_label": "ĐƯỜNG ĐI CỦA KIỆN HÀNG",
+        "note": "Mỗi lần quét mã là một lần trạng thái đơn hàng của bạn đổi"
+      }
+    },
+    {
+      "id": "track",
+      "type": "body",
+      "templateId": "frame-kinetic-type",
+      "voiceText": "Vì vậy khi đơn hàng đứng yên một trạng thái suốt cả ngày, đừng vội lo. Thường là xe đang trên đường giữa hai điểm quét. Trạng thái chỉ đổi khi kiện hàng được quét ở điểm tiếp theo.",
+      "inputs": {
+        "kicker": "Đơn đứng yên cả ngày?",
+        "line": "Trạng thái chỉ đổi khi kiện hàng được quét ở điểm tiếp theo.",
+        "accent": "quét",
+        "footnote": "Thường là xe đang chạy giữa hai kho"
+      }
+    },
+    {
+      "id": "hud",
+      "type": "body",
+      "templateId": "frame-hud",
+      "voiceText": "Đọc trạng thái theo chặng sẽ dễ hơn. Đã lấy hàng, đã phân loại, đang vận chuyển, đang giao. Nếu đơn của bạn ở chặng thứ ba, phần đường dài nhất thường đang diễn ra.",
+      "inputs": {
+        "label": "Trạng thái đơn · minh hoạ",
+        "readouts": "ĐÃ LẤY HÀNG:XONG|PHÂN LOẠI:XONG|VẬN CHUYỂN:ĐANG ĐI|GIAO HÀNG:CHỜ",
+        "center": "3/5",
+        "caption": "Đơn đang ở chặng thứ ba: đoạn đường dài nhất"
+      }
+    },
+    {
+      "id": "weight",
+      "type": "body",
+      "templateId": "frame-split-compare",
+      "voiceText": "Nhiều người bán chưa biết: phí giao có thể tính theo kích thước. Hộp bốn mươi nhân ba mươi nhân hai mươi phân, chia sáu nghìn, quy đổi thành bốn ký, dù hàng chỉ nặng một ký rưỡi.",
+      "inputs": {
+        "leftLabel": "Cân thật",
+        "leftValue": "1,5kg",
+        "leftNote": "Hộp 40×30×20 cm",
+        "rightLabel": "Cân quy đổi",
+        "rightValue": "4kg",
+        "rightNote": "40×30×20 ÷ 6000",
+        "delta": "×2,7",
+        "caption": "Nhiều hãng tính phí theo số lớn hơn; hệ số chia tuỳ hãng, thường 5000 hoặc 6000"
+      }
+    },
+    {
+      "id": "box",
+      "type": "body",
+      "templateId": "frame-pentagram-stat",
+      "voiceText": "Đổi sang hộp ba mươi nhân hai mươi nhân mười lăm phân, cân quy đổi chỉ còn một ký rưỡi, bằng đúng cân thật. Cùng một món hàng, chỉ cần đổi hộp, phí giao có thể giảm đáng kể.",
+      "inputs": {
+        "label": "Hộp 30×20×15 cm · minh hoạ",
+        "headline": "1,5kg",
+        "subtitle": "30 × 20 × 15 ÷ 6000 = 1,5 kg, bằng đúng cân thật. Hộp vừa khít thì phí tính theo cân thật.",
+        "anchor": "1,5",
+        "footer_left": "Cân quy đổi",
+        "footer_right": "Hộp cũ: 4 kg"
+      }
+    },
+    {
+      "id": "lastmile",
+      "type": "body",
+      "templateId": "frame-opus-pixel-arcade",
+      "voiceText": "Chặng cuối dễ thất bại nhất. Số điện thoại sai, địa chỉ thiếu số nhà, hay không ai ở nhà đều khiến đơn phải giao lại. Ghi chú rõ giờ nhận giúp shipper giao ngay lần đầu.",
+      "inputs": {
+        "stage_label": "CHẶNG CUỐI // GIAO HÀNG",
+        "headline": "Giao thành công ngay lần đầu",
+        "player_1_name": "ĐỦ SĐT + GHI CHÚ",
+        "player_1_score": "GIAO NGAY",
+        "player_2_name": "THIẾU SỐ NHÀ",
+        "player_2_score": "GIAO LẠI",
+        "arcade_prompt": "GHI CHÚ GIỜ NHẬN ĐỂ QUA MÀN NHANH HƠN",
+        "footer": ""
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Lưu lại để lần sau đọc trạng thái đơn hàng cho dễ, và theo dõi kênh nếu bạn đang bán hàng online.",
+      "templateId": "frame-logo-outro",
+      "inputs": {
+        "brand_name": "Kênh Mẫu",
+        "tagline": "Logistics dễ hiểu cho người bán hàng online",
+        "primary_url": "",
+        "corner_left": "Theo dõi",
+        "corner_right": "Lưu lại"
+      }
+    }
+  ]
+}

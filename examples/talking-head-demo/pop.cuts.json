@@ -1,0 +1,107 @@
+{
+  "input": "gplx.ogv",
+  "style": "pop",
+  "punch": 0.14,
+  "progress": true,
+  "edl": {
+    "_note": "Source seconds in 'Cấp đổi giấy phép LX qua bưu điện' (Đài PTTH Thanh Hoá, CC BY 3.0). Crops are 9:16 in 1280x720 source pixels and stop at y=560, above the station's lower-third; none includes the logo. B-roll is the report's own footage.",
+    "segments": [
+      {
+        "from": 58.5,
+        "to": 73.2,
+        "crop": "315:560:600:0",
+        "_what": "người dân: thuận tiện, chuyển về tận nhà"
+      },
+      {
+        "from": 73.6,
+        "to": 86,
+        "crop": "315:560:470:0",
+        "_what": "phóng viên: 30–50 hồ sơ mỗi ngày"
+      },
+      {
+        "from": 95.4,
+        "to": 120.8,
+        "crop": "315:560:622:0",
+        "_what": "chị Lê Thị Ngọc, giám đốc bưu cục Triệu Sơn"
+      },
+      {
+        "from": 120.9,
+        "to": 134,
+        "crop": "315:560:482:0",
+        "_what": "phóng viên: kết quả bước đầu"
+      }
+    ],
+    "broll": [
+      {
+        "at": 66.9,
+        "src": 40,
+        "dur": 2.6,
+        "crop": "315:560:482:0",
+        "_what": "quầy tiếp nhận"
+      },
+      {
+        "at": 102,
+        "src": 45,
+        "dur": 2.5,
+        "crop": "315:560:560:0",
+        "_what": "nhiều cán bộ cùng phục vụ"
+      },
+      {
+        "at": 113.3,
+        "src": 130,
+        "dur": 3,
+        "crop": "315:560:790:0",
+        "_what": "người dân điền tờ khai"
+      }
+    ]
+  },
+  "summary": {
+    "duration": 65.655,
+    "kept": 62.759,
+    "removed": 2.896,
+    "cuts": 9,
+    "ratio": 0.956
+  },
+  "keep": [
+    {
+      "start": 0.433,
+      "end": 14.813
+    },
+    {
+      "start": 15.097,
+      "end": 19.242
+    },
+    {
+      "start": 19.333,
+      "end": 22.899
+    },
+    {
+      "start": 23.206,
+      "end": 24.301
+    },
+    {
+      "start": 24.384,
+      "end": 26.993
+    },
+    {
+      "start": 27.554,
+      "end": 52.504
+    },
+    {
+      "start": 52.832,
+      "end": 54.488
+    },
+    {
+      "start": 54.619,
+      "end": 58.866
+    },
+    {
+      "start": 58.993,
+      "end": 61.652
+    },
+    {
+      "start": 61.933,
+      "end": 65.385
+    }
+  ]
+}

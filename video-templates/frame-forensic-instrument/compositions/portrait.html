@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=1080, height=1920" />
 <title>Forensic Instrument · Portrait 9:16</title>
-<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
@@ -12,7 +12,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
   font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
   --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
   display:flex;flex-direction:column}
-.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.mono{font-family:'Roboto Mono',ui-monospace,monospace}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes growY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
@@ -34,7 +34,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
 #root{padding:80px 58px;justify-content:space-between;
   background:linear-gradient(168deg,#0b0b0f,#08090c 62%)}
 
-.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;
+.kicker{font-family:'Roboto Mono',ui-monospace,monospace;
   font-size:24px;letter-spacing:.2em;text-transform:uppercase;
   color:var(--dim);opacity:0;animation:fadeIn .5s ease .1s both}
 .well{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -42,7 +42,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
 .readouts{display:flex;flex-direction:column;gap:10px;
   background:var(--panel);border:1px solid var(--line);border-radius:8px;
   padding:22px 24px;
-  font-family:'JetBrains Mono',ui-monospace,monospace;font-size:24px;
+  font-family:'Roboto Mono',ui-monospace,monospace;font-size:24px;
   opacity:0;animation:fadeUp .55s ease 1.8s both}
 .readouts .hot{color:var(--red);font-weight:700}
 .cap{background:var(--panel);border:1px solid var(--line);border-radius:8px;
@@ -62,7 +62,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
 /* Only the vial that is actually over the line goes red. Colouring all three would make the
    frame look alarming without saying which reading is the alarming one. */
 .tox-f.over{background:var(--red);box-shadow:0 0 26px rgba(225,29,72,.5)}
-.tox-l{text-align:center;font-family:'JetBrains Mono',monospace;font-size:24px;
+.tox-l{text-align:center;font-family:'Roboto Mono',monospace;font-size:24px;
   color:var(--dim);margin-top:18px;width:130px;
   line-height:1.3;word-break:break-word}
 
@@ -91,7 +91,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
 .dt-t{height:70px;background:#27272a;border-radius:4px;
   opacity:0;animation:fadeIn .3s ease both}
 .dt-t.m{background:#fafafa;box-shadow:0 0 14px rgba(255,255,255,.55)}
-.dt-pct{margin-top:24px;font-family:'JetBrains Mono',monospace;
+.dt-pct{margin-top:24px;font-family:'Roboto Mono',monospace;
   font-size:56px;font-weight:700;color:#fafafa;
   opacity:0;animation:fadeUp .6s ease 1.6s both}
 
@@ -127,18 +127,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
   position:relative;animation:fadeUp .7s ease .35s both}
 .eb-z{position:absolute;top:14px;left:6%;right:6%;height:12px;
   background:repeating-linear-gradient(90deg,#52525b,#52525b 4px,transparent 4px,transparent 8px)}
-.eb-t{font-family:'JetBrains Mono',monospace;font-size:24px;color:var(--red);
+.eb-t{font-family:'Roboto Mono',monospace;font-size:24px;color:var(--red);
   font-weight:700;letter-spacing:.1em;margin-top:18px}
 .eb-b{margin-top:22px;height:56px;
   background:repeating-linear-gradient(90deg,#e4e4e7 0 3px,transparent 3px 6px,#e4e4e7 6px 8px,transparent 8px 13px);
   transform-origin:left;animation:growX .6s ease .9s both}
-.eb-c{font-family:'JetBrains Mono',monospace;font-size:20px;color:#a1a1aa;
+.eb-c{font-family:'Roboto Mono',monospace;font-size:20px;color:#a1a1aa;
   margin-top:12px;letter-spacing:.14em}
 
 .wh{width:100%}
 .wh-r{display:flex;justify-content:space-between;gap:24px;
   border-bottom:1px dashed var(--line);padding:28px 0;
-  font-family:'JetBrains Mono',monospace;font-size:30px;
+  font-family:'Roboto Mono',monospace;font-size:30px;
   opacity:0;animation:fadeUp .5s ease both}
 .wh-r:nth-child(1){animation-delay:.5s}
 .wh-r:nth-child(2){animation-delay:1s}
@@ -149,7 +149,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
 
 .ipt{width:100%;display:flex;flex-direction:column;gap:44px}
 .ipt-h{display:flex;align-items:center;gap:26px;
-  font-family:'JetBrains Mono',monospace;font-size:34px;color:#a1a1aa;
+  font-family:'Roboto Mono',monospace;font-size:34px;color:#a1a1aa;
   position:relative;opacity:0;animation:fadeUp .5s ease both}
 .ipt-h:nth-child(1){animation-delay:.5s}
 .ipt-h:nth-child(2){animation-delay:1.1s}
@@ -173,8 +173,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
   animation:gpSweep 1.5s cubic-bezier(.25,.9,.3,1) .5s both}
 @keyframes gpSweep{from{--pct:0}}
 @property --pct{syntax:'<number>';inherits:true;initial-value:0}
-.gp-n{font-family:'JetBrains Mono',monospace;font-size:120px;font-weight:700}
-.gp-u{font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--dim);
+.gp-n{font-family:'Roboto Mono',monospace;font-size:120px;font-weight:700}
+.gp-u{font-family:'Roboto Mono',monospace;font-size:20px;color:var(--dim);
   letter-spacing:.2em}
 
 .sp{width:100%;height:400px;background:#07080a;border:1px solid var(--line);
@@ -244,7 +244,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
   transform-origin:left;animation:growX 2s ease-out .6s both}
 .fr-p{position:absolute;top:44%;font-size:30px;color:#fafafa;
   transform:translate(-50%,-58%);opacity:0;animation:fadeIn .3s ease 2.4s both}
-.fr-x{position:absolute;top:44%;font-family:'JetBrains Mono',monospace;
+.fr-x{position:absolute;top:44%;font-family:'Roboto Mono',monospace;
   font-size:20px;color:var(--red);font-weight:700;
   transform:translate(-50%,-190%);opacity:0;animation:fadeIn .4s ease 2.7s both}
 
@@ -276,7 +276,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
 
 .av{width:100%;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--red);
   border-radius:8px;padding:28px 26px;
-  font-family:'JetBrains Mono',monospace;font-size:30px;line-height:1.85;
+  font-family:'Roboto Mono',monospace;font-size:30px;line-height:1.85;
   animation:fadeUp .6s ease .4s both}
 .av-r{display:flex;justify-content:space-between;gap:18px;
   border-bottom:1px dashed var(--line);padding-bottom:10px;
@@ -291,7 +291,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
 .mc{width:100%;display:flex;flex-direction:column;gap:10px}
 .mc-n{display:flex;justify-content:space-between;gap:16px;
   padding:18px 20px;background:var(--panel);border:1px solid var(--line);
-  border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:28px;
+  border-radius:6px;font-family:'Roboto Mono',monospace;font-size:28px;
   opacity:0;animation:fadeUp .5s ease both}
 .mc-n:nth-of-type(1){animation-delay:.5s}
 .mc-n:nth-of-type(3){animation-delay:1.2s}

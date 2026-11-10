@@ -47,7 +47,8 @@ không trùng màu với khung bên dưới.
 ## 2b. Video người nói thật — `talking-head.mjs`
 
 ```bash
-node scripts/video/talking-head.mjs quay.mp4 --transcript quay.json --from 96 --to 128 \n     --crop 405:600:438:0 --theme clinic-sage --hook "Tiêu đề 2 giây đầu" --credit "Nguồn · giấy phép"
+node scripts/video/talking-head.mjs quay.mp4 --transcript quay.json --from 96 --to 128 \
+     --crop 405:600:438:0 --style pop --theme clinic-sage --hook "Tiêu đề 2 giây đầu" --credit "Nguồn · giấy phép"
 ```
 
 Một lệnh: cắt đoạn → cắt khoảng lặng + punch-in → crop bỏ thanh chữ/logo cứng → khung 9:16 →
@@ -62,6 +63,39 @@ seg, _ = m.transcribe("quay.wav", language="vi", word_timestamps=True, vad_filte
 ```
 
 Kit không đóng gói model (giữ nguyên tắc không phụ thuộc); whisperX và whisper.cpp (`-ojf`) cũng đọc được.
+
+### Ghép nhiều đoạn + B-roll — `--edl`
+
+Một video ngắn hay thường không phải một câu trả lời liền, mà là vài đoạn ghép lại: người
+nói → cảnh minh hoạ có lời dẫn → người nói tiếp. `--edl edl.json` nhận danh sách đó (giây
+tính trên video gốc), mỗi đoạn một vùng crop riêng, cộng các cảnh **B-roll phủ lên người
+nói trong khi tiếng vẫn chạy**:
+
+```json
+{ "segments": [ { "from": 58.5, "to": 73.2, "crop": "315:560:600:0" },
+                { "from": 95.4, "to": 120.8, "crop": "315:560:622:0" } ],
+  "broll":    [ { "at": 66.9, "src": 40.0, "dur": 2.6, "crop": "315:560:482:0" } ] }
+```
+
+Phụ đề tự đi theo: mốc từng từ được dời từ video gốc → video đã ghép → video đã cắt khoảng
+lặng. B-roll vượt ~35% thời lượng thì lệnh từ chối — người nói mới là nội dung. Ví dụ thật:
+[`examples/talking-head-demo/edl.json`](../examples/talking-head-demo/edl.json).
+
+### Phong cách dựng — `--style`
+
+Cùng một đoạn quay, năm cách hoàn thiện (ý tưởng từ các preset của ghost-editor; giá trị là
+của kit, viết bằng filter ffmpeg + thẻ ASS — `scripts/video/lib/edit-styles.mjs`):
+
+| `--style` | phụ đề | hình | nhịp |
+| --- | --- | --- | --- |
+| `clean` | chữ trắng viền đen, từ đang nói đổi màu | giữ nguyên | zoom 8% |
+| `pop` | CHỮ HOA, 2 từ/lần, từ đang nói nằm trong ô màu | tăng bão hoà | zoom 14%, thanh tiến trình |
+| `editorial` | chữ thường, mờ dần vào, các từ khác mờ đi | dịu màu, hạt nhẹ | zoom 6%, thanh tiến trình |
+| `cinematic` | chữ có chân (Georgia), từ đang nói nghiêng màu vàng | màu phim, viền tối, hạt; B-roll đen trắng | zoom 5% |
+| `kinetic-doc` | MỘT TỪ TO giữa khung, đỏ | đen trắng tư liệu | zoom 10%, thanh tiến trình |
+
+Màu nhấn lấy từ `--theme` nếu có (bảng màu theo ngành). Chỉnh màu chạy **trước** khi đốt
+phụ đề, nên chữ không bị nhiễu hạt. Font nào cũng phải có dấu tiếng Việt — Impact không có.
 
 | | `box` (mặc định cũ) | `active` (mới) |
 | --- | --- | --- |
@@ -91,4 +125,11 @@ size, `--vertical` 1080×1920, and loudnorm to -16 LUFS. It writes a `.cuts.json
 source time. `render.mjs --caption-style active` writes active-word ASS captions: 2–3 words
 per card, no box, the spoken word recoloured in the theme's accent hue and scaled 112%.
 Method and defaults ported from kurbaitaev/ghost-editor (MIT) — ideas only, no code copied.
-Tests: `tests/autocut.test.mjs`, `tests/active-captions.test.mjs`.
+
+`talking-head.mjs` assembles one range (`--from/--to/--crop`) or an edit decision list
+(`--edl`: several source ranges, each with its own 9:16 crop, plus B-roll cut-aways overlaid
+while the speaker's audio runs on; refused above ~35% B-roll), then autocuts, burns active-word
+captions mapped source → assembled → cut, and finishes in one of five `--style` looks
+(`clean`, `pop`, `editorial`, `cinematic`, `kinetic-doc` — caption treatment, grade applied
+before captions, punch-in amount, hook card, optional progress bar).
+Tests: `tests/autocut.test.mjs`, `tests/active-captions.test.mjs`, `tests/edit-styles.test.mjs`.

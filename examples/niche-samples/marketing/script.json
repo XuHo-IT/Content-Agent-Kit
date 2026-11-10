@@ -1,0 +1,173 @@
+{
+  "_niche": "Marketing",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "riso-pink",
+  "metadata": {
+    "title": "Ba giây đầu: cách viết câu mở đầu giữ người xem",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-opus-kinetic-reel",
+      "voiceText": "Người xem quyết định ở lại hay lướt đi chỉ trong vài giây đầu. Nội dung phía sau hay đến đâu cũng vô nghĩa nếu không ai xem tới. Đây là cách viết câu mở đầu giữ họ lại.",
+      "inputs": {
+        "top_tag": "MARKETING · VIDEO NGẮN",
+        "counter_badge": "3 GIÂY",
+        "line_1": "NGƯỜI XEM QUYẾT ĐỊNH",
+        "line_2": "Ở LẠI HAY LƯỚT ĐI",
+        "line_3": "TRONG VÀI GIÂY ĐẦU",
+        "punchline": "Đây là cách viết câu mở đầu giữ được họ lại",
+        "footer": ""
+      }
+    },
+    {
+      "id": "funnel",
+      "type": "body",
+      "templateId": "frame-funnel",
+      "voiceText": "Mở phần số liệu của bất kỳ video nào, bạn sẽ thấy một cái phễu. Phần lớn người xem rơi ra ngay đầu. Vì vậy sửa ba giây đầu thường hiệu quả hơn sửa bất cứ đoạn nào phía sau.",
+      "inputs": {
+        "kicker": "Ví dụ minh hoạ",
+        "title": "Người xem rơi rụng ở đâu",
+        "stages": "Lướt qua:10000|Xem quá 3 giây:4000|Xem hết:1200|Bình luận:80",
+        "note": "Số minh hoạ — xem số thật trong trang quản lý"
+      }
+    },
+    {
+      "id": "bars",
+      "type": "body",
+      "templateId": "frame-chart-bars",
+      "voiceText": "Một khung gợi ý cho video ba mươi giây. Ba giây mở đầu, bảy giây nêu vấn đề, mười lăm giây cho cách giải quyết, năm giây kêu gọi hành động. Phần ngắn nhất lại là phần quan trọng nhất.",
+      "inputs": {
+        "title": "Một video 30 giây chia thế nào",
+        "unit": "giây",
+        "bars": "Mở đầu:3|Vấn đề:7|Cách giải quyết:15|Kêu gọi:5",
+        "highlight": "Mở đầu",
+        "source": "Gợi ý cấu trúc, điều chỉnh theo nội dung"
+      }
+    },
+    {
+      "id": "compare",
+      "type": "body",
+      "templateId": "frame-trend-compare-wipe",
+      "voiceText": "Hai kiểu mở đầu. Kiểu yếu: chào hỏi, giới thiệu bản thân, chiếu logo. Kiểu mạnh vào thẳng vấn đề: nói ngay kết quả, hỏi điều người xem đang tự hỏi, hoặc cho thấy một hình ảnh lạ.",
+      "inputs": {
+        "title": "Mở đầu yếu vs mở đầu mạnh",
+        "left_label": "YẾU",
+        "left_1": "Xin chào, hôm nay mình sẽ...",
+        "left_2": "Giới thiệu bản thân trước",
+        "left_3": "Logo xoay 3 giây",
+        "right_label": "MẠNH",
+        "right_1": "Nói ngay kết quả người xem muốn",
+        "right_2": "Câu hỏi họ đang tự hỏi",
+        "right_3": "Hình ảnh lạ ngay khung đầu",
+        "verdict": "Vào thẳng điều người xem quan tâm"
+      }
+    },
+    {
+      "id": "formula",
+      "type": "body",
+      "templateId": "frame-creative-voltage",
+      "voiceText": "Công thức dễ nhất: nói kết quả trước, kể cách làm sau. Thay vì hôm nay mình hướng dẫn làm bánh, hãy nói chiếc bánh này chỉ cần ba nguyên liệu. Người xem ở lại để biết cách.",
+      "inputs": {
+        "meta": "// CÔNG THỨC · 01",
+        "display_lines": [
+          "Nói",
+          "kết quả",
+          "trước."
+        ],
+        "accent_index": 1,
+        "script": "rồi mới kể cách",
+        "caption": "Công thức mở đầu dễ áp dụng nhất"
+      }
+    },
+    {
+      "id": "meme",
+      "type": "body",
+      "templateId": "frame-meme",
+      "voiceText": "Ai làm video cũng từng như vậy. Mất năm giây đầu để chào hỏi, rồi thắc mắc tại sao không ai xem hết. Người xem không ghét bạn, họ chỉ chưa thấy lý do để ở lại.",
+      "inputs": {
+        "chip": "Meme",
+        "kicker": "Ai làm video cũng từng",
+        "caption": "Chào hỏi năm giây đầu, rồi thắc mắc sao không ai xem hết",
+        "media_kind": "image"
+      },
+      "media": {
+        "kind": "image",
+        "source": "meme",
+        "id": "pooh|Xin chào mọi người, hôm nay mình sẽ...|Chiếc bánh này chỉ cần 3 nguyên liệu",
+        "fit": "contain"
+      }
+    },
+    {
+      "id": "quadrant",
+      "type": "body",
+      "templateId": "frame-3d-perspective-card",
+      "voiceText": "Có nhiều kiểu mở đầu, nhưng nếu mới bắt đầu, hãy thử câu hỏi đúng nỗi đau của người xem. Nó vừa dễ làm, chỉ cần một câu, vừa khiến người ta muốn biết câu trả lời.",
+      "inputs": {
+        "kicker": "CHỌN KIỂU MỞ ĐẦU",
+        "card_title": "Câu hỏi trúng nỗi đau",
+        "card_tier": "DỄ LÀM · GÂY TÒ MÒ",
+        "feature_1": "Chỉ cần một câu, không cần quay thêm cảnh",
+        "feature_2": "Người xem tự thấy mình trong câu hỏi",
+        "feature_3": "Ví dụ: Bạn có đang phí 5 giây đầu?",
+        "card_chip": "THỬ TRƯỚC",
+        "card_id": "KIỂU 01",
+        "takeaway": "Câu hỏi trúng nỗi đau của người xem vừa dễ làm vừa gây tò mò, nên là kiểu đáng thử đầu tiên."
+      }
+    },
+    {
+      "id": "poll",
+      "type": "body",
+      "templateId": "frame-trend-live-poll",
+      "voiceText": "Còn bạn, thường lướt qua một video vì điều gì? Mở đầu dài dòng, hay tiêu đề quá lố mà nội dung không có gì? Câu trả lời của bạn cũng là điều người xem của bạn đang nghĩ.",
+      "inputs": {
+        "question": "Bạn hay lướt qua video vì điều gì?",
+        "option_a": "Mở đầu dài dòng",
+        "option_b": "Tiêu đề quá lố",
+        "pct_a": "50",
+        "vs": "VS",
+        "cta": "Bình luận lý do của bạn",
+        "comment_1": "Chào hỏi lâu quá là lướt",
+        "comment_2": "Giật tít xong không có gì",
+        "comment_3": ""
+      }
+    },
+    {
+      "id": "task",
+      "type": "body",
+      "templateId": "frame-build-minimal",
+      "voiceText": "Bài tập cho hôm nay: lấy video gần nhất của bạn, chỉ viết lại đúng câu mở đầu, giữ nguyên phần còn lại. Đăng bản mới và so số người xem quá ba giây. Con số sẽ tự trả lời.",
+      "inputs": {
+        "eyebrow": "Bài tập hôm nay",
+        "hero": "Viết lại",
+        "desc": "Lấy video gần nhất, viết lại đúng một câu mở đầu, đăng lại và so số người xem quá 3 giây.",
+        "side_left": "Kênh Mẫu",
+        "side_right": "Marketing"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Theo dõi kênh để xem thêm công thức mở đầu cho từng ngành.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Theo dõi để xem thêm công thức",
+        "channel": "Kênh Mẫu",
+        "source": ""
+      }
+    }
+  ]
+}

@@ -21,48 +21,140 @@
     {
       "id": "hook",
       "type": "hook",
-      "templateId": "frame-trend-search-morph",
-      "voiceText": "Câu hỏi người trẻ tìm nhiều nhất về tiền: mỗi tháng nên để dành bao nhiêu? Câu trả lời ngắn là: ít cũng được, nhưng phải đều và phải sớm.",
+      "templateId": "frame-trend-word-pop",
+      "voiceText": "Mỗi tháng để dành một triệu, ba mươi năm sau có thể thành hơn một tỷ đồng. Nghe như quảng cáo, nhưng đây là một phép tính có thật, với vài điều kiện mà ít ai nói rõ.",
       "inputs": {
-        "kicker": "Người trẻ hay hỏi",
-        "query": "mỗi tháng nên tiết kiệm bao nhiêu",
-        "result_1": "Ít cũng được, miễn là đều",
-        "result_2": "Bắt đầu càng sớm càng lợi",
-        "result_3": "Tự động trích ngay khi có lương",
-        "footer": ""
+        "tag": "TIỀN · NGƯỜI TRẺ",
+        "line": "Mỗi tháng 1 triệu, 30 năm sau thành hơn 1 tỷ?",
+        "accent": "1 tỷ",
+        "sub": "Phép tính minh hoạ — và điều kiện của nó"
       }
     },
     {
-      "id": "number",
+      "id": "rule",
+      "type": "body",
+      "templateId": "frame-dashboard",
+      "voiceText": "Tiền để dành từ đâu ra? Một quy tắc phổ biến là năm mươi, ba mươi, hai mươi. Một nửa thu nhập cho thiết yếu, ba mươi phần trăm cho mong muốn, hai mươi phần trăm để tiết kiệm.",
+      "inputs": {
+        "kicker": "Quy tắc 50/30/20",
+        "title": "Chia lương thế nào",
+        "cells": "Thiết yếu:50%:nhà, ăn, đi lại|Mong muốn:30%:giải trí, mua sắm|Tiết kiệm:20%:quỹ dự phòng, đầu tư|Ví dụ lương 10tr:2tr:để dành mỗi tháng",
+        "note": "Điểm khởi đầu, không phải luật"
+      }
+    },
+    {
+      "id": "flow",
+      "type": "body",
+      "templateId": "frame-diagram-flowchart",
+      "voiceText": "Nhưng trước khi đầu tư, hãy hỏi: bạn đã có quỹ dự phòng chưa? Lời khuyên thường gặp là từ ba đến sáu tháng chi tiêu. Chưa đủ thì gửi vào quỹ trước, đủ rồi mới tính chuyện đầu tư.",
+      "inputs": {
+        "kicker": "TRƯỚC KHI ĐẦU TƯ",
+        "flowchart_title": "Đã có quỹ dự phòng chưa?",
+        "start_node": "Có tiền để dành mỗi tháng",
+        "decision_node": "Đủ 3–6 tháng chi tiêu?",
+        "branch_no_label": "CHƯA ĐỦ",
+        "branch_no_action": "Gửi vào quỹ dự phòng trước",
+        "branch_yes_label": "ĐÃ ĐỦ",
+        "branch_yes_action": "Bắt đầu đầu tư đều mỗi tháng",
+        "summary": "Quỹ dự phòng giúp bạn không phải bán khoản đầu tư đúng lúc thị trường xuống chỉ vì cần tiền gấp."
+      }
+    },
+    {
+      "id": "gauge",
+      "type": "body",
+      "templateId": "frame-split-compare",
+      "voiceText": "Cách đo rất đơn giản. Lấy số tiền dự phòng chia cho chi tiêu một tháng. Ví dụ bạn có bốn mươi triệu, mỗi tháng tiêu mười triệu, vậy là bốn tháng, đã qua mức tối thiểu.",
+      "inputs": {
+        "leftLabel": "Đang có",
+        "leftValue": "4",
+        "leftNote": "tháng chi tiêu",
+        "rightLabel": "Mục tiêu đầy đủ",
+        "rightValue": "6",
+        "rightNote": "tháng chi tiêu",
+        "delta": "+2",
+        "caption": "Ví dụ: 40 triệu ÷ 10 triệu mỗi tháng = 4 tháng, đã qua mức tối thiểu 3 tháng"
+      }
+    },
+    {
+      "id": "odometer",
       "type": "body",
       "templateId": "frame-trend-stat-odometer",
-      "voiceText": "Ví dụ minh hoạ: gửi một triệu mỗi tháng, lãi giả định sáu phần trăm một năm. Sau mười năm bạn có khoảng một trăm sáu mươi tư triệu, trong đó gần bốn mươi tư triệu là tiền lãi.",
+      "voiceText": "Giờ đến phép tính. Gửi một triệu mỗi tháng, lãi giả định sáu phần trăm một năm. Sau mười năm, bạn có khoảng một trăm sáu mươi tư triệu, trong đó gần bốn mươi bốn triệu là tiền lãi.",
       "inputs": {
-        "kicker": "SAU 10 NĂM",
-        "value": "163.880.000",
+        "kicker": "SAU 10 NĂM · MINH HOẠ",
+        "value": "163.879.347",
         "unit": "đồng",
         "label": "Gửi 1 triệu/tháng, lãi giả định 6%/năm, ghép lãi hằng tháng",
         "delta": "≈ 43,9 triệu là tiền lãi",
-        "source": "Tính minh hoạ — không phải lời khuyên đầu tư"
+        "source": "Phép tính minh hoạ, không phải lời khuyên đầu tư"
       }
     },
     {
-      "id": "myth",
+      "id": "curve",
       "type": "body",
-      "templateId": "frame-myth-fact",
-      "voiceText": "Nhiều người nghĩ phải có thật nhiều tiền mới bắt đầu. Thực tế, với lãi kép, thời gian quan trọng hơn số vốn ban đầu. Năm năm chậm trễ có thể bằng cả một khoản lớn.",
+      "templateId": "frame-trend-line",
+      "voiceText": "Thú vị nằm ở hình dạng đường cong. Năm năm được khoảng bảy mươi triệu. Hai mươi năm hơn bốn trăm sáu mươi triệu. Ba mươi năm vượt một tỷ. Càng về sau, lãi sinh lãi càng nhanh.",
       "inputs": {
-        "mythLabel": "Ai cũng nghĩ",
-        "myth": "Phải có nhiều tiền mới bắt đầu",
-        "factLabel": "Thực tế",
-        "fact": "Với lãi kép, thời gian quan trọng hơn số vốn",
-        "source": ""
+        "kicker": "Tăng theo thời gian",
+        "title": "Cùng 1 triệu/tháng, khác ở số năm",
+        "unit": "triệu đồng · lãi giả định 6%/năm",
+        "points": "Năm 5:70|Năm 10:164|Năm 20:462|Năm 30:1005",
+        "highlight": "Năm 30",
+        "baseline": "zero"
+      }
+    },
+    {
+      "id": "race",
+      "type": "body",
+      "templateId": "frame-trend-bar-race",
+      "voiceText": "So theo tuổi bắt đầu, cùng dừng ở năm mươi lăm tuổi. Bắt đầu từ hai mươi lăm được khoảng một tỷ. Đợi đến ba mươi lăm, còn chưa tới một nửa. Mười năm chậm trễ đắt hơn bạn nghĩ.",
+      "inputs": {
+        "title": "1 triệu/tháng đến năm 55 tuổi, nếu bắt đầu từ…",
+        "unit": "tr",
+        "name_1": "25 tuổi",
+        "value_1": "1005",
+        "name_2": "30 tuổi",
+        "value_2": "693",
+        "name_3": "35 tuổi",
+        "value_3": "462",
+        "name_4": "40 tuổi",
+        "value_4": "291",
+        "name_5": "45 tuổi",
+        "value_5": "164",
+        "source": "Minh hoạ: lãi giả định 6%/năm, ghép lãi hằng tháng"
+      }
+    },
+    {
+      "id": "candles",
+      "type": "body",
+      "templateId": "frame-kinetic-type",
+      "voiceText": "Đầu tư vào tài sản có giá lên xuống thì sẽ có những tuần đỏ rực. Chuyện bình thường. Lãi kép cần thời gian, bán ra vì hoảng một tuần là tự cắt đứt vòng lãi đó.",
+      "inputs": {
+        "kicker": "Đừng xem giá mỗi ngày",
+        "line": "Giá lên xuống là chuyện bình thường, bán vì hoảng mới là lỗ thật.",
+        "accent": "hoảng",
+        "footnote": "Lãi kép cần thời gian"
+      }
+    },
+    {
+      "id": "reel",
+      "type": "body",
+      "templateId": "frame-opus-kinetic-reel",
+      "voiceText": "Vậy điều kiện của con số một tỷ là gì? Đều đặn mỗi tháng, bắt đầu càng sớm càng tốt, và để yên đủ lâu. Cách dễ nhất là cài trích tiền tự động ngay ngày nhận lương.",
+      "inputs": {
+        "top_tag": "BA ĐIỀU KIỆN",
+        "counter_badge": "03 / 03",
+        "line_1": "ĐỀU ĐẶN MỖI THÁNG",
+        "line_2": "BẮT ĐẦU CÀNG SỚM",
+        "line_3": "ĐỂ YÊN ĐỦ LÂU",
+        "punchline": "Cài trích tiền tự động ngay ngày nhận lương",
+        "footer": ""
       }
     },
     {
       "id": "outro",
       "type": "outro",
-      "voiceText": "Lưu video này lại, và bắt đầu ngay tháng này, dù chỉ một khoản nhỏ.",
+      "voiceText": "Đây là phép tính minh hoạ, không phải lời khuyên đầu tư. Lưu lại và bắt đầu ngay tháng này, dù chỉ một khoản nhỏ.",
       "templateId": "frame-statement-outro",
       "inputs": {
         "cta": "Lưu lại và bắt đầu tháng này",
