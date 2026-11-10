@@ -10,6 +10,93 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### November 2026 — trend templates, industry palettes, auto-edit, competitor scan
+
+**Breaking: 27 templates removed.** A `script.json` naming one of them no longer validates.
+Each was a small card in an otherwise empty 9:16 frame (14–16px text on a 1080px canvas, one
+entrance keyframe, then a still) and several shipped dated demo copy ("Claude 3.7 Sonnet",
+"GPT-4o"). Use the replacement on the right:
+
+| removed | use instead |
+| --- | --- |
+| `frame-ai-benchmark-leaderboard`, `frame-tier-list` | `frame-trend-bar-race` |
+| `frame-wealth-compound`, `frame-inflation-purchasing-power`, `frame-portfolio-donut`, `frame-crypto-orderbook`, `frame-stock-ticker-tape` | `frame-trend-stat-odometer`, `frame-stock-candlestick` |
+| `frame-pros-cons-scale`, `frame-diff-code-editor` | `frame-trend-compare-wipe` |
+| `frame-api-request-response`, `frame-git-branch-graph` | `frame-trend-code-diff` |
+| `frame-iceberg-levels`, `frame-dna-helix-breakdown`, `frame-brain-synapse`, `frame-habit-loop`, `frame-bell-curve-iq`, `frame-math-matrix-calc` | `frame-trend-exploded-layers` |
+| `frame-timeline-war-era`, `frame-money-flow-conduit` | `frame-trend-timeline-flight` |
+| `frame-notification-stack` | `frame-trend-phone-notifs` |
+| `frame-poll-voting`, `frame-speedrun-timer` | `frame-trend-live-poll` |
+| `frame-discount-coupon-tear`, `frame-receipt-slip`, `frame-saas-pricing-tier`, `frame-unboxing-specs` | `frame-trend-price-drop` |
+| `frame-geo-heatmap` | `frame-geo-region-stat` |
+
+**Also breaking (file move):** `README.md` is now the Vietnamese README and the English one is
+`README.en.md`. `README.vi.md` stays as a pointer so existing links resolve.
+
+#### Added
+- **13 `frame-trend-*` templates** (`scripts/video/lib/build-trend-templates.mjs`), styled from
+  a survey of the 703 prompts in `yihui-dev/awesome-opus5-5-videos` and the caption grammar of
+  `kurbaitaev/ghost-editor` (MIT, ideas only). Tests enforce ≥88px headline type in 9:16, an
+  ambient loop, no gradient-filled text / violet-cyan neon / glow filters.
+- **16 industry palettes** as theme presets, each mapped to its vertical in
+  `INDUSTRIES.template.json` (`docs/25-palettes.md`). Every industry preset is one accent
+  family (spread ≤ 18°) and clears 4.5:1.
+- **`scripts/video/autocut.mjs`** — silence removal, alternating punch-ins, -16 LUFS, 9:16,
+  `.cuts.json` edit list. ffmpeg only (`docs/26-auto-edit.md`).
+- **`--caption-style active`** in `render.mjs` — 2–3 words per card, the spoken word lit in the
+  theme accent, no box.
+- **`scripts/research/competitor-scan.mjs`** + skill `competitor-analysis` — keyless YouTube
+  and RSS competitor analysis with outliers, title devices, posting slots and topic gaps
+  (`docs/24-competitor-analysis.md`). New env: `COMPETITORS_DIR`, `COMPETITOR_TZ` (optional).
+- **Genres** `comment-reply`, `flash-deal`, `data-story` (15 total).
+- **Google Trends source** (`trends`) for topic-radar — a country's daily trending searches
+  (`TRENDS_GEO`, default VN), keyless, matched to the topic by whole words. Reddit's anonymous
+  search now redirects to a login page (observed November 2026); it stays, degrading visibly.
+- **Apify platforms (optional, paid):** `tiktok`, `instagram`, `youtube`, `facebook` radar
+  sources and `tiktok:@x` / `instagram:@x` competitor targets, all behind `APIFY_TOKEN`
+  (`scripts/research/lib/apify.mjs`). A clone without a token behaves exactly as before.
+  New env: `APIFY_TOKEN`, `APIFY_PLATFORMS`, `APIFY_MAX_ITEMS`, `TRENDS_GEO`.
+- **`scripts/maintenance/ci-local.mjs`** + `.githooks/pre-push` — runs the CI workflow's own
+  steps locally by reading `ci.yml` (no copied list to drift). Enable with
+  `git config core.hooksPath .githooks`.
+- **`scripts/video/font-check.mjs`** — verifies every Google Font a template loads has the
+  Vietnamese subset; the offline half runs as a test.
+- Registry: added `ghost-editor`, `talking-head-reel`, `xilo-opus-video`, `claude-55-video-atlas`, `cinetic`. Fixed four entries that no longer installed: `imagegen-web` and `brandkit` moved upstream to `Leonxlnx/imagegen-skills`; `whiteboard` pointed at a `master` branch that is now `main`; `manim-math` pointed at the Manim library itself (not a skill) and now installs `Yusuke710/manim-skill`.
+
+#### Changed
+- **`hyperframes` 0.6.94 → 0.9.28** (the pinned render engine). Verified before bumping: the
+  same templates render identically, and caller `inputs` reach the composition. 0.9.x's linter
+  reports two library-wide conventions as errors (object-shaped `data-composition-variables`,
+  one timeline registered under both ids); rendering is unaffected and they are left as-is.
+  Notes in `frame-broll`/`frame-meme`/`frame-vox-photo-grid` describe behaviour measured on
+  0.6.94 and say so.
+
+#### Fixed
+- **CI was red on `main` since 7 Nov 2026** (and on every Dependabot PR): the reference
+  `VIDEO_SCRIPT.template.json` had no `theme`, and `validate-script --strict` fails on that
+  warning. It now uses `newsprint-red`. Three things kept it hidden, all fixed:
+  `node --test` never ran that step (a test now runs the exact CI command); the validator
+  printed "✓ valid" before exiting 1 in strict mode (it now prints ✗); and the light-canvas
+  warning fired under light themes, where it is wrong (now dark themes only).
+- **Registry watch failed to push for six days** ("stale info"): `git fetch origin <branch>`
+  on a single-branch checkout never creates the tracking ref `--force-with-lease` compares
+  against. It now fetches into `refs/remotes/origin/<branch>` and leases against that.
+- **ElevenLabs defaulted to a model with no Vietnamese.** `eleven_multilingual_v2` covers 29
+  languages and Vietnamese is not one of them. Default is now `eleven_flash_v2_5` (Vietnamese,
+  accepts `speed`); `eleven_v3` documented as the top-quality option.
+- **The api backend sent pricing names as model ids** (`models/veo-3.1-fast` has never been a
+  Gemini API id), and the Veo 3.1 preview ids were retired from the Gemini API on 2026-10-22.
+  Names now map to ids, `VIDEO_API_MODEL_ID` overrides, and before billing the backend asks
+  `GET /models` and, if the model is gone, stops with the video models the key can call.
+- **The six `frame-opus-*` templates ignored caller input** and always rendered their demo
+  copy: they read `window.__compositionVariables`, which hyperframes never defines. They now
+  read `window.__hyperframes.getVariables()`, and a test fails any template that reads the
+  old global.
+- **Vietnamese diacritics fell back to another typeface** in 12 templates: Cinzel, Caveat and
+  Fira Code have no Vietnamese subset, and Cabinet Grotesk is not on Google Fonts at all (its
+  `<link>` loaded nothing). Replaced with Cormorant SC, Patrick Hand, JetBrains Mono and
+  Bricolage Grotesque.
+
 **One breaking change**, called out here because it will reject scripts that used to
 validate: `media.kind: "video"` is now an error on every template except `frame-broll`, and
 more than one clip per scene is an error too. See below for the measurements behind it. Other

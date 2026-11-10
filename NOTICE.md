@@ -1,43 +1,31 @@
 # NOTICE — third-party attribution
-
 `content-agent-kit` is MIT (see `LICENSE`). The **video generation** capability
 (`scripts/video/`, `video-templates/`) is derived from third-party open-source
 work. This file records that lineage as those licenses require.
-
 > Bản kit là MIT. Riêng phần **tạo video** được kế thừa từ mã nguồn mở của bên
 > thứ ba — file này ghi công theo đúng yêu cầu giấy phép. **Đừng xoá** file này
 > hay các `NOTICE.md` trong từng thư mục template.
-
 ### Full license texts
-
 | File | Applies to |
 |---|---|
 | [`LICENSE`](LICENSE) — MIT | the kit itself |
 | [`LICENSES/Apache-2.0.txt`](LICENSES/Apache-2.0.txt) | the vendored templates in §2 and §2b |
-
 Apache-2.0 §4(a) requires a copy of the license to travel with the work, so
 `LICENSES/Apache-2.0.txt` must ship with any redistribution of this repository.
 `LICENSE` is left as unmodified MIT so licence scanners still identify the kit
 correctly — the scope split is recorded here instead.
-
 > Bản đầy đủ của các giấy phép nằm trong [`LICENSES/`](LICENSES/). `LICENSE` (MIT)
 > áp cho phần kit, `LICENSES/Apache-2.0.txt` áp cho các template vendor ở §2 và §2b.
 > Apache-2.0 §4(a) bắt buộc file này đi kèm khi phát hành lại repo.
-
 ---
-
 ## 1. Video pipeline — `scripts/video/`
-
 **Source:** [huytranvan2010/AI-auto-generate-video](https://github.com/huytranvan2010/AI-auto-generate-video)
 **License:** MIT — © 2026 AI Coding, © 2026 Ho Quang Hai
 **Itself derived from:** [hoquanghai/Auto-Create-Video](https://github.com/hoquanghai/Auto-Create-Video)
-
 The 8-step pipeline (TTS per scene → concatenate with gaps → mix SFX → render
 each template to MP4 → fit each clip to its narration → concatenate → mux) and
 the `script.json` contract come from that project.
-
 **Changes made in this kit** (the port is a rewrite, not a copy):
-
 - Rewritten from TypeScript (`src/**/*.ts`, run via `tsx`) to dependency-free
   ESM `.mjs`, so the kit keeps needing **no `package.json` and no `npm install`**.
   `zod` → a hand-written validator, `axios` → global `fetch`, `p-limit` → a small
@@ -54,45 +42,33 @@ the `script.json` contract come from that project.
 - Dropped upstream dead code (`src/assets/image-fetcher.ts`, and the unused
   `src/utils/slug.ts` wiring).
 - Added social publishing, which upstream deliberately does not do.
-
 The upstream MIT license text is reproduced in full at the bottom of this file.
-
 ## 1b. Model-leakage catalogue — `scripts/social/lib/clean-text.mjs`
-
 The FORENSIC_RULES catalogue (tool markers, knowledge-cutoff disclaimers, assistant
 preambles, unfilled placeholders) is **adapted** from the "forensic tier" of
 [sergebulaev/facebook-skills](https://github.com/sergebulaev/facebook-skills), MIT
 © 2026 Sergey Bulaev. No code was copied — the patterns were rewritten as JavaScript
 regexes against this kit's own `findLeaks` contract — but the idea and the catalogue of
 what to look for came from there, and that is worth saying.
-
 Its *strict* tier is deliberately not adopted: it bans em dashes and swaps English
 vocabulary, and this kit publishes Vietnamese prose where both rules would fail good
 writing. `skills/registry.json` lists the upstream skills for anyone who wants the full
 English-language version.
-
 ## 2. Video templates — `video-templates/frame-*/`
-
 Eight templates are vendored from
 [nexu-io/html-video](https://github.com/nexu-io/html-video) under **Apache-2.0**
 (attribution required, commercial use allowed):
-
 `frame-bold-poster` · `frame-build-minimal` · `frame-creative-voltage` ·
 `frame-glitch-title` · `frame-liquid-bg-hero` · `frame-logo-outro` ·
 `frame-pentagram-stat` · `frame-vignelli`
-
 Three are original to AI-auto-generate-video (MIT, same copyright as §1):
-
 `frame-aicoding-list` · `frame-aicoding-comparison` · `frame-statement-outro`
-
 **Per-template `NOTICE.md` files record each template's own design lineage and
 the exact modifications made** (e.g. replacing the Tailwind CDN runtime with
 plain CSS for deterministic offline rendering, dropping CJK fonts, adding the
 9:16 portrait composition). Apache-2.0 §4 requires those notices to travel with
 the work — keep them.
-
 One hundred and eighteen are original to content-agent-kit (MIT, same as this repo):
-
 `frame-broll` · `frame-media-inset` · `frame-screenshot` · `frame-review-verdict` ·
 `frame-quote-testimonial` · `frame-chart-bars` · `frame-step-list` ·
 `frame-kinetic-type` · `frame-product-reveal` · `frame-analog-grain` · `frame-split-compare` ·
@@ -108,14 +84,9 @@ One hundred and eighteen are original to content-agent-kit (MIT, same as this re
 `frame-ui-glass-dashboard` · `frame-ui-terminal-ide` ·
 `frame-math-manim` · `frame-diagram-flowchart` · `frame-whiteboard-doodle` · `frame-fitness-workout` ·
 `frame-canvas-gauge-dial` · `frame-3d-perspective-card` ·
-`frame-vox-declassified` · `frame-vox-newspaper-tear` · `frame-geo-heatmap` · `frame-geo-sonar-radar` ·
-`frame-math-graph-plot` · `frame-math-matrix-calc` · `frame-hybrid-vox-geo` · `frame-hybrid-math-diagram` ·
-`frame-stock-candlestick` · `frame-crypto-orderbook` · `frame-wealth-compound` · `frame-portfolio-donut` · `frame-inflation-purchasing-power` ·
-`frame-iceberg-levels` · `frame-brain-synapse` · `frame-habit-loop` · `frame-dna-helix-breakdown` · `frame-bell-curve-iq` ·
-`frame-stock-ticker-tape` · `frame-timeline-war-era` · `frame-money-flow-conduit` ·
-`frame-tier-list` · `frame-notification-stack` · `frame-poll-voting` · `frame-speedrun-timer` ·
-`frame-saas-pricing-tier` · `frame-api-request-response` · `frame-diff-code-editor` · `frame-git-branch-graph` · `frame-ai-benchmark-leaderboard` ·
-`frame-pros-cons-scale` · `frame-receipt-slip` · `frame-unboxing-specs` · `frame-discount-coupon-tear` ·
+`frame-vox-declassified` · `frame-vox-newspaper-tear` · `frame-geo-sonar-radar` ·
+`frame-math-graph-plot` · `frame-hybrid-vox-geo` · `frame-hybrid-math-diagram` ·
+`frame-stock-candlestick` ·
 `frame-meme` · `frame-vox-photo-grid` · `frame-blueprint-draw` ·
 `frame-vox-torchlight` · `frame-papercut-diorama` · `frame-vox-silhouette-file` ·
 `frame-interrogation-log` · `frame-morgue-tag` · `frame-cipher-decrypt` · `frame-vhs-nosignal` · `frame-suspect-lineup` ·
@@ -124,57 +95,55 @@ One hundred and eighteen are original to content-agent-kit (MIT, same as this re
 `frame-crime-scene-map` · `frame-satellite-track` · `frame-corkboard-threads` ·
 `frame-forensic-instrument` · `frame-case-dashboard` ·
 `frame-opus-cursor-flow` · `frame-opus-handdrawn` · `frame-opus-collage-stopmo` ·
-`frame-opus-shader-orb` · `frame-opus-pixel-arcade` · `frame-opus-kinetic-reel`
+`frame-opus-shader-orb` · `frame-opus-pixel-arcade` · `frame-opus-kinetic-reel` ·
+`frame-trend-word-pop` · `frame-trend-search-morph` · `frame-trend-bar-race` · `frame-trend-stat-odometer` ·
+`frame-trend-compare-wipe` · `frame-trend-exploded-layers` · `frame-trend-infinite-zoom` ·
+`frame-trend-phone-notifs` · `frame-trend-live-poll` · `frame-trend-price-drop` · `frame-trend-code-diff` ·
+`frame-trend-comment-reply` · `frame-trend-timeline-flight`
+
+The thirteen `frame-trend-*` templates are original work emitted by
+`scripts/video/lib/build-trend-templates.mjs`. Their style direction comes from a survey of the
+703 prompts in [yihui-dev/awesome-opus5-5-videos](https://github.com/yihui-dev/awesome-opus5-5-videos)
+and from the active-word caption grammar of [kurbaitaev/ghost-editor](https://github.com/kurbaitaev/ghost-editor)
+(MIT, © its authors) — ideas only, no code, markup or assets copied.
 
 `frame-3d-spotlight` was written after reading how vibe-motion's `light-spotlight-render`
 describes the effect. No code was taken: that repository publishes no licence, and this kit
 does not carry unlicensed work even where `scripts/install-skills.mjs` may fetch it to a
 user's own machine — the distinction §3 draws between invoking and bundling.
-
 Some templates further credit MIT-licensed design lineage:
 [zarazhangrui/frontend-slides](https://github.com/zarazhangrui/frontend-slides)
 (© Zara Zhang) and huashu-design (© alchaincyf). See the individual `NOTICE.md`.
-
 ## 2b. Templates pulled from the HyperFrames registry
-
 `scripts/video/add-template.mjs` fetches items from
 [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) — **Apache-2.0**. Each
 fetch writes a `NOTICE.md` into the item's folder recording its source, licence, description
 and native size. Apache-2.0 §4 requires those notices to travel with the work and
 modifications to be stated, so **keep them**. See `docs/16-template-registry.md`.
-
 ## 2c. Stock footage in rendered videos
-
 Clips come from Pexels and/or Pixabay, whose licences allow commercial use and modification
 and **do not require attribution** — which is why nothing appears on screen. Source, author,
 page and licence for every clip used are recorded in the `media-lock.json` beside each
 script, so any clip stays traceable. See `docs/15-media-sources.md`.
-
 Downloaded clips are **not committed** — `.gitignore` keeps every `media/` directory out, and
 the lock file is what makes a render reproducible. One frame is the exception:
-
 | file | what it is | licence |
 |---|---|---|
 | `examples/gallery/media-still.jpg` | a single frame of [*A person busy working on his laptop*](https://www.pexels.com/video/a-person-busy-working-on-his-laptop-5495899/) by [Pavel Danilyuk](https://www.pexels.com/@pavel-danilyuk) — the same clip `sample-output` uses for `body-11`, and the stand-in for `frame-meme`'s catalogue tile (see §2e) | Pexels License |
 | `examples/gallery/screenshot-still.jpg` | a capture of [github.com/XuHo-IT/RAG-EVAL-VN](https://github.com/XuHo-IT/RAG-EVAL-VN), a repository of this project's own | MIT, same owner |
-
 Both exist for one job: standing in for the media slot of the four footage-led templates in
 `examples/gallery/gallery-ui.jpg`, so the catalogue does not show four holes. Attribution is
 not required by the Pexels License; it is here because a committed frame of someone's work
 should be traceable to them without opening a lock file.
-
 ## 2d. Map imagery — source `geo`
-
 `scripts/video/geo-flythrough.mjs` and `scripts/media/lib/sources/geo.mjs` stitch raster map
 tiles into a clip. Every source is free and keyless, and **every one of them requires
 attribution** — which, unlike the stock footage above, is not a courtesy but a licence term.
-
 **The critical difference from a Google static image: a raster tile carries no credit of its
 own.** Nothing is burned in at the source, so the credit has to be added. The script draws it
 onto every still, writes `<clip>.credits.txt` beside the output, and the `geo` source copies
 that string into `media-lock.json`. If no font can be found it refuses to pretend otherwise
 and prints the exact text that must appear on screen instead.
-
 | source | required credit | terms |
 |---|---|---|
 | CARTO basemaps (`carto-dark` / `carto-light` / `carto-voyager`) | `© OpenStreetMap contributors © CARTO` | [CARTO basemap terms](https://carto.com/legal/) · data [ODbL](https://www.openstreetmap.org/copyright) |
@@ -183,35 +152,26 @@ and prints the exact text that must appear on screen instead.
 | OpenTopoMap (`opentopo`) | `© OpenStreetMap contributors, SRTM \| © OpenTopoMap (CC-BY-SA)` | CC-BY-SA |
 | Mapillary street level (optional) | `Street-level imagery © Mapillary contributors (CC BY-SA)` | [Mapillary terms](https://www.mapillary.com/terms) |
 | Nominatim (geocoding only) | — | [Usage policy](https://operations.osmfoundation.org/policies/nominatim/) — requires an identifying User-Agent, which `RESEARCH_USER_AGENT` supplies |
-
 - The tile servers are donated or free-tier. The script pauses 80ms between requests and
   caches built clips by request hash, so a re-render fetches nothing. `.cache/geo/` holds
   **rendered clips**, not a tile store — none of these licences permit bulk tile caching.
 - Nothing fetched is committed to this repository: `.cache/` is gitignored.
-
 The kit also draws places without touching any of the above, using its own `frame-geo-*`
 templates over `video-templates/world-path.json` — Natural Earth data, public domain, already
 covered in §2.
-
 ## 2e. Memes — source `meme`
-
 `scripts/media/lib/sources/meme.mjs` renders through **[memegen.link](https://memegen.link)**
 (MIT, Jace Browning). The service is free and needs no account.
-
 **Nothing from it is committed to this repository.** That is deliberate and not just tidiness:
 meme templates are overwhelmingly frames from copyrighted films, television and photographs,
 circulated as internet culture. Their legal position varies by jurisdiction and by use, and
 none of it is this repo's to grant. So the kit generates them on demand into a gitignored
 working directory, and the catalogue tile for `frame-meme` uses the same Pexels-licensed still
 as `frame-broll` rather than a real meme.
-
 Each template's `source` field points at its origin (usually Know Your Meme) and is carried
 into `media-lock.json` as `pageUrl`, so any meme in a finished render stays traceable.
-
 Judging whether a given meme is fine to publish in a given market is the publisher's call.
-
 ## 2f. Social video — source `social`
-
 `scripts/media/lib/sources/social.mjs` is a client for
 **[Evil0ctal/Douyin_TikTok_Download_API](https://github.com/Evil0ctal/Douyin_TikTok_Download_API)**
 (Apache-2.0), which you run yourself. Nothing from that project is vendored here; this kit
@@ -219,50 +179,38 @@ contains no downloader, no cookies and no credentials for any platform.
 **[jiji262/douyin-downloader](https://github.com/jiji262/douyin-downloader)** (MIT) is
 referenced in `docs/15-media-sources.md` as the better tool for archiving your own account,
 and is likewise not vendored.
-
 **Copyright in a fetched clip belongs to whoever made it.** Nothing this kit does transfers
 it, and stripping a watermark does not affect it. Downloading may also be against the
 platform's terms of service independently of copyright.
-
 The kit's position is not to decide, but to refuse to let the decision go unrecorded: a scene
 using this source must declare `rights` (`own` · `licensed` · `permitted` · `public-domain`),
 `licensed` and `permitted` must name who granted permission and when, `validate-script.mjs`
 fails the script otherwise, and the declaration is written into `media-lock.json` beside the
 original URL and author. There is deliberately no `unknown` and no `fair-use` value.
-
 ## 3. Runtime tools (not redistributed)
-
 These are invoked, not bundled — no license obligation for this repo, listed so
 you know what the render step reaches for:
-
 | Tool | Role | License |
 |---|---|---|
-| [hyperframes](https://www.npmjs.com/package/hyperframes) `0.6.94` | HTML → MP4 via headless Chromium; fetched by `npx -y` at render time | see package |
+| [hyperframes](https://www.npmjs.com/package/hyperframes) `0.9.28` | HTML → MP4 via headless Chromium; fetched by `npx -y` at render time | see package |
 | FFmpeg / ffprobe | all audio & video processing; must be on `PATH` | LGPL/GPL depending on build |
 | [OmniVoice](https://github.com/k2-fsa/OmniVoice) | Vietnamese TTS; **runs locally**, no API key, no third-party service | see project |
 | Google Fonts | `<link>`-ed by the templates at render time | SIL OFL |
 | [myinstants.com](https://www.myinstants.com/) | optional SFX source for `scripts/video/sfx-download.mjs` | see site terms |
-
 ---
-
 ## Upstream MIT license (AI-auto-generate-video)
-
 ```
 MIT License
-
 Copyright (c) 2026 AI Coding
 Copyright (c) 2026 Ho Quang Hai
-
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
-
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE

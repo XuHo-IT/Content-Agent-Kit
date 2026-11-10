@@ -138,16 +138,18 @@
     
   </div>
   <script>
+    // The caller's values come from window.__hyperframes.getVariables(). This used to read
+    // a "composition variables" global hyperframes never defines — so every Opus
+    // template rendered its demo copy no matter what script.json passed. The attribute is
+    // only the fallback that keeps the file previewable on its own.
     function getVariables() {
+      let defaults = {};
       try {
-        if (window.__compositionVariables && Object.keys(window.__compositionVariables).length > 0) {
-          return window.__compositionVariables;
-        }
-        const el = document.getElementById("root");
-        return JSON.parse(el.getAttribute("data-composition-variables") || "{}");
-      } catch (e) {
-        return {};
-      }
+        defaults = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}");
+      } catch (e) {}
+      const hf = window.__hyperframes;
+      const passed = hf && typeof hf.getVariables === "function" ? hf.getVariables() || {} : {};
+      return Object.assign({}, defaults, passed);
     }
     function applySlots() {
       const v = getVariables();

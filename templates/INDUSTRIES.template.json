@@ -63,13 +63,15 @@
           "frame-split-compare",
           "frame-checklist",
           "frame-geo-markers",
+          "frame-trend-compare-wipe",
+          "frame-trend-stat-odometer",
           "frame-statement-outro"
         ],
         "missing": [
           "mặt bằng / sơ đồ tầng"
         ]
       },
-      "theme": "corporate",
+      "theme": "limestone-clay",
       "backend": "html — trừ tour thực địa và flycam, phần đó là footage quay thật"
     },
     "y-te": {
@@ -110,13 +112,15 @@
           "frame-step-list",
           "frame-checklist",
           "frame-node-graph",
+          "frame-trend-comment-reply",
+          "frame-trend-exploded-layers",
           "frame-statement-outro"
         ],
         "missing": [
           "sơ đồ giải phẫu"
         ]
       },
-      "theme": "paper-ink",
+      "theme": "clinic-sage",
       "backend": "html"
     },
     "tai-chinh": {
@@ -152,10 +156,12 @@
           "frame-timeline",
           "frame-trend-line",
           "frame-dashboard",
+          "frame-trend-stat-odometer",
+          "frame-trend-bar-race",
           "frame-statement-outro"
         ]
       },
-      "theme": "corporate",
+      "theme": "ledger-green",
       "backend": "html"
     },
     "phap-ly": {
@@ -183,13 +189,15 @@
           "frame-myth-fact",
           "frame-checklist",
           "frame-node-graph",
+          "frame-trend-comment-reply",
+          "frame-trend-compare-wipe",
           "frame-statement-outro"
         ],
         "missing": [
           "bảng chứng cứ"
         ]
       },
-      "theme": "paper-ink",
+      "theme": "oxblood-paper",
       "backend": "html"
     },
     "giao-duc": {
@@ -220,10 +228,13 @@
           "frame-node-graph",
           "frame-draw-on",
           "frame-3d-flip",
+          "frame-trend-search-morph",
+          "frame-trend-exploded-layers",
+          "frame-trend-comment-reply",
           "frame-logo-outro"
         ]
       },
-      "theme": "paper-forest",
+      "theme": "chalk-marigold",
       "backend": "html"
     },
     "cong-nghe-ai": {
@@ -255,10 +266,13 @@
           "frame-hud",
           "frame-node-graph",
           "frame-3d-stack",
+          "frame-trend-word-pop",
+          "frame-trend-bar-race",
+          "frame-trend-code-diff",
           "frame-statement-outro"
         ]
       },
-      "theme": "none",
+      "theme": "graphite-signal",
       "backend": "html"
     },
     "lap-trinh": {
@@ -288,10 +302,12 @@
           "frame-step-list",
           "frame-checklist",
           "frame-node-graph",
+          "frame-trend-code-diff",
+          "frame-trend-compare-wipe",
           "frame-logo-outro"
         ]
       },
-      "theme": "none",
+      "theme": "terminal-moss",
       "backend": "html"
     },
     "thuong-mai-dien-tu": {
@@ -319,13 +335,16 @@
           "frame-review-verdict",
           "frame-product-reveal",
           "frame-3d-device",
+          "frame-trend-phone-notifs",
+          "frame-trend-compare-wipe",
+          "frame-trend-price-drop",
           "frame-statement-outro"
         ],
         "missing": [
           "xoay sản phẩm 360°"
         ]
       },
-      "theme": "none",
+      "theme": "tomato-cream",
       "backend": "html — mở hộp và xoay 360° cần quay thật"
     },
     "marketing": {
@@ -356,10 +375,13 @@
           "frame-quote-testimonial",
           "frame-3d-flip",
           "frame-funnel",
+          "frame-trend-comment-reply",
+          "frame-trend-live-poll",
+          "frame-trend-stat-odometer",
           "frame-logo-outro"
         ]
       },
-      "theme": "none",
+      "theme": "riso-pink",
       "backend": "html"
     },
     "doanh-nghiep": {
@@ -386,10 +408,12 @@
           "frame-pentagram-stat",
           "frame-quote-testimonial",
           "frame-dashboard",
+          "frame-trend-stat-odometer",
+          "frame-trend-timeline-flight",
           "frame-logo-outro"
         ]
       },
-      "theme": "corporate",
+      "theme": "cobalt-slate",
       "backend": "html"
     },
     "du-lich": {
@@ -417,10 +441,12 @@
           "frame-chart-bars",
           "frame-quote-testimonial",
           "frame-geo-route",
+          "frame-trend-search-morph",
+          "frame-trend-bar-race",
           "frame-statement-outro"
         ]
       },
-      "theme": "none",
+      "theme": "terracotta-sand",
       "backend": "html — cảnh quay điểm đến dùng footage"
     },
     "lich-su": {
@@ -449,10 +475,12 @@
           "frame-quote-testimonial",
           "frame-myth-fact",
           "frame-geo-markers",
+          "frame-trend-timeline-flight",
+          "frame-trend-infinite-zoom",
           "frame-statement-outro"
         ]
       },
-      "theme": "paper-ink",
+      "theme": "archive-sepia",
       "backend": "html"
     },
     "logistics": {
@@ -480,10 +508,12 @@
           "frame-step-list",
           "frame-node-graph",
           "frame-geo-route",
+          "frame-trend-timeline-flight",
+          "frame-trend-stat-odometer",
           "frame-statement-outro"
         ]
       },
-      "theme": "corporate",
+      "theme": "safety-orange",
       "backend": "html"
     },
     "game": {
@@ -512,10 +542,12 @@
           "frame-review-verdict",
           "frame-hud",
           "frame-progress",
+          "frame-trend-bar-race",
+          "frame-trend-live-poll",
           "frame-statement-outro"
         ]
       },
-      "theme": "none",
+      "theme": "acid-night",
       "backend": "html — cảnh trong game là footage quay màn hình"
     },
     "tin-tuc": {
@@ -543,10 +575,12 @@
           "frame-screenshot",
           "frame-vignelli",
           "frame-geo-markers",
+          "frame-trend-word-pop",
+          "frame-trend-timeline-flight",
           "frame-statement-outro"
         ]
       },
-      "theme": "none",
+      "theme": "newsprint-red",
       "backend": "html"
     },
     "moi-truong": {
@@ -574,25 +608,41 @@
           "frame-timeline",
           "frame-trend-line",
           "frame-geo-markers",
+          "frame-trend-stat-odometer",
+          "frame-trend-infinite-zoom",
           "frame-statement-outro"
         ]
       },
-      "theme": "paper-forest",
+      "theme": "moss-paper",
       "backend": "html"
     }
   },
   "_themes": [
-    "`theme` trỏ tới một preset trong scripts/video/lib/theme.mjs, hoặc \"none\" để giữ",
-    "nguyên bảng màu gốc của template (phần lớn là nền tối).",
+    "Mỗi ngành có SẴN một bảng màu riêng (preset trong scripts/video/lib/theme.mjs). Viết",
+    "\"theme\": \"<preset>\" vào script.json — hoặc \"none\" để giữ màu gốc của template.",
     "",
-    "  none          nền tối như template tự có — hợp công nghệ, game, tin tức",
-    "  paper-ink     nền trắng, chữ gần đen — hợp y tế, pháp lý, tư liệu",
-    "  paper-blue    nền trắng, chữ xanh biển",
-    "  paper-forest  nền trắng ngà, chữ xanh lá — hợp giáo dục, môi trường",
-    "  corporate     nền trắng, chữ xanh navy — hợp tài chính, bất động sản, doanh nghiệp",
-    "  luxury        nền đen ấm, chữ kem, nhấn vàng đồng",
+    "Nguyên tắc chung — tránh \"mùi AI\": một chất liệu nền thật (giấy báo, giấy sổ cái, đá vôi,",
+    "than chì) + MỘT họ màu nhấn. Không gradient tím→xanh, không neon hồng/cyan phát sáng, không",
+    "chữ tô gradient. Chi tiết: docs/25-palettes.md.",
     "",
-    "Không có preset cho thương hiệu của chính bạn, và cũng không nên đoán mã màu:",
+    "  graphite-signal  than chì + chữ ngà + cam tín hiệu        — AI, công nghệ",
+    "  terminal-moss    đen + chữ lân quang + xanh rêu-chanh     — lập trình",
+    "  tomato-cream     kem + nâu espresso + đỏ cà chua          — TMĐT, ẩm thực, bán lẻ",
+    "  riso-pink        giấy riso + mực đen + hồng huỳnh quang   — marketing, creator, làm đẹp",
+    "  terracotta-sand  cát + nâu đất + đất nung                 — du lịch, lifestyle",
+    "  acid-night       đen + trắng ngà + vàng chanh axit        — game, esports",
+    "  newsprint-red    giấy báo + mực đen + đỏ nhà in           — tin tức",
+    "  ledger-green     giấy sổ cái + xanh chai                  — tài chính, ngân hàng",
+    "  limestone-clay   đá vôi + than + đất sét nung             — bất động sản, kiến trúc",
+    "  clinic-sage      trắng ngà + xanh teal sâu + xô thơm      — y tế, sức khoẻ",
+    "  oxblood-paper    giấy bond + đen + đỏ huyết dụ            — pháp lý, tư vấn",
+    "  chalk-marigold   giấy phấn + navy + vàng cúc vạn thọ      — giáo dục",
+    "  cobalt-slate     giấy lạnh + xám đá + xanh cobalt         — doanh nghiệp, B2B, SaaS",
+    "  archive-sepia    giấy cũ + nâu đen                        — lịch sử, văn hoá, tư liệu",
+    "  safety-orange    xám bê tông + đen + cam bảo hộ           — logistics, sản xuất",
+    "  moss-paper       giấy tái chế + xanh rêu                  — môi trường, nông nghiệp",
+    "",
+    "Có thương hiệu riêng? Đừng đoán mã màu — đọc từ website:",
     "  node scripts/video/theme-from-url.mjs --url https://site-cua-ban --name ten-cua-ban"
   ],
   "_missing": [

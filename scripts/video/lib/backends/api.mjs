@@ -21,7 +21,7 @@
 // you can check them before spending anything. Same honesty as `media-hosts/r2.mjs`, which
 // says the same thing about its S3 wiring.
 //
-// ENV: GEMINI_API_KEY (required), VIDEO_API_MODEL, VIDEO_API_IMAGE_MODEL,
+// ENV: GEMINI_API_KEY (required), VIDEO_API_MODEL, VIDEO_API_MODEL_ID, VIDEO_API_IMAGE_MODEL,
 //      VIDEO_API_RESOLUTION (720p | 1080p | 4k), VIDEO_COST_CEILING_USD.
 import fs from "node:fs";
 import path from "node:path";
@@ -45,6 +45,52 @@ export const IMAGE_RATES = {
   "imagen-4-ultra": 0.06,
   "nano-banana-pro": 0.18,
 };
+
+/**
+ * The names above are PRICING names. The wire needs the real model id, and the two were
+ * conflated here until November 2026: requests went to `models/veo-3.1-fast`, which has never
+ * been a Gemini API model id. The ids below are the ones Google published for the Gemini API
+ * — and, per Google's changelog, the Veo 3.1 *preview* ids were retired there on 2026-10-22.
+ *
+ * So no id is trusted blindly. `VIDEO_API_MODEL_ID` overrides the mapping with whatever your
+ * key can actually call, and before anything is billed `assertModelServed()` asks the API
+ * which models exist and stops with that list if the chosen one is gone.
+ */
+export const MODEL_IDS = {
+  "veo-3.1": "veo-3.1-generate-preview",
+  "veo-3.1-fast": "veo-3.1-fast-generate-preview",
+  "veo-3.1-lite": "veo-3.1-lite-generate-preview",
+};
+
+/** Pricing name → the id sent on the wire. An explicit override always wins. */
+export function resolveModelId(model, env = process.env) {
+  return env.VIDEO_API_MODEL_ID || MODEL_IDS[model] || model;
+}
+
+/** From a `GET /models` response, the ids that can run a long video job. Pure. */
+export function videoModelsIn(listing) {
+  return (listing?.models ?? [])
+    .filter((m) => (m.supportedGenerationMethods ?? []).includes("predictLongRunning"))
+    .map((m) => String(m.name).replace(/^models\//, ""));
+}
+
+async function assertModelServed(id) {
+  const res = await fetch(`${API}/models?pageSize=1000&key=${apiKey()}`, { signal: AbortSignal.timeout(30000) });
+  if (!res.ok) throw new Error(`listing models failed: HTTP ${res.status}`);
+  const listing = await res.json();
+  const served = (listing.models ?? []).map((m) => String(m.name).replace(/^models\//, ""));
+  if (served.includes(id)) return;
+  const video = videoModelsIn(listing);
+  throw new Error(
+    `model "${id}" is not served to this key. Veo 3.1 preview ids were retired from the Gemini ` +
+      `API on 2026-10-22.
+` +
+      (video.length
+        ? `  Video models this key can call: ${video.join(", ")}
+  Set VIDEO_API_MODEL_ID to one of them.`
+        : `  This key can call no long-running video model. Use the html backend, or Veo on Google Cloud.`),
+  );
+}
 
 const DEFAULT_MODEL = "veo-3.1-fast";
 const DEFAULT_IMAGE_MODEL = "imagen-4";
@@ -118,7 +164,7 @@ function apiKey() {
 async function generateVideo({ prompt, model, resolution, durationSec, outFile, log }) {
   const key = apiKey();
 
-  const submit = await fetch(`${API}/models/${model}:predictLongRunning?key=${key}`, {
+  const submit = await fetch(`${API}/models/${resolveModelId(model)}:predictLongRunning?key=${key}`, {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({
@@ -200,6 +246,10 @@ export async function render({ script, outputDir, argv = [], settings = {} }) {
     process.exit(1);
   }
 
+  // Ask before spending: a retired id fails here with the list of ids that do work, instead
+  // of after the estimate was approved.
+  if (!dryRun) await assertModelServed(resolveModelId(model));
+
   const clipDir = path.join(outputDir, "clips");
   const made = [];
   for (const scene of script.scenes ?? []) {
@@ -217,7 +267,7 @@ export async function render({ script, outputDir, argv = [], settings = {} }) {
     }
 
     if (dryRun) {
-      console.log(`[video]   DRY  POST ${API}/models/${model}:predictLongRunning`);
+      console.log(`[video]   DRY  POST ${API}/models/${resolveModelId(model)}:predictLongRunning`);
       console.log(`[video]        ${JSON.stringify({ prompt, durationSeconds: billed.billedSec, resolution })}`);
       console.log(`[video]        → ${outFile}`);
       continue;

@@ -10,7 +10,7 @@
 // Every source is keyless. A source that fails is reported, not fatal.
 //
 // ENV: GITHUB_TOKEN (optional, raises the rate limit), NEWS_RSS_LOCALE, RESEARCH_USER_AGENT
-import { SOURCE_IDS, SOURCES, searchAll } from "./lib/sources.mjs";
+import { SOURCE_IDS, SOURCES, searchAll, defaultSourceIds } from "./lib/sources.mjs";
 
 const argv = process.argv.slice(2);
 if (argv.includes("--help") || argv.length === 0) {
@@ -32,7 +32,8 @@ if (argv.includes("--list")) {
   console.log(`[research] sources:\n`);
   for (const id of SOURCE_IDS) {
     const s = SOURCES[id];
-    console.log(`  ${id.padEnd(8)} ${s.label.padEnd(16)} ${s.keyEnv.length ? `${s.keyEnv[0]} (optional)` : "no key needed"}`);
+    const key = !s.keyEnv.length ? "no key needed" : s.keyEnv[0] === "APIFY_TOKEN" ? "APIFY_TOKEN (required, paid)" : `${s.keyEnv[0]} (optional)`;
+    console.log(`  ${id.padEnd(10)} ${s.label.padEnd(16)} ${key}${s.hasKey() ? "" : "  — not configured"}`);
   }
   process.exit(0);
 }
@@ -41,7 +42,7 @@ try {
   const topic = flag("--topic");
   if (!topic) throw new Error(`Pass --topic "<what to research>".`);
 
-  const sources = String(flag("--sources", SOURCE_IDS.join(","))).split(",").map((s) => s.trim()).filter(Boolean);
+  const sources = String(flag("--sources", defaultSourceIds().join(","))).split(",").map((s) => s.trim()).filter(Boolean);
   const days = Number(flag("--days", "30"));
   const limit = Number(flag("--limit", "50"));
 

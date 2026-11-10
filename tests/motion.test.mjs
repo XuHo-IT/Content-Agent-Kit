@@ -45,11 +45,9 @@ const AMBIENT_REQUIRED = [
   // chín khung giống hệt nhau, mất đúng thứ đang cần.
   "frame-redacted-dossier",
   "frame-witness-polaroid",
-  "frame-iceberg-levels",
   "frame-vox-pull-quote",
   "frame-vox-highlighter",
   "frame-kinetic-type",
-  "frame-timeline-war-era",
   "frame-node-graph",
   "frame-pentagram-stat",
   "frame-opus-cursor-flow",
@@ -58,6 +56,19 @@ const AMBIENT_REQUIRED = [
   "frame-opus-shader-orb",
   "frame-opus-pixel-arcade",
   "frame-opus-kinetic-reel",
+  "frame-trend-word-pop",
+  "frame-trend-search-morph",
+  "frame-trend-bar-race",
+  "frame-trend-stat-odometer",
+  "frame-trend-compare-wipe",
+  "frame-trend-exploded-layers",
+  "frame-trend-infinite-zoom",
+  "frame-trend-phone-notifs",
+  "frame-trend-live-poll",
+  "frame-trend-price-drop",
+  "frame-trend-code-diff",
+  "frame-trend-comment-reply",
+  "frame-trend-timeline-flight",
 ];
 
 const compositions = (id) =>

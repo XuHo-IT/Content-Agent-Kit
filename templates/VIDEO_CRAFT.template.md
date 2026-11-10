@@ -134,6 +134,30 @@ exists there** — the validator checks against the folder on disk.
 | **exactly two** things compared | `frame-aicoding-comparison` or `frame-split-compare` |
 | the closing card | `frame-logo-outro` (default) or `frame-statement-outro` |
 
+**2026 trend set (`frame-trend-*`) — reach for these first on short-form:**
+
+| Scene is… | Use |
+|---|---|
+| the first 2 seconds, one spoken sentence | `frame-trend-word-pop` (words land one by one, payoff lit) |
+| "everyone is asking / searching…" | `frame-trend-search-morph` |
+| answering a viewer's comment | `frame-trend-comment-reply` |
+| social proof — orders, messages, views | `frame-trend-phone-notifs` |
+| a ranking with numbers | `frame-trend-bar-race` |
+| one big number | `frame-trend-stat-odometer` |
+| before / after, old / new | `frame-trend-compare-wipe` |
+| "what's inside X", the parts of a system | `frame-trend-exploded-layers` |
+| a timeline, history, roadmap | `frame-trend-timeline-flight` |
+| ending on a question that earns comments | `frame-trend-live-poll` |
+| one line of code that changed things | `frame-trend-code-diff` |
+| the selling close — price and deadline | `frame-trend-price-drop` (counts as an outro) |
+
+**Palette.** {{AGENT_NAME}} uses `"theme": "{{THEME|graphite-signal}}"` on every script — the
+vertical's preset from `INDUSTRIES.template.json`. One material canvas, one accent family. Never
+ask a scene for violet→cyan gradients, gradient-filled headlines or neon glows: viewers read
+those as "made by AI" before they read the words (`docs/25-palettes.md`).
+
+**Captions.** Burn active-word captions on short-form: `--captions burn --caption-style active`.
+
 **Vary them.** Reusing one template for every body beat makes the video look like a
 slideshow. The validator warns above {{MAX_SAME_TEMPLATE|2}} uses of the same template.
 If several scenes are all numbers, alternate `frame-vignelli`, `frame-vox-data-callout`,

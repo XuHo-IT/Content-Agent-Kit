@@ -30,24 +30,23 @@ Phần lớn đóng góp **không cần** hai dòng cuối. Toàn bộ CI chạy
 
 ## Trước khi mở PR
 
-Chạy đúng những gì CI chạy:
+Chạy **đúng** những gì CI chạy — một lệnh, đọc thẳng từ `.github/workflows/ci.yml` nên không
+bao giờ lệch khỏi CI:
 
 ```bash
-# 1. cú pháp — mọi script phải parse được
-for f in $(find scripts -name "*.mjs"); do node -c "$f"; done
-
-# 2. mọi CLI phải nạp được và có --help
-for f in scripts/*/*.mjs scripts/*.mjs; do node "$f" --help >/dev/null || echo "FAIL $f"; done
-
-# 3. script mẫu phải sạch ở chế độ nghiêm
-node scripts/video/validate-script.mjs templates/VIDEO_SCRIPT.template.json --strict
-
-# 4. bộ ký SigV4 của R2 phải khớp vector chuẩn của AWS
-node scripts/media/host-check.mjs --selftest
-
-# 5. không để lọt secret
-git grep -nE "hook\.(eu|us)[0-9]*\.make\.com/[a-z0-9]|Bearer [A-Za-z0-9_-]{16,}" -- . ':!*.example'
+node scripts/maintenance/ci-local.mjs            # ~20 giây, 14 bước
+node scripts/maintenance/ci-local.mjs --list     # xem các bước
 ```
+
+Bật một lần cho mỗi bản clone để nó tự chạy trước mỗi `git push`:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+> Vì sao: từ 7/11/2026 CI đỏ trên `main` (và trên mọi PR của Dependabot) suốt nhiều ngày vì
+> bước `validate-script --strict` — bước mà `node --test` không chạy, nên ở máy ai cũng thấy
+> xanh. Danh sách lệnh chép tay ở đây trước kia cũng đã thiếu một nửa số bước của CI.
 
 Có động vào pipeline video thì **render thử và nhìn khung hình** — validator không nhìn được ảnh:
 

@@ -1,6 +1,6 @@
 ---
 name: topic-radar
-description: Find what is actually hot and new about one topic today, ranked across Reddit, Hacker News, GitHub and the news wire, for an agent built with content-agent-kit. Use when the user names a subject and wants today's angle — "hôm nay có gì hot về X", "tin mới nhất về X", "what's hot in X", "what should I post about X today" — or when a daily run needs an idea it has not used before. Writes brain/radar/<date>-<topic>.json plus a readable brief, and remembers what it handed out so tomorrow is not a repeat.
+description: Find what is actually hot and new about one topic today, ranked across Hacker News, GitHub, Google News, Google Trends (Vietnam) and Reddit — plus TikTok, Instagram and YouTube when an Apify token is set — for an agent built with content-agent-kit. Use when the user names a subject and wants today's angle — "hôm nay có gì hot về X", "tin mới nhất về X", "what's hot in X", "what should I post about X today" — or when a daily run needs an idea it has not used before. Writes brain/radar/<date>-<topic>.json plus a readable brief, and remembers what it handed out so tomorrow is not a repeat.
 ---
 
 # Topic radar
@@ -21,7 +21,7 @@ story.
 node scripts/research/topic-radar.mjs --topic "<what the user said>" --top 10
 ```
 
-It fans out across four **keyless** sources, merges duplicates, scores, drops anything an
+It fans out across five **keyless** sources (plus the Apify platforms when `APIFY_TOKEN` is set), merges duplicates, scores, drops anything an
 earlier run already handed out, and writes `brain/radar/<date>-<slug>.json` + `.md`.
 It prints `RADAR=<path>` — capture that.
 
@@ -90,8 +90,13 @@ answer; a confident wrong one costs a video.
 
 ## Notes
 
-- **No API keys.** Reddit, Hacker News, GitHub and Google News all answer without an account.
-  `GITHUB_TOKEN` is read if present but only raises a rate limit.
+- **No API keys needed.** Hacker News, GitHub, Google News, Google Trends and Reddit answer
+  without an account. `GITHUB_TOKEN` is read if present but only raises a rate limit.
+- **Platforms (optional, paid).** With `APIFY_TOKEN`, `tiktok` and `youtube` join by default
+  (`APIFY_PLATFORMS` adds `instagram`, `facebook`). A platform item's heat is its view count —
+  say which platform a top story came from; a TikTok trend and a news story are different asks.
+- **Google Trends returns nothing on most topics** — it is the whole country's top 10–20
+  searches. When it DOES match, that is the strongest "make it today" signal in the report.
 - **Reddit's JSON API 403s** unauthenticated clients on most networks; the source falls back
   to its Atom feed, which has the posts but no vote counts. Reported, not hidden.
 - **The news wire is Vietnamese by default** (`NEWS_RSS_LOCALE=vi|VN|VN:vi`). Set

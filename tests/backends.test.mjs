@@ -168,3 +168,24 @@ test("no scene is shorter than a second, however short its narration", () => {
   assert.equal(sceneFrames({ id: "x", voiceText: "" }, 30), 30);
   assert.equal(sceneFrames({ id: "x", durationSec: 4 }, 30), 120);
 });
+
+// ── model ids (November 2026) ────────────────────────────────────────────────
+import { resolveModelId, videoModelsIn, MODEL_IDS } from "../scripts/video/lib/backends/api.mjs";
+import { ELEVEN_DEFAULT_MODEL } from "../scripts/video/lib/tts.mjs";
+
+test("a pricing name is never sent as a model id", () => {
+  for (const name of Object.keys(MODEL_IDS)) assert.notEqual(resolveModelId(name, {}), name);
+  assert.equal(resolveModelId("veo-3.1-fast", { VIDEO_API_MODEL_ID: "my-model" }), "my-model");
+});
+
+test("only long-running models count as video models", () => {
+  const listing = { models: [
+    { name: "models/gemini-x", supportedGenerationMethods: ["generateContent"] },
+    { name: "models/video-y", supportedGenerationMethods: ["predictLongRunning"] },
+  ] };
+  assert.deepEqual(videoModelsIn(listing), ["video-y"]);
+});
+
+test("the ElevenLabs default can speak Vietnamese", () => {
+  assert.notEqual(ELEVEN_DEFAULT_MODEL, "eleven_multilingual_v2");
+});

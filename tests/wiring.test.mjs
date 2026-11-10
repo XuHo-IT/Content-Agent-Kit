@@ -52,7 +52,7 @@ const skillDirs = fs
   .map((d) => d.name);
 
 const bootstrap = read("skills/bootstrap-content-agent/SKILL.md");
-const readmes = read("README.md") + read("README.vi.md") + read("AGENTS.md");
+const readmes = read("README.md") + read("README.en.md") + read("AGENTS.md");
 
 test("every skill has a SKILL.md with frontmatter", () => {
   for (const n of skillDirs) {
@@ -218,12 +218,14 @@ test("the two READMEs name the same tools", () => {
   // demanding that would be deleted within a month. A CLI or a fill-in template named in one
   // README and absent from the other is a feature one set of readers cannot find.
   const named = (f) => new Set(read(f).match(/[a-z0-9-]+\.mjs|[A-Z_]+\.template\.json|crawl\.py/g) ?? []);
-  const vi = named("README.vi.md");
-  const en = named("README.md");
+  // November 2026: README.md is Vietnamese again (the kit is tuned for Vietnamese creators)
+  // and English lives in README.en.md; README.vi.md is a pointer kept so old links resolve.
+  const vi = named("README.md");
+  const en = named("README.en.md");
   const noEn = [...vi].filter((n) => !en.has(n)).sort();
   const noVi = [...en].filter((n) => !vi.has(n)).sort();
-  assert.deepEqual(noEn, [], `README.vi.md names these and README.md does not: ${noEn.join(", ")}`);
-  assert.deepEqual(noVi, [], `README.md names these and README.vi.md does not: ${noVi.join(", ")}`);
+  assert.deepEqual(noEn, [], `README.md names these and README.en.md does not: ${noEn.join(", ")}`);
+  assert.deepEqual(noVi, [], `README.en.md names these and README.md does not: ${noVi.join(", ")}`);
 });
 
 test("every doc is linked from somewhere", () => {

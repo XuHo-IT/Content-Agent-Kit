@@ -44,7 +44,7 @@
       "why": "Video templates in this kit are HTML and CSS, so the same judgement applies to a 9:16 frame as to a web page."
     },
     "imagegen-web": {
-      "repo": "Leonxlnx/taste-skill",
+      "repo": "Leonxlnx/imagegen-skills",
       "ref": "main",
       "path": "skills/imagegen-frontend-web",
       "installAs": "imagegen-web",
@@ -54,7 +54,7 @@
       "why": "For the cover and in-frame images a post or video needs, when a stock search returns nothing usable."
     },
     "brandkit": {
-      "repo": "Leonxlnx/taste-skill",
+      "repo": "Leonxlnx/imagegen-skills",
       "ref": "main",
       "path": "skills/brandkit",
       "installAs": "brandkit",
@@ -210,19 +210,18 @@
       "why": "Powers automated flowchart, decision tree and architecture diagram generation."
     },
     "manim-math": {
-      "repo": "ManimCommunity/manim",
+      "repo": "Yusuke710/manim-skill",
       "ref": "main",
-      "path": ".",
+      "path": "skills/manim-skill",
       "installAs": "manim-math",
-      "via": "skills",
       "license": "MIT",
       "licenseFile": "LICENSE",
-      "summary": "Mathematical animation reasoning and scene script structuring for STEM educational explainers.",
-      "why": "Assists agents in structuring complex math formulas, step-by-step proofs and coordinate systems."
+      "summary": "A SKILL.md for writing Manim scenes — equations, graphs and geometric proofs animated from Python.",
+      "why": "For STEM explainers that outgrow frame-math-manim. The entry used to point at the Manim library repo itself, which is not a skill and installs nothing useful."
     },
     "whiteboard": {
       "repo": "geeklee/srt-whiteboard-animation",
-      "ref": "master",
+      "ref": "main",
       "path": ".",
       "installAs": "whiteboard",
       "via": "skills",
@@ -395,6 +394,60 @@
       "licenseFile": "LICENSE",
       "summary": "Full-stack marketing suite covering CRO, email funnels, positioning, copy optimization, and growth engineering.",
       "why": "Standardizes product-marketing context files to drive high-converting hooks, video scripts, and landing page copy."
+    },
+    "ghost-editor": {
+      "repo": "kurbaitaev/ghost-editor",
+      "ref": "main",
+      "path": ".",
+      "installAs": "ghost-editor",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Raw talking-head take in, finished 9:16 reel out: best-take selection, Whisper word timestamps, face-safe captions, snap zooms, SFX levelled against the voice, 19 style recipes and a QA pass.",
+      "why": "The full version of what scripts/video/autocut.mjs ports in ffmpeg-only form. Install it when the user films themselves and wants face tracking and best-take picking — it needs Python, Whisper and OpenCV, which this kit deliberately does not."
+    },
+    "talking-head-reel": {
+      "repo": "mariagorskikh/talking-head-reel",
+      "ref": "main",
+      "path": ".",
+      "installAs": "talking-head-reel",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Turns a messy phone recording into an edited vertical reel by keeping the best take of each sentence.",
+      "why": "The take-selection logic ghost-editor adapted. Smaller and easier to read when only retake-pruning is needed."
+    },
+    "xilo-opus-video": {
+      "repo": "Kianzzz/xilo-opus-video",
+      "ref": "main",
+      "path": ".",
+      "installAs": "xilo-opus-video",
+      "via": "skills",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Code-written video with Claude: proposes three concepts with previews first, then renders frame by frame (Canvas, WebGL, Three.js, Remotion, HyperFrames).",
+      "why": "The 'three concepts before any render' habit is the cheapest quality gate in code video; pair it with create-video when the user has no clear visual direction."
+    },
+    "claude-55-video-atlas": {
+      "repo": "athemeroy/awesome-claude-5-5-videos",
+      "ref": "main",
+      "path": ".",
+      "installAs": "claude-55-video-atlas",
+      "via": "skills",
+      "license": "CC-BY-4.0",
+      "licenseFile": "LICENSE",
+      "summary": "424 source-linked Claude 5.5 video workflows, labelled by model and category, with measured style splits (3D vs motion graphics, dark vs light).",
+      "why": "Reference when choosing a visual direction: what was actually made and shared, with the prompt and the source post. CC-BY — credit it if you quote it."
+    },
+    "cinetic": {
+      "repo": "Leonxlnx/cinetic",
+      "ref": "main",
+      "path": "skills/cinetic",
+      "installAs": "cinetic",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Cinematic launch films and motion design written as code and directed by the coding agent.",
+      "why": "Pairs with the launch and flash-deal genres when a product video needs a longer cinematic cut than a 9:16 scene sequence gives."
     }
   },
   "_marketing": [

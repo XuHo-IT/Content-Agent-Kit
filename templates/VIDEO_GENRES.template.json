@@ -164,6 +164,40 @@
         { "templateId": "frame-geo-versus-city", "type": "body", "beat": "The regional head-to-head comparison evaluating cost and opportunities." },
         { "templateId": "frame-statement-outro", "type": "outro", "beat": "The final travel recommendation and booking advice." }
       ]
+    },
+    "comment-reply": {
+      "label": "Trả lời bình luận (Q&A)",
+      "whenToUse": "A viewer asked something worth a whole video. The question is the hook because it is already proven: someone cared enough to type it.",
+      "beats": [
+        { "templateId": "frame-trend-comment-reply", "type": "hook", "beat": "The comment itself, verbatim, with the answer title under it. Their words, not a paraphrase." },
+        { "templateId": "frame-trend-word-pop", "type": "body", "beat": "The one-sentence answer, said out loud word by word — for people who stop watching here." },
+        { "templateId": "frame-step-list", "type": "body", "beat": "The how: three steps at most. More than three is a second video." },
+        { "templateId": "frame-trend-compare-wipe", "type": "body", "beat": "What it looks like done wrong, then right. Proof the steps change something." },
+        { "templateId": "frame-statement-outro", "type": "outro", "beat": "Ask for the next question. The series feeds itself from the comments." }
+      ]
+    },
+    "flash-deal": {
+      "label": "Flash sale / chốt đơn",
+      "whenToUse": "A real offer with a real deadline — TikTok Shop, Shopee, a course launch. Every beat exists to move to the price frame.",
+      "beats": [
+        { "templateId": "frame-trend-phone-notifs", "type": "hook", "beat": "Orders or messages piling up — social proof before the product is even named." },
+        { "templateId": "frame-product-reveal", "type": "body", "beat": "The product, shown, in one line of what it does for the buyer." },
+        { "templateId": "frame-trend-compare-wipe", "type": "body", "beat": "Life before and after it. Concrete, not adjectives." },
+        { "templateId": "frame-quote-testimonial", "type": "body", "beat": "One real customer, named with permission. Skip it rather than invent one." },
+        { "templateId": "frame-trend-price-drop", "type": "outro", "beat": "Old price struck, new price slammed, the deadline and where to buy. Nothing after it." }
+      ]
+    },
+    "data-story": {
+      "label": "Câu chuyện số liệu",
+      "whenToUse": "One dataset with a surprise in it. The number is the story; the frames exist to make it land in order.",
+      "beats": [
+        { "templateId": "frame-trend-search-morph", "type": "hook", "beat": "The question people are actually searching for — the dataset answers it." },
+        { "templateId": "frame-trend-stat-odometer", "type": "body", "beat": "The headline number, rolling in, with its source on screen." },
+        { "templateId": "frame-trend-bar-race", "type": "body", "beat": "The ranking behind it. Bar lengths come from the values, so they cannot lie." },
+        { "templateId": "frame-trend-timeline-flight", "type": "body", "beat": "How it got here: three or four stops, one sentence each." },
+        { "templateId": "frame-trend-exploded-layers", "type": "body", "beat": "Why: the parts that add up to the number." },
+        { "templateId": "frame-statement-outro", "type": "outro", "beat": "What it means for the viewer, then the source again." }
+      ]
     }
   },
 

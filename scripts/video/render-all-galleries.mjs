@@ -27,12 +27,13 @@ const SHEETS = [
   { name: "geo", out: "examples/gallery/gallery-geo.jpg", args: ["--preset", "geo", "--per-row", "5", "--width", "220", "--out", "examples/gallery/gallery-geo.jpg"] },
   { name: "sequences", out: "examples/gallery/gallery-sequences.jpg", args: ["--preset", "sequences", "--per-row", "7", "--width", "220", "--out", "examples/gallery/gallery-sequences.jpg"] },
   { name: "hybrid", out: "examples/gallery/gallery-hybrid.jpg", args: ["--preset", "hybrid", "--per-row", "2", "--width", "260", "--out", "examples/gallery/gallery-hybrid.jpg"] },
-  { name: "fintech", out: "examples/gallery/gallery-fintech.jpg", args: ["--preset", "fintech", "--per-row", "5", "--width", "220", "--out", "examples/gallery/gallery-fintech.jpg"] },
-  { name: "science", out: "examples/gallery/gallery-science.jpg", args: ["--preset", "science", "--per-row", "5", "--width", "220", "--out", "examples/gallery/gallery-science.jpg"] },
-  { name: "documentary", out: "examples/gallery/gallery-documentary.jpg", args: ["--preset", "documentary", "--per-row", "5", "--width", "220", "--out", "examples/gallery/gallery-documentary.jpg"] },
-  { name: "viral", out: "examples/gallery/gallery-viral.jpg", args: ["--preset", "viral", "--per-row", "5", "--width", "220", "--out", "examples/gallery/gallery-viral.jpg"] },
-  { name: "saas", out: "examples/gallery/gallery-saas.jpg", args: ["--preset", "saas", "--per-row", "5", "--width", "220", "--out", "examples/gallery/gallery-saas.jpg"] },
-  { name: "ecommerce", out: "examples/gallery/gallery-ecommerce.jpg", args: ["--preset", "ecommerce", "--per-row", "5", "--width", "220", "--out", "examples/gallery/gallery-ecommerce.jpg"] },
+  { name: "trend", out: "examples/gallery/gallery-trend.jpg", args: ["--preset", "trend", "--per-row", "7", "--width", "240", "--at", "4.5", "--out", "examples/gallery/gallery-trend.jpg"] },
+  { name: "fintech", out: "examples/gallery/gallery-fintech.jpg", args: ["--preset", "fintech", "--per-row", "3", "--width", "300", "--out", "examples/gallery/gallery-fintech.jpg"] },
+  { name: "science", out: "examples/gallery/gallery-science.jpg", args: ["--preset", "science", "--per-row", "3", "--width", "300", "--out", "examples/gallery/gallery-science.jpg"] },
+  { name: "documentary", out: "examples/gallery/gallery-documentary.jpg", args: ["--preset", "documentary", "--per-row", "7", "--width", "220", "--out", "examples/gallery/gallery-documentary.jpg"] },
+  { name: "viral", out: "examples/gallery/gallery-viral.jpg", args: ["--preset", "viral", "--per-row", "6", "--width", "220", "--out", "examples/gallery/gallery-viral.jpg"] },
+  { name: "saas", out: "examples/gallery/gallery-saas.jpg", args: ["--preset", "saas", "--per-row", "3", "--width", "300", "--out", "examples/gallery/gallery-saas.jpg"] },
+  { name: "ecommerce", out: "examples/gallery/gallery-ecommerce.jpg", args: ["--preset", "ecommerce", "--per-row", "3", "--width", "300", "--out", "examples/gallery/gallery-ecommerce.jpg"] },
 ];
 
 let renderedCount = 0;

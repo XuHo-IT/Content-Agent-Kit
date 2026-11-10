@@ -69,3 +69,6 @@ node_modules/
 # OS
 .DS_Store
 Thumbs.db
+
+# hyperframes >= 0.9 writes per-template render/lint state here (history-id, video-state.json)
+.hyperframes/

@@ -3,6 +3,7 @@
   "version": "1.0",
   "renderer": "hyperframes",
   "aspect": "9:16",
+  "theme": "newsprint-red",
   "metadata": {
     "title": "Apple ra mắt iPhone 17 với camera 200MP",
     "source": {

@@ -2,7 +2,7 @@
 
 ## English
 
-The kit ships 129 scene templates. The upstream **HyperFrames registry**
+The kit ships 115 scene templates. The upstream **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) publishes
 **367 more** — pull any of them without hand-copying files:
 
@@ -100,7 +100,7 @@ uses, so nothing is rewritten. It then generates `meta.json`, `hyperframes.json`
 landscape warning.
 
 **Render an item before trusting it.** The registry targets a newer HyperFrames than the
-version this kit pins (`0.6.94`), and some items are marked `experimental`. If one renders
+version this kit pins (`0.9.28`), and some items are marked `experimental`. If one renders
 wrong, delete the folder — no other cleanup needed.
 
 ### Licensing
@@ -112,7 +112,7 @@ what the generated `NOTICE.md` is for — **do not delete it**. See the root `NO
 
 ## Tiếng Việt
 
-Kit có sẵn 129 template cho scene. Kho **HyperFrames registry**
+Kit có sẵn 115 template cho scene. Kho **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) có thêm
 **367 mục** — kéo về bằng lệnh, không phải chép tay. Xem các lệnh ở bản EN.
 
@@ -145,7 +145,7 @@ Xem danh sách ở bản EN: chuyển cảnh (thắng lớn nhất — hiện c�
 ### Kéo về xong nên làm gì
 
 **Render thử trước khi tin dùng.** Registry nhắm bản HyperFrames mới hơn bản kit đang ghim
-(`0.6.94`), và một số mục đánh dấu `experimental`. Cái nào render sai thì xoá thư mục đó là
+(`0.9.28`), và một số mục đánh dấu `experimental`. Cái nào render sai thì xoá thư mục đó là
 xong, không cần dọn gì thêm.
 
 ### Giấy phép

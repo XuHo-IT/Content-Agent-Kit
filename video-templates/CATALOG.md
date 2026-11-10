@@ -1701,25 +1701,6 @@ those four preview as bare canvases. Judge them from the contact sheet after a r
 
 ---
 
-## frame-geo-heatmap
-
-**Role:** body / geo data. Dynamic heat distribution map across geographic regions with density telemetry.
-**Best for:** market demand hotspots, regional economic comparisons, compute cluster distribution.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `kicker` | string | ≤30 | category tag |
-| `map_title` | string | ≤50 | heatmap title |
-| `zone_1_name` | string | ≤40 | region 1 name |
-| `zone_1_val` | string | ≤30 | region 1 metric / density |
-| `zone_2_name` | string | ≤40 | region 2 name |
-| `zone_2_val` | string | ≤30 | region 2 metric / growth |
-| `zone_3_name` | string | ≤40 | region 3 name |
-| `zone_3_val` | string | ≤30 | region 3 metric / share |
-| `takeaway` | string | ≤100 | bottom strategic takeaway |
-
----
-
 ## frame-geo-sonar-radar
 
 **Role:** body / tactical tracking. Military satellite radar sweep dish with real GPS coordinates and target lock-on blips.
@@ -1754,25 +1735,6 @@ those four preview as bare canvases. Judge them from the contact sheet after a r
 | `critical_point_1` | string | ≤40 | local maximum coordinates & value |
 | `critical_point_2` | string | ≤40 | local minimum coordinates & value |
 | `summary` | string | ≤110 | analytical geometric conclusion |
-
----
-
-## frame-math-matrix-calc
-
-**Role:** body / linear algebra. Animated matrix transformation with tensor multiplication brackets and dot product evaluation.
-**Best for:** AI neural network weights, 3D graphics transformation matrices, linear algebra proofs.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `kicker` | string | ≤35 | linear algebra topic banner |
-| `matrix_title` | string | ≤50 | vector space transform title |
-| `matrix_a_label` | string | ≤30 | weight matrix W label & dimension |
-| `matrix_a_vals` | string | ≤35 | matrix W components string |
-| `vector_x_label` | string | ≤30 | input vector X label & dimension |
-| `vector_x_vals` | string | ≤25 | vector X components string |
-| `result_label` | string | ≤30 | output product vector Y label |
-| `result_vals` | string | ≤25 | output vector result string |
-| `takeaway` | string | ≤110 | geometric transformation explanation |
 
 ---
 
@@ -1879,370 +1841,6 @@ text, and never re-enable wrapping on per-character spans.
 | `res_level` | string | ≤16 | resistance level label |
 | `indicator` | string | ≤40 | RSI, MACD, Volume stats |
 | `summary` | string | ≤80 | key interpretation summary |
-
----
-
-## frame-crypto-orderbook
-**Role:** body / data visualization (fintech). Dual-column live orderbook with bids, asks, spread badge, and depth sentiment indicator.
-**Best for:** explaining liquidity walls, whale accumulation, and orderflow dynamics.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `pair` | string | ≤16 | e.g. "ETH / USDT" |
-| `spread` | string | ≤30 | spread metrics |
-| `bids_title` | string | ≤20 | column heading for bids |
-| `asks_title` | string | ≤20 | column heading for asks |
-| `bids` | string | — | pipe-separated "price:amount" pairs |
-| `asks` | string | — | pipe-separated "price:amount" pairs |
-| `insight` | string | ≤80 | key takeaway insight |
-
----
-
-## frame-wealth-compound
-**Role:** body / data visualization (fintech). Exponential compound interest curves comparing early vs late investing over time.
-**Best for:** personal finance, compound interest, retirement planning, opportunity cost.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | big title |
-| `subline` | string | ≤60 | premise description |
-| `person_a` | string | ≤30 | outcome label for early investor |
-| `person_b` | string | ≤30 | outcome label for late investor |
-| `delta` | string | ≤50 | mathematical difference badge |
-| `rule` | string | ≤80 | rule of thumb conclusion |
-
----
-
-## frame-portfolio-donut
-**Role:** body / data visualization (fintech). Asset allocation donut chart with dynamic legend and PnL performance badge.
-**Best for:** investment portfolio breakdown, risk distribution, financial balance.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `title` | string | ≤36 | title |
-| `total_pnl` | string | ≤24 | PnL profit badge |
-| `total_label` | string | ≤16 | center label |
-| `items` | string | — | pipe-separated "Asset:Percentage" |
-| `verdict` | string | ≤80 | risk / asset analysis verdict |
-
----
-
-## frame-inflation-purchasing-power
-**Role:** body / data visualization (fintech). 3-decade purchasing power erosion comparison cards.
-**Best for:** inflation warnings, cash depreciation, real purchasing power.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | punchy headline |
-| `subline` | string | ≤60 | explanatory subline |
-| `era_1` | string | ≤40 | first era purchasing power |
-| `era_2` | string | ≤40 | second era purchasing power |
-| `era_3` | string | ≤40 | modern era purchasing power |
-| `insight` | string | ≤80 | core lesson / financial takeaway |
-
----
-
-## frame-iceberg-levels
-**Role:** body / explainer (science & psychology). 3-stage underwater iceberg descent (surface facts → hidden mechanisms → deep root causes).
-**Best for:** deep secrets, unseen efforts, iceberg theories, hidden mechanisms.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | top title |
-| `tag_surface` | string | ≤24 | surface tier badge |
-| `level_1` | string | ≤60 | visible surface facts |
-| `tag_middle` | string | ≤24 | middle tier badge |
-| `level_2` | string | ≤60 | hidden mechanisms |
-| `tag_deep` | string | ≤24 | deep tier badge |
-| `level_3` | string | ≤60 | fundamental root cause |
-| `takeaway` | string | ≤80 | concluding philosophy |
-
----
-
-## frame-brain-synapse
-**Role:** body / explainer (science & psychology). Neural network synapse activation with molecule badges and trigger-reaction mapping.
-**Best for:** dopamine addiction, habit loops, cognitive psychology, neuroscience.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | title |
-| `molecule` | string | ≤30 | chemical compound badge |
-| `node_1` | string | ≤20 | synapse phase 1 |
-| `node_2` | string | ≤20 | synapse phase 2 |
-| `node_3` | string | ≤20 | synapse phase 3 |
-| `trigger` | string | ≤60 | environmental trigger |
-| `reaction` | string | ≤60 | neurological reaction |
-| `warning` | string | ≤80 | warning takeaway |
-
----
-
-## frame-habit-loop
-**Role:** body / explainer (science & psychology). 4-quadrant rotating habit cycle (Cue → Craving → Response → Reward).
-**Best for:** habit formation, self-improvement, productivity frameworks.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | title |
-| `cue` | string | ≤50 | step 1 cue |
-| `craving` | string | ≤50 | step 2 craving |
-| `response` | string | ≤50 | step 3 action |
-| `reward` | string | ≤50 | step 4 reward |
-| `key_point` | string | ≤80 | actionable advice |
-
----
-
-## frame-dna-helix-breakdown
-**Role:** body / explainer (science & technology). DNA genetic breakdown with highlighted target gene mutation.
-**Best for:** CRISPR, biotechnology, genetics, medical breakthroughs.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | title |
-| `target_gene` | string | ≤30 | gene target label |
-| `mechanism` | string | ≤60 | biological mechanism |
-| `application` | string | ≤60 | practical application |
-| `impact` | string | ≤80 | long-term global impact |
-
----
-
-## frame-bell-curve-iq
-**Role:** body / explainer (science & psychology). Gaussian normal distribution curve with Dunning-Kruger markers.
-**Best for:** cognitive biases, intelligence distribution, psychology concepts.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | title |
-| `low_group` | string | ≤50 | peak of mount stupid |
-| `mid_group` | string | ≤50 | valley of despair |
-| `high_group` | string | ≤50 | slope of enlightenment |
-| `lesson` | string | ≤80 | key philosophical lesson |
-
----
-
-## frame-stock-ticker-tape
-**Role:** body / documentary (breaking news). Amber LED dot-matrix scrolling ticker with breaking market alerts.
-**Best for:** Wall Street panics, breaking market crashes, emergency news.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `breaking` | string | ≤30 | breaking badge |
-| `ticker_feed` | string | ≤80 | ticker tape string |
-| `headline` | string | ≤40 | main breaking headline |
-| `context` | string | ≤80 | historical / market context |
-
----
-
-## frame-timeline-war-era
-**Role:** body / documentary (historical). Burnt parchment historical timeline with pulsing chronological milestones.
-**Best for:** wars, economic crises, historical eras, corporate evolutions.
-**Motion:** mechanical · continuous loop
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | timeline title |
-| `event_1` | string | ≤60 | historical event 1 |
-| `event_2` | string | ≤60 | historical event 2 |
-| `event_3` | string | ≤60 | historical event 3 |
-| `conclusion` | string | ≤80 | historical lesson |
-
----
-
-## frame-money-flow-conduit
-**Role:** body / documentary (corporate). Animated offshore currency flow through intermediary shell companies.
-**Best for:** tax avoidance schemes, money flow, venture capital pipelines.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | title |
-| `source_entity` | string | ≤30 | origin entity |
-| `conduit_entity` | string | ≤30 | intermediary tax haven entity |
-| `tax_haven` | string | ≤30 | destination offshore haven |
-| `savings` | string | ≤50 | tax reduction metrics badge |
-
----
-
-## frame-tier-list
-**Role:** body / gamification (viral ranking). S-A-B-C-D tier board for ranking tools, tech stacks, or strategies.
-**Best for:** ranking videos, top AI tools, tier lists, controversial rankings.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | title |
-| `tier_s` | string | ≤60 | S-tier items |
-| `tier_a` | string | ≤60 | A-tier items |
-| `tier_b` | string | ≤60 | B-tier items |
-| `verdict` | string | ≤80 | ranking takeaway |
-
----
-
-## frame-notification-stack
-**Role:** hook / viral (social proof). Rapid-fire cascading push notifications on a smartphone lock screen.
-**Best for:** high-conversion hooks, proof of sales, viral growth metrics.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `phone_time` | string | ≤6 | clock time e.g. "09:41" |
-| `noti_1` | string | ≤60 | payment notification |
-| `noti_2` | string | ≤60 | social viral alert |
-| `noti_3` | string | ≤60 | community growth alert |
-| `proof_hook` | string | ≤80 | credibility hook |
-
----
-
-## frame-poll-voting
-**Role:** body / engagement (interactive). Tug-of-war community voting poll with dynamic percentage bars.
-**Best for:** driving comments, controversial choices, Option A vs Option B.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `question` | string | ≤40 | poll question |
-| `option_a` | string | ≤40 | option A text + percentage |
-| `option_b` | string | ≤40 | option B text + percentage |
-| `cta` | string | ≤80 | call to action prompt |
-
----
-
-## frame-speedrun-timer
-**Role:** body / viral (high urgency). Millisecond speedrun challenge timer with milestone checklist.
-**Best for:** speedrun tutorials, 60-second build challenges, urgency triggers.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | challenge title |
-| `timer_display` | string | ≤12 | e.g. "00:48.24" |
-| `milestone_1` | string | ≤50 | milestone 1 |
-| `milestone_2` | string | ≤50 | milestone 2 |
-| `milestone_3` | string | ≤50 | milestone 3 |
-| `outcome` | string | ≤80 | record outcome badge |
-
----
-
-## frame-saas-pricing-tier
-**Role:** body / SaaS (conversion). 3-tier pricing table with glowing "Most Popular" plan highlight.
-**Best for:** SaaS product demos, pricing breakdowns, business models.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | title |
-| `plan_free` | string | ≤50 | free plan details |
-| `plan_pro` | string | ≤50 | pro plan details |
-| `plan_ent` | string | ≤50 | enterprise plan details |
-| `highlight_note` | string | ≤80 | recommendation badge |
-
----
-
-## frame-api-request-response
-**Role:** body / dev (technical). Dual JSON code inspector showing request/response payload with latency timer.
-**Best for:** API architecture, backend services, latency comparisons.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `endpoint` | string | ≤40 | HTTP method & endpoint |
-| `status_code` | string | ≤20 | status code & latency |
-| `req_payload` | string | — | request JSON payload |
-| `res_payload` | string | — | response JSON payload |
-| `insight` | string | ≤80 | performance takeaway |
-
----
-
-## frame-diff-code-editor
-**Role:** body / dev (code optimization). Code diff view comparing slow red deleted code with fast green additions.
-**Best for:** code refactoring, performance optimization, AI coding tips.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | title |
-| `file_name` | string | ≤30 | filename tag |
-| `before_code` | string | ≤80 | red deleted line |
-| `after_code` | string | ≤80 | green added line |
-| `perf_gain` | string | ≤80 | speed improvement metric |
-
----
-
-## frame-git-branch-graph
-**Role:** body / dev (DevOps). Git branch commit tree tracking feature, staging and main branches.
-**Best for:** DevOps workflows, release strategies, CI/CD explanations.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | title |
-| `branch_main` | string | ≤40 | production branch |
-| `branch_staging` | string | ≤40 | staging / CI branch |
-| `branch_feature` | string | ≤40 | active feature branch |
-| `status` | string | ≤80 | automated merge status |
-
----
-
-## frame-ai-benchmark-leaderboard
-**Role:** body / AI tech (benchmarks). Horizontal race bar chart comparing LLM models on standardized benchmarks.
-**Best for:** LLM launches, AI model comparisons, benchmark scores.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `benchmark_name` | string | ≤40 | benchmark title badge |
-| `rank_1` | string | ≤40 | model 1 score |
-| `rank_2` | string | ≤40 | model 2 score |
-| `rank_3` | string | ≤40 | model 3 score |
-| `verdict` | string | ≤80 | victory takeaway |
-
----
-
-## frame-pros-cons-scale
-**Role:** body / review (honest evaluation). Balance scale comparing weighted pros vs cons.
-**Best for:** product reviews, buying guides, balanced verdicts.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | review title |
-| `pros_title` | string | ≤30 | pros heading |
-| `pros_list` | string | ≤100 | bulleted pros |
-| `cons_title` | string | ≤30 | cons heading |
-| `cons_list` | string | ≤100 | bulleted cons |
-| `verdict` | string | ≤80 | final buying recommendation |
-
----
-
-## frame-receipt-slip
-**Role:** body / review (transparent costs). Sliding thermal receipt slip breaking down genuine costs and hidden fees.
-**Best for:** pricing transparency, true cost of ownership, budgeting.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `store_name` | string | ≤30 | receipt title header |
-| `item_1` | string | ≤40 | item line 1 |
-| `item_2` | string | ≤40 | item line 2 |
-| `item_3` | string | ≤40 | item line 3 |
-| `total` | string | ≤30 | total line |
-| `advice` | string | ≤80 | cost-saving tip |
-
----
-
-## frame-unboxing-specs
-**Role:** body / review (hardware specs). 4-corner specification grid highlighting hardware metrics.
-**Best for:** smartphones, laptops, hardware gadgets, unboxings.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `product_name` | string | ≤40 | product name |
-| `spec_chip` | string | ≤40 | processor spec |
-| `spec_battery` | string | ≤40 | battery / charging spec |
-| `spec_screen` | string | ≤40 | display spec |
-| `spec_weight` | string | ≤40 | form factor spec |
-| `verdict` | string | ≤80 | hardware summary |
-
----
-
-## frame-discount-coupon-tear
-**Role:** outro / e-commerce (special offer). Serrated discount coupon voucher tearing in half with promo code.
-**Best for:** special discount CTAs, limited time offers, conversion promos.
-
-| slot | type | limit | notes |
-| --- | --- | --- | --- |
-| `headline` | string | ≤40 | offer headline |
-| `discount` | string | ≤20 | discount tag e.g. "-50% OFF" |
-| `code` | string | ≤30 | promo coupon code |
-| `condition` | string | ≤60 | eligibility condition |
-| `cta` | string | ≤80 | call to action link instruction |
 
 ---
 
@@ -2921,3 +2519,186 @@ number of cells stretches the last one across both columns.
 | `line_3` | string | ≤28 | third shutter line (gradient fill) |
 | `punchline` | string | ≤68 | bottom callout |
 | `footer` | string | ≤50 | optional bottom line |
+
+---
+
+<!-- trend templates: generated by scripts/video/lib/build-trend-templates.mjs --catalog -->
+
+## frame-trend-word-pop
+
+**Role:** hook / statement. The caption grammar of 2026 talking-head reels: words land one at a time in time with the voice, the word being spoken flashes, and the payoff phrase stays lit as a pill.
+**Best for:** the first 2 seconds; one sentence said out loud, word by word, with the payoff word lit.
+**Motion:** clip-reveal · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `tag` | string | ≤24 | small pill above the sentence |
+| `line` | string | ≤64 | the sentence; split into words automatically, ~0.2s apart |
+| `accent` | string | ≤16 | words inside `line` to keep lit — must appear verbatim in `line` |
+| `sub` | string | ≤60 | smaller line after the sentence lands |
+
+## frame-trend-search-morph
+
+**Role:** hook / question. A dot drops in, bounces, stretches into a search bar and types the query — then answers cascade under it.
+**Best for:** opening on what people are searching for; 'everyone is asking…' beats; a question the video answers.
+**Motion:** clip-reveal, mechanical · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤36 | line above the bar |
+| `query` | string | ≤40 | typed into the bar, character by character |
+| `result_1` | string | ≤36 | first answer card |
+| `result_2` | string | ≤36 | second answer card |
+| `result_3` | string | ≤36 | third answer card (optional) |
+| `footer` | string | ≤56 | source line |
+
+## frame-trend-bar-race
+
+**Role:** data / ranking. A ranking that is drawn from its numbers: bar lengths are computed from the values, bars race out in rank order with the leader crowned, and a light sweep keeps the board alive while the voice explains it.
+**Best for:** rankings, benchmarks, market share, 'top 5' with numbers; replaces tier lists and static leaderboards.
+**Motion:** clip-reveal, conic · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `title` | string | ≤60 | headline above the board |
+| `unit` | string | ≤6 | appended to every value (%, điểm, tr, …) |
+| `name_1 … name_5` | string | ≤18 | row labels, already in rank order |
+| `value_1 … value_5` | number | — | plain numbers (dot or comma decimals); bar length = value ÷ max |
+| `source` | string | ≤60 | where the numbers come from — required for anything real |
+
+## frame-trend-stat-odometer
+
+**Role:** data / single number. Every digit rolls on its own wheel to its value, then a sparkline draws itself under it.
+**Best for:** one number that carries the scene — views, money, growth, a count; replaces compound-interest and inflation cards.
+**Motion:** clip-reveal, draw-on · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤28 | mono line above the number |
+| `value` | string | ≤11 | digits roll; dots, commas, $, % pass through unchanged |
+| `unit` | string | ≤16 | word after the number |
+| `label` | string | ≤64 | what the number means |
+| `delta` | string | ≤32 | change pill (green) |
+| `source` | string | ≤48 | where it comes from |
+
+## frame-trend-compare-wipe
+
+**Role:** comparison. The 'before' side fills the frame, then a glowing divider sweeps across and wipes the 'after' side in over it — the comparison is the motion, instead of two boxes sitting side by side.
+**Best for:** before vs after, old way vs new way, pros vs cons, product A vs B; replaces the pros-cons scale and diff cards.
+**Motion:** clip-reveal · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `title` | string | ≤48 | question above both sides |
+| `left_label / right_label` | string | ≤12 | side labels |
+| `left_1 … left_3` | string | ≤40 | the 'before' points |
+| `right_1 … right_3` | string | ≤40 | the 'after' points |
+| `verdict` | string | ≤44 | badge after the wipe |
+
+## frame-trend-exploded-layers
+
+**Role:** explainer / anatomy. Four isometric slabs sit stacked as one object, then pull apart into an exploded view with a label on each layer — the 2026 'cut it open so I can see inside' explainer, done in CSS 3D instead of WebGL so it renders offline.
+**Best for:** 'what is inside X', how a system is built, the layers of a stack, anatomy of a product; replaces iceberg, DNA and brain cards.
+**Motion:** clip-reveal · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `title` | string | ≤40 | headline |
+| `layer_1 … layer_4` | string | ≤34 | top to bottom; 'Name — what it does' reads best |
+| `caption` | string | ≤48 | closing line |
+
+## frame-trend-infinite-zoom
+
+**Role:** hook / reveal. Nested frames fly toward the camera forever while three lines replace each other in the centre, ending on the reveal.
+**Best for:** 'go deeper' reveals, scale ('a video is 900 frames…'), the moment before the twist.
+**Motion:** clip-reveal · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `hook` | string | ≤24 | first line, small |
+| `depth_1 … depth_3` | string | ≤28 | each replaces the last, ~0.9s apart |
+| `reveal` | string | ≤36 | final line, stays |
+
+## frame-trend-phone-notifs
+
+**Role:** hook / social proof. A real phone on a lock screen: notifications drop in with a spring and push each other down while the phone buzzes, then a headline lands.
+**Best for:** 'my phone after posting this', orders coming in, messages piling up, alerts; replaces the flat notification stack.
+**Motion:** clip-reveal · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `time / date` | string | ≤8 / ≤26 | lock-screen clock |
+| `app_1 … app_4` | string | ≤12 | app name on each notification |
+| `msg_1 … msg_4` | string | ≤52 | notification text |
+| `headline` | string | ≤56 | lands after the storm |
+
+## frame-trend-live-poll
+
+**Role:** engagement / question. Two options fight: their bars race and overshoot before settling on the split, percentages land, and viewer comments float up the side.
+**Best for:** 'which side are you on', A vs B debates, ending on a comment prompt; replaces the static poll bar.
+**Motion:** clip-reveal · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `question` | string | ≤44 | headline |
+| `option_a / option_b` | string | ≤20 | the two sides |
+| `pct_a` | string | 0–100 | share for A; B gets the rest |
+| `vs` | string | ≤4 | divider word between the options (empty hides it) |
+| `cta` | string | ≤44 | comment prompt |
+| `comment_1 … comment_3` | string | ≤36 | floating comment bubbles (optional) |
+
+## frame-trend-price-drop
+
+**Role:** offer / CTA. The old price sits big, a red slash cuts through it, the new price slams in with a camera shake and a discount stamp rotates on.
+**Best for:** deals, launches with a price, affiliate and e-commerce CTAs; replaces coupon, receipt and pricing-tier cards.
+**Motion:** clip-reveal · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤30 | top strip |
+| `product` | string | ≤44 | what is on sale |
+| `old_price / new_price` | string | ≤12 | struck and slammed prices |
+| `badge` | string | ≤6 | rotating stamp |
+| `note` | string | ≤44 | terms / urgency |
+| `cta` | string | ≤24 | button |
+
+## frame-trend-code-diff
+
+**Role:** dev explainer. An editor where the old line turns red, strikes through and collapses, the new line types itself in green, and a passing-tests toast slides in.
+**Best for:** 'one line changed everything', refactors, AI coding demos, API changes; replaces diff, API and git-graph cards.
+**Motion:** clip-reveal, mechanical · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `file_name` | string | ≤24 | editor tab |
+| `ctx_1 / ctx_2` | string | ≤44 | unchanged lines around the change |
+| `line_del` | string | ≤44 | removed line (keep leading spaces) |
+| `line_add` | string | ≤44 | added line, typed in |
+| `status` | string | ≤36 | toast |
+| `caption` | string | ≤44 | headline above the editor |
+
+## frame-trend-comment-reply
+
+**Role:** hook / Q&A. The 'Trả lời bình luận của @…' sticker pops on screen, then the answer title and three numbered points build under it.
+**Best for:** answering a viewer question, FAQ videos, series built from comments; the most common Vietnamese TikTok opener.
+**Motion:** clip-reveal · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `reply_label` | string | ≤26 | sticker label |
+| `username` | string | ≤20 | commenter handle; the avatar uses its first letter |
+| `comment` | string | ≤70 | their question, verbatim |
+| `answer_title` | string | ≤32 | headline of the answer |
+| `point_1 … point_3` | string | ≤44 | numbered points (optional) |
+
+## frame-trend-timeline-flight
+
+**Role:** timeline / history. One continuous camera move along a glowing track: each milestone stops in the centre, its year snaps to full size, then the camera travels on.
+**Best for:** 'the next 30 years', a company's history, how a trend evolved, roadmap stops; replaces the war-era timeline.
+**Motion:** clip-reveal, gradient-text, mask-sweep · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `title` | string | ≤44 | stays on top |
+| `year_1 … year_4` | string | ≤6 | milestone labels (years, versions, steps) |
+| `label_1 … label_4` | string | ≤40 | what happened at each stop |

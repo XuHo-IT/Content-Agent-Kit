@@ -68,7 +68,7 @@ node scripts/video/tts-check.mjs                # speak a sample with your confi
 | Provider | Needs | Shape |
 |---|---|---|
 | `omnivoice` | a local server at `OMNIVOICE_ENDPOINT` — `POST /tts {text}` → `audio/mpeg` | bytes |
-| `elevenlabs` | `ELEVENLABS_API_KEY` + voice_id, `ELEVENLABS_MODEL=eleven_multilingual_v2` | bytes |
+| `elevenlabs` | `ELEVENLABS_API_KEY` + voice_id, `ELEVENLABS_MODEL=eleven_flash_v2_5` (multilingual_v2 has no Vietnamese) | bytes |
 | `vbee` | `VBEE_API_KEY` + voice_code | bytes |
 | `fptai` | `FPTAI_API_KEY` + one of `banmai lannhi leminh myan thuminh giahuy linhsan` | asyncUrl |
 | `viettel` | `VIETTEL_TOKEN` — **experimental**, verify first | asyncUrl |

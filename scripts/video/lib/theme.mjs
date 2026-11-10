@@ -88,6 +88,148 @@ export const THEME_PRESETS = {
     spread: 28,
     saturation: 1.15,
   },
+
+  // ── industry palettes (2026) ───────────────────────────────────────────────
+  //
+  // One per vertical in templates/INDUSTRIES.template.json. The brief was "on-trend and no AI
+  // slop", and slop has a recognisable palette: violet→cyan gradients, neon magenta glows,
+  // gradient-filled headlines, every hue at once. The trend these follow is the opposite —
+  // a real material for the canvas (newsprint, limestone, ledger paper, graphite) and ONE
+  // accent family, the way print, packaging and good editorial sites are coloured.
+  //
+  // That is also what this engine is good at: everything is squeezed into a narrow hue band,
+  // so `spread` stays small (6–18°) and the accent is chosen per industry, not per template.
+  // Every bg/ink pair clears 4.5:1 (theme-probe --selftest checks it).
+  "graphite-signal": {
+    label: "warm graphite canvas, bone ink, signal-orange accent — AI & tech",
+    bg: "#121110",
+    ink: "#ece8df",
+    hue: 18,
+    spread: 10,
+    saturation: 0.95,
+  },
+  "terminal-moss": {
+    label: "near-black canvas, pale phosphor ink, moss-lime accent — programming",
+    bg: "#0d100c",
+    ink: "#dde6d2",
+    hue: 88,
+    spread: 14,
+    saturation: 0.75,
+  },
+  "tomato-cream": {
+    label: "cream canvas, espresso ink, tomato-red accent — e-commerce, food, retail",
+    bg: "#fff6ea",
+    ink: "#2a1710",
+    hue: 8,
+    spread: 14,
+    saturation: 1.0,
+  },
+  "riso-pink": {
+    label: "risograph paper, black ink, fluorescent-pink accent — marketing, creators, beauty",
+    bg: "#f6f1e7",
+    ink: "#191919",
+    hue: 338,
+    spread: 14,
+    saturation: 1.0,
+  },
+  "terracotta-sand": {
+    label: "sand canvas, burnt-umber ink, terracotta accent — travel, hospitality, lifestyle",
+    bg: "#f5ede0",
+    ink: "#3a2116",
+    hue: 20,
+    spread: 16,
+    saturation: 0.85,
+  },
+  "acid-night": {
+    label: "black canvas, off-white ink, acid-chartreuse accent — gaming, esports, nightlife",
+    bg: "#0b0b0a",
+    ink: "#f1f1e8",
+    hue: 70,
+    spread: 12,
+    saturation: 1.0,
+  },
+  "newsprint-red": {
+    label: "newsprint canvas, press-black ink, one press-red accent — news, current affairs",
+    bg: "#f3f0e8",
+    ink: "#121212",
+    hue: 2,
+    spread: 6,
+    saturation: 1.05,
+  },
+  "ledger-green": {
+    label: "ledger-paper canvas, deep bottle-green ink — finance, banking, investing",
+    bg: "#f2eee4",
+    ink: "#0f2a20",
+    // Bottle green, not "stonks" green: low saturation reads as a bank, a high one as a
+    // trading-app ad. Red still differs from green inside the band, so losses stay legible.
+    hue: 150,
+    spread: 12,
+    saturation: 0.6,
+  },
+  "limestone-clay": {
+    label: "limestone canvas, charcoal ink, fired-clay accent — real estate, architecture, interiors",
+    bg: "#eee8de",
+    ink: "#25221e",
+    hue: 22,
+    spread: 10,
+    saturation: 0.55,
+  },
+  "clinic-sage": {
+    label: "clean off-white canvas, deep teal ink, sage accent — health, clinics, wellness",
+    bg: "#f7f8f4",
+    ink: "#12322f",
+    hue: 168,
+    spread: 14,
+    saturation: 0.5,
+  },
+  "oxblood-paper": {
+    label: "bond-paper canvas, near-black ink, oxblood accent — law, compliance, consulting",
+    bg: "#f6f2ea",
+    ink: "#1d1a17",
+    hue: 354,
+    spread: 6,
+    saturation: 0.55,
+  },
+  "chalk-marigold": {
+    label: "chalk-paper canvas, ink-navy text, marigold accent — education, courses, kids",
+    bg: "#f7f2e6",
+    ink: "#1c2a44",
+    hue: 40,
+    spread: 14,
+    saturation: 0.95,
+  },
+  "cobalt-slate": {
+    label: "cool paper canvas, slate ink, cobalt accent — B2B, corporate, SaaS",
+    bg: "#f3f3f0",
+    ink: "#14181f",
+    hue: 226,
+    spread: 8,
+    saturation: 0.85,
+  },
+  "archive-sepia": {
+    label: "aged-paper canvas, sepia-black ink — history, culture, documentary",
+    bg: "#efe6d2",
+    ink: "#2a2118",
+    hue: 30,
+    spread: 10,
+    saturation: 0.45,
+  },
+  "safety-orange": {
+    label: "concrete-grey canvas, black ink, safety-orange accent — logistics, manufacturing, construction",
+    bg: "#efefeb",
+    ink: "#161616",
+    hue: 26,
+    spread: 6,
+    saturation: 1.0,
+  },
+  "moss-paper": {
+    label: "recycled-paper canvas, moss-green ink — environment, agriculture, sustainability",
+    bg: "#f2f1e7",
+    ink: "#1f3320",
+    hue: 100,
+    spread: 18,
+    saturation: 0.7,
+  },
 };
 
 export const THEME_IDS = Object.keys(THEME_PRESETS);
