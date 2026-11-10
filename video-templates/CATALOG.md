@@ -1698,6 +1698,8 @@ those four preview as bare canvases. Judge them from the contact sheet after a r
 | `column_left` | string | ≤120 | left journalistic column |
 | `column_right` | string | ≤120 | right journalistic column |
 | `editor_note` | string | ≤70 | bottom editorial footnote |
+| `edition_tag` | string | ≤36 | optional tag under the masthead; empty by default |
+| `desk_note` | string | ≤36 | optional desk line in the corner; empty by default (it used to print a real outlet's name) |
 
 ---
 
@@ -1921,7 +1923,7 @@ of one picture each.
 # Detective / forensic family
 
 Seventeen frames rebuilt from two design mock-ups for horror, true-crime and investigation
-work. Shared palette (near-black canvas, one red accent, JetBrains Mono for anything a machine
+work. Shared palette (near-black canvas, one red accent, Roboto Mono for anything a machine
 would have printed), so an episode can cut between them without the colour moving under the
 narration. Emitted by `scripts/video/lib/build-detective-templates.mjs` — edit that, not the
 HTML.

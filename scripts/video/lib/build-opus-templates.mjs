@@ -32,7 +32,7 @@ const HYPERFRAMES_JSON = JSON.stringify(
 const FONTS_LINK =
   '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
   '  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
-  '  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@500;700;800&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">';
+  '  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Roboto+Mono:wght@400;500;700&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">';
 
 const SPRING_VARS = `
   :root {
@@ -145,7 +145,7 @@ export const OPUS_TEMPLATES = [
         display: flex; flex-direction: column; justify-content: center; align-items: center;
       }
       .kicker {
-        font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 0.18em;
+        font-family: 'Roboto Mono', monospace; font-weight: 700; letter-spacing: 0.18em;
         text-transform: uppercase; color: #38bdf8;
         background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.32);
         border-radius: 999px; padding: 8px 20px;
@@ -180,7 +180,7 @@ export const OPUS_TEMPLATES = [
       .dots { display: flex; gap: 8px; }
       .dot { width: 12px; height: 12px; border-radius: 50%; background: #475569; }
       .dot.r { background: #fb7185; } .dot.y { background: #fbbf24; } .dot.g { background: #34d399; }
-      .win-title { font-family: 'JetBrains Mono', monospace; color: #94a3b8; font-size: 18px; margin-left: 8px; }
+      .win-title { font-family: 'Roboto Mono', monospace; color: #94a3b8; font-size: 18px; margin-left: 8px; }
       .win-body { padding: 32px; display: flex; flex-direction: column; gap: 24px; }
       .subtext { color: #cbd5e1; line-height: 1.48; }
       .cta-row { display: flex; align-items: center; gap: 20px; position: relative; }
@@ -196,7 +196,7 @@ export const OPUS_TEMPLATES = [
         45% { transform: scale(0.93); box-shadow: 0 4px 16px rgba(56, 189, 248, 0.75); }
       }
       .status-badge {
-        font-family: 'JetBrains Mono', monospace; font-weight: 700;
+        font-family: 'Roboto Mono', monospace; font-weight: 700;
         color: #34d399; background: rgba(16, 185, 129, 0.14);
         border: 1px solid rgba(52, 211, 153, 0.4); border-radius: 10px; padding: 10px 18px;
         opacity: 0; animation: fadeRise 0.4s var(--spring-soft) 1.1s forwards;
@@ -213,7 +213,7 @@ export const OPUS_TEMPLATES = [
         0% { clip-path: inset(0 100% 0 0 round 18px); }
         100% { clip-path: inset(0 0% 0 0 round 18px); }
       }
-      .result-metric { font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #38bdf8; }
+      .result-metric { font-family: 'Roboto Mono', monospace; font-weight: 800; color: #38bdf8; }
       .result-caption { color: #e2e8f0; font-weight: 500; }
       .cursor-wrap {
         position: absolute; left: 160px; top: 150px; pointer-events: none; z-index: 10;
@@ -233,7 +233,7 @@ export const OPUS_TEMPLATES = [
         100% { opacity: 0; transform: scale(2.2); }
       }
       .footer {
-        position: absolute; bottom: 42px; font-family: 'JetBrains Mono', monospace;
+        position: absolute; bottom: 42px; font-family: 'Roboto Mono', monospace;
         color: #64748b; letter-spacing: 0.08em;
       }
       @keyframes fadeRise {
@@ -349,7 +349,7 @@ export const OPUS_TEMPLATES = [
         100% { transform: translate(0px, 0px); }
       }
       .kicker {
-        font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #fbbf24;
+        font-family: 'Roboto Mono', monospace; font-weight: 700; color: #fbbf24;
         letter-spacing: 0.16em; text-transform: uppercase;
         opacity: 0; animation: inkIn 0.45s ease-out 0.1s forwards;
       }
@@ -393,8 +393,8 @@ export const OPUS_TEMPLATES = [
         opacity: 0; animation: inkIn 0.5s var(--spring-soft) 0.95s forwards;
       }
       .callout-note { font-family: 'Lora', serif; font-style: italic; color: #fde68a; }
-      .verdict { font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #34d399; }
-      .footer { font-family: 'JetBrains Mono', monospace; color: #a8a29e; }
+      .verdict { font-family: 'Roboto Mono', monospace; font-weight: 800; color: #34d399; }
+      .footer { font-family: 'Roboto Mono', monospace; color: #a8a29e; }
       @keyframes inkIn {
         0% { opacity: 0; transform: translateY(18px) rotate(-0.8deg); }
         100% { opacity: 1; transform: translateY(0) rotate(0deg); }
@@ -487,7 +487,7 @@ export const OPUS_TEMPLATES = [
       .sticker {
         align-self: flex-start;
         background: #facc15; color: #0f172a;
-        font-family: 'JetBrains Mono', monospace; font-weight: 800;
+        font-family: 'Roboto Mono', monospace; font-weight: 800;
         padding: 10px 24px;
         clip-path: polygon(0% 8%, 96% 0%, 100% 88%, 4% 100%);
         transform: rotate(-2.5deg);
@@ -513,7 +513,7 @@ export const OPUS_TEMPLATES = [
         0% { opacity: 0; clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%); transform: rotate(-8deg) scale(0.8); }
         100% { opacity: 1; clip-path: polygon(2% 0%, 98% 4%, 100% 94%, 92% 100%, 0% 96%); transform: rotate(-2deg) scale(1); }
       }
-      .cutout-stat { font-family: 'JetBrains Mono', monospace; font-weight: 900; line-height: 1; display: block; }
+      .cutout-stat { font-family: 'Roboto Mono', monospace; font-weight: 900; line-height: 1; display: block; }
       .cutout-label { font-weight: 700; margin-top: 10px; display: block; color: #ffe4e6; }
       .tape-box {
         background: #fef08a; color: #1e293b;
@@ -525,12 +525,12 @@ export const OPUS_TEMPLATES = [
       .tape-quote { font-family: 'Lora', serif; font-weight: 700; line-height: 1.38; }
       .stamp {
         align-self: flex-end;
-        font-family: 'JetBrains Mono', monospace; font-weight: 800;
+        font-family: 'Roboto Mono', monospace; font-weight: 800;
         color: #38bdf8; border: 3px solid #38bdf8; padding: 8px 20px;
         transform: rotate(-4deg);
         opacity: 0; animation: stopmoSnap 0.4s steps(3, end) 0.85s forwards;
       }
-      .footer { font-family: 'JetBrains Mono', monospace; color: #94a3b8; }
+      .footer { font-family: 'Roboto Mono', monospace; color: #94a3b8; }
       @keyframes stopmoSnap {
         0% { opacity: 0; transform: translateY(32px) rotate(-6deg) scale(0.88); }
         100% { opacity: 1; transform: translateY(0) rotate(-1.5deg) scale(1); }
@@ -620,12 +620,12 @@ export const OPUS_TEMPLATES = [
         display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
       }
       .kicker {
-        font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 0.2em;
+        font-family: 'Roboto Mono', monospace; font-weight: 700; letter-spacing: 0.2em;
         color: #38bdf8; text-transform: uppercase;
         opacity: 0; animation: riseIn 0.45s var(--spring-soft) 0.1s forwards;
       }
       .hero-stat {
-        font-family: 'JetBrains Mono', monospace; font-weight: 900; line-height: 1;
+        font-family: 'Roboto Mono', monospace; font-weight: 900; line-height: 1;
         background: linear-gradient(90deg, #38bdf8 0%, #f472b6 50%, #34d399 100%);
         background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
         -webkit-mask-image: linear-gradient(110deg, #000 35%, rgba(0,0,0,0.3) 50%, #000 65%);
@@ -655,12 +655,12 @@ export const OPUS_TEMPLATES = [
         opacity: 0; animation: riseIn 0.5s var(--spring-soft) 0.68s forwards;
       }
       .pill {
-        font-family: 'JetBrains Mono', monospace; font-weight: 700;
+        font-family: 'Roboto Mono', monospace; font-weight: 700;
         padding: 12px 26px; border-radius: 999px;
         background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(148, 163, 184, 0.25);
         color: #e2e8f0;
       }
-      .footer { font-family: 'JetBrains Mono', monospace; color: #64748b; }
+      .footer { font-family: 'Roboto Mono', monospace; color: #64748b; }
       @keyframes riseIn {
         0% { opacity: 0; transform: translateY(24px) scale(0.95); }
         100% { opacity: 1; transform: translateY(0) scale(1); }
@@ -739,7 +739,7 @@ export const OPUS_TEMPLATES = [
         display: flex; flex-direction: column; justify-content: center;
       }
       .stage-label {
-        font-family: 'JetBrains Mono', monospace; font-weight: 800;
+        font-family: 'Roboto Mono', monospace; font-weight: 800;
         color: #facc15; letter-spacing: 0.16em;
         opacity: 0; animation: pixPop 0.35s steps(4, end) 0.1s forwards;
       }
@@ -761,7 +761,7 @@ export const OPUS_TEMPLATES = [
         100% { clip-path: inset(0 0% 0 0); }
       }
       .p-row { display: flex; flex-direction: column; gap: 12px; }
-      .p-meta { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-weight: 800; }
+      .p-meta { display: flex; justify-content: space-between; font-family: 'Roboto Mono', monospace; font-weight: 800; }
       .p-name { color: #a7f3d0; }
       .p-score { color: #facc15; }
       .bar-track { height: 28px; background: rgba(15, 23, 42, 0.9); border: 2px solid #34d399; padding: 3px; }
@@ -779,10 +779,10 @@ export const OPUS_TEMPLATES = [
         100% { transform: scaleX(1); }
       }
       .arcade-prompt {
-        font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #facc15;
+        font-family: 'Roboto Mono', monospace; font-weight: 800; color: #facc15;
         opacity: 0; animation: pixPop 0.4s steps(3, end) 0.95s forwards;
       }
-      .footer { font-family: 'JetBrains Mono', monospace; color: #6ee7b7; }
+      .footer { font-family: 'Roboto Mono', monospace; color: #6ee7b7; }
       @keyframes pixPop {
         0% { opacity: 0; transform: translateY(16px); }
         100% { opacity: 1; transform: translateY(0); }
@@ -868,11 +868,11 @@ export const OPUS_TEMPLATES = [
         border-bottom: 2px solid rgba(255, 255, 255, 0.14); padding-bottom: 20px;
       }
       .top-tag {
-        font-family: 'JetBrains Mono', monospace; font-weight: 700;
+        font-family: 'Roboto Mono', monospace; font-weight: 700;
         color: #f43f5e; letter-spacing: 0.18em;
       }
       .counter-badge {
-        font-family: 'JetBrains Mono', monospace; font-weight: 800;
+        font-family: 'Roboto Mono', monospace; font-weight: 800;
         color: #38bdf8; background: rgba(56, 189, 248, 0.12);
         padding: 8px 18px; border-radius: 999px;
       }
@@ -901,11 +901,11 @@ export const OPUS_TEMPLATES = [
         100% { background-position: 200% 50%; }
       }
       .punchline {
-        font-family: 'JetBrains Mono', monospace; font-weight: 700; color: #94a3b8;
+        font-family: 'Roboto Mono', monospace; font-weight: 700; color: #94a3b8;
         border-left: 4px solid #f43f5e; padding-left: 20px;
         opacity: 0; animation: fadeIn 0.5s ease-out 0.8s forwards;
       }
-      .footer { font-family: 'JetBrains Mono', monospace; color: #64748b; }
+      .footer { font-family: 'Roboto Mono', monospace; color: #64748b; }
       @keyframes fadeIn {
         from { opacity: 0; transform: translateX(-16px); }
         to { opacity: 1; transform: translateX(0); }

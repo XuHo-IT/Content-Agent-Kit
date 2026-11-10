@@ -6,7 +6,7 @@
   <title>Opus 5.5 Torn-Paper Collage Stop-Motion</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@500;700;800&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Roboto+Mono:wght@400;500;700&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { width: 1080px; height: 1920px; overflow: hidden; font-family: 'Be Vietnam Pro', sans-serif; }
@@ -43,7 +43,7 @@
       .sticker {
         align-self: flex-start;
         background: #facc15; color: #0f172a;
-        font-family: 'JetBrains Mono', monospace; font-weight: 800;
+        font-family: 'Roboto Mono', monospace; font-weight: 800;
         padding: 10px 24px;
         clip-path: polygon(0% 8%, 96% 0%, 100% 88%, 4% 100%);
         transform: rotate(-2.5deg);
@@ -69,7 +69,7 @@
         0% { opacity: 0; clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%); transform: rotate(-8deg) scale(0.8); }
         100% { opacity: 1; clip-path: polygon(2% 0%, 98% 4%, 100% 94%, 92% 100%, 0% 96%); transform: rotate(-2deg) scale(1); }
       }
-      .cutout-stat { font-family: 'JetBrains Mono', monospace; font-weight: 900; line-height: 1; display: block; }
+      .cutout-stat { font-family: 'Roboto Mono', monospace; font-weight: 900; line-height: 1; display: block; }
       .cutout-label { font-weight: 700; margin-top: 10px; display: block; color: #ffe4e6; }
       .tape-box {
         background: #fef08a; color: #1e293b;
@@ -81,12 +81,12 @@
       .tape-quote { font-family: 'Lora', serif; font-weight: 700; line-height: 1.38; }
       .stamp {
         align-self: flex-end;
-        font-family: 'JetBrains Mono', monospace; font-weight: 800;
+        font-family: 'Roboto Mono', monospace; font-weight: 800;
         color: #38bdf8; border: 3px solid #38bdf8; padding: 8px 20px;
         transform: rotate(-4deg);
         opacity: 0; animation: stopmoSnap 0.4s steps(3, end) 0.85s forwards;
       }
-      .footer { font-family: 'JetBrains Mono', monospace; color: #94a3b8; }
+      .footer { font-family: 'Roboto Mono', monospace; color: #94a3b8; }
       @keyframes stopmoSnap {
         0% { opacity: 0; transform: translateY(32px) rotate(-6deg) scale(0.88); }
         100% { opacity: 1; transform: translateY(0) rotate(-1.5deg) scale(1); }

@@ -5,7 +5,7 @@
   "aspect": "9:16",
   "theme": "newsprint-red",
   "metadata": {
-    "title": "Nhận ra tin giả trong vài giây",
+    "title": "Năm bước kiểm tra một tin trước khi chia sẻ",
     "source": {
       "url": "https://example.com",
       "domain": "example.com",
@@ -21,49 +21,139 @@
     {
       "id": "hook",
       "type": "hook",
+      "templateId": "frame-vox-collage",
+      "voiceText": "Một tin gây sốc vừa hiện lên, và ngón tay bạn đã chạm vào nút chia sẻ. Khoan đã. Ba mươi giây kiểm tra có thể giúp bạn không vô tình lan truyền tin giả.",
+      "inputs": {
+        "kicker": "KỸ NĂNG ĐỌC TIN",
+        "stamp_label": "KHOAN ĐÃ",
+        "headline": "Bạn sắp chia sẻ một tin giả?",
+        "subhead": "Ba mươi giây kiểm tra trước khi bấm nút có thể thay đổi tất cả.",
+        "source": "Video hướng dẫn, không phải bản tin",
+        "source_note": ""
+      }
+    },
+    {
+      "id": "headline",
+      "type": "body",
+      "templateId": "frame-vox-newspaper-tear",
+      "voiceText": "Dấu hiệu đầu tiên nằm ngay ở tiêu đề. Chữ in hoa, dấu chấm than, những từ như sốc hay khẩn cấp. Tiêu đề càng muốn bạn phản ứng ngay, bạn càng nên đọc chậm lại.",
+      "inputs": {
+        "publication_name": "TRANG BÁO MINH HOẠ",
+        "issue_date": "KHÔNG PHẢI TIN THẬT",
+        "headline": "TIÊU ĐỀ CÀNG GÂY SỐC, CÀNG PHẢI ĐỌC CHẬM",
+        "lead_quote": "Chữ in hoa, dấu chấm than, chữ khẩn cấp: ba tín hiệu để dừng lại.",
+        "column_left": "Tin thật thường nói rõ ai, ở đâu, khi nào. Tin câu view thường chỉ nói rằng bạn phải sợ.",
+        "column_right": "Nếu tiêu đề và nội dung bài không khớp nhau, đó là tín hiệu thứ tư.",
+        "editor_note": "Trang báo dựng để minh hoạ cách đọc tiêu đề"
+      }
+    },
+    {
+      "id": "source",
+      "type": "body",
+      "templateId": "frame-suspect-lineup",
+      "voiceText": "Dấu hiệu thứ hai là người đăng. Một tài khoản mới lập, ảnh đại diện lấy trên mạng, chỉ đăng lại tin giật gân, mà không có tên người hay cơ quan nào đứng ra chịu trách nhiệm.",
+      "inputs": {
+        "kicker": "NHẬN DẠNG NGƯỜI ĐĂNG · MINH HOẠ",
+        "subject_label": "TÀI KHOẢN KHÔNG RÕ LAI LỊCH",
+        "height_label": "Lập tài khoản hai tuần trước",
+        "height_pct": "72",
+        "detail_1": "Ảnh đại diện lấy từ trên mạng, không có thông tin thật",
+        "detail_2": "Chỉ đăng lại tin giật gân, không ghi nguồn gốc",
+        "footer": "Không ai đứng tên chịu trách nhiệm thì chưa đủ để tin"
+      }
+    },
+    {
+      "id": "steps",
+      "type": "body",
+      "templateId": "frame-step-list",
+      "voiceText": "Năm bước kiểm tra nhanh. Ai đăng tin này. Tin đăng khi nào. Thông tin gốc đến từ đâu. Ảnh có phải ảnh cũ không. Và các cơ quan báo chí chính thống có đưa tin không.",
+      "inputs": {
+        "kicker": "TRƯỚC KHI CHIA SẺ",
+        "title": "Năm câu hỏi trong ba mươi giây",
+        "steps": "Ai đăng? Tài khoản có lai lịch không?|Đăng khi nào? Có phải tin cũ?|Nguồn gốc thông tin là ai?|Ảnh, video có bị dùng lại?|Báo chính thống có đưa tin?"
+      }
+    },
+    {
+      "id": "reverse",
+      "type": "body",
+      "templateId": "frame-opus-cursor-flow",
+      "voiceText": "Với ảnh, hãy tìm kiếm ngược bằng công cụ tìm ảnh. Rất nhiều ảnh lan truyền là ảnh cũ từ nhiều năm trước, được gắn vào một câu chuyện mới.",
+      "inputs": {
+        "window_title": "Tìm kiếm bằng hình ảnh",
+        "kicker": "MẸO KIỂM TRA ẢNH",
+        "headline": "Tìm ngược ảnh trong mười giây",
+        "subtext": "Tải ảnh lên công cụ tìm ảnh, xem nó xuất hiện lần đầu khi nào.",
+        "action_label": "Tải ảnh lên",
+        "status_badge": "ĐANG ĐỐI CHIẾU",
+        "result_metric": "Ảnh cũ",
+        "result_caption": "Đã xuất hiện từ nhiều năm trước, ở nơi khác",
+        "footer": "Minh hoạ"
+      }
+    },
+    {
+      "id": "match",
+      "type": "body",
+      "templateId": "frame-cipher-decrypt",
+      "voiceText": "Khi tìm ra ảnh gốc, hãy đọc lại câu chuyện đi kèm. Bức ảnh có thể là thật, nhưng được chụp ở nơi khác, vào năm khác, rồi bị gắn cho một sự việc mới.",
+      "inputs": {
+        "kicker": "GIẢI MÃ MỘT BỨC ẢNH · MINH HOẠ",
+        "out_label": "KẾT LUẬN",
+        "translation": "Ảnh thật, nhưng chụp ở nơi khác, vào năm khác.",
+        "solved_1": "ẢNH: THẬT",
+        "solved_2": "THỜI GIAN: SAI",
+        "solved_3": "ĐỊA ĐIỂM: SAI",
+        "note": "Ảnh thật vẫn có thể đi kèm một câu chuyện sai"
+      }
+    },
+    {
+      "id": "place",
+      "type": "body",
+      "templateId": "frame-hybrid-vox-geo",
+      "voiceText": "Muốn biết ảnh chụp ở đâu, hãy nhìn chi tiết: biển hiệu, kiểu chữ, hướng bóng nắng, địa hình. Nếu chúng không khớp với nơi được nhắc đến, câu chuyện có vấn đề.",
+      "inputs": {
+        "kicker": "ĐỐI CHIẾU VỊ TRÍ · MINH HOẠ",
+        "hybrid_title": "Ảnh này chụp ở đâu?",
+        "vox_headline": "Ảnh được nói là chụp hôm qua",
+        "vox_excerpt": "Đối chiếu biển hiệu, kiểu chữ, bóng nắng và địa hình với nơi được nhắc tới.",
+        "vox_highlight": "BIỂN HIỆU KHÔNG KHỚP",
+        "geo_target_label": "VỊ TRÍ ĐƯỢC NHẮC TỚI",
+        "geo_coords": "BIỂN HIỆU · BÓNG NẮNG · ĐỊA HÌNH",
+        "geo_status": "CHI TIẾT KHÔNG KHỚP",
+        "takeaway": "Chi tiết nhỏ trong ảnh thường nói thật hơn lời chú thích."
+      }
+    },
+    {
+      "id": "voice",
+      "type": "body",
+      "templateId": "frame-dispatch-waveform",
+      "voiceText": "Giọng nói giờ cũng có thể bị giả bằng công nghệ. Nếu một cuộc gọi giọng người quen đòi chuyển tiền gấp, hãy cúp máy và tự gọi lại vào số bạn vẫn dùng.",
+      "inputs": {
+        "rec_label": "CUỘC GỌI ĐÁNG NGỜ · MINH HOẠ",
+        "timecode": "00:09",
+        "speaker_label": "GIỌNG NGƯỜI QUEN",
+        "transcript": "Con đây, mẹ chuyển giúp con ít tiền gấp nhé, con đang kẹt.",
+        "note": "Cúp máy. Tự gọi lại vào số quen thuộc trước khi làm gì."
+      }
+    },
+    {
+      "id": "rule",
+      "type": "body",
       "templateId": "frame-trend-word-pop",
-      "voiceText": "Trước khi chia sẻ một tin gây sốc, hãy dành đúng mười giây. Chừng đó đủ để nhận ra phần lớn tin giả.",
+      "voiceText": "Quy tắc đơn giản nhất: không chắc thì đừng chia sẻ. Một lượt chia sẻ của bạn có thể là lý do người thân của bạn tin vào một điều sai.",
       "inputs": {
-        "tag": "KỸ NĂNG",
-        "line": "Dành 10 giây trước khi bấm chia sẻ",
-        "accent": "10 giây",
-        "sub": "Đủ để nhận ra phần lớn tin giả"
-      }
-    },
-    {
-      "id": "checklist",
-      "type": "body",
-      "templateId": "frame-checklist",
-      "voiceText": "Hãy xem nguồn là trang nào, ngày đăng là khi nào, và có báo chính thống nào đưa cùng tin không. Cẩn thận với tiêu đề viết hoa, giục chia sẻ gấp, và ảnh không rõ xuất xứ.",
-      "inputs": {
-        "kicker": "10 GIÂY KIỂM TRA",
-        "title": "Trước khi chia sẻ",
-        "doLabel": "Kiểm tra",
-        "dontLabel": "Cảnh giác",
-        "dos": "Nguồn là trang nào|Ngày đăng|Báo khác có đưa không",
-        "donts": "Tiêu đề VIẾT HOA|Giục chia sẻ gấp|Ảnh không rõ nguồn"
-      }
-    },
-    {
-      "id": "myth",
-      "type": "body",
-      "templateId": "frame-myth-fact",
-      "voiceText": "Nhiều người nghĩ tin được chia sẻ nhiều thì chắc là thật. Thực tế, tin giả thường lan nhanh hơn chính vì nó gây cảm xúc mạnh hơn.",
-      "inputs": {
-        "mythLabel": "Ai cũng nghĩ",
-        "myth": "Chia sẻ nhiều thì chắc là thật",
-        "factLabel": "Thực tế",
-        "fact": "Tin giả lan nhanh vì nó gây cảm xúc mạnh",
-        "source": ""
+        "tag": "QUY TẮC VÀNG",
+        "line": "Không chắc chắn thì đừng chia sẻ",
+        "accent": "đừng chia sẻ",
+        "sub": "Chậm ba mươi giây, tránh lan một tin sai"
       }
     },
     {
       "id": "outro",
       "type": "outro",
-      "voiceText": "Gửi video này cho người hay chia sẻ tin trong nhóm gia đình bạn.",
+      "voiceText": "Gửi video này cho người thân hay chia sẻ tin vội, và theo dõi kênh để xem thêm mẹo đọc tin.",
       "templateId": "frame-statement-outro",
       "inputs": {
-        "cta": "Gửi cho nhóm gia đình bạn",
+        "cta": "Gửi cho người thân",
         "channel": "Kênh Mẫu",
         "source": ""
       }

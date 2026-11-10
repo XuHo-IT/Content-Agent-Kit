@@ -28,7 +28,7 @@ const dryRun = process.argv.includes("--dry-run");
 
 const FONTS =
   "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900" +
-  "&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@400;700&display=swap";
+  "&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Roboto+Mono:wght@400;500;700&display=swap";
 
 /* ── shared base ─────────────────────────────────────────────────────────── */
 const BASE = `
@@ -86,7 +86,7 @@ const torchlight = {
   border:1px solid rgba(201,168,107,.22);
   box-shadow:0 40px 90px rgba(0,0,0,.7)}
 .stamp{position:absolute;top:${portrait ? "34px" : "26px"};right:${portrait ? "40px" : "44px"};
-  font-family:'JetBrains Mono',monospace;font-size:${portrait ? "20px" : "17px"};
+  font-family:'Roboto Mono',monospace;font-size:${portrait ? "20px" : "17px"};
   letter-spacing:.2em;color:#8a6f45;border:1px solid #6b563a;padding:6px 12px;
   transform:rotate(-6deg);opacity:0;animation:fadeIn .5s ease 1.9s both}
 .doc-title{font-family:'Playfair Display',serif;font-weight:900;
@@ -133,7 +133,7 @@ const torchlight = {
   border-left:4px solid #c9a86b;font-size:${portrait ? "32px" : "25px"};
   font-weight:600;color:#e9c98c;line-height:1.42;
   opacity:0;animation:fadeUp .7s ease 3.5s both}
-.foot{margin-top:${portrait ? "44px" : "32px"};font-family:'JetBrains Mono',monospace;
+.foot{margin-top:${portrait ? "44px" : "32px"};font-family:'Roboto Mono',monospace;
   font-size:${portrait ? "22px" : "18px"};letter-spacing:.12em;color:#7d6a4e;
   opacity:0;animation:fadeIn .6s ease 4s both}
 /* A slow bloom that keeps travelling after the text has settled, so the frame never dies. */
@@ -214,12 +214,12 @@ const papercut = {
   opacity:0;animation:fadeUp .8s ease .7s both}
 .sub{font-size:${portrait ? "34px" : "27px"};line-height:1.5;color:#bfae95;
   opacity:0;animation:fadeUp .8s ease .95s both}
-.cap{margin-top:${portrait ? "30px" : "22px"};font-family:'JetBrains Mono',monospace;
+.cap{margin-top:${portrait ? "30px" : "22px"};font-family:'Roboto Mono',monospace;
   font-size:${portrait ? "22px" : "18px"};letter-spacing:.1em;color:#8a7758;
   opacity:0;animation:fadeIn .7s ease 1.35s both}
 .foot{position:absolute;left:0;right:0;bottom:${portrait ? "56px" : "44px"};
   padding:0 ${portrait ? "62px" : "92px"};display:flex;justify-content:space-between;
-  font-family:'JetBrains Mono',monospace;font-size:${portrait ? "22px" : "18px"};
+  font-family:'Roboto Mono',monospace;font-size:${portrait ? "22px" : "18px"};
   letter-spacing:.18em;text-transform:uppercase;color:#6f6047;
   opacity:0;animation:fadeIn .7s ease 1.6s both}`,
 };
@@ -273,7 +273,7 @@ const silhouette = {
   filter:drop-shadow(0 18px 40px rgba(0,0,0,.7))}
 .band{position:absolute;top:${portrait ? "20%" : "19%"};left:-6%;width:112%;
   background:#c9a86b;color:#120f0d;text-align:center;
-  font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-family:'Roboto Mono',monospace;font-weight:700;
   font-size:${portrait ? "19px" : "17px"};letter-spacing:.16em;padding:9px 0;
   transform:rotate(-4deg) scaleX(0);transform-origin:left;
   animation:band .55s cubic-bezier(.2,.7,.3,1) 1s both}
@@ -298,7 +298,7 @@ const silhouette = {
   font-size:${portrait ? "28px" : "23px"};font-weight:600;color:#e9c98c;line-height:1.4;
   opacity:0;animation:fadeUp .7s ease 2s both}
 .foot{position:absolute;left:0;right:0;bottom:${portrait ? "54px" : "44px"};
-  text-align:center;font-family:'JetBrains Mono',monospace;
+  text-align:center;font-family:'Roboto Mono',monospace;
   font-size:${portrait ? "22px" : "18px"};letter-spacing:.18em;text-transform:uppercase;
   color:#6f6047;opacity:0;animation:fadeIn .7s ease 2.4s both}`,
 };

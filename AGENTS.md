@@ -51,9 +51,13 @@ take the device, write your own. Method: `docs/24-competitor-analysis.md`.
 
 ## When the user brings their own footage — "cắt khoảng lặng", "dựng video tự quay"
 ```bash
-node scripts/video/talking-head.mjs take.mp4 --transcript take.json --theme <preset> --credit "<source · licence>"
+node scripts/video/talking-head.mjs take.mp4 --transcript take.json --style pop --theme <preset> --credit "<source · licence>"
+node scripts/video/talking-head.mjs report.mp4 --edl edl.json --transcript report.json --style cinematic   # several ranges + B-roll
 node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12   # cut only: pauses out, punch-ins, -16 LUFS
 ```
+`--style`: `clean` · `pop` · `editorial` · `cinematic` · `kinetic-doc`. Pick by vertical and
+platform, or render two and let the user choose. Every crop must stay clear of burned-in TV
+bars and logos; B-roll should come from the same licensed footage, under ~35% of the runtime.
 Method (ported from kurbaitaev/ghost-editor, MIT): `docs/26-auto-edit.md`.
 
 ## Palette — every video gets one

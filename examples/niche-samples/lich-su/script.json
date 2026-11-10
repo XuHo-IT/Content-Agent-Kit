@@ -1,0 +1,167 @@
+{
+  "_niche": "Lịch sử",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "archive-sepia",
+  "metadata": {
+    "title": "Chữ Quốc ngữ: gần bốn thế kỷ để thành chữ của người Việt",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-trend-infinite-zoom",
+      "voiceText": "Phóng to dòng chữ bạn đang đọc. Mỗi chữ cái Latin, mỗi dấu thanh nhỏ xíu ấy, là kết quả của gần bốn thế kỷ. Đây là câu chuyện của chữ Quốc ngữ.",
+      "inputs": {
+        "hook": "Phóng to dòng chữ này…",
+        "depth_1": "Một chữ cái Latin",
+        "depth_2": "một dấu thanh nhỏ",
+        "depth_3": "gần bốn thế kỷ",
+        "reveal": "để thành chữ của người Việt."
+      }
+    },
+    {
+      "id": "flight",
+      "type": "body",
+      "templateId": "frame-trend-timeline-flight",
+      "voiceText": "Bốn cột mốc đáng nhớ: cuốn từ điển Việt Bồ La in ở Roma, tờ Gia Định báo ở Sài Gòn, phong trào Đông Kinh Nghĩa Thục ở Hà Nội, và Bình dân học vụ năm bốn mươi lăm.",
+      "inputs": {
+        "title": "Chữ Quốc ngữ qua bốn cột mốc",
+        "year_1": "1651",
+        "label_1": "Từ điển Việt – Bồ – La in ở Roma",
+        "year_2": "1865",
+        "label_2": "Gia Định báo, tờ báo Quốc ngữ đầu tiên",
+        "year_3": "1907",
+        "label_3": "Đông Kinh Nghĩa Thục cổ động học chữ",
+        "year_4": "1945",
+        "label_4": "Bình dân học vụ chống nạn mù chữ"
+      }
+    },
+    {
+      "id": "dictionary",
+      "type": "body",
+      "templateId": "frame-vox-torchlight",
+      "voiceText": "Đầu thế kỷ mười bảy, các giáo sĩ phương Tây dùng chữ Latin để ghi tiếng Việt khi học nói. Công sức của nhiều người được tập hợp trong cuốn từ điển do Alexandre de Rhodes in tại Roma.",
+      "inputs": {
+        "kicker": "TƯ LIỆU · THẾ KỶ XVII",
+        "doc_title": "Từ điển Việt – Bồ – La, 1651",
+        "body_text": "Ban đầu, chữ Latin chỉ là công cụ để người phương Tây học nói tiếng Việt. Cách ghi âm được nhiều giáo sĩ hoàn thiện dần, rồi được in thành từ điển tại Roma năm 1651.",
+        "highlight": "được in thành từ điển tại Roma năm 1651",
+        "stamp": "LƯU TRỮ",
+        "footer": "Cách ghi chữ thời đó còn khác chữ ta dùng hôm nay"
+      }
+    },
+    {
+      "id": "newspaper",
+      "type": "body",
+      "templateId": "frame-vox-newspaper-tear",
+      "voiceText": "Hơn hai trăm năm sau, năm một nghìn tám trăm sáu mươi lăm, Gia Định báo ra số đầu tiên ở Sài Gòn. Đây được xem là tờ báo đầu tiên in bằng chữ Quốc ngữ.",
+      "inputs": {
+        "publication_name": "GIA ĐỊNH BÁO",
+        "issue_date": "SÀI GÒN · NĂM 1865",
+        "headline": "TỜ BÁO QUỐC NGỮ ĐẦU TIÊN",
+        "lead_quote": "Chữ Quốc ngữ bước ra khỏi sách của giáo sĩ để lên mặt báo.",
+        "column_left": "Từ đây, chữ Latin ghi tiếng Việt bắt đầu có người đọc ngoài giới nhà thờ và công sở.",
+        "column_right": "Báo chí trở thành con đường đưa chữ Quốc ngữ tới người đọc bình thường.",
+        "editor_note": "Trang báo dựng lại để minh hoạ, không phải bản chụp tờ báo gốc"
+      }
+    },
+    {
+      "id": "collage",
+      "type": "body",
+      "templateId": "frame-opus-collage-stopmo",
+      "voiceText": "Năm một nghìn chín trăm lẻ bảy, các nhà nho yêu nước lập trường Đông Kinh Nghĩa Thục ở Hà Nội. Họ cổ động học chữ Quốc ngữ, vì chữ dễ học thì dân mới nhanh biết chữ.",
+      "inputs": {
+        "sticker_tag": "CẮT DÁN · HÀ NỘI 1907",
+        "headline": "Chữ dễ học thì dân mới nhanh biết chữ",
+        "cutout_stat": "1907",
+        "cutout_label": "Đông Kinh Nghĩa Thục mở lớp, in sách, cổ động học Quốc ngữ",
+        "tape_quote": "Một thứ chữ học vài tháng là đọc được.",
+        "stamp_text": "TƯ LIỆU",
+        "footer": ""
+      }
+    },
+    {
+      "id": "classes",
+      "type": "body",
+      "templateId": "frame-papercut-diorama",
+      "voiceText": "Tháng chín năm một nghìn chín trăm bốn mươi lăm, Nha Bình dân học vụ được thành lập. Những lớp học buổi tối mọc lên khắp nơi, người biết chữ dạy người chưa biết.",
+      "inputs": {
+        "kicker": "Năm 1945",
+        "title": "Lớp học dưới đèn dầu",
+        "subtitle": "Bình dân học vụ: người biết chữ dạy người chưa biết.",
+        "caption": "Dựng lại bằng giấy cắt, minh hoạ",
+        "footer_left": "Tháng 9",
+        "footer_right": "1945"
+      }
+    },
+    {
+      "id": "tones",
+      "type": "body",
+      "templateId": "frame-cipher-decrypt",
+      "voiceText": "Điều làm chữ Quốc ngữ đặc biệt là cách nó ghi thanh điệu. Tiếng Việt có sáu thanh, nhưng chỉ cần năm dấu, vì thanh ngang không mang dấu nào.",
+      "inputs": {
+        "kicker": "GIẢI MÃ THANH ĐIỆU",
+        "out_label": "KẾT QUẢ",
+        "translation": "Sáu thanh điệu, năm dấu ghi, thanh ngang để trống.",
+        "solved_1": "SẮC · HUYỀN",
+        "solved_2": "HỎI · NGÃ · NẶNG",
+        "solved_3": "NGANG: KHÔNG DẤU",
+        "note": "Chỉ một dấu nhỏ cũng đổi hẳn nghĩa của từ"
+      }
+    },
+    {
+      "id": "letters",
+      "type": "body",
+      "templateId": "frame-3d-spotlight",
+      "voiceText": "Ngày nay bảng chữ cái tiếng Việt có hai mươi chín chữ. Một hệ chữ ra đời để ghi âm cho người nước ngoài, cuối cùng lại trở thành chữ viết của cả một dân tộc.",
+      "inputs": {
+        "kicker": "Hôm nay",
+        "headline": "29 chữ cái, 6 thanh điệu",
+        "caption": "Từ công cụ ghi âm thành chữ viết của cả dân tộc"
+      }
+    },
+    {
+      "id": "map",
+      "type": "body",
+      "templateId": "frame-vox-investigation-board",
+      "voiceText": "Xâu chuỗi lại ba đầu mối. Ở Sài Gòn, chữ Quốc ngữ lên mặt báo. Ở Hà Nội, nó vào lớp học. Và năm bốn mươi lăm, nó đi tới từng người dân qua các lớp học buổi tối.",
+      "inputs": {
+        "kicker": "XÂU CHUỖI TƯ LIỆU",
+        "board_title": "Ba đầu mối, một hành trình",
+        "card_1_label": "SÀI GÒN · 1865",
+        "card_1_text": "Gia Định báo: chữ Quốc ngữ lên mặt báo.",
+        "card_2_label": "HÀ NỘI · 1907",
+        "card_2_text": "Đông Kinh Nghĩa Thục: chữ vào lớp học.",
+        "card_3_label": "CẢ NƯỚC · 1945",
+        "card_3_text": "Bình dân học vụ: lớp học buổi tối khắp nơi.",
+        "stamp_text": "TƯ LIỆU",
+        "conclusion": "Từ mặt báo tới lớp học, chữ đi tới từng người dân."
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Theo dõi kênh để nghe thêm những câu chuyện về chữ và tiếng Việt.",
+      "templateId": "frame-logo-outro",
+      "inputs": {
+        "brand_name": "Kênh Mẫu",
+        "tagline": "Theo dõi để nghe thêm",
+        "primary_url": "",
+        "corner_left": "Theo dõi",
+        "corner_right": "Hết"
+      }
+    }
+  ]
+}

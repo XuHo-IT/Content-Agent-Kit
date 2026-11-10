@@ -5,7 +5,7 @@
   "aspect": "9:16",
   "theme": "limestone-clay",
   "metadata": {
-    "title": "Thuê hay mua nhà: hỏi mình ba câu trước",
+    "title": "Mua nhà trả góp: làm phép tính trước khi xuống tiền",
     "source": {
       "url": "https://example.com",
       "domain": "example.com",
@@ -21,52 +21,152 @@
     {
       "id": "hook",
       "type": "hook",
-      "templateId": "frame-trend-word-pop",
-      "voiceText": "Thuê hay mua nhà? Trước khi tính bất cứ con số nào, hãy tự hỏi mình ba câu này.",
+      "templateId": "frame-opus-shader-orb",
+      "voiceText": "Trước khi xem nhà mẫu, trước khi nghe môi giới, hãy làm một phép tính. Nó chỉ mất năm phút, nhưng có thể giúp bạn tránh một khoản nợ hai mươi năm quá sức.",
       "inputs": {
-        "tag": "TRƯỚC KHI XUỐNG TIỀN",
-        "line": "Thuê hay mua? Hỏi mình 3 câu trước",
-        "accent": "3 câu",
-        "sub": "Trước khi tính bất cứ con số nào"
+        "kicker": "TRƯỚC KHI XUỐNG TIỀN",
+        "headline": "Làm phép tính trước, xem nhà sau",
+        "hero_stat": "5 phút",
+        "subtext": "Một phép tính có thể tránh cho bạn khoản nợ quá sức.",
+        "pill_left": "Minh hoạ",
+        "pill_right": "Không phải lời khuyên tài chính",
+        "footer": ""
       }
     },
     {
-      "id": "steps",
+      "id": "search",
       "type": "body",
-      "templateId": "frame-step-list",
-      "voiceText": "Một, bạn có ở nơi này ít nhất năm năm không. Hai, khoản trả góp mỗi tháng có dưới một phần ba thu nhập không. Ba, bạn còn quỹ dự phòng sau khi trả trước không.",
+      "templateId": "frame-trend-search-morph",
+      "voiceText": "Câu hỏi nhiều người tìm: nên thuê hay mua nhà. Câu trả lời thật thà là tuỳ vào ba điều: bạn ở đó bao lâu, trả góp có vừa sức không, và còn quỹ dự phòng hay không.",
       "inputs": {
-        "kicker": "3 CÂU HỎI",
-        "title": "Tự hỏi trước khi mua",
-        "steps": "Ở đây ít nhất 5 năm?|Trả góp dưới 1/3 thu nhập?|Còn quỹ dự phòng sau khi trả trước?"
+        "kicker": "Người trẻ hay hỏi",
+        "query": "nên thuê hay mua nhà",
+        "result_1": "Ở đó ít nhất vài năm?",
+        "result_2": "Trả góp có vừa sức?",
+        "result_3": "Còn quỹ dự phòng sau khi trả trước?",
+        "footer": ""
       }
     },
     {
-      "id": "poll",
+      "id": "money",
       "type": "body",
-      "templateId": "frame-trend-live-poll",
-      "voiceText": "Nếu cả ba câu đều là có, mua có thể hợp lý. Nếu chưa, thuê không phải là thua. Còn bạn đang nghiêng về bên nào?",
+      "templateId": "frame-forensic-instrument",
+      "voiceText": "Lấy một ví dụ minh hoạ. Căn hộ giá hai tỷ. Bạn trả trước ba mươi phần trăm, tức sáu trăm triệu. Phần còn lại, một tỷ bốn trăm triệu, là khoản vay ngân hàng.",
       "inputs": {
-        "question": "Bạn đang nghiêng về bên nào?",
-        "option_a": "Mua nhà",
-        "option_b": "Thuê nhà",
-        "pct_a": "50",
-        "vs": "VS",
-        "cta": "Bình luận lựa chọn của bạn 👇",
-        "comment_1": "Thuê thêm vài năm đã",
-        "comment_2": "Mua sớm cho yên tâm",
-        "comment_3": ""
+        "panel": "money-chain",
+        "kicker": "DÒNG TIỀN MỘT CĂN HỘ // MINH HOẠ",
+        "label_1": "Giá căn hộ",
+        "value_1": "2 tỷ",
+        "label_2": "Trả trước 30%",
+        "value_2": "600 triệu",
+        "label_3": "Khoản vay",
+        "value_3": "1,4 tỷ",
+        "threshold": "",
+        "readout_1": "VAY 70% GIÁ TRỊ CĂN HỘ",
+        "readout_2": "SỐ LIỆU GIẢ ĐỊNH ĐỂ MINH HOẠ",
+        "caption": "Ví dụ minh hoạ, không phải giá thị trường."
+      }
+    },
+    {
+      "id": "formula",
+      "type": "body",
+      "templateId": "frame-trend-line",
+      "voiceText": "Vay một tỷ bốn, lãi giả định chín phần trăm một năm, trả đều trong hai mươi năm, mỗi tháng bạn trả khoảng mười hai phẩy sáu triệu. Nhưng sau mười năm, bạn vẫn còn nợ gần một tỷ.",
+      "inputs": {
+        "kicker": "Trả góp 20 năm · minh hoạ",
+        "title": "Dư nợ khoản vay 1,4 tỷ",
+        "unit": "triệu đồng còn nợ",
+        "points": "Năm 0:1400|Năm 5:1242|Năm 10:994|Năm 15:607|Năm 20:0",
+        "highlight": "Năm 10",
+        "baseline": "zero"
+      }
+    },
+    {
+      "id": "total",
+      "type": "body",
+      "templateId": "frame-vox-data-callout",
+      "voiceText": "Sau hai mươi năm, tổng số tiền bạn trả là khoảng ba tỷ không trăm hai mươi triệu. Trong đó hơn một tỷ sáu là tiền lãi, nhiều hơn cả số tiền trả trước.",
+      "inputs": {
+        "kicker": "SAU 20 NĂM · MINH HOẠ",
+        "stat_number": "≈ 3,02 tỷ",
+        "stat_label": "Tổng số tiền trả cho khoản vay 1,4 tỷ",
+        "callout_1_title": "Tiền gốc",
+        "callout_1_desc": "1,4 tỷ: số tiền bạn thực sự vay.",
+        "callout_2_title": "Tiền lãi",
+        "callout_2_desc": "≈ 1,62 tỷ: nhiều hơn cả khoản trả trước.",
+        "source": "Tính theo công thức trả góp đều, lãi giả định 9%/năm",
+        "source_note": ""
+      }
+    },
+    {
+      "id": "third",
+      "type": "body",
+      "templateId": "frame-hybrid-math-diagram",
+      "voiceText": "Một quy tắc kinh nghiệm hay được dùng: tiền trả góp không nên vượt quá một phần ba thu nhập. Với mười hai phẩy sáu triệu mỗi tháng, thu nhập cần vào khoảng ba mươi tám triệu.",
+      "inputs": {
+        "kicker": "QUY TẮC KINH NGHIỆM",
+        "hybrid_title": "Trả góp có vừa sức không?",
+        "step_1_node": "1. Thu nhập ổn định mỗi tháng",
+        "step_2_node": "2. Chia ba",
+        "step_3_node": "3. So với khoản trả góp",
+        "math_formula_main": "Trả góp ≤ Thu nhập ÷ 3",
+        "math_update_rule": "12,6 triệu × 3 ≈ 38 triệu",
+        "learning_rate": "Thu nhập tối thiểu cần có, theo ví dụ minh hoạ",
+        "takeaway": "Vượt mức này, một tháng mất thu nhập là đã căng."
+      }
+    },
+    {
+      "id": "radar",
+      "type": "body",
+      "templateId": "frame-geo-sonar-radar",
+      "voiceText": "Khi đã tính xong, hãy quét vị trí. Trường học, chợ, bệnh viện, chỗ làm có trong bán kính đi lại hợp lý không. Nội thất sửa được, nhưng vị trí thì không.",
+      "inputs": {
+        "kicker": "QUÉT VỊ TRÍ",
+        "radar_title": "Quanh căn nhà có gì?",
+        "coords_1": "TRƯỜNG HỌC · CHỢ",
+        "status_1": "Đi bộ hoặc chạy xe ít phút?",
+        "coords_2": "BỆNH VIỆN · CHỖ LÀM",
+        "status_2": "Đi lại hằng ngày có hợp lý?",
+        "scan_frequency": "BÁN KÍNH GỢI Ý: VÀI CÂY SỐ",
+        "takeaway": "Nội thất sửa được, vị trí thì không."
+      }
+    },
+    {
+      "id": "zoom",
+      "type": "body",
+      "templateId": "frame-trend-infinite-zoom",
+      "voiceText": "Rồi phóng to vào giấy tờ. Từ căn hộ, xuống tình trạng pháp lý, xuống quy hoạch khu đất. Hãy kiểm tra kỹ những thứ này trước khi đặt cọc, chứ không phải sau.",
+      "inputs": {
+        "hook": "Phóng to căn hộ…",
+        "depth_1": "Một căn hộ đẹp",
+        "depth_2": "tình trạng pháp lý",
+        "depth_3": "quy hoạch khu đất",
+        "reveal": "Kiểm tra trước khi đặt cọc."
+      }
+    },
+    {
+      "id": "rule",
+      "type": "body",
+      "templateId": "frame-kinetic-type",
+      "voiceText": "Một câu để mang theo khi đi xem nhà. Đừng mua căn nhà đẹp nhất bạn được xem. Hãy mua căn nhà bạn trả nổi, kể cả trong một năm khó khăn.",
+      "inputs": {
+        "kicker": "Mang theo khi xem nhà",
+        "line": "Đừng mua căn đẹp nhất. Hãy mua căn bạn trả nổi.",
+        "accent": "trả nổi",
+        "footnote": "Kể cả trong một năm khó khăn"
       }
     },
     {
       "id": "outro",
       "type": "outro",
-      "voiceText": "Đây là cách suy nghĩ, không phải lời khuyên tài chính. Bình luận hoàn cảnh của bạn nhé.",
-      "templateId": "frame-statement-outro",
+      "voiceText": "Đây là cách suy nghĩ với số liệu minh hoạ, không phải lời khuyên tài chính. Bình luận hoàn cảnh của bạn nhé.",
+      "templateId": "frame-logo-outro",
       "inputs": {
-        "cta": "Bình luận hoàn cảnh của bạn",
-        "channel": "Kênh Mẫu",
-        "source": ""
+        "brand_name": "Kênh Mẫu",
+        "tagline": "Bình luận hoàn cảnh của bạn",
+        "primary_url": "",
+        "corner_left": "Theo dõi",
+        "corner_right": "Hết"
       }
     }
   ]

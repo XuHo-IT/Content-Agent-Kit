@@ -6,7 +6,7 @@
   <title>Trend · Infinite Zoom Tunnel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,700;0,800;0,900;1,800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000000; }
     
@@ -23,7 +23,7 @@
   }
   @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
   .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
+  .mono { font-family: 'Roboto Mono', monospace; }
   @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
@@ -39,7 +39,7 @@
       .stage { justify-content: center; align-items: center; text-align: center; }
       .center { position: relative; display: grid; place-items: center; }
       .center > div { grid-area: 1 / 1; font-weight: 900; letter-spacing: -.02em; line-height: 1.05; opacity: 0; text-shadow: 0 0 40px #000, 0 0 80px #000; }
-      .hook { font-family: 'JetBrains Mono', monospace; font-weight: 700 !important; color: #ff5b1f; animation: through .9s var(--out) .2s both; }
+      .hook { font-family: 'Roboto Mono', monospace; font-weight: 700 !important; color: #ff5b1f; animation: through .9s var(--out) .2s both; }
       .d { animation: through 1s var(--out) both; }
       .reveal { color: #ff5b1f; animation: land .7s var(--spring) forwards; }
       @keyframes through { 0% { opacity: 0; transform: scale(.4); } 25% { opacity: 1; transform: scale(1); } 75% { opacity: 1; transform: scale(1.15); } 100% { opacity: 0; transform: scale(2.4); } }

@@ -5,7 +5,7 @@
   "aspect": "9:16",
   "theme": "clinic-sage",
   "metadata": {
-    "title": "Mỏi mắt vì màn hình: quy tắc 20-20-20",
+    "title": "Ngủ đủ hay chỉ nằm đủ? Năm thói quen cho giấc ngủ",
     "source": {
       "url": "https://example.com",
       "domain": "example.com",
@@ -21,49 +21,143 @@
     {
       "id": "hook",
       "type": "hook",
-      "templateId": "frame-trend-comment-reply",
-      "voiceText": "Một bạn hỏi: ngồi máy tính cả ngày, chiều nào mắt cũng mỏi và khô, phải làm sao? Có một quy tắc rất dễ nhớ.",
+      "templateId": "frame-3d-spotlight",
+      "voiceText": "Bạn nằm trên giường tám tiếng, nhưng sáng dậy vẫn mệt? Có thể bạn đang nằm đủ, chứ chưa ngủ đủ. Đây là những điều cơ thể cần để có một giấc ngủ thật sự.",
       "inputs": {
-        "reply_label": "Trả lời bình luận của",
-        "username": "@minh.vanphong",
-        "comment": "Ngồi máy tính cả ngày, chiều nào mắt cũng mỏi. Làm sao?",
-        "answer_title": "Quy tắc 20-20-20",
-        "point_1": "",
-        "point_2": "",
-        "point_3": ""
+        "kicker": "Sức khoẻ mỗi ngày",
+        "headline": "Bạn ngủ đủ, hay chỉ nằm đủ?",
+        "caption": "Năm thói quen nhỏ cho một giấc ngủ thật sự"
       }
     },
     {
-      "id": "steps",
+      "id": "hours",
       "type": "body",
-      "templateId": "frame-step-list",
-      "voiceText": "Cứ hai mươi phút, nhìn một vật cách xa khoảng sáu mét, trong hai mươi giây. Thêm vào đó, nhớ chớp mắt chủ động và đặt màn hình thấp hơn tầm mắt một chút.",
+      "templateId": "frame-vox-data-callout",
+      "voiceText": "Các hội y học giấc ngủ khuyến nghị người trưởng thành ngủ khoảng bảy đến chín tiếng mỗi đêm. Nhưng thời lượng chỉ là một nửa câu chuyện. Nửa còn lại là sự đều đặn.",
       "inputs": {
-        "kicker": "QUY TẮC 20-20-20",
-        "title": "Cho mắt nghỉ đúng cách",
-        "steps": "Mỗi 20 phút|Nhìn xa khoảng 6 mét|Trong 20 giây|Chớp mắt chủ động"
+        "kicker": "KHUYẾN NGHỊ CHUNG",
+        "stat_number": "7–9 giờ",
+        "stat_label": "Thời lượng ngủ khuyến nghị cho người trưởng thành mỗi đêm",
+        "callout_1_title": "Thời lượng",
+        "callout_1_desc": "Ngủ đủ số giờ cơ thể cần, không cắt bớt để làm thêm.",
+        "callout_2_title": "Đều đặn",
+        "callout_2_desc": "Đi ngủ và thức dậy cùng giờ, kể cả cuối tuần.",
+        "source": "Khuyến nghị chung của các hội y học giấc ngủ",
+        "source_note": ""
+      }
+    },
+    {
+      "id": "cycles",
+      "type": "body",
+      "templateId": "frame-hybrid-math-diagram",
+      "voiceText": "Giấc ngủ chạy theo chu kỳ, mỗi chu kỳ khoảng chín mươi phút, đi qua ngủ nông, ngủ sâu và giấc mơ. Một đêm thường có bốn đến sáu chu kỳ như vậy.",
+      "inputs": {
+        "kicker": "BÊN TRONG MỘT ĐÊM NGỦ",
+        "hybrid_title": "Giấc ngủ chạy theo chu kỳ",
+        "step_1_node": "1. Ngủ nông",
+        "step_2_node": "2. Ngủ sâu",
+        "step_3_node": "3. Ngủ mơ (REM)",
+        "math_formula_main": "1 chu kỳ ≈ 90 phút",
+        "math_update_rule": "5 chu kỳ ≈ 7,5 giờ",
+        "learning_rate": "Mỗi đêm thường có 4 – 6 chu kỳ",
+        "takeaway": "Thức dậy giữa giấc ngủ sâu là lý do bạn thấy uể oải."
+      }
+    },
+    {
+      "id": "enemies",
+      "type": "body",
+      "templateId": "frame-whiteboard-doodle",
+      "voiceText": "Ba thứ hay phá giấc ngủ nhất. Cà phê hay trà đặc vào buổi chiều. Màn hình sáng ngay trước khi ngủ. Và giờ giấc thất thường, hôm thức khuya, hôm ngủ bù.",
+      "inputs": {
+        "kicker": "BẢNG TRẮNG",
+        "lesson_title": "Ba thứ hay phá giấc ngủ",
+        "doodle_label_1": "01. Cà phê buổi chiều",
+        "doodle_desc_1": "Caffeine còn tác dụng nhiều giờ sau khi uống.",
+        "doodle_label_2": "02. Màn hình trước khi ngủ",
+        "doodle_desc_2": "Ánh sáng và nội dung làm não tỉnh táo hơn.",
+        "doodle_label_3": "03. Giờ giấc thất thường",
+        "doodle_desc_3": "Hôm thức khuya, hôm ngủ bù làm lệch đồng hồ sinh học.",
+        "takeaway": "Bớt được một thứ là đã ngủ tốt hơn."
+      }
+    },
+    {
+      "id": "routine",
+      "type": "body",
+      "templateId": "frame-timeline",
+      "voiceText": "Một buổi tối gợi ý. Chín giờ, tắt bớt đèn sáng. Chín rưỡi, cất điện thoại ra xa giường. Mười giờ, đọc sách giấy hay nghe nhạc nhẹ. Mười rưỡi, đi ngủ, và giữ đúng giờ này mỗi ngày.",
+      "inputs": {
+        "kicker": "MỘT BUỔI TỐI GỢI Ý",
+        "title": "Hạ nhiệt trước khi ngủ",
+        "events": "21h00:Tắt bớt đèn sáng|21h30:Cất điện thoại xa giường|22h00:Đọc sách giấy, nghe nhạc nhẹ|22h30:Đi ngủ, cùng giờ mỗi ngày",
+        "note": "Chỉnh giờ theo lịch của bạn"
+      }
+    },
+    {
+      "id": "move",
+      "type": "body",
+      "templateId": "frame-fitness-workout",
+      "voiceText": "Vận động ban ngày cũng giúp ngủ ngon hơn. Tổ chức Y tế Thế giới khuyến nghị người trưởng thành vận động vừa sức ít nhất một trăm năm mươi phút mỗi tuần, ví dụ đi bộ nhanh.",
+      "inputs": {
+        "kicker": "VẬN ĐỘNG BAN NGÀY",
+        "exercise_name": "Đi bộ nhanh",
+        "muscle_target": "TIM MẠCH · TOÀN THÂN",
+        "reps_sets": "30 PHÚT × 5 NGÀY",
+        "timer_text": "≥ 150 PHÚT MỖI TUẦN",
+        "intensity_level": "VỪA SỨC: VẪN NÓI CHUYỆN ĐƯỢC",
+        "form_tip": "Đi nhanh tới mức hơi thở gấp hơn nhưng vẫn nói được thành câu.",
+        "takeaway": "Tránh vận động mạnh sát giờ đi ngủ."
+      }
+    },
+    {
+      "id": "reel",
+      "type": "body",
+      "templateId": "frame-opus-kinetic-reel",
+      "voiceText": "Nhớ nhanh ba việc. Buổi sáng, ra ngoài đón ánh nắng. Buổi chiều, ngừng cà phê. Buổi tối, tắt màn hình. Làm đều mỗi ngày quan trọng hơn làm thật nhiều trong một ngày.",
+      "inputs": {
+        "top_tag": "BA VIỆC MỖI NGÀY",
+        "counter_badge": "3",
+        "line_1": "Sáng: ra ngoài đón nắng",
+        "line_2": "Chiều: ngừng cà phê",
+        "line_3": "Tối: tắt màn hình",
+        "punchline": "Đều đặn thắng nhiều",
+        "footer": ""
+      }
+    },
+    {
+      "id": "nap",
+      "type": "body",
+      "templateId": "frame-trend-comment-reply",
+      "voiceText": "Có bạn hỏi ngủ trưa có làm tối khó ngủ không. Ngủ trưa ngắn thường không sao. Nên giữ khoảng hai mươi đến ba mươi phút, và đừng ngủ quá muộn vào buổi chiều.",
+      "inputs": {
+        "reply_label": "Trả lời bình luận của",
+        "username": "@van.phong.247",
+        "comment": "Ngủ trưa có làm tối khó ngủ không ạ?",
+        "answer_title": "Ngủ trưa đúng cách",
+        "point_1": "Ngắn thôi: 20 – 30 phút",
+        "point_2": "Đừng ngủ quá muộn trong chiều",
+        "point_3": "Tối vẫn khó ngủ? Bỏ thử một tuần"
       }
     },
     {
       "id": "myth",
       "type": "body",
       "templateId": "frame-myth-fact",
-      "voiceText": "Nhiều người nghĩ cứ mỏi mắt là phải nhỏ thuốc. Thực tế, nghỉ mắt đều đặn là bước đầu tiên. Nếu mỏi kéo dài hoặc nhìn mờ, hãy đi khám bác sĩ mắt.",
+      "voiceText": "Nhiều người nghĩ cả tuần thức khuya thì cuối tuần ngủ bù là xong. Ngủ bù giúp được phần nào, nhưng lệch giờ liên tục vẫn làm cơ thể mệt. Giờ ngủ đều đặn mới là chìa khoá.",
       "inputs": {
         "mythLabel": "Ai cũng nghĩ",
-        "myth": "Mỏi mắt là phải nhỏ thuốc ngay",
+        "myth": "Thức khuya cả tuần, cuối tuần ngủ bù là xong",
         "factLabel": "Thực tế",
-        "fact": "Nghỉ mắt đều đặn trước; kéo dài thì đi khám",
-        "source": "Thông tin tham khảo, không thay thế bác sĩ"
+        "fact": "Ngủ bù giúp phần nào, giờ ngủ đều đặn mới là chìa khoá",
+        "source": ""
       }
     },
     {
       "id": "outro",
       "type": "outro",
-      "voiceText": "Thông tin chỉ để tham khảo. Mắt có vấn đề kéo dài, hãy gặp bác sĩ chuyên khoa.",
+      "voiceText": "Video chỉ mang tính tham khảo, không thay thế lời khuyên của bác sĩ. Mất ngủ kéo dài, hãy đi khám.",
       "templateId": "frame-statement-outro",
       "inputs": {
-        "cta": "Tham khảo — không thay thế bác sĩ",
+        "cta": "Mất ngủ kéo dài, hãy đi khám",
         "channel": "Kênh Mẫu",
         "source": ""
       }

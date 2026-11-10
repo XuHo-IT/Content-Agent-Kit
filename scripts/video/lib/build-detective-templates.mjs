@@ -8,7 +8,7 @@
 //
 //   1. FONTS. The mock-ups use VT323, Space Mono and Courier Prime. None of the three carries
 //      Vietnamese diacritics, and every line of copy here is Vietnamese — "GÓC BẮN" renders as
-//      "GC BN". Replaced with JetBrains Mono (machine voice), Be Vietnam Pro (body) and
+//      "GC BN". Replaced with Roboto Mono (machine voice; JetBrains Mono lacks ư ơ ặ ợ), Be Vietnam Pro (body) and
 //      Playfair Display (print), all of which ship a vietnamese subset.
 //   2. ANIMATION. `infinite alternate` is wrong for a renderer that seeks to a timestamp: the
 //      same frame renders differently on every pass. Every loop became a finite entrance with
@@ -38,7 +38,7 @@ const ONLY = onlyArg > -1 ? String(process.argv[onlyArg + 1] || "").split(",").f
 
 const FONTS =
   "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900" +
-  "&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap";
+  "&family=Roboto+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@700;900&display=swap";
 
 /* ── shared base ─────────────────────────────────────────────────────────────
    One palette across all seventeen so an episode can cut between them without the
@@ -51,8 +51,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
   font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
   --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
   display:flex;flex-direction:column}
-.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
-.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:var(--kick);
+.mono{font-family:'Roboto Mono',ui-monospace,monospace}
+.kicker{font-family:'Roboto Mono',ui-monospace,monospace;font-size:var(--kick);
   letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
   opacity:0;animation:fadeUp .55s ease .1s both}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -1068,7 +1068,7 @@ const polaroid = {
   animation:develop 2.4s ease-out 1s both}
 @keyframes develop{from{opacity:1}to{opacity:0}}
 .cap{margin-top:${p ? "20px" : "15px"};text-align:center;color:#3f3f46;
-  font-family:'JetBrains Mono',monospace;font-size:${p ? "21px" : "17px"};font-weight:700;
+  font-family:'Roboto Mono',monospace;font-size:${p ? "21px" : "17px"};font-weight:700;
   letter-spacing:.1em;opacity:0;animation:fadeIn .5s ease 3s both}
 .date{text-align:center;font-size:${p ? "22px" : "18px"};letter-spacing:.12em;color:#8b8b93;
   margin-top:${p ? "30px" : "20px"};opacity:0;animation:fadeIn .5s ease 3.4s both}

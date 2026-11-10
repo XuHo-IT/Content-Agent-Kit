@@ -38,6 +38,18 @@ const ASPECT_ENTRY = {
  *   keeps the palette it was authored with.
  * @returns {Promise<string>} absolute path of the rendered mp4
  */
+/**
+ * `<video … src="assets/media.mp4" …></video>` → `<img … src="assets/media.png">`, keeping the
+ * element's class/id so the template's CSS still applies. Only the fixed single-media path is
+ * touched; a template that queries `video.x` then finds nothing and leaves the <img> alone.
+ */
+export function stillMediaHtml(html) {
+  return html.replace(/<video\b([^>]*?)\ssrc="assets\/media\.mp4"([^>]*)>\s*<\/video>/g, (_, pre, post) => {
+    const attrs = `${pre} ${post}`.replace(/\s(muted|playsinline|loop|autoplay|preload="[^"]*")(?=\s|$)/g, "").trim();
+    return `<img ${attrs ? attrs + " " : ""}src="assets/media.png" alt="">`;
+  });
+}
+
 export async function composeTemplate(args) {
   const { templateId, inputs, fps = 30, quality = "standard", aspect, mediaFile, mediaFiles, theme, durationSec, log } = args;
   const files = (mediaFiles ?? (mediaFile ? [mediaFile] : [])).filter(Boolean);
@@ -74,6 +86,16 @@ export async function composeTemplate(args) {
       // to the array form — a silently blank frame, not an error.
       if (i === 0) cpSync(f, join(templateDir, "assets", `media${ext}`));
     });
+    // A still on a template whose markup ships a <video src="assets/media.mp4">. The template's
+    // own script swaps it for an <img> at runtime, but hyperframes' preflight reads the static
+    // markup first, finds no media.mp4 and aborts (VIDEO_SOURCE_UNRENDERABLE source_missing).
+    // So the throwaway copy gets the <img> up front.
+    if (extname(files[0]).toLowerCase() === ".png") {
+      const target = join(templateDir, entryFile);
+      const html = readFileSync(target, "utf8");
+      const patched = stillMediaHtml(html);
+      if (patched !== html) writeFileSync(target, patched, "utf8");
+    }
   }
 
   /**

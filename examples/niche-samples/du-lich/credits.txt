@@ -1,0 +1,4 @@
+Hook (bản đồ rơi xuống Hội An): © OpenStreetMap contributors © CARTO · Imagery © Esri, Maxar, Earthstar Geographics.
+Dựng bằng scripts/video/geo-flythrough.mjs; dòng ghi nguồn được vẽ cố định trên clip.
+
+Meme "Daily Struggle / Two Buttons": tạo qua memegen.link (MIT) — https://knowyourmeme.com/memes/daily-struggle-two-buttons

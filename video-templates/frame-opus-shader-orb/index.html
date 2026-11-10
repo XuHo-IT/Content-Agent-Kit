@@ -6,7 +6,7 @@
   <title>Opus 5.5 Generative Shader Orb Hero</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@500;700;800&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Roboto+Mono:wght@400;500;700&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { width: 1920px; height: 1080px; overflow: hidden; font-family: 'Be Vietnam Pro', sans-serif; }
@@ -45,12 +45,12 @@
         display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
       }
       .kicker {
-        font-family: 'JetBrains Mono', monospace; font-weight: 700; letter-spacing: 0.2em;
+        font-family: 'Roboto Mono', monospace; font-weight: 700; letter-spacing: 0.2em;
         color: #38bdf8; text-transform: uppercase;
         opacity: 0; animation: riseIn 0.45s var(--spring-soft) 0.1s forwards;
       }
       .hero-stat {
-        font-family: 'JetBrains Mono', monospace; font-weight: 900; line-height: 1;
+        font-family: 'Roboto Mono', monospace; font-weight: 900; line-height: 1;
         background: linear-gradient(90deg, #38bdf8 0%, #f472b6 50%, #34d399 100%);
         background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
         -webkit-mask-image: linear-gradient(110deg, #000 35%, rgba(0,0,0,0.3) 50%, #000 65%);
@@ -80,12 +80,12 @@
         opacity: 0; animation: riseIn 0.5s var(--spring-soft) 0.68s forwards;
       }
       .pill {
-        font-family: 'JetBrains Mono', monospace; font-weight: 700;
+        font-family: 'Roboto Mono', monospace; font-weight: 700;
         padding: 12px 26px; border-radius: 999px;
         background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(148, 163, 184, 0.25);
         color: #e2e8f0;
       }
-      .footer { font-family: 'JetBrains Mono', monospace; color: #64748b; }
+      .footer { font-family: 'Roboto Mono', monospace; color: #64748b; }
       @keyframes riseIn {
         0% { opacity: 0; transform: translateY(24px) scale(0.95); }
         100% { opacity: 1; transform: translateY(0) scale(1); }

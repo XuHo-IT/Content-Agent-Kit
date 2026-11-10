@@ -184,11 +184,25 @@ export function activeWordGroups(cues, { maxWords = 3, maxChars = 20 } = {}) {
  * word recoloured and scaled. Placed in the lower-middle third — under a speaker's chin on a
  * talking head, clear of the platform's caption/like rail at the very bottom.
  */
-export function toAssActive(cues, { width, height, theme = null, font = "Arial", accent = null, sizeRatio = 0.062, upper = false, maxWords = 3, boxed = false, _groups: opts_groups = null } = {}) {
+export function toAssActive(
+  cues,
+  {
+    width, height, theme = null, font = "Arial", accent = null, sizeRatio = 0.062, upper = false, lower = false,
+    maxWords = 3, boxed = false, _groups: opts_groups = null,
+    // Look knobs for the talking-head edit styles (lib/edit-styles.mjs). Defaults = the original look.
+    align = 2, // ASS numpad alignment: 2 bottom-centre, 5 middle-centre
+    marginVRatio = 0.26, // distance from the bottom edge — 0.26 keeps clear of the like/comment rail
+    activeTag = null, // override for the spoken word; {hot} is replaced by the accent colour
+    restTag = "", // override for the other words on the card (e.g. dimmed for line-focus)
+    popTag = "{\\fad(60,0)}", // how a new card enters
+    ink: inkOverride = null,
+    boxColour = null, // with boxed: an opaque plate in this colour instead of the dark translucent one
+  } = {},
+) {
   const size = Math.round(height * sizeRatio);
-  const marginV = Math.round(height * 0.26);
+  const marginV = Math.round(height * marginVRatio);
   const marginH = Math.round(width * 0.07);
-  const ink = assColour(theme?.ink && theme?.bg && relDark(theme.bg) ? theme.ink : "#ffffff");
+  const ink = assColour(inkOverride ?? (theme?.ink && theme?.bg && relDark(theme.bg) ? theme.ink : "#ffffff"));
   const hot = assColour(accent ?? "#ffe14d");
   const outline = assColour("#000000");
   const head = [
@@ -208,23 +222,24 @@ export function toAssActive(cues, { width, height, theme = null, font = "Arial",
     // (an orange word on frame-trend-compare-wipe's orange pane), so `boxed` puts a dark
     // translucent plate behind the line (BorderStyle 3) and the accent always reads.
     boxed
-      ? `Style: Word,${font},${size},${ink},${ink},${assColour("#000000", 0.35)},${assColour("#000000", 0.35)},` +
-        `-1,0,0,0,100,100,0,0,3,${Math.max(8, Math.round(size * 0.22))},0,2,${marginH},${marginH},${marginV},1`
+      ? `Style: Word,${font},${size},${ink},${ink},${boxColour ? assColour(boxColour) : assColour("#000000", 0.35)},${boxColour ? assColour(boxColour) : assColour("#000000", 0.35)},` +
+        `-1,0,0,0,100,100,0,0,3,${Math.max(8, Math.round(size * 0.22))},0,${align},${marginH},${marginH},${marginV},1`
       : `Style: Word,${font},${size},${ink},${ink},${outline},${assColour("#000000", 0.4)},` +
-        `-1,0,0,0,100,100,0,0,1,${Math.max(3, Math.round(size * 0.09))},${Math.max(2, Math.round(size * 0.05))},2,${marginH},${marginH},${marginV},1`,
+        `-1,0,0,0,100,100,0,0,1,${Math.max(3, Math.round(size * 0.09))},${Math.max(2, Math.round(size * 0.05))},${align},${marginH},${marginH},${marginV},1`,
     "",
     "[Events]",
     "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
   ];
-  const fmt = (w) => escapeAss(upper ? w.toLocaleUpperCase("vi") : w);
+  const fmt = (w) => escapeAss(upper ? w.toLocaleUpperCase("vi") : lower ? w.toLocaleLowerCase("vi") : w);
+  const on = activeTag ? activeTag.replaceAll("{hot}", hot) : `{\\c${hot}&\\fscx112\\fscy112}`;
   const body = [];
   for (const g of opts_groups ?? activeWordGroups(cues, { maxWords })) {
     g.words.forEach((cur, i) => {
       const text = g.words
-        .map((x, j) => (j === i ? `{\\c${hot}&\\fscx112\\fscy112}${fmt(x.w)}{\\r}` : fmt(x.w)))
+        .map((x, j) => (j === i ? `${on}${fmt(x.w)}{\\r}` : restTag ? `${restTag}${fmt(x.w)}{\\r}` : fmt(x.w)))
         .join(" ");
       // The first word of a group pops in; the rest of the group swaps instantly.
-      const pop = i === 0 ? "{\\fad(60,0)}" : "";
+      const pop = i === 0 ? popTag : "";
       body.push(`Dialogue: 0,${assTime(cur.start)},${assTime(cur.end)},Word,,0,0,0,,${pop}${text}`);
     });
   }

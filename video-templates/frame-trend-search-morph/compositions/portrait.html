@@ -6,7 +6,7 @@
   <title>Trend · Search Bar Morph</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,700;0,800;0,900;1,800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f4f1ea; }
     
@@ -23,7 +23,7 @@
   }
   @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
   .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
+  .mono { font-family: 'Roboto Mono', monospace; }
   @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
@@ -46,7 +46,7 @@
       @keyframes blink { 50% { opacity: 0; } }
       .results { display: flex; flex-direction: column; }
       .r { display: flex; align-items: center; background: #ffffff; border-radius: 28px; font-weight: 700; box-shadow: 0 12px 40px rgba(20,18,15,.10); opacity: 0; animation: rise .55s var(--spring) forwards; }
-      .r i { flex: none; display: grid; place-items: center; border-radius: 18px; background: #ff4d2e; color: #ffffff; font-style: normal; font-family: 'JetBrains Mono', monospace; font-weight: 800; }
+      .r i { flex: none; display: grid; place-items: center; border-radius: 18px; background: #ff4d2e; color: #ffffff; font-style: normal; font-family: 'Roboto Mono', monospace; font-weight: 800; }
       .r:nth-child(2) i { background: #2f6bff; } .r:nth-child(3) i { background: #14a36b; }
       .footer { color: #8a8273; font-weight: 600; opacity: 0; animation: fade .6s forwards; }
     

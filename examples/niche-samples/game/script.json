@@ -1,0 +1,167 @@
+{
+  "_niche": "Game",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "acid-night",
+  "metadata": {
+    "title": "FPS tụt? Năm việc nên làm trước khi nâng cấp máy",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-glitch-title",
+      "voiceText": "Game giật, FPS tụt, và bạn đang tính mua card đồ hoạ mới? Khoan đã. Có năm thứ nên chỉnh trước, không tốn đồng nào, và nhiều khi đủ để game mượt trở lại.",
+      "inputs": {
+        "title": "FPS tụt?",
+        "subtitle": "5 việc nên làm trước khi nghĩ tới chuyện nâng cấp máy",
+        "signal_label": "",
+        "rec_label": "",
+        "eyebrow": "GAME · TỐI ƯU",
+        "corner_left": "",
+        "corner_right": ""
+      }
+    },
+    {
+      "id": "ms",
+      "type": "body",
+      "templateId": "frame-trend-stat-odometer",
+      "voiceText": "Vì sao FPS quan trọng? Ở sáu mươi khung hình mỗi giây, mỗi khung hiện khoảng mười sáu phẩy bảy mi li giây. Ở một trăm bốn mươi bốn, chưa tới bảy. Hình phản hồi nhanh hơn.",
+      "inputs": {
+        "kicker": "MỖI KHUNG Ở 60 FPS",
+        "value": "16,7",
+        "unit": "ms",
+        "label": "Ở 144 FPS chỉ còn 6,9 ms mỗi khung hình",
+        "delta": "1000 ÷ FPS = ms mỗi khung",
+        "source": "Phép tính"
+      }
+    },
+    {
+      "id": "hud",
+      "type": "body",
+      "templateId": "frame-hud",
+      "voiceText": "Bật lớp hiển thị thông số khi chơi để biết nút thắt nằm ở đâu. Nếu GPU luôn gần một trăm phần trăm, card đồ hoạ đang gánh. Nếu CPU căng hơn, giảm đồ hoạ sẽ không giúp được nhiều.",
+      "inputs": {
+        "label": "Thông số khi chơi · minh hoạ",
+        "readouts": "FPS:58|GPU:99%|CPU:41%|NHIỆT GPU:76°C",
+        "center": "58",
+        "caption": "GPU gần 100%: card đồ hoạ là nút thắt"
+      }
+    },
+    {
+      "id": "radar",
+      "type": "body",
+      "templateId": "frame-diagram-radar",
+      "voiceText": "So sánh hai preset. Hạ từ cao xuống trung bình, độ nét giảm không nhiều, nhưng FPS tăng rõ. Thường thì bóng đổ và các hiệu ứng ánh sáng nặng là những mục ngốn nhiều nhất, hãy hạ chúng trước.",
+      "inputs": {
+        "kicker": "SO SÁNH PRESET · MINH HOẠ",
+        "title": "Preset Cao vs Trung bình",
+        "metrics": "FPS|Độ nét|Bóng đổ|Tầm nhìn xa|Hiệu ứng|Độ mát máy",
+        "model_a_name": "Preset Trung bình",
+        "model_a_scores": "85,75,60,70,65,80",
+        "model_b_name": "Preset Cao",
+        "model_b_scores": "55,90,90,85,90,50",
+        "verdict": "Minh hoạ: hạ bóng đổ và hiệu ứng thường lấy lại nhiều FPS nhất mà hình ảnh giảm ít nhất."
+      }
+    },
+    {
+      "id": "effects",
+      "type": "body",
+      "templateId": "frame-trend-code-diff",
+      "voiceText": "Một mẹo nhiều người bỏ qua: tắt các hiệu ứng mô phỏng ống kính như nhoè chuyển động và hạt phim. Chúng không giúp bạn chơi tốt hơn, tắt đi thì hình rõ hơn và dễ nhìn mục tiêu hơn.",
+      "inputs": {
+        "file_name": "Cài đặt đồ hoạ",
+        "ctx_1": "[Hiệu ứng hình ảnh]",
+        "line_del": "Nhoè chuyển động = BẬT",
+        "line_add": "Nhoè chuyển động = TẮT",
+        "ctx_2": "Hạt phim = TẮT",
+        "status": "Hình rõ hơn khi xoay camera",
+        "caption": "Tắt hiệu ứng mô phỏng ống kính"
+      }
+    },
+    {
+      "id": "thermal",
+      "type": "body",
+      "templateId": "frame-thermal-cam",
+      "voiceText": "Nếu game mượt lúc đầu rồi giật dần sau vài chục phút, hãy nghĩ tới nhiệt độ. Khi quá nóng, chip tự hạ xung để bảo vệ. Vệ sinh bụi, kê cao laptop cho thoáng khí.",
+      "inputs": {
+        "system_label": "KIỂM TRA NHIỆT ĐỘ · MINH HOẠ",
+        "gain_label": "QUẠT · KHE TẢN NHIỆT",
+        "heat_pct": "62",
+        "target_line": "MÁY NÓNG THÌ TỰ GIẢM XUNG",
+        "range_line": "VỆ SINH BỤI · KÊ CAO LAPTOP",
+        "caption": "Khi quá nóng, CPU và GPU tự hạ xung để bảo vệ, FPS tụt dù thiết lập không đổi."
+      }
+    },
+    {
+      "id": "vhs",
+      "type": "body",
+      "templateId": "frame-vhs-nosignal",
+      "voiceText": "Giật khung không phải lúc nào cũng do máy yếu. Trình duyệt mở hàng chục tab, phần mềm ghi hình, ứng dụng chạy nền đều chia tài nguyên với game. Tắt bớt trước khi chơi là cách miễn phí nhất.",
+      "inputs": {
+        "play_state": "PAUSE ‖",
+        "timecode": "00:21:47",
+        "big_text": "GIẬT KHUNG",
+        "cam_label": "KHÔNG PHẢI LÚC NÀO CŨNG DO MÁY YẾU",
+        "note": "Trình duyệt, phần mềm ghi hình, ứng dụng chạy nền đều chia tài nguyên với game"
+      }
+    },
+    {
+      "id": "driver",
+      "type": "body",
+      "templateId": "frame-opus-pixel-arcade",
+      "voiceText": "Việc cuối cùng: cập nhật driver card đồ hoạ. Nhà sản xuất thường tối ưu cho các game mới trong các bản driver mới. Nếu driver của bạn đã cũ cả năm, đây là thứ nên làm đầu tiên.",
+      "inputs": {
+        "stage_label": "MÀN CUỐI // DRIVER",
+        "headline": "Cập nhật driver card đồ hoạ",
+        "player_1_name": "DRIVER MỚI",
+        "player_1_score": "TỐI ƯU",
+        "player_2_name": "DRIVER CŨ 1 NĂM",
+        "player_2_score": "BỎ LỠ",
+        "arcade_prompt": "NHẤN START ĐỂ KIỂM TRA BẢN CẬP NHẬT",
+        "footer": ""
+      }
+    },
+    {
+      "id": "poll",
+      "type": "body",
+      "templateId": "frame-trend-live-poll",
+      "voiceText": "Còn bạn, ưu tiên FPS cao hay đồ hoạ đẹp? Game bắn súng cạnh tranh thường cần FPS, còn game cốt truyện thì hình ảnh đáng giá hơn. Bình luận cấu hình và tựa game bạn đang chơi nhé.",
+      "inputs": {
+        "question": "Bạn chọn bên nào?",
+        "option_a": "FPS cao",
+        "option_b": "Đồ hoạ đẹp",
+        "pct_a": "50",
+        "vs": "VS",
+        "cta": "Bình luận cấu hình của bạn",
+        "comment_1": "Game bắn súng thì FPS là nhất",
+        "comment_2": "Game cốt truyện thì phải đẹp",
+        "comment_3": ""
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Lưu lại để thử năm việc này trước khi chi tiền nâng cấp máy, và theo dõi kênh để xem thêm mẹo chơi game mượt hơn.",
+      "templateId": "frame-logo-outro",
+      "inputs": {
+        "brand_name": "Kênh Mẫu",
+        "tagline": "Chơi mượt hơn, không cần nâng cấp máy",
+        "primary_url": "",
+        "corner_left": "Theo dõi",
+        "corner_right": "Lưu lại"
+      }
+    }
+  ]
+}

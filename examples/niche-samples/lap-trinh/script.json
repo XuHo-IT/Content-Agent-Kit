@@ -1,0 +1,169 @@
+{
+  "_niche": "Lập trình",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "terminal-moss",
+  "metadata": {
+    "title": "Lỗi \"máy tôi chạy được\": bốn lớp cần khoá",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-trend-search-morph",
+      "voiceText": "Code chạy ngon trên máy bạn, đẩy lên server thì lỗi. Câu này lập trình viên nào cũng từng gõ lên mạng. Nguyên nhân gần như luôn nằm ở bốn lớp, và lớp nào cũng khoá được.",
+      "inputs": {
+        "kicker": "Lập trình viên nào cũng từng gõ",
+        "query": "máy tôi chạy, server lỗi",
+        "result_1": "Khác phiên bản Node",
+        "result_2": "Khác thư viện đã cài",
+        "result_3": "Thiếu biến môi trường",
+        "footer": "Bốn lớp cần khoá — xem tiếp"
+      }
+    },
+    {
+      "id": "terminal",
+      "type": "body",
+      "templateId": "frame-terminal",
+      "voiceText": "Ví dụ kinh điển. Máy bạn chạy Node hai mươi, server vẫn là Node mười hai. Chỉ một toán tử mới trong code cũng đủ làm server báo lỗi cú pháp, dù máy bạn chạy bình thường.",
+      "inputs": {
+        "label": "server",
+        "prompt": "$",
+        "command": "npm start",
+        "output": "> node server.js|const port = env.PORT ?? 3000;|SyntaxError: Unexpected token '?'|Node.js v12.22.9",
+        "caption": "Máy bạn chạy Node 20, server vẫn là Node 12"
+      }
+    },
+    {
+      "id": "stack",
+      "type": "body",
+      "templateId": "frame-3d-stack",
+      "voiceText": "Giữa máy bạn và server có bốn lớp có thể khác nhau. Phiên bản runtime, các thư viện phụ thuộc, biến môi trường, và chính hệ điều hành. Khoá được lớp nào, bớt được một nguồn lỗi.",
+      "inputs": {
+        "kicker": "Bốn lớp",
+        "title": "Những thứ khác nhau giữa hai máy",
+        "layers": "Phiên bản runtime|Thư viện phụ thuộc|Biến môi trường|Hệ điều hành",
+        "note": "Khoá từng lớp, lỗi tự biến mất"
+      }
+    },
+    {
+      "id": "diff",
+      "type": "body",
+      "templateId": "frame-trend-code-diff",
+      "voiceText": "Lớp thứ nhất, runtime. Ghi rõ phiên bản Node dự án cần vào package json, thêm file nvmrc cho người dùng nvm. Người cài sai phiên bản sẽ được cảnh báo ngay, thay vì gặp một lỗi khó hiểu.",
+      "inputs": {
+        "file_name": "package.json",
+        "ctx_1": "  \"main\": \"server.js\",",
+        "line_del": "  \"engines\": {},",
+        "line_add": "  \"engines\": { \"node\": \">=20\" },",
+        "ctx_2": "  \"type\": \"module\"",
+        "status": "npm cảnh báo khi sai phiên bản",
+        "caption": "Lớp 1: ghi rõ phiên bản runtime"
+      }
+    },
+    {
+      "id": "ide",
+      "type": "body",
+      "templateId": "frame-ui-terminal-ide",
+      "voiceText": "Lớp thứ hai, thư viện. Luôn commit file lockfile, và trên server dùng npm ci thay vì npm install. Lệnh này cài đúng từng phiên bản đã khoá, và dừng lại nếu lockfile lệch với package json.",
+      "inputs": {
+        "kicker": "LỚP 2 · THƯ VIỆN",
+        "file_name": "deploy.sh",
+        "lang_tag": "BASH",
+        "code_line_1": "#!/usr/bin/env bash",
+        "code_line_2": "set -euo pipefail",
+        "code_line_3": "# cài đúng phiên bản đã khoá trong package-lock.json",
+        "code_line_4": "npm ci --omit=dev",
+        "code_line_5": "node server.js",
+        "terminal_cmd": "npm ci --omit=dev",
+        "terminal_output": "added 214 packages — đúng từng phiên bản trong lockfile",
+        "takeaway": "npm install có thể nâng phiên bản; npm ci cài đúng lockfile và dừng nếu lockfile lệch package.json."
+      }
+    },
+    {
+      "id": "env",
+      "type": "body",
+      "templateId": "frame-node-graph",
+      "voiceText": "Lớp thứ ba, biến môi trường. Giữ một file env mẫu liệt kê đủ tên biến, và cho app kiểm tra ngay lúc khởi động. Thiếu biến nào thì dừng và báo đúng tên biến đó.",
+      "inputs": {
+        "kicker": "Lớp 3 · Biến môi trường",
+        "title": "Cấu hình đi vào app thế nào",
+        "nodes": "a:.env.example|b:.env trên máy|c:Biến trên server|d:Kiểm tra khi khởi động|e:App chạy",
+        "edges": "a>b|a>c|b>d|c>d|d>e",
+        "note": "Thiếu biến nào, app dừng và báo tên biến đó"
+      }
+    },
+    {
+      "id": "os",
+      "type": "body",
+      "templateId": "frame-diagram-flowchart",
+      "voiceText": "Lớp thứ tư, hệ điều hành. Windows và macOS mặc định không phân biệt chữ hoa trong tên file, Linux thì có. Import sai chữ hoa vẫn chạy trên máy bạn, nhưng lỗi trên server.",
+      "inputs": {
+        "kicker": "LỚP 4 · HỆ ĐIỀU HÀNH",
+        "flowchart_title": "Import chạy trên Windows, lỗi trên Linux?",
+        "start_node": "Lỗi: không tìm thấy module",
+        "decision_node": "Tên file khớp từng chữ hoa?",
+        "branch_no_label": "KHÔNG KHỚP",
+        "branch_no_action": "Đổi tên file hoặc dòng import cho khớp",
+        "branch_yes_label": "ĐÃ KHỚP",
+        "branch_yes_action": "Kiểm tra dấu gạch chéo trong đường dẫn",
+        "summary": "Windows và macOS mặc định không phân biệt chữ hoa trong tên file, Linux thì có: User.js và user.js là hai file khác nhau."
+      }
+    },
+    {
+      "id": "ci",
+      "type": "body",
+      "templateId": "frame-opus-cursor-flow",
+      "voiceText": "Cách chắc nhất là để một máy sạch chạy thử trước. Quy trình CI cài lại mọi thứ từ đầu trên Linux, đúng phiên bản, đúng lockfile, rồi chạy test. Lỗi sẽ lộ ra trước khi tới server.",
+      "inputs": {
+        "kicker": "TỰ ĐỘNG HOÁ",
+        "window_title": "ci.yml — mỗi lần đẩy code",
+        "headline": "Để một máy sạch chạy thử trước server",
+        "subtext": "CI cài lại từ đầu trên Linux, đúng phiên bản Node, đúng lockfile, rồi chạy test.",
+        "action_label": "Đẩy code lên nhánh",
+        "status_badge": "ĐANG KIỂM TRA",
+        "result_metric": "4/4",
+        "result_caption": "lớp được kiểm tra trên một máy hoàn toàn sạch",
+        "footer": ""
+      }
+    },
+    {
+      "id": "progress",
+      "type": "body",
+      "templateId": "frame-progress",
+      "voiceText": "Tóm lại bốn việc: ghi rõ phiên bản runtime, commit lockfile và dùng npm ci, kiểm tra biến môi trường lúc khởi động, và chạy CI trên Linux. Làm đủ bốn, lỗi này gần như biến mất.",
+      "inputs": {
+        "kicker": "Danh sách kiểm tra",
+        "title": "Khoá xong 4 trên 4 lớp",
+        "value": "4",
+        "total": "4",
+        "milestones": "1:Runtime|2:Thư viện|3:Biến môi trường|4:Hệ điều hành",
+        "note": "Lưu lại cho dự án tiếp theo"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Lưu video này lại cho lần deploy tới, và theo dõi kênh để xem thêm những lỗi kinh điển khác.",
+      "templateId": "frame-logo-outro",
+      "inputs": {
+        "brand_name": "Kênh Mẫu",
+        "tagline": "Mỗi tuần một lỗi thật, mổ xẻ đến tận gốc",
+        "primary_url": "",
+        "corner_left": "Theo dõi",
+        "corner_right": "Lưu lại"
+      }
+    }
+  ]
+}

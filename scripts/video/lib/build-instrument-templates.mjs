@@ -37,7 +37,7 @@ const dryRun = process.argv.includes("--dry-run");
 
 const FONTS =
   "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900" +
-  "&family=JetBrains+Mono:wght@400;700&display=swap";
+  "&family=Roboto+Mono:wght@400;500;700&display=swap";
 
 /* ── shared base ───────────────────────────────────────────────────────────── */
 const BASE = `
@@ -47,7 +47,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
   font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#fafafa;
   --red:#e11d48;--dim:#71717a;--line:#27272a;--panel:#121215;
   display:flex;flex-direction:column}
-.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.mono{font-family:'Roboto Mono',ui-monospace,monospace}
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes growY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
@@ -69,7 +69,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#09090c}
 
 /* ── the instrument well: layout shared by every widget ────────────────────── */
 const WELL = (p) => `
-.kicker{font-family:'JetBrains Mono',ui-monospace,monospace;
+.kicker{font-family:'Roboto Mono',ui-monospace,monospace;
   font-size:${p ? "24px" : "20px"};letter-spacing:.2em;text-transform:uppercase;
   color:var(--dim);opacity:0;animation:fadeIn .5s ease .1s both}
 .well{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -77,7 +77,7 @@ const WELL = (p) => `
 .readouts{display:flex;flex-direction:column;gap:${p ? "10px" : "7px"};
   background:var(--panel);border:1px solid var(--line);border-radius:8px;
   padding:${p ? "22px 24px" : "16px 18px"};
-  font-family:'JetBrains Mono',ui-monospace,monospace;font-size:${p ? "24px" : "19px"};
+  font-family:'Roboto Mono',ui-monospace,monospace;font-size:${p ? "24px" : "19px"};
   opacity:0;animation:fadeUp .55s ease 1.8s both}
 .readouts .hot{color:var(--red);font-weight:700}
 .cap{background:var(--panel);border:1px solid var(--line);border-radius:8px;
@@ -112,7 +112,7 @@ const WIDGETS = {
 /* Only the vial that is actually over the line goes red. Colouring all three would make the
    frame look alarming without saying which reading is the alarming one. */
 .tox-f.over{background:var(--red);box-shadow:0 0 26px rgba(225,29,72,.5)}
-.tox-l{text-align:center;font-family:'JetBrains Mono',monospace;font-size:${p ? "24px" : "15px"};
+.tox-l{text-align:center;font-family:'Roboto Mono',monospace;font-size:${p ? "24px" : "15px"};
   color:var(--dim);margin-top:${p ? "18px" : "9px"};width:${p ? "130px" : "56px"};
   line-height:1.3;word-break:break-word}`,
     markup: `<div class="tox">
@@ -158,7 +158,7 @@ const WIDGETS = {
 .dt-t{height:${p ? "70px" : "32px"};background:#27272a;border-radius:4px;
   opacity:0;animation:fadeIn .3s ease both}
 .dt-t.m{background:#fafafa;box-shadow:0 0 14px rgba(255,255,255,.55)}
-.dt-pct{margin-top:${p ? "24px" : "16px"};font-family:'JetBrains Mono',monospace;
+.dt-pct{margin-top:${p ? "24px" : "16px"};font-family:'Roboto Mono',monospace;
   font-size:${p ? "56px" : "42px"};font-weight:700;color:#fafafa;
   opacity:0;animation:fadeUp .6s ease 1.6s both}`,
     markup: `<div><div class="dt" data-teeth="16"></div><div class="dt-pct" data-pct="1"></div></div>`,
@@ -213,12 +213,12 @@ const WIDGETS = {
   position:relative;animation:fadeUp .7s ease .35s both}
 .eb-z{position:absolute;top:${p ? "14px" : "10px"};left:6%;right:6%;height:${p ? "12px" : "9px"};
   background:repeating-linear-gradient(90deg,#52525b,#52525b 4px,transparent 4px,transparent 8px)}
-.eb-t{font-family:'JetBrains Mono',monospace;font-size:${p ? "24px" : "19px"};color:var(--red);
+.eb-t{font-family:'Roboto Mono',monospace;font-size:${p ? "24px" : "19px"};color:var(--red);
   font-weight:700;letter-spacing:.1em;margin-top:${p ? "18px" : "13px"}}
 .eb-b{margin-top:${p ? "22px" : "16px"};height:${p ? "56px" : "42px"};
   background:repeating-linear-gradient(90deg,#e4e4e7 0 3px,transparent 3px 6px,#e4e4e7 6px 8px,transparent 8px 13px);
   transform-origin:left;animation:growX .6s ease .9s both}
-.eb-c{font-family:'JetBrains Mono',monospace;font-size:${p ? "20px" : "16px"};color:#a1a1aa;
+.eb-c{font-family:'Roboto Mono',monospace;font-size:${p ? "20px" : "16px"};color:#a1a1aa;
   margin-top:${p ? "12px" : "9px"};letter-spacing:.14em}`,
     markup: `<div class="eb"><div class="eb-z"></div>
       <div class="eb-t" data-slot="label_1"></div>
@@ -234,7 +234,7 @@ const WIDGETS = {
 .wh{width:100%}
 .wh-r{display:flex;justify-content:space-between;gap:${p ? "24px" : "14px"};
   border-bottom:1px dashed var(--line);padding:${p ? "28px 0" : "12px 0"};
-  font-family:'JetBrains Mono',monospace;font-size:${p ? "30px" : "17px"};
+  font-family:'Roboto Mono',monospace;font-size:${p ? "30px" : "17px"};
   opacity:0;animation:fadeUp .5s ease both}
 .wh-r:nth-child(1){animation-delay:.5s}
 .wh-r:nth-child(2){animation-delay:1s}
@@ -255,7 +255,7 @@ const WIDGETS = {
     css: (p) => `
 .ipt{width:100%;display:flex;flex-direction:column;gap:${p ? "44px" : "18px"}}
 .ipt-h{display:flex;align-items:center;gap:${p ? "26px" : "13px"};
-  font-family:'JetBrains Mono',monospace;font-size:${p ? "34px" : "18px"};color:#a1a1aa;
+  font-family:'Roboto Mono',monospace;font-size:${p ? "34px" : "18px"};color:#a1a1aa;
   position:relative;opacity:0;animation:fadeUp .5s ease both}
 .ipt-h:nth-child(1){animation-delay:.5s}
 .ipt-h:nth-child(2){animation-delay:1.1s}
@@ -288,8 +288,8 @@ const WIDGETS = {
   animation:gpSweep 1.5s cubic-bezier(.25,.9,.3,1) .5s both}
 @keyframes gpSweep{from{--pct:0}}
 @property --pct{syntax:'<number>';inherits:true;initial-value:0}
-.gp-n{font-family:'JetBrains Mono',monospace;font-size:${p ? "120px" : "58px"};font-weight:700}
-.gp-u{font-family:'JetBrains Mono',monospace;font-size:${p ? "20px" : "16px"};color:var(--dim);
+.gp-n{font-family:'Roboto Mono',monospace;font-size:${p ? "120px" : "58px"};font-weight:700}
+.gp-u{font-family:'Roboto Mono',monospace;font-size:${p ? "20px" : "16px"};color:var(--dim);
   letter-spacing:.2em}`,
     markup: `<div class="gp" data-arc="1"><div class="gp-a"></div>
       <div class="gp-n" data-slot="label_1"></div><div class="gp-u" data-slot="label_2"></div>
@@ -402,7 +402,7 @@ const WIDGETS = {
   transform-origin:left;animation:growX 2s ease-out .6s both}
 .fr-p{position:absolute;top:44%;font-size:${p ? "30px" : "23px"};color:#fafafa;
   transform:translate(-50%,-58%);opacity:0;animation:fadeIn .3s ease 2.4s both}
-.fr-x{position:absolute;top:44%;font-family:'JetBrains Mono',monospace;
+.fr-x{position:absolute;top:44%;font-family:'Roboto Mono',monospace;
   font-size:${p ? "20px" : "16px"};color:var(--red);font-weight:700;
   transform:translate(-50%,-190%);opacity:0;animation:fadeIn .4s ease 2.7s both}`,
     markup: `<div class="fr">
@@ -458,7 +458,7 @@ const WIDGETS = {
     css: (p) => `
 .av{width:100%;background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--red);
   border-radius:8px;padding:${p ? "28px 26px" : "20px 19px"};
-  font-family:'JetBrains Mono',monospace;font-size:${p ? "30px" : "20px"};line-height:1.85;
+  font-family:'Roboto Mono',monospace;font-size:${p ? "30px" : "20px"};line-height:1.85;
   animation:fadeUp .6s ease .4s both}
 .av-r{display:flex;justify-content:space-between;gap:${p ? "18px" : "13px"};
   border-bottom:1px dashed var(--line);padding-bottom:${p ? "10px" : "7px"};
@@ -484,7 +484,7 @@ const WIDGETS = {
 .mc{width:100%;display:flex;flex-direction:column;gap:${p ? "10px" : "7px"}}
 .mc-n{display:flex;justify-content:space-between;gap:${p ? "16px" : "12px"};
   padding:${p ? "18px 20px" : "13px 15px"};background:var(--panel);border:1px solid var(--line);
-  border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:${p ? "28px" : "17px"};
+  border-radius:6px;font-family:'Roboto Mono',monospace;font-size:${p ? "28px" : "17px"};
   opacity:0;animation:fadeUp .5s ease both}
 .mc-n:nth-of-type(1){animation-delay:.5s}
 .mc-n:nth-of-type(3){animation-delay:1.2s}
@@ -686,7 +686,7 @@ const dashboard = {
 .cell:nth-child(2){animation-delay:.75s}
 .cell:nth-child(3){animation-delay:1s}
 .cell:nth-child(4){animation-delay:1.25s}
-.cell-l{font-family:'JetBrains Mono',monospace;font-size:${p ? "18px" : "15px"};
+.cell-l{font-family:'Roboto Mono',monospace;font-size:${p ? "18px" : "15px"};
   letter-spacing:.14em;text-transform:uppercase;color:var(--dim);flex:none;
   margin-bottom:${p ? "10px" : "8px"}}
 /* Scale the instrument down rather than reflow it — a widget has one layout, and a second

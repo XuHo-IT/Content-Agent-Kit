@@ -5,7 +5,7 @@
   "aspect": "9:16",
   "theme": "tomato-cream",
   "metadata": {
-    "title": "Flash sale bình giữ nhiệt",
+    "title": "Bán bình giữ nhiệt: trả lời sẵn câu khách sẽ hỏi",
     "source": {
       "url": "https://example.com",
       "domain": "example.com",
@@ -22,46 +22,143 @@
       "id": "hook",
       "type": "hook",
       "templateId": "frame-trend-phone-notifs",
-      "voiceText": "Đây là điện thoại của shop sau đúng một buổi sáng mở bán. Đơn về liên tục, và lý do nằm ở một món đồ rất nhỏ.",
+      "voiceText": "Đây là điện thoại của một shop sau một buổi sáng mở bán. Đơn về liên tục, khách hỏi liên tục, và món hàng bán chạy là một thứ rất nhỏ: chiếc bình giữ nhiệt.",
       "inputs": {
         "time": "09:41",
         "date": "Thứ Hai",
-        "app_1": "Shopee",
+        "app_1": "Đơn hàng",
         "msg_1": "Bạn có đơn hàng mới cần xác nhận",
-        "app_2": "Zalo",
-        "msg_2": "Chị ơi còn màu xanh rêu không ạ?",
-        "app_3": "TikTok Shop",
+        "app_2": "Tin nhắn",
+        "msg_2": "Shop ơi bình này còn màu xanh rêu không ạ?",
+        "app_3": "Livestream",
         "msg_3": "Sản phẩm của bạn đang được xem nhiều",
         "app_4": "Ngân hàng",
-        "msg_4": "Bạn vừa nhận thanh toán đơn hàng",
-        "headline": "Một buổi sáng mở bán"
+        "msg_4": "Bạn vừa nhận thanh toán một đơn hàng",
+        "headline": "Một buổi sáng mở bán · minh hoạ"
       }
     },
     {
       "id": "product",
       "type": "body",
       "templateId": "frame-product-reveal",
-      "voiceText": "Bình giữ nhiệt năm trăm mi li lít, giữ đá lạnh cả ngày, nhẹ, vừa ngăn bên của balo. Món đồ nhỏ nhưng ai dùng rồi cũng mang theo mỗi ngày.",
+      "voiceText": "Một chiếc bình năm trăm mi li lít, vừa ngăn bên của balo. Món đồ nhỏ, nhưng khách hỏi rất kỹ trước khi mua. Đây là những điều người bán nên trả lời sẵn, và người mua nên kiểm tra.",
       "inputs": {
-        "badge": "MỚI VỀ",
-        "name": "Bình giữ nhiệt 500ml",
-        "tagline": "Giữ lạnh cả ngày · vừa ngăn balo",
+        "badge": "MẪU MINH HOẠ",
+        "name": "Bình giữ nhiệt",
+        "tagline": "500 ml · inox hai lớp · vừa ngăn bên balo",
         "teaser": "Sản phẩm minh hoạ"
+      }
+    },
+    {
+      "id": "layers",
+      "type": "body",
+      "templateId": "frame-trend-exploded-layers",
+      "voiceText": "Bình giữ nhiệt hoạt động nhờ lớp chân không giữa hai vách inox, ngăn nhiệt truyền ra ngoài. Nắp có gioăng kín cũng quan trọng không kém, vì nhiệt thoát nhiều nhất qua chỗ hở ở miệng bình.",
+      "inputs": {
+        "title": "Bên trong một bình giữ nhiệt",
+        "layer_1": "Nắp có gioăng kín",
+        "layer_2": "Vỏ ngoài inox",
+        "layer_3": "Lớp chân không ở giữa",
+        "layer_4": "Lõi trong inox 304",
+        "caption": "Lớp chân không mới là thứ giữ nhiệt"
+      }
+    },
+    {
+      "id": "card",
+      "type": "body",
+      "templateId": "frame-3d-perspective-card",
+      "voiceText": "Ba điều nên hỏi trước khi mua. Lõi trong làm bằng inox loại gì, ba trăm linh tư hay ba trăm mười sáu. Giữ nóng, giữ lạnh được bao lâu. Và nắp có tháo rời để rửa gioăng không.",
+      "inputs": {
+        "kicker": "KIỂM TRA TRƯỚC KHI MUA",
+        "card_title": "Ba điều cần hỏi người bán",
+        "card_tier": "CHECKLIST NGƯỜI MUA",
+        "feature_1": "Lõi trong ghi rõ inox 304 hoặc 316",
+        "feature_2": "Có thông số giữ nóng, giữ lạnh bao nhiêu giờ",
+        "feature_3": "Nắp tháo rời được để rửa gioăng",
+        "card_chip": "3 CÂU HỎI",
+        "card_id": "MẪU 500ML",
+        "takeaway": "Người bán trả lời sẵn ba câu này trong mô tả sẽ bớt được rất nhiều tin nhắn hỏi lại."
+      }
+    },
+    {
+      "id": "chat",
+      "type": "body",
+      "templateId": "frame-chat-bubbles",
+      "voiceText": "Những câu khách hỏi nhiều nhất thường lặp lại: đựng đồ nóng được không, rửa máy được không, có màu gì. Hãy gom chúng thành một phần hỏi đáp ngay trong mô tả sản phẩm.",
+      "inputs": {
+        "title": "Khách hỏi gì nhiều nhất",
+        "messages": "them:Bình này đựng trà nóng được không shop?|me:Được ạ, lõi inox 304|them:Rửa máy rửa bát được không?|me:Nên rửa tay để giữ lớp sơn ngoài|them:Ok shop, chốt 1 màu xanh",
+        "note": "Ví dụ minh hoạ"
+      }
+    },
+    {
+      "id": "sizes",
+      "type": "body",
+      "templateId": "frame-chart-bars",
+      "voiceText": "Chọn dung tích theo nhu cầu. Năm trăm mi li lít hợp đi học, đi làm. Cả ngày ngoài trời thì bảy trăm năm mươi. Dã ngoại cả nhóm cần một lít. Bình to hơn cũng nặng hơn.",
+      "inputs": {
+        "title": "Chọn dung tích theo nhu cầu",
+        "unit": "ml",
+        "bars": "Đi học, đi làm:500|Cả ngày ngoài trời:750|Dã ngoại cả nhóm:1000",
+        "highlight": "Đi học, đi làm",
+        "source": "Gợi ý, không phải quy chuẩn"
+      }
+    },
+    {
+      "id": "review",
+      "type": "body",
+      "templateId": "frame-review-verdict",
+      "voiceText": "Bài đánh giá tốt luôn có điểm trừ. Bình này nhẹ, nắp kín, dễ rửa. Nhưng không nên cho vào máy rửa bát, và hơi nhỏ nếu ở ngoài cả ngày. Người mua tin bài có điểm trừ hơn.",
+      "inputs": {
+        "subject": "Bình giữ nhiệt 500ml · minh hoạ",
+        "score": "8",
+        "maxScore": "10",
+        "verdict": "Đáng mua nếu bạn mang theo nước mỗi ngày",
+        "pros": "Nhẹ, vừa balo|Nắp kín không rỉ|Dễ rửa",
+        "cons": "Không rửa máy được|Hơi nhỏ cho cả ngày",
+        "prosLabel": "Điểm cộng",
+        "consLabel": "Điểm trừ"
+      }
+    },
+    {
+      "id": "tip",
+      "type": "body",
+      "templateId": "frame-opus-shader-orb",
+      "voiceText": "Mẹo cho người bán: mỗi câu khách hỏi là một dòng mô tả còn thiếu. Ghi lại những câu lặp lại, bổ sung vào trang sản phẩm. Ít tin nhắn hỏi lại hơn, khách chốt đơn nhanh hơn.",
+      "inputs": {
+        "kicker": "MẸO CHO NGƯỜI BÁN",
+        "hero_stat": "1 câu hỏi",
+        "headline": "Mỗi câu khách hỏi là một dòng mô tả còn thiếu",
+        "subtext": "Ghi lại câu hỏi lặp lại, bổ sung vào mô tả, tin nhắn hỏi lại sẽ giảm dần",
+        "pill_left": "Ghi lại",
+        "pill_right": "Bổ sung mô tả",
+        "footer": ""
+      }
+    },
+    {
+      "id": "quote",
+      "type": "body",
+      "templateId": "frame-quote-testimonial",
+      "voiceText": "Và đây là kiểu nhận xét bạn muốn nhận được nhất: phần mô tả đã trả lời đúng câu mình định hỏi. Đó là lúc người mua thấy tin tưởng mà không cần nhắn tin cho shop.",
+      "inputs": {
+        "quote": "Mình mua vì phần mô tả trả lời đúng câu mình định hỏi.",
+        "name": "Một khách hàng",
+        "role": "Ví dụ minh hoạ"
       }
     },
     {
       "id": "price",
       "type": "outro",
       "templateId": "frame-trend-price-drop",
-      "voiceText": "Hôm nay giảm còn một trăm bốn mươi chín nghìn, chỉ trong bốn mươi tám giờ. Link ở phần mô tả.",
+      "voiceText": "Khi đã trả lời đủ, một ưu đãi rõ ràng sẽ giúp chốt đơn. Sản phẩm và giá ở đây là minh hoạ, hãy thay bằng sản phẩm của bạn.",
       "inputs": {
-        "kicker": "FLASH SALE · HÔM NAY",
+        "kicker": "ƯU ĐÃI · MINH HOẠ",
         "product": "Bình giữ nhiệt 500ml",
-        "old_price": "299.000đ",
+        "old_price": "199.000đ",
         "new_price": "149.000đ",
-        "badge": "-50%",
-        "note": "Chỉ trong 48 giờ · sản phẩm minh hoạ",
-        "cta": "Link ở bio 👆"
+        "badge": "-25%",
+        "note": "Sản phẩm và giá minh hoạ",
+        "cta": "Xem thêm mẫu bán hàng"
       }
     }
   ]

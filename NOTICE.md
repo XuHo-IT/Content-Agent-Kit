@@ -189,17 +189,25 @@ fails the script otherwise, and the declaration is written into `media-lock.json
 original URL and author. There is deliberately no `unknown` and no `fair-use` value.
 ## 2g. Footage shipped in this repository — `examples/talking-head-demo/`
 
-`examples/talking-head-demo/short.mp4` (and its `preview.webp`) is an adaptation of
+The five videos in `examples/talking-head-demo/` (`clean`, `pop`, `editorial`, `cinematic`,
+`kinetic-doc` — each `.mp4` and its `.webp` preview) are adaptations of
 **"Cấp đổi giấy phép LX qua bưu điện"** by **Đài Phát thanh và Truyền hình Thanh Hoá**,
 from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:C%E1%BA%A5p_%C4%91%E1%BB%95i_gi%E1%BA%A5y_ph%C3%A9p_LX_qua_b%C6%B0u_%C4%91i%E1%BB%87n.ogv),
-licensed [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). Changes: trimmed to one
-interview answer, reframed to 9:16 (broadcast lower-third and logo cropped out), loudness
-normalised, captions, title and a credit line added. The credit is burned into the video.
-This adaptation is not endorsed by the broadcaster. The MIT licence of this repository does
-NOT apply to that clip; CC BY 3.0 does.
+licensed [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). Changes: four ranges selected
+and joined, three of the report's own shots laid over the speakers as B-roll, pauses removed,
+reframed to 9:16 (broadcast lower-third and logo cropped out), colour-graded per style,
+loudness normalised, captions, title and a credit line added. The credit is burned into every
+video. These adaptations are not endorsed by the broadcaster. The MIT licence of this
+repository does NOT apply to those clips; CC BY 3.0 does.
 
-The eight `examples/niche-samples/*/video.mp4` are rendered entirely by this kit from the
+The sixteen `examples/niche-samples/*/video.mp4` are rendered entirely by this kit from the
 `script.json` beside them (original text, the kit's own templates, locally synthesised voice).
+Two third-party elements appear in them, each credited on screen or beside the file:
+`du-lich` opens on map tiles (© OpenStreetMap contributors © CARTO; imagery © Esri, Maxar,
+Earthstar Geographics) with the attribution drawn onto the clip and repeated in
+`du-lich/credits.txt`; four videos (`cong-nghe-ai`, `marketing`, `giao-duc`, `du-lich`) use a
+meme template rendered through memegen.link (MIT) — the meme images are long-circulating
+templates whose rights rest with their original creators.
 
 ## 3. Runtime tools (not redistributed)
 These are invoked, not bundled — no license obligation for this repo, listed so

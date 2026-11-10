@@ -6,7 +6,7 @@
   <title>Opus 5.5 Pixel Arcade HUD</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@500;700;800&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&family=Roboto+Mono:wght@400;500;700&family=Lora:ital,wght@0,600;0,700;1,500&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { width: 1080px; height: 1920px; overflow: hidden; font-family: 'Be Vietnam Pro', sans-serif; }
@@ -40,7 +40,7 @@
         display: flex; flex-direction: column; justify-content: center;
       }
       .stage-label {
-        font-family: 'JetBrains Mono', monospace; font-weight: 800;
+        font-family: 'Roboto Mono', monospace; font-weight: 800;
         color: #facc15; letter-spacing: 0.16em;
         opacity: 0; animation: pixPop 0.35s steps(4, end) 0.1s forwards;
       }
@@ -62,7 +62,7 @@
         100% { clip-path: inset(0 0% 0 0); }
       }
       .p-row { display: flex; flex-direction: column; gap: 12px; }
-      .p-meta { display: flex; justify-content: space-between; font-family: 'JetBrains Mono', monospace; font-weight: 800; }
+      .p-meta { display: flex; justify-content: space-between; font-family: 'Roboto Mono', monospace; font-weight: 800; }
       .p-name { color: #a7f3d0; }
       .p-score { color: #facc15; }
       .bar-track { height: 28px; background: rgba(15, 23, 42, 0.9); border: 2px solid #34d399; padding: 3px; }
@@ -80,10 +80,10 @@
         100% { transform: scaleX(1); }
       }
       .arcade-prompt {
-        font-family: 'JetBrains Mono', monospace; font-weight: 800; color: #facc15;
+        font-family: 'Roboto Mono', monospace; font-weight: 800; color: #facc15;
         opacity: 0; animation: pixPop 0.4s steps(3, end) 0.95s forwards;
       }
-      .footer { font-family: 'JetBrains Mono', monospace; color: #6ee7b7; }
+      .footer { font-family: 'Roboto Mono', monospace; color: #6ee7b7; }
       @keyframes pixPop {
         0% { opacity: 0; transform: translateY(16px); }
         100% { opacity: 1; transform: translateY(0); }

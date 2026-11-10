@@ -6,7 +6,7 @@
   <title>Trend · Before/After Wipe</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,700;0,800;0,900;1,800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
     html, body { width: 1080px; height: 1920px; overflow: hidden; background: #111114; }
     
@@ -23,7 +23,7 @@
   }
   @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
   .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
-  .mono { font-family: 'JetBrains Mono', monospace; }
+  .mono { font-family: 'Roboto Mono', monospace; }
   @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
   @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
   @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
@@ -40,11 +40,11 @@
       .before { background: #26262d; color: #a1a1aa; animation: fade .4s .2s both; }
       .after { background: #1f3dff; color: #ffffff; clip-path: inset(0 100% 0 0); animation: reveal 1.1s cubic-bezier(.7,0,.2,1) 2.1s forwards; }
       @keyframes reveal { to { clip-path: inset(0 0 0 0); } }
-      .lbl { font-family: 'JetBrains Mono', monospace; font-weight: 800; letter-spacing: .16em; }
+      .lbl { font-family: 'Roboto Mono', monospace; font-weight: 800; letter-spacing: .16em; }
       .before .lbl { color: #ef4444; } .after .lbl { color: #d6dcff; }
       .pt { display: flex; align-items: flex-start; font-weight: 800; line-height: 1.2; }
       .before .pt { opacity: 0; animation: rise .5s var(--out) forwards; }
-      .pt b { flex: none; display: grid; place-items: center; border-radius: 50%; font-family: 'JetBrains Mono', monospace; }
+      .pt b { flex: none; display: grid; place-items: center; border-radius: 50%; font-family: 'Roboto Mono', monospace; }
       .before .pt b { background: #3f3f46; color: #ef4444; } .after .pt b { background: #ffffff; color: #1f3dff; }
       .before .pt span { text-decoration: line-through; text-decoration-color: rgba(239,68,68,.0); animation: strike .4s forwards; }
       @keyframes strike { to { text-decoration-color: rgba(239,68,68,.9); } }
