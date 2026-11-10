@@ -187,6 +187,20 @@ using this source must declare `rights` (`own` · `licensed` · `permitted` · `
 `licensed` and `permitted` must name who granted permission and when, `validate-script.mjs`
 fails the script otherwise, and the declaration is written into `media-lock.json` beside the
 original URL and author. There is deliberately no `unknown` and no `fair-use` value.
+## 2g. Footage shipped in this repository — `examples/talking-head-demo/`
+
+`examples/talking-head-demo/short.mp4` (and its `preview.webp`) is an adaptation of
+**"Cấp đổi giấy phép LX qua bưu điện"** by **Đài Phát thanh và Truyền hình Thanh Hoá**,
+from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:C%E1%BA%A5p_%C4%91%E1%BB%95i_gi%E1%BA%A5y_ph%C3%A9p_LX_qua_b%C6%B0u_%C4%91i%E1%BB%87n.ogv),
+licensed [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). Changes: trimmed to one
+interview answer, reframed to 9:16 (broadcast lower-third and logo cropped out), loudness
+normalised, captions, title and a credit line added. The credit is burned into the video.
+This adaptation is not endorsed by the broadcaster. The MIT licence of this repository does
+NOT apply to that clip; CC BY 3.0 does.
+
+The eight `examples/niche-samples/*/video.mp4` are rendered entirely by this kit from the
+`script.json` beside them (original text, the kit's own templates, locally synthesised voice).
+
 ## 3. Runtime tools (not redistributed)
 These are invoked, not bundled — no license obligation for this repo, listed so
 you know what the render step reaches for:

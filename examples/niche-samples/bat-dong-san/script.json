@@ -1,0 +1,73 @@
+{
+  "_niche": "Bất động sản",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "limestone-clay",
+  "metadata": {
+    "title": "Thuê hay mua nhà: hỏi mình ba câu trước",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-trend-word-pop",
+      "voiceText": "Thuê hay mua nhà? Trước khi tính bất cứ con số nào, hãy tự hỏi mình ba câu này.",
+      "inputs": {
+        "tag": "TRƯỚC KHI XUỐNG TIỀN",
+        "line": "Thuê hay mua? Hỏi mình 3 câu trước",
+        "accent": "3 câu",
+        "sub": "Trước khi tính bất cứ con số nào"
+      }
+    },
+    {
+      "id": "steps",
+      "type": "body",
+      "templateId": "frame-step-list",
+      "voiceText": "Một, bạn có ở nơi này ít nhất năm năm không. Hai, khoản trả góp mỗi tháng có dưới một phần ba thu nhập không. Ba, bạn còn quỹ dự phòng sau khi trả trước không.",
+      "inputs": {
+        "kicker": "3 CÂU HỎI",
+        "title": "Tự hỏi trước khi mua",
+        "steps": "Ở đây ít nhất 5 năm?|Trả góp dưới 1/3 thu nhập?|Còn quỹ dự phòng sau khi trả trước?"
+      }
+    },
+    {
+      "id": "poll",
+      "type": "body",
+      "templateId": "frame-trend-live-poll",
+      "voiceText": "Nếu cả ba câu đều là có, mua có thể hợp lý. Nếu chưa, thuê không phải là thua. Còn bạn đang nghiêng về bên nào?",
+      "inputs": {
+        "question": "Bạn đang nghiêng về bên nào?",
+        "option_a": "Mua nhà",
+        "option_b": "Thuê nhà",
+        "pct_a": "50",
+        "vs": "VS",
+        "cta": "Bình luận lựa chọn của bạn 👇",
+        "comment_1": "Thuê thêm vài năm đã",
+        "comment_2": "Mua sớm cho yên tâm",
+        "comment_3": ""
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Đây là cách suy nghĩ, không phải lời khuyên tài chính. Bình luận hoàn cảnh của bạn nhé.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Bình luận hoàn cảnh của bạn",
+        "channel": "Kênh Mẫu",
+        "source": ""
+      }
+    }
+  ]
+}

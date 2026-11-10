@@ -1,0 +1,77 @@
+{
+  "_niche": "AI & Công nghệ",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "graphite-signal",
+  "metadata": {
+    "title": "Dựng video ngắn bằng AI agent",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-trend-word-pop",
+      "voiceText": "Bạn đang mất ba tiếng để dựng một video ngắn? Có một cách nhanh hơn rất nhiều, và bạn không cần biết dựng phim.",
+      "inputs": {
+        "tag": "MẸO AI",
+        "line": "Bạn đang mất 3 tiếng để dựng một video ngắn?",
+        "accent": "3 tiếng",
+        "sub": "Có cách nhanh hơn nhiều"
+      }
+    },
+    {
+      "id": "compare",
+      "type": "body",
+      "templateId": "frame-trend-compare-wipe",
+      "voiceText": "Cách cũ là cắt ghép tay, gõ phụ đề từng dòng, mỗi video một kiểu. Cách mới là viết kịch bản, để agent dựng khung hình, giọng đọc và phụ đề cùng lúc.",
+      "inputs": {
+        "title": "Dựng tay vs dùng agent",
+        "left_label": "TRƯỚC",
+        "left_1": "Cắt ghép thủ công",
+        "left_2": "Gõ phụ đề từng dòng",
+        "left_3": "Mỗi video một kiểu",
+        "right_label": "SAU",
+        "right_1": "Viết kịch bản là xong",
+        "right_2": "Phụ đề tự khớp từng từ",
+        "right_3": "Một bảng màu cho cả kênh",
+        "verdict": "Bạn chỉ còn việc duyệt"
+      }
+    },
+    {
+      "id": "layers",
+      "type": "body",
+      "templateId": "frame-trend-exploded-layers",
+      "voiceText": "Bên trong một agent có bốn lớp. Giao diện để bạn ra lệnh, công cụ để chạy lệnh, bộ nhớ để nhớ bối cảnh, và mô hình để suy luận. Thiếu một lớp là nó thành chatbot.",
+      "inputs": {
+        "title": "Bên trong một AI agent",
+        "layer_1": "Giao diện — nơi bạn ra lệnh",
+        "layer_2": "Công cụ — đọc file, chạy lệnh",
+        "layer_3": "Bộ nhớ — nhớ bối cảnh",
+        "layer_4": "Mô hình — bộ não suy luận",
+        "caption": "Thiếu một lớp, agent thành chatbot"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Theo dõi kênh để xem từng bước dựng một video bằng agent.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Theo dõi để xem từng bước",
+        "channel": "Kênh Mẫu",
+        "source": ""
+      }
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "_niche": "Giáo dục",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "chalk-marigold",
+  "metadata": {
+    "title": "Nhớ từ vựng lâu hơn với lặp lại ngắt quãng",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-trend-comment-reply",
+      "voiceText": "Một bạn hỏi: học từ vựng tiếng Anh hôm trước, hôm sau quên sạch, làm sao để nhớ lâu hơn? Có ba bước rất đơn giản.",
+      "inputs": {
+        "reply_label": "Trả lời bình luận của",
+        "username": "@lan.hoc.anh",
+        "comment": "Học từ vựng hôm trước, hôm sau quên sạch. Làm sao nhớ lâu?",
+        "answer_title": "3 bước nhớ lâu",
+        "point_1": "",
+        "point_2": "",
+        "point_3": ""
+      }
+    },
+    {
+      "id": "steps",
+      "type": "body",
+      "templateId": "frame-step-list",
+      "voiceText": "Bước một, ôn lại sau một ngày. Bước hai, ôn tiếp sau ba ngày, rồi một tuần. Bước ba, tự đặt câu với từ đó thay vì chỉ đọc lại. Đây là cách lặp lại ngắt quãng.",
+      "inputs": {
+        "kicker": "LẶP LẠI NGẮT QUÃNG",
+        "title": "Ôn đúng lúc sắp quên",
+        "steps": "Ôn lại sau 1 ngày|Rồi sau 3 ngày, 1 tuần|Tự đặt câu thay vì đọc lại"
+      }
+    },
+    {
+      "id": "checklist",
+      "type": "body",
+      "templateId": "frame-checklist",
+      "voiceText": "Nên học ít từ mỗi ngày nhưng đều, và đặt từ vào câu. Không nên học một trăm từ trong một tối rồi bỏ cả tuần, cũng không nên chỉ chép đi chép lại.",
+      "inputs": {
+        "kicker": "MẸO NHỎ",
+        "title": "Nên và không nên",
+        "doLabel": "Nên",
+        "dontLabel": "Không nên",
+        "dos": "Ít từ mỗi ngày|Đặt từ vào câu|Ôn đúng lịch",
+        "donts": "Học dồn một tối|Chỉ chép lại|Bỏ cả tuần"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Bạn muốn hỏi gì tiếp theo? Bình luận để được trả lời trong video sau.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Bình luận câu hỏi tiếp theo",
+        "channel": "Kênh Mẫu",
+        "source": ""
+      }
+    }
+  ]
+}

@@ -260,9 +260,9 @@ test("the documented template count matches the folder", () => {
   // the kit's OWN count is hand-written in just as many. This one needs no network, so it
   // belongs in a test that fails in CI rather than in a job that notices tomorrow.
   const SITES = [
-    { file: "README.md", re: /dùng 14 trong số (\d+) template/ },
-    { file: "README.md", re: /\| (\d+) template video HTML một-file/ },
-    { file: "README.md", re: /\| \*\*(\d+) template, \d+ thể loại\*\* \|/ },
+    { file: "docs/00-huong-dan-chi-tiet.md", re: /dùng 14 trong số (\d+) template/ },
+    { file: "docs/00-huong-dan-chi-tiet.md", re: /\| (\d+) template video HTML một-file/ },
+    { file: "docs/00-huong-dan-chi-tiet.md", re: /\| \*\*(\d+) template, \d+ thể loại\*\* \|/ },
     { file: "README.en.md", re: /\| (\d+) single-file HTML video templates/ },
     // The English twin of the Vietnamese row two lines up. It was NOT in this list, so it
     // sat at 18 through 22 new templates while its counterpart was updated each time. Every
@@ -290,7 +290,7 @@ test("the documented genre count matches the presets", () => {
   // because the check next door only ever read the templates half of that sentence.
   const n = Object.keys(genres).length;
   const SITES = [
-    { file: "README.md", re: /\| \*\*\d+ template, (\d+) thể loại\*\* \|/ },
+    { file: "docs/00-huong-dan-chi-tiet.md", re: /\| \*\*\d+ template, (\d+) thể loại\*\* \|/ },
     { file: "README.en.md", re: /\| \*\*\d+ templates, (\d+) genres\*\* \|/ },
   ];
   for (const s of SITES) {

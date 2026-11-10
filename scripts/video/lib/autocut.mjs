@@ -90,6 +90,7 @@ export function summary(keep, duration) {
  * Each kept segment is trimmed out of video and audio, PTS reset, then concatenated. Audio
  * gets a 12 ms fade at each edge — without it every cut clicks, because the waveform is cut
  * mid-cycle. With `punch`, every other segment is scaled up and centre-cropped back.
+ * With `crop` ("w:h:x:y"), that source region is cut out before anything else.
  * With `vertical`, the result is cropped/scaled to 1080×1920 first; otherwise pass the source
  * `width`/`height` so a punch-in can crop back to exactly that size.
  * With `loudnorm`, the concatenated audio is levelled to -16 LUFS / -1.5 dBTP (platform norm).
@@ -97,7 +98,7 @@ export function summary(keep, duration) {
  * @param {{start:number,end:number}[]} keep
  * @param {{hasVideo?:boolean, punch?:number, vertical?:boolean, loudnorm?:boolean, width?:number, height?:number}} o
  */
-export function buildFilter(keep, { hasVideo = true, punch = 0, vertical = false, loudnorm = true, width = 1080, height = 1920 } = {}) {
+export function buildFilter(keep, { hasVideo = true, punch = 0, vertical = false, loudnorm = true, width = 1080, height = 1920, crop = null } = {}) {
   const parts = [];
   const pairs = [];
   keep.forEach((k, i) => {
@@ -105,6 +106,9 @@ export function buildFilter(keep, { hasVideo = true, punch = 0, vertical = false
     const fadeOut = Math.max(0, k.end - k.start - 0.012).toFixed(3);
     if (hasVideo) {
       let v = `[0:v]trim=start=${k.start}:end=${k.end},setpts=PTS-STARTPTS`;
+      // `crop` (w:h:x:y in source pixels) runs first — it is how a broadcast lower-third or a
+      // burned-in logo is kept out of a vertical re-frame.
+      if (crop) v += `,crop=${crop}`;
       if (vertical) v += `,scale=${width}:${height}:force_original_aspect_ratio=increase,crop=${width}:${height}`;
       if (punch > 0 && i % 2 === 1) {
         // scale up, then crop the centre back to the frame size: a punch-in, no letterbox.

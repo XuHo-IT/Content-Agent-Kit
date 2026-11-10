@@ -51,8 +51,8 @@ take the device, write your own. Method: `docs/24-competitor-analysis.md`.
 
 ## When the user brings their own footage — "cắt khoảng lặng", "dựng video tự quay"
 ```bash
-node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12   # pauses out, punch-ins, -16 LUFS
-node scripts/video/render.mjs <dir>/script.json --captions burn --caption-style active
+node scripts/video/talking-head.mjs take.mp4 --transcript take.json --theme <preset> --credit "<source · licence>"
+node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12   # cut only: pauses out, punch-ins, -16 LUFS
 ```
 Method (ported from kurbaitaev/ghost-editor, MIT): `docs/26-auto-edit.md`.
 

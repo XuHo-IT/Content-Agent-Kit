@@ -1,0 +1,72 @@
+{
+  "_niche": "Tin tức",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "newsprint-red",
+  "metadata": {
+    "title": "Nhận ra tin giả trong vài giây",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-trend-word-pop",
+      "voiceText": "Trước khi chia sẻ một tin gây sốc, hãy dành đúng mười giây. Chừng đó đủ để nhận ra phần lớn tin giả.",
+      "inputs": {
+        "tag": "KỸ NĂNG",
+        "line": "Dành 10 giây trước khi bấm chia sẻ",
+        "accent": "10 giây",
+        "sub": "Đủ để nhận ra phần lớn tin giả"
+      }
+    },
+    {
+      "id": "checklist",
+      "type": "body",
+      "templateId": "frame-checklist",
+      "voiceText": "Hãy xem nguồn là trang nào, ngày đăng là khi nào, và có báo chính thống nào đưa cùng tin không. Cẩn thận với tiêu đề viết hoa, giục chia sẻ gấp, và ảnh không rõ xuất xứ.",
+      "inputs": {
+        "kicker": "10 GIÂY KIỂM TRA",
+        "title": "Trước khi chia sẻ",
+        "doLabel": "Kiểm tra",
+        "dontLabel": "Cảnh giác",
+        "dos": "Nguồn là trang nào|Ngày đăng|Báo khác có đưa không",
+        "donts": "Tiêu đề VIẾT HOA|Giục chia sẻ gấp|Ảnh không rõ nguồn"
+      }
+    },
+    {
+      "id": "myth",
+      "type": "body",
+      "templateId": "frame-myth-fact",
+      "voiceText": "Nhiều người nghĩ tin được chia sẻ nhiều thì chắc là thật. Thực tế, tin giả thường lan nhanh hơn chính vì nó gây cảm xúc mạnh hơn.",
+      "inputs": {
+        "mythLabel": "Ai cũng nghĩ",
+        "myth": "Chia sẻ nhiều thì chắc là thật",
+        "factLabel": "Thực tế",
+        "fact": "Tin giả lan nhanh vì nó gây cảm xúc mạnh",
+        "source": ""
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Gửi video này cho người hay chia sẻ tin trong nhóm gia đình bạn.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Gửi cho nhóm gia đình bạn",
+        "channel": "Kênh Mẫu",
+        "source": ""
+      }
+    }
+  ]
+}

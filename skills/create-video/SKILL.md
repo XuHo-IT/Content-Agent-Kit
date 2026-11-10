@@ -251,18 +251,23 @@ node scripts/video/render.mjs <outputDir>/script.json
 It preflights ffmpeg / Chrome / the configured voice first and names anything missing.
 On success it prints `VIDEO=<path>` — capture that.
 
-For short-form, burn **active-word captions** (2–3 words, the spoken word lit in the theme
-accent — the 2026 default look most viewers read as "edited"):
+**Captions — match them to the frames.** The `frame-trend-*` templates already put the key
+words on screen as kinetic type, so burning captions over them stacks two layers of text and
+they collide (checked on the niche samples, Nov 2026). Leave captions as a sidecar file
+(the default) for template-led videos. Burn **active-word captions** when the scenes are
+mostly footage — `frame-broll`, screen recordings, a person speaking:
 
 ```bash
 node scripts/video/render.mjs <outputDir>/script.json --captions burn --caption-style active
 ```
 
-If the user brings their own **talking-head footage**, tighten it before anything else —
-pauses out, alternating punch-ins, loudness at -16 LUFS, a `.cuts.json` to review:
+If the user brings their own **talking-head footage**, one command cuts the pauses, reframes to
+9:16 (cropping out burned-in TV bars), and burns active-word captions from a speech-to-text
+transcript (faster-whisper / whisperX / whisper.cpp JSON — see docs/26):
 
 ```bash
-node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12
+node scripts/video/talking-head.mjs take.mp4 --transcript take.json --crop 405:600:438:0      --theme <preset> --hook "<first-line title>" --credit "<source · licence>"
+node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12   # cut only, no captions
 ```
 
 Method for both: `docs/26-auto-edit.md`.

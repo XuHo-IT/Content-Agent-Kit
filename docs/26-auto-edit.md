@@ -39,6 +39,30 @@ Phòng ồn? Nếu báo `more than 60% removed`, hạ ngưỡng: `--noise -42`.
 node scripts/video/render.mjs brain/<slug>/script.json --captions burn --caption-style active
 ```
 
+**Chỉ đốt phụ đề khi scene là cảnh quay thật** (B-roll, quay màn hình, người nói). Template
+`frame-trend-*` đã có chữ chạy riêng; đốt thêm phụ đề lên đó thì hai lớp chữ đè nhau — đã thử
+trên 8 video mẫu theo ngành và bỏ. Khi đốt qua `render.mjs`, phụ đề có nền tối mờ để từ nhấn
+không trùng màu với khung bên dưới.
+
+## 2b. Video người nói thật — `talking-head.mjs`
+
+```bash
+node scripts/video/talking-head.mjs quay.mp4 --transcript quay.json --from 96 --to 128 \n     --crop 405:600:438:0 --theme clinic-sage --hook "Tiêu đề 2 giây đầu" --credit "Nguồn · giấy phép"
+```
+
+Một lệnh: cắt đoạn → cắt khoảng lặng + punch-in → crop bỏ thanh chữ/logo cứng → khung 9:16 →
+phụ đề theo **mốc thời gian thật** của từng từ (được dời theo các vết cắt) → tiêu đề mở đầu →
+dòng ghi nguồn. Transcript lấy từ công cụ nhận dạng giọng nói, ví dụ faster-whisper (MIT):
+
+```python
+from faster_whisper import WhisperModel
+m = WhisperModel("medium", device="cpu", compute_type="int8")
+seg, _ = m.transcribe("quay.wav", language="vi", word_timestamps=True, vad_filter=True)
+# ghi {segments:[{words:[{word,start,end}]}]} ra JSON
+```
+
+Kit không đóng gói model (giữ nguyên tắc không phụ thuộc); whisperX và whisper.cpp (`-ojf`) cũng đọc được.
+
 | | `box` (mặc định cũ) | `active` (mới) |
 | --- | --- | --- |
 | mỗi lần hiện | một câu ngắn | 2–3 từ |

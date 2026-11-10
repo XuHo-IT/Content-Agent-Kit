@@ -1,0 +1,72 @@
+{
+  "_niche": "Sức khoẻ",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "clinic-sage",
+  "metadata": {
+    "title": "Mỏi mắt vì màn hình: quy tắc 20-20-20",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-trend-comment-reply",
+      "voiceText": "Một bạn hỏi: ngồi máy tính cả ngày, chiều nào mắt cũng mỏi và khô, phải làm sao? Có một quy tắc rất dễ nhớ.",
+      "inputs": {
+        "reply_label": "Trả lời bình luận của",
+        "username": "@minh.vanphong",
+        "comment": "Ngồi máy tính cả ngày, chiều nào mắt cũng mỏi. Làm sao?",
+        "answer_title": "Quy tắc 20-20-20",
+        "point_1": "",
+        "point_2": "",
+        "point_3": ""
+      }
+    },
+    {
+      "id": "steps",
+      "type": "body",
+      "templateId": "frame-step-list",
+      "voiceText": "Cứ hai mươi phút, nhìn một vật cách xa khoảng sáu mét, trong hai mươi giây. Thêm vào đó, nhớ chớp mắt chủ động và đặt màn hình thấp hơn tầm mắt một chút.",
+      "inputs": {
+        "kicker": "QUY TẮC 20-20-20",
+        "title": "Cho mắt nghỉ đúng cách",
+        "steps": "Mỗi 20 phút|Nhìn xa khoảng 6 mét|Trong 20 giây|Chớp mắt chủ động"
+      }
+    },
+    {
+      "id": "myth",
+      "type": "body",
+      "templateId": "frame-myth-fact",
+      "voiceText": "Nhiều người nghĩ cứ mỏi mắt là phải nhỏ thuốc. Thực tế, nghỉ mắt đều đặn là bước đầu tiên. Nếu mỏi kéo dài hoặc nhìn mờ, hãy đi khám bác sĩ mắt.",
+      "inputs": {
+        "mythLabel": "Ai cũng nghĩ",
+        "myth": "Mỏi mắt là phải nhỏ thuốc ngay",
+        "factLabel": "Thực tế",
+        "fact": "Nghỉ mắt đều đặn trước; kéo dài thì đi khám",
+        "source": "Thông tin tham khảo, không thay thế bác sĩ"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Thông tin chỉ để tham khảo. Mắt có vấn đề kéo dài, hãy gặp bác sĩ chuyên khoa.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Tham khảo — không thay thế bác sĩ",
+        "channel": "Kênh Mẫu",
+        "source": ""
+      }
+    }
+  ]
+}

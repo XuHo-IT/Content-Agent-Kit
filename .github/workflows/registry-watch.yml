@@ -91,7 +91,7 @@ jobs:
           # refused with "(stale info)". Fetch INTO the tracking ref, then lease against it.
           git fetch origin "+refs/heads/$BRANCH:refs/remotes/origin/$BRANCH" || true
           git checkout -B "$BRANCH"
-          git add video-templates/registry-snapshot.json README.md README.en.md \
+          git add video-templates/registry-snapshot.json docs/00-huong-dan-chi-tiet.md README.en.md \
                   docs/16-template-registry.md scripts/video/add-template.mjs \
                   video-templates/CATALOG.md
           git commit -m "chore(registry): sync the upstream snapshot and the documented counts"
