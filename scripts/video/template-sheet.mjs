@@ -51,30 +51,27 @@ const ROLE_ORDER = [
   "frame-split-compare", "frame-timeline", "frame-node-graph", "frame-hud",
   "frame-funnel", "frame-progress", "frame-draw-on", "frame-vox-data-callout", "frame-canvas-gauge-dial",
   // diagrams & mathematics (Manim/calculus)
-  "frame-diagram-flywheel", "frame-diagram-quadrant", "frame-diagram-radar", "frame-diagram-architecture", "frame-diagram-flowchart", "frame-math-manim", "frame-math-graph-plot", "frame-math-matrix-calc",
+  "frame-diagram-flywheel", "frame-diagram-quadrant", "frame-diagram-radar", "frame-diagram-architecture", "frame-diagram-flowchart", "frame-math-manim", "frame-math-graph-plot",
   // footage, IDE, device & 3D
   "frame-screenshot", "frame-3d-device", "frame-terminal", "frame-ui-terminal-ide", "frame-broll", "frame-media-inset",
   "frame-3d-flip", "frame-3d-stack", "frame-3d-perspective-card", "frame-opus-cursor-flow",
   // GEO, maps, radar, heatmap & travel
-  "frame-geo-markers", "frame-geo-route", "frame-geo-region-stat", "frame-geo-local-card", "frame-geo-faq-direct", "frame-geo-itinerary", "frame-geo-versus-city", "frame-geo-pin-detail", "frame-geo-heatmap", "frame-geo-sonar-radar",
+  "frame-geo-markers", "frame-geo-route", "frame-geo-region-stat", "frame-geo-local-card", "frame-geo-faq-direct", "frame-geo-itinerary", "frame-geo-versus-city", "frame-geo-pin-detail", "frame-geo-sonar-radar",
   // sequence, proof, fitness, sketch & outro
   "frame-step-list", "frame-checklist", "frame-myth-fact", "frame-aicoding-list", "frame-aicoding-comparison",
   "frame-quote-testimonial", "frame-chat-bubbles", "frame-review-verdict", "frame-fitness-workout", "frame-whiteboard-doodle", "frame-opus-handdrawn",
   "frame-product-reveal", "frame-logo-outro", "frame-statement-outro",
   // multi-skill hybrid frames
   "frame-hybrid-vox-geo", "frame-hybrid-math-diagram",
-  // fintech, crypto & trading
-  "frame-stock-candlestick", "frame-crypto-orderbook", "frame-wealth-compound", "frame-portfolio-donut", "frame-inflation-purchasing-power",
-  // science, psychology & edu-tech
-  "frame-iceberg-levels", "frame-brain-synapse", "frame-habit-loop", "frame-dna-helix-breakdown", "frame-bell-curve-iq",
+  // fintech
+  "frame-stock-candlestick",
   // documentary, crime & business wars
-  "frame-witness-polaroid", "frame-stock-ticker-tape", "frame-timeline-war-era", "frame-redacted-dossier", "frame-money-flow-conduit",
+  "frame-witness-polaroid", "frame-redacted-dossier",
   // viral hooks, collage & gamification
-  "frame-tier-list", "frame-notification-stack", "frame-poll-voting", "frame-speedrun-timer", "frame-opus-collage-stopmo", "frame-opus-pixel-arcade",
-  // saas, ai tooling & dev engineering
-  "frame-saas-pricing-tier", "frame-api-request-response", "frame-diff-code-editor", "frame-git-branch-graph", "frame-ai-benchmark-leaderboard",
-  // review, unboxing & e-commerce
-  "frame-pros-cons-scale", "frame-receipt-slip", "frame-unboxing-specs", "frame-discount-coupon-tear",
+  "frame-opus-collage-stopmo", "frame-opus-pixel-arcade",
+  // 2026 trend set — scripts/video/lib/build-trend-templates.mjs
+  "frame-trend-word-pop", "frame-trend-search-morph", "frame-trend-bar-race", "frame-trend-stat-odometer", "frame-trend-compare-wipe", "frame-trend-exploded-layers", "frame-trend-infinite-zoom",
+  "frame-trend-phone-notifs", "frame-trend-live-poll", "frame-trend-price-drop", "frame-trend-code-diff", "frame-trend-comment-reply", "frame-trend-timeline-flight",
 ];
 
 const PRESETS = {
@@ -96,13 +93,13 @@ const PRESETS = {
     "frame-chart-bars", "frame-pentagram-stat", "frame-trend-line", "frame-dashboard", "frame-split-compare", "frame-timeline", "frame-node-graph", "frame-hud", "frame-funnel", "frame-progress", "frame-draw-on", "frame-vox-data-callout", "frame-canvas-gauge-dial"
   ],
   "diagrams": [
-    "frame-diagram-flywheel", "frame-diagram-quadrant", "frame-diagram-radar", "frame-diagram-architecture", "frame-diagram-flowchart", "frame-math-manim", "frame-math-graph-plot", "frame-math-matrix-calc"
+    "frame-diagram-flywheel", "frame-diagram-quadrant", "frame-diagram-radar", "frame-diagram-architecture", "frame-diagram-flowchart", "frame-math-manim", "frame-math-graph-plot"
   ],
   "ui": [
     "frame-screenshot", "frame-3d-device", "frame-terminal", "frame-ui-terminal-ide", "frame-broll", "frame-media-inset", "frame-meme", "frame-3d-flip", "frame-3d-stack", "frame-3d-perspective-card", "frame-opus-cursor-flow"
   ],
   "geo": [
-    "frame-geo-markers", "frame-geo-route", "frame-geo-region-stat", "frame-geo-local-card", "frame-geo-faq-direct", "frame-geo-itinerary", "frame-geo-versus-city", "frame-geo-pin-detail", "frame-geo-heatmap", "frame-geo-sonar-radar"
+    "frame-geo-markers", "frame-geo-route", "frame-geo-region-stat", "frame-geo-local-card", "frame-geo-faq-direct", "frame-geo-itinerary", "frame-geo-versus-city", "frame-geo-pin-detail", "frame-geo-sonar-radar"
   ],
   "sequences": [
     "frame-step-list", "frame-checklist", "frame-myth-fact", "frame-aicoding-list", "frame-aicoding-comparison", "frame-quote-testimonial", "frame-chat-bubbles", "frame-review-verdict", "frame-fitness-workout", "frame-whiteboard-doodle", "frame-opus-handdrawn", "frame-product-reveal", "frame-logo-outro", "frame-statement-outro"
@@ -110,23 +107,32 @@ const PRESETS = {
   "hybrid": [
     "frame-hybrid-vox-geo", "frame-hybrid-math-diagram"
   ],
+  "trend": [
+    "frame-trend-word-pop", "frame-trend-search-morph", "frame-trend-comment-reply", "frame-trend-phone-notifs",
+    "frame-trend-infinite-zoom", "frame-trend-bar-race", "frame-trend-stat-odometer", "frame-trend-compare-wipe",
+    "frame-trend-exploded-layers", "frame-trend-timeline-flight", "frame-trend-live-poll", "frame-trend-code-diff",
+    "frame-trend-price-drop"
+  ],
   "fintech": [
-    "frame-stock-candlestick", "frame-crypto-orderbook", "frame-wealth-compound", "frame-portfolio-donut", "frame-inflation-purchasing-power"
+    "frame-stock-candlestick", "frame-trend-bar-race", "frame-trend-stat-odometer"
   ],
   "science": [
-    "frame-iceberg-levels", "frame-brain-synapse", "frame-habit-loop", "frame-dna-helix-breakdown", "frame-bell-curve-iq"
+    "frame-trend-exploded-layers", "frame-trend-infinite-zoom", "frame-trend-timeline-flight"
   ],
   "documentary": [
-    "frame-witness-polaroid", "frame-stock-ticker-tape", "frame-timeline-war-era", "frame-redacted-dossier", "frame-money-flow-conduit"
+    "frame-redacted-dossier", "frame-witness-polaroid", "frame-archive-newspaper", "frame-fingerprint-match", "frame-crime-scene-map",
+    "frame-satellite-track", "frame-corkboard-threads", "frame-forensic-instrument", "frame-case-dashboard", "frame-interrogation-log",
+    "frame-morgue-tag", "frame-cipher-decrypt", "frame-vhs-nosignal", "frame-suspect-lineup", "frame-polygraph",
+    "frame-thermal-cam", "frame-ballistics-path", "frame-dispatch-waveform", "frame-forensic-chat"
   ],
   "viral": [
-    "frame-tier-list", "frame-notification-stack", "frame-poll-voting", "frame-speedrun-timer", "frame-opus-collage-stopmo", "frame-opus-pixel-arcade"
+    "frame-trend-word-pop", "frame-trend-comment-reply", "frame-trend-live-poll", "frame-trend-phone-notifs", "frame-opus-collage-stopmo", "frame-opus-pixel-arcade"
   ],
   "saas": [
-    "frame-saas-pricing-tier", "frame-api-request-response", "frame-diff-code-editor", "frame-git-branch-graph", "frame-ai-benchmark-leaderboard"
+    "frame-trend-code-diff", "frame-trend-search-morph", "frame-opus-cursor-flow"
   ],
   "ecommerce": [
-    "frame-pros-cons-scale", "frame-receipt-slip", "frame-unboxing-specs", "frame-discount-coupon-tear"
+    "frame-trend-price-drop", "frame-trend-compare-wipe", "frame-review-verdict"
   ],
 };
 

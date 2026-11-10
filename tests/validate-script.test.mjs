@@ -224,3 +224,34 @@ test("reports stats a human can sanity-check against the finished video", () => 
   assert.equal(stats.aspect, "9:16");
   assert.ok(stats.totalWords > 0 && stats.estSec > 0);
 });
+
+// ── CI parity (Nov 2026) ─────────────────────────────────────────────────────
+// CI runs this exact command; `node --test` did not, so it went red on main unseen.
+import { spawnSync as __spawn } from "node:child_process";
+import { resolveTheme as __rt } from "../scripts/video/lib/theme.mjs";
+import __fs from "node:fs";
+import __path from "node:path";
+import __os from "node:os";
+
+test("the reference script passes --strict, exactly as CI runs it", () => {
+  const r = __spawn(process.execPath, ["scripts/video/validate-script.mjs", "templates/VIDEO_SCRIPT.template.json", "--strict"], { encoding: "utf8" });
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+});
+
+test("a strict failure never prints a success tick", () => {
+  const fs = __fs;
+  const tmp = fs.mkdtempSync(__path.join(__os.tmpdir(), "vs-"));
+  const f = __path.join(tmp, "s.json");
+  const j = JSON.parse(fs.readFileSync("templates/VIDEO_SCRIPT.template.json", "utf8"));
+  delete j.theme; // → one warning
+  fs.writeFileSync(f, JSON.stringify(j));
+  const r = __spawn(process.execPath, ["scripts/video/validate-script.mjs", f, "--strict"], { encoding: "utf8" });
+  assert.equal(r.status, 1);
+  assert.doesNotMatch(r.stdout, /✓/, "strict failed but the output says ✓");
+  fs.rmSync(tmp, { recursive: true, force: true });
+});
+
+test("light-canvas templates are not flagged under a light theme", () => {
+  assert.ok(__rt("newsprint-red")._lCanvas >= 0.5);
+  assert.ok(__rt("graphite-signal")._lCanvas < 0.5);
+});

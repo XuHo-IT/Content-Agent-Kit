@@ -31,6 +31,14 @@ does not:
    channels, the Vietnamese number table, pacing, template choice, the review rubric.
 2. `video-templates/CATALOG.md` — every template's slots, types and **character limits**.
    Only use a `templateId` that appears there.
+3. **Palette.** Set `"theme"` to the industry's preset from `templates/INDUSTRIES.template.json`
+   (`graphite-signal` for AI/tech, `ledger-green` for finance, `newsprint-red` for news…). Do
+   not leave a non-tech video on the dark neon defaults. Rules and the "AI-slop" tells to
+   avoid: `docs/25-palettes.md`.
+4. **Prefer the `frame-trend-*` set for hooks, data and CTAs** — word-pop, search-morph,
+   comment-reply for the first 2 seconds; bar-race and stat-odometer for numbers;
+   compare-wipe for before/after; price-drop for the selling close. They fill a 9:16 frame and
+   keep moving; the older generic cards they replaced did neither.
 
 ## Step 3 — Write `script.json`
 
@@ -242,6 +250,22 @@ node scripts/video/render.mjs <outputDir>/script.json
 
 It preflights ffmpeg / Chrome / the configured voice first and names anything missing.
 On success it prints `VIDEO=<path>` — capture that.
+
+For short-form, burn **active-word captions** (2–3 words, the spoken word lit in the theme
+accent — the 2026 default look most viewers read as "edited"):
+
+```bash
+node scripts/video/render.mjs <outputDir>/script.json --captions burn --caption-style active
+```
+
+If the user brings their own **talking-head footage**, tighten it before anything else —
+pauses out, alternating punch-ins, loudness at -16 LUFS, a `.cuts.json` to review:
+
+```bash
+node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12
+```
+
+Method for both: `docs/26-auto-edit.md`.
 
 If a scene's text was wrong, fix `script.json` and re-run: **narration re-generates by itself**
 when the text, provider, voice or speed changed (it is fingerprinted). Only visual edits need a

@@ -11,7 +11,7 @@ import { runInherit } from "./proc.mjs";
 import { templatesDir } from "./paths.mjs";
 import { applyTheme, canvasOf, mapInputColors } from "./theme.mjs";
 
-export const HYPERFRAMES_VERSION = "0.6.94";
+export const HYPERFRAMES_VERSION = "0.9.28";
 
 /**
  * Each aspect renders a composition authored at that native canvas — these

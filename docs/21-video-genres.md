@@ -25,7 +25,7 @@ Then validate before you spend anything:
 node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 ```
 
-### The twelve genres
+### The fifteen genres
 
 | genre | when | the shape |
 |---|---|---|
@@ -41,6 +41,9 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **technical-deepdive** | software architecture & engineering benchmarks | glassmorphism telemetry panel → distributed data pipeline → code implementation & test log → spider radar benchmark |
 | **growth-strategy** | strategic frameworks & business models | bold strategic thesis → compounding growth flywheel → 2x2 competitive matrix → proof stat |
 | **geo-itinerary** | travel guides & location routes | regional overview map → 3-stop itinerary timeline → flagship venue spotlight → city comparison |
+| **comment-reply** | a viewer asked something worth a video | their comment, verbatim → the one-sentence answer, word by word → ≤3 steps → wrong vs right → ask for the next question |
+| **flash-deal** | a real offer with a real deadline | orders piling up → the product → before/after → one real customer → **price slam** as the closer |
+| **data-story** | one dataset with a surprise | the searched question → the number rolling in → the ranking → how it got here → why |
 
 `local` opens on `frame-geo-markers` rather than a title card, which is why `validate.mjs`
 accepts it as a hook template: a place-led video that opens on a logo has spent its hook on
@@ -51,7 +54,7 @@ the one thing the viewer already knows. Worked example, script and frames:
 > Optimization — writing so an answer engine can quote you — which is `skills/geo-optimize`
 > and `scripts/geo-audit.mjs`. Same acronym, different job.
 
-### Two rules that hold across all twelve
+### Two rules that hold across all fifteen
 
 **The hook is not a title card.** A frame that names the topic without giving anything away
 is a frame people scroll past. Lead with the verdict, the number or the result. A review
@@ -124,7 +127,7 @@ tiêu tiền:
 node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 ```
 
-### Mười hai thể loại
+### Mười lăm thể loại
  
 | thể loại | khi nào | hình dạng |
 |---|---|---|
@@ -140,6 +143,9 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **technical-deepdive** | phân tích kiến trúc kỹ thuật & benchmark | telemetry dashboard → luồng dữ liệu phân tán → code thực thi & test log → spider radar benchmark |
 | **growth-strategy** | mô hình kinh doanh & chiến lược tăng trưởng | quan điểm chiến lược sắc bén → vòng xoáy tăng trưởng flywheel → ma trận định vị 2x2 → chỉ số kiểm chứng |
 | **geo-itinerary** | hướng dẫn du lịch & bản đồ lộ trình | bản đồ tổng quan khu vực → timeline lịch trình 3 trạm → thẻ địa điểm spotlight → đối đầu so sánh thành phố |
+| **comment-reply** | người xem hỏi một câu đáng làm cả video | bình luận nguyên văn → câu trả lời một câu, hiện từng từ → tối đa 3 bước → sai vs đúng → xin câu hỏi tiếp theo |
+| **flash-deal** | ưu đãi thật, có hạn chót thật | đơn hàng dồn dập → sản phẩm → trước/sau → một khách thật → **giá đập xuống** để chốt |
+| **data-story** | một bộ số liệu có điều bất ngờ | câu hỏi mọi người đang tìm → con số lăn vào → bảng xếp hạng → chặng đường → vì sao |
 
 `local` mở bằng `frame-geo-markers` chứ không phải slide tiêu đề, và đó là lý do `validate.mjs`
 nhận nó làm khung hook: video về nơi chốn mà mở bằng logo là đã tiêu hook vào đúng thứ người

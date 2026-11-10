@@ -207,7 +207,7 @@ node scripts/video/motion-index.mjs --technique draw-on  # just the ids
 | **`background-clip: text` + moving gradient** — the fill of a headline moves while the letters stay put. Costs nothing, never shifts layout. | a live headline | `frame-liquid-bg-hero`, `frame-bold-poster`, `frame-pentagram-stat`, `frame-opus-shader-orb`, `frame-opus-kinetic-reel` |
 | **3D transforms with `perspective`** — a card turning, a page lifting. | a flat frame reads as an object | `frame-3d-flip`, `frame-3d-perspective-card`, `frame-3d-device`, `frame-opus-cursor-flow` |
 | **`conic-gradient` rotation** — sweeping radar or ring light, no image needed. | motion with zero assets | `frame-geo-sonar-radar`, `frame-hud`, `frame-pentagram-stat`, `frame-opus-shader-orb` |
-| **`steps()` easing** — mechanical judder. Film grain, 12fps collage stop-motion and ticking counters need it; smoothed they turn to fog. Deliberate, not a mistake. | anything that should feel like a machine or stop-motion | `frame-analog-grain`, `frame-terminal`, `frame-timeline-war-era`, `frame-opus-collage-stopmo`, `frame-opus-pixel-arcade` |
+| **`steps()` easing** — mechanical judder. Film grain, 12fps collage stop-motion and ticking counters need it; smoothed they turn to fog. Deliberate, not a mistake. | anything that should feel like a machine or stop-motion | `frame-analog-grain`, `frame-terminal`, `frame-trend-search-morph`, `frame-opus-collage-stopmo`, `frame-opus-pixel-arcade` |
 
 - **Two loops at coprime periods** (13s and 19s, not 12s and 24s) — they never resync, so the
   frame never settles into a pattern a viewer can predict. `frame-bold-poster` runs four.

@@ -9,11 +9,12 @@
 // The seen-ledger is the point. Without it, asking the same topic two mornings running
 // produces the same top story twice, and the second video is a repost with a new voice.
 //
-// ENV: RADAR_DIR, RADAR_DAYS, RADAR_TOP, RADAR_SOURCES, RADAR_HALFLIFE_DAYS,
+// ENV: RADAR_DIR, RADAR_DAYS, RADAR_TOP, RADAR_SOURCES, RADAR_HALFLIFE_DAYS, TRENDS_GEO,
+//      APIFY_TOKEN + APIFY_PLATFORMS (optional, paid: TikTok/Instagram/YouTube/Facebook),
 //      GITHUB_TOKEN (optional), NEWS_RSS_LOCALE
 import fs from "node:fs";
 import path from "node:path";
-import { SOURCE_IDS, searchAll } from "./lib/sources.mjs";
+import { SOURCE_IDS, searchAll, defaultSourceIds } from "./lib/sources.mjs";
 import { rank, dropSeen, seenKeys, slugify } from "./lib/rank.mjs";
 import { readJson, writeJson } from "../lib/state.mjs";
 import { optionalEnv } from "../lib/env.mjs";
@@ -23,7 +24,7 @@ if (argv.includes("--help") || argv.length === 0) {
   console.log(
     `topic-radar.mjs — rank today's hottest items for a topic\n` +
       `  --topic "<text>"      what to research (required)\n` +
-      `  --sources <a,b>       ${SOURCE_IDS.join(",")}   (default $RADAR_SOURCES or all)\n` +
+      `  --sources <a,b>       ${SOURCE_IDS.join(",")}   (default $RADAR_SOURCES, else the keyless ones + Apify platforms if APIFY_TOKEN is set)\n` +
       `  --days <n>            lookback window (default $RADAR_DAYS or 30)\n` +
       `  --top <n>             how many to keep (default $RADAR_TOP or 10)\n` +
       `  --half-life <n>       freshness half-life in days (default 3)\n` +
@@ -84,7 +85,7 @@ try {
   const topic = flag("--topic");
   if (!topic) throw new Error(`Pass --topic "<what to research>".`);
 
-  const sources = String(flag("--sources", optionalEnv("RADAR_SOURCES", SOURCE_IDS.join(","))))
+  const sources = String(flag("--sources", optionalEnv("RADAR_SOURCES", defaultSourceIds().join(","))))
     .split(",")
     .map((s) => s.trim())
     .filter(Boolean);

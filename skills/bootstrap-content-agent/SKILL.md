@@ -62,7 +62,9 @@ Ask (batch related questions; propose sensible defaults):
 From `templates/` + `scripts/`, produce:
 - **`PLAYBOOK.md`** — fill `templates/PLAYBOOK.template.md` with the interview answers.
 - **`WRITING_CRAFT.md`** — fill `templates/WRITING_CRAFT.template.md` (see `docs/12-writing-craft.md`).
-  **Start from `templates/INDUSTRIES.template.json`.** Find the user's vertical, and use its
+  **Start from `templates/INDUSTRIES.template.json`.** Its `theme` field is the vertical's
+  palette preset — write it into the agent's `VIDEO_CRAFT.md` and every `script.json`
+  (`docs/25-palettes.md`). Find the user's vertical, and use its
   `post.types` to fill the register sections, `post.proof` to define what evidence looks like
   here, and `post.avoid` for the banned list. If the entry has a `legal` block — healthcare,
   finance and property all do — copy those rules in **with their source links**. They are the
@@ -113,6 +115,8 @@ From `templates/` + `scripts/`, produce:
   `daily-topic-video` if the agent works from a topic the user names each morning rather
   than from a crawled queue (they need no keys — every source is keyless — and
   `daily-topic-video` is the whole radar→video→publish chain in one ask),
+  `competitor-analysis` when the user names rival channels or sites (keyless: YouTube feeds
+  and any RSS site; it writes the topic gaps against this agent's own `history.json`),
   `ads-report` (it works with no ad spend too — pasted numbers), `repurpose` if they publish
   to more than one channel, `geo-optimize` if anything they publish is meant to be found —
   it carries `scripts/geo-audit.mjs`, which gates a draft on whether a passage still means

@@ -19,8 +19,9 @@ Follow `skills/daily-run/SKILL.md` (or the generated project's `PLAYBOOK.md`):
 determine today's phase, fan out, **review-gate before publish**, schedule, report.
 
 ## When the user just names a topic — "hôm nay có gì hot về X" / "what's hot in X"
-Follow `skills/topic-radar/SKILL.md`. Four **keyless** sources (Reddit, Hacker News, GitHub,
-Google News), merged, scored by heat × freshness × cross-source, and de-repeated against what
+Follow `skills/topic-radar/SKILL.md`. Five **keyless** sources (Reddit, Hacker News, GitHub,
+Google News, Google Trends VN) — plus TikTok/Instagram/YouTube/Facebook via Apify when
+`APIFY_TOKEN` is set (optional, paid) — merged, scored by heat × freshness × cross-source, and de-repeated against what
 earlier runs already handed out:
 ```bash
 node scripts/research/topic-radar.mjs --topic "AI coding agents" --top 8   # prints RADAR=<path>
@@ -37,6 +38,29 @@ node scripts/video/validate-script.mjs <dir>/script.json --strict   # seconds �
 node scripts/video/render.mjs          <dir>/script.json            # ~3–5 min
 ```
 To also publish it, use `skills/video-and-post/SKILL.md`. Method: `docs/14-video-generation.md`.
+
+## When the user names competitors — "phân tích đối thủ", "kênh X đang viral gì"
+Follow `skills/competitor-analysis/SKILL.md`. Keyless: YouTube channels via their public feed,
+any site via RSS (Vietnamese news sections included). Pass the project's history so the report
+can name topic gaps:
+```bash
+node scripts/research/competitor-scan.mjs --channel @kenh-a --channel https://vnexpress.net/so-hoa --history brain/history.json
+```
+Breakouts are measured against each channel's OWN median. Never copy a competitor's title —
+take the device, write your own. Method: `docs/24-competitor-analysis.md`.
+
+## When the user brings their own footage — "cắt khoảng lặng", "dựng video tự quay"
+```bash
+node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12   # pauses out, punch-ins, -16 LUFS
+node scripts/video/render.mjs <dir>/script.json --captions burn --caption-style active
+```
+Method (ported from kurbaitaev/ghost-editor, MIT): `docs/26-auto-edit.md`.
+
+## Palette — every video gets one
+Set `"theme"` in `script.json` to the vertical's preset from `templates/INDUSTRIES.template.json`
+(`graphite-signal`, `ledger-green`, `newsprint-red`, …). No violet→cyan gradients, gradient
+text or neon glows — `docs/25-palettes.md`. Check fonts carry Vietnamese glyphs after adding a
+template: `node scripts/video/font-check.mjs`.
 
 ## When the user wants footage, screenshots or more visual variety
 Follow `skills/research-and-capture/SKILL.md` — research the topic, capture the pages worth
@@ -106,13 +130,16 @@ Cases" was 39% gated on the site this was built against. Method: `docs/10-crawl-
 - `docs/` — methodology (bilingual). Start at `01-architecture.md`.
 - `templates/` — fill-in scaffolds.
 - `scripts/` — generic working CLIs (env-only), incl. `scripts/video/`.
-- `video-templates/` — the 129 scene templates + `CATALOG.md` (slots + character limits),
-  including the 6 Claude Opus 5.5 style-recipe templates (`frame-opus-*`).
+- `video-templates/` — the 115 scene templates + `CATALOG.md` (slots + character limits),
+  including the 6 Claude Opus 5.5 style-recipe templates (`frame-opus-*`) and the 13 2026
+  trend templates (`frame-trend-*`, emitted by `scripts/video/lib/build-trend-templates.mjs` —
+  edit the builder, never the HTML).
   `CATALOG.md` says what each one is *for*; `node scripts/video/motion-index.mjs` says how each
   one *moves* and which sample to copy an effect from. Its `**Motion:**` lines are generated —
   regenerate with `--write-catalog`, never hand-edit. Traps: `skills/motion-craft/SKILL.md`.
-- `templates/VIDEO_GENRES.template.json` — scene sequences for 12 genres (review, tutorial, news,
-  listicle, launch, testimonial, local, vox-explainer, geo-answer, technical-deepdive, growth-strategy, geo-itinerary). Answers 'which frames, in what order'
+- `templates/VIDEO_GENRES.template.json` — scene sequences for 15 genres (review, tutorial, news,
+  listicle, launch, testimonial, local, vox-explainer, geo-answer, technical-deepdive, growth-strategy, geo-itinerary,
+  comment-reply, flash-deal, data-story). Answers 'which frames, in what order'
   rather than 'what shape is a script'. Method: `docs/21-video-genres.md`.
 - `skills/` — Claude Code skills; also readable as plain instructions. `registry.json`
   lists skills from other projects, fetched on demand by `scripts/install-skills.mjs` —

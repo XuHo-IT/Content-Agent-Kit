@@ -140,6 +140,98 @@ export function toAss(cues, { width, height, theme = null, font = "Arial", sizeR
   return `${[...head, ...body].join("\n")}\n`;
 }
 
+// ── active-word captions ─────────────────────────────────────────────────────
+//
+// The 2026 short-form caption: two or three words on screen at a time, big, no box, with the
+// word being SPOKEN lit in an accent colour and nudged up in size. It is how talking-head
+// editors like kurbaitaev/ghost-editor (MIT) caption, and it is what viewers now read as
+// "edited" rather than "auto-captioned". Same timing model as above: scene boundaries exact,
+// word times apportioned by syllable density inside each cue.
+
+/** Split cues into small groups with per-word timing. */
+export function activeWordGroups(cues, { maxWords = 3, maxChars = 20 } = {}) {
+  const groups = [];
+  for (const c of cues) {
+    const words = String(c.text).trim().split(/\s+/).filter(Boolean);
+    if (!words.length) continue;
+    const total = words.reduce((a, w) => a + Math.max(1, dense(w)), 0);
+    let t = c.startSec;
+    const timed = words.map((w, i) => {
+      const d = i === words.length - 1 ? c.endSec - t : ((c.endSec - c.startSec) * Math.max(1, dense(w))) / total;
+      const out = { w, start: t, end: t + d };
+      t += d;
+      return out;
+    });
+    let cur = [];
+    const flush = () => {
+      if (cur.length) groups.push({ start: cur[0].start, end: cur[cur.length - 1].end, words: cur });
+      cur = [];
+    };
+    for (const tw of timed) {
+      const len = cur.map((x) => x.w).join(" ").length + tw.w.length + 1;
+      if (cur.length >= maxWords || (cur.length && len > maxChars)) flush();
+      cur.push(tw);
+      // A sentence end closes the group even if it is short — never run two sentences together.
+      if (/[.!?…]$/.test(tw.w)) flush();
+    }
+    flush();
+  }
+  return groups;
+}
+
+/**
+ * ASS for active-word captions: one Dialogue per WORD, each showing its whole group with that
+ * word recoloured and scaled. Placed in the lower-middle third — under a speaker's chin on a
+ * talking head, clear of the platform's caption/like rail at the very bottom.
+ */
+export function toAssActive(cues, { width, height, theme = null, font = "Arial", accent = null, sizeRatio = 0.062, upper = false, maxWords = 3 } = {}) {
+  const size = Math.round(height * sizeRatio);
+  const marginV = Math.round(height * 0.26);
+  const marginH = Math.round(width * 0.07);
+  const ink = assColour(theme?.ink && theme?.bg && relDark(theme.bg) ? theme.ink : "#ffffff");
+  const hot = assColour(accent ?? "#ffe14d");
+  const outline = assColour("#000000");
+  const head = [
+    "[Script Info]",
+    "ScriptType: v4.00+",
+    "WrapStyle: 0",
+    "ScaledBorderAndShadow: yes",
+    `PlayResX: ${width}`,
+    `PlayResY: ${height}`,
+    "",
+    "[V4+ Styles]",
+    "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour," +
+      " Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline," +
+      " Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
+    // BorderStyle 1 = outline + shadow, no box: the box is what reads as auto-captions.
+    `Style: Word,${font},${size},${ink},${ink},${outline},${assColour("#000000", 0.4)},` +
+      `-1,0,0,0,100,100,0,0,1,${Math.max(3, Math.round(size * 0.09))},${Math.max(2, Math.round(size * 0.05))},2,${marginH},${marginH},${marginV},1`,
+    "",
+    "[Events]",
+    "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
+  ];
+  const fmt = (w) => escapeAss(upper ? w.toLocaleUpperCase("vi") : w);
+  const body = [];
+  for (const g of activeWordGroups(cues, { maxWords })) {
+    g.words.forEach((cur, i) => {
+      const text = g.words
+        .map((x, j) => (j === i ? `{\\c${hot}&\\fscx112\\fscy112}${fmt(x.w)}{\\r}` : fmt(x.w)))
+        .join(" ");
+      // The first word of a group pops in; the rest of the group swaps instantly.
+      const pop = i === 0 ? "{\\fad(60,0)}" : "";
+      body.push(`Dialogue: 0,${assTime(cur.start)},${assTime(cur.end)},Word,,0,0,0,,${pop}${text}`);
+    });
+  }
+  return `${[...head, ...body].join("\n")}\n`;
+}
+
+/** Is a #rrggbb colour dark? (Light-canvas themes keep white captions with a black outline.) */
+function relDark(hex) {
+  const h = String(hex).replace("#", "");
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.4;
+}
+
 /**
  * Escape a path for ffmpeg's `subtitles=` filter.
  *

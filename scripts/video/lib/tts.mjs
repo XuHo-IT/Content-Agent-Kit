@@ -14,6 +14,13 @@
 import { writeFile } from "node:fs/promises";
 import { optionalEnv, requireEnv } from "../../lib/env.mjs";
 
+// eleven_multilingual_v2 was the default here, and it does not cover Vietnamese (29 languages,
+// Vietnamese not among them) — a Vietnamese script came back in an anglicised accent or
+// failed. eleven_flash_v2_5 covers Vietnamese, accepts the `speed` voice setting this file
+// sends, and is the cheaper, faster tier. eleven_v3 (70+ languages) is the higher-quality
+// option — set ELEVENLABS_MODEL=eleven_v3 and check one scene with tts-check first.
+export const ELEVEN_DEFAULT_MODEL = "eleven_flash_v2_5";
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const RETRY_DELAYS = [1000, 2000, 4000];
 /** How long to wait for an async provider to finish writing its file.
@@ -49,11 +56,11 @@ export const PROVIDER_SPECS = {
     needsVoiceId: true,
     keys: ["ELEVENLABS_API_KEY"],
     nativeSpeed: true,
-    note: "Highest quality; use a multilingual model for Vietnamese.",
+    note: "Highest quality. Default model eleven_flash_v2_5 (eleven_v3 for top quality) — eleven_multilingual_v2 does not speak Vietnamese.",
     voicesUrl: "https://api.elevenlabs.io/v1/voices",
     voicesHeaders: () => ({ "xi-api-key": requireEnv("ELEVENLABS_API_KEY") }),
     build(text, cfg) {
-      const model = optionalEnv("ELEVENLABS_MODEL", "eleven_multilingual_v2");
+      const model = optionalEnv("ELEVENLABS_MODEL", ELEVEN_DEFAULT_MODEL);
       return {
         url: `https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(cfg.voiceId)}`,
         method: "POST",
@@ -297,7 +304,7 @@ export function ttsConfig(overrides = {}) {
     speed,
     concurrency,
     endpoint,
-    model: provider === "elevenlabs" ? optionalEnv("ELEVENLABS_MODEL", "eleven_multilingual_v2") : null,
+    model: provider === "elevenlabs" ? optionalEnv("ELEVENLABS_MODEL", ELEVEN_DEFAULT_MODEL) : null,
     /** Speed the provider itself applies. If false, the pipeline does it with ffmpeg. */
     nativeSpeed: !!spec.nativeSpeed,
   };

@@ -44,7 +44,7 @@ tấn công. Nhưng có ba thứ chạy lúc runtime cần biết:
 
 | Thứ | Rủi ro | Ghi chú |
 |---|---|---|
-| `npx -y hyperframes@0.6.94` | tải package từ npm khi render | **Đã ghim phiên bản.** Đây là engine HTML→MP4, không thể tự viết lại. Ghim để render tất định và không bị đổi ngầm. |
+| `npx -y hyperframes@0.9.28` | tải package từ npm khi render | **Đã ghim phiên bản.** Đây là engine HTML→MP4, không thể tự viết lại. Ghim để render tất định và không bị đổi ngầm. |
 | `chrome --headless --screenshot` | mở **URL tuỳ ý** bằng trình duyệt thật | Chỉ chụp trang bạn (hoặc agent của bạn) chỉ định. Đừng cho nó URL từ nguồn không kiểm soát. Chạy trong profile tạm, xoá sau mỗi lần. |
 | Template `<link>` Google Fonts | gọi mạng lúc render | Font tĩnh, không chạy script. Muốn offline hoàn toàn thì tự host font. |
 

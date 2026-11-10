@@ -46,7 +46,13 @@ if (asJson) {
 } else {
   for (const w of warnings) console.warn(`[video] ! ${w}`);
   for (const e of errors) console.error(`[video] ✗ ${e}`);
-  if (errors.length === 0) {
+  if (errors.length === 0 && strict && warnings.length > 0) {
+    // It used to print "✓ valid" here and then exit 1. That line is how a red CI step sat on
+    // main for days (Nov 2026): everyone reading the log saw the tick, not the exit code.
+    console.error(
+      `[video] ✗ ${file} — renderable, but --strict fails on ${warnings.length} warning(s) above.`,
+    );
+  } else if (errors.length === 0) {
     console.log(
       `[video] ✓ ${file} valid — ${stats.scenes} scenes, ${stats.totalWords} words ` +
         `(≈${stats.estSec}s), ${stats.aspect}` +

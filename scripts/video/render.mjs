@@ -38,11 +38,11 @@ import {
   DEFAULT_TRANSITION_SEC,
 } from "./lib/ffmpeg-video.mjs";
 import { indexSfxLibrary, pickSfxForScene, defaultPlayback } from "./lib/sfx.mjs";
-import { buildCues, toAss } from "./lib/captions.mjs";
+import { buildCues, toAss, toAssActive } from "./lib/captions.mjs";
 import { composeTemplate } from "./lib/compose.mjs";
 import { checkClipDrawn } from "./lib/blank-check.mjs";
 import { sfxDir } from "./lib/paths.mjs";
-import { resolveTheme, themeKey } from "./lib/theme.mjs";
+import { resolveTheme, themeKey, hslToRgb } from "./lib/theme.mjs";
 import { resolveSceneMediaList } from "../media/lib/resolve.mjs";
 import { loadProfile, resolveSettings } from "./lib/profile.mjs";
 import { assertBackend, loadBackend, describeBackends } from "./lib/backends/index.mjs";
@@ -60,6 +60,8 @@ if (argv.includes("--help") || argv.length === 0) {
       `  --no-transitions    hard cuts everywhere; skips the re-encode xfade forces\n` +
       `  --captions <mode>   file (default, writes captions.ass) | burn | off\n` +
       `  --caption-font <n>  font libass uses when burning (default Arial)\n` +
+      `  --caption-style <s> box (default, boxed sentence chunks) | active (2–3 big words,\n` +
+      `                      the spoken word lit in the theme accent — 2026 short-form style)\n` +
       `  --backend <id>      html (default) | api | remotion — see --list-backends\n` +
       `  --profile <name>    a profile in profiles/ (personal, business), or a path\n` +
       `  --cost-ceiling <n>  refuse an api render estimated above this many USD\n` +
@@ -80,6 +82,12 @@ const CAPTION_MODES = ["file", "burn", "off"];
 const capMode = flagValue("--captions") ?? "file";
 if (!CAPTION_MODES.includes(capMode)) {
   console.error(`[video] ✗ --captions must be ${CAPTION_MODES.join(" | ")}, got "${capMode}"`);
+  process.exit(1);
+}
+const CAPTION_STYLES = ["box", "active"];
+const capStyle = flagValue("--caption-style") ?? "box";
+if (!CAPTION_STYLES.includes(capStyle)) {
+  console.error(`[video] ✗ --caption-style must be ${CAPTION_STYLES.join(" | ")}, got "${capStyle}"`);
   process.exit(1);
 }
 
@@ -480,8 +488,14 @@ try {
         durSec: sceneAudio.find((a) => a.id === s.id).durationSec,
       })),
     );
-    await writeFile(assPath, toAss(cues, { ...canvas, theme, font: flagValue("--caption-font") ?? "Arial" }), "utf8");
-    info(`captions.ass: ${cues.length} cues${capMode === "burn" ? " — burning (re-encodes the mux)" : ""}`);
+    const font = flagValue("--caption-font") ?? "Arial";
+    // The active-word accent follows the theme's hue, so captions belong to the same palette
+    // as the frames under them; without a theme it is the classic caption yellow.
+    const hex = (c) => "#" + [c.r, c.g, c.b].map((x) => Math.round(x * 255).toString(16).padStart(2, "0")).join("");
+    const accent = theme ? hex(hslToRgb(theme.hue, 0.9, 0.58)) : null;
+    const ass = capStyle === "active" ? toAssActive(cues, { ...canvas, theme, font, accent }) : toAss(cues, { ...canvas, theme, font });
+    await writeFile(assPath, ass, "utf8");
+    info(`captions.ass: ${cues.length} cues, ${capStyle} style${capMode === "burn" ? " — burning (re-encodes the mux)" : ""}`);
   }
 
   step(8, "Concat clips + mux audio");

@@ -16,7 +16,7 @@ It cannot take a topic somebody says out loud at 8am and come back with what is 
 /daily-topic-video AI coding agents  # …and the finished, published short
 ```
 
-### Four sources, no keys
+### Five sources, no keys — plus optional platforms
 
 | source | what it is good at | signal |
 | --- | --- | --- |
@@ -24,8 +24,13 @@ It cannot take a topic somebody says out loud at 8am and come back with what is 
 | Hacker News | what builders noticed | points, comments |
 | GitHub | what got built this month (`created:`, not `pushed:`) | stars |
 | Google News | what the wire is carrying | — |
+| Google Trends | what a **country** is searching for today (`TRENDS_GEO`, default VN) | approx. searches |
 
-Every one of them answers without an account. That is a deliberate constraint, not a
+**Reddit, November 2026:** anonymous search now redirects to a login page (`/login/?reason=lor2`) and the JSON API answers 403 on most networks. The source stays (it degrades and says so in the report), and Google Trends was added as the local signal it no longer provides.
+
+**Optional, paid: TikTok, Instagram, YouTube, Facebook via Apify.** Set `APIFY_TOKEN` and the radar adds the platforms in `APIFY_PLATFORMS` (default `tiktok,youtube`) on its own; without a token nothing changes. Views count as heat. Cost knob: `APIFY_MAX_ITEMS`. Code: `scripts/research/lib/apify.mjs`.
+
+Every keyless one answers without an account. That is a deliberate constraint, not a
 limitation reluctantly accepted: a research layer that needs five API keys is a research layer
 most people never switch on, and the kit's whole premise is that a fresh clone works.
 
@@ -116,8 +121,13 @@ nhận một chủ đề bạn nói ra lúc 8 giờ sáng rồi trả về cái 
 | Hacker News | thứ dân dev để ý | point, comment |
 | GitHub | thứ vừa được build tháng này (`created:`, không phải `pushed:`) | star |
 | Google News | thứ báo chí đang đưa | — |
+| Google Trends | thứ **cả nước** đang tìm hôm nay (`TRENDS_GEO`, mặc định VN) | lượt tìm ước tính |
 
-Cả bốn đều trả lời mà không cần tài khoản. Đây là ràng buộc cố ý: một lớp research cần năm API
+**Reddit, 11/2026:** tìm kiếm ẩn danh giờ bị chuyển sang trang đăng nhập, API JSON trả 403. Nguồn này vẫn giữ (lỗi thì báo cáo ghi rõ), và Google Trends được thêm vào để bù tín hiệu trong nước.
+
+**Tuỳ chọn, trả phí: TikTok, Instagram, YouTube, Facebook qua Apify.** Đặt `APIFY_TOKEN` là radar tự thêm các nền tảng trong `APIFY_PLATFORMS` (mặc định `tiktok,youtube`); không có token thì không gì thay đổi. Núm chỉnh chi phí: `APIFY_MAX_ITEMS`.
+
+Các nguồn keyless đều trả lời mà không cần tài khoản. Đây là ràng buộc cố ý: một lớp research cần năm API
 key là lớp research đa số người không bao giờ bật, mà tiền đề của kit là clone về là chạy được.
 
 `GITHUB_TOKEN` được đọc nếu có, nhưng chỉ để nâng rate limit — không bao giờ để mở khoá một nguồn.

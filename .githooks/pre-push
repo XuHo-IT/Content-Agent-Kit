@@ -1,0 +1,5 @@
+#!/bin/sh
+# Runs the CI workflow's own steps before a push leaves this machine.
+# Enable once per clone:   git config core.hooksPath .githooks
+# Skip in an emergency:    git push --no-verify   (CI will still run on GitHub)
+exec node scripts/maintenance/ci-local.mjs

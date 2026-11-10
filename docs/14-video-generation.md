@@ -387,7 +387,7 @@ billable characters, then exits without rendering.
 | **FFmpeg + ffprobe** on PATH | every audio/video operation |
 | **Chrome / Chromium** | HyperFrames renders each template in it |
 | **A voice** | either an API key for a cloud provider, **or** a local OmniVoice server — see above |
-| Network on first render | `npx` fetches `hyperframes@0.6.94`; templates link Google Fonts |
+| Network on first render | `npx` fetches `hyperframes@0.9.28`; templates link Google Fonts |
 | Node ≥ 18 | the scripts themselves (no `npm install` — the kit has no dependencies) |
 
 Pick a cloud provider and **there is no server to run** — an API key is the whole setup.
@@ -726,7 +726,7 @@ thoát mà không render.
 ### Yêu cầu
 
 FFmpeg + ffprobe trên PATH · Chrome/Chromium · **một nguồn giọng** (API key của provider cloud,
-*hoặc* server OmniVoice local) · có mạng lần render đầu (`npx` tải `hyperframes@0.6.94`, template
+*hoặc* server OmniVoice local) · có mạng lần render đầu (`npx` tải `hyperframes@0.9.28`, template
 link Google Fonts) · Node ≥ 18.
 
 Chọn provider cloud thì **không phải dựng server nào cả** — chỉ cần API key là xong.

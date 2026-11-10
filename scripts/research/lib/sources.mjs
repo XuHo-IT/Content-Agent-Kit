@@ -20,6 +20,7 @@
 //
 // ENV: GITHUB_TOKEN (optional), NEWS_RSS_LOCALE, RESEARCH_USER_AGENT
 import { optionalEnv } from "../../lib/env.mjs";
+import { platformSource, PLATFORM_IDS, hasApify, defaultPlatforms } from "./apify.mjs";
 
 const UA = () =>
   optionalEnv(
@@ -319,8 +320,105 @@ export const news = {
   },
 };
 
-export const SOURCES = { reddit, hn, github, news };
+// ── google trends (daily trending searches) ─────────────────────────────────
+// What a COUNTRY is searching for today, keyless: trends.google.com/trending/rss?geo=VN.
+// Added November 2026 when Reddit's anonymous search started answering with a login wall
+// (`/login/?reason=lor2`) — it is the most local signal this kit has: Vietnamese searches,
+// from Vietnam, with an approximate traffic number and the news stories behind each one.
+//
+// It is not topic-scoped upstream (the feed is the whole country's top ~10–20), so items are
+// kept only when the topic's words appear in the trend or its news headlines. A day with no
+// match returns nothing and says so, rather than padding the radar with unrelated trends.
+
+/** "2000+" / "20K+" / "1M+" → a number for the heat model. */
+export function parseTraffic(s) {
+  const m = String(s ?? "").replace(/[,.\s]/g, "").match(/^(\d+)([KM])?/i);
+  if (!m) return 0;
+  return Number(m[1]) * (m[2]?.toUpperCase() === "M" ? 1e6 : m[2]?.toUpperCase() === "K" ? 1e3 : 1);
+}
+
+export function parseTrendsRss(xml) {
+  return String(xml)
+    .split(/<item>/)
+    .slice(1)
+    .map((block) => {
+      const news = [...block.matchAll(/<ht:news_item>([\s\S]*?)<\/ht:news_item>/g)].map((m) => ({
+        title: tag(m[1], "ht:news_item_title"),
+        url: tag(m[1], "ht:news_item_url"),
+        source: tag(m[1], "ht:news_item_source"),
+      }));
+      return {
+        title: tag(block, "title"),
+        traffic: parseTraffic(tag(block, "ht:approx_traffic")),
+        pubDate: tag(block, "pubDate"),
+        news,
+      };
+    })
+    .filter((t) => t.title);
+}
+
+/** Does a trend belong to the topic? Unicode-aware: Vietnamese words never match `\b`. */
+export function trendMatches(trend, topic) {
+  const norm = (s) => String(s ?? "").toLowerCase().normalize("NFC");
+  const words = norm(topic).split(/[^\p{L}\p{N}]+/u).filter((w) => w.length >= 3);
+  if (!words.length) return false;
+  const hay = norm([trend.title, ...trend.news.map((n) => n.title)].join(" "));
+  return words.some((w) => new RegExp(`(?<![\\p{L}\\p{N}])${w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?![\\p{L}\\p{N}])`, "u").test(hay));
+}
+
+export const trends = {
+  id: "trends",
+  label: "Google Trends (daily, by country)",
+  keyEnv: [],
+  hasKey: () => true,
+  async search(topic, { limit = 20 } = {}) {
+    const geo = optionalEnv("TRENDS_GEO", "VN");
+    const xml = await getText(`https://trends.google.com/trending/rss?geo=${encodeURIComponent(geo)}`, {
+      headers: { accept: "application/rss+xml, application/xml" },
+    });
+    const all = parseTrendsRss(xml);
+    const hit = all.filter((t) => trendMatches(t, topic)).slice(0, limit);
+    const items = hit.map((t, i) => ({
+      id: `trends:${geo}:${t.title}`,
+      title: t.news[0]?.title ? `${t.title} — ${t.news[0].title}` : t.title,
+      url: t.news[0]?.url || `https://trends.google.com/trends/explore?geo=${geo}&q=${encodeURIComponent(t.title)}`,
+      source: "trends",
+      publishedAt: iso(t.pubDate),
+      // Approximate searches stand in for votes; the heat model ranks within a source.
+      engagement: { votes: t.traffic, comments: 0 },
+      snippet: clip(t.news.map((n) => n.title).join(" · ")),
+      author: "",
+      context: `${geo} · ~${t.traffic}+ searches`,
+      _rank: i,
+    }));
+    return items.length
+      ? items
+      : { items: [], note: `${all.length} trending searches in ${geo} today, none about "${topic}"` };
+  },
+};
+
+// The keyless five, then the paid platform sources (TikTok, Instagram, YouTube, Facebook via
+// Apify — scripts/research/lib/apify.mjs). Those exist in the registry always, so
+// `--sources tiktok` gives a clear "APIFY_TOKEN is not set" instead of "unknown source".
+export const SOURCES = {
+  reddit,
+  hn,
+  github,
+  news,
+  trends,
+  ...Object.fromEntries(PLATFORM_IDS.map((p) => [p, platformSource(p)])),
+};
 export const SOURCE_IDS = Object.keys(SOURCES);
+export const KEYLESS_IDS = ["reddit", "hn", "github", "news", "trends"];
+
+/**
+ * What runs when the caller names no sources: every keyless source, plus the Apify platforms
+ * in APIFY_PLATFORMS when — and only when — APIFY_TOKEN is set. A fresh clone with an empty
+ * .env therefore behaves exactly as before; adding a token adds TikTok/YouTube on its own.
+ */
+export function defaultSourceIds() {
+  return [...KEYLESS_IDS, ...(hasApify() ? defaultPlatforms() : [])];
+}
 
 export function getSource(id) {
   const s = SOURCES[String(id || "").toLowerCase()];

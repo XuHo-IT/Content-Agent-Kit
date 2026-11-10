@@ -47,12 +47,23 @@ export const CRAFT_DEFAULTS = {
     "frame-opus-shader-orb",
     "frame-opus-kinetic-reel",
     "frame-opus-collage-stopmo",
+    // 2026 trend set — each one opens on something the viewer reads in under a second
+    "frame-trend-word-pop",
+    "frame-trend-search-morph",
+    "frame-trend-comment-reply",
+    "frame-trend-phone-notifs",
+    "frame-trend-infinite-zoom",
   ],
-  outroTemplates: ["frame-logo-outro", "frame-statement-outro"],
+  // price-drop is a closer by design: a selling video ends on the price and where to buy.
+  outroTemplates: ["frame-logo-outro", "frame-statement-outro", "frame-trend-price-drop"],
 };
 
 /** Fields animated character-by-character — emoji there shatters the animation. */
-const CHAR_ANIMATED_FIELDS = { "frame-build-minimal": ["hero"] };
+const CHAR_ANIMATED_FIELDS = {
+  "frame-build-minimal": ["hero"],
+  "frame-trend-search-morph": ["query"], // typed one character at a time
+  "frame-trend-code-diff": ["line_add"],
+};
 
 /**
  * Templates that actually show a resolved clip/still. Anything else silently ignores it.
@@ -199,7 +210,17 @@ export function validateScript(script, opts = {}) {
   // dark episode and they arrive as bright rectangles between black ones — and pale ink on
   // pale paper is often unreadable outright. theme-map.json already records what each
   // composition measured, so this is a lookup, not a guess.
-  if (script.theme != null && Array.isArray(script.scenes)) {
+  //
+  // Only for a DARK theme. A light theme (newsprint-red, ledger-green, paper-blue…) inverts the
+  // dark templates onto its pale canvas, so the pale-paper frames are the ones that already
+  // match — warning there was a false positive that blocked --strict on every light preset.
+  let themeIsLight = false;
+  try {
+    themeIsLight = script.theme != null && resolveTheme(script.theme)._lCanvas >= 0.5;
+  } catch {
+    /* an invalid theme is reported above */
+  }
+  if (script.theme != null && !themeIsLight && Array.isArray(script.scenes)) {
     const entryFile = aspect === "16:9" ? "index.html" : "compositions/portrait.html";
     const light = [...new Set(
       script.scenes
