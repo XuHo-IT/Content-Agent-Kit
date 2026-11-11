@@ -196,7 +196,10 @@ export function validateScript(script, opts = {}) {
   // ── theme ────────────────────────────────────────────────────────────────
   // A bad palette is only visible after a full render, so the cheap checks happen here.
   let theme = null;
-  if (script.theme != null) {
+  const themed = script.theme != null && script.theme !== "native";
+  if (script.theme === "native") {
+    // chosen, not forgotten — nothing to warn about
+  } else if (themed) {
     try {
       theme = resolveTheme(script.theme);
     } catch (err) {
@@ -214,7 +217,7 @@ export function validateScript(script, opts = {}) {
     W(`no "theme" — every template will render its OWN palette and the video will change ` +
       `colour scene to scene. Add one alongside "scenes", e.g. ` +
       `{"bg":"#0b0908","ink":"#d9c193","hue":38,"spread":18,"saturation":1.0}, ` +
-      `or a preset: ${THEME_IDS.join(", ")}`);
+      `or a preset: ${THEME_IDS.join(", ")} — or "native" to keep each template's own palette on purpose`);
   }
 
   // A theme adjusts colours; it does NOT flip a light canvas dark. Put pale-paper frames in a
@@ -227,11 +230,11 @@ export function validateScript(script, opts = {}) {
   // match — warning there was a false positive that blocked --strict on every light preset.
   let themeIsLight = false;
   try {
-    themeIsLight = script.theme != null && resolveTheme(script.theme)._lCanvas >= 0.5;
+    themeIsLight = themed && resolveTheme(script.theme)._lCanvas >= 0.5;
   } catch {
     /* an invalid theme is reported above */
   }
-  if (script.theme != null && !themeIsLight && Array.isArray(script.scenes)) {
+  if (themed && !themeIsLight && Array.isArray(script.scenes)) {
     const entryFile = aspect === "16:9" ? "index.html" : "compositions/portrait.html";
     const light = [...new Set(
       script.scenes

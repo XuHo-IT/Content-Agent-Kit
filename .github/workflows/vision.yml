@@ -1,0 +1,69 @@
+# The optional Python half of the kit — face boxes (YuNet) and the person matte (MediaPipe
+# selfie segmenter) — on all three desktop systems.
+#
+# The main CI is dependency-free on purpose and never touches Python. This job is separate
+# because the vision scripts were only ever run on Windows: a path, a wheel or an OpenCV build
+# that differs on macOS or Linux would otherwise surface on a user's machine first. It runs on
+# a real face (examples/talking-head-demo/clean.mp4, CC BY 3.0 — see NOTICE.md §2g), checks the
+# pinned model hashes on download, and that both outputs are sane.
+name: Vision (Python, optional)
+
+on:
+  pull_request:
+    paths:
+      - "scripts/video/lib/vision.mjs"
+      - "scripts/video/lib/faces.mjs"
+      - "scripts/video/face-boxes.mjs"
+      - "scripts/video/person-matte.mjs"
+      - ".github/workflows/vision.yml"
+  schedule:
+    - cron: "20 4 * * 1" # Mondays: catches a mediapipe / OpenCV release that breaks the API
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  vision:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: ffmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v3
+
+      - name: Install the vision extras (as docs/26 tells users to)
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install mediapipe
+          python -c "import cv2, mediapipe as mp; print('opencv', cv2.__version__, 'mediapipe', mp.__version__, 'YuNet', hasattr(cv2, 'FaceDetectorYN'))"
+
+      - name: Face boxes on a real face
+        shell: bash
+        env:
+          VISION_PYTHON: python
+        run: |
+          node scripts/video/face-boxes.mjs examples/talking-head-demo/clean.mp4 --from 5 --to 10 --frames 6 --out faces.json
+          node -e "const r=require('./faces.json'); const hit=r.frames.filter(f=>f.faces.length).length; console.log('faces in', hit, 'of', r.frames.length, 'frames; head', JSON.stringify(r.head)); if (hit < 4 || !r.head) process.exit(1)"
+
+      - name: Person matte
+        shell: bash
+        env:
+          VISION_PYTHON: python
+        run: |
+          node scripts/video/person-matte.mjs examples/talking-head-demo/clean.mp4 --from 5 --to 7 --out mask.mp4 | tee matte.txt
+          grep -E "person ≈ [3-9][0-9]%" matte.txt
+          ffprobe -v error -show_entries stream=width,height -of csv=p=0 mask.mp4

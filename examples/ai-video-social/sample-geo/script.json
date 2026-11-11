@@ -17,6 +17,7 @@
     "voiceId": "hn_female_ngochuyen_full_48k-fhg",
     "speed": 1
   },
+  "theme": "native",
   "scenes": [
     {
       "id": "hook",
