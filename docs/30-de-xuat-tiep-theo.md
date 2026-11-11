@@ -29,6 +29,10 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 | 13 | Quyết định về `vibe-motion` (không có giấy phép) | dọn dẹp | S | thấp | chưa làm |
 | 14 | Nghe lại chữ "chuyển về" trong transcript demo | dọn dẹp | S | thấp | chưa làm |
 | 15 | Kiểm commit ghim của `marketingskills` | dọn dẹp | S | thấp | chưa làm |
+| 16 | Thẻ và phụ đề tự tránh khuôn mặt | video | M | cao | đang thử |
+| 17 | Tách người khỏi nền: chữ sau lưng, người bật khỏi khung | video | L | trung bình | đang thử |
+| 18 | Video chỉ có giọng đọc → thẻ trên nền màu | video | M | trung bình | chưa làm |
+| 19 | Ảnh bìa + tiêu đề, caption Facebook/TikTok khi dựng xong | video | S | trung bình | chưa làm |
 
 ---
 
@@ -86,7 +90,8 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 
 ### 5. Thẻ minh hoạ: kiểu `split` và âm thanh tự động
 
-- **Đang có:** thẻ `full` và `pip` trong `talking-head.mjs` (`docs/26-auto-edit.md`).
+- **Đang có:** thẻ `full` và `pip` trong `talking-head.mjs` (`docs/26-auto-edit.md`). Từ 2026-11-11 thẻ
+  nhận `"sfx"` (đặt tay, có kiểm mật độ) — phần còn lại là `split` và tự chọn âm thanh theo template.
 - **Thêm:** `split` — thẻ ở nửa trên, người nói ở nửa dưới (kiểu bảng trắng của ghost-editor); và
   tự gắn một âm thanh nhẹ (`transition/cc0-paper-flip`) khi thẻ hiện, có thể tắt.
 - **Ghi chú:**
@@ -162,6 +167,77 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 
 ---
 
+### 16. Thẻ và phụ đề tự tránh khuôn mặt
+
+- **Là gì:** dò khung đầu người trong mỗi đoạn, rồi đặt thẻ `pip`, tiêu đề, phụ đề ra ngoài vùng
+  đó. Hiện tại người dựng tự chọn crop và kiểu thẻ để chữ không đè mặt.
+- **Ý tưởng từ:** MRT Keyword (`face_boxes.py`: OpenCV Haar, lấy 12 khung/đoạn, nới hộp mặt lên
+  tóc và xuống cằm). Không có giấy phép → chỉ lấy ý, tự viết.
+- **Cắm vào:** `talking-head.mjs` — một bước dò mặt trước khi đặt PIP/phụ đề; `.cuts.json` ghi hộp mặt.
+- **Giấy phép:** OpenCV Apache-2.0, nhưng kéo Python vào kit. Thử trước: ffmpeg không có bộ dò mặt;
+  MediaPipe Face Detection (Apache-2.0) có bản WASM chạy trong Chrome mà kit đã dùng để render.
+- **Bước đầu:** chụp 12 khung của demo `hoan-chinh`, chạy MediaPipe trong Chrome headless, so hộp
+  với mắt thường.
+- **Ghi chú:** 2026-11-11 — đã kiểm giấy phép (cả mã nguồn lẫn **trọng số model**): OpenCV **YuNet**
+  (`opencv_zoo`, mã Apache-2.0, model MIT, dùng qua `cv2.FaceDetectorYN`) là lựa chọn chính; MediaPipe
+  BlazeFace (Apache-2.0) dự phòng. Hướng cắm: như `transcribe.mjs` — Python tuỳ chọn (`pip install
+  mediapipe`, kéo theo OpenCV), báo lỗi rõ nếu chưa cài; model tải một lần vào `assets/models/`
+  (gitignore), ghim commit. Dùng hộp mặt để dời phụ đề/tiêu đề mở đầu và chọn nửa khung cho thẻ `split` (mục 5).
+
+### 17. Tách người khỏi nền: chữ sau lưng, người bật khỏi khung
+
+- **Là gì:** mặt nạ người theo từng khung → chữ to đặt *sau* người nói, người "bật" ra khỏi thẻ bo
+  góc, nhân bản người. Đây là nhóm hiệu ứng người xem nhận ra ngay là "dựng xịn".
+- **Ý tưởng từ:** MRT Keyword (`matte.py` dùng RobustVideoMatting). **RVM là GPL-3.0** → không
+  đóng gói được; chỉ gọi như công cụ ngoài người dùng tự cài, giống `transcribe.mjs`.
+- **Thay thế cần xem:** MediaPipe Selfie Segmentation (Apache-2.0), BiRefNet (MIT).
+- **Bước đầu:** xuất WebM có alpha cho 3 giây của demo, ghép chữ sau người bằng ffmpeg `overlay`.
+- **Ghi chú:** 2026-11-11 — giấy phép đã kiểm: MediaPipe selfie segmenter (Apache-2.0, cả model),
+  MODNet (Apache-2.0, README ghi rõ gồm cả model), rembg (MIT) với `u2net_human_seg` (Apache-2.0) hoặc
+  `birefnet-portrait` (MIT) khi cần viền tóc nét. **Không dùng** RVM (GPL-3.0) và `bria-rmbg` trong rembg
+  (phi thương mại). Cách ghép không cần kênh alpha: xuất mặt nạ xám theo timeline đã cắt, trong lượt
+  cuối `split` khung đã chỉnh màu → `alphamerge` với mặt nạ → `overlay` lên trên lớp chữ (chữ đốt bằng
+  một file ASS riêng) — người và nền cùng một màu grade.
+
+### 18. Video chỉ có giọng đọc → thẻ trên nền màu
+
+- **Là gì:** người dùng chỉ đưa file ghi âm. Mỗi câu thành một thẻ kit trên nền theo `--theme`,
+  phụ đề vẫn bám từng từ. Gần với `create-video` nhưng giữ nguyên giọng thật thay vì TTS.
+- **Cắm vào:** `talking-head.mjs` nhận đầu vào âm thanh (autocut đã đọc được `.wav`) + `suggest-cards`
+  với `maxHidden: 1`.
+- **Bước đầu:** dựng 30 giây từ `examples/talking-head-demo/transcript.json` chỉ lấy tiếng.
+- **Ghi chú:** không cần thư viện ngoài — nền `color=` của ffmpeg theo `--theme`; `validateEdl` cần một
+  chế độ bỏ luật "che người nói ≤ 55%" và cấm B-roll/`pip` khi không có hình.
+
+### 19. Ảnh bìa + tiêu đề, caption khi dựng xong
+
+- **Là gì:** sau render, chụp một khung có mặt rõ + chữ to làm ảnh bìa; viết tiêu đề ≤ 60 ký tự,
+  caption Facebook và TikTok từ transcript. MRT Keyword giao kèm ba thứ này mỗi video.
+- **Cắm vào:** `video-and-post` đã viết caption; thiếu ảnh bìa từ video người nói.
+- **Bước đầu:** `ffmpeg -ss` lấy khung ở hook, đè `--hook` bằng template `frame-trend-word-pop` 1 khung.
+- **Ghi chú:**
+
+### Đang dở (cập nhật 2026-11-11)
+
+Để người làm tiếp biết đang dừng ở đâu:
+
+- **Mục 16–17 — chạy thử MediaPipe:** đã chọn xong thư viện và kiểm giấy phép (ghi chú ở từng mục).
+  Đang cài `mediapipe` vào một venv riêng để thử thì **dừng lại vì ổ C gần đầy** (còn ~6 GB); venv dở
+  đã xoá. Chưa viết dòng code nào cho 16–17. Làm tiếp trên máy còn ≥ 2 GB trống:
+  `python -m venv .venv-vision && .venv-vision/Scripts/pip install mediapipe` (kéo theo OpenCV,
+  khoảng 300 MB), kiểm `cv2.FaceDetectorYN` có trong bản OpenCV đi kèm, rồi:
+  1. `scripts/video/face-boxes.mjs` — Python nhúng như `transcribe.mjs`, YuNet, 12 khung/đoạn → hộp đầu
+     theo toạ độ 1080×1920 sau crop; `talking-head.mjs --faces` dời phụ đề và `--hook` khỏi hộp đó.
+  2. `scripts/video/person-matte.mjs` — MediaPipe selfie segmenter → mặt nạ xám theo timeline đã cắt;
+     EDL `"behind": [{ "at": "<từ>", "dur": 2.5, "text": "GẤP 3" }]` → chữ sau lưng người nói.
+  Model tải một lần vào `assets/models/` (thêm vào .gitignore), ghim phiên bản.
+- **Mục 18 — chỉ có giọng đọc:** chưa bắt đầu; không cần thư viện ngoài (ghi chú ở mục 18).
+- **Mục 19 — ảnh bìa + caption:** chưa bắt đầu.
+- **Mục 1 — faster-whisper thật:** chưa chạy; `speech-cuts.mjs` mới được thử bằng transcript tự tạo và
+  transcript demo (bản tin sạch nên không có chỗ vấp nào) — cần một đoạn tự quay có "ờ", nói lại.
+
+---
+
 ## Đã xong
 
 Chuyển mục xuống đây khi làm xong, kèm ngày và commit.
@@ -170,6 +246,7 @@ Chuyển mục xuống đây khi làm xong, kèm ngày và commit.
 - 2026-11-11 — `transcribe.mjs`: tạo transcript có mốc từng từ (mới kiểm bằng test — xem mục 1).
 - 2026-11-11 — `watch-video` (claude-video, MIT) trong `skills/registry.json`.
 - 2026-11-11 — thẻ minh hoạ `cards` cho video người nói, demo `examples/talking-head-demo/hoan-chinh/`.
+- 2026-11-11 — dựng theo lời nói (ý tưởng từ MRT Keyword): `speech-cuts.mjs`, `talking-head.mjs --cut-words`, thẻ neo theo từ, `suggest-cards.mjs`, `--music` tự nhỏ dưới giọng, `"sfx"` trên thẻ; skill `talking-head-edit`.
 
 ## Đã loại
 
@@ -185,3 +262,4 @@ Ghi lại để lần khảo sát sau không đề xuất lại:
 | VoiceStudio | AGPL-3.0 — không đóng gói được; chỉ nên nhắc trong tài liệu như một cách cài server giọng đọc |
 | Qwen3-ASR (cho phụ đề) | bộ căn mốc không hỗ trợ tiếng Việt |
 | Các mục "Vietnamese trending" khác trên TiniX | lạc chủ đề, hoặc là bản mod/auto-click không nên dùng |
+| Chép nguyên MRT Keyword (Phucanh-MRT/mrtkeyword) vào kit | không có file LICENSE → mặc định giữ mọi quyền; code Remotion (giấy phép công ty), font, âm thanh và 62 hiệu ứng đều không đóng gói được. Đã lấy **ý tưởng** (mục 16–19 và docs/26 §2c), tự viết lại. Nếu tác giả thêm giấy phép mở, xem lại |

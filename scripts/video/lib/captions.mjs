@@ -256,15 +256,17 @@ export function toAssActive(
 /** Flatten a transcript into [{w, start, end}]. Accepts {segments:[{words:[…]}]}, a bare word array, or whisper.cpp's {transcription:[…]}. */
 export function wordsFromTranscript(t) {
   const out = [];
-  const push = (w) => {
+  const push = (w, seg) => {
     const text = String(w.w ?? w.word ?? w.text ?? "").trim();
     const start = Number(w.start ?? w.offsets?.from / 1000);
     const end = Number(w.end ?? w.offsets?.to / 1000);
-    if (text && Number.isFinite(start) && Number.isFinite(end) && end >= start) out.push({ w: text, start, end });
+    if (text && Number.isFinite(start) && Number.isFinite(end) && end >= start)
+      out.push(seg === undefined ? { w: text, start, end } : { w: text, start, end, seg });
   };
-  if (Array.isArray(t)) t.forEach(push);
-  else if (Array.isArray(t?.segments)) for (const s of t.segments) (s.words ?? []).forEach(push);
-  else if (Array.isArray(t?.transcription)) t.transcription.forEach(push);
+  if (Array.isArray(t)) t.forEach((w) => push(w, Number.isInteger(w.seg) ? w.seg : undefined));
+  // `seg` = the sentence a word belongs to; lib/speech-edit.mjs uses it to spot retakes
+  else if (Array.isArray(t?.segments)) t.segments.forEach((s, k) => (s.words ?? []).forEach((w) => push(w, k)));
+  else if (Array.isArray(t?.transcription)) t.transcription.forEach((w) => push(w));
   return out.sort((a, b) => a.start - b.start);
 }
 

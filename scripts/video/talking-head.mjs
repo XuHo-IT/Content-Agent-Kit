@@ -20,6 +20,10 @@
 //     "broll":    [ { "at": 66.8, "src": 40.0, "dur": 2.6, "crop": "315:560:482:0" }, … ],
 //     "cards":    [ { "at": 78.0, "dur": 4, "templateId": "frame-trend-stat-odometer",
 //                     "inputs": { "value": "30–50", … }, "layout": "full" | "pip" }, … ] }
+//     "fix":      [ ["Cờ lốt", "Claude"] ]      ← caption corrections, regex per word
+// A card's (or B-roll's) `at` may be a SPOKEN WORD instead of seconds — "at": "tăng", with
+// "near": 70 when the word is said more than once — resolved against --transcript.
+// A card may carry "sfx": "transition/cc0-whoosh-reverse" (under assets/sfx/, see sfx-cc0.mjs).
 // A B-roll's `at` must fall inside a segment; its picture comes from `src`, the audio stays the
 // segment's own. Keep B-roll under ~25% of a talking-head runtime — the face is the content.
 //
@@ -38,6 +42,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
 import { run } from "./lib/proc.mjs";
 import { parseSilences, keepSegments, summary, buildFilter, remapTime } from "./lib/autocut.mjs";
 import { wordsFromTranscript, toAssActiveWords, escapeSubtitlePath, escapeAss } from "./lib/captions.mjs";
@@ -45,6 +50,7 @@ import { resolveTheme, hslToRgb } from "./lib/theme.mjs";
 import { resolveStyle, hookStyle, STYLE_IDS, EDIT_STYLES } from "./lib/edit-styles.mjs";
 import { sourceToJoined, validateEdl, cardsOnCut } from "./lib/edl.mjs";
 import { composeTemplate } from "./lib/compose.mjs";
+import { findSpeechCuts, dropSpans, subtractSpans, resolveAnchors, sfxDensity, applyWordFixes } from "./lib/speech-edit.mjs";
 
 const argv = process.argv.slice(2);
 if (!argv.length || argv.includes("--help")) {
@@ -55,6 +61,12 @@ if (!argv.length || argv.includes("--help")) {
       `  --from <s> --to <s>    the part of the take to use (default: all)\n` +
       `  --crop <w:h:x:y>       source region to keep before the 9:16 reframe (drop TV bars/logos)\n` +
       `  --edl <json>           several ranges + B-roll + template cards, instead of --from/--to/--crop\n` +
+      `  --cut-words            also cut fillers, repeats and retakes found in --transcript (review first: speech-cuts.mjs)\n` +
+      `  --remove-words <a-b>   with --cut-words: also cut these word indices (from the speech-cuts review)\n` +
+      `  --keep-words <a-b>     with --cut-words: never cut these\n` +
+      `  --music <file>         background bed, ducked under the voice (licence: cc0/pdm/by — credit a BY track)\n` +
+      `  --music-lufs <n>       bed loudness before ducking (default -26)\n` +
+      `  --sfx-volume <0..1>    default level for a card's "sfx" (default 0.5)\n` +
       `  --style <id>           ${STYLE_IDS.join(" | ")} (default clean)\n` +
       Object.entries(EDIT_STYLES).map(([k, s]) => `                           ${k.padEnd(12)} ${s.label}\n`).join("") +
       `  --punch <0..0.3>       alternate punch-in per cut (default: the style's)\n` +
@@ -67,7 +79,8 @@ if (!argv.length || argv.includes("--help")) {
   );
   process.exit(argv.length ? 0 : 1);
 }
-const VALUE = new Set(["--transcript", "--from", "--to", "--crop", "--edl", "--style", "--punch", "--theme", "--hook", "--credit", "--font", "--out"]);
+const VALUE = new Set(["--transcript", "--from", "--to", "--crop", "--edl", "--style", "--punch", "--theme", "--hook", "--credit", "--font", "--out",
+  "--remove-words", "--keep-words", "--music", "--music-lufs", "--sfx-volume"]);
 const flag = (n, d = null) => (argv.includes(n) ? argv[argv.indexOf(n) + 1] : d);
 const input = argv.find((a, i) => !a.startsWith("--") && !VALUE.has(argv[i - 1]));
 const die = (m) => {
@@ -101,6 +114,17 @@ if (flag("--edl")) {
   const to = flag("--to") === null ? await probeDur(input) : Number(flag("--to"));
   edl = { segments: [{ from, to, crop: flag("--crop") }], broll: [] };
 }
+// the transcript, read once: anchors, word cuts and captions all come from it
+const srcWords = flag("--transcript") ? wordsFromTranscript(JSON.parse(fs.readFileSync(flag("--transcript"), "utf8"))) : null;
+const hasWordAnchor = [...(edl.cards ?? []), ...(edl.broll ?? [])].some((c) => typeof c.at === "string");
+if (hasWordAnchor) {
+  if (!srcWords) die("the EDL anchors cards to spoken words — pass --transcript");
+  const r = resolveAnchors(edl, srcWords);
+  if (r.problems.length) die(r.problems.join("\n  "));
+  edl = r.edl;
+}
+if (argv.includes("--cut-words") && !srcWords) die("--cut-words reads the words from --transcript");
+if (flag("--music") && !fs.existsSync(flag("--music"))) die(`music not found: ${flag("--music")}`);
 const problems = validateEdl(edl);
 if (problems.length) die(problems.join("\n  "));
 
@@ -165,7 +189,15 @@ try {
 
   // 2. autocut on the assembled timeline (already 9:16 — no re-crop)
   const log = await stderrOf(["-hide_banner", "-nostats", "-i", joined, "-af", "silencedetect=noise=-35dB:d=0.28", "-vn", "-f", "null", "-"]);
-  const keep = keepSegments(parseSilences(log), dur, { pad: 0.1, minKeep: 0.2 });
+  let keep = keepSegments(parseSilences(log), dur, { pad: 0.1, minKeep: 0.2 });
+  // 2b. cut by what was SAID: fillers, repeats, retakes (source time → assembled time)
+  if (argv.includes("--cut-words")) {
+    const used = srcWords.filter((w) => edl.segments.some((s) => w.start >= s.from && w.end <= s.to));
+    const drop = findSpeechCuts(used, { removeWords: flag("--remove-words", ""), keepWords: flag("--keep-words", "") });
+    const spans = sourceToJoined(dropSpans(used, drop).map((s) => ({ w: "", ...s })), segFiles);
+    keep = subtractSpans(keep, spans);
+    console.log(`[talking-head] word cuts: ${drop.size} word(s) out (${[...new Set(drop.values())].join(", ") || "none"}) — review with speech-cuts.mjs`);
+  }
   const sum = summary(keep, dur);
   console.log(`[talking-head] ${edl.segments.length} segment(s), ${(edl.broll ?? []).length} B-roll, ${(edl.cards ?? []).length} card(s) · ${sum.duration}s → ${sum.kept}s (${sum.cuts} cuts) · style ${flag("--style", "clean")}`);
   const cut = path.join(work, "cut.mp4");
@@ -183,8 +215,8 @@ try {
   const cap = { ...style.caption, ...(flag("--font") ? { font: flag("--font") } : {}) };
   if (cap.boxColour === "accent") cap.boxColour = accent;
   let ass;
-  if (flag("--transcript")) {
-    const words = sourceToJoined(wordsFromTranscript(JSON.parse(fs.readFileSync(flag("--transcript"), "utf8"))), segFiles)
+  if (srcWords) {
+    const words = sourceToJoined(applyWordFixes(srcWords, edl.fix ?? []), segFiles)
       // a word whose midpoint fell inside a removed pause was not spoken in the kept audio
       .filter((w) => keep.some((k) => (w.start + w.end) / 2 >= k.start && (w.start + w.end) / 2 <= k.end))
       .map((w) => ({ ...w, start: remapTime(w.start, keep), end: remapTime(w.end, keep) }))
@@ -233,14 +265,57 @@ try {
     fc.push(`color=c=${accent.replace("#", "0x")}:s=${W}x10:r=30:d=${cutDur.toFixed(2)}[bar]`);
     fc.push(`[sub][bar]overlay=x='-w+w*t/${cutDur.toFixed(3)}':y=${H - 10}:shortest=1[v]`);
   } else fc.push(`[sub]null[v]`);
-  await run("ffmpeg", ["-hide_banner", "-y", "-i", cut, ...placed.flatMap((c) => ["-i", c.file]), "-filter_complex", fc.join(";"), "-map", "[v]", "-map", "0:a",
-    "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", "-c:a", "copy", "-movflags", "+faststart", out], { trimErr: 1200 });
+  // 6. sound: a music bed ducked under the voice, and one sound per card that asks for it
+  const audioIn = [], afc = [], mixIn = ["[vo]"];
+  let nextIn = placed.length + 1;
+  const music = flag("--music");
+  if (music) {
+    const m = nextIn++;
+    audioIn.push("-stream_loop", "-1", "-i", music);
+    const D = cutDur.toFixed(3), lufs = Number(flag("--music-lufs", "-26"));
+    afc.push(`[0:a]asplit=2[vo][sc]`,
+      `[${m}:a]atrim=0:${D},asetpts=PTS-STARTPTS,loudnorm=I=${lufs}:TP=-3:LRA=11,aresample=48000,aformat=channel_layouts=stereo,` +
+        `afade=t=in:d=1,afade=t=out:st=${Math.max(0, cutDur - 2.5).toFixed(3)}:d=2.5[mus]`,
+      // the voice squeezes the bed: ratio 6, quick attack, slow release so it does not pump
+      `[mus][sc]sidechaincompress=threshold=0.02:ratio=6:attack=30:release=450[bed]`);
+    mixIn.push("[bed]");
+  } else afc.push(`[0:a]anull[vo]`);
+  const sfxEvents = [];
+  for (const c of placed.filter((c) => c.sfx)) {
+    const f = resolveSfx(c.sfx);
+    if (!f) { console.warn(`[talking-head] ⚠ card sfx "${c.sfx}" not found under assets/sfx/ — run sfx-cc0.mjs; skipped`); continue; }
+    // a whoosh leads into the cut; anything else lands with the card
+    const lead = c.sfxOffset ?? (/transition|whoosh|zip/.test(c.sfx) ? -0.08 : 0);
+    const t = Math.max(0, c.start + lead), k = nextIn++;
+    audioIn.push("-i", f);
+    const ms = Math.round(t * 1000), vol = Number(c.sfxVolume ?? flag("--sfx-volume", "0.5"));
+    afc.push(`[${k}:a]aresample=48000,aformat=channel_layouts=stereo,volume=${vol},adelay=${ms}|${ms}[fx${sfxEvents.length}]`);
+    mixIn.push(`[fx${sfxEvents.length}]`);
+    sfxEvents.push({ t: +t.toFixed(3), label: c.sfx });
+  }
+  for (const w of sfxDensity(sfxEvents, { duration: cutDur })) console.warn(`[talking-head] ⚠ sfx ${w}`);
+  const mixed = mixIn.length > 1;
+  if (mixed) afc.push(`${mixIn.join("")}amix=inputs=${mixIn.length}:duration=first:normalize=0,alimiter=limit=0.94[a]`);
+  await run("ffmpeg", ["-hide_banner", "-y", "-i", cut, ...placed.flatMap((c) => ["-i", c.file]), ...audioIn,
+    "-filter_complex", [...fc, ...(mixed ? afc : [])].join(";"), "-map", "[v]", "-map", mixed ? "[a]" : "0:a",
+    "-c:v", "libx264", "-preset", "medium", "-crf", "20", "-pix_fmt", "yuv420p", ...(mixed ? ["-c:a", "aac", "-b:a", "192k"] : ["-c:a", "copy"]),
+    "-movflags", "+faststart", out], { trimErr: 1200 });
+  if (music) console.log(`[talking-head] music bed: ${path.basename(music)} at ${flag("--music-lufs", "-26")} LUFS, ducked under the voice`);
 
   fs.writeFileSync(
     out.replace(/\.mp4$/, "") + ".cuts.json",
-    JSON.stringify({ input: path.basename(input), style: flag("--style", "clean"), punch, progress, edl, summary: sum, keep }, null, 2) + "\n",
+    JSON.stringify({ input: path.basename(input), style: flag("--style", "clean"), punch, progress, cutWords: argv.includes("--cut-words"),
+      music: music ? path.basename(music) : null, sfx: sfxEvents, edl, summary: sum, keep }, null, 2) + "\n",
   );
   console.log(`[talking-head] ✓ ${out}  (${cutDur.toFixed(1)}s)`);
 } finally {
   fs.rmSync(work, { recursive: true, force: true });
+}
+
+/** "transition/cc0-whoosh-reverse" → assets/sfx/transition/cc0-whoosh-reverse.mp3 (or any path that exists). */
+function resolveSfx(name) {
+  const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../assets/sfx");
+  for (const p of [name, path.join(root, name), ...[".mp3", ".wav", ".ogg"].map((e) => path.join(root, name + e))])
+    if (fs.existsSync(p) && fs.statSync(p).isFile()) return p;
+  return null;
 }
