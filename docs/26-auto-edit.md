@@ -160,6 +160,35 @@ Thời gian từng từ được chia theo mật độ âm tiết bên trong m�
 xác tuyệt đối (render.mjs tự dựng track âm thanh). Không bao giờ để một nhóm vắt qua dấu chấm
 câu. Dấu tiếng Việt và chữ HOA (`ĐỪNG`, `LỠ`) được test.
 
+### 2d. Thẻ `split`, video chỉ có giọng, chữ tránh mặt, chữ sau lưng, ảnh bìa
+
+```bash
+node scripts/video/talking-head.mjs quay.mp4 --transcript t.json --edl edl.json --faces --cover --hook "…"
+node scripts/video/talking-head.mjs giong.wav --transcript t.json --edl edl.json --theme clinic-sage   # chỉ có giọng
+node scripts/video/suggest-cards.mjs t.json --voice-only --out edl.json
+node scripts/video/render-batch.mjs tuan-46.txt            # dựng cả danh sách script.json, lỗi một cái không dừng cả lô
+```
+
+| việc | cách làm | vì sao |
+| --- | --- | --- |
+| thẻ `split` | thẻ ở nửa trên, người nói ở nửa dưới, đường accent 6 px giữa hai nửa; `"speakerY"` chọn dải 960 px của người nói (`--faces` tự chọn) | mặt vẫn to, thẻ có hẳn nửa màn hình |
+| khung thẻ `split` | render dọc 9:16, tìm dải có nội dung (khung trừ bản làm mờ của chính nó → `cropdetect`), cắt dải đó nguyên cỡ; dải cao hơn 960 px thì thu nhỏ trên nền mờ | bản 16:9 thu về rộng 1080 thì chữ quá nhỏ trên điện thoại — đã thử |
+| chỉ có giọng | đầu vào `.wav/.mp3/.m4a` (hoặc video không hình) → nền phẳng màu theo `--theme`; không punch-in; cấm B-roll, `pip`/`split`, `behind`; bỏ trần "che người nói ≤ 55%" | không có hình thì thẻ *là* hình |
+| gợi ý cho giọng đọc | `suggest-cards --voice-only`: toàn `full`, 12 thẻ/phút, cách 1,5 s, câu không khớp luật nào nhận `frame-kinetic-type` / `frame-trend-word-pop` xen kẽ | câu không có thẻ chỉ là nền trơn |
+| tránh mặt (`--faces`) | YuNet dò mặt 4 khung mỗi cửa sổ ~2 s; hộp mặt nới lên tóc 45%, xuống cằm 20%; phụ đề và hook dời xuống dưới cằm hoặc lên trên đầu nếu còn chỗ trong vùng an toàn, không thì để nguyên | gộp một hộp cho cả đoạn thì hộp phình ra hết khung (một đoạn có nhiều cảnh) |
+| chữ sau lưng | EDL `"behind": [{ "at": "gấp", "dur": 2.5, "text": "GẤP 3" }]` — chữ vẽ lên khung đã chỉnh màu, người được tách bằng mặt nạ (MediaPipe selfie segmenter) rồi đặt lại lên trên | người và nền cùng một màu grade, không cần video có kênh alpha |
+| âm thanh thẻ tự động | thẻ không ghi `"sfx"` nhận `transition/cc0-paper-flip` (template kiểu myth/error → `error-beep`, verdict/result → `tada`) nếu tiếng trước đã cách ≥ 3 s; `"sfx": false` hoặc `--no-card-sfx` để tắt | một tiếng lật trang nhẹ là thẻ "đã đến", không thành ồn |
+| kiểm slot thẻ | `inputs` của thẻ đối chiếu với slot template thật đọc; sai tên → dừng ngay, gợi ý tên đúng | tên slot sai không làm hỏng render — template âm thầm hiện **chữ mẫu** của nó |
+| ảnh bìa (`--cover`) | khung lấy **trước** khi đốt phụ đề, qua cùng grade; mặt to nhất trong 40% đầu, không rơi vào thẻ; tiêu đề ≤ 60 ký tự theo kiểu hook, to hơn 30%, dời khỏi mặt | lưới nền tảng cắt tiêu đề dài; mặt người làm người ta dừng lướt |
+| bản nháp đăng bài | `<out>.post.md`: lời đã nói *sau khi cắt*, theo câu; giới hạn Facebook (125 ký tự trước "Xem thêm"), TikTok (≤ 150 đọc hết), YouTube (tiêu đề ≤ 100); dòng ghi nguồn nếu có `--credit` | chất liệu để agent viết caption — không phải caption |
+
+Thị giác máy chạy bằng Python, **tuỳ chọn** như `transcribe.mjs`: cài một lần
+`python -m venv .venv-vision && .venv-vision\Scripts\pip install mediapipe` (kéo theo OpenCV).
+Model tải lần đầu vào `assets/models/`, ghim URL và kiểm sha256: YuNet (opencv_zoo, model MIT,
+code Apache-2.0), selfie segmenter (Apache-2.0). **Không dùng** RobustVideoMatting (GPL-3.0) và
+`bria-rmbg` (phi thương mại). Chữ sau lưng đẹp nhất ở cảnh trung; cận cảnh thì đầu che gần hết
+chữ — script cảnh báo khi người chiếm > 60% khung. Test: `tests/talking-head-extras.test.mjs`.
+
 ## 3. Template "trend" — ngữ pháp dựng 2026 cho scene
 
 `frame-trend-word-pop` mang đúng kiểu caption từng từ vào *thiết kế khung* (cho hook 2 giây
@@ -193,3 +222,18 @@ reel pacing rules, `--music` ducks a -26 LUFS bed under the voice with a sidecha
 and a card's `"sfx"` is placed with a density check. Ideas from MRT Keyword (no licence
 published — rules re-derived, no code copied). Workflow: `skills/talking-head-edit/`.
 Tests: `tests/speech-edit.test.mjs`.
+
+Layouts, voice-only, faces, text behind, covers (§2d): a `split` card puts the card's content
+band (found on a portrait render: the frame minus a heavy blur of itself, then cropdetect) at
+full size on the top half and the speaker's 960-px band on the bottom. An audio-only input
+becomes a flat `--theme` background where the cards are the picture; `suggest-cards
+--voice-only` drafts all-`full` cards with text fallbacks for sentences no rule matches.
+`--faces` (Python + mediapipe, optional) finds the head per ~2 s window with OpenCV YuNet and
+moves captions and the hook off it. `"behind"` text is drawn on the graded frame and the
+person, masked with MediaPipe's selfie segmenter, is laid back over it. Cards that name no
+sound get a soft automatic one, spaced ≥ 3 s. Card `inputs` are checked against the slots the
+template reads — a wrong name otherwise renders the template's sample text. `--cover` writes
+a cover from a pre-caption frame plus a post brief (what was said, platform limits);
+`cover.mjs` does the cover for any video. `render-batch.mjs` renders a list of script.json
+files, skipping finished ones, never stopping on a failure. Tests:
+`tests/talking-head-extras.test.mjs`.

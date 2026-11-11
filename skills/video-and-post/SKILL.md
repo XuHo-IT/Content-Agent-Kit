@@ -54,6 +54,12 @@ Separate from the narration — this is the text of the social post, not what is
 
 Never put the source's copyrighted text in the caption. Summarize in your own words and link.
 
+**Cover image** — the platforms show it before anyone presses play. A talking-head short gets
+one from `talking-head.mjs --cover` (taken before the captions were burned, plus a
+`<out>.post.md` brief of what was said); any other video from
+`node scripts/video/cover.mjs video.mp4 --title "<≤ 60 ký tự>" --faces --style <the video's>`.
+Pass it as `--thumbnail` below.
+
 ## 4. Review gate (mandatory)
 
 Invoke the **`review-gate`** skill on the item — an *independent* reviewer, scoring the video
@@ -74,7 +80,7 @@ Pass → continue. Fail → fix (2–3 rounds) → drop and log why.
 ```bash
 node scripts/social/make-post.mjs --video brain/<slug>/video.mp4 \
   --post brain/<slug>/caption.txt --comment brain/<slug>/comment.txt \
-  --title "…" --hashtags "#ai #coding" \
+  --title "…" --hashtags "#ai #coding" --thumbnail brain/<slug>/cover.jpg \
   --platforms tiktok,youtube_shorts,facebook_reels,instagram_reels --dry-run
 ```
 

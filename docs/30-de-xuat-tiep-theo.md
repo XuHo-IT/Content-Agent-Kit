@@ -17,8 +17,8 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 | 1 | Chạy thử `transcribe.mjs` với faster-whisper thật | phụ đề | S | cao | chưa làm |
 | 2 | Giọng đọc ZeroTTS qua `openai-speech` | giọng đọc | S–M | cao | chưa làm |
 | 3 | Phụ đề tiếng Việt chính xác hơn: PhoWhisper + căn mốc từ | phụ đề | M | cao | chưa làm |
-| 4 | Dựng hàng loạt từ một danh sách | video | M | trung bình | chưa làm |
-| 5 | Thẻ minh hoạ: kiểu `split` và âm thanh tự động | video | S–M | trung bình | chưa làm |
+| 4 | Dựng hàng loạt từ một danh sách | video | M | trung bình | xong |
+| 5 | Thẻ minh hoạ: kiểu `split` và âm thanh tự động | video | S–M | trung bình | xong |
 | 6 | Nhân bản giọng nói với VoxCPM2 | giọng đọc | M | trung bình | chưa làm |
 | 7 | agent-browser: chụp và quay cuộn trang web làm B-roll | video | S–M | trung bình | chưa làm |
 | 8 | Đo "AI có nhắc tới thương hiệu không" (ý tưởng NiubiGEO) | SEO/GEO | M | trung bình | chưa làm |
@@ -26,13 +26,13 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 | 10 | Video thuyết trình 16:9 (garden-skills) | video | S | thấp–trung bình | chưa làm |
 | 11 | Scrapling làm crawler dự phòng | thu thập | M | trung bình | chưa làm |
 | 12 | Kiểm lại căn cứ pháp lý của `ads-policy-check` | quảng cáo | S | cao | định kỳ |
-| 13 | Quyết định về `vibe-motion` (không có giấy phép) | dọn dẹp | S | thấp | chưa làm |
+| 13 | Quyết định về `vibe-motion` (không có giấy phép) | dọn dẹp | S | thấp | xong |
 | 14 | Nghe lại chữ "chuyển về" trong transcript demo | dọn dẹp | S | thấp | chưa làm |
-| 15 | Kiểm commit ghim của `marketingskills` | dọn dẹp | S | thấp | chưa làm |
-| 16 | Thẻ và phụ đề tự tránh khuôn mặt | video | M | cao | đang thử |
+| 15 | Kiểm commit ghim của `marketingskills` | dọn dẹp | S | thấp | xong |
+| 16 | Thẻ và phụ đề tự tránh khuôn mặt | video | M | cao | xong |
 | 17 | Tách người khỏi nền: chữ sau lưng, người bật khỏi khung | video | L | trung bình | đang thử |
-| 18 | Video chỉ có giọng đọc → thẻ trên nền màu | video | M | trung bình | chưa làm |
-| 19 | Ảnh bìa + tiêu đề, caption Facebook/TikTok khi dựng xong | video | S | trung bình | chưa làm |
+| 18 | Video chỉ có giọng đọc → thẻ trên nền màu | video | M | trung bình | xong |
+| 19 | Ảnh bìa + tiêu đề, caption Facebook/TikTok khi dựng xong | video | S | trung bình | xong |
 
 ---
 
@@ -86,7 +86,7 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 - **Là gì:** một file danh sách (mỗi dòng một `script.json`); dựng lần lượt, **một video lỗi không
   làm dừng cả lô**, cuối cùng báo video nào xong, video nào lỗi. Hiện `render-all-galleries.mjs`
   chỉ làm việc này cho ảnh danh mục.
-- **Ghi chú:**
+- **Ghi chú:** 2026-11-12 — xong: `scripts/video/render-batch.mjs` (danh sách hoặc thư mục, bỏ qua video đã dựng, `--validate-only`, báo cáo `<list>.report.json`).
 
 ### 5. Thẻ minh hoạ: kiểu `split` và âm thanh tự động
 
@@ -94,7 +94,7 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
   nhận `"sfx"` (đặt tay, có kiểm mật độ) — phần còn lại là `split` và tự chọn âm thanh theo template.
 - **Thêm:** `split` — thẻ ở nửa trên, người nói ở nửa dưới (kiểu bảng trắng của ghost-editor); và
   tự gắn một âm thanh nhẹ (`transition/cc0-paper-flip`) khi thẻ hiện, có thể tắt.
-- **Ghi chú:**
+- **Ghi chú:** 2026-11-12 — xong: `"layout": "split"` (render dọc, cắt dải có nội dung — bản 16:9 chữ quá nhỏ, đã thử) và âm thanh tự động theo template, cách ≥ 3 s, tắt bằng `"sfx": false` / `--no-card-sfx`.
 
 ### 7. agent-browser: chụp và quay cuộn trang web
 
@@ -151,7 +151,7 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 
 - `skills/registry.json` có `vibe-motion/skills` với giấy phép "NONE". Kit không đóng gói nó, chỉ
   cho tải về máy người dùng (xem `NOTICE.md` §2), nhưng nên cân nhắc **bỏ hẳn** hoặc ghi "chỉ tham khảo".
-- **Ghi chú:**
+- **Ghi chú:** 2026-11-12 — **giữ**, như đã ghi ở `docs/17` §3: kit không chứa bản nào, trình cài in rõ "không giấy phép — chỉ dùng trên máy, không phân phối lại" và ghi vào NOTICE. Upstream vẫn hoạt động (cập nhật 11/2026) và tự in lệnh cài.
 
 ### 14. Nghe lại chữ "chuyển về" trong transcript demo
 
@@ -163,7 +163,7 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 
 - `coreyhaines31/marketingskills` (MIT) đang trending trở lại — kiểm mục trong `skills/registry.json`
   còn trỏ tới bản mới, và skill còn cài được (`node scripts/install-skills.mjs --list`).
-- **Ghi chú:**
+- **Ghi chú:** 2026-11-12 — còn tốt: repo hoạt động, MIT, `install-skills.mjs --list` liệt kê được. Registry trỏ theo nhánh `main` là có chủ ý — `install-skills` ghim sha vào NOTICE lúc cài (lần kiểm: `3e72962`).
 
 ---
 
@@ -178,7 +178,7 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
   MediaPipe Face Detection (Apache-2.0) có bản WASM chạy trong Chrome mà kit đã dùng để render.
 - **Bước đầu:** chụp 12 khung của demo `hoan-chinh`, chạy MediaPipe trong Chrome headless, so hộp
   với mắt thường.
-- **Ghi chú:** 2026-11-11 — đã kiểm giấy phép (cả mã nguồn lẫn **trọng số model**): OpenCV **YuNet**
+- **Ghi chú:** 2026-11-11 — đã kiểm giấy phép (cả mã nguồn lẫn **trọng số model**): OpenCV **YuNet** 2026-11-12 — xong: `face-boxes.mjs` + `talking-head --faces` (YuNet, cửa sổ ~2 s — một hộp cho cả đoạn phình ra hết khung vì một đoạn có nhiều cảnh).
   (`opencv_zoo`, mã Apache-2.0, model MIT, dùng qua `cv2.FaceDetectorYN`) là lựa chọn chính; MediaPipe
   BlazeFace (Apache-2.0) dự phòng. Hướng cắm: như `transcribe.mjs` — Python tuỳ chọn (`pip install
   mediapipe`, kéo theo OpenCV), báo lỗi rõ nếu chưa cài; model tải một lần vào `assets/models/`
@@ -192,7 +192,7 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
   đóng gói được; chỉ gọi như công cụ ngoài người dùng tự cài, giống `transcribe.mjs`.
 - **Thay thế cần xem:** MediaPipe Selfie Segmentation (Apache-2.0), BiRefNet (MIT).
 - **Bước đầu:** xuất WebM có alpha cho 3 giây của demo, ghép chữ sau người bằng ffmpeg `overlay`.
-- **Ghi chú:** 2026-11-11 — giấy phép đã kiểm: MediaPipe selfie segmenter (Apache-2.0, cả model),
+- **Ghi chú:** 2026-11-11 — giấy phép đã kiểm: MediaPipe selfie segmenter (Apache-2.0, cả model), 2026-11-12 — xong phần "chữ sau lưng": `person-matte.mjs` + EDL `"behind"`. Người bật khỏi khung và nhân bản người: chưa làm (mặt nạ đã có, chỉ còn phần ghép).
   MODNet (Apache-2.0, README ghi rõ gồm cả model), rembg (MIT) với `u2net_human_seg` (Apache-2.0) hoặc
   `birefnet-portrait` (MIT) khi cần viền tóc nét. **Không dùng** RVM (GPL-3.0) và `bria-rmbg` trong rembg
   (phi thương mại). Cách ghép không cần kênh alpha: xuất mặt nạ xám theo timeline đã cắt, trong lượt
@@ -206,7 +206,7 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 - **Cắm vào:** `talking-head.mjs` nhận đầu vào âm thanh (autocut đã đọc được `.wav`) + `suggest-cards`
   với `maxHidden: 1`.
 - **Bước đầu:** dựng 30 giây từ `examples/talking-head-demo/transcript.json` chỉ lấy tiếng.
-- **Ghi chú:** không cần thư viện ngoài — nền `color=` của ffmpeg theo `--theme`; `validateEdl` cần một
+- **Ghi chú:** không cần thư viện ngoài — nền `color=` của ffmpeg theo `--theme`; `validateEdl` cần một 2026-11-12 — xong: đầu vào âm thanh → nền theo `--theme`; `suggest-cards --voice-only` có thẻ chữ dự phòng cho câu không khớp luật.
   chế độ bỏ luật "che người nói ≤ 55%" và cấm B-roll/`pip` khi không có hình.
 
 ### 19. Ảnh bìa + tiêu đề, caption khi dựng xong
@@ -215,26 +215,18 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
   caption Facebook và TikTok từ transcript. MRT Keyword giao kèm ba thứ này mỗi video.
 - **Cắm vào:** `video-and-post` đã viết caption; thiếu ảnh bìa từ video người nói.
 - **Bước đầu:** `ffmpeg -ss` lấy khung ở hook, đè `--hook` bằng template `frame-trend-word-pop` 1 khung.
-- **Ghi chú:**
+- **Ghi chú:** 2026-11-12 — xong: `cover.mjs` + `talking-head --cover` (khung trước khi đốt phụ đề) + `<out>.post.md` (lời đã nói + giới hạn từng nền tảng; caption vẫn do agent viết).
 
-### Đang dở (cập nhật 2026-11-11)
+### Đang dở (cập nhật 2026-11-12)
 
-Để người làm tiếp biết đang dừng ở đâu:
-
-- **Mục 16–17 — chạy thử MediaPipe:** đã chọn xong thư viện và kiểm giấy phép (ghi chú ở từng mục).
-  Đang cài `mediapipe` vào một venv riêng để thử thì **dừng lại vì ổ C gần đầy** (còn ~6 GB); venv dở
-  đã xoá. Chưa viết dòng code nào cho 16–17. Làm tiếp trên máy còn ≥ 2 GB trống:
-  `python -m venv .venv-vision && .venv-vision/Scripts/pip install mediapipe` (kéo theo OpenCV,
-  khoảng 300 MB), kiểm `cv2.FaceDetectorYN` có trong bản OpenCV đi kèm, rồi:
-  1. `scripts/video/face-boxes.mjs` — Python nhúng như `transcribe.mjs`, YuNet, 12 khung/đoạn → hộp đầu
-     theo toạ độ 1080×1920 sau crop; `talking-head.mjs --faces` dời phụ đề và `--hook` khỏi hộp đó.
-  2. `scripts/video/person-matte.mjs` — MediaPipe selfie segmenter → mặt nạ xám theo timeline đã cắt;
-     EDL `"behind": [{ "at": "<từ>", "dur": 2.5, "text": "GẤP 3" }]` → chữ sau lưng người nói.
-  Model tải một lần vào `assets/models/` (thêm vào .gitignore), ghim phiên bản.
-- **Mục 18 — chỉ có giọng đọc:** chưa bắt đầu; không cần thư viện ngoài (ghi chú ở mục 18).
-- **Mục 19 — ảnh bìa + caption:** chưa bắt đầu.
-- **Mục 1 — faster-whisper thật:** chưa chạy; `speech-cuts.mjs` mới được thử bằng transcript tự tạo và
-  transcript demo (bản tin sạch nên không có chỗ vấp nào) — cần một đoạn tự quay có "ờ", nói lại.
+- **Mục 17 — phần còn lại:** người "bật" khỏi khung thẻ và nhân bản người. Mặt nạ đã có
+  (`person-matte.mjs`); còn thiếu bước ghép: thẻ bo góc ở dưới, người (qua mặt nạ) ở trên, phần
+  người vượt ra ngoài mép thẻ.
+- **Mục 1 — faster-whisper thật:** vẫn chưa chạy. Các bài thử 2026-11-12 dùng transcript demo
+  ánh xạ sang timeline của `clean.mp4`, không phải transcript nhận dạng mới.
+- **Mục 14:** vẫn cần một người nghe lại giây 66,8.
+- **Môi trường thị giác:** đã thử trên Python 3.12 + mediapipe 1.2.2 + OpenCV 5.0 (Windows).
+  Chưa thử macOS/Linux.
 
 ---
 
@@ -246,6 +238,7 @@ Chuyển mục xuống đây khi làm xong, kèm ngày và commit.
 - 2026-11-11 — `transcribe.mjs`: tạo transcript có mốc từng từ (mới kiểm bằng test — xem mục 1).
 - 2026-11-11 — `watch-video` (claude-video, MIT) trong `skills/registry.json`.
 - 2026-11-11 — thẻ minh hoạ `cards` cho video người nói, demo `examples/talking-head-demo/hoan-chinh/`.
+- 2026-11-12 — `render-batch.mjs` (mục 4); thẻ `split` + âm thanh thẻ tự động (mục 5); `face-boxes.mjs` + `--faces` (mục 16); `person-matte.mjs` + chữ `behind` (mục 17, một phần); video chỉ có giọng + `suggest-cards --voice-only` (mục 18); `cover.mjs` + `--cover` + bản nháp đăng bài (mục 19); kiểm slot của thẻ trước khi render; test `tests/talking-head-extras.test.mjs`. Mục 13, 15: đã kiểm, giữ nguyên.
 - 2026-11-11 — dựng theo lời nói (ý tưởng từ MRT Keyword): `speech-cuts.mjs`, `talking-head.mjs --cut-words`, thẻ neo theo từ, `suggest-cards.mjs`, `--music` tự nhỏ dưới giọng, `"sfx"` trên thẻ; skill `talking-head-edit`.
 
 ## Đã loại
