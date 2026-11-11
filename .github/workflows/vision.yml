@@ -41,7 +41,15 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: ffmpeg
+      # setup-ffmpeg supports x64 only; macOS runners are arm64 — use each system's own package manager
+      - name: ffmpeg (Linux) + the GL libraries MediaPipe loads
+        if: runner.os == 'Linux'
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg libegl1 libgles2
+      - name: ffmpeg (macOS)
+        if: runner.os == 'macOS'
+        run: brew install ffmpeg
+      - name: ffmpeg (Windows)
+        if: runner.os == 'Windows'
         uses: FedericoCarboni/setup-ffmpeg@v3
 
       - name: Install the vision extras (as docs/26 tells users to)

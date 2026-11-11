@@ -91,6 +91,8 @@ export function runPython(code, args = [], { what = "vision" } = {}) {
   if (r.status !== 0) {
     const err = String(r.stderr || "");
     if (/No module named '(cv2|mediapipe|numpy)'/.test(err)) throw new Error(`${what} needs mediapipe (it brings OpenCV) — set up once:\n  ${SETUP}`);
+    // headless Linux: MediaPipe's segmenter loads EGL/GLES even on CPU (found by the vision CI)
+    if (/lib(EGL|GLESv2)\.so/.test(err)) throw new Error(`${what}: MediaPipe needs the system GL libraries on Linux — install them once:\n  sudo apt-get install -y libegl1 libgles2`);
     throw new Error(err.trim().split("\n").slice(-4).join("\n"));
   }
   const line = r.stdout.trim().split("\n").at(-1);

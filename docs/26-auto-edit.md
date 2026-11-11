@@ -194,7 +194,7 @@ node scripts/video/render-batch.mjs tuan-46.txt            # dựng cả danh s�
 So một model mới với transcript đã sửa tay trước khi đổi: `node scripts/video/transcript-diff.mjs checked.json model-a.json model-b.json`.
 
 Thị giác máy chạy bằng Python, **tuỳ chọn** như `transcribe.mjs`: cài một lần
-`python -m venv .venv-vision && .venv-vision\Scripts\pip install mediapipe` (kéo theo OpenCV).
+`python -m venv .venv-vision && .venv-vision\Scripts\pip install mediapipe` (kéo theo OpenCV). Trên Linux không giao diện cài thêm `sudo apt-get install -y libegl1 libgles2` (mediapipe cần dù chạy CPU). CI chạy trên Windows, macOS và Linux.
 Model tải lần đầu vào `assets/models/`, ghim URL và kiểm sha256: YuNet (opencv_zoo, model MIT,
 code Apache-2.0), selfie segmenter (Apache-2.0). **Không dùng** RobustVideoMatting (GPL-3.0) và
 `bria-rmbg` (phi thương mại). Chữ sau lưng đẹp nhất ở cảnh trung; cận cảnh thì đầu che gần hết
