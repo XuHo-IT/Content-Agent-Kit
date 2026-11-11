@@ -93,7 +93,7 @@ One hundred and thirty-three are original to content-agent-kit (MIT, same as thi
 `frame-polygraph` · `frame-thermal-cam` · `frame-ballistics-path` · `frame-dispatch-waveform` · `frame-forensic-chat` ·
 `frame-redacted-dossier` · `frame-archive-newspaper` · `frame-fingerprint-match` · `frame-witness-polaroid` ·
 `frame-crime-scene-map` · `frame-satellite-track` · `frame-corkboard-threads` ·
-`frame-forensic-instrument` · `frame-case-dashboard` ·
+`frame-forensic-instrument` · `frame-case-dashboard` · `frame-strata-section` · `frame-descent-gauge` ·
 `frame-opus-cursor-flow` · `frame-opus-handdrawn` · `frame-opus-collage-stopmo` ·
 `frame-opus-shader-orb` · `frame-opus-pixel-arcade` · `frame-opus-kinetic-reel` ·
 `frame-trend-word-pop` · `frame-trend-search-morph` · `frame-trend-bar-race` · `frame-trend-stat-odometer` ·

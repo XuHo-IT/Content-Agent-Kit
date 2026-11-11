@@ -84,6 +84,17 @@ const FORENSIC_RULES = [
     hint: "Assistant preamble — the wrapper around the answer, not the answer.",
   },
   {
+    id: "unresolved-path",
+    severity: "error",
+    // A caption that IS a file path. This is what a broken content reference looks like once
+    // it reaches the wire: brain/truecrime/ann-marie-burr/caption.txt went out as a whole
+    // Facebook post because nothing here recognised it as machine text. make-post.mjs now
+    // throws before this point, but the gate must catch it independently — the path can also
+    // arrive inlined by a generator rather than dereferenced from a queue field.
+    re: /^[ \t]*(?:\.{0,2}[\\/])?(?:[\w.-]+[\\/])+[\w.-]+\.(?:txt|md|json|jpg|png|mp4)[ \t]*$/gimu,
+    hint: "The body is a file path, not prose. The reference was never dereferenced.",
+  },
+  {
     id: "placeholder",
     severity: "warning",
     // Warning, not error: Vietnamese editorial prose legitimately uses square brackets for
@@ -248,6 +259,16 @@ export function stripLeaks(text) {
 export const READER_FIELDS = ["title", "post", "comment"];
 
 /**
+ * Floor for a publishable caption. Set below the shortest real caption in this repo
+ * (the story teasers run ~450 chars) and far above every accident seen so far — the
+ * ann-marie-burr path was 45.
+ */
+export const MIN_POST_CHARS = 200;
+
+/** Han, Hiragana, Katakana, Hangul. */
+const CJK_RE = /[぀-ヿ㐀-䶿一-鿿豈-﫿가-힯]/gu;
+
+/**
  * Validate a whole post payload. Same contract as `video/lib/validate.mjs`:
  * `{errors, warnings, stats}` with plain-string messages.
  */
@@ -260,6 +281,36 @@ export function validatePost(payload) {
   }
   if (!payload.post || !String(payload.post).trim()) {
     errors.push("`post` is empty — there is nothing to publish.");
+  }
+
+  // A real caption is prose. Anything this short is a filename, an id, or a truncated
+  // write — all of which have reached the Page before. Emptiness was already caught; this
+  // catches the "technically non-empty" cases that slipped past it.
+  const body = String(payload.post ?? "").trim();
+  if (body && body.length < MIN_POST_CHARS) {
+    errors.push(
+      `\`post\` is ${body.length} characters — under the ${MIN_POST_CHARS} minimum. ` +
+      `Too short to be a caption; this is usually a broken reference or a truncated write.`,
+    );
+  }
+
+  // CJK must never survive a Vietnamese pipeline. Sources are Chinese, so a dropped
+  // translation shows up as Han characters sitting in the middle of Vietnamese prose.
+  for (const field of READER_FIELDS) {
+    const cjk = String(payload[field] ?? "").match(CJK_RE);
+    if (cjk) {
+      errors.push(
+        `\`${field}\` contains CJK characters (${[...new Set(cjk)].slice(0, 8).join("")}) — ` +
+        `untranslated source text. Vietnamese output must be 100% Vietnamese.`,
+      );
+    }
+  }
+
+  // Warning, not error: a caption without tags still reads fine, and blocking would stop
+  // streams that have shipped untagged for months. But untagged is almost always an
+  // oversight — every true-crime caption in this repo went out with none.
+  if (body && !/#\p{L}/u.test(body)) {
+    warnings.push("`post` has no hashtags — reach on Facebook suffers without them.");
   }
 
   for (const field of READER_FIELDS) {

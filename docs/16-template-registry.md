@@ -2,7 +2,7 @@
 
 ## English
 
-The kit ships 130 scene templates. The upstream **HyperFrames registry**
+The kit ships 132 scene templates. The upstream **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) publishes
 **456 more** — pull any of them without hand-copying files:
 
@@ -117,7 +117,7 @@ text and reading the frames back):
   `render --variables-file` and are merged over those defaults by each template's
   `getVariables()`; the tests and `template-sheet.mjs` read the object form.
 
-Changing either means touching all 130 templates and five builders for no change in output.
+Changing either means touching all 132 templates and five builders for no change in output.
 Any OTHER lint error is real — treat it as one.
 
 ### Licensing
@@ -129,7 +129,7 @@ what the generated `NOTICE.md` is for — **do not delete it**. See the root `NO
 
 ## Tiếng Việt
 
-Kit có sẵn 130 template cho scene. Kho **HyperFrames registry**
+Kit có sẵn 132 template cho scene. Kho **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) có thêm
 **456 mục** — kéo về bằng lệnh, không phải chép tay. Xem các lệnh ở bản EN.
 

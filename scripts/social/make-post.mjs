@@ -36,7 +36,51 @@ if (argv.includes("--help") || argv.length === 0) {
   process.exit(argv.length === 0 ? 1 : 0);
 }
 const flag = (n) => (argv.includes(n) ? argv[argv.indexOf(n) + 1] : null);
-const readMaybeFile = (v) => (v && fs.existsSync(v) ? fs.readFileSync(v, "utf8") : v || "");
+
+// A value that names a file but does not resolve is a broken reference, never a caption.
+// This used to fall back to publishing the string itself: a queue item pointing at
+// brain/truecrime/ann-marie-burr/caption.txt — a folder that was never created — went out
+// as a Facebook post whose entire body was that path. It failed silently because the
+// fallback looked like a feature. Media already behaves correctly here (lib/http.mjs
+// throws "Media file not found"), so text now matches it.
+const looksLikePath = (v) =>
+  !v.includes("\n") &&
+  v.length < 300 &&
+  (/[\\/]/.test(v) || /\.(txt|md|json)$/i.test(v.trim()));
+
+// A refusal is a message for the person running this, not a crash: no stack trace.
+const refuse = (m) => {
+  console.error(`[make-post] ✗ ${m}`);
+  process.exit(1);
+};
+
+const readMaybeFile = (v, field = "post") => {
+  if (!v) return "";
+  if (fs.existsSync(v)) return fs.readFileSync(v, "utf8");
+  if (looksLikePath(v)) {
+    refuse(
+      `${field} points at a file that does not exist: ${v}\n` +
+      `  Refusing to publish the path as the ${field} body.\n` +
+      `  Either create the file, or inline the text into the queue item.`,
+    );
+  }
+  return v;
+};
+
+// Explicit beats inferred. `postFile` is unambiguously a path, `post` unambiguously text,
+// so an item can never be misread the way the guessing version could. The item shape used
+// to ask for inline text in `post` but paths in `images`, in one object — filling all three
+// with paths was a legible reading of that spec, and it published a path.
+const readField = (item, name) => {
+  const filePath = item[`${name}File`];
+  if (filePath) {
+    if (!fs.existsSync(filePath)) {
+      refuse(`${name}File does not exist: ${filePath}`);
+    }
+    return fs.readFileSync(filePath, "utf8");
+  }
+  return readMaybeFile(item[name], name);
+};
 const dryRun = argv.includes("--dry-run");
 
 const parsePlatforms = (v) =>
@@ -63,8 +107,8 @@ if (queueFile && id != null) {
   const arr = JSON.parse(fs.readFileSync(queueFile, "utf8"));
   const item = arr.find((x) => String(x.id) === String(id));
   if (!item) throw new Error(`Queue item id=${id} not found in ${queueFile}`);
-  post = item.post;
-  comment = item.comment;
+  post = readField(item, "post");
+  comment = readField(item, "comment");
   video = item.videoPath || item.videoUrl;
   image = item.mediaUrl || item.image;
   images = parseList(item.images);
@@ -78,8 +122,8 @@ if (queueFile && id != null) {
       ok ? { postedAt: new Date().toISOString() } : { error: err });
 } else if (flag("--json")) {
   const j = JSON.parse(fs.readFileSync(flag("--json"), "utf8"));
-  post = j.post;
-  comment = j.comment;
+  post = readField(j, "post");
+  comment = readField(j, "comment");
   video = j.video || j.videoUrl;
   image = j.mediaUrl || j.image;
   images = parseList(j.images);
@@ -89,8 +133,8 @@ if (queueFile && id != null) {
   platforms = j.platforms;
   durationSec = j.durationSec;
 } else {
-  post = readMaybeFile(flag("--post"));
-  comment = readMaybeFile(flag("--comment"));
+  post = readMaybeFile(flag("--post"), "post");
+  comment = readMaybeFile(flag("--comment"), "comment");
   image = flag("--image");
   images = parseList(flag("--images"));
   video = flag("--video");

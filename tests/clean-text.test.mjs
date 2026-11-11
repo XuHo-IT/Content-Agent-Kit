@@ -207,15 +207,37 @@ test("stripLeaks leaves already-clean text byte-identical", () => {
 
 // ── validatePost ─────────────────────────────────────────────────────────────
 
+// A caption long enough to clear MIN_POST_CHARS, with a hashtag — a clean body, so only the
+// fields under test produce errors.
+const CLEAN_POST =
+  "Thân bài sạch, viết như một người thật kể lại câu chuyện cho bạn bè nghe. Có mở đầu, có chi " +
+  "tiết, có một câu hỏi để người đọc trả lời ở phần bình luận. Đủ dài để là một bài đăng thật " +
+  "chứ không phải một mẩu tên tệp. #kechuyen";
+
 test("validatePost checks every reader-visible field", () => {
   const { errors } = validatePost({
     title: "## Tiêu đề",
-    post: "Thân bài sạch.",
+    post: CLEAN_POST,
     comment: "Bình luận có **đậm**.",
   });
   assert.equal(errors.length, 2);
   assert.ok(errors.some((e) => e.includes("`title`")));
   assert.ok(errors.some((e) => e.includes("`comment`")));
+});
+
+test("a caption that is a file path is refused — the ann-marie-burr incident", () => {
+  // brain/truecrime/ann-marie-burr/caption.txt was published as a whole Facebook post
+  const r = validatePost({ post: "brain/truecrime/ann-marie-burr/caption.txt" });
+  assert.ok(r.errors.some((e) => /under the 200 minimum/.test(e)), r.errors.join(" | "));
+  assert.ok(findLeaks("brain/truecrime/ann-marie-burr/caption.txt", "post").errors.some((e) => /file path/.test(e)));
+});
+
+test("untranslated Chinese in a Vietnamese post is an error; no hashtag is a warning", () => {
+  const r = validatePost({ post: CLEAN_POST.replace("#kechuyen", "源自网络 #kechuyen") });
+  assert.ok(r.errors.some((e) => /CJK/.test(e)));
+  const w = validatePost({ post: CLEAN_POST.replace(" #kechuyen", "") });
+  assert.deepEqual(w.errors, []);
+  assert.ok(w.warnings.some((x) => /hashtags/.test(x)));
 });
 
 test("validatePost rejects an empty post", () => {
