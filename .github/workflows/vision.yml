@@ -30,6 +30,8 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    # a hung package mirror once held this job for 40 minutes; fail fast instead
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v7
 
@@ -42,15 +44,22 @@ jobs:
           python-version: "3.12"
 
       # setup-ffmpeg supports x64 only; macOS runners are arm64 — use each system's own package manager
-      - name: ffmpeg (Linux) + the GL libraries MediaPipe loads
-        if: runner.os == 'Linux'
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg libegl1 libgles2
+      # setup-ffmpeg is x64-only: fine on the Linux and Windows runners, not on arm64 macOS
+      - name: ffmpeg (Linux, Windows)
+        if: runner.os != 'macOS'
+        uses: FedericoCarboni/setup-ffmpeg@v3
       - name: ffmpeg (macOS)
         if: runner.os == 'macOS'
+        timeout-minutes: 10
         run: brew install ffmpeg
-      - name: ffmpeg (Windows)
-        if: runner.os == 'Windows'
-        uses: FedericoCarboni/setup-ffmpeg@v3
+      # Only the two GL libraries MediaPipe dlopens — the distro ffmpeg pulled hundreds of
+      # packages through apt and hung on a mirror for 40 minutes.
+      - name: GL libraries MediaPipe loads (Linux)
+        if: runner.os == 'Linux'
+        timeout-minutes: 5
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: sudo apt-get install -y -qq --no-install-recommends libegl1 libgles2 || (sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends libegl1 libgles2)
 
       - name: Install the vision extras (as docs/26 tells users to)
         shell: bash
