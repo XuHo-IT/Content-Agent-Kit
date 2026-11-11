@@ -48,6 +48,9 @@ jobs:
       - name: ffmpeg (Linux, Windows)
         if: runner.os != 'macOS'
         uses: FedericoCarboni/setup-ffmpeg@v3
+        with:
+          # without it the action looks up the release anonymously and hits the rate limit
+          github-token: ${{ github.token }}
       - name: ffmpeg (macOS)
         if: runner.os == 'macOS'
         timeout-minutes: 10
