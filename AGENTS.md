@@ -55,7 +55,11 @@ Run it with `--validate-only` first.
 
 Someone talking on camera (or just a voice recording) → `skills/talking-head-edit/SKILL.md`
 (`talking-head.mjs`: cards `full`/`pip`/`split`, `--faces`, text `behind` the speaker,
-`--cover` for the thumbnail). Method: `docs/26-auto-edit.md`.
+`--cover` for the thumbnail, `--silence auto`, `--snap-beats`). Method: `docs/26-auto-edit.md`.
+
+Before ANY video is posted: `node scripts/video/delivery-check.mjs video.mp4 --platform <where>`
+(TikTok, Facebook Reels, YouTube Shorts, Shopee, Zalo — limits sourced and dated; `--fix`
+re-encodes to fit, never trims). Editing techniques and cutting to the beat: `docs/31-ky-thuat-dung.md`.
 
 ## When the user names competitors — "phân tích đối thủ", "kênh X đang viral gì"
 Follow `skills/competitor-analysis/SKILL.md`. Keyless: YouTube channels via their public feed,
@@ -204,9 +208,9 @@ Cases" was 39% gated on the site this was built against. Method: `docs/10-crawl-
   `CATALOG.md` says what each one is *for*; `node scripts/video/motion-index.mjs` says how each
   one *moves* and which sample to copy an effect from. Its `**Motion:**` lines are generated —
   regenerate with `--write-catalog`, never hand-edit. Traps: `skills/motion-craft/SKILL.md`.
-- `templates/VIDEO_GENRES.template.json` — scene sequences for 19 genres (review, tutorial, news,
+- `templates/VIDEO_GENRES.template.json` — scene sequences for 20 genres (review, tutorial, news,
   listicle, launch, testimonial, local, vox-explainer, geo-answer, technical-deepdive, growth-strategy, geo-itinerary,
-  comment-reply, flash-deal, data-story, brand-story, customer-story, legend, case-breakdown). Answers 'which frames, in what order'
+  comment-reply, flash-deal, data-story, brand-story, customer-story, legend, case-breakdown, comment-story). Answers 'which frames, in what order'
   rather than 'what shape is a script'. Method: `docs/21-video-genres.md`.
 - `skills/` — Claude Code skills; also readable as plain instructions. `registry.json`
   lists skills from other projects, fetched on demand by `scripts/install-skills.mjs` —

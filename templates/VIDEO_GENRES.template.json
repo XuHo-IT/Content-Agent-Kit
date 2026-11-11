@@ -16,238 +16,673 @@
     "Each genre names its templates and the beat each one carries. Durations come from the",
     "narration at render time; `voiceText` is what you write."
   ],
-
   "genres": {
     "review": {
       "label": "Review sản phẩm / dịch vụ",
       "whenToUse": "You tried something and have a verdict. The score frame is the payload; everything before it is setup.",
       "beats": [
-        { "templateId": "frame-liquid-bg-hero", "type": "hook", "beat": "The verdict, spoiled. Nobody watches a review to be kept in suspense." },
-        { "templateId": "frame-broll", "type": "body", "beat": "What it is, in one line, over footage of the thing." },
-        { "templateId": "frame-myth-fact", "type": "body", "beat": "The belief this review overturns. Skip it if the verdict confirms what everyone already thinks — there is nothing to strike out." },
-        { "templateId": "frame-chart-bars", "type": "body", "beat": "The number that justifies the verdict — speed, price, battery, whatever you measured." },
-        { "templateId": "frame-review-verdict", "type": "body", "beat": "Score, verdict, pros and cons. The frame people screenshot." },
-        { "templateId": "frame-statement-outro", "type": "outro", "beat": "Who it is for, who it is not for." }
+        {
+          "templateId": "frame-liquid-bg-hero",
+          "type": "hook",
+          "beat": "The verdict, spoiled. Nobody watches a review to be kept in suspense."
+        },
+        {
+          "templateId": "frame-broll",
+          "type": "body",
+          "beat": "What it is, in one line, over footage of the thing."
+        },
+        {
+          "templateId": "frame-myth-fact",
+          "type": "body",
+          "beat": "The belief this review overturns. Skip it if the verdict confirms what everyone already thinks — there is nothing to strike out."
+        },
+        {
+          "templateId": "frame-chart-bars",
+          "type": "body",
+          "beat": "The number that justifies the verdict — speed, price, battery, whatever you measured."
+        },
+        {
+          "templateId": "frame-review-verdict",
+          "type": "body",
+          "beat": "Score, verdict, pros and cons. The frame people screenshot."
+        },
+        {
+          "templateId": "frame-statement-outro",
+          "type": "outro",
+          "beat": "Who it is for, who it is not for."
+        }
       ]
     },
-
     "tutorial": {
       "label": "Hướng dẫn từng bước",
       "whenToUse": "Someone wants to do the thing. Show the steps, then show it working.",
       "beats": [
-        { "templateId": "frame-bold-poster", "type": "hook", "beat": "The outcome, not the topic. 'Agent tự đăng bài' beats 'Hôm nay nói về automation'." },
-        { "templateId": "frame-step-list", "type": "body", "beat": "Three to five steps. More than five, split into a second scene." },
-        { "templateId": "frame-terminal", "type": "body", "beat": "The hardest step as the actual command, plus the error people hit — frame-screenshot if the step happens in a browser instead." },
-        { "templateId": "frame-logo-outro", "type": "outro", "beat": "Where to get it, and the one thing to try first. A tutorial that ends without a next step gets watched and forgotten." }
+        {
+          "templateId": "frame-bold-poster",
+          "type": "hook",
+          "beat": "The outcome, not the topic. 'Agent tự đăng bài' beats 'Hôm nay nói về automation'."
+        },
+        {
+          "templateId": "frame-step-list",
+          "type": "body",
+          "beat": "Three to five steps. More than five, split into a second scene."
+        },
+        {
+          "templateId": "frame-terminal",
+          "type": "body",
+          "beat": "The hardest step as the actual command, plus the error people hit — frame-screenshot if the step happens in a browser instead."
+        },
+        {
+          "templateId": "frame-logo-outro",
+          "type": "outro",
+          "beat": "Where to get it, and the one thing to try first. A tutorial that ends without a next step gets watched and forgotten."
+        }
       ]
     },
-
     "news": {
       "label": "Bản tin",
       "whenToUse": "Something happened. Say what, then why it matters.",
       "beats": [
-        { "templateId": "frame-glitch-title", "type": "hook", "beat": "The event in one sentence." },
-        { "templateId": "frame-pentagram-stat", "type": "body", "beat": "The one number that makes it news." },
-        { "templateId": "frame-timeline", "type": "body", "beat": "How it got here. The gap between the dates is half the story, which a list of steps cannot show." },
-        { "templateId": "frame-vignelli", "type": "body", "beat": "What changes for the viewer specifically." },
-        { "templateId": "frame-statement-outro", "type": "outro", "beat": "A question worth answering in the comments." }
+        {
+          "templateId": "frame-glitch-title",
+          "type": "hook",
+          "beat": "The event in one sentence."
+        },
+        {
+          "templateId": "frame-pentagram-stat",
+          "type": "body",
+          "beat": "The one number that makes it news."
+        },
+        {
+          "templateId": "frame-timeline",
+          "type": "body",
+          "beat": "How it got here. The gap between the dates is half the story, which a list of steps cannot show."
+        },
+        {
+          "templateId": "frame-vignelli",
+          "type": "body",
+          "beat": "What changes for the viewer specifically."
+        },
+        {
+          "templateId": "frame-statement-outro",
+          "type": "outro",
+          "beat": "A question worth answering in the comments."
+        }
       ]
     },
-
     "listicle": {
       "label": "Danh sách N thứ",
       "whenToUse": "A ranked or grouped set. The count is the promise; keep it.",
       "beats": [
-        { "templateId": "frame-bold-poster", "type": "hook", "beat": "The count and the category. '5 công cụ' — and then deliver five." },
-        { "templateId": "frame-step-list", "type": "body", "beat": "The list itself, numbered, arriving one at a time." },
-        { "templateId": "frame-aicoding-comparison", "type": "body", "beat": "The two that are hardest to choose between, side by side." },
-        { "templateId": "frame-checklist", "type": "body", "beat": "What to do with the list — and what not to. Advice with no score attached." },
-        { "templateId": "frame-logo-outro", "type": "outro", "beat": "The one you would pick, and why." }
+        {
+          "templateId": "frame-bold-poster",
+          "type": "hook",
+          "beat": "The count and the category. '5 công cụ' — and then deliver five."
+        },
+        {
+          "templateId": "frame-step-list",
+          "type": "body",
+          "beat": "The list itself, numbered, arriving one at a time."
+        },
+        {
+          "templateId": "frame-aicoding-comparison",
+          "type": "body",
+          "beat": "The two that are hardest to choose between, side by side."
+        },
+        {
+          "templateId": "frame-checklist",
+          "type": "body",
+          "beat": "What to do with the list — and what not to. Advice with no score attached."
+        },
+        {
+          "templateId": "frame-logo-outro",
+          "type": "outro",
+          "beat": "The one you would pick, and why."
+        }
       ]
     },
-
     "launch": {
       "label": "Ra mắt sản phẩm",
       "whenToUse": "You built something and it is now available. The beat everything is arranged around is the moment it gets named — before that the viewer does not know what you are talking about, and after it they either care or they do not.",
       "beats": [
-        { "templateId": "frame-opus-kinetic-reel", "type": "hook", "beat": "The problem, in three stacked shutter lines. Not the product — nobody has a reason to care about it yet." },
-        { "templateId": "frame-split-compare", "type": "body", "beat": "How it was against how it is. The gap between the two is the whole argument for the thing existing." },
-        { "templateId": "frame-product-reveal", "type": "body", "beat": "The name, finally. This is the frame the video was built to arrive at." },
-        { "templateId": "frame-opus-cursor-flow", "type": "body", "beat": "The product in motion — a 3D UI window where the cursor clicks the action CTA and reveals the live result." },
-        { "templateId": "frame-step-list", "type": "body", "beat": "What it actually does — two or three capabilities, not a feature list." },
-        { "templateId": "frame-logo-outro", "type": "outro", "beat": "Where to get it. One link, one action." }
+        {
+          "templateId": "frame-opus-kinetic-reel",
+          "type": "hook",
+          "beat": "The problem, in three stacked shutter lines. Not the product — nobody has a reason to care about it yet."
+        },
+        {
+          "templateId": "frame-split-compare",
+          "type": "body",
+          "beat": "How it was against how it is. The gap between the two is the whole argument for the thing existing."
+        },
+        {
+          "templateId": "frame-product-reveal",
+          "type": "body",
+          "beat": "The name, finally. This is the frame the video was built to arrive at."
+        },
+        {
+          "templateId": "frame-opus-cursor-flow",
+          "type": "body",
+          "beat": "The product in motion — a 3D UI window where the cursor clicks the action CTA and reveals the live result."
+        },
+        {
+          "templateId": "frame-step-list",
+          "type": "body",
+          "beat": "What it actually does — two or three capabilities, not a feature list."
+        },
+        {
+          "templateId": "frame-logo-outro",
+          "type": "outro",
+          "beat": "Where to get it. One link, one action."
+        }
       ]
     },
-
     "testimonial": {
       "label": "Câu chuyện khách hàng",
       "whenToUse": "Someone else's result. Their words carry it; yours frame it.",
       "beats": [
-        { "templateId": "frame-liquid-bg-hero", "type": "hook", "beat": "The result, as a number or a before/after." },
-        { "templateId": "frame-quote-testimonial", "type": "body", "beat": "Their words, credited. Do not paraphrase — a cleaned-up quote sounds written." },
-        { "templateId": "frame-chat-bubbles", "type": "body", "beat": "How it was actually said. A chat reads as overheard; a pull-quote reads as supplied." },
-        { "templateId": "frame-split-compare", "type": "body", "beat": "The before and after, measured. Two states of one thing, which is the claim a testimonial is actually making — frame-chart-bars would compare magnitudes instead." },
-        { "templateId": "frame-statement-outro", "type": "outro", "beat": "The invitation. One action, not three." }
+        {
+          "templateId": "frame-liquid-bg-hero",
+          "type": "hook",
+          "beat": "The result, as a number or a before/after."
+        },
+        {
+          "templateId": "frame-quote-testimonial",
+          "type": "body",
+          "beat": "Their words, credited. Do not paraphrase — a cleaned-up quote sounds written."
+        },
+        {
+          "templateId": "frame-chat-bubbles",
+          "type": "body",
+          "beat": "How it was actually said. A chat reads as overheard; a pull-quote reads as supplied."
+        },
+        {
+          "templateId": "frame-split-compare",
+          "type": "body",
+          "beat": "The before and after, measured. Two states of one thing, which is the claim a testimonial is actually making — frame-chart-bars would compare magnitudes instead."
+        },
+        {
+          "templateId": "frame-statement-outro",
+          "type": "outro",
+          "beat": "The invitation. One action, not three."
+        }
       ]
     },
-
     "local": {
       "label": "Địa phương / thị trường",
       "whenToUse": "The story is WHERE. A new market, a service area, a route, one place against another. If the location is incidental, this is not the genre — pick the one that matches what you are actually claiming.",
       "beats": [
-        { "templateId": "frame-geo-markers", "type": "hook", "beat": "The place, first frame. A local video that opens on a logo spent its hook on the one thing the viewer already knows." },
-        { "templateId": "frame-geo-local-card", "type": "body", "beat": "The venue or destination details — rating score, verified address, and highlight features." },
-        { "templateId": "frame-geo-region-stat", "type": "body", "beat": "The number for this place next to other regions — regional breakdown and market share." },
-        { "templateId": "frame-geo-route", "type": "body", "beat": "From where to where: expansion, delivery, a journey. Drop this beat if nothing moves." },
-        { "templateId": "frame-quote-testimonial", "type": "body", "beat": "Someone from there, named. Proof of place is a person, not a pin." },
-        { "templateId": "frame-statement-outro", "type": "outro", "beat": "What to do and where. A service area or an address, not a slogan." }
+        {
+          "templateId": "frame-geo-markers",
+          "type": "hook",
+          "beat": "The place, first frame. A local video that opens on a logo spent its hook on the one thing the viewer already knows."
+        },
+        {
+          "templateId": "frame-geo-local-card",
+          "type": "body",
+          "beat": "The venue or destination details — rating score, verified address, and highlight features."
+        },
+        {
+          "templateId": "frame-geo-region-stat",
+          "type": "body",
+          "beat": "The number for this place next to other regions — regional breakdown and market share."
+        },
+        {
+          "templateId": "frame-geo-route",
+          "type": "body",
+          "beat": "From where to where: expansion, delivery, a journey. Drop this beat if nothing moves."
+        },
+        {
+          "templateId": "frame-quote-testimonial",
+          "type": "body",
+          "beat": "Someone from there, named. Proof of place is a person, not a pin."
+        },
+        {
+          "templateId": "frame-statement-outro",
+          "type": "outro",
+          "beat": "What to do and where. A service area or an address, not a slogan."
+        }
       ]
     },
-
     "vox-explainer": {
       "label": "Phóng sự giải thích / Video Essay (Vox style)",
       "whenToUse": "Investigative documentary, deep dive, explaining complex topics with archival collage, highlighted documents, and technical data callouts.",
       "beats": [
-        { "templateId": "frame-vox-collage", "type": "hook", "beat": "The investigation hook / shocking dossier finding with rubber stamp." },
-        { "templateId": "frame-broll", "type": "body", "beat": "Contextual footage illustrating the real-world scene." },
-        { "templateId": "frame-vox-highlighter", "type": "body", "beat": "The smoking gun passage: official document excerpt with animated yellow highlighter." },
-        { "templateId": "frame-vox-data-callout", "type": "body", "beat": "The hard numbers: technical stat callout with breakdown cards and pointer lines." },
-        { "templateId": "frame-split-compare", "type": "body", "beat": "The cause and effect / before vs after reality." },
-        { "templateId": "frame-statement-outro", "type": "outro", "beat": "The investigative conclusion and viewer takeaway." }
+        {
+          "templateId": "frame-vox-collage",
+          "type": "hook",
+          "beat": "The investigation hook / shocking dossier finding with rubber stamp."
+        },
+        {
+          "templateId": "frame-broll",
+          "type": "body",
+          "beat": "Contextual footage illustrating the real-world scene."
+        },
+        {
+          "templateId": "frame-vox-highlighter",
+          "type": "body",
+          "beat": "The smoking gun passage: official document excerpt with animated yellow highlighter."
+        },
+        {
+          "templateId": "frame-vox-data-callout",
+          "type": "body",
+          "beat": "The hard numbers: technical stat callout with breakdown cards and pointer lines."
+        },
+        {
+          "templateId": "frame-split-compare",
+          "type": "body",
+          "beat": "The cause and effect / before vs after reality."
+        },
+        {
+          "templateId": "frame-statement-outro",
+          "type": "outro",
+          "beat": "The investigative conclusion and viewer takeaway."
+        }
       ]
     },
-
     "geo-answer": {
       "label": "Câu hỏi tìm kiếm AI / Answer-First (GEO)",
       "whenToUse": "Generative Engine Optimization format: direct answers to real search queries designed for AI citability and high-retention social snippets.",
       "beats": [
-        { "templateId": "frame-geo-faq-direct", "type": "hook", "beat": "The exact search query in search box + direct definition answer (<25 words) and core facts." },
-        { "templateId": "frame-myth-fact", "type": "body", "beat": "The common misconception debunked with factual evidence." },
-        { "templateId": "frame-chart-bars", "type": "body", "beat": "Comparative benchmarks with sourced metrics." },
-        { "templateId": "frame-step-list", "type": "body", "beat": "Actionable 3-step recommendation based on the answer." },
-        { "templateId": "frame-logo-outro", "type": "outro", "beat": "Where to read the full source and dive deeper." }
+        {
+          "templateId": "frame-geo-faq-direct",
+          "type": "hook",
+          "beat": "The exact search query in search box + direct definition answer (<25 words) and core facts."
+        },
+        {
+          "templateId": "frame-myth-fact",
+          "type": "body",
+          "beat": "The common misconception debunked with factual evidence."
+        },
+        {
+          "templateId": "frame-chart-bars",
+          "type": "body",
+          "beat": "Comparative benchmarks with sourced metrics."
+        },
+        {
+          "templateId": "frame-step-list",
+          "type": "body",
+          "beat": "Actionable 3-step recommendation based on the answer."
+        },
+        {
+          "templateId": "frame-logo-outro",
+          "type": "outro",
+          "beat": "Where to read the full source and dive deeper."
+        }
       ]
     },
-
     "technical-deepdive": {
       "label": "Phân tích kỹ thuật chuyên sâu (Technical Deep-Dive)",
       "whenToUse": "Software engineering, system architecture breakdowns, benchmark evaluations, and developer product launches.",
       "beats": [
-        { "templateId": "frame-opus-shader-orb", "type": "hook", "beat": "The flagship throughput or latency figure inside an orbital shader ring." },
-        { "templateId": "frame-diagram-architecture", "type": "body", "beat": "The end-to-end data pipeline flow and distributed node topology." },
-        { "templateId": "frame-opus-handdrawn", "type": "body", "beat": "The conceptual trade-off sketched on drafting paper with self-drawing ink paths." },
-        { "templateId": "frame-ui-terminal-ide", "type": "body", "beat": "The implementation code and passing test suite execution log." },
-        { "templateId": "frame-diagram-radar", "type": "body", "beat": "The multi-axis spider benchmark proving competitive advantages." },
-        { "templateId": "frame-statement-outro", "type": "outro", "beat": "The architectural conclusion and key developer takeaway." }
+        {
+          "templateId": "frame-opus-shader-orb",
+          "type": "hook",
+          "beat": "The flagship throughput or latency figure inside an orbital shader ring."
+        },
+        {
+          "templateId": "frame-diagram-architecture",
+          "type": "body",
+          "beat": "The end-to-end data pipeline flow and distributed node topology."
+        },
+        {
+          "templateId": "frame-opus-handdrawn",
+          "type": "body",
+          "beat": "The conceptual trade-off sketched on drafting paper with self-drawing ink paths."
+        },
+        {
+          "templateId": "frame-ui-terminal-ide",
+          "type": "body",
+          "beat": "The implementation code and passing test suite execution log."
+        },
+        {
+          "templateId": "frame-diagram-radar",
+          "type": "body",
+          "beat": "The multi-axis spider benchmark proving competitive advantages."
+        },
+        {
+          "templateId": "frame-statement-outro",
+          "type": "outro",
+          "beat": "The architectural conclusion and key developer takeaway."
+        }
       ]
     },
-
     "growth-strategy": {
       "label": "Chiến lược kinh doanh & Tăng trưởng (Growth Strategy)",
       "whenToUse": "Business model explanations, strategic flywheels, market landscape quadrant positioning, and growth compounding loops.",
       "beats": [
-        { "templateId": "frame-bold-poster", "type": "hook", "beat": "The high-stakes growth thesis / controversial strategic observation." },
-        { "templateId": "frame-diagram-flywheel", "type": "body", "beat": "The self-reinforcing flywheel showing how inputs compound into outputs." },
-        { "templateId": "frame-diagram-quadrant", "type": "body", "beat": "The 2x2 competitive matrix highlighting leader market positioning." },
-        { "templateId": "frame-pentagram-stat", "type": "body", "beat": "The single massive growth metric verifying market traction." },
-        { "templateId": "frame-logo-outro", "type": "outro", "beat": "The strategic call to action and brand signature." }
+        {
+          "templateId": "frame-bold-poster",
+          "type": "hook",
+          "beat": "The high-stakes growth thesis / controversial strategic observation."
+        },
+        {
+          "templateId": "frame-diagram-flywheel",
+          "type": "body",
+          "beat": "The self-reinforcing flywheel showing how inputs compound into outputs."
+        },
+        {
+          "templateId": "frame-diagram-quadrant",
+          "type": "body",
+          "beat": "The 2x2 competitive matrix highlighting leader market positioning."
+        },
+        {
+          "templateId": "frame-pentagram-stat",
+          "type": "body",
+          "beat": "The single massive growth metric verifying market traction."
+        },
+        {
+          "templateId": "frame-logo-outro",
+          "type": "outro",
+          "beat": "The strategic call to action and brand signature."
+        }
       ]
     },
-
     "geo-itinerary": {
       "label": "Lịch trình du lịch & Bản đồ địa điểm (GEO Itinerary)",
       "whenToUse": "Travel guides, multi-stop city tours, regional destination benchmarks, and local business venue deep-dives.",
       "beats": [
-        { "templateId": "frame-geo-markers", "type": "hook", "beat": "The multi-city overview map with animated radar pulse pins." },
-        { "templateId": "frame-geo-itinerary", "type": "body", "beat": "The 3-stop chronological route timeline with timestamps and highlights." },
-        { "templateId": "frame-geo-pin-detail", "type": "body", "beat": "The flagship venue spotlight with GPS HUD, rating, and opening hours." },
-        { "templateId": "frame-geo-versus-city", "type": "body", "beat": "The regional head-to-head comparison evaluating cost and opportunities." },
-        { "templateId": "frame-statement-outro", "type": "outro", "beat": "The final travel recommendation and booking advice." }
+        {
+          "templateId": "frame-geo-markers",
+          "type": "hook",
+          "beat": "The multi-city overview map with animated radar pulse pins."
+        },
+        {
+          "templateId": "frame-geo-itinerary",
+          "type": "body",
+          "beat": "The 3-stop chronological route timeline with timestamps and highlights."
+        },
+        {
+          "templateId": "frame-geo-pin-detail",
+          "type": "body",
+          "beat": "The flagship venue spotlight with GPS HUD, rating, and opening hours."
+        },
+        {
+          "templateId": "frame-geo-versus-city",
+          "type": "body",
+          "beat": "The regional head-to-head comparison evaluating cost and opportunities."
+        },
+        {
+          "templateId": "frame-statement-outro",
+          "type": "outro",
+          "beat": "The final travel recommendation and booking advice."
+        }
       ]
     },
     "comment-reply": {
       "label": "Trả lời bình luận (Q&A)",
       "whenToUse": "A viewer asked something worth a whole video. The question is the hook because it is already proven: someone cared enough to type it.",
       "beats": [
-        { "templateId": "frame-trend-comment-reply", "type": "hook", "beat": "The comment itself, verbatim, with the answer title under it. Their words, not a paraphrase." },
-        { "templateId": "frame-trend-word-pop", "type": "body", "beat": "The one-sentence answer, said out loud word by word — for people who stop watching here." },
-        { "templateId": "frame-step-list", "type": "body", "beat": "The how: three steps at most. More than three is a second video." },
-        { "templateId": "frame-trend-compare-wipe", "type": "body", "beat": "What it looks like done wrong, then right. Proof the steps change something." },
-        { "templateId": "frame-statement-outro", "type": "outro", "beat": "Ask for the next question. The series feeds itself from the comments." }
+        {
+          "templateId": "frame-trend-comment-reply",
+          "type": "hook",
+          "beat": "The comment itself, verbatim, with the answer title under it. Their words, not a paraphrase."
+        },
+        {
+          "templateId": "frame-trend-word-pop",
+          "type": "body",
+          "beat": "The one-sentence answer, said out loud word by word — for people who stop watching here."
+        },
+        {
+          "templateId": "frame-step-list",
+          "type": "body",
+          "beat": "The how: three steps at most. More than three is a second video."
+        },
+        {
+          "templateId": "frame-trend-compare-wipe",
+          "type": "body",
+          "beat": "What it looks like done wrong, then right. Proof the steps change something."
+        },
+        {
+          "templateId": "frame-statement-outro",
+          "type": "outro",
+          "beat": "Ask for the next question. The series feeds itself from the comments."
+        }
       ]
     },
     "flash-deal": {
       "label": "Flash sale / chốt đơn",
       "whenToUse": "A real offer with a real deadline — TikTok Shop, Shopee, a course launch. Every beat exists to move to the price frame.",
       "beats": [
-        { "templateId": "frame-trend-phone-notifs", "type": "hook", "beat": "Orders or messages piling up — social proof before the product is even named." },
-        { "templateId": "frame-product-reveal", "type": "body", "beat": "The product, shown, in one line of what it does for the buyer." },
-        { "templateId": "frame-trend-compare-wipe", "type": "body", "beat": "Life before and after it. Concrete, not adjectives." },
-        { "templateId": "frame-quote-testimonial", "type": "body", "beat": "One real customer, named with permission. Skip it rather than invent one." },
-        { "templateId": "frame-trend-price-drop", "type": "outro", "beat": "Old price struck, new price slammed, the deadline and where to buy. Nothing after it." }
+        {
+          "templateId": "frame-trend-phone-notifs",
+          "type": "hook",
+          "beat": "Orders or messages piling up — social proof before the product is even named."
+        },
+        {
+          "templateId": "frame-product-reveal",
+          "type": "body",
+          "beat": "The product, shown, in one line of what it does for the buyer."
+        },
+        {
+          "templateId": "frame-trend-compare-wipe",
+          "type": "body",
+          "beat": "Life before and after it. Concrete, not adjectives."
+        },
+        {
+          "templateId": "frame-quote-testimonial",
+          "type": "body",
+          "beat": "One real customer, named with permission. Skip it rather than invent one."
+        },
+        {
+          "templateId": "frame-trend-price-drop",
+          "type": "outro",
+          "beat": "Old price struck, new price slammed, the deadline and where to buy. Nothing after it."
+        }
       ]
     },
     "data-story": {
       "label": "Câu chuyện số liệu",
       "whenToUse": "One dataset with a surprise in it. The number is the story; the frames exist to make it land in order.",
       "beats": [
-        { "templateId": "frame-trend-search-morph", "type": "hook", "beat": "The question people are actually searching for — the dataset answers it." },
-        { "templateId": "frame-trend-stat-odometer", "type": "body", "beat": "The headline number, rolling in, with its source on screen." },
-        { "templateId": "frame-trend-bar-race", "type": "body", "beat": "The ranking behind it. Bar lengths come from the values, so they cannot lie." },
-        { "templateId": "frame-trend-timeline-flight", "type": "body", "beat": "How it got here: three or four stops, one sentence each." },
-        { "templateId": "frame-trend-exploded-layers", "type": "body", "beat": "Why: the parts that add up to the number." },
-        { "templateId": "frame-statement-outro", "type": "outro", "beat": "What it means for the viewer, then the source again." }
+        {
+          "templateId": "frame-trend-search-morph",
+          "type": "hook",
+          "beat": "The question people are actually searching for — the dataset answers it."
+        },
+        {
+          "templateId": "frame-trend-stat-odometer",
+          "type": "body",
+          "beat": "The headline number, rolling in, with its source on screen."
+        },
+        {
+          "templateId": "frame-trend-bar-race",
+          "type": "body",
+          "beat": "The ranking behind it. Bar lengths come from the values, so they cannot lie."
+        },
+        {
+          "templateId": "frame-trend-timeline-flight",
+          "type": "body",
+          "beat": "How it got here: three or four stops, one sentence each."
+        },
+        {
+          "templateId": "frame-trend-exploded-layers",
+          "type": "body",
+          "beat": "Why: the parts that add up to the number."
+        },
+        {
+          "templateId": "frame-statement-outro",
+          "type": "outro",
+          "beat": "What it means for the viewer, then the source again."
+        }
       ]
     },
     "brand-story": {
       "label": "Câu chuyện thương hiệu",
       "whenToUse": "Why the brand exists, told as a story with a turn in it — not a list of USPs. Founder story, anniversary, 'about us' video, the top-of-funnel ad that makes people care before they compare prices.",
       "beats": [
-        { "templateId": "frame-story-one-line", "type": "hook", "beat": "The whole arc in one drawn line — start, struggle, payoff — so the viewer knows a story is coming and where it ends." },
-        { "templateId": "frame-story-swiss-chapter", "type": "body", "beat": "Chapter one: the moment it started, with a date. Specific beats general — 'March 2021, two months of rent left'." },
-        { "templateId": "frame-story-world-pan", "type": "body", "beat": "What nobody saw: the camera dives below the surface to the years of work under the result." },
-        { "templateId": "frame-story-page-turn", "type": "body", "beat": "The turn. The page of the old way turns over to reveal what changed — the one beat every story needs." },
-        { "templateId": "frame-story-pencil-chart", "type": "body", "beat": "Proof the turn was real: one number, drawn, with its source. Say so on screen if it is illustrative." },
-        { "templateId": "frame-story-letter", "type": "body", "beat": "A customer's voice — a real message, quoted with permission — so the story is not only told by the brand." },
-        { "templateId": "frame-story-kinetic-floor", "type": "outro", "beat": "The declaration the story built: each line a floor, the brand's one word standing on top." }
+        {
+          "templateId": "frame-story-one-line",
+          "type": "hook",
+          "beat": "The whole arc in one drawn line — start, struggle, payoff — so the viewer knows a story is coming and where it ends."
+        },
+        {
+          "templateId": "frame-story-swiss-chapter",
+          "type": "body",
+          "beat": "Chapter one: the moment it started, with a date. Specific beats general — 'March 2021, two months of rent left'."
+        },
+        {
+          "templateId": "frame-story-world-pan",
+          "type": "body",
+          "beat": "What nobody saw: the camera dives below the surface to the years of work under the result."
+        },
+        {
+          "templateId": "frame-story-page-turn",
+          "type": "body",
+          "beat": "The turn. The page of the old way turns over to reveal what changed — the one beat every story needs."
+        },
+        {
+          "templateId": "frame-story-pencil-chart",
+          "type": "body",
+          "beat": "Proof the turn was real: one number, drawn, with its source. Say so on screen if it is illustrative."
+        },
+        {
+          "templateId": "frame-story-letter",
+          "type": "body",
+          "beat": "A customer's voice — a real message, quoted with permission — so the story is not only told by the brand."
+        },
+        {
+          "templateId": "frame-story-kinetic-floor",
+          "type": "outro",
+          "beat": "The declaration the story built: each line a floor, the brand's one word standing on top."
+        }
       ]
     },
     "customer-story": {
       "label": "Câu chuyện khách hàng (quảng cáo kể chuyện)",
       "whenToUse": "A short ad that sells by telling one customer's problem and how it ended — the storytelling format for Facebook/TikTok ads. Works for fashion, beauty, home, any product with a 'before'.",
       "beats": [
-        { "templateId": "frame-story-comic-panels", "type": "hook", "beat": "Three panels: the everyday moment, the problem, the punchline. Recognition in under three seconds is the hook." },
-        { "templateId": "frame-story-page-turn", "type": "body", "beat": "Before → after: the old way turns away, the new one is behind it. Keep the 'after' concrete." },
-        { "templateId": "frame-story-halftone-case", "type": "body", "beat": "Why it worked — the evidence, stamped. A review count or a return rate beats an adjective." },
-        { "templateId": "frame-story-letter", "type": "body", "beat": "The customer, in their own words. Real, with permission; never written for them." },
-        { "templateId": "frame-trend-price-drop", "type": "outro", "beat": "The offer and where to buy. A selling story still has to end on the price." }
+        {
+          "templateId": "frame-story-comic-panels",
+          "type": "hook",
+          "beat": "Three panels: the everyday moment, the problem, the punchline. Recognition in under three seconds is the hook."
+        },
+        {
+          "templateId": "frame-story-page-turn",
+          "type": "body",
+          "beat": "Before → after: the old way turns away, the new one is behind it. Keep the 'after' concrete."
+        },
+        {
+          "templateId": "frame-story-halftone-case",
+          "type": "body",
+          "beat": "Why it worked — the evidence, stamped. A review count or a return rate beats an adjective."
+        },
+        {
+          "templateId": "frame-story-letter",
+          "type": "body",
+          "beat": "The customer, in their own words. Real, with permission; never written for them."
+        },
+        {
+          "templateId": "frame-trend-price-drop",
+          "type": "outro",
+          "beat": "The offer and where to buy. A selling story still has to end on the price."
+        }
       ]
     },
     "legend": {
       "label": "Huyền thoại / lịch sử",
       "whenToUse": "History told as a legend: a craft village, a heritage product, how a style came to be, the history of a city or a festival. Slow, warm, four acts.",
       "beats": [
-        { "templateId": "frame-story-sand", "type": "hook", "beat": "The memory, brushed out of sand with a year on it. Opens on a time, not a claim." },
-        { "templateId": "frame-story-silent-film", "type": "body", "beat": "An intertitle to set the scene — 'Meanwhile, in the village…'. Pair it with a sting." },
-        { "templateId": "frame-story-frieze", "type": "body", "beat": "The four acts of the legend painted round a turning vase, one panel at a time." },
-        { "templateId": "frame-story-swiss-chapter", "type": "body", "beat": "Back to the present: the chapter where the legend meets today, dated." },
-        { "templateId": "frame-story-kinetic-floor", "type": "outro", "beat": "What the legend left behind, as the line the whole video stands on." }
+        {
+          "templateId": "frame-story-sand",
+          "type": "hook",
+          "beat": "The memory, brushed out of sand with a year on it. Opens on a time, not a claim."
+        },
+        {
+          "templateId": "frame-story-silent-film",
+          "type": "body",
+          "beat": "An intertitle to set the scene — 'Meanwhile, in the village…'. Pair it with a sting."
+        },
+        {
+          "templateId": "frame-story-frieze",
+          "type": "body",
+          "beat": "The four acts of the legend painted round a turning vase, one panel at a time."
+        },
+        {
+          "templateId": "frame-story-swiss-chapter",
+          "type": "body",
+          "beat": "Back to the present: the chapter where the legend meets today, dated."
+        },
+        {
+          "templateId": "frame-story-kinetic-floor",
+          "type": "outro",
+          "beat": "What the legend left behind, as the line the whole video stands on."
+        }
       ]
     },
     "case-breakdown": {
       "label": "Mổ xẻ một vụ việc",
       "whenToUse": "Breaking down what happened and why: a viral campaign, a competitor's launch, a product that sold out, a mistake worth learning from. Analytical, but told in order.",
       "beats": [
-        { "templateId": "frame-story-halftone-case", "type": "hook", "beat": "The case file opens on the question and the claim — 'not because it was cheap'." },
-        { "templateId": "frame-story-rundown", "type": "body", "beat": "The rundown: what the video will cover, so the viewer can see the shape and stay for it." },
-        { "templateId": "frame-story-telestrator", "type": "body", "beat": "The decisive moment, frozen and drawn on: the ring goes round the thing that made the difference." },
-        { "templateId": "frame-story-pencil-chart", "type": "body", "beat": "The number that proves it, drawn bar by bar, with the source in the caption." },
-        { "templateId": "frame-story-step-numeral", "type": "body", "beat": "The lesson to take away, numbered, with the key words big." },
-        { "templateId": "frame-statement-outro", "type": "outro", "beat": "What to do with it this week, then follow for the next case." }
+        {
+          "templateId": "frame-story-halftone-case",
+          "type": "hook",
+          "beat": "The case file opens on the question and the claim — 'not because it was cheap'."
+        },
+        {
+          "templateId": "frame-story-rundown",
+          "type": "body",
+          "beat": "The rundown: what the video will cover, so the viewer can see the shape and stay for it."
+        },
+        {
+          "templateId": "frame-story-telestrator",
+          "type": "body",
+          "beat": "The decisive moment, frozen and drawn on: the ring goes round the thing that made the difference."
+        },
+        {
+          "templateId": "frame-story-pencil-chart",
+          "type": "body",
+          "beat": "The number that proves it, drawn bar by bar, with the source in the caption."
+        },
+        {
+          "templateId": "frame-story-step-numeral",
+          "type": "body",
+          "beat": "The lesson to take away, numbered, with the key words big."
+        },
+        {
+          "templateId": "frame-statement-outro",
+          "type": "outro",
+          "beat": "What to do with it this week, then follow for the next case."
+        }
+      ]
+    },
+    "comment-story": {
+      "label": "Đọc bình luận / bài tâm sự trên nền B-roll",
+      "whenToUse": "A thread people argue about, or one long confession, read aloud over footage that keeps the eye busy (your own gameplay, cooking, a commute). The words are the content; the footage is there so the screen is never still. Rights first: the posts need the author's permission or must be fully anonymised (no names, no avatars, no handles), and the footage must be yours or licensed — recorded Minecraft/Subway Surfers runs belong to their publishers.",
+      "beats": [
+        {
+          "templateId": "frame-bold-poster",
+          "type": "hook",
+          "beat": "The question the thread is about, as a headline — the argument the viewer will want to join, not the topic name."
+        },
+        {
+          "templateId": "frame-chat-bubbles",
+          "type": "body",
+          "beat": "The opening exchange revealed message by message; the reveal is the hook's payoff. Names become 'A' and 'B'."
+        },
+        {
+          "templateId": "frame-broll",
+          "type": "body",
+          "beat": "The long post read over continuous footage — one card per 25–40 s of voice, no stickers. This beat repeats for each post."
+        },
+        {
+          "templateId": "frame-trend-comment-reply",
+          "type": "body",
+          "beat": "The strongest replies, one per card, each held until the voice finishes it. Handles replaced by a first letter."
+        },
+        {
+          "templateId": "frame-trend-live-poll",
+          "type": "body",
+          "beat": "Two sides of the argument as a poll — it turns the viewer's opinion into a comment."
+        },
+        {
+          "templateId": "frame-statement-outro",
+          "type": "outro",
+          "beat": "Ask which side they are on. The comments under this video are the next one's material — with the same permission rules."
+        }
       ]
     }
   },
-
   "_notes": [
     "Two rules that hold across every genre, both learned from watching these render:",
     "",

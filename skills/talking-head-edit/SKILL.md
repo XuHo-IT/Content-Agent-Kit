@@ -133,6 +133,15 @@ Say so and offer the nearest card; they are on the backlog (docs/30).
 
 ## 5. Sound
 
+- A noisy room (fan, street, aircon) and the default -35 dB pause threshold finds nothing to
+  cut. `--silence auto` measures the take's own room and voice levels and sets the threshold
+  just above the room — it says what it measured, and keeps -35 when the two are too close.
+- With `--music`, `--snap-beats` moves each card entrance onto the bed's nearest beat (≤ 0.12 s,
+  so the card still lands on its word). `node scripts/video/beat-grid.mjs bed.mp3` first:
+  under ~0.3 confidence the track has no pulse to snap to.
+- To show the edit itself (a "how I made this" post, a client): `node scripts/video/compare.mjs
+  raw.mp4 short.mp4` — both side by side with their measured lengths.
+
 ```bash
 node scripts/video/sfx-cc0.mjs                                   # once: 27 CC0 sounds → assets/sfx/
 node scripts/video/music-search.mjs --query "lofi calm" --get 1 --out bed.mp3   # CC0 unless --license by

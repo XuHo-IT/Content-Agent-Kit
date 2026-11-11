@@ -19,7 +19,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { run } from "./lib/proc.mjs";
-import { parseSilences, keepSegments, summary, buildFilter } from "./lib/autocut.mjs";
+import { parseSilences, keepSegments, summary, buildFilter, parseLevels, adaptiveNoise, levelArgs } from "./lib/autocut.mjs";
 
 const argv = process.argv.slice(2);
 if (!argv.length || argv.includes("--help")) {
@@ -27,7 +27,7 @@ if (!argv.length || argv.includes("--help")) {
     `autocut.mjs — remove pauses from a talking-head take (ffmpeg only)\n` +
       `  <input>              video or audio file\n` +
       `  --out <file>         default <input>.cut.<ext>\n` +
-      `  --noise <dB>         silence threshold (default -35)\n` +
+      `  --noise <dB>         silence threshold, or "auto" (from this file's own levels; default -35)\n` +
       `  --min-silence <s>    shortest pause to cut (default 0.28)\n` +
       `  --pad <s>            pause kept on each side of a cut (default 0.10)\n` +
       `  --min-keep <s>       drop speech islands shorter than this (default 0.20)\n` +
@@ -46,7 +46,7 @@ if (!input || !fs.existsSync(input)) {
   process.exit(1);
 }
 
-const noise = Number(flag("--noise", "-35"));
+let noise = Number(flag("--noise", "-35"));
 const minSilence = Number(flag("--min-silence", "0.28"));
 const pad = Number(flag("--pad", "0.10"));
 const minKeep = Number(flag("--min-keep", "0.20"));
@@ -64,6 +64,14 @@ const hasAudio = (probe.streams ?? []).some((s) => s.codec_type === "audio");
 if (!hasAudio) {
   console.error("[autocut] ✗ no audio stream — nothing to detect silence in");
   process.exit(1);
+}
+
+if (flag("--noise") === "auto") {
+  const a = adaptiveNoise(parseLevels(await run("ffmpeg", levelArgs(input))));
+  noise = a.noise;
+  console.log(a.fallback
+    ? `[autocut] --noise auto: room and voice are only ${a.spread ?? "?"} dB apart — keeping ${noise} dB`
+    : `[autocut] --noise auto: room ${a.floor} dB, voice ${a.speech} dB → threshold ${noise} dB`);
 }
 
 // silencedetect reports on stderr, and proc.run() only resolves stdout — spawn directly.

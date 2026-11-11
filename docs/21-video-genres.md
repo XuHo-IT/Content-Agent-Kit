@@ -48,6 +48,7 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **customer-story** | a storytelling ad | three comic panels → before/after page turn → the evidence, stamped → the customer's words → the price |
 | **legend** | history, heritage, a craft | a year brushed out of sand → an intertitle → four acts round a turning vase → today, dated → what it left behind |
 | **case-breakdown** | what happened and why | the case file → the rundown → the decisive moment, ringed → the number → the lesson → what to do with it |
+| **comment-story** | a thread or a long confession, read aloud over footage | the argument as a headline → the chat revealed message by message → each post over continuous B-roll → the best replies → a poll → "which side are you on". **Permission or full anonymisation for every post; your own or licensed footage** — recorded gameplay belongs to the game's publisher |
 
 `local` opens on `frame-geo-markers` rather than a title card, which is why `validate.mjs`
 accepts it as a hook template: a place-led video that opens on a logo has spent its hook on
@@ -154,6 +155,7 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **customer-story** | quảng cáo kể chuyện | ba khung truyện tranh → lật trang trước/sau → bằng chứng có dấu → lời khách → giá |
 | **legend** | lịch sử, làng nghề, di sản | năm tháng hiện lên từ cát → thẻ chữ phim câm → bốn hồi vẽ quanh bình xoay → hôm nay → điều còn lại |
 | **case-breakdown** | mổ xẻ chuyện gì đã xảy ra | hồ sơ vụ việc → danh mục → khoảnh khắc quyết định được khoanh tròn → con số → bài học → làm gì tuần này |
+| **comment-story** | đọc chuỗi bình luận / bài tâm sự dài trên nền footage | câu hỏi gây tranh cãi làm tiêu đề → đoạn chat hiện từng tin → mỗi bài một thẻ trên B-roll chạy liên tục → bình luận hay nhất → bình chọn → "bạn đứng về phía nào". **Mỗi bài phải được tác giả cho phép hoặc ẩn danh hoàn toàn (không tên, không avatar, không nick); footage phải của bạn hoặc có giấy phép** — gameplay quay lại vẫn thuộc nhà phát hành game |
 
 `local` mở bằng `frame-geo-markers` chứ không phải slide tiêu đề, và đó là lý do `validate.mjs`
 nhận nó làm khung hook: video về nơi chốn mà mở bằng logo là đã tiêu hook vào đúng thứ người

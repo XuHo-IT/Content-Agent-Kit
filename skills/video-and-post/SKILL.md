@@ -75,6 +75,17 @@ Pass → continue. Fail → fix (2–3 rounds) → drop and log why.
 
 ## 5. Publish
 
+**Check the file against where it is going** — a video that renders is not a video that
+uploads (a Shopee listing video over 30 MB, a Zalo ad over 60 s, a 16:9 "Short"):
+
+```bash
+node scripts/video/delivery-check.mjs brain/<slug>/video.mp4 --platform tiktok,facebook-reels,youtube-shorts
+node scripts/video/delivery-check.mjs brain/<slug>/video.mp4 --platform shopee-product --fix brain/<slug>/video.shopee.mp4
+```
+
+Errors (an official limit) block the post; warnings (sources disagree) are judgement calls —
+say them in the report. `--fix` never trims: an over-long video goes back to the edit.
+
 **Check the payload first — it costs nothing:**
 
 ```bash
