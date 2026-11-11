@@ -205,4 +205,6 @@ Cases" was 39% gated on the site this was built against. Method: `docs/10-crawl-
   business). `script.json` always wins over a profile. Method: `docs/20-video-backends.md`.
 - `examples/ai-news-social/` — a complete reference agent to copy from.
 - `examples/ai-video-social/` — the video version of the same.
+- `docs/30-de-xuat-tiep-theo.md` — the backlog: proposals not built yet, with licence, effort and
+  the first step. Check it before proposing a new tool; it also lists what was rejected and why.
 - `NOTICE.md` — third-party attribution for the vendored video pipeline and templates.
