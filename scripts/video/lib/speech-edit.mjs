@@ -206,7 +206,7 @@ export function resolveAnchors(edl, words) {
       }
       return { ...c, word: c.at, at: r3(Math.max(0, t - (Number(c.lead) || 0.15))) };
     });
-  return { edl: { ...edl, cards: fix(edl.cards, "cards"), broll: fix(edl.broll, "broll"), ...(edl.behind ? { behind: fix(edl.behind, "behind") } : {}) }, problems };
+  return { edl: { ...edl, cards: fix(edl.cards, "cards"), broll: fix(edl.broll, "broll"), ...(edl.behind ? { behind: fix(edl.behind, "behind") } : {}), ...(edl.popout ? { popout: fix(edl.popout, "popout") } : {}) }, problems };
 }
 
 /**

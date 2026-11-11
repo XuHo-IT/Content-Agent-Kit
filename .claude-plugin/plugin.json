@@ -1,7 +1,7 @@
 {
   "name": "content-agent-kit",
   "version": "0.6.0",
-  "description": "Agent làm nội dung tiếng Việt: tìm chủ đề hot, viết bài, dựng video 9:16 (130 khung hình, video kể chuyện), kiểm duyệt trước khi đăng, và bộ công cụ Facebook ads cho shop/thời trang. 27 skill.",
+  "description": "Agent làm nội dung tiếng Việt: tìm chủ đề hot, viết bài, dựng video 9:16 (133 khung hình, video kể chuyện), kiểm duyệt trước khi đăng, và bộ công cụ Facebook ads cho shop/thời trang. 30 skill.",
   "author": { "name": "XuHo-IT" },
   "homepage": "https://github.com/XuHo-IT/Content-Agent-Kit",
   "repository": "https://github.com/XuHo-IT/Content-Agent-Kit",

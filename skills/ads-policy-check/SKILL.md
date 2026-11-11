@@ -16,6 +16,7 @@ Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản
 
 | Bước | Agent làm gì | Người dùng cần làm |
 |---|---|---|
+| 0. Kiểm cập nhật luật | `freshness-check` mục `vn-ads-law`: có nghị định/thông tư mới về quảng cáo, khuyến mại không | Duyệt thay đổi luật trước khi áp dụng |
 | 1. Nhận nội dung | Nhận chữ quảng cáo dán vào chat, hoặc file `.txt` (các mẫu cách nhau bằng `---`) | Dán tiêu đề + nội dung chính của từng mẫu |
 | 2. Soát | Chạy `node scripts/ads/policy-lint.mjs ads.txt` — mỗi lỗi có mức BLOCK / REVIEW | — |
 | 3. Viết lại | Với mỗi lỗi, đưa câu đã sửa nhưng giữ ý bán hàng | Chọn câu sửa ưng ý |
@@ -27,6 +28,10 @@ Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản
 - Hiểu CLEAN là "Meta sẽ duyệt" → không phải; hình ảnh và trang đích vẫn có thể bị từ chối.
 - Giảm giá không ghi giá gốc → ghi cả giá cũ và giá mới, giữ bằng chứng đã từng bán giá cũ.
 - Hỏi "điều mấy của luật" → agent chỉ trích dẫn khi chắc chắn, và nhắc kiểm bản luật mới nhất.
+
+## 0. Is the law current?
+
+`node scripts/maintenance/freshness.mjs --stale` — if `vn-ads-law` is stale, run `freshness-check` for it BEFORE linting: `policy-lint.mjs` checks against the rules as of `LEGAL_CHECKED`, and a new decree can make a passing ad illegal.
 
 ## 1. Run
 

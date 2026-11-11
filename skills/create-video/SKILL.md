@@ -52,6 +52,11 @@ does not:
    channels, the Vietnamese number table, pacing, template choice, the review rubric.
 2. `video-templates/CATALOG.md` — every template's slots, types and **character limits**.
    Only use a `templateId` that appears there.
+4. **What has worked for this channel** — `brain/insights.md` if it exists (`performance-review`
+   writes it from real post numbers). It beats general advice on genre, length and hook shape
+   for THIS audience; follow a finding with its `n`, and say when you go against one. Set
+   `"genre"` in the script (a key of `templates/VIDEO_GENRES.template.json`) so the next
+   review can count this video.
 3. **Palette.** Set `"theme"` to the industry's preset from `templates/INDUSTRIES.template.json`
    (`graphite-signal` for AI/tech, `ledger-green` for finance, `newsprint-red` for news…). Do
    not leave a non-tech video on the dark neon defaults. Rules and the "AI-slop" tells to

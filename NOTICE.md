@@ -68,7 +68,7 @@ the exact modifications made** (e.g. replacing the Tailwind CDN runtime with
 plain CSS for deterministic offline rendering, dropping CJK fonts, adding the
 9:16 portrait composition). Apache-2.0 §4 requires those notices to travel with
 the work — keep them.
-One hundred and thirty-three are original to content-agent-kit (MIT, same as this repo):
+One hundred and thirty-six are original to content-agent-kit (MIT, same as this repo):
 `frame-broll` · `frame-media-inset` · `frame-screenshot` · `frame-review-verdict` ·
 `frame-quote-testimonial` · `frame-chart-bars` · `frame-step-list` ·
 `frame-kinetic-type` · `frame-product-reveal` · `frame-analog-grain` · `frame-split-compare` ·
@@ -103,7 +103,8 @@ One hundred and thirty-three are original to content-agent-kit (MIT, same as thi
 `frame-story-one-line` · `frame-story-world-pan` · `frame-story-page-turn` · `frame-story-halftone-case` ·
 `frame-story-comic-panels` · `frame-story-swiss-chapter` · `frame-story-step-numeral` · `frame-story-letter` ·
 `frame-story-sand` · `frame-story-telestrator` · `frame-story-pencil-chart` · `frame-story-frieze` ·
-`frame-story-silent-film` · `frame-story-kinetic-floor` · `frame-story-rundown`
+`frame-story-silent-film` · `frame-story-kinetic-floor` · `frame-story-rundown` ·
+`frame-ai-prompt-reveal` · `frame-follow-cta` · `frame-ai-answer-rank`
 
 The thirteen `frame-trend-*` templates are original work emitted by
 `scripts/video/lib/build-trend-templates.mjs`. Their style direction comes from a survey of the
@@ -117,6 +118,14 @@ from the 18 style recipes of [kurbaitaev/ghost-editor](https://github.com/kurbai
 (MIT — several of which port the MIT styles of [lemomo-ai/lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar),
 © LemoLab) and from the storytelling cluster of the awesome-opus5-5-videos prompts (MIT, © yihui-dev).
 No code, markup, fonts, audio or imagery was copied; each template's own `NOTICE.md` names its source.
+
+The three AI & social templates — `frame-ai-prompt-reveal`, `frame-follow-cta`, `frame-ai-answer-rank` —
+are original work emitted by `scripts/video/lib/build-social-templates.mjs`. Their ideas come from the
+HyperFrames registry blocks `typed-prompt`, `chatgpt-exchange`, `ai-chat-reveal`, `tiktok-follow`,
+`x-follow-card` and `ai-answer-rank` ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes),
+Apache-2.0, © HeyGen and contributors). Ideas only: no code, markup, images or fonts were copied, and
+platforms are drawn as plain shapes and colours with no logo artwork. Each template's own `NOTICE.md`
+names the blocks it draws on.
 
 `frame-3d-spotlight` was written after reading how vibe-motion's `light-spotlight-render`
 describes the effect. No code was taken: that repository publishes no licence, and this kit

@@ -43,7 +43,7 @@ Hợp với: shop online, thương hiệu nhỏ, người làm marketing, nhà s
 - Đăng lên mạng xã hội theo lịch, chạy tự động mỗi ngày.
 
 ### 🎬 3. Làm video ngắn 9:16 (TikTok, Reels, Shorts)
-- **130 kiểu khung hình động**: biểu đồ, bản đồ, so sánh trước/sau, giá sốc, bình luận, meme…
+- **133 kiểu khung hình động**: biểu đồ, bản đồ, so sánh trước/sau, giá sốc, bình luận, meme…
   với **16 bảng màu theo ngành**, không "mùi AI".
 - **Video kể chuyện**: câu chuyện thương hiệu, câu chuyện khách hàng, lịch sử làng nghề, mổ xẻ
   một vụ việc — có bước ngoặt, bằng chứng, cao trào (lật trang, thư tay, tranh cát, truyện tranh…).
@@ -152,7 +152,7 @@ Nguồn: Đài PTTH Thanh Hoá, giấy phép CC BY 3.0 — [chi tiết](examples
 
 | Miễn phí | Tuỳ chọn, trả phí |
 |---|---|
-| Làm video: 130 mẫu khung hình, 16 bảng màu, hiệu ứng âm thanh | Giọng đọc cao cấp (Vbee, FPT AI, ElevenLabs…) |
+| Làm video: 133 mẫu khung hình, 16 bảng màu, hiệu ứng âm thanh | Giọng đọc cao cấp (Vbee, FPT AI, ElevenLabs…) |
 | Giọng đọc chạy trên máy (OmniVoice) | Dữ liệu TikTok/Instagram/Facebook qua Apify |
 | Tìm chủ đề hot, phân tích kênh YouTube và báo | Video AI quay như thật (Google Veo) |
 | Cắt khoảng lặng, phụ đề, ảnh bìa | |
@@ -189,6 +189,7 @@ và chỉ dùng khi khách đã đồng ý, theo Nghị định 13/2023.
 - 📘 [Hướng dẫn kỹ thuật chi tiết](docs/00-huong-dan-chi-tiet.md): toàn bộ tính năng, thư viện mẫu khung hình, các lệnh
 - 📖 [Video kể chuyện](docs/27-storytelling.md) · 📣 [Facebook ads với Claude](docs/28-facebook-ads.md)
 - 🎨 [Bảng màu theo ngành](docs/25-palettes.md) · ✂️ [Tự dựng video](docs/26-auto-edit.md) · 🔍 [Phân tích đối thủ](docs/24-competitor-analysis.md)
+- 🧭 Mới dùng? Nói "bắt đầu" — skill `creator-start` hỏi bạn đang có gì rồi dẫn vào đúng việc. Kit tự kiểm luật, chính sách, thông số đã cũ chưa (`freshness-check`) và học từ số liệu kênh (`performance-review`).
 - 🎬 [Kỹ thuật dựng + kiểm file trước khi đăng](docs/31-ky-thuat-dung.md): cắt theo hành động, match cut, cắt theo nhịp nhạc; thông số TikTok, Reels, Shorts, Shopee, Zalo
 - 🧩 [Danh mục mẫu khung hình](video-templates/CATALOG.md) · [Bộ khung kể chuyện](examples/gallery/gallery-story.jpg)
 - 🗺️ [Đề xuất làm tiếp](docs/30-de-xuat-tiep-theo.md): những gì kit sẽ bổ sung

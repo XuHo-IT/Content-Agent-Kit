@@ -8,12 +8,23 @@
 Claude Code loads skills only from `.claude/skills/`, `~/.claude/skills/` or a plugin — **not**
 from this repo's `skills/`. Two routes (newcomer walkthrough: `docs/29-bat-dau-nhanh.md`):
 ```bash
-node scripts/install-skills.mjs --kit --global     # copy all 27, each with a .kit-root file
+node scripts/install-skills.mjs --kit --global     # copy all 30, each with a .kit-root file
 # or, inside Claude Code:  /plugin marketplace add XuHo-IT/Content-Agent-Kit
 #                          /plugin install content-agent-kit@content-agent-kit
 ```
 Every skill opens with a step table: narrate it as "Bước n/N", ask one thing at a time, stop
 before anything irreversible. Run `node scripts/…` from the kit root (`.kit-root` says where).
+
+## Before you publish, advertise or deliver anything — is what the kit knows still true?
+Platform upload limits, Vietnamese ad and content law, AI-content labelling rules and skill
+licences change without telling anyone. At the start of any session that will post, run ads or
+hand a video to a client:
+```bash
+node scripts/maintenance/freshness.mjs --stale     # what has expired, and the searches that renew it
+```
+Anything listed → follow `skills/freshness-check/SKILL.md`: research the official sources on the
+web, update the file that holds the fact (citing the source), or record "checked, unchanged"
+with `--mark`. Law changes wait for the user's yes. Nothing listed → carry on.
 
 ## When the user says "build me an agent that does X"
 1. **Read** `docs/01-architecture.md`, `docs/03-conventions.md`, and skim the rest of `docs/`.
@@ -199,7 +210,7 @@ Cases" was 39% gated on the site this was built against. Method: `docs/10-crawl-
 - `docs/` — methodology (bilingual). Start at `01-architecture.md`.
 - `templates/` — fill-in scaffolds.
 - `scripts/` — generic working CLIs (env-only), incl. `scripts/video/`.
-- `video-templates/` — the 130 scene templates + `CATALOG.md` (slots + character limits),
+- `video-templates/` — the 133 scene templates + `CATALOG.md` (slots + character limits),
   including the 6 Claude Opus 5.5 style-recipe templates (`frame-opus-*`) and the 13 2026
   trend templates (`frame-trend-*`, emitted by `scripts/video/lib/build-trend-templates.mjs` —
   edit the builder, never the HTML).

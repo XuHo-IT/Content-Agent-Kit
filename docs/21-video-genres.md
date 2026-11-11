@@ -37,7 +37,7 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **testimonial** | someone else's result | the result first → their words, unedited → before and after, measured |
 | **local** | the story is *where* | the place, in the first frame → the question people there actually ask → your number beside a number they already carry → the route, if anything moves → someone from there, named |
 | **vox-explainer** | deep-dive data investigation or visual journalism | archival hook / evidence → highlighted document citation → technical data breakdown → verified conclusion |
-| **geo-answer** | search query & AI answer optimization | search question hook → direct answer definition (<25w) → two evidence points → citation anchor |
+| **geo-answer** | search query & AI answer optimization | search question hook → what the AI answers + where the brand ranks in its citations → two evidence points → citation anchor |
 | **technical-deepdive** | software architecture & engineering benchmarks | glassmorphism telemetry panel → distributed data pipeline → code implementation & test log → spider radar benchmark |
 | **growth-strategy** | strategic frameworks & business models | bold strategic thesis → compounding growth flywheel → 2x2 competitive matrix → proof stat |
 | **geo-itinerary** | travel guides & location routes | regional overview map → 3-stop itinerary timeline → flagship venue spotlight → city comparison |
@@ -144,7 +144,7 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **testimonial** | kết quả của người khác | kết quả trước → lời của họ, không sửa → trước và sau, có đo |
 | **local** | câu chuyện nằm ở *nơi chốn* | nơi đó ngay khung đầu → câu người ở đó thật sự hỏi → số của bạn cạnh số họ đã biết → vẽ tuyến nếu có gì di chuyển → một người ở đó, có tên |
 | **vox-explainer** | phóng sự điều tra dữ liệu hoặc phân tích sâu | hook tư liệu / bằng chứng → trích dẫn văn bản tô dạ quang → bóc tách chỉ số dữ liệu kỹ thuật → kết luận xác thực |
-| **geo-answer** | tối ưu câu hỏi tìm kiếm & trích dẫn AI | hook câu hỏi tìm kiếm → định nghĩa trả lời trực diện (<25 từ) → 2 luận điểm bằng chứng → neo nguồn trích dẫn |
+| **geo-answer** | tối ưu câu hỏi tìm kiếm & trích dẫn AI | hook câu hỏi tìm kiếm → AI trả lời gì + thương hiệu đứng thứ mấy trong nguồn trích dẫn → 2 luận điểm bằng chứng → neo nguồn trích dẫn |
 | **technical-deepdive** | phân tích kiến trúc kỹ thuật & benchmark | telemetry dashboard → luồng dữ liệu phân tán → code thực thi & test log → spider radar benchmark |
 | **growth-strategy** | mô hình kinh doanh & chiến lược tăng trưởng | quan điểm chiến lược sắc bén → vòng xoáy tăng trưởng flywheel → ma trận định vị 2x2 → chỉ số kiểm chứng |
 | **geo-itinerary** | hướng dẫn du lịch & bản đồ lộ trình | bản đồ tổng quan khu vực → timeline lịch trình 3 trạm → thẻ địa điểm spotlight → đối đầu so sánh thành phố |

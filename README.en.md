@@ -19,7 +19,7 @@
 
 A scaffolding kit that lets agentic IDEs (**Claude Code**, **Antigravity / Gemini**) build and
 run a complete content agent: topic research, competitor analysis, writing, quality gating,
-social publishing, and **vertical 9:16 video** from 130 single-file HTML templates with
+social publishing, and **vertical 9:16 video** from 133 single-file HTML templates with
 natural Vietnamese TTS, active-word captions, stock B-roll and live web captures.
 No `npm install`; most features need no API key. The primary README is Vietnamese — this is
 its English twin.
@@ -28,12 +28,14 @@ its English twin.
 
 | | |
 |---|---|
-| 🧭 **Install as a plugin; every skill walks you through it** | `/plugin marketplace add XuHo-IT/Content-Agent-Kit`, or `install-skills.mjs --kit [--global]` to copy all 27 skills. Each skill now opens with a step table the agent narrates ("Bước 2/5 — …") → [`docs/29`](docs/29-bat-dau-nhanh.md) |
+| 🧭 **Install as a plugin; every skill walks you through it** | `/plugin marketplace add XuHo-IT/Content-Agent-Kit`, or `install-skills.mjs --kit [--global]` to copy all 30 skills. Each skill now opens with a step table the agent narrates ("Bước 2/5 — …") → [`docs/29`](docs/29-bat-dau-nhanh.md) |
 | 📖 **15 storytelling templates + 4 story genres** | Frames that do a job in a narrative — a page that turns on 8 fps stop-motion, one pen line that draws the whole arc, a halftone case file with a slamming stamp, a telestrator freeze-and-ring, a pencil-drawn chart, a letter that writes itself, sand animation, a story painted round a turning vase. Built by `build-story-templates.mjs` from the recipes of [ghost-editor](https://github.com/kurbaitaev/ghost-editor) and the storytelling prompts of awesome-opus5-5-videos; genres `brand-story`, `customer-story`, `legend`, `case-breakdown`; skill `story-video` → [`docs/27`](docs/27-storytelling.md) |
 | 🔊 **CC0 sound pack + 2 edit styles** | `sfx-cc0.mjs` fetches 27 CC0 sounds (page turns, stings, risers, booms; reaction sounds kept out of auto-pick). `talking-head.mjs` gains `--style launch` and `--style meme` |
 | 📣 **Facebook ads toolkit (8 skills)** | Creative test matrix and naming, fatigue detection, comment triage with Vietnamese teencode, pre-flight policy lint, catalog feed audit, RFM segments with hashed custom-audience files, KOC/UGC briefs, Vietnamese sale calendar — all offline on Ads Manager exports: `creative-matrix.mjs`, `fatigue-check.mjs`, `comment-triage.mjs`, `policy-lint.mjs`, `feed-audit.mjs`, `rfm-segments.mjs`, `promo-plan.mjs`, `VN_RETAIL_CALENDAR.template.json` → [`docs/28`](docs/28-facebook-ads.md) |
 | 🎬 **13 new "trend" templates** | 2026 code-video grammar: active-word kinetic captions, search-bar morph, bar-race leaderboard, odometer stat, before/after wipe, exploded 3D cutaway, infinite zoom, phone notification storm, reply-to-comment, price slam. **They replace 27 older templates** that rendered as small cards in an empty frame with outdated copy |
 | 🎨 **16 industry palettes** | One preset per vertical, on-trend and **free of AI-slop tells** (no violet→cyan gradients, no neon glow, no gradient-filled type) → [`docs/25`](docs/25-palettes.md) |
+| 🧭 **Start here, and the kit keeps itself current** | `creator-start` asks a non-coder what they have (a phone take, a voice memo, a link, a topic) and routes them. `freshness-check` + `scripts/maintenance/freshness.mjs`: platform limits, Vietnamese ad and content law, AI-label rules and skill licences carry an expiry; when one has lapsed, the agent researches the official sources and updates the kit (`licence-watch.mjs` monthly in CI) |
+| 📈 **Learns from what was posted** | `performance-review` + `scripts/analytics/perf.mjs`: import the CSV from TikTok Studio / Meta Business Suite / YouTube Studio (or public YouTube numbers), match each post to the video the kit made, and report which genre, length, hook shape and hour beat the channel's own median — only with ≥ 3 posts a side. `scripts/research/ai-mentions.mjs`: does an AI assistant name your brand? `transcript-diff.mjs`: score a speech model before switching |
 | 🎬 **Editing techniques + upload check** | Cut on action, match cut, J/L-cuts, cutting to the beat (`beat-grid.mjs`, `talking-head --snap-beats`); `delivery-check.mjs` checks the real file against TikTok / Reels / Shorts / Shopee / Zalo limits (sourced, dated) and `--fix` re-encodes to fit; `compare.mjs` before/after; `--silence auto` → [`docs/31`](docs/31-ky-thuat-dung.md) |
 | ✂️ **Silence auto-cut** | `autocut.mjs`: raw talking-head take in, jump-cut reel out — punch-ins, -16 LUFS, 9:16, ffmpeg only. Method from [ghost-editor](https://github.com/kurbaitaev/ghost-editor) → [`docs/26`](docs/26-auto-edit.md) |
 | 💬 **Active-word captions** | 2–3 words per card, the spoken word lit in the theme accent — burned over footage and talking heads (`talking-head.mjs`, `--caption-style active`); template frames carry their own kinetic text |
@@ -51,7 +53,7 @@ its English twin.
 | 📄 **Article** | [Sample Post](examples/ai-news-social/sample-output/) — SEO/GEO-compliant article with engagement prompts and a 10-point quality audit |
 | 🖼️ **Cover Image** | [Cover Image](examples/ai-news-social/sample-output/cover.jpg) — 1024×1024 visual matching the article |
 | 🎬 **9:16 Video** | [Sample Video](examples/ai-video-social/sample-output/) — 2m 12s, natural TTS narration, Pexels footage, live website capture |
-| 🎨 **Theme Repainting** | [Paper-Blue Sample](examples/ai-video-social/sample-output-paper-blue/) — 16 scenes across 14 of the 130 templates, repainted via `"theme": "paper-blue"` |
+| 🎨 **Theme Repainting** | [Paper-Blue Sample](examples/ai-video-social/sample-output-paper-blue/) — 16 scenes across 14 of the 133 templates, repainted via `"theme": "paper-blue"` |
 
 > **Download Sample MP4:** [Releases v0.1.0](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0) or render locally:
 > `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
@@ -132,10 +134,10 @@ rather than generated: [`docs/25-palettes.md`](docs/25-palettes.md).
 
 ---
 
-## The 130-template library
+## The 133-template library
 
 Every template ships 16:9 and 9:16, an ambient motion layer, and Vietnamese-capable fonts.
-Galleries (Vietnamese labels) are in the [detailed guide](docs/00-huong-dan-chi-tiet.md#thư-viện-130-template-theo-nhóm) — the newest is the [storytelling set](examples/gallery/gallery-story.jpg);
+Galleries (Vietnamese labels) are in the [detailed guide](docs/00-huong-dan-chi-tiet.md#thư-viện-133-template-theo-nhóm) — the newest is the [storytelling set](examples/gallery/gallery-story.jpg);
 the full slot contracts and character limits are in
 **[`video-templates/CATALOG.md`](video-templates/CATALOG.md)**, and scene sequences for the 19
 genres in **[`docs/21-video-genres.md`](docs/21-video-genres.md)** &
@@ -148,7 +150,7 @@ genres in **[`docs/21-video-genres.md`](docs/21-video-genres.md)** &
 | Capability | Details |
 |---|---|
 | **6 voice providers** | OmniVoice (local, free), Vbee, Viettel AI, FPT AI, ElevenLabs, HTTP custom adapter |
-| **130 templates, 20 genres** | Review, Tutorial, News, Listicle, Launch, Testimonial, Local, Vox Explainer, GEO Answer, Technical Deep-Dive, Growth Strategy, GEO Itinerary, **Comment Reply, Flash Deal, Data Story, Brand Story, Customer Story, Legend, Case Breakdown, Comment Story** |
+| **133 templates, 20 genres** | Review, Tutorial, News, Listicle, Launch, Testimonial, Local, Vox Explainer, GEO Answer, Technical Deep-Dive, Growth Strategy, GEO Itinerary, **Comment Reply, Flash Deal, Data Story, Brand Story, Customer Story, Legend, Case Breakdown, Comment Story** |
 | **Captions & transitions** | `--captions burn` + `--caption-style active`; 12 transitions (fade, swipe, slide, iris, pixelize, zoom, whip, radial, slice, squeeze, reveal, cover) |
 | **Auto-edit your footage** | `autocut.mjs` — silence removal, punch-ins, -16 LUFS, 9:16, a reviewable cut list |
 | **Topic & competitor research** | `topic-radar.mjs` (HN, GitHub, Google News, **Google Trends VN**, Reddit) and `competitor-scan.mjs` (YouTube + RSS), keyless. Add `APIFY_TOKEN` for **TikTok, Instagram, YouTube, Facebook** via Apify (optional, paid) |
@@ -166,8 +168,8 @@ genres in **[`docs/21-video-genres.md`](docs/21-video-genres.md)** &
 | `docs/` | 26 methodology guides (bilingual VI + EN): writing, GEO, topic radar, competitor analysis, video pipeline, palettes, auto-edit, ad MCPs, Canva |
 | `templates/` | Scaffolds: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 industries, one palette each) |
 | `scripts/` | Zero-dependency CLIs: crawl, social publish, quality audit, video render, autocut, competitor scan, stock B-roll, screenshots |
-| `video-templates/` | 130 single-file HTML video templates plus **`CATALOG.md`** — self-contained CSS & animation, rendered offline. 456 more are one command away. |
-| `skills/` | 27 runtime skills: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `competitor-analysis`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template`, `story-video`, `talking-head-edit`, `ads-creative-lab`, `ads-fatigue-watch`, `ads-comment-triage`, `ads-policy-check`, `catalog-feed-audit`, `audience-plan`, `ugc-koc-brief`, `promo-calendar` + `registry.json` (46 on-demand skills incl. `lemo-opuscar`, `watch-video`, `ghost-editor`, `opus-55-videos`, `xilo-opus-video`) |
+| `video-templates/` | 133 single-file HTML video templates plus **`CATALOG.md`** — self-contained CSS & animation, rendered offline. 456 more are one command away. |
+| `skills/` | 30 runtime skills: `creator-start`, `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `competitor-analysis`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template`, `story-video`, `talking-head-edit`, `ads-creative-lab`, `ads-fatigue-watch`, `ads-comment-triage`, `ads-policy-check`, `catalog-feed-audit`, `audience-plan`, `ugc-koc-brief`, `promo-calendar`, `freshness-check`, `performance-review` + `registry.json` (48 on-demand skills incl. `lemo-opuscar`, `agent-browser`, `web-video-presentation`, `watch-video`, `ghost-editor`, `opus-55-videos`, `xilo-opus-video`) |
 | `examples/` | 2 end-to-end reference agents: AI news social and vertical video production |
 
 ## Requirements

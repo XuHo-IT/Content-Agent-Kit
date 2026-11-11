@@ -23,7 +23,7 @@ Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản
 
 | Bước | Agent làm gì | Người dùng cần làm |
 |---|---|---|
-| 1. Nhận chủ đề | Hỏi chủ đề và khoảng thời gian (hôm nay, tuần này) | Nói chủ đề |
+| 1. Nhận chủ đề | Hỏi chủ đề và khoảng thời gian (hôm nay, tuần này); có `brain/insights.md` thì đọc trước — góc nào, dạng hook nào đã hiệu quả với kênh này | Nói chủ đề |
 | 2. Dò tin | Chạy `topic-radar.mjs --topic "<chủ đề>" --top 10` | — |
 | 3. Đọc nguồn gốc | Mở trang gốc của 3 tin đầu để kiểm tra thật hay đồn | — |
 | 4. Báo cáo | Đưa 2–3 tin, mỗi tin: vì sao đáng làm hôm nay, nguồn, góc kể | Chọn tin muốn làm |

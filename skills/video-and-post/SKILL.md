@@ -17,6 +17,7 @@ Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản
 
 | Bước | Agent làm gì | Người dùng cần làm |
 |---|---|---|
+| 0. Kiểm cập nhật | `freshness-check` — thông số đăng, nhãn nội dung AI, chính sách nền tảng mới nhất | — |
 | 1. Chọn bài | Lấy từ hàng đợi (`queue-client.mjs pull`) hoặc bài bạn đưa, kiểm tra chưa làm | Đưa nội dung nếu có |
 | 2. Dựng video | Chạy skill `create-video`: viết script, kiểm tra, render (3–5 phút) | — |
 | 3. Viết caption | Caption, bình luận đầu tiên, tiêu đề YouTube, hashtag | Duyệt caption |
@@ -29,6 +30,10 @@ Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản
 - Thiếu webhook Make.com trong `.env` → bản dry-run vẫn chạy; thêm webhook rồi mới đăng thật.
 - Render không chạy trên GitHub Actions → phải render trên máy có ffmpeg, Chrome và OmniVoice.
 - Caption chép nguyên văn bài gốc → viết lại bằng lời của bạn và dẫn link.
+
+## 0. Freshness
+
+Run `freshness-check` first. Upload limits and AI-label rules change; `delivery-check.mjs` is only as current as `delivery-specs.mjs`, and an unlabelled AI video can be removed after it is posted.
 
 ## 1. Pick the item
 

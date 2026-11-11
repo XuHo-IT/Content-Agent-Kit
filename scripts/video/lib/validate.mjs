@@ -6,7 +6,9 @@
 // caught BEFORE 3–5 minutes of rendering are spent.
 //
 // Every issue quotes the offending text — same rule as skills/review-gate.
-import { listTemplateIds } from "./paths.mjs";
+import { listTemplateIds, KIT_ROOT } from "./paths.mjs";
+import fsSync from "node:fs";
+import pathMod from "node:path";
 import { PROVIDERS, PROVIDER_SPECS } from "./tts.mjs";
 import { SOURCE_IDS } from "../../media/lib/sources/index.mjs";
 // Read from the source itself so the accepted values cannot drift between the gate that
@@ -63,7 +65,7 @@ export const CRAFT_DEFAULTS = {
   ],
   // price-drop is a closer by design: a selling video ends on the price and where to buy.
   // kinetic-floor is a story's last line — the declaration everything before it built.
-  outroTemplates: ["frame-logo-outro", "frame-statement-outro", "frame-trend-price-drop", "frame-story-kinetic-floor"],
+  outroTemplates: ["frame-logo-outro", "frame-statement-outro", "frame-trend-price-drop", "frame-story-kinetic-floor", "frame-follow-cta"],
 };
 
 /** Fields animated character-by-character — emoji there shatters the animation. */
@@ -74,6 +76,8 @@ const CHAR_ANIMATED_FIELDS = {
   "frame-story-halftone-case": ["headline"], // pops in glyph by glyph
   "frame-story-letter": ["greeting", "body", "signoff"], // hand-written one character at a time
   "frame-story-rundown": ["title"], // one split-flap tile per character
+  "frame-ai-prompt-reveal": ["prompt"], // typed one character at a time
+  "frame-ai-answer-rank": ["question"], // typed one character at a time
 };
 
 /**
@@ -193,10 +197,22 @@ export function validateScript(script, opts = {}) {
     else if (t > 0.3) W(`transitionSec ${t}s overruns the 0.3s gap between scenes — the blend will cover speech`);
   }
 
+  // ── genre ────────────────────────────────────────────────────────────────
+  // Optional, but it is how scripts/analytics/perf.mjs learns which genre works for THIS
+  // channel: a video without one cannot be counted for or against any genre.
+  if (script.genre != null) {
+    let known = [];
+    try { known = Object.keys(JSON.parse(fsSync.readFileSync(pathMod.join(KIT_ROOT, "templates", "VIDEO_GENRES.template.json"), "utf8")).genres); } catch {}
+    if (known.length && !known.includes(script.genre)) W(`genre "${script.genre}" is not one of templates/VIDEO_GENRES.template.json (${known.join(", ")}) — analytics will not group it`);
+  }
+
   // ── theme ────────────────────────────────────────────────────────────────
   // A bad palette is only visible after a full render, so the cheap checks happen here.
   let theme = null;
-  if (script.theme != null) {
+  const themed = script.theme != null && script.theme !== "native";
+  if (script.theme === "native") {
+    // chosen, not forgotten — nothing to warn about
+  } else if (themed) {
     try {
       theme = resolveTheme(script.theme);
     } catch (err) {
@@ -214,7 +230,7 @@ export function validateScript(script, opts = {}) {
     W(`no "theme" — every template will render its OWN palette and the video will change ` +
       `colour scene to scene. Add one alongside "scenes", e.g. ` +
       `{"bg":"#0b0908","ink":"#d9c193","hue":38,"spread":18,"saturation":1.0}, ` +
-      `or a preset: ${THEME_IDS.join(", ")}`);
+      `or a preset: ${THEME_IDS.join(", ")} — or "native" to keep each template's own palette on purpose`);
   }
 
   // A theme adjusts colours; it does NOT flip a light canvas dark. Put pale-paper frames in a
@@ -227,11 +243,11 @@ export function validateScript(script, opts = {}) {
   // match — warning there was a false positive that blocked --strict on every light preset.
   let themeIsLight = false;
   try {
-    themeIsLight = script.theme != null && resolveTheme(script.theme)._lCanvas >= 0.5;
+    themeIsLight = themed && resolveTheme(script.theme)._lCanvas >= 0.5;
   } catch {
     /* an invalid theme is reported above */
   }
-  if (script.theme != null && !themeIsLight && Array.isArray(script.scenes)) {
+  if (themed && !themeIsLight && Array.isArray(script.scenes)) {
     const entryFile = aspect === "16:9" ? "index.html" : "compositions/portrait.html";
     const light = [...new Set(
       script.scenes
