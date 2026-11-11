@@ -221,6 +221,21 @@ Earthstar Geographics) with the attribution drawn onto the clip and repeated in
 meme template rendered through memegen.link (MIT) — the meme images are long-circulating
 templates whose rights rest with their original creators.
 
+## 2h. Ideas re-implemented from shared skill bundles (no code or text copied)
+
+| Kit file | Idea from | Licence of the source | What was taken |
+|---|---|---|---|
+| `scripts/video/lib/delivery-specs.mjs`, `delivery-check.mjs` | [iart-ai/freelance-motion-skills](https://github.com/iart-ai/freelance-motion-skills) `video-delivery-specs` | MIT © 2026 iart.ai | a per-platform spec sheet + QC — re-done as a checker of the real file, for the platforms Vietnamese creators use; numbers re-sourced and dated |
+| `scripts/video/beat-grid.mjs`, `docs/31` §6 | [iart-ai/motion-design-skills](https://github.com/iart-ai/motion-design-skills) `beat-sync-editing` | MIT © 2026 iart.ai | cutting on the beat; the detector itself is the kit's own |
+| `lib/autocut.mjs#adaptiveNoise` | Hải Đăng's `cut-silence` skill | none published | a threshold derived from the file's own levels — formula re-derived and measured here |
+| `scripts/video/compare.mjs` | Hải Đăng's `before-after-compare` skill | none published | a raw-vs-edit split screen with measured lengths |
+| `docs/31-ky-thuat-dung.md` §1–5, genre `comment-story` | Hải Đăng's editing-technique and style skills | none published | which techniques and formats to cover; text written fresh |
+
+The iart.ai skills themselves are installable unchanged from `skills/registry.json`
+(`beat-sync-editing`, `short-form-video`, `video-delivery-specs`, `motion-pricing`). Not used:
+InsightFace's `det_10g.onnx` (that bundle's face-zoom model) — its pretrained models are for
+non-commercial research only; the kit's face boxes use YuNet (MIT).
+
 ## 3. Runtime tools (not redistributed)
 These are invoked, not bundled — no license obligation for this repo, listed so
 you know what the render step reaches for:

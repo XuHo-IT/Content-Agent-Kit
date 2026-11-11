@@ -59,7 +59,7 @@ import path from "node:path";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { run } from "./lib/proc.mjs";
-import { parseSilences, keepSegments, summary, buildFilter, remapTime } from "./lib/autocut.mjs";
+import { parseSilences, keepSegments, summary, buildFilter, remapTime, parseLevels, adaptiveNoise, levelArgs } from "./lib/autocut.mjs";
 import { wordsFromTranscript, toAssActiveWords, escapeSubtitlePath, escapeAss, assTime, assColour } from "./lib/captions.mjs";
 import { resolveTheme, hslToRgb } from "./lib/theme.mjs";
 import { resolveStyle, hookStyle, STYLE_IDS, EDIT_STYLES } from "./lib/edit-styles.mjs";
@@ -72,6 +72,8 @@ import { listTemplateIds } from "./lib/paths.mjs";
 import { headBox, textSlot, splitSpeakerY, moveAssEvents } from "./lib/faces.mjs";
 import { detectFaces, sampleTimes } from "./face-boxes.mjs";
 import { personMatte } from "./person-matte.mjs";
+import { beatGrid } from "./beat-grid.mjs";
+import { snapToBeat } from "./lib/beats.mjs";
 import { makeCover, pickCoverTime, titleProblems } from "./cover.mjs";
 import { postDraft } from "./lib/post-draft.mjs";
 
@@ -98,6 +100,8 @@ if (!argv.length || argv.includes("--help")) {
       `  --credit "<text>"      small permanent credit line — REQUIRED for CC BY footage\n` +
       `  --faces                keep captions/hook off the speaker's head (Python + mediapipe)\n` +
       `  --no-card-sfx          no automatic sound when a card appears\n` +
+      `  --silence <dB|auto>    pause threshold (default -35); auto = from this take's own room/voice levels\n` +
+      `  --snap-beats           with --music: card entrances land on the bed's beats (≤ 0.12 s nudge)\n` +
       `  --cover                also write <out>.cover.jpg (a clear face + the --hook, no captions) and,\n` +
       `                         with --transcript, <out>.post.md — the spoken text + limits to write captions from\n` +
       `  --cover-title "<t>"    cover title when it should differ from --hook (≤ 60 chars)\n` +
@@ -108,7 +112,7 @@ if (!argv.length || argv.includes("--help")) {
   process.exit(argv.length ? 0 : 1);
 }
 const VALUE = new Set(["--transcript", "--from", "--to", "--crop", "--edl", "--style", "--punch", "--theme", "--hook", "--credit", "--font", "--out",
-  "--remove-words", "--keep-words", "--music", "--music-lufs", "--sfx-volume", "--cover-title"]);
+  "--remove-words", "--keep-words", "--music", "--music-lufs", "--sfx-volume", "--cover-title", "--silence"]);
 const flag = (n, d = null) => (argv.includes(n) ? argv[argv.indexOf(n) + 1] : d);
 const input = argv.find((a, i) => !a.startsWith("--") && !VALUE.has(argv[i - 1]));
 const die = (m) => {
@@ -267,7 +271,14 @@ try {
   const headAt = (t) => (t === null ? null : faceWins.find((w) => t >= w.from && t < w.to)?.head ?? null);
 
   // 2. autocut on the assembled timeline (already 9:16 — no re-crop)
-  const log = await stderrOf(["-hide_banner", "-nostats", "-i", joined, "-af", "silencedetect=noise=-35dB:d=0.28", "-vn", "-f", "null", "-"]);
+  // --silence auto: the threshold from this take's own levels (a noisy room otherwise yields no cuts)
+  let silenceDb = flag("--silence") && flag("--silence") !== "auto" ? Number(flag("--silence")) : -35;
+  if (flag("--silence") === "auto") {
+    const a = adaptiveNoise(parseLevels(await run("ffmpeg", levelArgs(joined))));
+    silenceDb = a.noise;
+    console.log(`[talking-head] silence: ${a.fallback ? `room and voice too close (${a.spread ?? "?"} dB) — kept` : `room ${a.floor} dB, voice ${a.speech} dB →`} ${silenceDb} dB`);
+  }
+  const log = await stderrOf(["-hide_banner", "-nostats", "-i", joined, "-af", `silencedetect=noise=${silenceDb}dB:d=0.28`, "-vn", "-f", "null", "-"]);
   let keep = keepSegments(parseSilences(log), dur, { pad: 0.1, minKeep: 0.2 });
   // 2b. cut by what was SAID: fillers, repeats, retakes (source time → assembled time)
   if (argv.includes("--cut-words")) {
@@ -289,6 +300,25 @@ try {
   const cardHead = (c) => headAt(joinedAt(Math.min(c.at + 1, c.at + c.dur / 2)));
   let placed = cardsOnCut(cardFiles, segFiles, (t) => remapTime(t, keep), cutDur).map((c) =>
     c.layout === "split" ? { ...c, fit: splitCardFit(c.band), speakerY: Number.isFinite(c.speakerY) ? c.speakerY : splitSpeakerY(cardHead(c)) } : c);
+  // --snap-beats: a card that appears on the music's beat reads as edited; one 80 ms off reads
+  // as late. Only a small nudge (≤ 0.12 s) — the card still belongs to its spoken word. The bed
+  // loops (-stream_loop), so its beat grid repeats every track length.
+  let snapped = 0;
+  if (argv.includes("--snap-beats") && flag("--music") && placed.length) {
+    const g = await beatGrid(flag("--music"));
+    if (g.confidence < 0.3) console.warn(`[talking-head] ⚠ --snap-beats: the bed has no steady pulse (confidence ${g.confidence}) — cards left on their words`);
+    else {
+      const beats = [];
+      for (let k = 0; k * g.duration < cutDur; k++) for (const b of g.beats) beats.push(b + k * g.duration);
+      placed = placed.map((c) => {
+        const s = snapToBeat(c.start, beats);
+        if (s === c.start) return c;
+        snapped++;
+        return { ...c, start: +s.toFixed(3), end: +Math.min(cutDur, s + (c.end - c.start)).toFixed(3) };
+      });
+      console.log(`[talking-head] beats: ${g.bpm} BPM — ${snapped}/${placed.length} card entrance(s) moved onto a beat`);
+    }
+  } else if (argv.includes("--snap-beats")) console.warn("[talking-head] ⚠ --snap-beats needs --music");
   if (!argv.includes("--no-card-sfx")) placed = withAutoSfx(placed);
   // the face windows on the cut timeline — where each head box applies after the silence cut
   const cutWindows = faceWins.map((w) => ({ start: remapTime(w.from, keep), end: remapTime(w.to, keep), head: w.head }));

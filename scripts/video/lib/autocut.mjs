@@ -145,3 +145,44 @@ export function remapTime(t, keep) {
   }
   return round(acc);
 }
+
+/**
+ * Per-window RMS levels (dB) out of ffmpeg `astats` + `ametadata=print` output.
+ * Silent windows report -inf; they are kept as -120 so they still count as silence.
+ */
+export function parseLevels(text) {
+  const out = [];
+  for (const m of String(text).matchAll(/(?:RMS|Peak)_level=(-?inf|-?[\d.]+)/g)) out.push(m[1].endsWith("inf") ? -120 : Number(m[1]));
+  return out;
+}
+
+/**
+ * The silence threshold for THIS recording, from its own levels (idea from Hải Đăng's
+ * cut-silence skill — re-derived here, no code taken). A fixed -35 dB finds no pause at all
+ * in a room with a fan, and the cut never happens.
+ *
+ * Levels are PEAK per 50 ms window, because silencedetect compares samples, not RMS: a room
+ * whose RMS is -40 dB still peaks near -30. The room is the 10th percentile; the voice the
+ * 70th. The threshold sits just above the room (+3 dB) and never closer than 12 dB to the
+ * voice — tried "35% of the way up" first, and on a take with little silence the 10th
+ * percentile is soft speech, so it cut 7 s of a 62 s take that had 1.6 s of real pause.
+ * → { noise, floor, speech, spread, fallback } — fallback=true (keep the default) when the
+ * room and the voice are under 10 dB apart: music under the voice, or a very loud room.
+ */
+export function adaptiveNoise(levels, { fallbackDb = -35, min = -50, max = -26, margin = 3, headroom = 12 } = {}) {
+  const v = levels.filter(Number.isFinite).sort((a, b) => a - b);
+  if (v.length < 20) return { noise: fallbackDb, floor: null, speech: null, spread: null, fallback: true };
+  const pct = (p) => v[Math.min(v.length - 1, Math.floor(p * v.length))];
+  const floor = Math.max(-90, pct(0.1)), speech = pct(0.7), spread = speech - floor;
+  const r = (x) => +x.toFixed(1);
+  if (spread < 10) return { noise: fallbackDb, floor: r(floor), speech: r(speech), spread: r(spread), fallback: true };
+  const noise = Math.max(min, Math.min(max, floor + margin, speech - headroom));
+  return { noise: r(noise), floor: r(floor), speech: r(speech), spread: r(spread), fallback: false };
+}
+
+/** ffmpeg args that print one RMS level per 50 ms window of `input`'s audio (to stdout). */
+export function levelArgs(input) {
+  return ["-hide_banner", "-nostats", "-v", "error", "-i", input, "-vn", "-af",
+    "aresample=16000,asetnsamples=n=800:p=0,astats=metadata=1:reset=1,ametadata=print:key=lavfi.astats.Overall.Peak_level:file=-",
+    "-f", "null", "-"];
+}

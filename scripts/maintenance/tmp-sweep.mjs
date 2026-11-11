@@ -41,7 +41,7 @@ if (!(cutoffH >= 0)) {
 /** Only these. Anything else in %TEMP% belongs to someone else. */
 // Every mkdtemp prefix under scripts/ — tests/ci-local.test.mjs fails if one is added and not listed here.
 export const PREFIXES = ["cak-tpl-", "cak-hf-vars-", "cak-tsheet-", "cak-img-", "cak-sheet-", "cak-theme-", "cak-shot-",
-  "cak-limits-", "cak-aconcat-", "cak-vconcat-", "cak-asr-", "cak-faces-", "cak-matte-", "cak-cover-"];
+  "cak-limits-", "cak-aconcat-", "cak-vconcat-", "cak-asr-", "cak-faces-", "cak-matte-", "cak-cover-", "cak-compare-"];
 
 const dirSize = (p) => {
   let total = 0;

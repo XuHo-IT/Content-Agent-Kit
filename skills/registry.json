@@ -472,6 +472,46 @@
       "sizeNote": "The skill is 2 files; on first use it clones the library (≈ 160 MB with demo frames and 3D assets) to ~/lemo-opuscar and installs Node/Python deps.",
       "summary": "66 film styles made entirely in code (impasto, watercolor, ukiyo-e, satellite briefing, teardown, newsreel…) — a style prompt plus a demo film each, and your own styles.",
       "why": "For a short film, promo or explainer with a distinct art direction beyond the kit's frame templates. Several kit story templates are already ports of its MIT styles (NOTICE.md)."
+    },
+    "beat-sync-editing": {
+      "ref": "main",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "repo": "iart-ai/motion-design-skills",
+      "path": "skills/beat-sync-editing",
+      "installAs": "beat-sync-editing",
+      "summary": "Cut to the music: BPM → frame grid, cut on action, J/L-cuts, speed ramps, pacing arcs, an edit-timing plan.",
+      "why": "Pair with scripts/video/beat-grid.mjs (the kit measures the beats; this explains how to cut on them)."
+    },
+    "short-form-video": {
+      "ref": "main",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "repo": "iart-ai/tiktok-video-skills",
+      "path": "skills/short-form-video",
+      "installAs": "short-form-video",
+      "summary": "Engineering Reels, TikToks and Shorts that survive the swipe: hook, retention beats, loop endings.",
+      "why": "A second opinion on structure next to the kit's VIDEO_GENRES and review-gate."
+    },
+    "video-delivery-specs": {
+      "ref": "main",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "repo": "iart-ai/freelance-motion-skills",
+      "path": "skills/video-delivery-specs",
+      "installAs": "video-delivery-specs",
+      "summary": "Export specs for Instagram, TikTok, YouTube, broadcast, OOH and web; safe areas; one master → every ratio; QC checklist.",
+      "why": "Broadcast/OOH/web deliveries the kit does not cover. For TikTok/Facebook/Shopee/Zalo use the kit's delivery-check.mjs, which checks the real file."
+    },
+    "motion-pricing": {
+      "ref": "main",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "repo": "iart-ai/freelance-motion-skills",
+      "path": "skills/motion-pricing",
+      "installAs": "motion-pricing",
+      "summary": "Pricing motion and video work for clients: scope, day rates, packages, revision limits.",
+      "why": "For creators who also edit for clients (KOC/brand work) — pairs with ugc-koc-brief."
     }
   },
   "_marketing": [
