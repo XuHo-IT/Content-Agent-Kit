@@ -44,13 +44,19 @@ jobs:
           python-version: "3.12"
 
       # setup-ffmpeg supports x64 only; macOS runners are arm64 — use each system's own package manager
-      # setup-ffmpeg is x64-only: fine on the Linux and Windows runners, not on arm64 macOS
-      - name: ffmpeg (Linux, Windows)
-        if: runner.os != 'macOS'
+      # One install route per system. setup-ffmpeg is x64-only (not arm64 macOS) and its
+      # Windows download source failed on 2026-11-11 ("Cannot get latest release") while the
+      # Linux one worked — so Windows uses the runner's own ffmpeg, or Chocolatey.
+      - name: ffmpeg (Linux)
+        if: runner.os == 'Linux'
         uses: FedericoCarboni/setup-ffmpeg@v3
         with:
-          # without it the action looks up the release anonymously and hits the rate limit
           github-token: ${{ github.token }}
+      - name: ffmpeg (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        timeout-minutes: 10
+        run: command -v ffmpeg >/dev/null && ffmpeg -version | head -1 || choco install ffmpeg -y --no-progress
       - name: ffmpeg (macOS)
         if: runner.os == 'macOS'
         timeout-minutes: 10
