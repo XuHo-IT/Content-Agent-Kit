@@ -291,7 +291,9 @@ node scripts/video/talking-head.mjs take.mp4 --transcript take.json --crop 405:6
 node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12   # cut only, no captions
 ```
 
-Method for both: `docs/26-auto-edit.md`.
+Method for both: `docs/26-auto-edit.md`. For a full edit of someone's own footage — fillers and
+retakes cut by the words, cards from what each sentence says, music and sounds — use
+`skills/talking-head-edit/SKILL.md`.
 
 If a scene's text was wrong, fix `script.json` and re-run: **narration re-generates by itself**
 when the text, provider, voice or speed changed (it is fingerprinted). Only visual edits need a

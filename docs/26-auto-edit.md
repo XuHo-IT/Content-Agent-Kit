@@ -116,6 +116,38 @@ của kit, viết bằng filter ffmpeg + thẻ ASS — `scripts/video/lib/edit-s
 Màu nhấn lấy từ `--theme` nếu có (bảng màu theo ngành). Chỉnh màu chạy **trước** khi đốt
 phụ đề, nên chữ không bị nhiễu hạt. Font nào cũng phải có dấu tiếng Việt — Impact không có.
 
+### 2c. Dựng theo lời nói — cắt chỗ vấp, thẻ bám từ, nhạc nền, âm thanh
+
+Cắt khoảng lặng chỉ nghe được *im lặng*. Những thứ người dựng cắt bằng tai — "ờ", "ừm", một
+chữ nói hai lần, một câu nói dở rồi nói lại — đều có tiếng, nên `silencedetect` giữ nguyên.
+Có transcript từng từ thì tìm được chúng bằng chữ. Cả quy trình: `skills/talking-head-edit/`.
+
+```bash
+node scripts/video/speech-cuts.mjs quay.transcript.json                  # file review, chưa cắt gì
+node scripts/video/suggest-cards.mjs quay.transcript.json --edl edl.json --out edl.json
+node scripts/video/talking-head.mjs quay.mp4 --transcript quay.transcript.json --edl edl.json \
+     --cut-words --keep-words 40 --music nen.mp3 --style pop
+```
+
+| việc | quy tắc | vì sao |
+| --- | --- | --- |
+| từ đệm | "ờ", "ừm", "uh"… đứng riêng một từ | là thứ đầu tiên người xem nghe ra "chưa dựng" |
+| chữ lặp | 1–6 chữ nói hai lần liền → bỏ **lần đầu** | người ta lặp để sửa; lần sau mới là ý họ |
+| nói lại | câu sau mở đầu bằng chính câu trước (≥ 75% chữ trùng) → bỏ câu trước | "để mình nói lại" |
+| giữ lại | "từ từ", "rất rất", "dần dần"… trừ khi ngắt giữa hai chữ > 0,3 s | tiếng Việt láy có nghĩa |
+| vết cắt | chừa 0,06 s mỗi bên, mảnh < 0,12 s bỏ | nghe giống vết cắt khoảng lặng, không "tách" |
+| thẻ bám từ | `"at": "tăng"` (+ `"near": 70` nếu nói nhiều lần) → hiện sớm 0,15 s trước từ | thẻ đã lên khi chữ vừa vang |
+| gợi ý thẻ | ≤ 6/phút, cách ≥ 4 s, không lặp template trong ~12 s, full/pip xen kẽ, không trong 3 s đầu | nhịp của reel dựng tay |
+| nhạc nền | -26 LUFS, sidechain theo giọng (ratio 6, attack 30 ms, release 450 ms), fade 1 s / 2,5 s | nhạc lùi xuống khi có lời, không "thở" theo từng chữ |
+| âm thanh thẻ | `"sfx"` trên thẻ; whoosh sớm 80 ms; ≤ 2 tiếng/3 s, ≤ 0,7 tiếng/s | quá dày thì âm thanh hết nghĩa |
+| sửa phụ đề | `"fix": [["^cờ-lốt$", "Claude"]]` — regex trên từng từ | Whisper nghe nhầm tên riêng; chỉ sửa chữ, không sửa mốc |
+
+Mọi quyết định cắt có lý do và số thứ tự từ trong file review — người duyệt ghi đè bằng
+`--remove-words` / `--keep-words`. `<out>.cuts.json` ghi lại đã cắt gì, nhạc nào, âm thanh ở
+giây nào. Ý tưởng cắt theo lời, thẻ bám từ và luật mật độ học từ MRT Keyword (Phúc Anh MRT) —
+repo đó **không công bố giấy phép**, nên không chép dòng nào: quy tắc được viết lại từ đầu
+(`scripts/video/lib/speech-edit.mjs`, `lib/card-suggest.mjs`, test `tests/speech-edit.test.mjs`).
+
 | | `box` (mặc định cũ) | `active` (mới) |
 | --- | --- | --- |
 | mỗi lần hiện | một câu ngắn | 2–3 từ |
@@ -152,3 +184,12 @@ captions mapped source → assembled → cut, and finishes in one of seven `--st
 (`clean`, `pop`, `editorial`, `cinematic`, `kinetic-doc`, `launch`, `meme` — caption treatment, grade applied
 before captions, punch-in amount, hook card, optional progress bar).
 Tests: `tests/autocut.test.mjs`, `tests/active-captions.test.mjs`, `tests/edit-styles.test.mjs`.
+
+Editing by the words (§2c): `speech-cuts.mjs` reviews fillers, repeated words (the first copy
+goes) and retakes (the earlier sentence goes) in a word-timed transcript; `talking-head.mjs
+--cut-words` removes them together with the pauses. Cards may be anchored to a spoken word
+(`"at": "tăng"`, `"near"`), `suggest-cards.mjs` drafts them from what each sentence says with
+reel pacing rules, `--music` ducks a -26 LUFS bed under the voice with a sidechain compressor,
+and a card's `"sfx"` is placed with a density check. Ideas from MRT Keyword (no licence
+published — rules re-derived, no code copied). Workflow: `skills/talking-head-edit/`.
+Tests: `tests/speech-edit.test.mjs`.

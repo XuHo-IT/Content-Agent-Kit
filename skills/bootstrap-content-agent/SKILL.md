@@ -146,7 +146,8 @@ From `templates/` + `scripts/`, produce:
   to more than one channel, `geo-optimize` if anything they publish is meant to be found —
   it carries `scripts/geo-audit.mjs`, which gates a draft on whether a passage still means
   anything once an answer engine quotes it alone — and
-  `design-campaign` if Canva is connected, `story-video` whenever the agent makes videos (brand,
+  `design-campaign` if Canva is connected, `talking-head-edit` if the user films themselves (cuts fillers and retakes by the transcript,
+  cards landed on the spoken word, a ducked music bed), `story-video` whenever the agent makes videos (brand,
   customer and history stories on the `frame-story-*` set — fetch its sounds once with
   `node scripts/video/sfx-cc0.mjs`), and for an agent that runs Meta ads the ads set:
   `ads-creative-lab`, `ads-fatigue-watch`, `ads-comment-triage`, `ads-policy-check` (wire it

@@ -8,7 +8,7 @@
 Claude Code loads skills only from `.claude/skills/`, `~/.claude/skills/` or a plugin — **not**
 from this repo's `skills/`. Two routes (newcomer walkthrough: `docs/29-bat-dau-nhanh.md`):
 ```bash
-node scripts/install-skills.mjs --kit --global     # copy all 26, each with a .kit-root file
+node scripts/install-skills.mjs --kit --global     # copy all 27, each with a .kit-root file
 # or, inside Claude Code:  /plugin marketplace add XuHo-IT/Content-Agent-Kit
 #                          /plugin install content-agent-kit@content-agent-kit
 ```
@@ -69,6 +69,15 @@ node scripts/video/talking-head.mjs report.mp4 --edl edl.json --transcript repor
 # full frame for voice-over, "pip" to keep the speaker in a corner. Example: examples/talking-head-demo/hoan-chinh/
 node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12   # cut only: pauses out, punch-ins, -16 LUFS
 ```
+To edit it the way a human editor would — fillers, repeated words and retakes cut BY WHAT WAS
+SAID, cards drafted from each sentence and landed on the spoken word (`"at": "tăng"`), a music bed
+ducked under the voice, a sound per card — follow `skills/talking-head-edit/SKILL.md`:
+```bash
+node scripts/video/speech-cuts.mjs take.transcript.json                       # review first, cuts nothing
+node scripts/video/suggest-cards.mjs take.transcript.json --edl edl.json --out edl.json
+node scripts/video/talking-head.mjs take.mp4 --transcript take.transcript.json --edl edl.json --cut-words --music bed.mp3 --style pop
+```
+Card text comes only from what the speaker said — never an invented number, price or quote.
 `--style`: `clean` · `pop` · `editorial` · `cinematic` · `kinetic-doc` · `launch` · `meme`. Pick by vertical and
 platform, or render two and let the user choose. Every crop must stay clear of burned-in TV
 bars and logos; B-roll should come from the same licensed footage, under ~35% of the runtime.
