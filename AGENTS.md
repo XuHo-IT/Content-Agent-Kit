@@ -63,7 +63,10 @@ take the device, write your own. Method: `docs/24-competitor-analysis.md`.
 ## When the user brings their own footage — "cắt khoảng lặng", "dựng video tự quay"
 ```bash
 node scripts/video/talking-head.mjs take.mp4 --transcript take.json --style pop --theme <preset> --credit "<source · licence>"
+node scripts/video/transcribe.mjs take.mp4                        # word-timed transcript (server or faster-whisper)
 node scripts/video/talking-head.mjs report.mp4 --edl edl.json --transcript report.json --style cinematic   # several ranges + B-roll
+# "cards" in the EDL cut in kit templates (a number, a checklist, a step) while the voice runs on —
+# full frame for voice-over, "pip" to keep the speaker in a corner. Example: examples/talking-head-demo/hoan-chinh/
 node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12   # cut only: pauses out, punch-ins, -16 LUFS
 ```
 `--style`: `clean` · `pop` · `editorial` · `cinematic` · `kinetic-doc` · `launch` · `meme`. Pick by vertical and

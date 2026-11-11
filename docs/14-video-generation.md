@@ -346,6 +346,7 @@ entry rather than new code:
 | Provider | Needs | Notes |
 |---|---|---|
 | `omnivoice` | a **local server** | Free, offline, no key. The only one needing anything installed. |
+| `openai-speech` | any server with OpenAI's `POST /v1/audio/speech` | One adapter for every OpenAI-compatible engine, local or hosted (speech.cpp, LocalAI, Kokoro-FastAPI, speaches…). Set `OPENAI_SPEECH_ENDPOINT` and `OPENAI_SPEECH_MODEL`; check the model really speaks Vietnamese (e.g. ZeroTTS, VoxCPM2). |
 | `elevenlabs` | `ELEVENLABS_API_KEY` + voice_id | Best quality. Set `ELEVENLABS_MODEL` to a multilingual model for Vietnamese. |
 | `vbee` | `VBEE_API_KEY` + voice_code | Vietnamese specialist, 200+ regional voices (North/Central/South). |
 | `fptai` | `FPTAI_API_KEY` + voice | Voices: `banmai lannhi leminh myan thuminh giahuy linhsan`. Params go in headers, body is raw text. |
@@ -420,7 +421,7 @@ node scripts/social/make-post.mjs --video brain/<id>/video.mp4 --post caption.tx
 
 | Var | Default | Meaning |
 |---|---|---|
-| `TTS_PROVIDER` | `omnivoice` | `omnivoice` \| `elevenlabs` \| `vbee` \| `fptai` \| `viettel` \| `http` |
+| `TTS_PROVIDER` | `omnivoice` | `omnivoice` \| `openai-speech` \| `elevenlabs` \| `vbee` \| `fptai` \| `viettel` \| `http` |
 | `TTS_VOICE_ID` | — | required by every provider except `omnivoice` |
 | `TTS_SPEED` | `1.0` | 0.5–2.0 |
 | `TTS_CONCURRENCY` | `1` | parallel TTS calls |
@@ -698,6 +699,7 @@ một dòng vào bảng, không phải viết code mới:
 | Provider | Cần gì | Ghi chú |
 |---|---|---|
 | `omnivoice` | một **server local** | Miễn phí, offline, không key. Là cái duy nhất phải cài đặt gì đó. |
+| `openai-speech` | mọi server có `POST /v1/audio/speech` kiểu OpenAI | Một adapter cho mọi engine tương thích OpenAI, chạy máy hay thuê ngoài. Đặt `OPENAI_SPEECH_ENDPOINT`, `OPENAI_SPEECH_MODEL`; kiểm tra model có nói tiếng Việt (vd. ZeroTTS, VoxCPM2). |
 | `elevenlabs` | `ELEVENLABS_API_KEY` + voice_id | Chất lượng cao nhất. Đặt `ELEVENLABS_MODEL` là model multilingual cho tiếng Việt. |
 | `vbee` | `VBEE_API_KEY` + voice_code | Chuyên tiếng Việt, 200+ giọng Bắc/Trung/Nam. |
 | `fptai` | `FPTAI_API_KEY` + voice | Giọng: `banmai lannhi leminh myan thuminh giahuy linhsan`. Tham số nằm ở header, body là text thô. |

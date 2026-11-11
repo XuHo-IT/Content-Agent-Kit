@@ -53,18 +53,20 @@ node scripts/video/talking-head.mjs quay.mp4 --transcript quay.json --from 96 --
 
 Một lệnh: cắt đoạn → cắt khoảng lặng + punch-in → crop bỏ thanh chữ/logo cứng → khung 9:16 →
 phụ đề theo **mốc thời gian thật** của từng từ (được dời theo các vết cắt) → tiêu đề mở đầu →
-dòng ghi nguồn. Transcript lấy từ công cụ nhận dạng giọng nói, ví dụ faster-whisper (MIT):
+dòng ghi nguồn. Transcript (mốc thời gian từng từ) do `transcribe.mjs` làm:
 
-```python
-from faster_whisper import WhisperModel
-m = WhisperModel("medium", device="cpu", compute_type="int8")
-seg, _ = m.transcribe("quay.wav", language="vi", word_timestamps=True, vad_filter=True)
-# ghi {segments:[{words:[{word,start,end}]}]} ra JSON
+```bash
+node scripts/video/transcribe.mjs quay.mp4                  # → quay.transcript.json
+node scripts/video/transcribe.mjs quay.mp4 --from 58 --to 134
 ```
 
-Kit không đóng gói model (giữ nguyên tắc không phụ thuộc); whisperX và whisper.cpp (`-ojf`) cũng đọc được.
+Hai cách chạy: đặt `TRANSCRIBE_ENDPOINT` trỏ tới một server có `POST /v1/audio/transcriptions`
+kiểu OpenAI (speaches / faster-whisper-server, LocalAI…), hoặc cài `pip install faster-whisper`
+để chạy ngay trên máy. Kit không đóng gói model (giữ nguyên tắc không phụ thuộc). **Đọc lại
+transcript trước khi đăng** — tên riêng và từ hiếm hay bị nghe nhầm. whisperX và whisper.cpp
+(`-ojf`) xuất ra file cũng đọc được.
 
-### Ghép nhiều đoạn + B-roll — `--edl`
+### Ghép nhiều đoạn + B-roll + thẻ minh hoạ — `--edl`
 
 Một video ngắn hay thường không phải một câu trả lời liền, mà là vài đoạn ghép lại: người
 nói → cảnh minh hoạ có lời dẫn → người nói tiếp. `--edl edl.json` nhận danh sách đó (giây
@@ -76,6 +78,21 @@ nói trong khi tiếng vẫn chạy**:
                 { "from": 95.4, "to": 120.8, "crop": "315:560:622:0" } ],
   "broll":    [ { "at": 66.9, "src": 40.0, "dur": 2.6, "crop": "315:560:482:0" } ] }
 ```
+
+**Thẻ minh hoạ (`cards`)** — template bất kỳ của kit, render với chữ của bạn, đặt đè lên đúng
+lúc người nói nhắc tới nội dung đó; tiếng vẫn chạy liên tục:
+
+```json
+"cards": [ { "at": 77.9, "dur": 3.8, "layout": "full", "templateId": "frame-trend-stat-odometer",
+             "inputs": { "value": "30–50", "unit": "hồ sơ", "label": "mỗi ngày" } },
+           { "at": 96.6, "dur": 4.6, "layout": "pip", "templateId": "frame-story-step-numeral",
+             "inputs": { "number": "1", "title": "Đông khách thì thêm 2–3 cán bộ" } } ]
+```
+
+`full` thay hẳn hình (hợp với lời dẫn), `pip` giữ người nói trong khung nhỏ góc trên (hợp khi
+gương mặt quan trọng). Màu thẻ theo `--theme`. Thẻ phải nằm trọn trong một đoạn, không chồng
+lên B-roll, ít nhất 1,5 giây; B-roll + thẻ che người nói tối đa ~55% (thẻ `pip` tính một nửa).
+Mỗi thẻ là một lần render (~1 phút). Ví dụ đầy đủ: `examples/talking-head-demo/hoan-chinh/`.
 
 Phụ đề tự đi theo: mốc từng từ được dời từ video gốc → video đã ghép → video đã cắt khoảng
 lặng. B-roll vượt ~35% thời lượng thì lệnh từ chối — người nói mới là nội dung. Ví dụ thật:

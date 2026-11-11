@@ -395,7 +395,17 @@
       "summary": "Full-stack marketing suite covering CRO, email funnels, positioning, copy optimization, and growth engineering.",
       "why": "Standardizes product-marketing context files to drive high-converting hooks, video scripts, and landing page copy."
     },
-    "ghost-editor": {
+    "watch-video": {
+    "repo": "bradautomates/claude-video",
+    "ref": "main",
+    "path": "skills/watch",
+    "installAs": "watch",
+    "license": "MIT",
+    "licenseFile": "LICENSE",
+    "summary": "Lets the agent actually watch a video from a URL or file: timestamped frames plus a transcript (local WhisperX; Gemini optional).",
+    "why": "competitor-analysis and social-fetch --analyze read titles and numbers; this lets the agent see a competitor's breakout video — the hook in the first 3 seconds, the cut rhythm, what is on screen. Study the device, never copy the footage."
+  },
+  "ghost-editor": {
       "repo": "kurbaitaev/ghost-editor",
       "ref": "main",
       "path": ".",

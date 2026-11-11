@@ -116,7 +116,7 @@ export async function composeTemplate(args) {
     const html = readFileSync(target, "utf8");
     const secs = Math.max(1, Math.round(durationSec * 100) / 100);
     const patched = html.replace(/data-duration="[^"]*"/, `data-duration="${secs}"`);
-    if (patched === html) {
+    if (!/data-duration="/.test(html)) {
       log?.(`duration: ${templateId} has no data-duration attribute — leaving its own length`);
     } else {
       writeFileSync(target, patched, "utf8");
