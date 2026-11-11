@@ -178,7 +178,11 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
   MediaPipe Face Detection (Apache-2.0) có bản WASM chạy trong Chrome mà kit đã dùng để render.
 - **Bước đầu:** chụp 12 khung của demo `hoan-chinh`, chạy MediaPipe trong Chrome headless, so hộp
   với mắt thường.
-- **Ghi chú:**
+- **Ghi chú:** 2026-11-11 — đã kiểm giấy phép (cả mã nguồn lẫn **trọng số model**): OpenCV **YuNet**
+  (`opencv_zoo`, mã Apache-2.0, model MIT, dùng qua `cv2.FaceDetectorYN`) là lựa chọn chính; MediaPipe
+  BlazeFace (Apache-2.0) dự phòng. Hướng cắm: như `transcribe.mjs` — Python tuỳ chọn (`pip install
+  mediapipe`, kéo theo OpenCV), báo lỗi rõ nếu chưa cài; model tải một lần vào `assets/models/`
+  (gitignore), ghim commit. Dùng hộp mặt để dời phụ đề/tiêu đề mở đầu và chọn nửa khung cho thẻ `split` (mục 5).
 
 ### 17. Tách người khỏi nền: chữ sau lưng, người bật khỏi khung
 
@@ -188,7 +192,12 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
   đóng gói được; chỉ gọi như công cụ ngoài người dùng tự cài, giống `transcribe.mjs`.
 - **Thay thế cần xem:** MediaPipe Selfie Segmentation (Apache-2.0), BiRefNet (MIT).
 - **Bước đầu:** xuất WebM có alpha cho 3 giây của demo, ghép chữ sau người bằng ffmpeg `overlay`.
-- **Ghi chú:**
+- **Ghi chú:** 2026-11-11 — giấy phép đã kiểm: MediaPipe selfie segmenter (Apache-2.0, cả model),
+  MODNet (Apache-2.0, README ghi rõ gồm cả model), rembg (MIT) với `u2net_human_seg` (Apache-2.0) hoặc
+  `birefnet-portrait` (MIT) khi cần viền tóc nét. **Không dùng** RVM (GPL-3.0) và `bria-rmbg` trong rembg
+  (phi thương mại). Cách ghép không cần kênh alpha: xuất mặt nạ xám theo timeline đã cắt, trong lượt
+  cuối `split` khung đã chỉnh màu → `alphamerge` với mặt nạ → `overlay` lên trên lớp chữ (chữ đốt bằng
+  một file ASS riêng) — người và nền cùng một màu grade.
 
 ### 18. Video chỉ có giọng đọc → thẻ trên nền màu
 
@@ -197,7 +206,8 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 - **Cắm vào:** `talking-head.mjs` nhận đầu vào âm thanh (autocut đã đọc được `.wav`) + `suggest-cards`
   với `maxHidden: 1`.
 - **Bước đầu:** dựng 30 giây từ `examples/talking-head-demo/transcript.json` chỉ lấy tiếng.
-- **Ghi chú:**
+- **Ghi chú:** không cần thư viện ngoài — nền `color=` của ffmpeg theo `--theme`; `validateEdl` cần một
+  chế độ bỏ luật "che người nói ≤ 55%" và cấm B-roll/`pip` khi không có hình.
 
 ### 19. Ảnh bìa + tiêu đề, caption khi dựng xong
 
