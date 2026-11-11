@@ -1,6 +1,6 @@
 {
   "_comment": "The repo's About box — description, website and topics. GitHub stores these as repo settings, not as files, so this is the source of truth for what they should be. Apply with: node .github/apply-about.mjs --apply (needs `gh` authenticated). Topics are capped at 20 by GitHub; the list is full, so adding one means arguing another out.",
-  "description": "Nói với AI bằng tiếng Việt → tìm chủ đề hot, soi đối thủ, viết bài, dựng video 9:16 với 130 template (có video kể chuyện, giọng đọc tiếng Việt), duyệt rồi mới đăng; kèm bộ công cụ chạy quảng cáo Facebook cho shop. Cài làm skill cho Claude Code hoặc dùng với Antigravity. Phần lớn miễn phí, MIT.",
+  "description": "Nói với AI bằng tiếng Việt → tìm chủ đề hot, soi đối thủ, viết bài, dựng video 9:16 với 133 template (có video kể chuyện, giọng đọc tiếng Việt), duyệt rồi mới đăng; kèm bộ công cụ chạy quảng cáo Facebook cho shop. Cài làm skill cho Claude Code hoặc dùng với Antigravity. Phần lớn miễn phí, MIT.",
   "homepage": "",
   "_actions": "What the Actions GITHUB_TOKEN is allowed to do. `can_create_pull_requests` MUST be true or .github/workflows/registry-watch.yml cannot open its pull request — the API refuses regardless of the `permissions: pull-requests: write` block in the workflow file, because this repo-level switch is checked first and it defaults to false. `default_permissions` stays `read` on purpose: a workflow needing more asks in its own `permissions:` block, where the request is visible in the diff instead of granted to everything at once.",
   "actions": {

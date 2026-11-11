@@ -63,7 +63,7 @@ export const CRAFT_DEFAULTS = {
   ],
   // price-drop is a closer by design: a selling video ends on the price and where to buy.
   // kinetic-floor is a story's last line — the declaration everything before it built.
-  outroTemplates: ["frame-logo-outro", "frame-statement-outro", "frame-trend-price-drop", "frame-story-kinetic-floor"],
+  outroTemplates: ["frame-logo-outro", "frame-statement-outro", "frame-trend-price-drop", "frame-story-kinetic-floor", "frame-follow-cta"],
 };
 
 /** Fields animated character-by-character — emoji there shatters the animation. */
@@ -74,6 +74,8 @@ const CHAR_ANIMATED_FIELDS = {
   "frame-story-halftone-case": ["headline"], // pops in glyph by glyph
   "frame-story-letter": ["greeting", "body", "signoff"], // hand-written one character at a time
   "frame-story-rundown": ["title"], // one split-flap tile per character
+  "frame-ai-prompt-reveal": ["prompt"], // typed one character at a time
+  "frame-ai-answer-rank": ["question"], // typed one character at a time
 };
 
 /**
