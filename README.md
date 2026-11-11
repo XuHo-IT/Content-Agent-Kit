@@ -190,6 +190,7 @@ và chỉ dùng khi khách đã đồng ý, theo Nghị định 13/2023.
 - 📖 [Video kể chuyện](docs/27-storytelling.md) · 📣 [Facebook ads với Claude](docs/28-facebook-ads.md)
 - 🎨 [Bảng màu theo ngành](docs/25-palettes.md) · ✂️ [Tự dựng video](docs/26-auto-edit.md) · 🔍 [Phân tích đối thủ](docs/24-competitor-analysis.md)
 - 🧩 [Danh mục mẫu khung hình](video-templates/CATALOG.md) · [Bộ khung kể chuyện](examples/gallery/gallery-story.jpg)
+- 🗺️ [Đề xuất làm tiếp](docs/30-de-xuat-tiep-theo.md): những gì kit sẽ bổ sung
 - 🤖 [AGENTS.md](AGENTS.md): hướng dẫn dành cho trợ lý AI
 
 Giấy phép **MIT** · Ghi công mã nguồn và tư liệu: [NOTICE.md](NOTICE.md) · Đóng góp: [CONTRIBUTING.md](CONTRIBUTING.md)
