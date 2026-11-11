@@ -290,6 +290,11 @@
           "beat": "The exact search query in search box + direct definition answer (<25 words) and core facts."
         },
         {
+          "templateId": "frame-ai-answer-rank",
+          "type": "body",
+          "beat": "What an AI assistant actually answers to that query today, which sources it cites, and where the brand ranks among them — the stake of the whole video."
+        },
+        {
           "templateId": "frame-myth-fact",
           "type": "body",
           "beat": "The common misconception debunked with factual evidence."

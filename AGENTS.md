@@ -210,7 +210,7 @@ Cases" was 39% gated on the site this was built against. Method: `docs/10-crawl-
 - `docs/` — methodology (bilingual). Start at `01-architecture.md`.
 - `templates/` — fill-in scaffolds.
 - `scripts/` — generic working CLIs (env-only), incl. `scripts/video/`.
-- `video-templates/` — the 130 scene templates + `CATALOG.md` (slots + character limits),
+- `video-templates/` — the 133 scene templates + `CATALOG.md` (slots + character limits),
   including the 6 Claude Opus 5.5 style-recipe templates (`frame-opus-*`) and the 13 2026
   trend templates (`frame-trend-*`, emitted by `scripts/video/lib/build-trend-templates.mjs` —
   edit the builder, never the HTML).

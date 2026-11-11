@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1080, height=1920">
+  <title>AI · Answer Rank</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #0e1013; }
+    
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --snap: cubic-bezier(.2,.9,.1,1);
+    --out: cubic-bezier(.16,1,.3,1);
+  }
+  #root { position: relative; overflow: hidden; width: 100%; height: 100%; font-family: 'Be Vietnam Pro', sans-serif; }
+  #root::after {
+    content: ""; position: absolute; inset: -30%; pointer-events: none; z-index: 0; opacity: .55;
+    animation: ambient 16s linear infinite;
+  }
+  @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
+  .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
+  .mono { font-family: 'Roboto Mono', monospace; }
+  @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes wipeIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+    
+      #root { background: #0e1013; color: #eef0f2; }
+      #root::after { background: repeating-linear-gradient(90deg, rgba(255,255,255,.03) 0 1px, transparent 1px 90px), repeating-linear-gradient(0deg, rgba(255,255,255,.03) 0 1px, transparent 1px 90px); opacity: 1; animation: grid 10s linear infinite; }
+      @keyframes grid { to { transform: translate(90px, 90px); } }
+      .stage { display: grid; }
+      .ask { grid-area: ask; text-wrap: pretty; display: flex; align-items: flex-start; background: #1a1d22; border: 2px solid #2c3037; border-radius: 30px; font-weight: 800; line-height: 1.25; opacity: 0; animation: rise .5s var(--out) .1s forwards; }
+      .ask::before { content: ""; flex: none; width: .7em; height: .7em; margin-top: .26em; border-radius: 50%; border: .13em solid #f5b83d; }
+      .ask .ch { opacity: 0; animation: chIn .01s linear forwards; }
+      @keyframes chIn { to { opacity: 1; } }
+      .reply { grid-area: reply; display: flex; flex-direction: column; }
+      .who { display: flex; align-items: center; opacity: 0; animation: fade .3s ease forwards; }
+      .spark { flex: none; background: #f5b83d; clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: spin 5s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .para { line-height: 1.42; color: #d5d8dd; font-weight: 500; }
+      .para .w { display: inline-block; opacity: 0; animation: wIn .35s var(--out) forwards; }
+      @keyframes wIn { from { opacity: 0; transform: translateY(.3em); } to { opacity: 1; transform: none; } }
+      .cite { display: inline-grid; place-items: center; vertical-align: .35em; margin-left: .2em; width: 1.35em; height: 1.35em; border-radius: 50%; background: #2c3037; color: #eef0f2; font-family: 'Roboto Mono', monospace; font-weight: 700; font-size: .55em; transform: scale(0); animation: pop .35s var(--spring) forwards; }
+      .cite.hl { background: #f5b83d; color: #14161a; }
+      .src { grid-area: src; display: flex; flex-direction: column; }
+      .lab { font-family: 'Roboto Mono', monospace; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #8d929b; opacity: 0; animation: fade .3s ease forwards; }
+      .row { position: relative; display: flex; align-items: center; border-radius: 22px; background: #181b20; opacity: 0; animation: slide .45s var(--out) forwards; }
+      @keyframes slide { from { opacity: 0; transform: translateX(80px); } to { opacity: 1; transform: none; } }
+      .row .rk { flex: none; font-family: 'Roboto Mono', monospace; font-weight: 700; color: #8d929b; text-align: center; }
+      .row .fv { flex: none; display: grid; place-items: center; border-radius: 14px; color: #ffffff; font-weight: 900; }
+      .row .tx { display: flex; flex-direction: column; min-width: 0; }
+      .row .nm { font-weight: 800; line-height: 1.15; }
+      .row .dm { font-family: 'Roboto Mono', monospace; color: #8d929b; line-height: 1.2; }
+      .row.hl::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: #f5b83d; transform-origin: left; transform: scaleX(0); animation: fill .5s var(--snap) forwards; animation-delay: inherit; z-index: 0; }
+      .row.hl > * { position: relative; z-index: 1; }
+      .row.hl .rk, .row.hl .nm, .row.hl .dm { animation: ink .3s linear forwards; animation-delay: inherit; }
+      @keyframes ink { to { color: #14161a; } }
+      .row.hl::after { content: ""; position: absolute; inset: -6px; border-radius: 28px; border: 5px solid #f5b83d; opacity: 0; animation: ring 1.2s ease-out infinite; animation-delay: inherit; }
+      @keyframes fill { to { transform: scaleX(1); } }
+      @keyframes ring { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(1.06, 1.35); } }
+      .note { grid-area: note; color: #8d929b; font-weight: 600; opacity: 0; animation: fade .4s ease forwards; }
+    
+    
+      .stage { padding: 0 60px; align-content: center; row-gap: 52px; grid-template-areas: "ask" "reply" "src" "note"; }
+      .ask { font-size: 52px; padding: 32px 36px; gap: 24px; }
+      .reply { gap: 18px; } .who { gap: 16px; } .spark { width: 46px; height: 46px; }
+      .para { font-size: 42px; }
+      .src { gap: 16px; } .lab { font-size: 30px; margin-bottom: 6px; }
+      .row { padding: 22px 28px; gap: 24px; } .row .rk { width: 44px; font-size: 36px; }
+      .row .fv { width: 80px; height: 80px; font-size: 42px; }
+      .row .nm { font-size: 44px; } .row .dm { font-size: 29px; }
+      .note { font-size: 32px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" class="P" data-composition-id="portrait" data-width="1080" data-height="1920" data-start="0" data-duration="6" data-composition-variables='{"question":"Phần mềm bán hàng nào hợp với shop nhỏ ở Việt Nam?","answer":"Với shop dưới 5 nhân viên, nên chọn phần mềm có quản lý kho, bán đa kênh và báo lãi lỗ theo ngày. Các lựa chọn được nhắc nhiều nhất đều có bản dùng thử miễn phí.","sources_label":"Nguồn được AI trích dẫn","sources":"Tạp chí Bán Lẻ:tapchibanle.vn|Cộng đồng Chủ Shop:chushop.vn|Thương hiệu của bạn:thuonghieucuaban.vn|Blog Kinh Doanh:blogkinhdoanh.vn","highlight":"2","note":"Ví dụ minh hoạ, không phải câu trả lời thật"}'>
+    <div class="stage">
+        <div class="ask" id="ask"><span id="q"></span></div>
+        <div class="reply"><div class="who" id="who"><span class="spark"></span></div><div class="para" id="para"></div></div>
+        <div class="src" id="src"><div class="lab" data-slot="sources_label" id="lab"></div></div>
+        <div class="note" data-slot="note" id="note"></div>
+      </div>
+  </div>
+  <script>
+    // Caller values: window.__hyperframes.getVariables(), merged over the declared defaults
+    // so the file still previews on its own. Built once, before the first seek.
+    function getVariables() {
+      let d = {};
+      try { d = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      const hf = window.__hyperframes;
+      const p = hf && typeof hf.getVariables === "function" ? hf.getVariables() || {} : {};
+      return Object.assign({}, d, p);
+    }
+    const v = getVariables();
+    const has = (k) => v[k] !== undefined && v[k] !== null && String(v[k]).trim() !== "";
+    document.querySelectorAll("[data-slot]").forEach((el) => {
+      const k = el.getAttribute("data-slot");
+      if (!has(k)) { (el.closest("[data-slot-box]") || el).remove(); return; }
+      el.textContent = String(v[k]);
+    });
+    /** One span per character, each starting `step` seconds after the last — a typewriter. */
+    function typeInto(el, text, start, step) {
+      el.textContent = "";
+      [...String(text)].forEach((ch, i) => {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = ch;
+        s.style.animationDelay = (start + i * step).toFixed(3) + "s";
+        el.appendChild(s);
+      });
+      return start + [...String(text)].length * step;
+    }
+    /** Odometer: every digit becomes a 0–9 column that rolls to its value. */
+    function odometer(el, text, start) {
+      el.textContent = "";
+      let n = 0;
+      [...String(text)].forEach((ch) => {
+        if (/[0-9]/.test(ch)) {
+          const col = document.createElement("span");
+          col.className = "odo";
+          const strip = document.createElement("span");
+          strip.className = "odo-strip";
+          for (let d = 0; d <= 9; d++) { const x = document.createElement("span"); x.textContent = d; strip.appendChild(x); }
+          strip.style.setProperty("--d", ch);
+          strip.style.animationDelay = (start + n++ * 0.07).toFixed(2) + "s";
+          const size = document.createElement("span");
+          size.className = "odo-size";
+          size.textContent = ch;
+          col.appendChild(size);
+          col.appendChild(strip);
+          el.appendChild(col);
+        } else {
+          const s = document.createElement("span");
+          s.className = "odo-sep";
+          s.textContent = ch;
+          el.appendChild(s);
+        }
+      });
+    }
+    
+    /** Words of `text` into `el`, one span each, starting at `start`, `step` apart. */
+    function streamWords(el, text, start, step) {
+      const words = String(text).trim().split(/\s+/).filter(Boolean);
+      words.forEach((w, i) => {
+        const s = document.createElement("span");
+        s.className = "w";
+        s.textContent = w;
+        s.style.animationDelay = (start + i * step).toFixed(3) + "s";
+        el.appendChild(s);
+        if (i < words.length - 1) el.appendChild(document.createTextNode(" "));
+      });
+      return start + words.length * step;
+    }
+
+      (function () {
+        const q = String(v.question || "").trim();
+        const tq = q ? typeInto(document.getElementById("q"), q, 0.4, Math.min(0.035, Math.max(0.01, 0.9 / [...q].length))) : 0.3;
+        if (!q) document.getElementById("ask").remove();
+        const A = tq + 0.3;
+        document.getElementById("who").style.animationDelay = (A - 0.2).toFixed(2) + "s";
+        const para = document.getElementById("para");
+        const nW = String(v.answer || "").trim().split(/\s+/).filter(Boolean).length || 1;
+        const tA = streamWords(para, v.answer || "", A, Math.min(0.05, Math.max(0.012, 0.95 / nW)));
+        const rows = String(v.sources || "").split("|").map((s) => s.trim()).filter(Boolean).slice(0, 6).map((s) => {
+          const i = s.indexOf(":");
+          return i > 0 ? [s.slice(0, i).trim(), s.slice(i + 1).trim()] : [s, ""];
+        });
+        const raw = String(v.highlight ?? "").trim();
+        const hl = raw === "" ? -1 : parseInt(raw, 10);
+        rows.forEach((r, i) => {
+          const c = document.createElement("span");
+          c.className = "cite" + (i === hl ? " hl" : "");
+          c.textContent = String(i + 1);
+          c.style.animationDelay = (tA + 0.05 + i * 0.06).toFixed(2) + "s";
+          para.appendChild(c);
+        });
+        const tL = tA + 0.1 + rows.length * 0.06;
+        const lab = document.getElementById("lab");
+        if (lab) lab.style.animationDelay = tL.toFixed(2) + "s";
+        const FV = ["#3b6ea8", "#3f8f6b", "#a8553b", "#7a6a3b", "#5b6170", "#8a4f6e"];
+        const src = document.getElementById("src");
+        rows.forEach(([nm, dm], i) => {
+          const row = document.createElement("div");
+          row.className = "row";
+          row.style.animationDelay = (tL + 0.05 + i * 0.12).toFixed(2) + "s";
+          row.innerHTML = '<span class="rk"></span><span class="fv"></span><span class="tx"><span class="nm"></span><span class="dm"></span></span>';
+          row.querySelector(".rk").textContent = String(i + 1);
+          row.querySelector(".fv").textContent = [...nm][0] ? [...nm][0].toUpperCase() : "";
+          row.querySelector(".fv").style.background = FV[i % FV.length];
+          row.querySelector(".nm").textContent = nm;
+          if (dm) row.querySelector(".dm").textContent = dm; else row.querySelector(".dm").remove();
+          src.appendChild(row);
+        });
+        const tEnd = tL + 0.05 + rows.length * 0.12 + 0.3;
+        if (hl >= 0 && hl < rows.length) {
+          const row = src.querySelectorAll(".row")[hl];
+          row.classList.add("hl");
+          // The row's own entrance keeps its delay; the highlight (::before, ::after, ink) waits
+          // for the whole list, so the brand lights up after the viewer has seen the ranking.
+          row.querySelectorAll(".rk, .nm, .dm").forEach((el) => (el.style.animationDelay = tEnd.toFixed(2) + "s"));
+          const sheet = document.createElement("style");
+          sheet.textContent = ".row.hl::before { animation-delay: " + tEnd.toFixed(2) + "s; } .row.hl::after { animation-delay: " + (tEnd + 0.4).toFixed(2) + "s; }";
+          document.head.appendChild(sheet);
+        }
+        const note = document.getElementById("note");
+        if (note) note.style.animationDelay = Math.min(tEnd + 0.4, 4.6).toFixed(2) + "s";
+      })();
+    
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      duration: 6,
+      seek(t) { document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; }); },
+    };
+  </script>
+</body>
+</html>

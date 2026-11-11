@@ -43,7 +43,7 @@ Hợp với: shop online, thương hiệu nhỏ, người làm marketing, nhà s
 - Đăng lên mạng xã hội theo lịch, chạy tự động mỗi ngày.
 
 ### 🎬 3. Làm video ngắn 9:16 (TikTok, Reels, Shorts)
-- **130 kiểu khung hình động**: biểu đồ, bản đồ, so sánh trước/sau, giá sốc, bình luận, meme…
+- **133 kiểu khung hình động**: biểu đồ, bản đồ, so sánh trước/sau, giá sốc, bình luận, meme…
   với **16 bảng màu theo ngành**, không "mùi AI".
 - **Video kể chuyện**: câu chuyện thương hiệu, câu chuyện khách hàng, lịch sử làng nghề, mổ xẻ
   một vụ việc — có bước ngoặt, bằng chứng, cao trào (lật trang, thư tay, tranh cát, truyện tranh…).
@@ -152,7 +152,7 @@ Nguồn: Đài PTTH Thanh Hoá, giấy phép CC BY 3.0 — [chi tiết](examples
 
 | Miễn phí | Tuỳ chọn, trả phí |
 |---|---|
-| Làm video: 130 mẫu khung hình, 16 bảng màu, hiệu ứng âm thanh | Giọng đọc cao cấp (Vbee, FPT AI, ElevenLabs…) |
+| Làm video: 133 mẫu khung hình, 16 bảng màu, hiệu ứng âm thanh | Giọng đọc cao cấp (Vbee, FPT AI, ElevenLabs…) |
 | Giọng đọc chạy trên máy (OmniVoice) | Dữ liệu TikTok/Instagram/Facebook qua Apify |
 | Tìm chủ đề hot, phân tích kênh YouTube và báo | Video AI quay như thật (Google Veo) |
 | Cắt khoảng lặng, phụ đề, ảnh bìa | |
