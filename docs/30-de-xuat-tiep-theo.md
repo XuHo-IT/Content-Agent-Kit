@@ -29,8 +29,8 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 | 13 | Quyết định về `vibe-motion` (không có giấy phép) | dọn dẹp | S | thấp | chưa làm |
 | 14 | Nghe lại chữ "chuyển về" trong transcript demo | dọn dẹp | S | thấp | chưa làm |
 | 15 | Kiểm commit ghim của `marketingskills` | dọn dẹp | S | thấp | chưa làm |
-| 16 | Thẻ và phụ đề tự tránh khuôn mặt | video | M | cao | chưa làm |
-| 17 | Tách người khỏi nền: chữ sau lưng, người bật khỏi khung | video | L | trung bình | chưa làm |
+| 16 | Thẻ và phụ đề tự tránh khuôn mặt | video | M | cao | đang thử |
+| 17 | Tách người khỏi nền: chữ sau lưng, người bật khỏi khung | video | L | trung bình | đang thử |
 | 18 | Video chỉ có giọng đọc → thẻ trên nền màu | video | M | trung bình | chưa làm |
 | 19 | Ảnh bìa + tiêu đề, caption Facebook/TikTok khi dựng xong | video | S | trung bình | chưa làm |
 
@@ -216,6 +216,25 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ`. Công sức: *
 - **Cắm vào:** `video-and-post` đã viết caption; thiếu ảnh bìa từ video người nói.
 - **Bước đầu:** `ffmpeg -ss` lấy khung ở hook, đè `--hook` bằng template `frame-trend-word-pop` 1 khung.
 - **Ghi chú:**
+
+### Đang dở (cập nhật 2026-11-11)
+
+Để người làm tiếp biết đang dừng ở đâu:
+
+- **Mục 16–17 — chạy thử MediaPipe:** đã chọn xong thư viện và kiểm giấy phép (ghi chú ở từng mục).
+  Đang cài `mediapipe` vào một venv riêng để thử thì **dừng lại vì ổ C gần đầy** (còn ~6 GB); venv dở
+  đã xoá. Chưa viết dòng code nào cho 16–17. Làm tiếp trên máy còn ≥ 2 GB trống:
+  `python -m venv .venv-vision && .venv-vision/Scripts/pip install mediapipe` (kéo theo OpenCV,
+  khoảng 300 MB), kiểm `cv2.FaceDetectorYN` có trong bản OpenCV đi kèm, rồi:
+  1. `scripts/video/face-boxes.mjs` — Python nhúng như `transcribe.mjs`, YuNet, 12 khung/đoạn → hộp đầu
+     theo toạ độ 1080×1920 sau crop; `talking-head.mjs --faces` dời phụ đề và `--hook` khỏi hộp đó.
+  2. `scripts/video/person-matte.mjs` — MediaPipe selfie segmenter → mặt nạ xám theo timeline đã cắt;
+     EDL `"behind": [{ "at": "<từ>", "dur": 2.5, "text": "GẤP 3" }]` → chữ sau lưng người nói.
+  Model tải một lần vào `assets/models/` (thêm vào .gitignore), ghim phiên bản.
+- **Mục 18 — chỉ có giọng đọc:** chưa bắt đầu; không cần thư viện ngoài (ghi chú ở mục 18).
+- **Mục 19 — ảnh bìa + caption:** chưa bắt đầu.
+- **Mục 1 — faster-whisper thật:** chưa chạy; `speech-cuts.mjs` mới được thử bằng transcript tự tạo và
+  transcript demo (bản tin sạch nên không có chỗ vấp nào) — cần một đoạn tự quay có "ờ", nói lại.
 
 ---
 
