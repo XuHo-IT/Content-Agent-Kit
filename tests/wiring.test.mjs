@@ -16,6 +16,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 
 const KIT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const read = (p) => fs.readFileSync(path.join(KIT, p), "utf8");
@@ -179,7 +180,15 @@ test("every committed image is referenced from something a reader opens", () => 
     }
     return a;
   };
-  const all = walk(KIT);
+  // "Committed" means what git would ship: drop gitignored files (scratch/, output/, …) so a
+  // developer's local renders do not fail the test. Without git, fall back to the whole tree.
+  const shipped = (files) => {
+    const r = spawnSync("git", ["check-ignore", "--stdin"], { cwd: KIT, input: files.map((f) => path.relative(KIT, f).replace(/\\/g, "/")).join("\n"), encoding: "utf8" });
+    if (r.error || (r.status !== 0 && r.status !== 1)) return files;
+    const ignored = new Set(r.stdout.split(/\r?\n/).filter(Boolean).map((p) => path.resolve(KIT, p)));
+    return files.filter((f) => !ignored.has(path.resolve(f)));
+  };
+  const all = shipped(walk(KIT));
   const prose = all
     .filter((f) => /\.(md|mjs|json|yml)$/i.test(f))
     .map((f) => fs.readFileSync(f, "utf8"))

@@ -29,6 +29,8 @@ output/
 # video-templates/ IS committed — it is the kit's template library.
 assets/sfx/
 assets/sfx-raw/
+# Vision models (YuNet, selfie segmenter) — fetched on first use, pinned by sha256 (scripts/video/lib/vision.mjs)
+assets/models/
 **/video.mp4
 **/video-silent.mp4
 **/voice.mp3
@@ -64,6 +66,7 @@ stock-sources.yaml
 __pycache__/
 *.pyc
 .venv/
+.venv-vision/
 node_modules/
 
 # OS

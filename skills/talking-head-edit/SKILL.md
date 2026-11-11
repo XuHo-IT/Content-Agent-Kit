@@ -26,8 +26,8 @@ Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản
 | 3. Chọn đoạn + khung | Viết `edl.json`: đoạn nào giữ, crop dọc tránh logo, B-roll | — |
 | 4. Thẻ minh hoạ | `suggest-cards.mjs` gợi ý; điền chữ cho thẻ **chỉ từ lời đã nói** | Duyệt nội dung thẻ (số liệu, tên) |
 | 5. Âm thanh | `sfx-cc0.mjs` (một lần); chọn nhạc nền có giấy phép | Đưa file nhạc, hoặc đồng ý nhạc CC0 |
-| 6. Dựng | `talking-head.mjs … --cut-words --music … --style …` | — |
-| 7. Kiểm + duyệt | Xem khung hình, độ to, rồi qua `review-gate` | Duyệt video trước khi đăng |
+| 6. Dựng | `talking-head.mjs … --cut-words --music … --style … --faces --cover` | — |
+| 7. Kiểm + duyệt | Xem khung hình, ảnh bìa, độ to, rồi qua `review-gate` | Duyệt video + ảnh bìa trước khi đăng |
 
 **Hay vướng:**
 - Thẻ hiện chữ lạ ("CHỈ TRONG 24 GIỜ") → một slot bị bỏ trống, template hiện chữ mẫu. Điền **mọi** slot trong `video-templates/CATALOG.md`, hoặc chọn thẻ khác.
@@ -92,7 +92,15 @@ Pacing an editor keeps (the script enforces most of it, the validator the rest):
 
 - ≤ 6 cards a minute, ≥ 4 s apart; never the same template twice within ~12 s
 - `full` (voice-over: the card replaces the picture) and `pip` (speaker kept in a corner box)
-  alternate — use `pip` whenever the face matters: a person telling their own story
+  alternate — use `pip` whenever the face matters: a person telling their own story.
+  `split` (card on the top half, speaker on the bottom) is the third option: the face stays
+  big and the card gets real room — good for a checklist or steps while someone explains.
+  `"speakerY"` (0–960) picks the speaker's band; `--faces` picks it for you
+- `inputs` are checked against the slots the template reads before anything renders — a
+  wrong slot name would otherwise show the template's own sample text
+- text BEHIND the speaker: `"behind": [{ "at": "gấp", "dur": 2.5, "text": "GẤP 3" }]` (≤ 24
+  characters, 1–6 s, not under a `full` card, not under the `--hook`). Best on a medium shot —
+  in a close-up the head hides most of it. Needs the vision setup (below)
 - the speaker is hidden ≤ 55% of the runtime, B-roll + cards together (pip counts half)
 - a card is ≥ 1.5 s, inside one segment, never on top of a B-roll
 - **content only from the words**: no number, price, quote or name the speaker did not say.
@@ -137,6 +145,9 @@ node scripts/video/music-search.mjs --query "lofi calm" --get 1 --out bed.mp3   
   card (it leads into the cut), anything else lands with it. Level `--sfx-volume` (0.5).
 - ≤ 2 sounds in any 3 s, ≤ 0.7 a second over the video — talking-head warns past that. One
   sound per card at most; not every card needs one.
+- A card that names no sound gets a soft automatic one (a paper flip; `error-beep` for a
+  myth/error template, `tada` for a verdict/result) when the previous sound is ≥ 3 s back.
+  `"sfx": false` on a card, or `--no-card-sfx`, turns it off.
 - `meme/` sounds are never automatic — only when the user asks for that tone.
 - Music licence: CC0, public domain or CC BY. A BY track goes in `--credit`. Never a
   commercial song "because it is short".
@@ -156,6 +167,20 @@ side and letting the user pick is often faster than arguing about one.
 Captions: 2–3 words at a time in the lower third, the spoken word lit in the theme colour;
 they step aside on `full` cards (the card already says it in big type).
 
+- `--faces` — finds the head every ~2 s and moves captions and the hook off it when there is
+  room (below the chin, else above the head); in a close-up that fills the frame they stay put.
+- `--cover` — `<out>.cover.jpg`: the clearest early face, taken BEFORE captions were burned,
+  with the `--hook` (or `--cover-title`, ≤ 60 characters) on it. Hand it to
+  `make-post.mjs --thumbnail`. With `--transcript` it also writes `<out>.post.md` — what was
+  said after the cut plus each platform's limit. Write the captions from it; do not paste it.
+- **Voice only** — the user sends just a recording: pass the `.wav`/`.mp3` as the input. Every
+  segment becomes a flat `--theme` background and the cards are the picture (all `full`; no
+  B-roll, `pip`, `split` or `behind`). Draft with `suggest-cards.mjs t.json --voice-only`.
+
+Vision setup for `--faces`, `behind` and `cover.mjs --faces` (once, ≈ 300 MB; tested on Python 3.12 with mediapipe 1.2):
+`python -m venv .venv-vision && .venv-vision\Scripts\pip install mediapipe`. Models (YuNet,
+selfie segmenter) download on first use into `assets/models/`, pinned by sha256.
+
 ## 7. Check before anyone else sees it
 
 - Frames: one still per card at its fullest moment and one in each segment —
@@ -167,5 +192,8 @@ they step aside on `full` cards (the card already says it in big type).
   review so the reviewer can see what was removed.
 - Then `review-gate`. Nothing publishes without it. To post: `video-and-post`.
 
-Method and numbers: `docs/26-auto-edit.md` §2c. Code: `scripts/video/lib/speech-edit.mjs`,
-`lib/card-suggest.mjs`, `lib/edl.mjs`. Tests: `tests/speech-edit.test.mjs`.
+- Cover: open `<out>.cover.jpg` — a face, not mid-blink; the title whole and off the face.
+
+Method and numbers: `docs/26-auto-edit.md` §2c–2d. Code: `scripts/video/lib/speech-edit.mjs`,
+`lib/card-suggest.mjs`, `lib/edl.mjs`, `lib/faces.mjs`, `lib/vision.mjs`, `cover.mjs`.
+Tests: `tests/speech-edit.test.mjs`, `tests/talking-head-extras.test.mjs`.

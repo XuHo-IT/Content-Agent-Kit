@@ -25,6 +25,8 @@ if (!argv.length || argv.includes("--help")) {
       `  --edl <file>          start from this EDL (its segments/broll are kept; cards replaced)\n` +
       `  --per-min <n>         card budget per minute (default 6)\n` +
       `  --min-gap <s>         seconds between cards (default 4)\n` +
+      `  --voice-only          the take is a voice recording: the cards ARE the picture — all full,\n` +
+      `                        no hide-the-speaker ceiling, denser (12/min, 1.5 s apart by default)\n` +
       `  --out <file>          default <transcript>.cards.json`,
   );
   process.exit(argv.length ? 0 : 1);
@@ -48,9 +50,11 @@ if (!words.length) {
   process.exit(1);
 }
 const segs = base?.segments ?? [{ from, to }];
+const voiceOnly = argv.includes("--voice-only");
 const { cards, table } = suggestCards(words, {
-  perMin: Number(flag("--per-min", "6")),
-  minGap: Number(flag("--min-gap", "4")),
+  perMin: Number(flag("--per-min", voiceOnly ? "12" : "6")),
+  minGap: Number(flag("--min-gap", voiceOnly ? "1.5" : "4")),
+  ...(voiceOnly ? { maxHidden: 1, layouts: ["full"], hookSec: 0, fallback: true } : {}),
   // one cut-away at a time, and a card sits inside ONE segment (edl.mjs enforces both)
   avoid: (base?.broll ?? []).filter((b) => Number.isFinite(b.at)),
   fits: (at, dur) => segs.some((s) => at >= s.from && at + dur <= s.to + 0.05),

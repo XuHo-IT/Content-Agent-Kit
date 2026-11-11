@@ -49,6 +49,13 @@ node scripts/video/validate-script.mjs <dir>/script.json --strict   # seconds �
 node scripts/video/render.mjs          <dir>/script.json            # ~3–5 min
 ```
 To also publish it, use `skills/video-and-post/SKILL.md`. Method: `docs/14-video-generation.md`.
+Many at once: `node scripts/video/render-batch.mjs list.txt` (one script.json per line) — finished
+ones are skipped, one failure never stops the rest, the report says which failed and why.
+Run it with `--validate-only` first.
+
+Someone talking on camera (or just a voice recording) → `skills/talking-head-edit/SKILL.md`
+(`talking-head.mjs`: cards `full`/`pip`/`split`, `--faces`, text `behind` the speaker,
+`--cover` for the thumbnail). Method: `docs/26-auto-edit.md`.
 
 ## When the user names competitors — "phân tích đối thủ", "kênh X đang viral gì"
 Follow `skills/competitor-analysis/SKILL.md`. Keyless: YouTube channels via their public feed,

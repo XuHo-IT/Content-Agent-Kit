@@ -84,7 +84,7 @@ test("cards: inside one segment, no overlap with B-roll, readable length, speake
   assert.match(validateEdl({ ...base, cards: [card({ at: 18 })] }).join(), /entirely inside one segment/);
   assert.match(validateEdl({ ...base, cards: [card({ dur: 1 })] }).join(), /1\.5 s/);
   assert.match(validateEdl({ ...base, cards: [card({ templateId: "../x" })] }).join(), /frame-\* template id/);
-  assert.match(validateEdl({ ...base, cards: [card({ layout: "split" })] }).join(), /layout must be one of full, pip/);
+  assert.match(validateEdl({ ...base, cards: [card({ layout: "corner" })] }).join(), /layout must be one of full, pip, split/);
   assert.match(validateEdl({ ...base, broll: [{ at: 3, src: 0, dur: 2 }], cards: [card({})] }).join(), /overlap/);
   // 18 s of full-frame cards on 30 s of talk hides the speaker; the same cards as pip do not
   const many = [card({ at: 0, dur: 9 }), card({ at: 9.5, dur: 9 })]; // 18 s of 30 s = 60%

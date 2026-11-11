@@ -15,7 +15,7 @@
 // licence published, so nothing was copied — rules re-derived and written here from scratch).
 //
 // Also here, because they are the same "by the words" idea:
-//   resolveAnchors  a card's `at` may be a spoken word ("tăng") instead of seconds
+//   resolveAnchors  a card's (B-roll's, behind-text's) `at` may be a spoken word ("tăng") instead of seconds
 //   sfxDensity      a sound on every card is noise: ≤ 2 in any 3 s, ≤ 0.7 per second
 //   applyWordFixes  correct what speech-to-text misheard, in the captions only
 //
@@ -206,7 +206,7 @@ export function resolveAnchors(edl, words) {
       }
       return { ...c, word: c.at, at: r3(Math.max(0, t - (Number(c.lead) || 0.15))) };
     });
-  return { edl: { ...edl, cards: fix(edl.cards, "cards"), broll: fix(edl.broll, "broll") }, problems };
+  return { edl: { ...edl, cards: fix(edl.cards, "cards"), broll: fix(edl.broll, "broll"), ...(edl.behind ? { behind: fix(edl.behind, "behind") } : {}) }, problems };
 }
 
 /**

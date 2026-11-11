@@ -34,6 +34,16 @@ export const CARD_RULES = [
   { id: "frame-quote-testimonial", why: "a quote", words: ["tung noi", "co cau", "noi rang", "chia se rang", "khach noi"], fill: "the quote verbatim, with who said it (permission required)" },
 ];
 
+/**
+ * Cards for a sentence no rule matched — used only when the take has no picture of its own
+ * (voice-only), where an un-carded sentence is a flat background. Two of them, so neighbours
+ * can alternate (the same template twice in a row reads as a loop).
+ */
+export const FALLBACK_RULES = [
+  { id: "frame-kinetic-type", why: "the sentence itself (voice-only)", fill: "line = the sentence as said (≤ 90 chars, shorten by cutting words, never rewording); accent = its key word" },
+  { id: "frame-trend-word-pop", why: "the sentence itself (voice-only)", fill: "the sentence as said, its payoff word lit" },
+];
+
 /** Score one sentence against every rule → [{rule, score, word}], best first; `word` is the anchor. */
 export function scoreSentence(text, words) {
   const f = ` ${words.map((w) => fold(w.w)).join(" ")} `;
@@ -67,7 +77,7 @@ export function scoreSentence(text, words) {
  * spoken word + `near` in source seconds, which talking-head resolves), `table` is the
  * human-readable reasoning the agent shows before filling inputs.
  */
-export function suggestCards(words, { hookSec = 3, perMin = 6, minGap = 4, cardSec = 3.5, maxHidden = 0.45, avoid = [], fits = () => true } = {}) {
+export function suggestCards(words, { hookSec = 3, perMin = 6, minGap = 4, cardSec = 3.5, maxHidden = 0.45, avoid = [], fits = () => true, layouts = ["full", "pip"], fallback = false } = {}) {
   if (!words.length) return { cards: [], table: [] };
   const sid = sentenceIds(words);
   const sentences = [];
@@ -84,7 +94,8 @@ export function suggestCards(words, { hookSec = 3, perMin = 6, minGap = 4, cardS
   const rows = sentences.map((s) => {
     const text = s.words.map((w) => w.w).join(" ");
     const start = s.words[0].start;
-    const ranked = scoreSentence(text, s.words);
+    let ranked = scoreSentence(text, s.words);
+    if (!ranked.length && fallback) ranked = FALLBACK_RULES.map((rule, k) => ({ rule, score: 0.5 - k * 0.1, word: null }));
     return { s, text, start, ranked, row: { at: +start.toFixed(2), text, options: ranked.slice(0, 3).map((x) => `${x.rule.id}(${x.score})`), pick: null, note: "" } };
   });
   const picked = [];
@@ -112,7 +123,8 @@ export function suggestCards(words, { hookSec = 3, perMin = 6, minGap = 4, cardS
     hidden += dur * 0.75; // layouts are set below; budget for the average of full (1) and pip (0.5)
   }
   picked.sort((a, b) => a.near - b.near);
-  // full, pip, full, pip… — the speaker comes back between two cut-aways
-  picked.forEach((c, i) => (c.layout = i % 2 ? "pip" : "full"));
+  // full, pip, full, pip… — the speaker comes back between two cut-aways. A voice-only take
+  // has no speaker to come back to: `layouts: ["full"]`.
+  picked.forEach((c, i) => (c.layout = layouts[i % layouts.length]));
   return { cards: picked, table: rows.map((r) => r.row) };
 }
