@@ -240,7 +240,8 @@
       "licenseFile": "LICENSE.md",
       "summary": "High-performance HTML5 Canvas UI elements, speedometers, circular gauges and real-time telemetry dials.",
       "why": "Supplies custom canvas dials and visualizers for technical benchmarks and performance videos.",
-      "restriction": "Commons Clause: use it in your own videos and products, but you may not sell the components themselves or a service whose value is mainly them."
+      "restriction": "Commons Clause: use it in your own videos and products, but you may not sell the components themselves or a service whose value is mainly them.",
+      "licenseSha": "b139dc58a9749d387da4e0cf6f638bb0b246b9a9"
     },
     "ui-transitions": {
       "repo": "Jakubantalik/transitions.dev",
@@ -252,7 +253,8 @@
       "licenseFile": "LICENSE",
       "summary": "Production-ready UI motion patterns and transitions (card expand, modal, pop-in, micro-interactions) with prefers-reduced-motion accessibility.",
       "why": "Provides refined animation curves and timing tokens to make HTML/CSS video templates and web interfaces feel fluid and state-of-the-art.",
-      "restriction": "Own licence: free in personal and commercial projects and for your users; tooling is MIT; you may not redistribute the transitions library as a competing product."
+      "restriction": "Own licence: free in personal and commercial projects and for your users; tooling is MIT; you may not redistribute the transitions library as a competing product.",
+      "licenseSha": "6766f806ca46e99d7bb16c3aba9dbe8af9fafa51"
     },
     "opus-55-videos": {
       "repo": "yihui-dev/awesome-opus5-5-videos",
@@ -274,7 +276,8 @@
       "license": "MIT",
       "licenseFile": "LICENSE",
       "summary": "Standalone Claude Code video skills generating hand-painted brush strokes, kinetic typography reels, and procedural audio purely in code.",
-      "why": "Directly applicable techniques for deterministic HTML/Canvas choreography and kinetic type reels without external paid APIs."
+      "why": "Directly applicable techniques for deterministic HTML/Canvas choreography and kinetic type reels without external paid APIs.",
+      "licenseSha": "3b115fac360c75bd9e19cc1ddef2e286a4e69da0"
     },
     "opus-video-styles": {
       "repo": "HiAPIAI/awesome-opus-5-5-video-styles",
@@ -296,7 +299,8 @@
       "license": "CC0-1.0",
       "licenseFile": "LICENSE",
       "summary": "Security-graded directory and benchmark hub of 180+ open-source coding-agent video skills across Remotion, Manim, FFmpeg, and HTML.",
-      "why": "Helps agents audit and select the safest open-source video toolchains, subtitle pipelines, and motion libraries."
+      "why": "Helps agents audit and select the safest open-source video toolchains, subtitle pipelines, and motion libraries.",
+      "licenseSha": "59c7f31f26c2f84438e629fab2827139676ebabc"
     },
     "explainroo": {
       "repo": "vincentsch/explainroo",
@@ -385,7 +389,8 @@
       "licenseFile": "LICENSE",
       "summary": "End-to-end academic research cycle (research -> write -> review -> revise -> finalize) with evidence verification contracts.",
       "why": "Enforces strict evidence gates and citation checks for long-form technical deep-dives and whitepapers.",
-      "restriction": "NON-COMMERCIAL ONLY (CC BY-NC 4.0, since 2026). Do not use it for monetised videos, sponsored posts or client work without the author's written permission."
+      "restriction": "NON-COMMERCIAL ONLY (CC BY-NC 4.0, since 2026). Do not use it for monetised videos, sponsored posts or client work without the author's written permission.",
+      "licenseSha": "dedfb8b7880e51fe623fa5ea7e27c118eed4e2b9"
     },
     "marketing-core": {
       "repo": "coreyhaines31/marketingskills",

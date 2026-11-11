@@ -648,7 +648,7 @@
     },
     "comment-story": {
       "label": "Đọc bình luận / bài tâm sự trên nền B-roll",
-      "whenToUse": "A thread people argue about, or one long confession, read aloud over footage that keeps the eye busy (your own gameplay, cooking, a commute). The words are the content; the footage is there so the screen is never still. Rights first: the posts need the author's permission or must be fully anonymised (no names, no avatars, no handles), and the footage must be yours or licensed — recorded Minecraft/Subway Surfers runs belong to their publishers.",
+      "whenToUse": "A thread people argue about, or one long confession, read aloud over footage that keeps the eye busy (your own gameplay, cooking, a commute). The words are the content; the footage is there so the screen is never still. Rights first: the posts need the author's permission or must be fully anonymised (no names, no avatars, no handles), and the footage must be yours or licensed — recorded Minecraft/Subway Surfers runs belong to their publishers. Originality: platforms demote 'unoriginal' content (2026) — reading others' words over others' footage is exactly that, so add your own take on every post (a verdict, a counter-question, what you would do) and use footage you recorded.",
       "beats": [
         {
           "templateId": "frame-bold-poster",

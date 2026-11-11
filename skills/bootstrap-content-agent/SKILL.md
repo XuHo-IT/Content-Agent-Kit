@@ -153,7 +153,9 @@ From `templates/` + `scripts/`, produce:
   `ads-creative-lab`, `ads-fatigue-watch`, `ads-comment-triage`, `ads-policy-check` (wire it
   into the review gate for ad copy — `policy-lint.mjs` exits 2 on a block), `catalog-feed-audit`
   if they run catalog/Advantage+ ads, `audience-plan`, `ugc-koc-brief` if they work with KOCs,
-  and `promo-calendar`.
+  and `promo-calendar`. Always install `freshness-check`: `daily-run`, `video-and-post` and
+  `ads-policy-check` call it first, so platform limits, ad law and AI-label rules are re-checked
+  against the web whenever they have expired.
   `new-template` and `motion-craft` belong in a kit checkout rather than a generated agent:
   they edit `video-templates/` and the gates around it, which a downstream agent does not own.
 - **Skills from elsewhere** (optional): `node scripts/install-skills.mjs --list` shows an SEO

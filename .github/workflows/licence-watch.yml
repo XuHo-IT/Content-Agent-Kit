@@ -1,0 +1,63 @@
+# Monthly: has any skill in skills/registry.json changed or lost its licence upstream?
+#
+# In 2026-11 four entries still said "MIT" while their upstreams had moved — one to CC BY-NC
+# (non-commercial), one to MIT + Commons Clause with a renamed licence file that broke the
+# install. This opens ONE issue when scripts/maintenance/licence-watch.mjs finds drift, so a
+# person reads the new licence; it never edits the registry itself.
+#
+# The other facts that go stale (platform limits, Vietnamese ad law, policy news) need reading
+# and judgement — skills/freshness-check does those when someone uses the kit.
+name: Licence watch
+
+on:
+  schedule:
+    - cron: "40 5 3 * *" # 05:40 UTC on the 3rd of each month
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Check every registry licence
+        id: check
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          node scripts/maintenance/licence-watch.mjs > report.txt 2>&1
+          code=$?
+          set -e
+          cat report.txt
+          if [ "$code" = "2" ]; then
+            echo "::error::could not reach GitHub — see the report above"
+            exit 1
+          fi
+          echo "drifted=$([ "$code" = "1" ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+
+      - name: Open an issue
+        if: steps.check.outputs.drifted == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="Licence drift in skills/registry.json ($(date -u +%Y-%m))"
+          if gh issue list --state open --search "$title in:title" --json number --jq 'length' | grep -qv '^0$'; then
+            echo "an issue for this month is already open"; exit 0
+          fi
+          {
+            echo "\`scripts/maintenance/licence-watch.mjs\` found skills whose licence changed upstream:"
+            echo; echo '```'; cat report.txt; echo '```'; echo
+            echo "Read each licence file. Then fix \`license\` / \`licenseFile\` / \`restriction\` in"
+            echo "\`skills/registry.json\`, or, if the registry is right and GitHub just cannot classify"
+            echo "the file, record what you read: \`node scripts/maintenance/licence-watch.mjs --pin <id>\`."
+          } > body.md
+          gh issue create --title "$title" --body-file body.md

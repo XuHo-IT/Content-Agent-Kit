@@ -7,13 +7,13 @@
 // every number here carries its source and the day it was checked, and the limits are split:
 //   hard — from the platform's own page: a breach is an error (the upload fails)
 //   soft — sources disagree, or it is advice: a breach is a warning
-// Checked 2026-11-12. Specs drift — re-check the `source` pages before a campaign that matters.
+// Checked 2026-11-11. Specs drift — re-check the `source` pages before a campaign that matters.
 //
 // Idea from iart.ai's video-delivery-specs skill (MIT): a per-platform spec sheet + a QC
 // checklist. Re-done for the platforms a Vietnamese creator actually uses, as a checker of a
 // real file rather than a table to read.
 
-const CHECKED = "2026-11-12";
+const CHECKED = "2026-11-11";
 
 /** Spec fields: ratios (w/h list), minRes [w,h], maxRes [w,h], minDur/maxDur s, maxBytes, codecs, containers, fps [lo,hi]. */
 export const PLATFORMS = {

@@ -13,6 +13,7 @@ Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản
 
 | Bước | Agent làm gì | Người dùng cần làm |
 |---|---|---|
+| 0. Kiểm cập nhật | `freshness-check`: chính sách nền tảng, luật quảng cáo, thông số đăng đã cũ thì tra bản mới (bỏ qua nếu còn mới) | Duyệt nếu có thay đổi về luật |
 | 1. Đọc `PLAYBOOK.md` | Đọc lại toàn bộ, xác định hôm nay làm phần việc nào | — |
 | 2. Lấy ý tưởng | Nếu có crawl: `node scripts/queue-client.mjs pull` | — |
 | 3. Viết | Mỗi bài một người viết (subagent), theo `WRITING_CRAFT.md`; bỏ bài trùng | — |
@@ -28,6 +29,7 @@ Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản
 
 ## Quy trình chi tiết (cho agent)
 
+0. **Freshness first.** Run the `freshness-check` skill (`node scripts/maintenance/freshness.mjs --stale`). Stale platform rules or ad law are researched and renewed before anything is written or posted; nothing stale → one line, move on.
 1. **Open `PLAYBOOK.md`** in the project (the source of truth). Re-read it fully — do not
    rely on memory.
 2. **Determine today's phase** = (day-of-year mod N) per §1, and do exactly that phase.

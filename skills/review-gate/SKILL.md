@@ -123,6 +123,23 @@ mid-syllable because it was too long for a char-animated slot.
 **Policy**
 - If the item is a forbidden type or uses a removed feature (per PLAYBOOK "never do") →
   `ok:false`, issue "forbidden output — reject", do NOT attempt to fix.
+- 🔴 **AI label.** Vietnam's AI law (Luật Trí tuệ nhân tạo 134/2025/QH15, Điều 11; guided by
+  Nghị định 142/2026/NĐ-CP, Điều 18 — reported in force 2026-05-01) requires a visible label on
+  audio, images or video made or edited by AI **to simulate a real person or a real event**.
+  TikTok requires its AI-generated label on realistic AI content and on every ad with AI
+  content (2026-07). So, for this item:
+  - a cloned or imitated voice of a real person, an AI face/body of a real person, an AI
+    "reconstruction" of something that happened → label required: the post's AI toggle ON
+    and "Nội dung có sử dụng AI" (or similar) in the caption; missing → `ok:false`
+  - a plain TTS narrator voice over designed frames, AI help with the script → no legal
+    label needed; turning the platform's AI toggle on is still the safe default for ads
+  - footage of the person themselves, cut by the kit (talking-head) → not AI-generated
+  Re-check this rule with `freshness-check` (item `ai-content-labels`) — the sources found on
+  2026-11-11 were law firms and newspapers, not the gazette text; confirm on vbpl.vn.
+- **Originality** (TikTok, Facebook and YouTube all demote "unoriginal" content in 2026):
+  reposted clips, someone else's gameplay, read-aloud comments with nothing added → the
+  item must carry its own commentary, analysis or footage, or it is `ok:false` for reach
+  even when it is legal.
 
 **Verdict**
 - `ok:true` → clear to publish.
