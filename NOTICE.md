@@ -200,14 +200,15 @@ fails the script otherwise, and the declaration is written into `media-lock.json
 original URL and author. There is deliberately no `unknown` and no `fair-use` value.
 ## 2g. Footage shipped in this repository — `examples/talking-head-demo/`
 
-The five videos in `examples/talking-head-demo/` (`clean`, `pop`, `editorial`, `cinematic`,
-`kinetic-doc` — each `.mp4` and its `.webp` preview) are adaptations of
+The six videos in `examples/talking-head-demo/` (`clean`, `pop`, `editorial`, `cinematic`,
+`kinetic-doc`, `hoan-chinh` — each `.mp4` and its `.webp` preview) are adaptations of
 **"Cấp đổi giấy phép LX qua bưu điện"** by **Đài Phát thanh và Truyền hình Thanh Hoá**,
 from [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:C%E1%BA%A5p_%C4%91%E1%BB%95i_gi%E1%BA%A5y_ph%C3%A9p_LX_qua_b%C6%B0u_%C4%91i%E1%BB%87n.ogv),
 licensed [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). Changes: four ranges selected
 and joined, three of the report's own shots laid over the speakers as B-roll, pauses removed,
 reframed to 9:16 (broadcast lower-third and logo cropped out), colour-graded per style,
-loudness normalised, captions, title and a credit line added. The credit is burned into every
+loudness normalised, captions, title and a credit line added; `hoan-chinh` also
+carries eight illustration cards rendered from this kit's own templates. The credit is burned into every
 video. These adaptations are not endorsed by the broadcaster. The MIT licence of this
 repository does NOT apply to those clips; CC BY 3.0 does.
 

@@ -83,7 +83,8 @@ node scripts/video/render.mjs brain/<slug>/script.json
 node scripts/video/contact-sheet.mjs brain/<slug>/video.mp4
 
 # Có video người nói? Cắt khoảng lặng + khung 9:16 + phụ đề sáng từng từ
-node scripts/video/talking-head.mjs quay-tho.mp4 --transcript quay-tho.json --theme <preset>
+node scripts/video/transcribe.mjs quay-tho.mp4      # mốc thời gian từng từ (server kiểu OpenAI, hoặc faster-whisper)
+node scripts/video/talking-head.mjs quay-tho.mp4 --transcript quay-tho.transcript.json --theme <preset>
 ```
 
 ---
@@ -252,7 +253,7 @@ Mỗi template có cả bản 16:9 và 9:16, lớp chuyển động nền liên 
 | `templates/` | Khung điền sẵn: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 ngành, mỗi ngành một bảng màu) |
 | `scripts/` | CLI hoàn chỉnh, không phụ thuộc: crawl, đăng social, kiểm định, render video, autocut, phân tích đối thủ, B-roll, chụp web |
 | `video-templates/` | 130 template video HTML một-file cùng **`CATALOG.md`**. Mỗi template tự chứa CSS và animation, render offline. 367 template nữa chỉ cách một câu lệnh. |
-| `skills/` | 26 skill: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `competitor-analysis`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template`, `story-video`, `ads-creative-lab`, `ads-fatigue-watch`, `ads-comment-triage`, `ads-policy-check`, `catalog-feed-audit`, `audience-plan`, `ugc-koc-brief`, `promo-calendar` + `registry.json` (40 skill ngoài tải khi cần, gồm `ghost-editor`, `opus-55-videos`, `xilo-opus-video`) |
+| `skills/` | 26 skill: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `competitor-analysis`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template`, `story-video`, `ads-creative-lab`, `ads-fatigue-watch`, `ads-comment-triage`, `ads-policy-check`, `catalog-feed-audit`, `audience-plan`, `ugc-koc-brief`, `promo-calendar` + `registry.json` (41 skill ngoài tải khi cần, gồm `watch-video`, `ghost-editor`, `opus-55-videos`, `xilo-opus-video`) |
 | `examples/` | 2 agent mẫu chạy thật: agent tin tức social và agent video ngắn |
 
 ## Yêu cầu

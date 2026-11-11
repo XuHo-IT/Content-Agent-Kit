@@ -3,7 +3,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import { EDIT_STYLES, STYLE_IDS, resolveStyle, hookStyle, hexToAss } from "../scripts/video/lib/edit-styles.mjs";
-import { validateEdl, sourceToJoined } from "../scripts/video/lib/edl.mjs";
+import { validateEdl, sourceToJoined, cardsOnCut } from "../scripts/video/lib/edl.mjs";
 import { toAssActiveWords } from "../scripts/video/lib/captions.mjs";
 
 test("seven named styles, each a complete bundle", () => {
@@ -75,4 +75,36 @@ test("the demo EDL is valid and its B-roll stays a minority of the runtime", () 
     const [, h, , y] = c.split(":").map(Number);
     assert.ok(y + h <= 565, c);
   }
+});
+
+test("cards: inside one segment, no overlap with B-roll, readable length, speaker not buried", () => {
+  const base = { segments: [{ from: 0, to: 20 }, { from: 30, to: 40 }] };
+  const card = (o) => ({ at: 2, dur: 3, templateId: "frame-checklist", ...o });
+  assert.deepEqual(validateEdl({ ...base, cards: [card({}), card({ at: 31, layout: "pip" })] }), []);
+  assert.match(validateEdl({ ...base, cards: [card({ at: 18 })] }).join(), /entirely inside one segment/);
+  assert.match(validateEdl({ ...base, cards: [card({ dur: 1 })] }).join(), /1\.5 s/);
+  assert.match(validateEdl({ ...base, cards: [card({ templateId: "../x" })] }).join(), /frame-\* template id/);
+  assert.match(validateEdl({ ...base, cards: [card({ layout: "split" })] }).join(), /layout must be one of full, pip/);
+  assert.match(validateEdl({ ...base, broll: [{ at: 3, src: 0, dur: 2 }], cards: [card({})] }).join(), /overlap/);
+  // 18 s of full-frame cards on 30 s of talk hides the speaker; the same cards as pip do not
+  const many = [card({ at: 0, dur: 9 }), card({ at: 9.5, dur: 9 })]; // 18 s of 30 s = 60%
+  assert.match(validateEdl({ ...base, cards: many }).join(), /hide the speaker/);
+  assert.deepEqual(validateEdl({ ...base, cards: many.map((c) => ({ ...c, layout: "pip" })) }), []);
+});
+
+test("the full-edit demo EDL is valid", () => {
+  const e = JSON.parse(fs.readFileSync("examples/talking-head-demo/hoan-chinh/edl.json", "utf8"));
+  assert.deepEqual(validateEdl(e), []);
+  assert.ok(e.cards.length >= 6, "the full edit should illustrate throughout");
+});
+
+test("cards start on the cut timeline and then play their full length, uninterrupted", () => {
+  // two segments: source 10–20 (encoded 10 s) and 50–60; a 1 s pause at assembled 3–4 was cut
+  const segs = [{ from: 10, to: 20, dur: 10 }, { from: 50, to: 60, dur: 10 }];
+  const remap = (t) => (t <= 3 ? t : t <= 4 ? 3 : t - 1);
+  const [a, b, gone] = cardsOnCut(
+    [{ at: 15, dur: 4 }, { at: 58.5, dur: 4 }, { at: 99, dur: 3 }], segs, remap, 19);
+  assert.deepEqual([a.start, a.end], [4, 8]); // assembled 5 → cut 4, then a full 4 s — not shortened by the pause
+  assert.deepEqual([b.start, b.end], [17.5, 19]); // clamped to the end of the video
+  assert.equal(gone, undefined); // outside every segment → dropped, not placed at 0
 });

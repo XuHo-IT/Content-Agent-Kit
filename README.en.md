@@ -76,7 +76,8 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 node scripts/video/render.mjs brain/<slug>/script.json
 node scripts/video/contact-sheet.mjs brain/<slug>/video.mp4
 # someone speaking on camera? cut, reframe 9:16, active-word captions
-node scripts/video/talking-head.mjs take.mp4 --transcript take.json --theme <preset>
+node scripts/video/transcribe.mjs take.mp4          # word timings (any OpenAI-compatible server, or faster-whisper)
+node scripts/video/talking-head.mjs take.mp4 --transcript take.transcript.json --theme <preset>
 ```
 
 ---
@@ -165,7 +166,7 @@ genres in **[`docs/21-video-genres.md`](docs/21-video-genres.md)** &
 | `templates/` | Scaffolds: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 industries, one palette each) |
 | `scripts/` | Zero-dependency CLIs: crawl, social publish, quality audit, video render, autocut, competitor scan, stock B-roll, screenshots |
 | `video-templates/` | 130 single-file HTML video templates plus **`CATALOG.md`** — self-contained CSS & animation, rendered offline. 367 more are one command away. |
-| `skills/` | 26 runtime skills: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `competitor-analysis`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template`, `story-video`, `ads-creative-lab`, `ads-fatigue-watch`, `ads-comment-triage`, `ads-policy-check`, `catalog-feed-audit`, `audience-plan`, `ugc-koc-brief`, `promo-calendar` + `registry.json` (40 on-demand skills incl. `ghost-editor`, `opus-55-videos`, `xilo-opus-video`) |
+| `skills/` | 26 runtime skills: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `competitor-analysis`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template`, `story-video`, `ads-creative-lab`, `ads-fatigue-watch`, `ads-comment-triage`, `ads-policy-check`, `catalog-feed-audit`, `audience-plan`, `ugc-koc-brief`, `promo-calendar` + `registry.json` (41 on-demand skills incl. `watch-video`, `ghost-editor`, `opus-55-videos`, `xilo-opus-video`) |
 | `examples/` | 2 end-to-end reference agents: AI news social and vertical video production |
 
 ## Requirements

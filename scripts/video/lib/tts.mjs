@@ -51,6 +51,40 @@ export const PROVIDER_SPECS = {
     },
   },
 
+  // Any server speaking OpenAI's speech API: POST /v1/audio/speech -> audio bytes. One adapter
+  // covers a whole class of LOCAL engines (speech.cpp, LocalAI, Kokoro-FastAPI, speaches…) and
+  // hosted ones, so a new local Vietnamese voice is a config change, not a code change. Before
+  // this, OmniVoice — behind a custom POST /tts — was the only local option.
+  "openai-speech": {
+    shape: "bytes",
+    local: true,
+    needsVoiceId: false,
+    keys: [], // OPENAI_SPEECH_API_KEY is optional — a local server usually needs none
+    nativeSpeed: true,
+    endpointEnv: "OPENAI_SPEECH_ENDPOINT",
+    defaultEndpoint: "http://127.0.0.1:8880",
+    note: "Any OpenAI-compatible server: POST {endpoint}/v1/audio/speech {model, input, voice}. Model via OPENAI_SPEECH_MODEL.",
+    build(text, cfg) {
+      const key = optionalEnv("OPENAI_SPEECH_API_KEY");
+      return {
+        url: `${cfg.endpoint}/v1/audio/speech`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "audio/mpeg",
+          ...(key ? { Authorization: `Bearer ${key}` } : {}),
+        },
+        body: JSON.stringify({
+          model: optionalEnv("OPENAI_SPEECH_MODEL", "tts-1"),
+          input: text,
+          voice: cfg.voiceId || optionalEnv("OPENAI_SPEECH_VOICE", "default"),
+          response_format: "mp3",
+          speed: cfg.speed,
+        }),
+      };
+    },
+  },
+
   elevenlabs: {
     shape: "bytes",
     needsVoiceId: true,

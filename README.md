@@ -106,7 +106,12 @@ và một bộ khung hình riêng (sơ đồ, biểu đồ, bản đồ vệ tin
 | [![Sức khoẻ](examples/niche-samples/y-te/preview.webp)](examples/niche-samples/y-te/video.mp4) | [![Môi trường](examples/niche-samples/moi-truong/preview.webp)](examples/niche-samples/moi-truong/video.mp4) | [![Du lịch](examples/niche-samples/du-lich/preview.webp)](examples/niche-samples/du-lich/video.mp4) | [![Bất động sản](examples/niche-samples/bat-dong-san/preview.webp)](examples/niche-samples/bat-dong-san/video.mp4) |
 | **Sức khoẻ** | **Môi trường** | **Du lịch** | **Bất động sản** |
 
-### Có sẵn video quay người nói? Một đoạn quay, nhiều phong cách dựng
+### Có sẵn video quay người nói? Kit dựng thành video hoàn chỉnh
+
+| [![Bản hoàn chỉnh có minh hoạ](examples/talking-head-demo/hoan-chinh.webp)](examples/talking-head-demo/hoan-chinh.mp4) | Một phóng sự quay ngang 2 phút 26 giây → **video dọc 63 giây hoàn chỉnh**: <br><br>ghép 4 đoạn nói hay nhất, cắt khoảng lặng, cắt khung dọc, phụ đề sáng từng từ, và **8 thẻ minh hoạ** hiện đúng lúc người nói nhắc tới (con số, biểu đồ, danh sách, các bước, trước/sau). <br><br>Khi người thật đang kể, họ vẫn hiện trong khung nhỏ ở góc. [Xem cách làm →](examples/talking-head-demo/) |
+|:---:|:---|
+
+Cùng đoạn quay đó, dựng theo nhiều phong cách khác nhau:
 
 | Clean | Pop | Editorial | Cinematic | Kinetic doc |
 |:---:|:---:|:---:|:---:|:---:|
