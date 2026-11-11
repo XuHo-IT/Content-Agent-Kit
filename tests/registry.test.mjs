@@ -56,6 +56,17 @@ test("the unlicensed escape hatch stays rare and deliberate", () => {
   );
 });
 
+test("a licence that limits use says how, in a `restriction` the installer prints", () => {
+  // Four entries said "MIT" when their upstream had moved on: one to CC BY-NC (non-commercial —
+  // exactly the creators who monetise), one to MIT + Commons Clause, one to its own terms. The
+  // registry is copied into every NOTICE, so a wrong licence here is repeated on every install.
+  const LIMITING = /NC|Commons-Clause|LicenseRef|ND\b|SA\b/;
+  for (const [id, s] of entries) {
+    if (LIMITING.test(s.license)) assert.ok(s.restriction?.trim(), `${id} is ${s.license} but states no restriction`);
+    if (/NC/.test(s.license)) assert.match(s.restriction, /non-commercial/i, `${id} is non-commercial and must say so plainly`);
+  }
+});
+
 test("a `via` entry names an installer the script actually knows", () => {
   // A typo here fails at install time with a shell error instead of a readable message.
   for (const [id, s] of entries) {

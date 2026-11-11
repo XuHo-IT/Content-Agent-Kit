@@ -159,6 +159,7 @@ if (has("--list")) {
     const installed = fs.existsSync(path.join(destRoot, s.installAs, "SKILL.md"));
     console.log(`  ${installed ? "✓" : " "} ${id.padEnd(14)} ${s.license.padEnd(5)} ${s.summary}`);
     console.log(`    ${" ".repeat(14)}       ${s.repo}/${s.path === "." ? "" : s.path}`);
+    if (s.restriction) console.log(`    ${" ".repeat(14)}       ! ${s.restriction}`);
     console.log(`    ${" ".repeat(14)}       ${s.why}\n`);
   }
   console.log(`[skills] install: node scripts/install-skills.mjs <id> [--global]`);
@@ -178,6 +179,16 @@ function warnUnlicensed(s) {
   console.log(`[skills]   reserved. Upstream invites the install; it has not granted anything more.`);
 }
 
+/**
+ * A licence that grants use but not everything: non-commercial (CC BY-NC), Commons Clause
+ * ("may not sell"), or a project's own terms. Enough to fetch, NOT enough to stay silent —
+ * a creator who monetises their videos is exactly who NC excludes. Said at install time and
+ * kept in the NOTICE beside the files.
+ */
+function warnRestricted(s) {
+  if (s.restriction) console.log(`[skills] ! ${s.repo} — ${s.license}: ${s.restriction}`);
+}
+
 function noticeFor(s, id, sha, unlicensed) {
   const licenceLine = unlicensed
     ? `**License:** NONE — upstream ships no licence file.\n` +
@@ -185,7 +196,8 @@ function noticeFor(s, id, sha, unlicensed) {
       `> product, or relicense it. Absent a licence, all rights are reserved by the author.\n` +
       `> This kit fetched it because the upstream publishes an install command inviting that;\n` +
       `> nothing more was granted, and content-agent-kit carries no copy of it.\n`
-    : `**License:** ${s.license} — full text in \`${s.licenseFile}\` beside this file\n`;
+    : `**License:** ${s.license} — full text in \`${s.licenseFile}\` beside this file\n` +
+      (s.restriction ? `> **Restriction:** ${s.restriction}\n` : "");
 
   return (
     `# ${s.installAs} — installed by content-agent-kit\n\n` +
@@ -213,6 +225,7 @@ function installVia(id, s) {
   console.log(`[skills] ${id} ← ${s.repo} — via the upstream's own installer`);
   if (s.sizeNote) console.log(`[skills]   ${s.sizeNote}`);
   if (s.unlicensed) warnUnlicensed(s);
+  warnRestricted(s);
   if (dryRun) {
     console.log(`[skills]   would run: ${cmd}`);
     return true;
@@ -290,6 +303,7 @@ for (const id of ids) {
     console.log(`[skills] ${id} ← ${s.repo}@${sha.slice(0, 7)} — ${files.length} file(s), ${(total / 1024).toFixed(0)} KB`);
 
     if (unlicensed) warnUnlicensed(s);
+    warnRestricted(s);
 
     if (dryRun) {
       for (const f of files) console.log(`[skills]     ${path.join(dest, f.rel)}`);

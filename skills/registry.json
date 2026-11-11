@@ -236,10 +236,11 @@
       "path": ".",
       "installAs": "canvas-widgets",
       "via": "skills",
-      "license": "MIT",
-      "licenseFile": "LICENSE",
+      "license": "MIT+Commons-Clause",
+      "licenseFile": "LICENSE.md",
       "summary": "High-performance HTML5 Canvas UI elements, speedometers, circular gauges and real-time telemetry dials.",
-      "why": "Supplies custom canvas dials and visualizers for technical benchmarks and performance videos."
+      "why": "Supplies custom canvas dials and visualizers for technical benchmarks and performance videos.",
+      "restriction": "Commons Clause: use it in your own videos and products, but you may not sell the components themselves or a service whose value is mainly them."
     },
     "ui-transitions": {
       "repo": "Jakubantalik/transitions.dev",
@@ -247,10 +248,11 @@
       "path": ".",
       "installAs": "ui-transitions",
       "via": "skills",
-      "license": "MIT",
+      "license": "LicenseRef-Transitions.dev",
       "licenseFile": "LICENSE",
       "summary": "Production-ready UI motion patterns and transitions (card expand, modal, pop-in, micro-interactions) with prefers-reduced-motion accessibility.",
-      "why": "Provides refined animation curves and timing tokens to make HTML/CSS video templates and web interfaces feel fluid and state-of-the-art."
+      "why": "Provides refined animation curves and timing tokens to make HTML/CSS video templates and web interfaces feel fluid and state-of-the-art.",
+      "restriction": "Own licence: free in personal and commercial projects and for your users; tooling is MIT; you may not redistribute the transitions library as a competing product."
     },
     "opus-55-videos": {
       "repo": "yihui-dev/awesome-opus5-5-videos",
@@ -291,7 +293,7 @@
       "path": ".",
       "installAs": "claude-video-hub",
       "via": "skills",
-      "license": "MIT",
+      "license": "CC0-1.0",
       "licenseFile": "LICENSE",
       "summary": "Security-graded directory and benchmark hub of 180+ open-source coding-agent video skills across Remotion, Manim, FFmpeg, and HTML.",
       "why": "Helps agents audit and select the safest open-source video toolchains, subtitle pipelines, and motion libraries."
@@ -379,10 +381,11 @@
       "path": ".",
       "installAs": "academic-writing-flow",
       "via": "skills",
-      "license": "MIT",
+      "license": "CC-BY-NC-4.0",
       "licenseFile": "LICENSE",
       "summary": "End-to-end academic research cycle (research -> write -> review -> revise -> finalize) with evidence verification contracts.",
-      "why": "Enforces strict evidence gates and citation checks for long-form technical deep-dives and whitepapers."
+      "why": "Enforces strict evidence gates and citation checks for long-form technical deep-dives and whitepapers.",
+      "restriction": "NON-COMMERCIAL ONLY (CC BY-NC 4.0, since 2026). Do not use it for monetised videos, sponsored posts or client work without the author's written permission."
     },
     "marketing-core": {
       "repo": "coreyhaines31/marketingskills",
@@ -396,16 +399,16 @@
       "why": "Standardizes product-marketing context files to drive high-converting hooks, video scripts, and landing page copy."
     },
     "watch-video": {
-    "repo": "bradautomates/claude-video",
-    "ref": "main",
-    "path": "skills/watch",
-    "installAs": "watch",
-    "license": "MIT",
-    "licenseFile": "LICENSE",
-    "summary": "Lets the agent actually watch a video from a URL or file: timestamped frames plus a transcript (local WhisperX; Gemini optional).",
-    "why": "competitor-analysis and social-fetch --analyze read titles and numbers; this lets the agent see a competitor's breakout video — the hook in the first 3 seconds, the cut rhythm, what is on screen. Study the device, never copy the footage."
-  },
-  "ghost-editor": {
+      "repo": "bradautomates/claude-video",
+      "ref": "main",
+      "path": "skills/watch",
+      "installAs": "watch",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "Lets the agent actually watch a video from a URL or file: timestamped frames plus a transcript (local WhisperX; Gemini optional).",
+      "why": "competitor-analysis and social-fetch --analyze read titles and numbers; this lets the agent see a competitor's breakout video — the hook in the first 3 seconds, the cut rhythm, what is on screen. Study the device, never copy the footage."
+    },
+    "ghost-editor": {
       "repo": "kurbaitaev/ghost-editor",
       "ref": "main",
       "path": ".",
@@ -458,6 +461,17 @@
       "licenseFile": "LICENSE",
       "summary": "Cinematic launch films and motion design written as code and directed by the coding agent.",
       "why": "Pairs with the launch and flash-deal genres when a product video needs a longer cinematic cut than a 9:16 scene sequence gives."
+    },
+    "lemo-opuscar": {
+      "repo": "lemomo-ai/lemo-opuscar",
+      "ref": "main",
+      "path": "plugin/skills/lemo-opuscar",
+      "installAs": "lemo-opuscar",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "sizeNote": "The skill is 2 files; on first use it clones the library (≈ 160 MB with demo frames and 3D assets) to ~/lemo-opuscar and installs Node/Python deps.",
+      "summary": "66 film styles made entirely in code (impasto, watercolor, ukiyo-e, satellite briefing, teardown, newsreel…) — a style prompt plus a demo film each, and your own styles.",
+      "why": "For a short film, promo or explainer with a distinct art direction beyond the kit's frame templates. Several kit story templates are already ports of its MIT styles (NOTICE.md)."
     }
   },
   "_marketing": [
