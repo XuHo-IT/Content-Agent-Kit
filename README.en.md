@@ -160,7 +160,7 @@ genres in **[`docs/21-video-genres.md`](docs/21-video-genres.md)** &
 | `docs/` | 26 methodology guides (bilingual VI + EN): writing, GEO, topic radar, competitor analysis, video pipeline, palettes, auto-edit, ad MCPs, Canva |
 | `templates/` | Scaffolds: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 industries, one palette each) |
 | `scripts/` | Zero-dependency CLIs: crawl, social publish, quality audit, video render, autocut, competitor scan, stock B-roll, screenshots |
-| `video-templates/` | 115 single-file HTML video templates plus **`CATALOG.md`** — self-contained CSS & animation, rendered offline. 367 more are one command away. |
+| `video-templates/` | 115 single-file HTML video templates plus **`CATALOG.md`** — self-contained CSS & animation, rendered offline. 456 more are one command away. |
 | `skills/` | 17 runtime skills: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `competitor-analysis`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template` + `registry.json` (40 on-demand skills incl. `ghost-editor`, `opus-55-videos`, `xilo-opus-video`) |
 | `examples/` | 2 end-to-end reference agents: AI news social and vertical video production |
 
