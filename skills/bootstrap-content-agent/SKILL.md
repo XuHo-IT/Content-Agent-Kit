@@ -8,6 +8,25 @@ description: Scaffold a new autonomous content agent from this kit. Use when the
 You are turning this kit into a working, project-specific content agent. Work in
 phases. Do not skip the interview — the answers drive everything you generate.
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Đọc phương pháp | Đọc `docs/01-architecture.md`, `docs/03-conventions.md` và các tài liệu liên quan | — |
+| 2. Phỏng vấn | Hỏi theo nhóm: chủ đề, loại bài, nơi đăng, lịch chạy, giọng văn, có làm video/ads không — kèm gợi ý sẵn | Trả lời câu hỏi; chưa chắc thì nhận gợi ý mặc định |
+| 3. Dựng dự án | Tạo `PLAYBOOK.md`, `KNOWLEDGE.md`, `WRITING_CRAFT.md`, `.env.example`, file trạng thái, script, lịch | Cho biết thư mục dự án đích |
+| 4. Kiểm tra | Chạy `--help` từng script, soát một caption bằng `validate-post.mjs --strict`, quét lộ khoá bí mật | — |
+| 5. Bàn giao | Đưa cây thư mục đã tạo, cách điền `.env`, cách chạy lần đầu | Điền khoá vào `.env` (không dán khoá vào chat) |
+
+**Hay vướng:**
+- Trả lời quá chung ("làm nội dung về AI") → cho agent một ví dụ bài thật bạn muốn có.
+- Dán API key vào chat → chỉ điền trong file `.env` trên máy.
+- Không biết chọn lịch chạy nào → chọn "chạy tay" trước, bật lịch tự động sau khi đã ưng ý.
+
 ## Phase 1 — Read the method
 Read `docs/01-architecture.md` and `docs/03-conventions.md` in full. Then skim
 `docs/02-playbook-spec.md`, `docs/05-publishing.md`, `docs/06-scheduling.md`,
@@ -47,6 +66,12 @@ Ask (batch related questions; propose sensible defaults):
    Pipeboard servers for Meta/Google/TikTok/Snap/Reddit and the `ads-report` skill turns
    what they report into next week's queue. Warn them those connections are **read AND
    write** on live accounts.
+8b2. **Facebook / Meta ads (optional)** — do they run paid social themselves (shop, fashion,
+   e-commerce)? If yes, `docs/28-facebook-ads.md` maps the work to eight skills that all run
+   offline on Ads Manager exports, with `scripts/ads/*.mjs` doing the counting and
+   `templates/VN_RETAIL_CALENDAR.template.json` holding the Vietnamese sale calendar. Ask for
+   the brand voice for comment replies and whether they have customer consent before any
+   order file is touched (Nghị định 13/2023).
 8c. **Images (optional)** — do they need campaign visuals rather than stock photos? Canva's
    MCP is declared in `.mcp.json`, and the `design-campaign` skill exports a **file**, not a
    Canva link. Ask which plan they are on: resize needs Pro, autofill needs Enterprise, so
@@ -121,7 +146,13 @@ From `templates/` + `scripts/`, produce:
   to more than one channel, `geo-optimize` if anything they publish is meant to be found —
   it carries `scripts/geo-audit.mjs`, which gates a draft on whether a passage still means
   anything once an answer engine quotes it alone — and
-  `design-campaign` if Canva is connected.
+  `design-campaign` if Canva is connected, `story-video` whenever the agent makes videos (brand,
+  customer and history stories on the `frame-story-*` set — fetch its sounds once with
+  `node scripts/video/sfx-cc0.mjs`), and for an agent that runs Meta ads the ads set:
+  `ads-creative-lab`, `ads-fatigue-watch`, `ads-comment-triage`, `ads-policy-check` (wire it
+  into the review gate for ad copy — `policy-lint.mjs` exits 2 on a block), `catalog-feed-audit`
+  if they run catalog/Advantage+ ads, `audience-plan`, `ugc-koc-brief` if they work with KOCs,
+  and `promo-calendar`.
   `new-template` and `motion-craft` belong in a kit checkout rather than a generated agent:
   they edit `video-templates/` and the gates around it, which a downstream agent does not own.
 - **Skills from elsewhere** (optional): `node scripts/install-skills.mjs --list` shows an SEO

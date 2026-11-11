@@ -19,7 +19,7 @@
 
 Bộ kit giúp các IDE agentic (**Claude Code**, **Antigravity / Gemini**) tự dựng và vận hành
 một AI Content Agent hoàn chỉnh cho thị trường Việt. Agent làm trọn chuỗi: săn chủ đề, soi
-đối thủ, viết bài, chấm chất lượng, đăng mạng xã hội, và **dựng video ngắn 9:16** với 115
+đối thủ, viết bài, chấm chất lượng, đăng mạng xã hội, và **dựng video ngắn 9:16** với 130
 template HTML động, giọng đọc tiếng Việt tự nhiên, phụ đề sáng từng từ, B-roll và ảnh chụp
 web thật.
 
@@ -29,6 +29,10 @@ Không cần `npm install`. Hầu hết tính năng không cần API key.
 
 | | |
 |---|---|
+| 🧭 **Cài như plugin; skill nào cũng dẫn từng bước** | `/plugin marketplace add XuHo-IT/Content-Agent-Kit`, hoặc `install-skills.mjs --kit [--global]` để chép cả 26 skill. Mỗi skill mở đầu bằng bảng các bước, AI đọc theo kiểu "Bước 2/5 — …" → [`docs/29`](29-bat-dau-nhanh.md) |
+| 📖 **15 template kể chuyện + 4 thể loại** | Khung hình làm một việc trong câu chuyện: trang giấy lật kiểu stop-motion 8 hình/giây, một nét bút vẽ cả hành trình, hồ sơ in lưới có con dấu đập, dừng hình khoanh tròn như bình luận bóng đá, biểu đồ vẽ bút chì, lá thư tự viết, tranh cát, câu chuyện vẽ quanh chiếc bình xoay. Sinh bởi `build-story-templates.mjs`, ý tưởng từ [ghost-editor](https://github.com/kurbaitaev/ghost-editor) và các prompt kể chuyện của awesome-opus5-5-videos; thể loại `brand-story`, `customer-story`, `legend`, `case-breakdown`; skill `story-video` → [`docs/27`](27-storytelling.md) |
+| 🔊 **Gói âm thanh CC0 + 2 kiểu dựng** | `sfx-cc0.mjs` tải 27 âm thanh CC0 (lật trang, sting, riser, boom; âm thanh "meme" không bao giờ tự chọn). `talking-head.mjs` có thêm `--style launch` và `--style meme` |
+| 📣 **Bộ công cụ Facebook ads (8 skill)** | Ma trận test creative + đặt tên, phát hiện mẫu đuối, lọc bình luận hiểu cả teencode, soát chính sách trước khi chạy, soát feed catalog, phân nhóm khách RFM + file custom audience đã băm, brief KOC/UGC, lịch sale Việt Nam — chạy offline trên file xuất từ Ads Manager: `creative-matrix.mjs`, `fatigue-check.mjs`, `comment-triage.mjs`, `policy-lint.mjs`, `feed-audit.mjs`, `rfm-segments.mjs`, `promo-plan.mjs`, `VN_RETAIL_CALENDAR.template.json` → [`docs/28`](28-facebook-ads.md) |
 | 🎬 **13 template "trend" mới** | Bám theo xu hướng video viết bằng code 2026: caption sáng từng từ, thanh tìm kiếm biến hình, bảng xếp hạng chạy đua, số lăn kiểu đồng hồ, trước/sau quét ngang, mổ xẻ 3D, zoom vô tận, điện thoại nổ thông báo, "trả lời bình luận", giá sốc. **Thay thế 27 template cũ** vốn chữ tí hon, khung trống và nội dung lỗi thời |
 | 🎨 **16 bảng màu theo ngành** | Mỗi ngành một bảng màu đúng xu hướng, **không "mùi AI"**: không gradient tím-xanh, không neon, không chữ tô gradient. Tài chính dùng xanh sổ cái, tin tức dùng đỏ nhà in, AI dùng than chì + cam tín hiệu → [`docs/25`](25-palettes.md) |
 | ✂️ **Tự cắt khoảng lặng** | `autocut.mjs`: đưa vào file quay thô, nhận lại bản jump-cut có punch-in, loudness -16 LUFS, crop 9:16. Chỉ cần ffmpeg. Phương pháp từ [ghost-editor](https://github.com/kurbaitaev/ghost-editor) → [`docs/26`](26-auto-edit.md) |
@@ -47,7 +51,7 @@ Không cần `npm install`. Hầu hết tính năng không cần API key.
 | 📄 **Bài viết** | [Bài viết mẫu](../examples/ai-news-social/sample-output/): 951 từ chuẩn SEO/GEO, kèm comment tương tác và bảng kiểm định chất lượng |
 | 🖼️ **Ảnh bìa** | [Ảnh cover](../examples/ai-news-social/sample-output/cover.jpg): 1024×1024, đồng bộ phong cách bài viết |
 | 🎬 **Video 9:16** | [Video mẫu](../examples/ai-video-social/sample-output/): 2 phút 12 giây, giọng Vbee, footage Pexels, chụp web trực tiếp |
-| 🎨 **Theme đổi màu** | [Bản paper-blue](../examples/ai-video-social/sample-output-paper-blue/): 16 scene, dùng 14 trong số 115 template, đổi sang nền trắng chữ xanh biển qua `"theme": "paper-blue"` |
+| 🎨 **Theme đổi màu** | [Bản paper-blue](../examples/ai-video-social/sample-output-paper-blue/): 16 scene, dùng 14 trong số 130 template, đổi sang nền trắng chữ xanh biển qua `"theme": "paper-blue"` |
 
 > **Tải video mẫu MP4:** [Releases v0.1.0](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0) hoặc tự render:
 > `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
@@ -151,7 +155,7 @@ Vì sao các bảng màu này không bị "mùi AI": [`docs/25-palettes.md`](25-
 
 ---
 
-## Thư viện 115 template theo nhóm
+## Thư viện 130 template theo nhóm
 
 Mỗi template có cả bản 16:9 và 9:16, lớp chuyển động nền liên tục, và font có đủ dấu tiếng Việt.
 
@@ -215,6 +219,10 @@ Mỗi template có cả bản 16:9 và 9:16, lớp chuyển động nền liên 
 [![TMĐT](../examples/gallery/gallery-ecommerce.jpg)](../video-templates/CATALOG.md)
 *`frame-trend-price-drop`, `frame-trend-compare-wipe`, `frame-review-verdict`.*
 
+### 16. 📖 Kể chuyện (15)
+[![Kể chuyện](../examples/gallery/gallery-story.jpg)](../video-templates/CATALOG.md)
+*`frame-story-one-line` (một nét vẽ cả hành trình), `frame-story-world-pan` (máy quay lặn từ ngọn xuống rễ), `frame-story-page-turn` (lật trang stop-motion), `frame-story-halftone-case` (hồ sơ in lưới + con dấu), `frame-story-comic-panels` (3 khung truyện tranh), `frame-story-swiss-chapter` (mở chương lưới Thuỵ Sĩ), `frame-story-step-numeral` (bài học đánh số), `frame-story-letter` (lá thư tự viết), `frame-story-sand` (tranh cát), `frame-story-telestrator` (dừng hình khoanh tròn), `frame-story-pencil-chart` (biểu đồ bút chì), `frame-story-frieze` (chuyện vẽ quanh bình xoay), `frame-story-silent-film` (thẻ chữ phim câm), `frame-story-kinetic-floor` (cao trào xếp tầng), `frame-story-rundown` (danh mục bản tin). Cách dùng: [`docs/27`](27-storytelling.md).*
+
 > Slot và giới hạn ký tự: **[`video-templates/CATALOG.md`](../video-templates/CATALOG.md)**.
 > Thứ tự scene cho 15 thể loại video: **[`docs/21-video-genres.md`](21-video-genres.md)** & **[`templates/VIDEO_GENRES.template.json`](../templates/VIDEO_GENRES.template.json)**.
 
@@ -225,7 +233,7 @@ Mỗi template có cả bản 16:9 và 9:16, lớp chuyển động nền liên 
 | Tính năng | Chi tiết |
 |---|---|
 | **6 bộ giọng đọc** | OmniVoice (local, miễn phí), Vbee, Viettel AI, FPT AI, ElevenLabs, adapter HTTP tuỳ chỉnh |
-| **115 template, 15 thể loại** | Review, Hướng dẫn, Tin tức, Listicle, Ra mắt, Testimonial, Local, Vox Explainer, GEO Answer, Phân tích kỹ thuật, Tăng trưởng, Du lịch, **Trả lời bình luận, Flash sale, Câu chuyện số liệu** |
+| **130 template, 19 thể loại** | Review, Hướng dẫn, Tin tức, Listicle, Ra mắt, Testimonial, Local, Vox Explainer, GEO Answer, Phân tích kỹ thuật, Tăng trưởng, Du lịch, **Trả lời bình luận, Flash sale, Câu chuyện số liệu, Câu chuyện thương hiệu, Câu chuyện khách hàng, Huyền thoại, Mổ xẻ vụ việc** |
 | **Phụ đề & chuyển cảnh** | `--captions burn` + `--caption-style active` (sáng từng từ). 12 kiểu chuyển cảnh: fade, swipe, slide, iris, pixelize, zoom, whip, radial, slice, squeeze, reveal, cover |
 | **Tự dựng video quay** | `autocut.mjs`: cắt khoảng lặng, punch-in, -16 LUFS, 9:16, kèm danh sách cắt để duyệt |
 | **Săn chủ đề & soi đối thủ** | `topic-radar.mjs` (HN, GitHub, Google News, **Google Trends VN**, Reddit) và `competitor-scan.mjs` (YouTube + RSS) — không cần key. Thêm `APIFY_TOKEN` để mở **TikTok, Instagram, YouTube, Facebook** qua Apify (trả phí, tuỳ chọn) |
@@ -243,8 +251,8 @@ Mỗi template có cả bản 16:9 và 9:16, lớp chuyển động nền liên 
 | `docs/` | 26 tài liệu phương pháp (song ngữ VI + EN): viết bài, GEO, topic radar, phân tích đối thủ, pipeline video, bảng màu, tự dựng, MCP quảng cáo/Canva |
 | `templates/` | Khung điền sẵn: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 ngành, mỗi ngành một bảng màu) |
 | `scripts/` | CLI hoàn chỉnh, không phụ thuộc: crawl, đăng social, kiểm định, render video, autocut, phân tích đối thủ, B-roll, chụp web |
-| `video-templates/` | 115 template video HTML một-file cùng **`CATALOG.md`**. Mỗi template tự chứa CSS và animation, render offline. 367 template nữa chỉ cách một câu lệnh. |
-| `skills/` | 17 skill: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `competitor-analysis`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template` + `registry.json` (40 skill ngoài tải khi cần, gồm `ghost-editor`, `opus-55-videos`, `xilo-opus-video`) |
+| `video-templates/` | 130 template video HTML một-file cùng **`CATALOG.md`**. Mỗi template tự chứa CSS và animation, render offline. 367 template nữa chỉ cách một câu lệnh. |
+| `skills/` | 26 skill: `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `competitor-analysis`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template`, `story-video`, `ads-creative-lab`, `ads-fatigue-watch`, `ads-comment-triage`, `ads-policy-check`, `catalog-feed-audit`, `audience-plan`, `ugc-koc-brief`, `promo-calendar` + `registry.json` (40 skill ngoài tải khi cần, gồm `ghost-editor`, `opus-55-videos`, `xilo-opus-video`) |
 | `examples/` | 2 agent mẫu chạy thật: agent tin tức social và agent video ngắn |
 
 ## Yêu cầu

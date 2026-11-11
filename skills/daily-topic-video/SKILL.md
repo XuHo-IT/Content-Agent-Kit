@@ -14,6 +14,26 @@ that stops tomorrow being a repeat of today.
 
 > Antigravity / Gemini: same steps, run the commands directly.
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Dò tin | Chạy `topic-radar.mjs --topic "<chủ đề>" --top 8`, lấy danh sách tin mới nhất | Nói chủ đề muốn làm (vd. "AI coding agents") |
+| 2. Chọn tin | Đọc nguồn gốc của 3 tin đầu, chọn tin có nguồn thật | Chọn một khi 3 tin ngang điểm nhau |
+| 3. Tìm tư liệu | Chụp trang nguồn, chọn B-roll vào `brain/<slug>/` | — |
+| 4. Dựng video | Viết `script.json`, kiểm tra (vài giây), render (3–5 phút) | — |
+| 5. Kiểm duyệt | Một reviewer độc lập chấm video và đối chiếu với nguồn | Xem lại video nếu reviewer báo lỗi |
+| 6. Đăng | Chạy thử `make-post.mjs --dry-run` rồi đăng hoặc xếp lịch | Đồng ý đăng (cần webhook Make.com trong `.env`) |
+
+**Hay vướng:**
+- Radar trả về rỗng → hôm nay chưa có tin mới; thử `--days 7` hoặc một chủ đề gần đó, đừng làm tin cũ.
+- Render lỗi vì thiếu ffmpeg, Chrome hoặc OmniVoice → cài theo `docs/14-video-generation.md` rồi chạy lại.
+- Đăng báo lỗi webhook → kiểm tra biến webhook trong `.env`; bản dry-run không cần webhook.
+
 ## The chain
 
 ```

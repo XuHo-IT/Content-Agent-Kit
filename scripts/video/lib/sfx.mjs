@@ -28,6 +28,9 @@ export function indexSfxLibrary(sfxDir) {
   return index;
 }
 
+/** Categories the automatic picker never chooses; a scene must name the file in `sfx`. */
+export const NEVER_AUTO = new Set(["meme"]);
+
 /** Scene role → preferred categories, in fallback order. */
 export const ROLE_TO_CATEGORY = {
   hook: ["transition", "cinematic"],
@@ -99,6 +102,9 @@ export function pickSfxForScene({ voiceText, role, sceneId, index }) {
   }
 
   for (const cat of Object.keys(index)) {
+    // Reaction sounds (sfx-cc0.mjs: "oof", "huh?", air horn) are asked for by name only — a
+    // fallback that lands on them puts a joke under a serious line.
+    if (NEVER_AUTO.has(cat)) continue;
     const file = pickFromCategory(cat, sceneId, index);
     if (file) return { relPath: `${cat}/${file}`, source: "fallback" };
   }

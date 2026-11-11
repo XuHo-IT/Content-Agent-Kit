@@ -1,0 +1,8 @@
+id,title,description,availability,condition,price,sale_price,link,image_link,brand,item_group_id,size,color,gender,age_group
+VL01-S-BE,Váy linen dáng A - S,Váy linen dáng A cổ vuông,in stock,new,459000 VND,299000 VND,https://shop.example/vl01,https://cdn.example/vl01.jpg,Mây,VL01,S,Be,female,adult
+VL01-M-BE,Váy linen dáng A - M,Váy linen dáng A cổ vuông,in stock,new,459000 VND,299000 VND,https://shop.example/vl01,https://cdn.example/vl01.jpg,Mây,VL01,M,Be,female,adult
+VL01-M-BE2,Váy linen dáng A - M,Váy linen dáng A cổ vuông,in stock,new,459000 VND,299000 VND,https://shop.example/vl01,https://cdn.example/vl01.jpg,Mây,VL01,M,Be,female,adult
+AT02-S,ÁO THUN BASIC SALE 50% FREESHIP,ÁO THUN BASIC SALE 50% FREESHIP,instock,new,"199.000đ",,http://shop.example/at02,https://cdn.example/no-image.png,Mây,,S,,women,adult
+AT02-M,Áo thun basic M,Áo thun cotton,in stock,new,199000 VND,219000 VND,https://shop.example/at02,https://cdn.example/at02.jpg,,,M,Trắng,female,adult
+AT02-L,Áo thun basic L,Áo thun cotton,in stock,new,199000 VND,,https://shop.example/at02,https://cdn.example/at02.jpg,Mây,,L,Trắng,female,adult
+VL01-S-BE,Chân váy midi,Chân váy midi xếp ly,out of stock,new,359000 VND,,https://shop.example/cv03,https://cdn.example/cv03.jpg,Mây,,,Đen,female,adult

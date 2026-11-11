@@ -2,7 +2,7 @@
 
 ## English
 
-The kit ships 115 scene templates. The upstream **HyperFrames registry**
+The kit ships 130 scene templates. The upstream **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) publishes
 **367 more** — pull any of them without hand-copying files:
 
@@ -103,6 +103,23 @@ landscape warning.
 version this kit pins (`0.9.28`), and some items are marked `experimental`. If one renders
 wrong, delete the folder — no other cleanup needed.
 
+### `hyperframes lint` reports two errors on every kit template — known, harmless
+
+Each render prints `Lint: 2 error(s)`. Both are deliberate conventions of this kit's templates,
+not defects, and a render is unaffected (checked 2026-11-11 by rendering a script with its own
+text and reading the frames back):
+
+- `timeline_id_mismatch` — each composition registers its timeline as both `main` and
+  `portrait` (`scripts/video/lib/fix-timelines.mjs` set that across the library), so either id
+  resolves whichever composition hyperframes mounts.
+- `invalid_composition_variables_declaration` — `data-composition-variables` holds an object of
+  default values, not hyperframes' array of declarations. Caller values arrive through
+  `render --variables-file` and are merged over those defaults by each template's
+  `getVariables()`; the tests and `template-sheet.mjs` read the object form.
+
+Changing either means touching all 130 templates and five builders for no change in output.
+Any OTHER lint error is real — treat it as one.
+
 ### Licensing
 
 Apache-2.0: attribution must travel with the work and modifications must be stated. That is
@@ -112,7 +129,7 @@ what the generated `NOTICE.md` is for — **do not delete it**. See the root `NO
 
 ## Tiếng Việt
 
-Kit có sẵn 115 template cho scene. Kho **HyperFrames registry**
+Kit có sẵn 130 template cho scene. Kho **HyperFrames registry**
 ([heygen-com/hyperframes](https://github.com/heygen-com/hyperframes), Apache-2.0) có thêm
 **367 mục** — kéo về bằng lệnh, không phải chép tay. Xem các lệnh ở bản EN.
 
@@ -147,6 +164,13 @@ Xem danh sách ở bản EN: chuyển cảnh (thắng lớn nhất — hiện c�
 **Render thử trước khi tin dùng.** Registry nhắm bản HyperFrames mới hơn bản kit đang ghim
 (`0.9.28`), và một số mục đánh dấu `experimental`. Cái nào render sai thì xoá thư mục đó là
 xong, không cần dọn gì thêm.
+
+### `hyperframes lint` báo 2 lỗi trên mọi template — đã biết, vô hại
+
+Mỗi lần render in `Lint: 2 error(s)`. Cả hai là quy ước có chủ đích của template trong kit
+(đăng ký timeline dưới cả hai tên `main` và `portrait`; biến mặc định là object chứ không phải
+mảng khai báo), không làm sai video — đã kiểm bằng cách render với chữ riêng và xem lại từng
+khung. Lỗi lint **khác** hai lỗi này mới là lỗi thật.
 
 ### Giấy phép
 

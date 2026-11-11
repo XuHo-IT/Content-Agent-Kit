@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1080, height=1920">
+  <title>Story · One World, One Camera</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,600;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Patrick+Hand&family=Anton&display=swap" rel="stylesheet">
+  <style>
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #1b1410; }
+    
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --snap: cubic-bezier(.2,.9,.1,1);
+    --out: cubic-bezier(.16,1,.3,1);
+  }
+  #root { position: relative; overflow: hidden; width: 100%; height: 100%; font-family: 'Be Vietnam Pro', sans-serif; }
+  #root::after {
+    content: ""; position: absolute; inset: -30%; pointer-events: none; z-index: 0; opacity: .55;
+    animation: ambient 16s linear infinite;
+  }
+  @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
+  .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
+  .mono { font-family: 'Roboto Mono', monospace; }
+  @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes wipeIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+    
+      #root { background: #1b1410; color: #1d1a16; }
+      #root::after { background-image: radial-gradient(rgba(244,234,216,.18) 1.5px, transparent 2px); background-size: 120px 140px; opacity: .5; animation: motes 9s linear infinite; z-index: 2; }
+      @keyframes motes { from { transform: translateY(0); } to { transform: translateY(-140px); } }
+      .view { position: absolute; inset: 0; overflow: hidden; }
+      .world { position: absolute; left: 0; top: 0; width: 100%; height: calc(var(--vh) * 3.3);
+               background: linear-gradient(180deg, #f4ead8 0, #efe0c4 calc(var(--vh) * 1.5), #2a1f18 calc(var(--vh) * 1.5), #1b1410 100%);
+               animation: cam 6s cubic-bezier(.65,0,.35,1) both; }
+      @keyframes cam { 0%, 18% { transform: translateY(0); } 38%, 58% { transform: translateY(calc(var(--vh) * -1)); } 80%, 100% { transform: translateY(calc(var(--vh) * -2.25)); } }
+      .sun { position: absolute; border-radius: 50%; background: #f2b544; }
+      .ground { position: absolute; left: 0; right: 0; top: calc(var(--vh) * 1.5 - 4px); height: 8px; background: #1d1a16; }
+      .sprout { position: absolute; top: calc(var(--vh) * 1.5); overflow: visible; }
+      .sprout path { fill: none; stroke: #4f7a3a; stroke-width: 10; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.2s var(--out) 1.4s forwards; }
+      .roots { position: absolute; top: calc(var(--vh) * 1.5); overflow: visible; }
+      .roots path { fill: none; stroke: #c9a15b; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 2.2s var(--out) forwards; }
+      @keyframes draw { to { stroke-dashoffset: 0; } }
+      .panel { position: absolute; left: 50%; transform: translateX(-50%); font-family: 'Playfair Display', serif; font-weight: 700; line-height: 1.08; text-align: center; border-radius: 22px; opacity: 0; animation: panelIn .7s var(--out) forwards; }
+      @keyframes panelIn { from { opacity: 0; transform: translate(-50%, 40px); } to { opacity: 1; transform: translate(-50%, 0); } }
+      .p-top { background: #fffaf0; color: #1d1a16; animation-delay: .3s; }
+      .p-mid { background: #1d1a16; color: #f4ead8; animation-delay: 2.4s; }
+      .p-bot { background: #2a1f18; color: #f4ead8; box-shadow: inset 0 0 0 4px #c9a15b; animation-delay: 4.7s; }
+      .kicker { position: absolute; z-index: 3; left: 50%; transform: translateX(-50%); white-space: nowrap; font-family: 'Roboto Mono', monospace; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: #c9a15b; color: #1b1410; border-radius: 999px; opacity: 0; animation: fade .4s .1s forwards; }
+    
+    
+      #root { --vh: 1920px; }
+      .kicker { top: 110px; font-size: 30px; padding: 12px 28px; }
+      .sun { width: 300px; height: 300px; right: 90px; top: 260px; }
+      .panel { width: 920px; padding: 44px 50px; font-size: 92px; }
+      .p-top { top: 760px; }
+      .p-mid { top: calc(1920px * 1.5 - 560px); font-size: 82px; }
+      .p-bot { top: calc(1920px * 2.25 + 1180px); font-size: 74px; }
+      .sprout { left: 490px; width: 100px; height: 240px; transform: translateY(-240px); }
+      .roots { left: 240px; width: 600px; height: 2300px; }
+      .roots path { animation-delay: 4.1s; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" class="P" data-composition-id="portrait" data-width="1080" data-height="1920" data-start="0" data-duration="6" data-composition-variables='{"kicker":"Điều người ta không thấy","line_top":"Ai cũng thấy cái cây ra quả","line_mid":"Nhưng mọi thứ bắt đầu dưới mặt đất","line_bottom":"Ba năm đâm rễ trước khi có quả đầu tiên"}'>
+    <div class="view">
+        <div class="world">
+          <div class="sun"></div>
+          <div class="ground"></div>
+          <svg class="sprout" viewBox="0 0 100 240" preserveAspectRatio="none" aria-hidden="true">
+            <path pathLength="1" vector-effect="non-scaling-stroke" d="M 50 240 C 50 170 52 120 50 60 M 50 120 C 20 100 10 80 12 60 M 50 90 C 80 70 92 50 88 30"/>
+          </svg>
+          <svg class="roots" viewBox="0 0 600 1000" preserveAspectRatio="none" aria-hidden="true">
+            <path pathLength="1" vector-effect="non-scaling-stroke" d="M 300 0 C 300 200 290 420 300 640 C 305 780 300 900 300 1000"/>
+            <path pathLength="1" vector-effect="non-scaling-stroke" d="M 300 120 C 220 220 140 300 60 460 C 30 520 20 600 30 700"/>
+            <path pathLength="1" vector-effect="non-scaling-stroke" d="M 300 160 C 380 260 470 340 540 520 C 570 600 580 680 560 780"/>
+            <path pathLength="1" vector-effect="non-scaling-stroke" d="M 300 380 C 240 460 200 560 180 760 C 170 840 160 900 150 980"/>
+            <path pathLength="1" vector-effect="non-scaling-stroke" d="M 300 420 C 360 500 410 600 430 760 C 440 850 450 920 460 990"/>
+            <path pathLength="1" vector-effect="non-scaling-stroke" d="M 300 640 C 260 700 230 760 220 860 M 300 700 C 340 760 360 820 370 900"/>
+          </svg>
+          <div class="panel p-top" data-slot="line_top"></div>
+          <div class="panel p-mid" data-slot="line_mid"></div>
+          <div class="panel p-bot" data-slot="line_bottom"></div>
+        </div>
+      </div>
+      <div data-slot-box><div class="kicker" data-slot="kicker"></div></div>
+  </div>
+  <script>
+    // Caller values: window.__hyperframes.getVariables(), merged over the declared defaults
+    // so the file still previews on its own. Built once, before the first seek.
+    function getVariables() {
+      let d = {};
+      try { d = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      const hf = window.__hyperframes;
+      const p = hf && typeof hf.getVariables === "function" ? hf.getVariables() || {} : {};
+      return Object.assign({}, d, p);
+    }
+    const v = getVariables();
+    const has = (k) => v[k] !== undefined && v[k] !== null && String(v[k]).trim() !== "";
+    document.querySelectorAll("[data-slot]").forEach((el) => {
+      const k = el.getAttribute("data-slot");
+      if (!has(k)) { (el.closest("[data-slot-box]") || el).remove(); return; }
+      el.textContent = String(v[k]);
+    });
+    /** One span per character, each starting `step` seconds after the last — a typewriter. */
+    function typeInto(el, text, start, step) {
+      el.textContent = "";
+      [...String(text)].forEach((ch, i) => {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = ch;
+        s.style.animationDelay = (start + i * step).toFixed(3) + "s";
+        el.appendChild(s);
+      });
+      return start + [...String(text)].length * step;
+    }
+    /** Odometer: every digit becomes a 0–9 column that rolls to its value. */
+    function odometer(el, text, start) {
+      el.textContent = "";
+      let n = 0;
+      [...String(text)].forEach((ch) => {
+        if (/[0-9]/.test(ch)) {
+          const col = document.createElement("span");
+          col.className = "odo";
+          const strip = document.createElement("span");
+          strip.className = "odo-strip";
+          for (let d = 0; d <= 9; d++) { const x = document.createElement("span"); x.textContent = d; strip.appendChild(x); }
+          strip.style.setProperty("--d", ch);
+          strip.style.animationDelay = (start + n++ * 0.07).toFixed(2) + "s";
+          const size = document.createElement("span");
+          size.className = "odo-size";
+          size.textContent = ch;
+          col.appendChild(size);
+          col.appendChild(strip);
+          el.appendChild(col);
+        } else {
+          const s = document.createElement("span");
+          s.className = "odo-sep";
+          s.textContent = ch;
+          el.appendChild(s);
+        }
+      });
+    }
+    
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      duration: 6,
+      seek(t) { document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; }); },
+    };
+  </script>
+</body>
+</html>

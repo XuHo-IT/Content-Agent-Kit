@@ -5,6 +5,29 @@ description: Execute today's content run for an agent built with content-agent-k
 
 # Daily run
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Đọc `PLAYBOOK.md` | Đọc lại toàn bộ, xác định hôm nay làm phần việc nào | — |
+| 2. Lấy ý tưởng | Nếu có crawl: `node scripts/queue-client.mjs pull` | — |
+| 3. Viết | Mỗi bài một người viết (subagent), theo `WRITING_CRAFT.md`; bỏ bài trùng | — |
+| 4. Video (nếu có) | Dựng video ngay bằng `create-video` (3–5 phút/video) | — |
+| 5. Kiểm duyệt | Mọi bài qua `review-gate`; sai thì sửa tối đa 2–3 vòng, không được thì bỏ và ghi lại | — |
+| 6. Đăng và lên lịch | `node scripts/publish.mjs <file>.json`, lịch mạng xã hội qua `build-queue.mjs` | Duyệt lần cuối nếu PLAYBOOK yêu cầu |
+| 7. Báo cáo | `brain/<id>/report.md`: đã làm / đã duyệt / đã đăng / đã bỏ; dọn file tạm | Đọc báo cáo |
+
+**Hay vướng:**
+- Chưa có `PLAYBOOK.md` → chạy `bootstrap-content-agent` trước.
+- Báo `409` khi đăng → bài đã đăng rồi, không phải lỗi; agent ghi nhận và đi tiếp.
+- Thiếu biến môi trường → script báo đúng tên biến; điền vào `.env` rồi chạy lại.
+
+## Quy trình chi tiết (cho agent)
+
 1. **Open `PLAYBOOK.md`** in the project (the source of truth). Re-read it fully — do not
    rely on memory.
 2. **Determine today's phase** = (day-of-year mod N) per §1, and do exactly that phase.

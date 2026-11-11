@@ -15,6 +15,25 @@ story.
 
 > Antigravity / Gemini: same steps, run the commands directly.
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Nhận chủ đề | Hỏi chủ đề và khoảng thời gian (hôm nay, tuần này) | Nói chủ đề |
+| 2. Dò tin | Chạy `topic-radar.mjs --topic "<chủ đề>" --top 10` | — |
+| 3. Đọc nguồn gốc | Mở trang gốc của 3 tin đầu để kiểm tra thật hay đồn | — |
+| 4. Báo cáo | Đưa 2–3 tin, mỗi tin: vì sao đáng làm hôm nay, nguồn, góc kể | Chọn tin muốn làm |
+| 5. Chuyển tiếp | Nếu muốn video, chuyển sang `daily-topic-video` với file radar vừa có | Đồng ý làm video |
+
+**Hay vướng:**
+- Không có tin mới → nói thẳng; thử `--days 7` hoặc chủ đề gần đó.
+- Reddit không có số vote → bình thường, kết quả vẫn dùng được; báo cáo có ghi rõ.
+- Hỏi "sao tin hôm qua không thấy" → radar đã giao tin đó rồi; thêm `--no-dedup` để xem lại.
+
 ## Step 1 — Run the radar
 
 ```bash

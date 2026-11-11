@@ -64,6 +64,40 @@ test("every skill has a SKILL.md with frontmatter", () => {
   }
 });
 
+test("every skill's frontmatter parses as YAML", () => {
+  // ads-report shipped with "no ad spend at all: paste the numbers" in an unquoted description.
+  // In YAML a ": " inside a plain scalar starts a new mapping, so the whole frontmatter failed to
+  // parse and Claude Code loaded the skill with NO name and NO description — it never triggered,
+  // and every other test here stayed green because they read the file with a regex.
+  // (`claude plugin validate .claude-plugin/plugin.json` is what caught it.)
+  for (const n of skillDirs) {
+    const fm = read(`skills/${n}/SKILL.md`).match(/^---\r?\n([\s\S]*?)\r?\n---/)?.[1] ?? "";
+    for (const line of fm.split(/\r?\n/)) {
+      const m = line.match(/^([\w-]+):\s*(.*)$/);
+      if (!m) continue;
+      const v = m[2];
+      if (/^["']/.test(v)) continue; // quoted scalars may contain anything
+      assert.ok(!/:\s/.test(v), `skills/${n}: "${m[1]}" has an unquoted ": " — YAML drops the whole frontmatter`);
+      assert.ok(!/\s#/.test(v), `skills/${n}: "${m[1]}" has " #", which YAML reads as a comment`);
+    }
+  }
+});
+
+test("every skill walks a beginner through it, and can find the kit from anywhere", () => {
+  // Skills are installed as a plugin or copied to ~/.claude/skills/, so a user can invoke one
+  // from a folder that is not this repo — and many users are not developers. Each skill
+  // carries a short step table the agent narrates ("Bước n/N"), and says where scripts run.
+  for (const n of skillDirs) {
+    const t = read(`skills/${n}/SKILL.md`);
+    assert.match(t, /^## Hướng dẫn từng bước cho người dùng$/m, `skills/${n} has no beginner guide`);
+    assert.match(t, /Bước n\/N/, `skills/${n}: guide does not tell the agent to announce steps`);
+    assert.match(t, /\.kit-root/, `skills/${n}: guide does not say where the kit is when installed elsewhere`);
+    const block = t.slice(t.indexOf("## Hướng dẫn từng bước"));
+    const rows = (block.split(/\n## /)[0].match(/^\| \d+\./gm) ?? []).length;
+    assert.ok(rows >= 3 && rows <= 8, `skills/${n}: guide has ${rows} steps — keep it between 3 and 8`);
+  }
+});
+
 test("a skill's frontmatter name matches its folder", () => {
   for (const n of skillDirs) {
     const t = read(`skills/${n}/SKILL.md`);

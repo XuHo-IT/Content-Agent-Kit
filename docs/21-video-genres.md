@@ -44,6 +44,10 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **comment-reply** | a viewer asked something worth a video | their comment, verbatim → the one-sentence answer, word by word → ≤3 steps → wrong vs right → ask for the next question |
 | **flash-deal** | a real offer with a real deadline | orders piling up → the product → before/after → one real customer → **price slam** as the closer |
 | **data-story** | one dataset with a surprise | the searched question → the number rolling in → the ranking → how it got here → why |
+| **brand-story** | why the brand exists, with a turn in it | the arc in one line → a dated chapter → what nobody saw → **the page turns** → one drawn number → a real customer's letter → the line it all stands on |
+| **customer-story** | a storytelling ad | three comic panels → before/after page turn → the evidence, stamped → the customer's words → the price |
+| **legend** | history, heritage, a craft | a year brushed out of sand → an intertitle → four acts round a turning vase → today, dated → what it left behind |
+| **case-breakdown** | what happened and why | the case file → the rundown → the decisive moment, ringed → the number → the lesson → what to do with it |
 
 `local` opens on `frame-geo-markers` rather than a title card, which is why `validate.mjs`
 accepts it as a hook template: a place-led video that opens on a logo has spent its hook on
@@ -146,6 +150,10 @@ node scripts/video/validate-script.mjs brain/<slug>/script.json --strict
 | **comment-reply** | người xem hỏi một câu đáng làm cả video | bình luận nguyên văn → câu trả lời một câu, hiện từng từ → tối đa 3 bước → sai vs đúng → xin câu hỏi tiếp theo |
 | **flash-deal** | ưu đãi thật, có hạn chót thật | đơn hàng dồn dập → sản phẩm → trước/sau → một khách thật → **giá đập xuống** để chốt |
 | **data-story** | một bộ số liệu có điều bất ngờ | câu hỏi mọi người đang tìm → con số lăn vào → bảng xếp hạng → chặng đường → vì sao |
+| **brand-story** | vì sao thương hiệu tồn tại, có bước ngoặt | cả hành trình trong một nét vẽ → chương có ngày tháng → điều không ai thấy → **lật trang** → một con số vẽ tay → thư của khách thật → câu kết đứng trên tất cả |
+| **customer-story** | quảng cáo kể chuyện | ba khung truyện tranh → lật trang trước/sau → bằng chứng có dấu → lời khách → giá |
+| **legend** | lịch sử, làng nghề, di sản | năm tháng hiện lên từ cát → thẻ chữ phim câm → bốn hồi vẽ quanh bình xoay → hôm nay → điều còn lại |
+| **case-breakdown** | mổ xẻ chuyện gì đã xảy ra | hồ sơ vụ việc → danh mục → khoảnh khắc quyết định được khoanh tròn → con số → bài học → làm gì tuần này |
 
 `local` mở bằng `frame-geo-markers` chứ không phải slide tiêu đề, và đó là lý do `validate.mjs`
 nhận nó làm khung hook: video về nơi chốn mà mở bằng logo là đã tiêu hook vào đúng thứ người

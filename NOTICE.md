@@ -68,7 +68,7 @@ the exact modifications made** (e.g. replacing the Tailwind CDN runtime with
 plain CSS for deterministic offline rendering, dropping CJK fonts, adding the
 9:16 portrait composition). Apache-2.0 §4 requires those notices to travel with
 the work — keep them.
-One hundred and eighteen are original to content-agent-kit (MIT, same as this repo):
+One hundred and thirty-three are original to content-agent-kit (MIT, same as this repo):
 `frame-broll` · `frame-media-inset` · `frame-screenshot` · `frame-review-verdict` ·
 `frame-quote-testimonial` · `frame-chart-bars` · `frame-step-list` ·
 `frame-kinetic-type` · `frame-product-reveal` · `frame-analog-grain` · `frame-split-compare` ·
@@ -99,13 +99,24 @@ One hundred and eighteen are original to content-agent-kit (MIT, same as this re
 `frame-trend-word-pop` · `frame-trend-search-morph` · `frame-trend-bar-race` · `frame-trend-stat-odometer` ·
 `frame-trend-compare-wipe` · `frame-trend-exploded-layers` · `frame-trend-infinite-zoom` ·
 `frame-trend-phone-notifs` · `frame-trend-live-poll` · `frame-trend-price-drop` · `frame-trend-code-diff` ·
-`frame-trend-comment-reply` · `frame-trend-timeline-flight`
+`frame-trend-comment-reply` · `frame-trend-timeline-flight` ·
+`frame-story-one-line` · `frame-story-world-pan` · `frame-story-page-turn` · `frame-story-halftone-case` ·
+`frame-story-comic-panels` · `frame-story-swiss-chapter` · `frame-story-step-numeral` · `frame-story-letter` ·
+`frame-story-sand` · `frame-story-telestrator` · `frame-story-pencil-chart` · `frame-story-frieze` ·
+`frame-story-silent-film` · `frame-story-kinetic-floor` · `frame-story-rundown`
 
 The thirteen `frame-trend-*` templates are original work emitted by
 `scripts/video/lib/build-trend-templates.mjs`. Their style direction comes from a survey of the
 703 prompts in [yihui-dev/awesome-opus5-5-videos](https://github.com/yihui-dev/awesome-opus5-5-videos)
 and from the active-word caption grammar of [kurbaitaev/ghost-editor](https://github.com/kurbaitaev/ghost-editor)
 (MIT, © its authors) — ideas only, no code, markup or assets copied.
+
+The fifteen `frame-story-*` templates are original work emitted by
+`scripts/video/lib/build-story-templates.mjs`. Each one is a storytelling device taken as an idea
+from the 18 style recipes of [kurbaitaev/ghost-editor](https://github.com/kurbaitaev/ghost-editor)
+(MIT — several of which port the MIT styles of [lemomo-ai/lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar),
+© LemoLab) and from the storytelling cluster of the awesome-opus5-5-videos prompts (MIT, © yihui-dev).
+No code, markup, fonts, audio or imagery was copied; each template's own `NOTICE.md` names its source.
 
 `frame-3d-spotlight` was written after reading how vibe-motion's `light-spotlight-render`
 describes the effect. No code was taken: that repository publishes no licence, and this kit

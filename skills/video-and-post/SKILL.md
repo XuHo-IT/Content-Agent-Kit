@@ -9,6 +9,27 @@ The end-to-end loop for one video item: content → `script.json` → render →
 
 > Antigravity / Gemini: same steps, run the commands directly.
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Chọn bài | Lấy từ hàng đợi (`queue-client.mjs pull`) hoặc bài bạn đưa, kiểm tra chưa làm | Đưa nội dung nếu có |
+| 2. Dựng video | Chạy skill `create-video`: viết script, kiểm tra, render (3–5 phút) | — |
+| 3. Viết caption | Caption, bình luận đầu tiên, tiêu đề YouTube, hashtag | Duyệt caption |
+| 4. Kiểm duyệt | Một reviewer độc lập chấm video và caption | — |
+| 5. Chạy thử đăng | `make-post.mjs ... --dry-run`, chưa gửi đi đâu | — |
+| 6. Đăng hoặc xếp lịch | Đăng ngay, hoặc `build-queue.mjs` để xếp giờ | Đồng ý đăng và chọn nền tảng |
+| 7. Ghi lại | Ghi `history.json`, viết `brain/<slug>/report.md` | — |
+
+**Hay vướng:**
+- Thiếu webhook Make.com trong `.env` → bản dry-run vẫn chạy; thêm webhook rồi mới đăng thật.
+- Render không chạy trên GitHub Actions → phải render trên máy có ffmpeg, Chrome và OmniVoice.
+- Caption chép nguyên văn bài gốc → viết lại bằng lời của bạn và dẫn link.
+
 ## 1. Pick the item
 
 From the idea queue (`node scripts/queue-client.mjs pull`), from today's PLAYBOOK phase, or from

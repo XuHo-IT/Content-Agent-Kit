@@ -87,6 +87,39 @@ export const EDIT_STYLES = {
     },
     hook: { font: "Arial", sizeRatio: 0.06, upper: true, box: true, accentBox: true, align: 8 },
   },
+  // The two ghost-editor presets the kit did not have yet (styles/launch.json, styles/meme.json).
+  // Their values are not copied: launch's violet accent is the AI-slop tell docs/25 bans, and
+  // meme's Montserrat is not installed for libass on most machines — so both are re-made here.
+  launch: {
+    label: "Launch — ra mắt sản phẩm: tối, lạnh, chữ gọn, một màu xanh điện",
+    accent: "#2f6bff",
+    punch: 0.1,
+    progress: true,
+    grade: "eq=contrast=1.1:saturation=0.92:brightness=-0.02,colorbalance=bs=0.04:bm=0.02,vignette=angle=PI/5",
+    broll: "eq=contrast=1.12:saturation=0.85",
+    caption: {
+      font: "Segoe UI", sizeRatio: 0.054, maxWords: 3, marginVRatio: 0.2,
+      restTag: "{\\alpha&H40&}",
+      activeTag: "{\\c{hot}&\\fscx106\\fscy106}",
+      popTag: "{\\fad(60,0)\\fscy70\\t(0,110,\\fscy100)}",
+    },
+    hook: { font: "Segoe UI", sizeRatio: 0.054, upper: true, box: true, accentBox: true, align: 8 },
+  },
+  meme: {
+    label: "Meme — chữ trắng viền đen dày, từ đang nói vàng và nảy, nhịp zoom gắt",
+    accent: "#ffd166",
+    punch: 0.16,
+    progress: false,
+    grade: "eq=saturation=1.1:contrast=1.04",
+    broll: null,
+    caption: {
+      font: "Arial", sizeRatio: 0.066, maxWords: 3, upper: true,
+      restTag: "{\\bord7}",
+      activeTag: "{\\bord7\\c{hot}&\\fscx118\\fscy118\\t(0,120,\\fscx104\\fscy104)}",
+      popTag: "{\\fscx60\\fscy60\\t(0,90,\\fscx100\\fscy100)}",
+    },
+    hook: { font: "Arial", sizeRatio: 0.062, upper: true, box: true, accentBox: true, align: 8 },
+  },
 };
 
 export const STYLE_IDS = Object.keys(EDIT_STYLES);

@@ -57,6 +57,14 @@ Nguồn: Đài PTTH Thanh Hoá, giấy phép CC BY 3.0 — [chi tiết](examples
    macOS: `brew install node ffmpeg`
 4. **Tải bộ kit về**: bấm nút xanh **Code → Download ZIP** ở đầu trang, giải nén, rồi mở thư mục
    đó bằng trợ lý AI.
+5. **Cài skill** (Claude Code cần bước này, Antigravity thì không): mở dòng lệnh trong thư mục kit
+   và chạy `node scripts/install-skills.mjs --kit --global` — hoặc trong Claude Code gõ
+   `/plugin marketplace add XuHo-IT/Content-Agent-Kit` rồi `/plugin install content-agent-kit@content-agent-kit`.
+   Khởi động lại Claude Code là xong. Chi tiết từng bước, cách kiểm tra và gỡ lỗi:
+   **[Bắt đầu nhanh](docs/29-bat-dau-nhanh.md)**.
+
+Mỗi skill sẽ **dẫn bạn từng bước** ("Bước 2/5 — …"), chỉ hỏi một việc mỗi lần, và luôn hỏi
+lại trước khi đăng bài hay đụng vào tài khoản quảng cáo.
 
 ## Dùng thế nào? Chỉ cần nói
 
@@ -69,6 +77,8 @@ Gõ những câu như thế này vào trợ lý AI:
 | Làm một video | *"Làm video 60 giây về **cách chọn kem chống nắng**"* |
 | Soi đối thủ | *"Phân tích kênh **@ten-kenh-doi-thu** giúp tôi"* |
 | Dựng video tự quay | *"Cắt khoảng lặng và thêm phụ đề cho file **video-cua-toi.mp4**, phong cách **pop**"* |
+| Video kể chuyện | *"Làm video **câu chuyện thương hiệu** cho shop, có bước ngoặt và lời khách hàng thật"* |
+| Chạy quảng cáo Facebook | *"Soát chính sách mấy mẫu quảng cáo này"*, *"Lọc bình luận quảng cáo hôm qua"*, *"Mẫu nào đang đuối?"* |
 | Viết bài đăng mỗi ngày | *"Tạo nội dung hôm nay"* |
 
 AI sẽ tự đọc hướng dẫn trong bộ kit, làm từng bước và **cho bạn duyệt trước khi đăng**.
@@ -77,7 +87,7 @@ AI sẽ tự đọc hướng dẫn trong bộ kit, làm từng bước và **cho
 
 | Miễn phí | Tuỳ chọn, trả phí |
 |---|---|
-| Làm video: 115 mẫu khung hình, 16 bảng màu | Giọng đọc cao cấp (Vbee, FPT AI, ElevenLabs…) |
+| Làm video: 130 mẫu khung hình, 16 bảng màu | Giọng đọc cao cấp (Vbee, FPT AI, ElevenLabs…) |
 | Giọng đọc chạy trên máy (OmniVoice) | Dữ liệu TikTok/Instagram qua Apify |
 | Tìm chủ đề hot, phân tích kênh YouTube và báo | Video AI quay như thật (Google Veo) |
 | Cắt khoảng lặng, phụ đề, ảnh bìa | |
@@ -101,6 +111,7 @@ viết lại nội dung mới. Video của người khác chỉ dùng khi giấy
 
 - 📘 [Hướng dẫn kỹ thuật chi tiết](docs/00-huong-dan-chi-tiet.md): toàn bộ tính năng, thư viện mẫu khung hình, các lệnh
 - 🎨 [Bảng màu theo ngành](docs/25-palettes.md) · ✂️ [Tự dựng video](docs/26-auto-edit.md) · 🔍 [Phân tích đối thủ](docs/24-competitor-analysis.md)
+- 📖 [Video kể chuyện](docs/27-storytelling.md) · 📣 [Facebook ads với Claude](docs/28-facebook-ads.md)
 - 🤖 [AGENTS.md](AGENTS.md): hướng dẫn dành cho trợ lý AI
 - 🧩 [Danh mục mẫu khung hình](video-templates/CATALOG.md)
 

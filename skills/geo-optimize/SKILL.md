@@ -13,6 +13,25 @@ work does not overlap.
 | Generative Engine Optimization | being **quotable** by an answer engine | §1 onward |
 | geography — local, market, "near me" | being **placed** | §6 |
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Hỏi rõ "GEO" nào | Hỏi: muốn AI (ChatGPT, Perplexity…) trích bài, hay muốn nổi theo địa điểm | Chọn một trong hai |
+| 2. Chấm bài | Chạy `geo-audit.mjs --in <file bài>.md` (thêm `--place "Đà Nẵng"` nếu là địa điểm) | Đưa file bài viết |
+| 3. Đọc lỗi | Giải thích từng lỗi bằng lời thường: câu trả lời chưa đặt đầu đoạn, số liệu thiếu nguồn… | — |
+| 4. Sửa bài | Viết lại các đoạn bị lỗi | Duyệt bản sửa |
+| 5. Chấm lại | Chạy lại audit đến khi không còn lỗi bắt buộc (máy báo exit 0) | — |
+
+**Hay vướng:**
+- Số liệu có nguồn nhưng nguồn nằm ở đoạn khác → phải ghi nguồn ngay trong đoạn có con số.
+- Đoạn mở bằng "Nó…", "Điều này…" → nhắc lại tên chủ thể, vì AI cắt riêng từng đoạn.
+- Không ai đo được AI đã trích bài hay chưa → chỉ báo những gì đã sửa, đừng hứa kết quả.
+
 ## 1. What changed, in one paragraph
 
 SEO gets a human to click a ranked link. GEO gets a machine to lift a passage out of your page

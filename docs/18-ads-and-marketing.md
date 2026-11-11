@@ -77,6 +77,13 @@ Only the six that plug into this kit's loop are listed. To add another, copy an 
 `registry.json` and change `path`. Note the upstream default branch is **`master`**, not
 `main` — which is why `ref` is per-entry.
 
+### Beyond the report — the Facebook-ads skills
+
+Eight more skills cover the work between "launch" and "report" for a shop running Meta ads —
+creative testing, fatigue, comment triage, policy pre-flight, catalog feeds, customer-list
+audiences, creator briefs and the Vietnamese retail calendar. The map is
+[`docs/28-facebook-ads.md`](28-facebook-ads.md).
+
 ### The loop, once both halves are connected
 
 ```
@@ -122,3 +129,9 @@ Hai mục quan trọng nhất lại là hai mục ít ai viết: **"chưa đủ 
 thử lại mù) và **"đừng lặp lại"** (kèm con số). Nó đề xuất mục cho `queue.json` rồi **dừng
 lại hỏi** — một skill nhìn thấy tài khoản đang tiêu tiền thật thì không tự quyết kế hoạch
 nội dung.
+
+### Thêm: bộ skill Facebook ads
+
+Ngoài báo cáo còn tám skill cho phần việc giữa "lên ads" và "báo cáo": test creative, phát hiện
+mẫu đuối, lọc bình luận, soát chính sách, soát feed catalog, tệp khách hàng, brief KOC, lịch sale
+Việt Nam. Bản đồ đầy đủ: [`docs/28-facebook-ads.md`](28-facebook-ads.md).

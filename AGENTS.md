@@ -4,6 +4,17 @@
 > Code** (real skills in `.claude/skills/`) and **Antigravity / Gemini** (read the
 > `.md` docs directly — treat each `SKILL.md` as a plain instruction doc).
 
+## Installing the skills — read this if a user says a skill "is not there"
+Claude Code loads skills only from `.claude/skills/`, `~/.claude/skills/` or a plugin — **not**
+from this repo's `skills/`. Two routes (newcomer walkthrough: `docs/29-bat-dau-nhanh.md`):
+```bash
+node scripts/install-skills.mjs --kit --global     # copy all 26, each with a .kit-root file
+# or, inside Claude Code:  /plugin marketplace add XuHo-IT/Content-Agent-Kit
+#                          /plugin install content-agent-kit@content-agent-kit
+```
+Every skill opens with a step table: narrate it as "Bước n/N", ask one thing at a time, stop
+before anything irreversible. Run `node scripts/…` from the kit root (`.kit-root` says where).
+
 ## When the user says "build me an agent that does X"
 1. **Read** `docs/01-architecture.md`, `docs/03-conventions.md`, and skim the rest of `docs/`.
 2. **Run the bootstrap flow** in `skills/bootstrap-content-agent/SKILL.md`:
@@ -55,10 +66,37 @@ node scripts/video/talking-head.mjs take.mp4 --transcript take.json --style pop 
 node scripts/video/talking-head.mjs report.mp4 --edl edl.json --transcript report.json --style cinematic   # several ranges + B-roll
 node scripts/video/autocut.mjs take.mp4 --vertical --punch 0.12   # cut only: pauses out, punch-ins, -16 LUFS
 ```
-`--style`: `clean` · `pop` · `editorial` · `cinematic` · `kinetic-doc`. Pick by vertical and
+`--style`: `clean` · `pop` · `editorial` · `cinematic` · `kinetic-doc` · `launch` · `meme`. Pick by vertical and
 platform, or render two and let the user choose. Every crop must stay clear of burned-in TV
 bars and logos; B-roll should come from the same licensed footage, under ~35% of the runtime.
 Method (ported from kurbaitaev/ghost-editor, MIT): `docs/26-auto-edit.md`.
+
+## When the user wants a story — "video kể chuyện", "câu chuyện thương hiệu", "brand story"
+Follow `skills/story-video/SKILL.md`: find the story (who · want · in the way · turn · after),
+put it on a six-beat arc, then pick `frame-story-*` frames **by the beat they carry**. Start
+from a story genre in `VIDEO_GENRES.template.json` — `brand-story`, `customer-story` (a
+storytelling ad), `legend` (history, heritage), `case-breakdown`. Sound for the beats:
+```bash
+node scripts/video/sfx-cc0.mjs            # once: 27 CC0 sounds → assets/sfx/ (page turns, stings, booms)
+node scripts/video/template-sheet.mjs --preset story --out /tmp/story.jpg   # what each frame looks like
+```
+Never invent a customer, a quote or a letter — `frame-story-letter` is for a real message,
+used with permission. Method: `docs/27-storytelling.md`.
+
+## When the user runs Facebook ads — "chạy ads", "canh ads", "trả lời comment", "feed catalog", "tệp khách", "lịch sale"
+`docs/28-facebook-ads.md` maps every stage of the work to a skill. All of it runs offline on
+an Ads Manager export or pasted numbers; the `meta-ads` MCP only saves the export step.
+```bash
+node scripts/ads/creative-matrix.mjs plan.json --max 12         # ads-creative-lab: test matrix + ad names
+node scripts/ads/fatigue-check.mjs export.csv                   # ads-fatigue-watch: which creatives are tiring
+node scripts/ads/comment-triage.mjs comments.csv --brand "Shop" # ads-comment-triage: sort + draft replies
+node scripts/ads/policy-lint.mjs ads.txt                        # ads-policy-check: exit 2 = BLOCK
+node scripts/ads/feed-audit.mjs catalog.csv                     # catalog-feed-audit
+node scripts/ads/rfm-segments.mjs orders.csv --out audiences/   # audience-plan: RFM + hashed upload files
+node scripts/ads/promo-plan.mjs --quarter 2027-Q1 --budget 60000000   # promo-calendar
+```
+Plus `skills/ugc-koc-brief` (creator briefs, usage rights, paid-partnership disclosure). Run
+`policy-lint` on any ad copy before the review gate passes it.
 
 ## Palette — every video gets one
 Set `"theme"` in `script.json` to the vertical's preset from `templates/INDUSTRIES.template.json`
@@ -127,6 +165,10 @@ Cases" was 39% gated on the site this was built against. Method: `docs/10-crawl-
 - **No internal-id leak** — logic ids never appear in reader-visible text. See `docs/03`.
 - **Validate video scripts before rendering** — `validate-script.mjs` costs seconds, a render
   costs 3–5 minutes. Never pass `--skip-validate` to save time.
+- **Ad accounts are the user's** — no skill creates, edits, pauses or re-budgets a live ad, and
+  none posts, hides or deletes a comment, without the user's explicit yes for that action.
+- **Customer data** — only with consent (Nghị định 13/2023/NĐ-CP), only written out hashed
+  (SHA-256, as Meta requires); raw emails and phones never land in a file or a report.
 - **Keep the attribution** — `NOTICE.md` at the root and every `video-templates/*/NOTICE.md`
   are licence conditions of the vendored code. Never delete or "tidy" them.
 
@@ -134,16 +176,18 @@ Cases" was 39% gated on the site this was built against. Method: `docs/10-crawl-
 - `docs/` — methodology (bilingual). Start at `01-architecture.md`.
 - `templates/` — fill-in scaffolds.
 - `scripts/` — generic working CLIs (env-only), incl. `scripts/video/`.
-- `video-templates/` — the 115 scene templates + `CATALOG.md` (slots + character limits),
+- `video-templates/` — the 130 scene templates + `CATALOG.md` (slots + character limits),
   including the 6 Claude Opus 5.5 style-recipe templates (`frame-opus-*`) and the 13 2026
   trend templates (`frame-trend-*`, emitted by `scripts/video/lib/build-trend-templates.mjs` —
   edit the builder, never the HTML).
+  plus the 15 storytelling templates (`frame-story-*`, emitted by
+  `scripts/video/lib/build-story-templates.mjs` — same rule: edit the builder).
   `CATALOG.md` says what each one is *for*; `node scripts/video/motion-index.mjs` says how each
   one *moves* and which sample to copy an effect from. Its `**Motion:**` lines are generated —
   regenerate with `--write-catalog`, never hand-edit. Traps: `skills/motion-craft/SKILL.md`.
-- `templates/VIDEO_GENRES.template.json` — scene sequences for 15 genres (review, tutorial, news,
+- `templates/VIDEO_GENRES.template.json` — scene sequences for 19 genres (review, tutorial, news,
   listicle, launch, testimonial, local, vox-explainer, geo-answer, technical-deepdive, growth-strategy, geo-itinerary,
-  comment-reply, flash-deal, data-story). Answers 'which frames, in what order'
+  comment-reply, flash-deal, data-story, brand-story, customer-story, legend, case-breakdown). Answers 'which frames, in what order'
   rather than 'what shape is a script'. Method: `docs/21-video-genres.md`.
 - `skills/` — Claude Code skills; also readable as plain instructions. `registry.json`
   lists skills from other projects, fetched on demand by `scripts/install-skills.mjs` —

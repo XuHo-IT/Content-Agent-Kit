@@ -71,7 +71,8 @@ const ROLE_ORDER = [
   "frame-opus-collage-stopmo", "frame-opus-pixel-arcade",
   // 2026 trend set — scripts/video/lib/build-trend-templates.mjs
   "frame-trend-word-pop", "frame-trend-search-morph", "frame-trend-bar-race", "frame-trend-stat-odometer", "frame-trend-compare-wipe", "frame-trend-exploded-layers", "frame-trend-infinite-zoom",
-  "frame-trend-phone-notifs", "frame-trend-live-poll", "frame-trend-price-drop", "frame-trend-code-diff", "frame-trend-comment-reply", "frame-trend-timeline-flight",
+  "frame-trend-phone-notifs", "frame-trend-live-poll", "frame-trend-price-drop", "frame-trend-code-diff", "frame-trend-comment-reply", "frame-trend-timeline-flight",  // storytelling set — scripts/video/lib/build-story-templates.mjs
+  "frame-story-one-line", "frame-story-world-pan", "frame-story-page-turn", "frame-story-halftone-case", "frame-story-comic-panels", "frame-story-swiss-chapter", "frame-story-step-numeral", "frame-story-letter", "frame-story-sand", "frame-story-telestrator", "frame-story-pencil-chart", "frame-story-frieze", "frame-story-silent-film", "frame-story-kinetic-floor", "frame-story-rundown",
 ];
 
 const PRESETS = {
@@ -130,6 +131,9 @@ const PRESETS = {
   ],
   "saas": [
     "frame-trend-code-diff", "frame-trend-search-morph", "frame-opus-cursor-flow"
+  ],
+  "story": [
+    "frame-story-one-line", "frame-story-world-pan", "frame-story-page-turn", "frame-story-halftone-case", "frame-story-comic-panels", "frame-story-swiss-chapter", "frame-story-step-numeral", "frame-story-letter", "frame-story-sand", "frame-story-telestrator", "frame-story-pencil-chart", "frame-story-frieze", "frame-story-silent-film", "frame-story-kinetic-floor", "frame-story-rundown"
   ],
   "ecommerce": [
     "frame-trend-price-drop", "frame-trend-compare-wipe", "frame-review-verdict"

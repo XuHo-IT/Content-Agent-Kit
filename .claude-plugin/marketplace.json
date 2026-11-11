@@ -1,0 +1,13 @@
+{
+  "name": "content-agent-kit",
+  "owner": { "name": "XuHo-IT" },
+  "metadata": { "description": "Content Agent Kit — skill làm nội dung, video và quảng cáo cho người Việt." },
+  "plugins": [
+    {
+      "name": "content-agent-kit",
+      "source": "./",
+      "description": "26 skill: nội dung hằng ngày, video 9:16 và video kể chuyện, phân tích đối thủ, review gate, bộ Facebook ads.",
+      "version": "0.6.0"
+    }
+  ]
+}

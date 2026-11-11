@@ -1,0 +1,12 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "entry": "index.html",
+  "compositions": [
+    {
+      "id": "portrait",
+      "file": "compositions/portrait.html",
+      "label": "9:16 Portrait"
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1080, height=1920">
+  <title>Story · Comic Panels</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,600;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Patrick+Hand&family=Anton&display=swap" rel="stylesheet">
+  <style>
+    html, body { width: 1080px; height: 1920px; overflow: hidden; background: #ffc628; }
+    
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --snap: cubic-bezier(.2,.9,.1,1);
+    --out: cubic-bezier(.16,1,.3,1);
+  }
+  #root { position: relative; overflow: hidden; width: 100%; height: 100%; font-family: 'Be Vietnam Pro', sans-serif; }
+  #root::after {
+    content: ""; position: absolute; inset: -30%; pointer-events: none; z-index: 0; opacity: .55;
+    animation: ambient 16s linear infinite;
+  }
+  @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
+  .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
+  .mono { font-family: 'Roboto Mono', monospace; }
+  @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes wipeIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+    
+      #root { background: #ffc628; color: #111; }
+      #root::after { background-image: radial-gradient(#e8384f 30%, transparent 33%); background-size: 26px 26px; opacity: .22; animation: drift 10s linear infinite; }
+      @keyframes drift { from { transform: translate(0,0); } to { transform: translate(52px,26px); } }
+      .grid { display: grid; height: 100%; }
+      .pn { position: relative; background: #fffdf6; border: 9px solid #111; overflow: hidden; opacity: 0; animation: slam .45s var(--spring) forwards; }
+      @keyframes slam { from { opacity: 0; transform: scale(1.18) rotate(-2deg); } to { opacity: 1; transform: scale(1) rotate(0deg); } }
+      .pn:nth-child(1) { animation-delay: .2s; background: #fffdf6 radial-gradient(#d8e4ff 28%, transparent 30%) 0 0 / 18px 18px; }
+      .pn:nth-child(2) { animation-delay: 1.5s; background: #fffdf6 radial-gradient(#ffd3dc 28%, transparent 30%) 0 0 / 18px 18px; }
+      .pn:nth-child(3) { animation-delay: 2.8s; background: #fff2b8; }
+      .speed { position: absolute; inset: -40%; background: repeating-conic-gradient(from 0deg at 50% 50%, rgba(17,17,17,.13) 0 3deg, transparent 3deg 11deg); animation: spin 8s linear infinite; }
+      @keyframes spin { to { transform: rotate(360deg); } }
+      .cap { position: absolute; left: 0; top: 0; background: #ffc628; border: 0 solid #111; border-right-width: 7px; border-bottom-width: 7px; font-weight: 800; text-transform: uppercase; letter-spacing: .02em; }
+      .bub { position: absolute; background: #fff; border: 7px solid #111; border-radius: 50% / 46%; font-weight: 800; font-style: italic; line-height: 1.1; text-align: center; opacity: 0; animation: pop .4s var(--spring) forwards; }
+      .bub::after { content: ""; position: absolute; width: 60px; height: 60px; background: #fff; border-right: 7px solid #111; border-bottom: 7px solid #111; transform: skewX(30deg) rotate(30deg); bottom: -30px; left: 26%; }
+      .pn:nth-child(1) .bub { animation-delay: .6s; } .pn:nth-child(2) .bub { animation-delay: 1.9s; } .pn:nth-child(3) .bub { animation-delay: 3.2s; }
+      .sfx { position: absolute; display: grid; place-items: center; background: #e8384f; clip-path: polygon(50% 0, 60% 30%, 95% 12%, 72% 42%, 100% 55%, 70% 64%, 84% 98%, 52% 74%, 22% 100%, 30% 66%, 0 60%, 26% 44%, 6% 12%, 40% 30%); transform: scale(0) rotate(-20deg); animation: burst .5s var(--spring) 3.7s forwards; }
+      .sfx span { font-family: 'Anton', sans-serif; color: #ffc628; -webkit-text-stroke: 5px #111; paint-order: stroke fill; transform: rotate(-8deg); }
+      @keyframes burst { to { transform: scale(1) rotate(-6deg); } }
+    
+    
+      .stage { padding: 60px 50px; }
+      .grid { grid-template-rows: 1fr 1fr 1.25fr; gap: 26px; }
+      .cap { font-size: 34px; padding: 14px 24px; }
+      .bub { font-size: 52px; padding: 40px 50px; left: 70px; right: 130px; top: 120px; }
+      .pn:nth-child(2) .bub { left: 150px; right: 60px; }
+      .pn:nth-child(3) .bub { top: auto; bottom: 90px; left: 60px; right: 280px; font-size: 56px; }
+      .sfx { width: 400px; height: 380px; right: 10px; top: 40px; }
+      .sfx span { font-size: 130px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" class="P" data-composition-id="portrait" data-width="1080" data-height="1920" data-start="0" data-duration="6" data-composition-variables='{"caption_1":"8 giờ sáng","bubble_1":"Hôm nay mặc gì đây?","caption_2":"8 giờ 40","bubble_2":"Tủ đầy đồ mà chẳng có gì để mặc!","caption_3":"Rồi cô ấy mở app","bubble_3":"Phối sẵn 3 bộ trong 10 giây","sfx":"BÙM!"}'>
+    <div class="stage">
+        <div class="grid">
+          <div class="pn"><div class="cap" data-slot="caption_1"></div><div class="bub" data-slot="bubble_1"></div></div>
+          <div class="pn"><div class="cap" data-slot="caption_2"></div><div class="bub" data-slot="bubble_2"></div></div>
+          <div class="pn"><div class="speed"></div><div class="cap" data-slot="caption_3"></div><div class="bub" data-slot="bubble_3"></div><div class="sfx" data-slot-box><span data-slot="sfx"></span></div></div>
+        </div>
+      </div>
+  </div>
+  <script>
+    // Caller values: window.__hyperframes.getVariables(), merged over the declared defaults
+    // so the file still previews on its own. Built once, before the first seek.
+    function getVariables() {
+      let d = {};
+      try { d = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      const hf = window.__hyperframes;
+      const p = hf && typeof hf.getVariables === "function" ? hf.getVariables() || {} : {};
+      return Object.assign({}, d, p);
+    }
+    const v = getVariables();
+    const has = (k) => v[k] !== undefined && v[k] !== null && String(v[k]).trim() !== "";
+    document.querySelectorAll("[data-slot]").forEach((el) => {
+      const k = el.getAttribute("data-slot");
+      if (!has(k)) { (el.closest("[data-slot-box]") || el).remove(); return; }
+      el.textContent = String(v[k]);
+    });
+    /** One span per character, each starting `step` seconds after the last — a typewriter. */
+    function typeInto(el, text, start, step) {
+      el.textContent = "";
+      [...String(text)].forEach((ch, i) => {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = ch;
+        s.style.animationDelay = (start + i * step).toFixed(3) + "s";
+        el.appendChild(s);
+      });
+      return start + [...String(text)].length * step;
+    }
+    /** Odometer: every digit becomes a 0–9 column that rolls to its value. */
+    function odometer(el, text, start) {
+      el.textContent = "";
+      let n = 0;
+      [...String(text)].forEach((ch) => {
+        if (/[0-9]/.test(ch)) {
+          const col = document.createElement("span");
+          col.className = "odo";
+          const strip = document.createElement("span");
+          strip.className = "odo-strip";
+          for (let d = 0; d <= 9; d++) { const x = document.createElement("span"); x.textContent = d; strip.appendChild(x); }
+          strip.style.setProperty("--d", ch);
+          strip.style.animationDelay = (start + n++ * 0.07).toFixed(2) + "s";
+          const size = document.createElement("span");
+          size.className = "odo-size";
+          size.textContent = ch;
+          col.appendChild(size);
+          col.appendChild(strip);
+          el.appendChild(col);
+        } else {
+          const s = document.createElement("span");
+          s.className = "odo-sep";
+          s.textContent = ch;
+          el.appendChild(s);
+        }
+      });
+    }
+    
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      duration: 6,
+      seek(t) { document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; }); },
+    };
+  </script>
+</body>
+</html>

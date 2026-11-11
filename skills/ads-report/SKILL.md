@@ -1,6 +1,6 @@
 ---
 name: ads-report
-description: Read ad performance from the connected ads MCP servers (Meta, Google, TikTok, Snap, Reddit) and turn it into a decision about what content to make next, for an agent built with content-agent-kit. Also works with no ad spend at all: paste the numbers the platform shows you and it reports the same way. Use weekly, or when the user asks "how did the ads do", "how did last week do", "what should we post next", or "which campaigns are wasting money". Writes a short report and proposes concrete queue items.
+description: Read ad performance from the connected ads MCP servers (Meta, Google, TikTok, Snap, Reddit) and turn it into a decision about what content to make next, for an agent built with content-agent-kit. Also works with no ad spend at all — paste the numbers the platform shows you and it reports the same way. Use weekly, or when the user asks "how did the ads do", "how did last week do", "what should we post next", or "which campaigns are wasting money". Writes a short report and proposes concrete queue items.
 ---
 
 # Ads report → next week's content
@@ -10,6 +10,26 @@ ends at "CTR was 1.4%" leaves the reader exactly where they started.
 
 This skill closes the loop the kit otherwise leaves open: it publishes content, and it
 schedules content, but nothing tells it which content was worth publishing.
+
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Chọn cách lấy số | Có kết nối quảng cáo (MCP) thì đọc thẳng; không có thì nhờ dán số từ màn hình | Dán số liệu theo từng bài/mẫu, hoặc bật kết nối |
+| 2. Chọn kỳ | Mặc định 7 ngày gần nhất so với 7 ngày trước; ghi rõ đơn vị tiền và múi giờ | Đổi kỳ nếu muốn |
+| 3. Lọc nhiễu | Bỏ những gì quá ít hiển thị, ghi vào mục "chưa đủ dữ liệu" | — |
+| 4. Viết báo cáo | Ghi `brain/ads-report-<ngày>.md`: cái gì hiệu quả, cái gì không, không lặp lại gì — mỗi ý kèm con số | Đọc báo cáo (một màn hình) |
+| 5. Đề xuất nội dung tuần tới | In sẵn các mục định thêm vào `queue.json` | Đồng ý mục nào thì nói |
+| 6. Dừng — không đụng tài khoản | Không tự đổi ngân sách, tắt hay tạo chiến dịch | Tự thao tác nếu muốn đổi |
+
+**Hay vướng:**
+- Chưa cài theo dõi chuyển đổi (pixel) → báo cáo dừng ở lượt click, không ghi "0 đơn" như một kết quả.
+- So mẫu chạy 2 ngày với mẫu chạy 14 ngày → agent sẽ loại hoặc quy đổi và nói rõ.
+- Không chạy quảng cáo → vẫn dùng được, dán lượt xem, chia sẻ, lưu của từng bài.
 
 ## Before you start
 

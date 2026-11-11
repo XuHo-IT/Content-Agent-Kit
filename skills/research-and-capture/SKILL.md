@@ -10,6 +10,26 @@ what the narration is describing. Without this a video is text slides read aloud
 
 > Antigravity / Gemini: same steps, run the commands directly.
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Tìm nguồn gốc | Tìm và đọc thông báo, bài báo, changelog gốc | Đưa chủ đề hoặc link nếu có |
+| 2. Chụp bằng chứng | Chạy `screenshot.mjs --url "<trang>" --out brain/<slug>/shots/<tên>.png` | — |
+| 3. Chọn B-roll | Chạy `stock-search.mjs --query "<hình cần có>"` và đọc mô tả từng clip | Duyệt clip nếu muốn |
+| 4. Gắn vào scene | Viết khối `media` vào `script.json` | — |
+| 5. Kiểm tra và render | `validate-script.mjs --strict` (vài giây) rồi `render.mjs` (3–5 phút) | — |
+| 6. Xem khung hình | Trích ảnh từng scene có tư liệu và xem tận mắt | Xác nhận đúng hình |
+
+**Hay vướng:**
+- Ảnh chụp dính bảng cookie → tăng `--wait` hoặc chọn trang khác.
+- B-roll lạc đề (tìm "tin nóng" ra cốc cà phê) → mô tả hình cụ thể, không mô tả khái niệm.
+- Sửa chữ trong scene mà video không đổi → xoá `clips/scene-<id>.mp4` rồi render lại.
+
 ## 1. Research the topic first
 
 `WebSearch` for the primary source, then `WebFetch` it. Prefer the announcement, the paper,

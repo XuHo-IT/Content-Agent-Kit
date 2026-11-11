@@ -14,6 +14,26 @@ The capability is already here: `examples/ai-video-social/` holds the same Claud
 source as both an article and a video. Nothing connected "I made this once" to "make five more
 from it". This is that connection.
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Đọc bài gốc | Đọc toàn bộ bài hoặc video đã đăng | Đưa link hoặc file bài gốc |
+| 2. Đánh giá | Nói thẳng bài này có đáng làm thêm không | — |
+| 3. Tìm góc | Rút 4–6 ý khác nhau trong bài (con số, cái giá, cách làm…) | Chọn góc muốn làm |
+| 4. Bỏ góc đã dùng | Đối chiếu `brain/repurposed.json` | — |
+| 5. Viết | Mỗi góc một định dạng hợp: bài ngắn, video, carousel… rồi chạy `validate-post.mjs --strict` | — |
+| 6. Duyệt và ghi lại | Qua `review-gate`; chỉ ghi góc vào `repurposed.json` sau khi đã đăng | Duyệt trước khi đăng |
+
+**Hay vướng:**
+- Năm bài viết lại cùng một ý → đó là spam; mỗi bài phải là một ý khác.
+- Bài gốc mỏng → dừng và nói thẳng, đừng cố kéo dài.
+- Ghi góc vào file khi mới là nháp → bản nháp bị loại sẽ mất góc đó; chỉ ghi khi đã đăng.
+
 ## Before you start
 
 **Read the source properly.** Not the title — the whole thing. A repurpose written from a

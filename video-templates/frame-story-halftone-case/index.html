@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, height=1080">
+  <title>Story · Halftone Case File</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,600;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Patrick+Hand&family=Anton&display=swap" rel="stylesheet">
+  <style>
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #f4ecdd; }
+    
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --snap: cubic-bezier(.2,.9,.1,1);
+    --out: cubic-bezier(.16,1,.3,1);
+  }
+  #root { position: relative; overflow: hidden; width: 100%; height: 100%; font-family: 'Be Vietnam Pro', sans-serif; }
+  #root::after {
+    content: ""; position: absolute; inset: -30%; pointer-events: none; z-index: 0; opacity: .55;
+    animation: ambient 16s linear infinite;
+  }
+  @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
+  .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
+  .mono { font-family: 'Roboto Mono', monospace; }
+  @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes wipeIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+    
+      #root { background: #f4ecdd; color: #1d2340; }
+      #root::after { background-image: radial-gradient(#ff5a87 34%, transparent 36%), radial-gradient(#2e55d6 30%, transparent 32%); background-size: 22px 22px, 22px 22px; background-position: 0 0, 11px 11px;
+                     -webkit-mask-image: radial-gradient(circle at 85% 12%, #000 0, transparent 34%), radial-gradient(circle at 8% 80%, #000 0, transparent 30%); mask-image: radial-gradient(circle at 85% 12%, #000 0, transparent 34%), radial-gradient(circle at 8% 80%, #000 0, transparent 30%);
+                     opacity: .35; animation: drift 14s linear infinite; }
+      @keyframes drift { from { transform: translate(0,0); } to { transform: translate(-44px,44px); } }
+      .stage { animation: shake .28s steps(4) 3.1s; }
+      @keyframes shake { 0% { transform: translate(0,0); } 25% { transform: translate(-10px,6px); } 50% { transform: translate(8px,-6px); } 75% { transform: translate(-5px,3px); } 100% { transform: translate(0,0); } }
+      .hud { display: flex; justify-content: space-between; align-items: center; font-family: 'Roboto Mono', monospace; font-weight: 700; letter-spacing: .08em; }
+      .hud .id { background: #1d2340; color: #f4ecdd; padding: 8px 18px; }
+      .hud .rec { width: 22px; height: 22px; border-radius: 50%; background: #e8384f; animation: blink 1s steps(1) infinite; }
+      @keyframes blink { 50% { opacity: .15; } }
+      .label { font-weight: 800; color: #2e55d6; opacity: 0; animation: rise .5s var(--out) .3s forwards; }
+      .headline { font-family: 'Playfair Display', serif; font-weight: 900; line-height: 1; text-shadow: 7px 7px 0 #ff5a87; }
+      .headline .ch { display: inline-block; opacity: 0; animation: glyph .22s var(--spring) forwards; }
+      @keyframes glyph { from { opacity: 0; transform: scale(1.8) rotate(-6deg); } to { opacity: 1; transform: none; } }
+      .ex { position: relative; background: #fff4e2; opacity: 0; animation: exIn .5s var(--spring) 1.9s forwards; }
+      @keyframes exIn { from { opacity: 0; transform: translateY(80px) rotate(4deg); } to { opacity: 1; transform: rotate(-1.5deg); } }
+      .ex::before { content: ""; position: absolute; inset: -8px; border: 9px solid #1d2340; border-radius: 6px; animation: boil .3s steps(3) infinite; }
+      @keyframes boil { 0% { transform: rotate(0deg); } 33% { transform: rotate(.5deg) translate(1px,-1px); } 66% { transform: rotate(-.4deg) translate(-1px,1px); } 100% { transform: rotate(0deg); } }
+      .ex .tag { display: inline-block; background: #ffc628; color: #1d2340; font-family: 'Roboto Mono', monospace; font-weight: 700; }
+      .ex .txt { font-weight: 800; line-height: 1.15; }
+      .stamp { position: absolute; font-family: 'Anton', sans-serif; text-transform: uppercase; color: #e8384f; border: 10px solid #e8384f; border-radius: 14px; letter-spacing: .04em; opacity: 0; transform: rotate(-12deg) scale(2.6); animation: slam .26s cubic-bezier(.5,0,.75,0) 3s forwards; mix-blend-mode: multiply; }
+      @keyframes slam { to { opacity: .92; transform: rotate(-12deg) scale(1); } }
+      .bar { position: absolute; left: 0; right: 0; bottom: 0; background: #1d2340; color: #f4ecdd; font-weight: 700; transform: translateY(100%); animation: barUp .45s var(--out) .6s forwards; }
+      @keyframes barUp { to { transform: none; } }
+    
+    
+      .stage { padding: 70px 110px 0; display: grid; grid-template-columns: 1fr 760px; grid-template-rows: auto auto 1fr; column-gap: 70px; row-gap: 26px; }
+      .hud { grid-column: 1 / span 2; font-size: 24px; }
+      .label { grid-column: 1; font-size: 40px; margin-top: 20px; }
+      .headline { grid-column: 1; grid-row: 3; font-size: 130px; }
+      .ex { grid-column: 2; grid-row: 2 / span 2; align-self: start; margin-top: 20px; padding: 40px 44px 50px; }
+      .ex .tag { font-size: 24px; padding: 6px 16px; margin-bottom: 20px; }
+      .ex .txt { font-size: 50px; }
+      .stamp { left: 140px; bottom: 170px; font-size: 80px; padding: 8px 30px; }
+      .bar { padding: 30px 110px; font-size: 30px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" class="L" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="6" data-composition-variables='{"case_id":"HỒ SƠ SỐ 07","label":"Vì sao chiếc áo này cháy hàng?","headline":"Không phải vì giá rẻ","exhibit_label":"TANG VẬT A","exhibit_text":"73% đánh giá nhắc đến cùng một chữ: vừa người","stamp":"ĐÃ XÁC MINH","caption":"Số minh hoạ — thay bằng dữ liệu đánh giá của bạn"}'>
+    <div class="stage">
+        <div class="hud"><span class="id" data-slot="case_id"></span><span class="rec"></span></div>
+        <div class="label" data-slot="label"></div>
+        <div class="headline" id="hl"></div>
+        <div class="ex" data-slot-box>
+          <div class="tag" data-slot="exhibit_label"></div>
+          <div class="txt" data-slot="exhibit_text"></div>
+        </div>
+      </div>
+      <div class="stamp" data-slot="stamp"></div>
+      <div class="bar" data-slot="caption"></div>
+  </div>
+  <script>
+    // Caller values: window.__hyperframes.getVariables(), merged over the declared defaults
+    // so the file still previews on its own. Built once, before the first seek.
+    function getVariables() {
+      let d = {};
+      try { d = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      const hf = window.__hyperframes;
+      const p = hf && typeof hf.getVariables === "function" ? hf.getVariables() || {} : {};
+      return Object.assign({}, d, p);
+    }
+    const v = getVariables();
+    const has = (k) => v[k] !== undefined && v[k] !== null && String(v[k]).trim() !== "";
+    document.querySelectorAll("[data-slot]").forEach((el) => {
+      const k = el.getAttribute("data-slot");
+      if (!has(k)) { (el.closest("[data-slot-box]") || el).remove(); return; }
+      el.textContent = String(v[k]);
+    });
+    /** One span per character, each starting `step` seconds after the last — a typewriter. */
+    function typeInto(el, text, start, step) {
+      el.textContent = "";
+      [...String(text)].forEach((ch, i) => {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = ch;
+        s.style.animationDelay = (start + i * step).toFixed(3) + "s";
+        el.appendChild(s);
+      });
+      return start + [...String(text)].length * step;
+    }
+    /** Odometer: every digit becomes a 0–9 column that rolls to its value. */
+    function odometer(el, text, start) {
+      el.textContent = "";
+      let n = 0;
+      [...String(text)].forEach((ch) => {
+        if (/[0-9]/.test(ch)) {
+          const col = document.createElement("span");
+          col.className = "odo";
+          const strip = document.createElement("span");
+          strip.className = "odo-strip";
+          for (let d = 0; d <= 9; d++) { const x = document.createElement("span"); x.textContent = d; strip.appendChild(x); }
+          strip.style.setProperty("--d", ch);
+          strip.style.animationDelay = (start + n++ * 0.07).toFixed(2) + "s";
+          const size = document.createElement("span");
+          size.className = "odo-size";
+          size.textContent = ch;
+          col.appendChild(size);
+          col.appendChild(strip);
+          el.appendChild(col);
+        } else {
+          const s = document.createElement("span");
+          s.className = "odo-sep";
+          s.textContent = ch;
+          el.appendChild(s);
+        }
+      });
+    }
+    
+      (function () {
+        const el = document.getElementById("hl");
+        const end = typeInto(el, v.headline || "", 0.6, 0.06);
+        el.querySelectorAll(".ch").forEach((c) => { if (c.textContent === " ") c.style.width = ".28em"; });
+        return end;
+      })();
+    
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      duration: 6,
+      seek(t) { document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; }); },
+    };
+  </script>
+</body>
+</html>

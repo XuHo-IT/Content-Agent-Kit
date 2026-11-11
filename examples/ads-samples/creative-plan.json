@@ -1,0 +1,58 @@
+{
+  "campaign": "AW26",
+  "product": {
+    "code": "VL01",
+    "name": "Váy linen dáng A"
+  },
+  "date": "2026-11-11",
+  "cta": "Nhắn tin để được tư vấn size — đổi size miễn phí 7 ngày",
+  "hooks": [
+    {
+      "code": "H1",
+      "text": "Mặc gì đi làm mà vẫn mát giữa trưa Sài Gòn?"
+    },
+    {
+      "code": "H2",
+      "text": "1 chiếc váy, 3 cách phối cho cả tuần"
+    },
+    {
+      "code": "H3",
+      "text": "POV: sếp hỏi váy mua ở đâu"
+    },
+    {
+      "code": "H4",
+      "text": "Cao 1m55 mặc váy midi có bị lùn không?"
+    }
+  ],
+  "angles": [
+    {
+      "code": "A1",
+      "text": "Vải linen thoáng, không nhăn sau 8 tiếng",
+      "proof": "quay cảnh 8h sáng và 5h chiều"
+    },
+    {
+      "code": "A2",
+      "text": "Dáng A che khéo, tôn eo",
+      "proof": "try-on 3 vóc dáng thật"
+    },
+    {
+      "code": "A3",
+      "text": "Đổi size miễn phí 7 ngày",
+      "proof": "chính sách đổi trả"
+    }
+  ],
+  "formats": [
+    {
+      "code": "V9",
+      "text": "Video 9:16 try-on 15s"
+    },
+    {
+      "code": "C1",
+      "text": "Carousel 5 ảnh phối đồ"
+    },
+    {
+      "code": "U1",
+      "text": "UGC KOC review 30s"
+    }
+  ]
+}
