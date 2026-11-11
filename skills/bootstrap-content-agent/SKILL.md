@@ -155,7 +155,10 @@ From `templates/` + `scripts/`, produce:
   if they run catalog/Advantage+ ads, `audience-plan`, `ugc-koc-brief` if they work with KOCs,
   and `promo-calendar`. Always install `freshness-check`: `daily-run`, `video-and-post` and
   `ads-policy-check` call it first, so platform limits, ad law and AI-label rules are re-checked
-  against the web whenever they have expired.
+  against the web whenever they have expired. `performance-review` once the agent has posted
+  for a couple of weeks: it reads the channel's real numbers and writes `brain/insights.md`, which
+  `create-video` and `topic-radar` read before planning. For a user who does not code, point them
+  at `creator-start` — it asks what they have and routes them.
   `new-template` and `motion-craft` belong in a kit checkout rather than a generated agent:
   they edit `video-templates/` and the gates around it, which a downstream agent does not own.
 - **Skills from elsewhere** (optional): `node scripts/install-skills.mjs --list` shows an SEO

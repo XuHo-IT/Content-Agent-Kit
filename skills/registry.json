@@ -517,6 +517,28 @@
       "installAs": "motion-pricing",
       "summary": "Pricing motion and video work for clients: scope, day rates, packages, revision limits.",
       "why": "For creators who also edit for clients (KOC/brand work) — pairs with ugc-koc-brief."
+    },
+    "agent-browser": {
+      "ref": "main",
+      "repo": "vercel-labs/agent-browser",
+      "path": ".",
+      "installAs": "agent-browser",
+      "via": "skills",
+      "license": "Apache-2.0",
+      "licenseFile": "LICENSE",
+      "sizeNote": "The skill is a stub; the CLI itself installs with `npm install -g agent-browser && agent-browser install` (downloads Chrome for Testing).",
+      "summary": "Browser automation CLI for agents: open, click, fill, scroll, screenshot — with logged-in sessions kept between runs.",
+      "why": "B-roll of a real website (scroll through a product page, a pricing table, a dashboard) for research-and-capture, beyond screenshot.mjs's single still; logged-in pages the kit's headless capture cannot reach."
+    },
+    "web-video-presentation": {
+      "ref": "main",
+      "repo": "ConardLi/garden-skills",
+      "path": "skills/web-video-presentation",
+      "installAs": "web-video-presentation",
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "summary": "An article or a talk script → a click-driven 16:9 web presentation that looks like a video, with optional synthesized narration (Chinese-first instructions).",
+      "why": "The long, horizontal format the kit lacks: courses, YouTube explainers, webinar recaps. Pair its outline with the kit's TTS and VIDEO_CRAFT voice rules for Vietnamese."
     }
   },
   "_marketing": [

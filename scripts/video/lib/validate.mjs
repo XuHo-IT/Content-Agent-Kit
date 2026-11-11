@@ -6,7 +6,9 @@
 // caught BEFORE 3–5 minutes of rendering are spent.
 //
 // Every issue quotes the offending text — same rule as skills/review-gate.
-import { listTemplateIds } from "./paths.mjs";
+import { listTemplateIds, KIT_ROOT } from "./paths.mjs";
+import fsSync from "node:fs";
+import pathMod from "node:path";
 import { PROVIDERS, PROVIDER_SPECS } from "./tts.mjs";
 import { SOURCE_IDS } from "../../media/lib/sources/index.mjs";
 // Read from the source itself so the accepted values cannot drift between the gate that
@@ -191,6 +193,15 @@ export function validateScript(script, opts = {}) {
     if (!(t > 0)) E(`transitionSec must be a positive number, got ${JSON.stringify(script.transitionSec)}`);
     // Longer than the inter-scene silence and the transition runs over narration.
     else if (t > 0.3) W(`transitionSec ${t}s overruns the 0.3s gap between scenes — the blend will cover speech`);
+  }
+
+  // ── genre ────────────────────────────────────────────────────────────────
+  // Optional, but it is how scripts/analytics/perf.mjs learns which genre works for THIS
+  // channel: a video without one cannot be counted for or against any genre.
+  if (script.genre != null) {
+    let known = [];
+    try { known = Object.keys(JSON.parse(fsSync.readFileSync(pathMod.join(KIT_ROOT, "templates", "VIDEO_GENRES.template.json"), "utf8")).genres); } catch {}
+    if (known.length && !known.includes(script.genre)) W(`genre "${script.genre}" is not one of templates/VIDEO_GENRES.template.json (${known.join(", ")}) — analytics will not group it`);
   }
 
   // ── theme ────────────────────────────────────────────────────────────────

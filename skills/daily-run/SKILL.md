@@ -20,6 +20,7 @@ Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản
 | 4. Video (nếu có) | Dựng video ngay bằng `create-video` (3–5 phút/video) | — |
 | 5. Kiểm duyệt | Mọi bài qua `review-gate`; sai thì sửa tối đa 2–3 vòng, không được thì bỏ và ghi lại | — |
 | 6. Đăng và lên lịch | `node scripts/publish.mjs <file>.json`, lịch mạng xã hội qua `build-queue.mjs` | Duyệt lần cuối nếu PLAYBOOK yêu cầu |
+| 6b. Số liệu (hằng tuần) | `performance-review`: nhập số liệu kênh, cập nhật `brain/insights.md` để lần làm sau học từ kết quả thật | Xuất file CSV từ TikTok/Meta/YouTube Studio |
 | 7. Báo cáo | `brain/<id>/report.md`: đã làm / đã duyệt / đã đăng / đã bỏ; dọn file tạm | Đọc báo cáo |
 
 **Hay vướng:**

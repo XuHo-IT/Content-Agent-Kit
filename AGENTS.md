@@ -8,7 +8,7 @@
 Claude Code loads skills only from `.claude/skills/`, `~/.claude/skills/` or a plugin — **not**
 from this repo's `skills/`. Two routes (newcomer walkthrough: `docs/29-bat-dau-nhanh.md`):
 ```bash
-node scripts/install-skills.mjs --kit --global     # copy all 27, each with a .kit-root file
+node scripts/install-skills.mjs --kit --global     # copy all 30, each with a .kit-root file
 # or, inside Claude Code:  /plugin marketplace add XuHo-IT/Content-Agent-Kit
 #                          /plugin install content-agent-kit@content-agent-kit
 ```
