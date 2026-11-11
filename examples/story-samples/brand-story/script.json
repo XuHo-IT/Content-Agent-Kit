@@ -1,0 +1,148 @@
+{
+  "_note": "Mẫu minh hoạ cho genre brand-story (docs/27). Thương hiệu, con số và lá thư đều là GIẢ ĐỊNH — thay bằng câu chuyện, số liệu và tin nhắn thật (có sự đồng ý) của bạn.",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "metadata": {
+    "title": "Cửa hàng suýt đóng cửa và chiếc váy cắt lại từ đầu",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "omnivoice",
+    "speed": 1
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-story-one-line",
+      "voiceText": "Ba năm trước, cửa hàng nhỏ này còn đúng hai tháng tiền thuê. Hôm nay nó có mười nghìn đơn. Ở giữa là một quyết định mà ai cũng bảo là dại.",
+      "inputs": {
+        "kicker": "Câu chuyện của một cửa hàng nhỏ",
+        "headline": "Từ hai tháng tiền thuê đến 10.000 đơn",
+        "label_1": "Mở tiệm",
+        "label_2": "Suýt đóng cửa",
+        "label_3": "Khách quay lại",
+        "sub": "Số liệu minh hoạ — câu chuyện giả định"
+      }
+    },
+    {
+      "id": "chapter",
+      "type": "body",
+      "templateId": "frame-story-swiss-chapter",
+      "sfx": {
+        "name": "transition/cc0-paper-flip",
+        "volume": 0.5
+      },
+      "voiceText": "Tháng ba năm hai nghìn không trăm hai mốt. Váy bán được, nhưng cứ mười chiếc thì bốn chiếc bị gửi trả. Lý do lúc nào cũng giống nhau: mặc vào không vừa như trong ảnh.",
+      "inputs": {
+        "section": "Câu chuyện thương hiệu",
+        "counter": "01 / 04",
+        "numeral": "01",
+        "title": "Mười chiếc thì bốn chiếc bị trả",
+        "note": "Tháng 3 năm 2021. Còn hai tháng tiền thuê."
+      }
+    },
+    {
+      "id": "case",
+      "type": "body",
+      "templateId": "frame-story-halftone-case",
+      "sfx": {
+        "name": "reveal/cc0-deep-boom",
+        "volume": 0.45,
+        "startOffsetSec": 2.9
+      },
+      "voiceText": "Họ đọc lại từng phiếu đổi trả và từng bình luận chê. Không ai phàn nàn về giá hay về vải. Gần như tất cả cùng nói một câu: mặc vào không vừa như trong ảnh.",
+      "inputs": {
+        "case_id": "HỒ SƠ ĐỔI TRẢ",
+        "label": "Vì sao khách gửi váy về?",
+        "headline": "Không phải vì giá",
+        "exhibit_label": "PHIẾU ĐỔI TRẢ",
+        "exhibit_text": "Gần như mọi phiếu ghi cùng một lý do: không vừa như ảnh",
+        "stamp": "ĐÃ RÕ",
+        "caption": "Minh hoạ — dùng phiếu đổi trả thật của bạn"
+      }
+    },
+    {
+      "id": "roots",
+      "type": "body",
+      "templateId": "frame-story-world-pan",
+      "voiceText": "Khách chỉ thấy chiếc váy trên mạng. Họ không thấy rằng mẫu rập được cắt theo một người mẫu cao một mét bảy lăm, trong khi phần lớn khách thấp hơn thế cả một cái đầu.",
+      "inputs": {
+        "kicker": "Điều khách không thấy",
+        "line_top": "Ai cũng thấy chiếc váy đẹp",
+        "line_mid": "Không ai thấy mẫu rập phía sau",
+        "line_bottom": "Rập cắt cho người cao 1m75"
+      }
+    },
+    {
+      "id": "turn",
+      "type": "body",
+      "templateId": "frame-story-page-turn",
+      "sfx": {
+        "name": "transition/cc0-paper-riffle",
+        "volume": 0.5
+      },
+      "voiceText": "Thế là họ làm điều ai cũng bảo là dại: ngừng nhập mẫu mới suốt sáu tuần, đo lại số đo của ba trăm khách thật, rồi cắt lại toàn bộ rập từ đầu.",
+      "inputs": {
+        "kicker": "Bước ngoặt",
+        "before": "Rập cắt theo người mẫu",
+        "after": "Rồi họ cắt lại tất cả theo số đo của khách thật",
+        "note": "sáu tuần không bán mẫu mới",
+        "pill": "CẮT LẠI TỪ ĐẦU"
+      }
+    },
+    {
+      "id": "proof",
+      "type": "body",
+      "templateId": "frame-story-pencil-chart",
+      "voiceText": "Kết quả hiện ra qua từng quý: tỉ lệ gửi trả giảm dần, rồi giảm hẳn. Đây là số minh hoạ, nhưng hình dạng thì quen thuộc với bất kỳ shop nào từng sửa đúng chỗ đau của khách.",
+      "inputs": {
+        "title": "Tỉ lệ đổi trả giảm sau khi cắt lại rập",
+        "label_1": "Q1",
+        "value_1": "40",
+        "label_2": "Q2",
+        "value_2": "26",
+        "label_3": "Q3",
+        "value_3": "14",
+        "label_4": "Q4",
+        "value_4": "8",
+        "unit": "%",
+        "note": "sau khi cắt lại rập",
+        "figure": "HÌNH 1 · SỐ MINH HOẠ — THAY BẰNG SỐ LIỆU THẬT"
+      }
+    },
+    {
+      "id": "voice",
+      "type": "body",
+      "templateId": "frame-story-letter",
+      "voiceText": "Rồi tin nhắn bắt đầu đến. Không phải lời khen chiếc váy đẹp, mà là câu khách hay viết nhất: lần đầu tiên mua váy online mà không phải đổi size, và còn đặt thêm cho mẹ.",
+      "inputs": {
+        "date": "Huế, tháng 9",
+        "greeting": "Gửi shop,",
+        "body": "Lần đầu tiên em mua váy online mà không phải đổi size. Em đặt thêm hai chiếc cho mẹ rồi nha.",
+        "signoff": "Một khách hàng (thư minh hoạ)",
+        "stamp_label": "CẢM ƠN"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "templateId": "frame-story-kinetic-floor",
+      "voiceText": "Mỗi đường may, mỗi lần đổi trả miễn phí, mỗi tin nhắn trả lời lúc nửa đêm. Thứ khách mua lại không phải chiếc váy, mà là niềm tin.",
+      "inputs": {
+        "line_1": "Mỗi đường may",
+        "line_2": "Mỗi lần đổi trả miễn phí",
+        "line_3": "Mỗi tin nhắn lúc nửa đêm",
+        "line_4": "",
+        "final": "Niềm tin."
+      }
+    }
+  ],
+  "theme": "tomato-cream"
+}

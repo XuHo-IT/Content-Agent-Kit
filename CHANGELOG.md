@@ -10,6 +10,54 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Installable skills with step-by-step guidance
+
+- **Plugin**: `.claude-plugin/plugin.json` + `marketplace.json` — `/plugin marketplace add
+  XuHo-IT/Content-Agent-Kit`, then `/plugin install content-agent-kit@content-agent-kit`.
+  `claude plugin validate` passes.
+- **`install-skills.mjs --kit [--global] [<name>…]`** copies the kit's own skills (previously it
+  installed only third-party ones, and Claude Code never loads `skills/` from a checkout), writing
+  `.kit-root` beside each so it can find `scripts/` from any folder.
+- **Every skill opens with "Hướng dẫn từng bước cho người dùng"** — a 4–7-step table the agent
+  narrates as "Bước n/N", one question at a time, stopping before anything irreversible. New
+  getting-started page `docs/29-bat-dau-nhanh.md`.
+- **Fixed: `ads-report` never triggered.** An unquoted `: ` in its description broke the YAML
+  frontmatter, so Claude Code loaded it with no name or description. New test: every skill's
+  frontmatter must parse.
+- `ads-policy-check`: legal references updated for Luật 75/2025/QH15 (in force 01/01/2026) and
+  Nghị định 239/2026/NĐ-CP; a ≥50% discount is now a WARN to check the ceiling in force, not a
+  BLOCK — sources disagree on whether the fixed cap survives. `LEGAL_CHECKED` records the date.
+- `ads-comment-triage`: "sz m con k" is a stock question, not a size question.
+
+### Storytelling set; Facebook ads toolkit
+
+- **Fifteen `frame-story-*` templates** (130 in total), emitted by
+  `scripts/video/lib/build-story-templates.mjs` from `story-templates-a.mjs` /
+  `story-templates-b.mjs`. Each is a storytelling device — a turn (`page-turn`), a descent
+  (`world-pan`), evidence (`halftone-case`, `pencil-chart`), a chapter (`swiss-chapter`,
+  `silent-film`), a memory (`sand`, `letter`), a saga (`frieze`), a climax (`kinetic-floor`), a map
+  of the story (`rundown`), plus `one-line`, `comic-panels`, `step-numeral`, `telestrator`. Ideas
+  from kurbaitaev/ghost-editor's recipes (MIT, several after LemoLab's lemo-opuscar) and the
+  storytelling prompts of yihui-dev/awesome-opus5-5-videos (MIT); no code copied.
+- **Four story genres** (19 in total): `brand-story`, `customer-story`, `legend`,
+  `case-breakdown`. **Skill `story-video`** and **`docs/27-storytelling.md`**.
+  Sample: `examples/story-samples/brand-story/` (strict-valid).
+- **`scripts/video/sfx-cc0.mjs`**: fetches ghost-editor's 27 CC0 Freesound sounds from a pinned
+  commit into `assets/sfx/<category>/` (still gitignored) and writes `CC0-SOURCES.md`.
+  Reaction sounds go to a `meme` category that `lib/sfx.mjs` (`NEVER_AUTO`) never picks
+  automatically.
+- **`talking-head.mjs --style launch` and `--style meme`** — the two ghost-editor presets the kit
+  lacked, re-made (its launch violet is the palette docs/25 bans).
+- **Facebook ads toolkit — eight skills**: `ads-creative-lab`, `ads-fatigue-watch`,
+  `ads-comment-triage`, `ads-policy-check`, `catalog-feed-audit`, `audience-plan`,
+  `ugc-koc-brief`, `promo-calendar`; offline scripts in `scripts/ads/`;
+  `templates/VN_RETAIL_CALENDAR.template.json`; synthetic data in `examples/ads-samples/`;
+  map in **`docs/28-facebook-ads.md`**. No skill writes to a live ad account or a comment thread
+  without the user's yes; customer data is written out only SHA-256 hashed.
+- `build-trend-templates.mjs` now exports `renderHtml`, `catalogEntry` and `HYPERFRAMES_JSON`
+  (and accepts a per-template `fonts` link) so both builders share one renderer contract. Trend
+  output is byte-identical.
+
 ### Longer, more varied samples; talking-head edit styles
 
 - **Sixteen niche samples, one per industry** (was eight): 76–92 s each, 9–10 scenes, no

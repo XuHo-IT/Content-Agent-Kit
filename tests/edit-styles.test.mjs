@@ -6,8 +6,8 @@ import { EDIT_STYLES, STYLE_IDS, resolveStyle, hookStyle, hexToAss } from "../sc
 import { validateEdl, sourceToJoined } from "../scripts/video/lib/edl.mjs";
 import { toAssActiveWords } from "../scripts/video/lib/captions.mjs";
 
-test("five named styles, each a complete bundle", () => {
-  assert.deepEqual(STYLE_IDS, ["clean", "pop", "editorial", "cinematic", "kinetic-doc"]);
+test("seven named styles, each a complete bundle", () => {
+  assert.deepEqual(STYLE_IDS, ["clean", "pop", "editorial", "cinematic", "kinetic-doc", "launch", "meme"]);
   for (const [id, s] of Object.entries(EDIT_STYLES)) {
     assert.match(s.accent, /^#[0-9a-f]{6}$/i, id);
     assert.ok(s.punch >= 0 && s.punch <= 0.3, id);

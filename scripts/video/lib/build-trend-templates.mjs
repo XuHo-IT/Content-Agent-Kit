@@ -30,7 +30,7 @@ import { fileURLToPath } from "node:url";
 const KIT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const VT = path.join(KIT, "video-templates");
 
-const HYPERFRAMES_JSON =
+export const HYPERFRAMES_JSON =
   JSON.stringify(
     {
       name: "template",
@@ -69,7 +69,7 @@ const BASE_CSS = `
   @keyframes wipeIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 `;
 
-function renderHtml({ t, w, h, compId, portrait }) {
+export function renderHtml({ t, w, h, compId, portrait }) {
   const vars = JSON.stringify(t.vars).replace(/'/g, "&#39;");
   return `<!DOCTYPE html>
 <html lang="vi">
@@ -77,7 +77,7 @@ function renderHtml({ t, w, h, compId, portrait }) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=${w}, height=${h}">
   <title>${t.name}</title>
-  ${FONTS_LINK}
+  ${t.fonts ?? FONTS_LINK}
   <style>
     html, body { width: ${w}px; height: ${h}px; overflow: hidden; background: ${t.bg}; }
     ${BASE_CSS}
@@ -1336,7 +1336,7 @@ export const TREND_TEMPLATES = [
 
 // ── emit ─────────────────────────────────────────────────────────────────────
 
-function catalogEntry(t) {
+export function catalogEntry(t) {
   const rows = t.slots.map(([k, lim, note]) => `| \`${k}\` | ${/^≤|^\d/.test(lim) ? "string" : lim} | ${/^≤|^\d/.test(lim) ? lim : "—"} | ${note} |`).join("\n");
   return `## ${t.id}
 

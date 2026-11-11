@@ -139,6 +139,7 @@ exists there** — the validator checks against the folder on disk.
 | Scene is… | Use |
 |---|---|
 | the first 2 seconds, one spoken sentence | `frame-trend-word-pop` (words land one by one, payoff lit) |
+| a story — a turn, a memory, a letter, a chapter | the `frame-story-*` set; pick by the beat, see `skills/story-video/SKILL.md` |
 | "everyone is asking / searching…" | `frame-trend-search-morph` |
 | answering a viewer's comment | `frame-trend-comment-reply` |
 | social proof — orders, messages, views | `frame-trend-phone-notifs` |

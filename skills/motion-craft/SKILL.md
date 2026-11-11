@@ -8,6 +8,25 @@ description: How things should move in a video-templates frame — easing, entra
 Every animation bug this repo has shipped passed the full test suite. Geometry is checkable;
 motion is not. So this is the vocabulary, and the four traps that have actually caught us.
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Xác định chỗ "lệch" | Hỏi template nào, khung 9:16 hay 16:9, giây thứ mấy trông sai | Chỉ ra template và thời điểm |
+| 2. Xem cách nó chuyển động | Chạy `motion-index.mjs` và đọc CSS animation của template | — |
+| 3. Đối chiếu 4 lỗi hay gặp | Hiện kết thúc trước, chiều trượt ngược, trang trí lệch khi chữ xuống dòng, xoay lộ khung | — |
+| 4. Sửa | Chỉnh easing, độ trễ, thời lượng theo các bảng bên dưới | — |
+| 5. Xem lại bằng mắt | Render ảnh bằng `template-sheet.mjs <id>` cho cả hai khung hình (vài phút) | Xác nhận đã ổn |
+
+**Hay vướng:**
+- Test xanh không có nghĩa là chuyển động đẹp → luôn xem ảnh render.
+- Sửa một khung hình mà quên khung còn lại → kiểm tra cả 9:16 và 16:9.
+- Template do builder sinh ra (`frame-trend-*`, `frame-story-*`) → sửa file builder, không sửa HTML.
+
 ## The four traps, in the order they bit
 
 Not hypotheticals. Each one reached a finished render before anyone noticed.

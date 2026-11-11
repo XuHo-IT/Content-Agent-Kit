@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, height=1080">
+  <title>Story · Telestrator Breakdown</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,600;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Patrick+Hand&family=Anton&display=swap" rel="stylesheet">
+  <style>
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0c1411; }
+    
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --snap: cubic-bezier(.2,.9,.1,1);
+    --out: cubic-bezier(.16,1,.3,1);
+  }
+  #root { position: relative; overflow: hidden; width: 100%; height: 100%; font-family: 'Be Vietnam Pro', sans-serif; }
+  #root::after {
+    content: ""; position: absolute; inset: -30%; pointer-events: none; z-index: 0; opacity: .55;
+    animation: ambient 16s linear infinite;
+  }
+  @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
+  .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
+  .mono { font-family: 'Roboto Mono', monospace; }
+  @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes wipeIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+    
+      #root { background: #0c1411; color: #f2f4ee; }
+      #root::after { inset: 0; background-image: linear-gradient(rgba(242,244,238,.06) 2px, transparent 2px), linear-gradient(90deg, rgba(242,244,238,.06) 2px, transparent 2px); background-size: 60px 60px; opacity: 1; animation: pan 12s linear infinite; }
+      @keyframes pan { from { background-position: 0 0; } to { background-position: 60px 60px; } }
+      .wipe { position: absolute; top: -20%; bottom: -20%; width: 60%; background: #ffd400; transform: translateX(-140%) skewX(-18deg); animation: swipe .7s cubic-bezier(.7,0,.3,1) forwards; z-index: 5; }
+      @keyframes swipe { to { transform: translateX(260%) skewX(-18deg); } }
+      .flash { position: absolute; inset: 0; background: #fff; opacity: 0; animation: flash .35s ease-out 2.2s; z-index: 4; pointer-events: none; }
+      @keyframes flash { 0% { opacity: .85; } 100% { opacity: 0; } }
+      .top { display: flex; justify-content: space-between; align-items: center; font-family: 'Roboto Mono', monospace; font-weight: 700; }
+      .bug { position: relative; display: inline-grid; background: #e8384f; color: #fff; letter-spacing: .08em; }
+      .bug span { grid-area: 1 / 1; }
+      .bug .b1 { animation: out .01s 2.2s forwards; }
+      .bug .b2 { opacity: 0; animation: fade .01s 2.2s forwards; }
+      .bug.has2 { animation: bugBg .01s 2.2s forwards; }
+      @keyframes bugBg { to { background: #ffd400; color: #0c1411; } }
+      @keyframes out { to { opacity: 0; } }
+      .clock { color: #9fb2a8; }
+      .match { display: flex; align-items: stretch; font-weight: 800; text-transform: uppercase; opacity: 0; animation: rise .5s var(--out) .6s forwards; }
+      .match .a { background: #f2f4ee; color: #0c1411; } .match .b { background: #2e55d6; color: #fff; }
+      .match .vs { background: #ffd400; color: #0c1411; font-family: 'Roboto Mono', monospace; display: grid; place-items: center; }
+      .statement { font-weight: 900; line-height: 1.04; letter-spacing: -.02em; opacity: 0; animation: rise .6s var(--out) .9s forwards; }
+      .keyw { position: relative; display: inline-block; white-space: nowrap; font-weight: 900; color: #ffd400; opacity: 0; animation: fade .3s 1.4s forwards; }
+      .ring { position: absolute; left: -8%; top: -22%; width: 116%; height: 144%; overflow: visible; }
+      .ring ellipse { fill: none; stroke: #ffd400; stroke-width: 7; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .7s var(--out) 2.5s forwards; }
+      .arr { overflow: visible; }
+      .arr path { fill: none; stroke: #f2f4ee; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .5s var(--out) 3.2s forwards; }
+      @keyframes draw { to { stroke-dashoffset: 0; } }
+      .card { display: inline-block; background: #ffd400; color: #0c1411; font-weight: 900; transform: scale(0) rotate(-4deg); animation: cardIn .45s var(--spring) 3.6s forwards; }
+      @keyframes cardIn { to { transform: scale(1) rotate(-2deg); } }
+      .zone { position: absolute; border-radius: 50%; background: radial-gradient(circle, rgba(232,56,79,.35), transparent 70%); animation: pulse 2.4s ease-in-out infinite; z-index: 0; }
+      @keyframes pulse { 0%, 100% { transform: scale(1); opacity: .6; } 50% { transform: scale(1.15); opacity: 1; } }
+    
+    
+      .stage { padding: 56px 110px 0; gap: 26px; }
+      .top { font-size: 24px; }
+      .bug { padding: 8px 18px; }
+      .match { font-size: 28px; height: 60px; width: 900px; }
+      .match .a, .match .b { flex: 1; display: grid; place-items: center; }
+      .match .vs { width: 76px; font-size: 22px; }
+      .statement { font-size: 84px; margin-top: 30px; max-width: 1500px; }
+      .keyw { font-size: 96px; }
+      .arr { position: absolute; width: 240px; height: 160px; left: 860px; top: 650px; }
+      .card { position: absolute; left: 1120px; top: 780px; font-size: 46px; padding: 22px 32px; }
+      .zone { width: 800px; height: 800px; left: 0; top: 300px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" class="L" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="6" data-composition-variables='{"bug":"TRỰC TIẾP","bug_2":"PHÂN TÍCH","side_a":"Shop A","side_b":"Shop B","clock":"00:17","statement":"Cùng một chiếc váy, cùng một giá. Chỉ khác","key":"ảnh mặc thử thật","label":"CTR gấp 3 lần (minh hoạ)"}'>
+    <div class="zone"></div>
+      <div class="stage">
+        <div class="top"><span class="bug" id="bug"><span class="b1" data-slot="bug"></span><span class="b2" data-slot="bug_2"></span></span><span class="clock" data-slot="clock"></span></div>
+        <div class="match" data-slot-box><span class="a" data-slot="side_a"></span><span class="vs" id="vs"></span><span class="b" data-slot="side_b"></span></div>
+        <div class="statement" data-slot="statement"></div>
+        <div data-slot-box><span class="keyw"><span data-slot="key"></span><svg class="ring" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><ellipse pathLength="1" vector-effect="non-scaling-stroke" cx="50" cy="50" rx="48" ry="44"/></svg></span></div>
+        <svg class="arr" viewBox="0 0 300 200" aria-hidden="true"><path pathLength="1" d="M 280 190 C 240 80 160 30 30 20 M 30 20 L 80 0 M 30 20 L 70 60"/></svg>
+        <div data-slot-box><span class="card" data-slot="label"></span></div>
+      </div>
+      <div class="flash"></div>
+      <div class="wipe"></div>
+  </div>
+  <script>
+    // Caller values: window.__hyperframes.getVariables(), merged over the declared defaults
+    // so the file still previews on its own. Built once, before the first seek.
+    function getVariables() {
+      let d = {};
+      try { d = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      const hf = window.__hyperframes;
+      const p = hf && typeof hf.getVariables === "function" ? hf.getVariables() || {} : {};
+      return Object.assign({}, d, p);
+    }
+    const v = getVariables();
+    const has = (k) => v[k] !== undefined && v[k] !== null && String(v[k]).trim() !== "";
+    document.querySelectorAll("[data-slot]").forEach((el) => {
+      const k = el.getAttribute("data-slot");
+      if (!has(k)) { (el.closest("[data-slot-box]") || el).remove(); return; }
+      el.textContent = String(v[k]);
+    });
+    /** One span per character, each starting `step` seconds after the last — a typewriter. */
+    function typeInto(el, text, start, step) {
+      el.textContent = "";
+      [...String(text)].forEach((ch, i) => {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = ch;
+        s.style.animationDelay = (start + i * step).toFixed(3) + "s";
+        el.appendChild(s);
+      });
+      return start + [...String(text)].length * step;
+    }
+    /** Odometer: every digit becomes a 0–9 column that rolls to its value. */
+    function odometer(el, text, start) {
+      el.textContent = "";
+      let n = 0;
+      [...String(text)].forEach((ch) => {
+        if (/[0-9]/.test(ch)) {
+          const col = document.createElement("span");
+          col.className = "odo";
+          const strip = document.createElement("span");
+          strip.className = "odo-strip";
+          for (let d = 0; d <= 9; d++) { const x = document.createElement("span"); x.textContent = d; strip.appendChild(x); }
+          strip.style.setProperty("--d", ch);
+          strip.style.animationDelay = (start + n++ * 0.07).toFixed(2) + "s";
+          const size = document.createElement("span");
+          size.className = "odo-size";
+          size.textContent = ch;
+          col.appendChild(size);
+          col.appendChild(strip);
+          el.appendChild(col);
+        } else {
+          const s = document.createElement("span");
+          s.className = "odo-sep";
+          s.textContent = ch;
+          el.appendChild(s);
+        }
+      });
+    }
+    
+      (function () {
+        const vs = document.getElementById("vs");
+        if (vs) vs.textContent = "vs";
+        const bug = document.getElementById("bug");
+        if (bug && has("bug_2")) bug.classList.add("has2");
+      })();
+    
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      duration: 6,
+      seek(t) { document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; }); },
+    };
+  </script>
+</body>
+</html>

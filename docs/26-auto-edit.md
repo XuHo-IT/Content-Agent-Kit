@@ -83,7 +83,7 @@ lặng. B-roll vượt ~35% thời lượng thì lệnh từ chối — người
 
 ### Phong cách dựng — `--style`
 
-Cùng một đoạn quay, năm cách hoàn thiện (ý tưởng từ các preset của ghost-editor; giá trị là
+Cùng một đoạn quay, bảy cách hoàn thiện (ý tưởng từ các preset của ghost-editor; giá trị là
 của kit, viết bằng filter ffmpeg + thẻ ASS — `scripts/video/lib/edit-styles.mjs`):
 
 | `--style` | phụ đề | hình | nhịp |
@@ -93,6 +93,8 @@ của kit, viết bằng filter ffmpeg + thẻ ASS — `scripts/video/lib/edit-s
 | `editorial` | chữ thường, mờ dần vào, các từ khác mờ đi | dịu màu, hạt nhẹ | zoom 6%, thanh tiến trình |
 | `cinematic` | chữ có chân (Georgia), từ đang nói nghiêng màu vàng | màu phim, viền tối, hạt; B-roll đen trắng | zoom 5% |
 | `kinetic-doc` | MỘT TỪ TO giữa khung, đỏ | đen trắng tư liệu | zoom 10%, thanh tiến trình |
+| `launch` | 3 từ/lần, từ khác mờ, từ đang nói xanh điện | tối, lạnh, viền tối | zoom 10%, thanh tiến trình |
+| `meme` | CHỮ HOA viền đen dày, từ đang nói vàng và nảy | tăng bão hoà nhẹ | zoom 16% |
 
 Màu nhấn lấy từ `--theme` nếu có (bảng màu theo ngành). Chỉnh màu chạy **trước** khi đốt
 phụ đề, nên chữ không bị nhiễu hạt. Font nào cũng phải có dấu tiếng Việt — Impact không có.
@@ -129,7 +131,7 @@ Method and defaults ported from kurbaitaev/ghost-editor (MIT) — ideas only, no
 `talking-head.mjs` assembles one range (`--from/--to/--crop`) or an edit decision list
 (`--edl`: several source ranges, each with its own 9:16 crop, plus B-roll cut-aways overlaid
 while the speaker's audio runs on; refused above ~35% B-roll), then autocuts, burns active-word
-captions mapped source → assembled → cut, and finishes in one of five `--style` looks
-(`clean`, `pop`, `editorial`, `cinematic`, `kinetic-doc` — caption treatment, grade applied
+captions mapped source → assembled → cut, and finishes in one of seven `--style` looks
+(`clean`, `pop`, `editorial`, `cinematic`, `kinetic-doc`, `launch`, `meme` — caption treatment, grade applied
 before captions, punch-in amount, hook card, optional progress bar).
 Tests: `tests/autocut.test.mjs`, `tests/active-captions.test.mjs`, `tests/edit-styles.test.mjs`.

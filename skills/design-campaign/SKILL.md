@@ -12,6 +12,26 @@ produces a branded campaign visual.
 This does that in Canva and hands back **a file on disk**, because everything downstream —
 `make-post.mjs`, `video/render.mjs` — takes a path or a URL, not a Canva design link.
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Kiểm tra Canva | Xem server `canva` đã kết nối chưa | Gõ `/mcp` và đăng nhập Canva nếu chưa |
+| 2. Chốt kích thước | Hỏi ảnh dùng cho đâu: bài đăng 1080×1080, ảnh bìa 1080×1920… | Chọn mục đích dùng ảnh |
+| 3. Lấy màu thương hiệu | Đọc `PLAYBOOK.md` / `theme-map.json` / brand kit Canva | Gửi logo hoặc mã màu nếu chưa có |
+| 4. Thiết kế | Tạo và chỉnh thiết kế trong Canva | Góp ý bản nháp |
+| 5. Xuất file | Lưu PNG vào `brain/<slug>/design/` | — |
+| 6. Gắn vào bài | Đưa đường dẫn file cho `make-post.mjs` hoặc scene video | Duyệt trước khi đăng |
+
+**Hay vướng:**
+- Canva chưa kết nối → skill dừng, không thay bằng ảnh stock; đăng nhập qua `/mcp` rồi chạy lại.
+- Muốn đổi kích thước sau khi thiết kế → cần gói Canva Pro; nên chốt kích thước từ đầu.
+- Dán link Canva vào bài đăng sẽ lỗi → luôn dùng file đã xuất.
+
 ## Before you start
 
 The `canva` server in `.mcp.json` must be connected (`/mcp` in Claude Code). If it is not,

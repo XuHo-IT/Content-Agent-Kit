@@ -5,6 +5,27 @@ description: Run the crawl4ai discovery pipeline to fill the idea queue for an a
 
 # Crawl → idea queue
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Kiểm danh sách nguồn | Mở `sources.yaml`, chạy thử `python scripts/crawl/crawl.py --dry-run` để xem link tìm được | Gửi các trang nguồn muốn lấy ý tưởng |
+| 2. Cài công cụ (một lần) | `pip install -r scripts/crawl/requirements.txt && crawl4ai-setup` | Cho phép cài (có tải Chromium) |
+| 3. Kiểm biến môi trường | Cần `SITE_URL`, `INGEST_API_TOKEN` trong `.env` | Điền vào `.env` |
+| 4. Chạy | `python scripts/crawl/crawl.py --limit 10` — bỏ link đã có, chỉ lưu đoạn trích ≤ 1500 ký tự + link | — |
+| 5. Báo kết quả | Số ý tưởng mới đã đẩy vào hàng đợi | Có muốn chạy tự động hằng ngày không |
+
+**Hay vướng:**
+- Bản chạy thử bắt cả link menu, chuyên mục → chỉnh `link_pattern` trong `sources.yaml` cho chặt hơn.
+- Muốn lưu nguyên bài viết → không được, chỉ đoạn trích + link; bài đăng phải tự viết.
+- Trang WordPress → dùng `node scripts/crawl/wp-fetch.mjs` thay vì crawl, nhẹ hơn nhiều.
+
+## Quy trình chi tiết (cho agent)
+
 1. **Check `sources.yaml`** exists and each source has a `list_url` + a tuned
    `link_pattern`. Loose patterns catch navigation links — verify with a dry run:
    `python scripts/crawl/crawl.py --dry-run` (prints found links only, pushes nothing).

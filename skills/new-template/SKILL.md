@@ -12,6 +12,26 @@ Two different jobs share this name, and picking the wrong one wastes an hour.
 | an effect, overlay, transition or caption style | **pull it** — one command, §1 |
 | a kind of frame the kit cannot draw | **build it** — §2 onward |
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Tìm chỗ còn thiếu | Liệt kê template có sẵn và chạy `motion-index.mjs` | Nói video của bạn đang thiếu kiểu khung nào |
+| 2. Đề xuất | Đưa 2–3 phương án, mỗi phương án lấp một chỗ trống | Chọn một |
+| 3. Lấy sẵn hoặc tự dựng | Kéo về bằng `add-template.mjs`, hoặc tự viết hai bản 9:16 và 16:9 | — |
+| 4. Đo và ghi danh mục | Chạy `theme-probe.mjs --template <id>`, thêm mục vào `CATALOG.md` | — |
+| 5. Xem bằng mắt | Render bằng `template-sheet.mjs <id>` cả hai khung hình (vài phút) | Duyệt ảnh |
+| 6. Chạy test | `node --test tests/*.test.mjs` | — |
+
+**Hay vướng:**
+- Thiếu `NOTICE.md` hoặc thiếu mục trong `CATALOG.md` → test báo lỗi; thêm vào là hết.
+- Chữ viết cứng trong HTML sẽ hiện trên mọi video → mọi chữ phải đi qua slot.
+- Font không có dấu tiếng Việt → chạy `font-check.mjs` trước khi render.
+
 ## 0. Never start from "what would be cool"
 
 A template with no gap behind it is a twenty-third way to show a headline. Find the gap

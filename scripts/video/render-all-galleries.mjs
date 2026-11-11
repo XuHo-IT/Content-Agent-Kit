@@ -34,6 +34,7 @@ const SHEETS = [
   { name: "viral", out: "examples/gallery/gallery-viral.jpg", args: ["--preset", "viral", "--per-row", "6", "--width", "220", "--out", "examples/gallery/gallery-viral.jpg"] },
   { name: "saas", out: "examples/gallery/gallery-saas.jpg", args: ["--preset", "saas", "--per-row", "3", "--width", "300", "--out", "examples/gallery/gallery-saas.jpg"] },
   { name: "ecommerce", out: "examples/gallery/gallery-ecommerce.jpg", args: ["--preset", "ecommerce", "--per-row", "3", "--width", "300", "--out", "examples/gallery/gallery-ecommerce.jpg"] },
+  { name: "story", out: "examples/gallery/gallery-story.jpg", args: ["--preset", "story", "--per-row", "8", "--width", "220", "--at", "4.8", "--out", "examples/gallery/gallery-story.jpg"] },
 ];
 
 let renderedCount = 0;

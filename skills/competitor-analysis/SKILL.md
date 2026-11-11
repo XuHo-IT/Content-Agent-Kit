@@ -11,6 +11,25 @@ is the part code cannot do: watch the breakouts and say *why* they worked.
 
 > Antigravity / Gemini: same steps, run the commands directly.
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Nhận đối thủ | Nhận `@kênh`, link YouTube, website hoặc chuyên mục báo; từ 3 đối thủ thì lưu vào `brain/competitors.json` | Gửi danh sách đối thủ |
+| 2. Quét | Chạy `node scripts/research/competitor-scan.mjs --file brain/competitors.json --history brain/history.json` → in `REPORT=<đường dẫn>` | — |
+| 3. Xem video bứt phá | Mở 2–3 video vượt trội nhất, ghi lại câu mở đầu của từng video | — |
+| 4. Rút kinh nghiệm | Đọc cách đặt tiêu đề, giờ đăng, chủ đề họ có mà mình chưa có | — |
+| 5. Trao ba việc làm ngay | "Làm / Thử / Đổi", mỗi việc kèm bằng chứng; báo cáo ở `brain/competitors/<ngày>.md` | Chọn việc muốn làm, có thể chuyển sang `create-video` |
+
+**Hay vướng:**
+- Chỉ có 15 video gần nhất → báo cáo là "đang hiệu quả gần đây", không phải toàn bộ kênh.
+- Muốn quét TikTok/Instagram → cần `APIFY_TOKEN` (có phí nhỏ mỗi lần chạy); Facebook chưa hỗ trợ.
+- Muốn chép tiêu đề đối thủ → chỉ lấy cách đặt (câu hỏi, con số…), viết bằng lời của mình.
+
 ## Step 1 — Collect the targets
 
 Accept any of: `@handle`, a YouTube channel URL, a `UC…` id, a website, or — with

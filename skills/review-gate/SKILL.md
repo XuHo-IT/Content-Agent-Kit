@@ -8,6 +8,25 @@ description: Independently review one generated content item before it is publis
 You are a SEPARATE reviewer from whoever generated the item. Be strict. Grade against
 this checklist and return `{ ok: true|false, issues: [...], fixes: [...] }`.
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Nhận bài | Mở bài, video hoặc caption cần duyệt — với tư cách người chấm độc lập | Chỉ ra bài cần duyệt |
+| 2. Chấm tự động | Chạy `validate-script.mjs --strict` và `validate-post.mjs --strict` (vài giây) | — |
+| 3. Xem khung hình | Chạy `contact-sheet.mjs <dir>/video.mp4`, xem từng scene | — |
+| 4. Chấm theo bảng | Đối chiếu từng tiêu chí bên dưới, trích đúng câu bị lỗi | — |
+| 5. Kết luận | Trả về đạt hoặc chưa đạt, kèm cách sửa cụ thể | Quyết định sửa, bỏ hay đăng |
+
+**Hay vướng:**
+- Không đạt sau 2–3 vòng sửa → bỏ bài và ghi lý do, đừng cố đăng.
+- Caption có `##` hoặc `**` → mạng xã hội hiện nguyên ký tự; viết chữ thường.
+- Số trong lời đọc viết bằng chữ số → giọng đọc đọc sai; viết bằng chữ.
+
 **Craft comes first.** If the project has a `WRITING_CRAFT.md`, score its **§7 rubric**
 before anything else — those criteria are measurable, so count them:
 

@@ -198,6 +198,53 @@
         { "templateId": "frame-trend-exploded-layers", "type": "body", "beat": "Why: the parts that add up to the number." },
         { "templateId": "frame-statement-outro", "type": "outro", "beat": "What it means for the viewer, then the source again." }
       ]
+    },
+    "brand-story": {
+      "label": "Câu chuyện thương hiệu",
+      "whenToUse": "Why the brand exists, told as a story with a turn in it — not a list of USPs. Founder story, anniversary, 'about us' video, the top-of-funnel ad that makes people care before they compare prices.",
+      "beats": [
+        { "templateId": "frame-story-one-line", "type": "hook", "beat": "The whole arc in one drawn line — start, struggle, payoff — so the viewer knows a story is coming and where it ends." },
+        { "templateId": "frame-story-swiss-chapter", "type": "body", "beat": "Chapter one: the moment it started, with a date. Specific beats general — 'March 2021, two months of rent left'." },
+        { "templateId": "frame-story-world-pan", "type": "body", "beat": "What nobody saw: the camera dives below the surface to the years of work under the result." },
+        { "templateId": "frame-story-page-turn", "type": "body", "beat": "The turn. The page of the old way turns over to reveal what changed — the one beat every story needs." },
+        { "templateId": "frame-story-pencil-chart", "type": "body", "beat": "Proof the turn was real: one number, drawn, with its source. Say so on screen if it is illustrative." },
+        { "templateId": "frame-story-letter", "type": "body", "beat": "A customer's voice — a real message, quoted with permission — so the story is not only told by the brand." },
+        { "templateId": "frame-story-kinetic-floor", "type": "outro", "beat": "The declaration the story built: each line a floor, the brand's one word standing on top." }
+      ]
+    },
+    "customer-story": {
+      "label": "Câu chuyện khách hàng (quảng cáo kể chuyện)",
+      "whenToUse": "A short ad that sells by telling one customer's problem and how it ended — the storytelling format for Facebook/TikTok ads. Works for fashion, beauty, home, any product with a 'before'.",
+      "beats": [
+        { "templateId": "frame-story-comic-panels", "type": "hook", "beat": "Three panels: the everyday moment, the problem, the punchline. Recognition in under three seconds is the hook." },
+        { "templateId": "frame-story-page-turn", "type": "body", "beat": "Before → after: the old way turns away, the new one is behind it. Keep the 'after' concrete." },
+        { "templateId": "frame-story-halftone-case", "type": "body", "beat": "Why it worked — the evidence, stamped. A review count or a return rate beats an adjective." },
+        { "templateId": "frame-story-letter", "type": "body", "beat": "The customer, in their own words. Real, with permission; never written for them." },
+        { "templateId": "frame-trend-price-drop", "type": "outro", "beat": "The offer and where to buy. A selling story still has to end on the price." }
+      ]
+    },
+    "legend": {
+      "label": "Huyền thoại / lịch sử",
+      "whenToUse": "History told as a legend: a craft village, a heritage product, how a style came to be, the history of a city or a festival. Slow, warm, four acts.",
+      "beats": [
+        { "templateId": "frame-story-sand", "type": "hook", "beat": "The memory, brushed out of sand with a year on it. Opens on a time, not a claim." },
+        { "templateId": "frame-story-silent-film", "type": "body", "beat": "An intertitle to set the scene — 'Meanwhile, in the village…'. Pair it with a sting." },
+        { "templateId": "frame-story-frieze", "type": "body", "beat": "The four acts of the legend painted round a turning vase, one panel at a time." },
+        { "templateId": "frame-story-swiss-chapter", "type": "body", "beat": "Back to the present: the chapter where the legend meets today, dated." },
+        { "templateId": "frame-story-kinetic-floor", "type": "outro", "beat": "What the legend left behind, as the line the whole video stands on." }
+      ]
+    },
+    "case-breakdown": {
+      "label": "Mổ xẻ một vụ việc",
+      "whenToUse": "Breaking down what happened and why: a viral campaign, a competitor's launch, a product that sold out, a mistake worth learning from. Analytical, but told in order.",
+      "beats": [
+        { "templateId": "frame-story-halftone-case", "type": "hook", "beat": "The case file opens on the question and the claim — 'not because it was cheap'." },
+        { "templateId": "frame-story-rundown", "type": "body", "beat": "The rundown: what the video will cover, so the viewer can see the shape and stay for it." },
+        { "templateId": "frame-story-telestrator", "type": "body", "beat": "The decisive moment, frozen and drawn on: the ring goes round the thing that made the difference." },
+        { "templateId": "frame-story-pencil-chart", "type": "body", "beat": "The number that proves it, drawn bar by bar, with the source in the caption." },
+        { "templateId": "frame-story-step-numeral", "type": "body", "beat": "The lesson to take away, numbered, with the key words big." },
+        { "templateId": "frame-statement-outro", "type": "outro", "beat": "What to do with it this week, then follow for the next case." }
+      ]
     }
   },
 

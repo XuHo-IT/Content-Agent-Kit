@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, height=1080">
+  <title>Story · Step Deck Numeral</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,600;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Patrick+Hand&family=Anton&display=swap" rel="stylesheet">
+  <style>
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #14213d; }
+    
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --snap: cubic-bezier(.2,.9,.1,1);
+    --out: cubic-bezier(.16,1,.3,1);
+  }
+  #root { position: relative; overflow: hidden; width: 100%; height: 100%; font-family: 'Be Vietnam Pro', sans-serif; }
+  #root::after {
+    content: ""; position: absolute; inset: -30%; pointer-events: none; z-index: 0; opacity: .55;
+    animation: ambient 16s linear infinite;
+  }
+  @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
+  .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
+  .mono { font-family: 'Roboto Mono', monospace; }
+  @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes wipeIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+    
+      #root { background: #14213d; color: #f5f1e8; }
+      #root::after { background: repeating-radial-gradient(circle at 80% 20%, rgba(245,241,232,.06) 0 2px, transparent 2px 60px); opacity: .8; animation: ring 12s linear infinite; }
+      @keyframes ring { from { transform: rotate(0deg) scale(1); } to { transform: rotate(360deg) scale(1); } }
+      .num { position: absolute; font-family: 'Playfair Display', serif; font-style: italic; font-weight: 900; line-height: .8; color: #f5f1e8; transform-origin: 0 0; animation: shrink 1.1s var(--snap) .6s both; }
+      @keyframes shrink { from { transform: translate(var(--fx), var(--fy)) scale(var(--fs)); } to { transform: none; color: #2f6bff; } }
+      .lab { position: absolute; font-family: 'Roboto Mono', monospace; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #9fb3d9; opacity: 0; animation: fade .4s 1.6s forwards; }
+      .title { display: flex; flex-wrap: wrap; align-items: baseline; font-weight: 800; line-height: 1.02; letter-spacing: -.02em; }
+      .w { display: inline-block; margin-right: .24em; opacity: 0; animation: land .38s var(--spring) forwards; }
+      .w.hot { color: #2f6bff; font-weight: 900; font-size: 1.45em; }
+      @keyframes land { from { opacity: 0; transform: translateY(-.6em) scale(1.3); } to { opacity: 1; transform: none; } }
+      .detail { color: #c9d3e8; font-weight: 500; border-left: 8px solid #2f6bff; opacity: 0; animation: rise .6s var(--out) forwards; }
+    
+    
+      .num { left: 110px; top: 110px; font-size: 300px; --fx: 520px; --fy: -40px; --fs: 3.4; }
+      .lab { left: 300px; top: 180px; font-size: 28px; }
+      .stage { padding: 160px 110px 0 560px; gap: 44px; justify-content: center; }
+      .title { font-size: 84px; }
+      .detail { font-size: 36px; padding-left: 26px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" class="L" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="6" data-composition-variables='{"label":"Bài học","number":"2","title":"Đừng bán chiếc áo, hãy bán buổi hẹn đầu tiên","accent":"buổi hẹn đầu tiên","detail":"Khách mua cảm giác họ sẽ có, không mua đường may."}'>
+    <div class="num" data-slot="number"></div>
+      <div class="lab" data-slot="label"></div>
+      <div class="stage">
+        <div class="title" id="title"></div>
+        <div class="detail" data-slot="detail"></div>
+      </div>
+  </div>
+  <script>
+    // Caller values: window.__hyperframes.getVariables(), merged over the declared defaults
+    // so the file still previews on its own. Built once, before the first seek.
+    function getVariables() {
+      let d = {};
+      try { d = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      const hf = window.__hyperframes;
+      const p = hf && typeof hf.getVariables === "function" ? hf.getVariables() || {} : {};
+      return Object.assign({}, d, p);
+    }
+    const v = getVariables();
+    const has = (k) => v[k] !== undefined && v[k] !== null && String(v[k]).trim() !== "";
+    document.querySelectorAll("[data-slot]").forEach((el) => {
+      const k = el.getAttribute("data-slot");
+      if (!has(k)) { (el.closest("[data-slot-box]") || el).remove(); return; }
+      el.textContent = String(v[k]);
+    });
+    /** One span per character, each starting `step` seconds after the last — a typewriter. */
+    function typeInto(el, text, start, step) {
+      el.textContent = "";
+      [...String(text)].forEach((ch, i) => {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = ch;
+        s.style.animationDelay = (start + i * step).toFixed(3) + "s";
+        el.appendChild(s);
+      });
+      return start + [...String(text)].length * step;
+    }
+    /** Odometer: every digit becomes a 0–9 column that rolls to its value. */
+    function odometer(el, text, start) {
+      el.textContent = "";
+      let n = 0;
+      [...String(text)].forEach((ch) => {
+        if (/[0-9]/.test(ch)) {
+          const col = document.createElement("span");
+          col.className = "odo";
+          const strip = document.createElement("span");
+          strip.className = "odo-strip";
+          for (let d = 0; d <= 9; d++) { const x = document.createElement("span"); x.textContent = d; strip.appendChild(x); }
+          strip.style.setProperty("--d", ch);
+          strip.style.animationDelay = (start + n++ * 0.07).toFixed(2) + "s";
+          const size = document.createElement("span");
+          size.className = "odo-size";
+          size.textContent = ch;
+          col.appendChild(size);
+          col.appendChild(strip);
+          el.appendChild(col);
+        } else {
+          const s = document.createElement("span");
+          s.className = "odo-sep";
+          s.textContent = ch;
+          el.appendChild(s);
+        }
+      });
+    }
+    
+      (function () {
+        const box = document.getElementById("title");
+        const words = String(v.title || "").split(/\s+/).filter(Boolean);
+        const acc = String(v.accent || "").toLowerCase().split(/\s+/).filter(Boolean);
+        const low = words.map((x) => x.toLowerCase().replace(/[.,!?…:;]+$/, ""));
+        const hot = new Set();
+        for (let i = 0; acc.length && i <= low.length - acc.length; i++) {
+          if (acc.every((a, j) => low[i + j] === a.replace(/[.,!?…:;]+$/, ""))) acc.forEach((_, j) => hot.add(i + j));
+        }
+        words.forEach((w, i) => {
+          const s = document.createElement("span");
+          s.className = "w" + (hot.has(i) ? " hot" : "");
+          s.textContent = w;
+          s.style.animationDelay = (1.5 + i * 0.16).toFixed(2) + "s";
+          box.appendChild(s);
+        });
+        const d = document.querySelector(".detail");
+        if (d) d.style.animationDelay = (1.9 + words.length * 0.16).toFixed(2) + "s";
+      })();
+    
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      duration: 6,
+      seek(t) { document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; }); },
+    };
+  </script>
+</body>
+</html>

@@ -53,9 +53,17 @@ export const CRAFT_DEFAULTS = {
     "frame-trend-comment-reply",
     "frame-trend-phone-notifs",
     "frame-trend-infinite-zoom",
+    // storytelling set — openers that start a story rather than state a fact
+    "frame-story-one-line",
+    "frame-story-comic-panels",
+    "frame-story-silent-film",
+    "frame-story-sand",
+    "frame-story-letter",
+    "frame-story-halftone-case",
   ],
   // price-drop is a closer by design: a selling video ends on the price and where to buy.
-  outroTemplates: ["frame-logo-outro", "frame-statement-outro", "frame-trend-price-drop"],
+  // kinetic-floor is a story's last line — the declaration everything before it built.
+  outroTemplates: ["frame-logo-outro", "frame-statement-outro", "frame-trend-price-drop", "frame-story-kinetic-floor"],
 };
 
 /** Fields animated character-by-character — emoji there shatters the animation. */
@@ -63,6 +71,9 @@ const CHAR_ANIMATED_FIELDS = {
   "frame-build-minimal": ["hero"],
   "frame-trend-search-morph": ["query"], // typed one character at a time
   "frame-trend-code-diff": ["line_add"],
+  "frame-story-halftone-case": ["headline"], // pops in glyph by glyph
+  "frame-story-letter": ["greeting", "body", "signoff"], // hand-written one character at a time
+  "frame-story-rundown": ["title"], // one split-flap tile per character
 };
 
 /**

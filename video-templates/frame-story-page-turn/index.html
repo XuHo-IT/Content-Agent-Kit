@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, height=1080">
+  <title>Story · Tactile Paper Page Turn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,600;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Patrick+Hand&family=Anton&display=swap" rel="stylesheet">
+  <style>
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #6e1f24; }
+    
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --snap: cubic-bezier(.2,.9,.1,1);
+    --out: cubic-bezier(.16,1,.3,1);
+  }
+  #root { position: relative; overflow: hidden; width: 100%; height: 100%; font-family: 'Be Vietnam Pro', sans-serif; }
+  #root::after {
+    content: ""; position: absolute; inset: -30%; pointer-events: none; z-index: 0; opacity: .55;
+    animation: ambient 16s linear infinite;
+  }
+  @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
+  .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
+  .mono { font-family: 'Roboto Mono', monospace; }
+  @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes wipeIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+    
+      #root { background: #6e1f24; color: #1a1513; perspective: 2600px; }
+      #root::after { background-image: repeating-linear-gradient(17deg, rgba(255,255,255,.035) 0 2px, transparent 2px 9px), repeating-linear-gradient(-63deg, rgba(0,0,0,.05) 0 1px, transparent 1px 7px); opacity: .9; animation: boil .5s steps(2) infinite; }
+      @keyframes boil { 0% { transform: translate(0,0) rotate(0deg); } 50% { transform: translate(-4px,3px) rotate(.4deg); } 100% { transform: translate(0,0) rotate(0deg); } }
+      .stage { align-items: center; }
+      .book { position: relative; transform-style: preserve-3d; animation: push .9s steps(7) both; }
+      @keyframes push { from { transform: scale(1.3); filter: blur(16px); opacity: .2; } to { transform: scale(1); filter: blur(0); opacity: 1; } }
+      .page { position: absolute; inset: 0; background: #efe6d2; border-radius: 6px; box-shadow: 0 40px 90px rgba(0,0,0,.35); overflow: hidden; }
+      .page::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(26,21,19,.06) 0 2px, transparent 2px 64px); }
+      .p1 { transform-origin: left center; backface-visibility: hidden; z-index: 2; animation: turn 1.05s steps(8) 3s forwards; }
+      .p1::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.45)); opacity: 0; animation: shade 1.05s steps(8) 3s forwards; }
+      @keyframes turn { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(-178deg); } }
+      @keyframes shade { 0% { opacity: 0; } 60% { opacity: 1; } 100% { opacity: 0; } }
+      .p2 { z-index: 1; }
+      .kicker { font-family: 'Roboto Mono', monospace; font-weight: 700; color: #6e1f24; letter-spacing: .05em; }
+      .before { font-family: 'Anton', sans-serif; text-transform: uppercase; line-height: .98; color: #1a1513; }
+      .rule { height: 6px; background: #1a1513; transform-origin: left; animation: wipe .5s steps(5) .9s both; }
+      @keyframes wipe { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+      .after { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 900; line-height: 1.04; color: #1a1513; }
+      .note { font-family: 'Patrick Hand', cursive; color: #b3202c; clip-path: inset(100% 0 0 0); animation: maskUp .5s steps(5) 4.3s forwards; }
+      @keyframes maskUp { to { clip-path: inset(0 0 0 0); } }
+      .arrow { position: absolute; overflow: visible; }
+      .arrow path { fill: none; stroke: #ffffff; stroke-width: 9; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw .6s steps(6) 4.6s forwards; }
+      @keyframes draw { to { stroke-dashoffset: 0; } }
+      .pill { position: absolute; left: 50%; font-family: 'Anton', sans-serif; text-transform: uppercase; background: #111; color: #fff; border-radius: 999px; white-space: nowrap; transform: translateX(-50%) scale(0); animation: pillIn .3s steps(3) 1.2s forwards; }
+      @keyframes pillIn { to { transform: translateX(-50%) scale(1); } }
+    
+    
+      .stage { justify-content: center; }
+      .book { width: 1500px; height: 860px; }
+      .page { padding: 70px 90px; display: flex; flex-direction: column; gap: 28px; }
+      .kicker { font-size: 28px; }
+      .before { font-size: 132px; }
+      .after { font-size: 96px; margin-top: 30px; max-width: 1200px; }
+      .note { font-size: 48px; }
+      .arrow { width: 200px; height: 160px; right: 120px; top: 140px; }
+      .pill { bottom: 44px; font-size: 52px; padding: 14px 40px; z-index: 3; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" class="L" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="6" data-composition-variables='{"kicker":"Năm 2019","before":"Bán hàng là đăng ảnh và chờ","after":"Rồi khách hàng bắt đầu tự kể chuyện cho mình","note":"trang sau của câu chuyện","pill":"BƯỚC NGOẶT"}'>
+    <div class="stage">
+        <div class="book">
+          <div class="page p2">
+            <div class="after" data-slot="after"></div>
+            <div class="note" data-slot="note"></div>
+          </div>
+          <div class="page p1">
+            <div class="kicker" data-slot="kicker"></div>
+            <div class="rule"></div>
+            <div class="before" data-slot="before"></div>
+          </div>
+        </div>
+        <svg class="arrow" viewBox="0 0 240 200" aria-hidden="true"><path pathLength="1" d="M 220 20 C 150 30 90 80 60 170 M 60 170 L 30 120 M 60 170 L 110 140"/></svg>
+      </div>
+      <div class="pill" data-slot="pill"></div>
+  </div>
+  <script>
+    // Caller values: window.__hyperframes.getVariables(), merged over the declared defaults
+    // so the file still previews on its own. Built once, before the first seek.
+    function getVariables() {
+      let d = {};
+      try { d = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      const hf = window.__hyperframes;
+      const p = hf && typeof hf.getVariables === "function" ? hf.getVariables() || {} : {};
+      return Object.assign({}, d, p);
+    }
+    const v = getVariables();
+    const has = (k) => v[k] !== undefined && v[k] !== null && String(v[k]).trim() !== "";
+    document.querySelectorAll("[data-slot]").forEach((el) => {
+      const k = el.getAttribute("data-slot");
+      if (!has(k)) { (el.closest("[data-slot-box]") || el).remove(); return; }
+      el.textContent = String(v[k]);
+    });
+    /** One span per character, each starting `step` seconds after the last — a typewriter. */
+    function typeInto(el, text, start, step) {
+      el.textContent = "";
+      [...String(text)].forEach((ch, i) => {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = ch;
+        s.style.animationDelay = (start + i * step).toFixed(3) + "s";
+        el.appendChild(s);
+      });
+      return start + [...String(text)].length * step;
+    }
+    /** Odometer: every digit becomes a 0–9 column that rolls to its value. */
+    function odometer(el, text, start) {
+      el.textContent = "";
+      let n = 0;
+      [...String(text)].forEach((ch) => {
+        if (/[0-9]/.test(ch)) {
+          const col = document.createElement("span");
+          col.className = "odo";
+          const strip = document.createElement("span");
+          strip.className = "odo-strip";
+          for (let d = 0; d <= 9; d++) { const x = document.createElement("span"); x.textContent = d; strip.appendChild(x); }
+          strip.style.setProperty("--d", ch);
+          strip.style.animationDelay = (start + n++ * 0.07).toFixed(2) + "s";
+          const size = document.createElement("span");
+          size.className = "odo-size";
+          size.textContent = ch;
+          col.appendChild(size);
+          col.appendChild(strip);
+          el.appendChild(col);
+        } else {
+          const s = document.createElement("span");
+          s.className = "odo-sep";
+          s.textContent = ch;
+          el.appendChild(s);
+        }
+      });
+    }
+    
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      duration: 6,
+      seek(t) { document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; }); },
+    };
+  </script>
+</body>
+</html>

@@ -2,6 +2,8 @@
 //   node scripts/install-skills.mjs --list
 //   node scripts/install-skills.mjs seo taste
 //   node scripts/install-skills.mjs --all --global
+//   node scripts/install-skills.mjs --kit             # this kit's OWN 26 skills → ./.claude/skills/
+//   node scripts/install-skills.mjs --kit --global    # … → ~/.claude/skills/, usable from any folder
 //   node scripts/install-skills.mjs seo --dry-run
 //
 // Skills are NOT vendored into this repo. Copying them in would mean carrying someone
@@ -100,6 +102,54 @@ const fetchBytes = async (url) => {
   if (!res.ok) throw new Error(`download ${res.status}: ${url}`);
   return Buffer.from(await res.arrayBuffer());
 };
+
+// ── --kit: this kit's own skills ─────────────────────────────────────────────
+// Claude Code only loads skills from .claude/skills/, ~/.claude/skills/ or a plugin — NOT from
+// this repo's skills/ folder. So a fresh clone opened in Claude Code had none of them. This
+// copies each skills/<name>/ across and writes `.kit-root` beside it: the skills run
+// `node scripts/...`, and a copy living in ~/.claude/skills/ needs to know where the kit is.
+// (The other route is the plugin: `/plugin marketplace add XuHo-IT/Content-Agent-Kit`.)
+function kitSkillNames(kit = KIT) {
+  const dir = path.join(kit, "skills");
+  return fs.readdirSync(dir, { withFileTypes: true })
+    .filter((d) => d.isDirectory() && fs.existsSync(path.join(dir, d.name, "SKILL.md")))
+    .map((d) => d.name)
+    .sort();
+}
+
+function copyDir(src, dst) {
+  fs.mkdirSync(dst, { recursive: true });
+  for (const e of fs.readdirSync(src, { withFileTypes: true })) {
+    const a = path.join(src, e.name), b = path.join(dst, e.name);
+    e.isDirectory() ? copyDir(a, b) : fs.copyFileSync(a, b);
+  }
+}
+
+if (has("--kit")) {
+  const all = kitSkillNames();
+  const asked = argv.filter((a) => !a.startsWith("--") && a !== flag("--dest"));
+  const bad = asked.filter((n) => !all.includes(n));
+  if (bad.length) {
+    console.error(`[skills] ✗ not a kit skill: ${bad.join(", ")}\n  kit skills: ${all.join(", ")}`);
+    process.exit(1);
+  }
+  const names = asked.length ? asked : all;
+  let done = 0, kept = 0;
+  for (const n of names) {
+    const to = path.join(destRoot, n);
+    if (fs.existsSync(path.join(to, "SKILL.md")) && !force) { kept++; console.log(`  · ${n} (already there — --force to replace)`); continue; }
+    if (dryRun) { console.log(`  would copy skills/${n}/ → ${to}`); continue; }
+    if (force) fs.rmSync(to, { recursive: true, force: true });
+    copyDir(path.join(KIT, "skills", n), to);
+    fs.writeFileSync(path.join(to, ".kit-root"), KIT + "\n", "utf8");
+    console.log(`  ✓ ${n}`);
+    done++;
+  }
+  console.log(`[skills] ${done} installed, ${kept} already there → ${destRoot}`);
+  console.log(`[skills] kit root recorded in each .kit-root: ${KIT}`);
+  if (done) console.log(`[skills] restart Claude Code (or open a new session) so it picks them up.`);
+  process.exit(0);
+}
 
 // ── --list ───────────────────────────────────────────────────────────────────
 if (has("--list")) {

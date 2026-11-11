@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, height=1080">
+  <title>Story · The Letter</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,600;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=Patrick+Hand&family=Anton&display=swap" rel="stylesheet">
+  <style>
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #d9d4c7; }
+    
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --snap: cubic-bezier(.2,.9,.1,1);
+    --out: cubic-bezier(.16,1,.3,1);
+  }
+  #root { position: relative; overflow: hidden; width: 100%; height: 100%; font-family: 'Be Vietnam Pro', sans-serif; }
+  #root::after {
+    content: ""; position: absolute; inset: -30%; pointer-events: none; z-index: 0; opacity: .55;
+    animation: ambient 16s linear infinite;
+  }
+  @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
+  .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
+  .mono { font-family: 'Roboto Mono', monospace; }
+  @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes wipeIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+    
+      #root { background: #d9d4c7; color: #2b2622; }
+      #root::after { inset: 0; background: linear-gradient(105deg, transparent 30%, rgba(255,240,200,.45) 45%, transparent 60%); background-size: 300% 100%; opacity: .7; animation: leak 9s ease-in-out infinite; }
+      @keyframes leak { 0% { background-position: 100% 0; } 50% { background-position: 0 0; } 100% { background-position: 100% 0; } }
+      .stage { align-items: center; justify-content: flex-end; }
+      .env { position: absolute; left: 50%; transform: translateX(-50%); background: #c9a36b; border-radius: 6px; z-index: 3; box-shadow: 0 30px 70px rgba(43,38,34,.3); animation: envDown .8s var(--out) 1.6s forwards; }
+      .env::before { content: ""; position: absolute; inset: 0; background: linear-gradient(32deg, transparent 49.6%, #b48f58 50%, transparent 50.4%), linear-gradient(-32deg, transparent 49.6%, #b48f58 50%, transparent 50.4%); }
+      @keyframes envDown { to { transform: translate(-50%, 260%); } }
+      .flap { position: absolute; left: 0; right: 0; top: 0; height: 60%; background: #b8925a; clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top; animation: flap .6s var(--out) .4s forwards; }
+      @keyframes flap { to { transform: rotateX(180deg); } }
+      .letter { position: absolute; left: 50%; background: #fbf7ee repeating-linear-gradient(180deg, transparent 0 var(--lh), rgba(70,110,160,.22) var(--lh) calc(var(--lh) + 2px)); box-shadow: 0 30px 80px rgba(43,38,34,.25); border-radius: 4px; transform: translate(-50%, 70%) scale(.86); z-index: 2; animation: out 1s var(--out) 1s forwards; }
+      @keyframes out { to { transform: translate(-50%, 0) scale(1) rotate(-1deg); } }
+      .date { font-family: 'Roboto Mono', monospace; color: #7a6e62; }
+      .hand { font-family: 'Patrick Hand', cursive; color: #1f3a66; line-height: var(--lh); }
+      .hand .ch { opacity: 0; animation: fade .01s linear forwards; }
+      .greet { font-size: 1.5em; }
+      .sign { text-align: right; }
+      .stampx { position: absolute; display: grid; place-items: center; background: #b3202c; color: #fbf7ee; font-family: 'Roboto Mono', monospace; font-weight: 700;
+                -webkit-mask: radial-gradient(circle 7px at 7px 7px, transparent 98%, #000) -7px -7px / 22px 22px; mask: radial-gradient(circle 7px at 7px 7px, transparent 98%, #000) -7px -7px / 22px 22px;
+                transform: rotate(6deg); opacity: 0; animation: fade .3s 1.9s forwards; }
+      .seal { position: absolute; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #d2433f, #8f1c22 70%); box-shadow: 0 6px 0 #6d1418; transform: scale(0); animation: sealIn .45s var(--spring) forwards; }
+      @keyframes sealIn { to { transform: scale(1) rotate(-14deg); } }
+    
+    
+      .env { width: 1100px; height: 520px; bottom: 60px; }
+      .letter { --lh: 70px; width: 1240px; top: 60px; min-height: 930px; padding: 60px 90px 80px; font-size: 50px; }
+      .date { font-size: 24px; margin-bottom: 14px; padding-right: 200px; }
+      .greet { font-size: 88px; margin-bottom: 10px; }
+      .stampx { width: 150px; height: 176px; right: 70px; top: auto; bottom: 70px; font-size: 30px; }
+      .seal { width: 130px; height: 130px; left: 60px; bottom: -30px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" class="L" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="6" data-composition-variables='{"date":"Hà Nội, 20/10","greeting":"Gửi mẹ,","body":"Chiếc áo đầu tiên con tự mua bằng tiền lương là ở cửa hàng nhỏ này. Mười năm rồi, con vẫn mặc.","signoff":"Con gái của mẹ","stamp_label":"20·10"}'>
+    <div class="stage">
+        <div class="letter">
+          <div class="stampx" data-slot-box><span data-slot="stamp_label"></span></div>
+          <div class="date" data-slot="date"></div>
+          <div class="hand greet" id="g"></div>
+          <div class="hand" id="b"></div>
+          <div class="hand sign" id="s"></div>
+          <div class="seal" id="seal"></div>
+        </div>
+        <div class="env"><div class="flap"></div></div>
+      </div>
+  </div>
+  <script>
+    // Caller values: window.__hyperframes.getVariables(), merged over the declared defaults
+    // so the file still previews on its own. Built once, before the first seek.
+    function getVariables() {
+      let d = {};
+      try { d = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      const hf = window.__hyperframes;
+      const p = hf && typeof hf.getVariables === "function" ? hf.getVariables() || {} : {};
+      return Object.assign({}, d, p);
+    }
+    const v = getVariables();
+    const has = (k) => v[k] !== undefined && v[k] !== null && String(v[k]).trim() !== "";
+    document.querySelectorAll("[data-slot]").forEach((el) => {
+      const k = el.getAttribute("data-slot");
+      if (!has(k)) { (el.closest("[data-slot-box]") || el).remove(); return; }
+      el.textContent = String(v[k]);
+    });
+    /** One span per character, each starting `step` seconds after the last — a typewriter. */
+    function typeInto(el, text, start, step) {
+      el.textContent = "";
+      [...String(text)].forEach((ch, i) => {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = ch;
+        s.style.animationDelay = (start + i * step).toFixed(3) + "s";
+        el.appendChild(s);
+      });
+      return start + [...String(text)].length * step;
+    }
+    /** Odometer: every digit becomes a 0–9 column that rolls to its value. */
+    function odometer(el, text, start) {
+      el.textContent = "";
+      let n = 0;
+      [...String(text)].forEach((ch) => {
+        if (/[0-9]/.test(ch)) {
+          const col = document.createElement("span");
+          col.className = "odo";
+          const strip = document.createElement("span");
+          strip.className = "odo-strip";
+          for (let d = 0; d <= 9; d++) { const x = document.createElement("span"); x.textContent = d; strip.appendChild(x); }
+          strip.style.setProperty("--d", ch);
+          strip.style.animationDelay = (start + n++ * 0.07).toFixed(2) + "s";
+          const size = document.createElement("span");
+          size.className = "odo-size";
+          size.textContent = ch;
+          col.appendChild(size);
+          col.appendChild(strip);
+          el.appendChild(col);
+        } else {
+          const s = document.createElement("span");
+          s.className = "odo-sep";
+          s.textContent = ch;
+          el.appendChild(s);
+        }
+      });
+    }
+    
+      (function () {
+        // Finished by ~4.3s, so a 5–6 s scene holds the whole letter on screen before it cuts.
+        let t = typeInto(document.getElementById("g"), v.greeting || "", 1.6, 0.04);
+        const body = String(v.body || "");
+        const step = Math.min(0.03, 1.8 / Math.max(1, body.length));
+        t = typeInto(document.getElementById("b"), body, t + 0.15, step);
+        t = typeInto(document.getElementById("s"), v.signoff || "", t + 0.2, 0.035);
+        document.getElementById("seal").style.animationDelay = (t + 0.2).toFixed(2) + "s";
+      })();
+    
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      duration: 6,
+      seek(t) { document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; }); },
+    };
+  </script>
+</body>
+</html>

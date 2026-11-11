@@ -1,0 +1,276 @@
+{
+  "_comment": "Vietnamese retail calendar for fashion ads. Read by skills/promo-calendar. leadDays = when ads should START before the date (warm-up), peakAlign = \"before\" puts the peak window on the days BEFORE the date (people buy gifts and Tết clothes ahead; shipping stops before Tết) and \"from\" starts it on the date (mega-sale days), budgetWeight = relative daily spend in the peak window versus a normal day (1.0). Weights are STARTING ASSUMPTIONS to be replaced by the shop's own history after one cycle — they are not measured benchmarks. Lunar dates are listed per year in `lunarDates`; check them against an official calendar before booking spend.",
+  "version": 1,
+  "lunarDates": {
+    "tet": {
+      "2026": "2026-02-17",
+      "2027": "2027-02-06",
+      "2028": "2028-01-26"
+    },
+    "trung-thu": {
+      "2026": "2026-09-25",
+      "2027": "2027-09-15"
+    }
+  },
+  "events": [
+    {
+      "id": "double-1-1",
+      "name": "1/1 · Năm mới dương lịch",
+      "date": "01-01",
+      "kind": "mega-sale",
+      "leadDays": 5,
+      "peakDays": 2,
+      "peakAlign": "from",
+      "budgetWeight": 1.5,
+      "fashionAngle": "Outfit đón năm mới, tiệc cuối năm; xả hàng đông còn lại."
+    },
+    {
+      "id": "tet",
+      "name": "Tết Nguyên Đán",
+      "lunar": "tet",
+      "kind": "season",
+      "leadDays": 35,
+      "peakDays": 21,
+      "peakAlign": "before",
+      "budgetWeight": 2.5,
+      "fashionAngle": "Áo dài cách tân, đồ đi chúc Tết, đồ đôi/gia đình; giao trước Tết là điều khách hỏi nhiều nhất — nói rõ ngày chốt đơn cuối.",
+      "notes": "Vận chuyển dừng ~5 ngày trước Tết: ngừng ads chuyển đổi trước ngày chốt đơn cuối của đơn vị vận chuyển, chuyển sang ads nhận diện."
+    },
+    {
+      "id": "valentine",
+      "name": "14/2 · Valentine",
+      "date": "02-14",
+      "kind": "gifting",
+      "leadDays": 10,
+      "peakDays": 4,
+      "peakAlign": "before",
+      "budgetWeight": 1.3,
+      "fashionAngle": "Đồ hẹn hò, quà tặng (khăn, túi, phụ kiện), đồ đôi."
+    },
+    {
+      "id": "8-3",
+      "name": "8/3 · Quốc tế Phụ nữ",
+      "date": "03-08",
+      "kind": "gifting",
+      "leadDays": 12,
+      "peakDays": 5,
+      "peakAlign": "before",
+      "budgetWeight": 1.6,
+      "fashionAngle": "Quà tặng cho mẹ/vợ/đồng nghiệp: set quà, thẻ quà tặng, gói quà miễn phí. Nhắm người mua là nam."
+    },
+    {
+      "id": "double-3-3",
+      "name": "3/3 · Ngày đôi",
+      "date": "03-03",
+      "kind": "mega-sale",
+      "leadDays": 3,
+      "peakDays": 1,
+      "peakAlign": "from",
+      "budgetWeight": 1.4,
+      "fashionAngle": "Flash sale theo sàn; trên Facebook dùng để kéo về inbox/website bằng mã riêng."
+    },
+    {
+      "id": "double-4-4",
+      "name": "4/4 · Ngày đôi",
+      "date": "04-04",
+      "kind": "mega-sale",
+      "leadDays": 3,
+      "peakDays": 1,
+      "peakAlign": "from",
+      "budgetWeight": 1.3,
+      "fashionAngle": "Mở BST hè."
+    },
+    {
+      "id": "30-4",
+      "name": "30/4–1/5 · Nghỉ lễ",
+      "date": "04-30",
+      "kind": "holiday",
+      "leadDays": 14,
+      "peakDays": 4,
+      "peakAlign": "before",
+      "budgetWeight": 1.5,
+      "fashionAngle": "Đồ đi biển, đồ du lịch, set đi chơi; giao trước kỳ nghỉ."
+    },
+    {
+      "id": "double-5-5",
+      "name": "5/5 · Ngày đôi",
+      "date": "05-05",
+      "kind": "mega-sale",
+      "leadDays": 3,
+      "peakDays": 1,
+      "peakAlign": "from",
+      "budgetWeight": 1.3,
+      "fashionAngle": "Đồ hè, đồ linen."
+    },
+    {
+      "id": "1-6",
+      "name": "1/6 · Quốc tế Thiếu nhi",
+      "date": "06-01",
+      "kind": "gifting",
+      "leadDays": 10,
+      "peakDays": 3,
+      "peakAlign": "before",
+      "budgetWeight": 1.3,
+      "fashionAngle": "Chỉ khi có dòng trẻ em/đồ gia đình: set mẹ & bé."
+    },
+    {
+      "id": "double-6-6",
+      "name": "6/6 · Ngày đôi",
+      "date": "06-06",
+      "kind": "mega-sale",
+      "leadDays": 3,
+      "peakDays": 1,
+      "peakAlign": "from",
+      "budgetWeight": 1.4,
+      "fashionAngle": "Giữa năm, sale hè."
+    },
+    {
+      "id": "mid-year",
+      "name": "Sale giữa năm",
+      "date": "06-15",
+      "kind": "season",
+      "leadDays": 7,
+      "peakDays": 14,
+      "peakAlign": "from",
+      "budgetWeight": 1.4,
+      "fashionAngle": "Xả hàng xuân–hè, lấy tiền nhập BST thu."
+    },
+    {
+      "id": "double-7-7",
+      "name": "7/7 · Ngày đôi",
+      "date": "07-07",
+      "kind": "mega-sale",
+      "leadDays": 3,
+      "peakDays": 1,
+      "peakAlign": "from",
+      "budgetWeight": 1.4,
+      "fashionAngle": "Sale giữa năm."
+    },
+    {
+      "id": "back-to-school",
+      "name": "Mùa tựu trường",
+      "date": "08-10",
+      "kind": "season",
+      "leadDays": 21,
+      "peakDays": 14,
+      "peakAlign": "before",
+      "budgetWeight": 1.5,
+      "fashionAngle": "Đồ đi học, đồ sinh viên, balo/túi; phụ huynh là người trả tiền cho học sinh."
+    },
+    {
+      "id": "double-8-8",
+      "name": "8/8 · Ngày đôi",
+      "date": "08-08",
+      "kind": "mega-sale",
+      "leadDays": 3,
+      "peakDays": 1,
+      "peakAlign": "from",
+      "budgetWeight": 1.4,
+      "fashionAngle": "Tựu trường."
+    },
+    {
+      "id": "2-9",
+      "name": "2/9 · Quốc khánh",
+      "date": "09-02",
+      "kind": "holiday",
+      "leadDays": 10,
+      "peakDays": 3,
+      "peakAlign": "before",
+      "budgetWeight": 1.4,
+      "fashionAngle": "Đồ đi chơi nghỉ lễ. Tránh dùng biểu tượng quốc gia một cách thương mại hoá phản cảm."
+    },
+    {
+      "id": "double-9-9",
+      "name": "9/9 · Ngày đôi",
+      "date": "09-09",
+      "kind": "mega-sale",
+      "leadDays": 4,
+      "peakDays": 1,
+      "peakAlign": "from",
+      "budgetWeight": 1.6,
+      "fashionAngle": "Mở mùa thu–đông."
+    },
+    {
+      "id": "trung-thu",
+      "name": "Trung thu",
+      "lunar": "trung-thu",
+      "kind": "gifting",
+      "leadDays": 10,
+      "peakDays": 3,
+      "peakAlign": "before",
+      "budgetWeight": 1.1,
+      "fashionAngle": "Chỉ khi có đồ trẻ em/gia đình."
+    },
+    {
+      "id": "double-10-10",
+      "name": "10/10 · Ngày đôi",
+      "date": "10-10",
+      "kind": "mega-sale",
+      "leadDays": 4,
+      "peakDays": 1,
+      "peakAlign": "from",
+      "budgetWeight": 1.6,
+      "fashionAngle": "Thu–đông, áo khoác."
+    },
+    {
+      "id": "20-10",
+      "name": "20/10 · Phụ nữ Việt Nam",
+      "date": "10-20",
+      "kind": "gifting",
+      "leadDays": 12,
+      "peakDays": 5,
+      "peakAlign": "before",
+      "budgetWeight": 1.7,
+      "fashionAngle": "Quà tặng (như 8/3), set quà, gói quà; nhắm cả người tặng lẫn người nhận."
+    },
+    {
+      "id": "double-11-11",
+      "name": "11/11 · Ngày đôi lớn nhất năm",
+      "date": "11-11",
+      "kind": "mega-sale",
+      "leadDays": 10,
+      "peakDays": 2,
+      "peakAlign": "from",
+      "budgetWeight": 2.5,
+      "fashionAngle": "Đỉnh mua sắm online. Warm-up bằng nội dung/lookbook để gom tệp tương tác, ngày 10–11 chạy chuyển đổi vào tệp đó.",
+      "notes": "CPM thường tăng mạnh quanh ngày đôi lớn — gom tệp (video view, engagement, add-to-cart) TRƯỚC, đừng bắt đầu tìm khách mới đúng ngày."
+    },
+    {
+      "id": "black-friday",
+      "name": "Black Friday",
+      "date": "nov-4th-fri",
+      "kind": "mega-sale",
+      "dates": {
+        "2026": "2026-11-27",
+        "2027": "2027-11-26"
+      },
+      "leadDays": 10,
+      "peakDays": 4,
+      "peakAlign": "from",
+      "budgetWeight": 2.2,
+      "fashionAngle": "Đồ đông, áo khoác, len; đến Cyber Monday."
+    },
+    {
+      "id": "double-12-12",
+      "name": "12/12 · Ngày đôi",
+      "date": "12-12",
+      "kind": "mega-sale",
+      "leadDays": 6,
+      "peakDays": 2,
+      "peakAlign": "from",
+      "budgetWeight": 2,
+      "fashionAngle": "Sale cuối năm, đồ tiệc."
+    },
+    {
+      "id": "christmas",
+      "name": "Giáng sinh & tiệc cuối năm",
+      "date": "12-24",
+      "kind": "season",
+      "leadDays": 18,
+      "peakDays": 8,
+      "peakAlign": "before",
+      "budgetWeight": 1.8,
+      "fashionAngle": "Đồ tiệc, đồ đôi, quà tặng; cầu nối sang mùa Tết — bắt đầu gom tệp cho Tết từ đây."
+    }
+  ]
+}

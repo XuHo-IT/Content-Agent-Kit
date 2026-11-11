@@ -10,6 +10,27 @@ pixel of design and motion. Deterministic code turns your `script.json` into the
 
 > Antigravity / Gemini: same steps, run the commands directly.
 
+## Hướng dẫn từng bước cho người dùng
+
+> Chạy lệnh `node scripts/…` ở **thư mục gốc của kit** — thư mục có `AGENTS.md`, hai cấp trên file này (nếu skill được cài bằng `install-skills.mjs --kit`, đường dẫn nằm trong file `.kit-root` cạnh file này).
+
+Dẫn người dùng theo đúng các bước dưới, bằng lời đơn giản. Trước khi bắt đầu: một câu nói skill sẽ làm gì, mất khoảng bao lâu, cần người dùng chuẩn bị gì. Đầu mỗi bước báo **"Bước n/N — <tên bước>"** kèm một câu đang làm gì. Khi cần người dùng làm gì, chỉ hỏi đúng một việc. Kết thúc: kết quả nằm ở đâu và việc nên làm tiếp.
+
+| Bước | Agent làm gì | Người dùng cần làm |
+|---|---|---|
+| 1. Lấy nội dung | Đọc link bài, file `.txt` hoặc nội dung trong hàng đợi; link bị chặn thì dừng, không bịa | Gửi link hoặc file `.txt` |
+| 2. Đọc quy tắc | Đọc `VIDEO_CRAFT` và `video-templates/CATALOG.md` | — |
+| 3. Viết kịch bản | Viết `script.json` vào `brain/<tên-ngắn>/`: lời đọc + chữ trên từng cảnh | Duyệt nội dung nếu muốn |
+| 4. Kiểm kịch bản | Chạy `node scripts/video/validate-script.mjs <thư mục>/script.json --strict` (vài giây) | — |
+| 5. Nghe thử giọng (lần đầu) | `node scripts/video/tts-check.mjs` | Nghe file mẫu, chọn giọng |
+| 6. Dựng video | `node scripts/video/render.mjs <thư mục>/script.json` — mất 3–5 phút | Đợi |
+| 7. Xem và giao | Tạo ảnh từng cảnh bằng `contact-sheet.mjs`, rồi báo `video.mp4`, `voice.mp3`, `script.txt` | Xem video; muốn đăng thì dùng `video-and-post` |
+
+**Hay vướng:**
+- Bỏ bước kiểm kịch bản để nhanh → lỗi sẽ lộ ra sau 5 phút dựng; bước kiểm chỉ mất vài giây.
+- Báo thiếu ffmpeg/Chrome/giọng đọc → script nêu đúng thứ thiếu; cài xong chạy lại.
+- Sửa chữ trên một cảnh mà video không đổi → xoá `clips/scene-<id>.mp4` của cảnh đó rồi dựng lại.
+
 ## Step 1 — Get the content
 
 - **URL** → `WebFetch` asking for: `title` (string), `content` (main body, ~500–1500 words),

@@ -69,6 +69,21 @@ const AMBIENT_REQUIRED = [
   "frame-trend-code-diff",
   "frame-trend-comment-reply",
   "frame-trend-timeline-flight",
+  "frame-story-one-line",
+  "frame-story-world-pan",
+  "frame-story-page-turn",
+  "frame-story-halftone-case",
+  "frame-story-comic-panels",
+  "frame-story-swiss-chapter",
+  "frame-story-step-numeral",
+  "frame-story-letter",
+  "frame-story-sand",
+  "frame-story-telestrator",
+  "frame-story-pencil-chart",
+  "frame-story-frieze",
+  "frame-story-silent-film",
+  "frame-story-kinetic-floor",
+  "frame-story-rundown",
 ];
 
 const compositions = (id) =>
