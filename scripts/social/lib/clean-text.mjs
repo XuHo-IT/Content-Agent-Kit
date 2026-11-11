@@ -309,8 +309,9 @@ export function validatePost(payload) {
   // Warning, not error: a caption without tags still reads fine, and blocking would stop
   // streams that have shipped untagged for months. But untagged is almost always an
   // oversight — every true-crime caption in this repo went out with none.
-  if (body && !/#\p{L}/u.test(body)) {
-    warnings.push("`post` has no hashtags — reach on Facebook suffers without them.");
+  // Tags may ride in their own `hashtags` field (make-post appends it) — that counts.
+  if (body && !/#\p{L}/u.test(body) && !/#\p{L}/u.test(String(payload.hashtags ?? ""))) {
+    warnings.push("`post` has no hashtags (in the text or a `hashtags` field) — reach on Facebook suffers without them.");
   }
 
   for (const field of READER_FIELDS) {

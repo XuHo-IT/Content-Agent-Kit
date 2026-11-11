@@ -255,3 +255,8 @@ test("validatePost reports stats a human can sanity-check", () => {
   assert.equal(stats.words, 5);
   assert.deepEqual(stats.fields, ["post", "comment"]);
 });
+
+test("hashtags in their own field count", () => {
+  const w = validatePost({ post: CLEAN_POST.replace(" #kechuyen", ""), hashtags: "#ai #congnghe" });
+  assert.ok(!w.warnings.some((x) => /hashtags/.test(x)), w.warnings.join(" | "));
+});
