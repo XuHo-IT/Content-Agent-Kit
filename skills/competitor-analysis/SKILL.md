@@ -105,3 +105,8 @@ Then offer the next step: `topic-radar` on the chosen topic, or `create-video` d
 - Do not run this more than once a day per competitor list; the numbers do not move faster.
 
 Method and caveats: `docs/24-competitor-analysis.md`.
+
+**To see HOW a breakout video works, not just that it broke out:** install the `watch-video`
+skill once (`node scripts/install-skills.mjs watch-video`, MIT) and give it the video's URL. It
+returns timestamped frames and a transcript, so the report can name the hook in the first three
+seconds, the cut rhythm and what is on screen. Take the device; never reuse the footage.

@@ -29,3 +29,16 @@ test("pull-request-only steps are skipped, not run", () => {
   assert.ok(steps.filter((s) => s.job === "author-gate").every((s) => s.skip));
   assert.ok(steps.filter((s) => s.job === "check").every((s) => !s.skip));
 });
+
+test("tmp-sweep knows every temp-dir prefix the scripts create", () => {
+  // Seven prefixes (theme-probe's cak-theme-, the concat steps, screenshots…) were created by
+  // scripts and never swept, so their folders piled up in %TEMP%. Read, not imported: importing
+  // tmp-sweep.mjs runs the sweep.
+  const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) =>
+    e.isDirectory() ? walk(`${d}/${e.name}`) : e.name.endsWith(".mjs") ? [`${d}/${e.name}`] : []);
+  const made = new Set(walk("scripts").flatMap((f) => [...fs.readFileSync(f, "utf8").matchAll(/["'`](cak-[a-z-]+-)["'`]/g)].map((m) => m[1])));
+  const src = fs.readFileSync("scripts/maintenance/tmp-sweep.mjs", "utf8");
+  const listed = new Set([...src.slice(src.indexOf("PREFIXES =")).split("];")[0].matchAll(/"(cak-[a-z-]+-)"/g)].map((m) => m[1]));
+  const missing = [...made].filter((p) => !listed.has(p));
+  assert.deepEqual(missing, [], `tmp-sweep.mjs does not sweep: ${missing.join(", ")}`);
+});

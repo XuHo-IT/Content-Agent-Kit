@@ -1,0 +1,231 @@
+{
+  "input": "gplx.ogv",
+  "style": "editorial",
+  "punch": 0.06,
+  "progress": true,
+  "edl": {
+    "_note": "Bản dựng hoàn chỉnh: cùng 4 đoạn và 3 B-roll của demo, thêm 8 thẻ minh hoạ là template của kit, mỗi thẻ đặt đúng lúc người nói nhắc tới nội dung đó. Thời gian tính theo giây của video gốc 'Cấp đổi giấy phép LX qua bưu điện' (Đài PTTH Thanh Hoá, CC BY 3.0). pip = giữ người nói trong khung nhỏ góc trên; full = lời dẫn, thay hẳn hình.",
+    "segments": [
+      {
+        "from": 58.5,
+        "to": 73.2,
+        "crop": "315:560:600:0",
+        "_what": "người dân: thuận tiện, chuyển về tận nhà"
+      },
+      {
+        "from": 73.6,
+        "to": 86,
+        "crop": "315:560:470:0",
+        "_what": "lời dẫn: 30–50 hồ sơ mỗi ngày"
+      },
+      {
+        "from": 95.4,
+        "to": 120.8,
+        "crop": "315:560:622:0",
+        "_what": "chị Lê Thị Ngọc, giám đốc bưu cục Triệu Sơn"
+      },
+      {
+        "from": 120.9,
+        "to": 134,
+        "crop": "315:560:482:0",
+        "_what": "lời dẫn: kết quả bước đầu"
+      }
+    ],
+    "broll": [
+      {
+        "at": 66.9,
+        "src": 40,
+        "dur": 2.6,
+        "crop": "315:560:482:0",
+        "_what": "quầy tiếp nhận"
+      },
+      {
+        "at": 102,
+        "src": 45,
+        "dur": 2.5,
+        "crop": "315:560:560:0",
+        "_what": "nhiều cán bộ cùng phục vụ"
+      },
+      {
+        "at": 113.3,
+        "src": 130,
+        "dur": 3,
+        "crop": "315:560:790:0",
+        "_what": "người dân điền tờ khai"
+      }
+    ],
+    "cards": [
+      {
+        "at": 61,
+        "dur": 4.2,
+        "layout": "pip",
+        "templateId": "frame-trend-search-morph",
+        "_what": "mở chủ đề: người dân đang tìm gì",
+        "inputs": {
+          "kicker": "Người dân hỏi nhiều",
+          "query": "đổi bằng lái ở bưu điện",
+          "result_1": "Nộp hồ sơ ngay tại bưu cục",
+          "result_2": "Không phải quay lại lần hai",
+          "result_3": "Bằng mới gửi về tận nhà",
+          "footer": "Theo phóng sự Đài PTTH Thanh Hoá"
+        }
+      },
+      {
+        "at": 69.6,
+        "dur": 3.6,
+        "layout": "pip",
+        "templateId": "frame-checklist",
+        "_what": "đúng lúc người dân nói 'chuyển về tận nhà… người ở xa'",
+        "inputs": {
+          "kicker": "Lợi ích cho người dân",
+          "title": "Đi một lần là xong",
+          "doLabel": "Được",
+          "dos": "Nộp hồ sơ một lần|Bằng chuyển về tận nhà|Người ở xa đỡ đi lại",
+          "dontLabel": "",
+          "donts": ""
+        }
+      },
+      {
+        "at": 77.9,
+        "dur": 3.8,
+        "layout": "full",
+        "templateId": "frame-trend-stat-odometer",
+        "_what": "lời dẫn đọc '30 đến 50 hồ sơ'",
+        "inputs": {
+          "kicker": "Mỗi bưu cục · mỗi ngày",
+          "value": "30–50",
+          "unit": "hồ sơ",
+          "label": "tiếp nhận trung bình mỗi ngày",
+          "delta": "",
+          "source": "Nguồn: Đài PTTH Thanh Hoá"
+        }
+      },
+      {
+        "at": 81.8,
+        "dur": 4.1,
+        "layout": "full",
+        "templateId": "frame-story-pencil-chart",
+        "_what": "lời dẫn đọc 'cao điểm 70 đến 100 bộ'",
+        "inputs": {
+          "title": "Ngày cao điểm, hồ sơ tăng gấp đôi",
+          "label_1": "Thường",
+          "value_1": "50",
+          "label_2": "Cao điểm",
+          "value_2": "100",
+          "label_3": "",
+          "value_3": "",
+          "label_4": "",
+          "value_4": "",
+          "unit": "hồ sơ",
+          "note": "có ngày 70–100 bộ",
+          "figure": "MỨC CAO NHẤT MỖI NGÀY · NGUỒN: ĐÀI PTTH THANH HOÁ"
+        }
+      },
+      {
+        "at": 96.6,
+        "dur": 4.6,
+        "layout": "pip",
+        "templateId": "frame-story-step-numeral",
+        "_what": "giám đốc bưu cục: bố trí 2–3 cán bộ khi đông",
+        "inputs": {
+          "label": "Cách làm",
+          "number": "1",
+          "title": "Đông khách thì thêm 2–3 cán bộ để người dân đỡ chờ",
+          "accent": "2–3 cán bộ",
+          "detail": "Chị Lê Thị Ngọc, giám đốc bưu cục huyện Triệu Sơn"
+        }
+      },
+      {
+        "at": 108,
+        "dur": 4.8,
+        "layout": "pip",
+        "templateId": "frame-story-step-numeral",
+        "_what": "giám đốc bưu cục: ghi đủ họ tên, địa chỉ, số điện thoại",
+        "inputs": {
+          "label": "Cách làm",
+          "number": "2",
+          "title": "Ghi đủ họ tên, địa chỉ, số điện thoại của người dân",
+          "accent": "số điện thoại",
+          "detail": "Để không thất lạc hồ sơ nào"
+        }
+      },
+      {
+        "at": 121.6,
+        "dur": 4.6,
+        "layout": "full",
+        "templateId": "frame-story-page-turn",
+        "_what": "lời dẫn: 'theo ghi nhận thực tế'",
+        "inputs": {
+          "kicker": "Trước đây",
+          "before": "Tự đi nộp, tự đi nhận",
+          "after": "Giờ nộp ở bưu điện, bằng gửi về nhà",
+          "note": "theo ghi nhận thực tế",
+          "pill": "THAY ĐỔI"
+        }
+      },
+      {
+        "at": 127.6,
+        "dur": 5.6,
+        "layout": "full",
+        "templateId": "frame-story-kinetic-floor",
+        "_what": "lời dẫn: thuận lợi, giảm chi phí và thời gian đi lại",
+        "inputs": {
+          "line_1": "Thuận lợi hơn",
+          "line_2": "Giảm chi phí",
+          "line_3": "Đỡ thời gian đi lại",
+          "line_4": "",
+          "final": "Hiệu quả."
+        }
+      }
+    ]
+  },
+  "summary": {
+    "duration": 65.655,
+    "kept": 62.759,
+    "removed": 2.896,
+    "cuts": 9,
+    "ratio": 0.956
+  },
+  "keep": [
+    {
+      "start": 0.433,
+      "end": 14.813
+    },
+    {
+      "start": 15.097,
+      "end": 19.242
+    },
+    {
+      "start": 19.333,
+      "end": 22.899
+    },
+    {
+      "start": 23.206,
+      "end": 24.301
+    },
+    {
+      "start": 24.384,
+      "end": 26.993
+    },
+    {
+      "start": 27.554,
+      "end": 52.504
+    },
+    {
+      "start": 52.832,
+      "end": 54.488
+    },
+    {
+      "start": 54.619,
+      "end": 58.866
+    },
+    {
+      "start": 58.993,
+      "end": 61.652
+    },
+    {
+      "start": 61.933,
+      "end": 65.385
+    }
+  ]
+}

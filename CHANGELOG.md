@@ -10,6 +10,22 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Talking-head edits with illustrations; transcription; a second local voice route
+
+- **EDL `cards`** in `talking-head.mjs`: any kit template, rendered with the caller's inputs and
+  `--theme`, cut in over the speaker while their voice runs on — `full` for voice-over, `pip` to
+  keep the speaker in a framed corner box. Validated in `lib/edl.mjs`: inside one segment, ≥1.5 s,
+  no overlap with B-roll, B-roll + cards hide the speaker ≤55% (pip counts half).
+- **Full-edit demo** `examples/talking-head-demo/hoan-chinh/`: the same CC BY report with 8
+  illustration cards placed on the words they illustrate.
+- **`scripts/video/transcribe.mjs`**: video → word-timed transcript, through any OpenAI-compatible
+  `/v1/audio/transcriptions` server (`TRANSCRIBE_ENDPOINT`) or local faster-whisper. Removes the
+  one talking-head step a user could not do from a chat.
+- **TTS provider `openai-speech`**: any server with OpenAI's `/v1/audio/speech` — a second local
+  route besides OmniVoice (e.g. ZeroTTS or VoxCPM2 behind speech.cpp / LocalAI).
+- **Registry `watch-video`** (bradautomates/claude-video, MIT): the agent can watch a
+  competitor's breakout video — frames + transcript — instead of reading only its numbers.
+
 ### Installable skills with step-by-step guidance
 
 - **Plugin**: `.claude-plugin/plugin.json` + `marketplace.json` — `/plugin marketplace add
