@@ -70,3 +70,5 @@ Segments under ~100 matched people cannot be delivered to — use them as exclus
 Output the segment table, the audience list (names in the form `CA_VIP_261111`), and the
 campaign ↔ audience map. Uploading files and creating audiences in Ads Manager is the user's
 step; with the meta-ads MCP, show the calls and wait for a yes.
+
+**Segments are the start of retention, not the end.** For the journey per segment (welcome → second purchase → habit → win-back) and rewards tied to a habit rather than blanket discounts, see `brand-lessons` → `highlands` (`docs/32-bai-hoc-thuong-hieu.md`).

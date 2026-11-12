@@ -158,7 +158,10 @@ From `templates/` + `scripts/`, produce:
   against the web whenever they have expired. `performance-review` once the agent has posted
   for a couple of weeks: it reads the channel's real numbers and writes `brain/insights.md`, which
   `create-video` and `topic-radar` read before planning. For a user who does not code, point them
-  at `creator-start` — it asks what they have and routes them.
+  at `creator-start` — it asks what they have and routes them. For a user working on the brand
+  itself — insight, positioning, a campaign, community, retention — install `brand-lessons`
+  (`docs/32-bai-hoc-thuong-hieu.md`): eight methods learnt from Grab, Biti's Hunter, PNJ, Cocoon,
+  Vinamilk, MoMo, Highlands Coffee and Coca-Cola, turned into an interview on their own brand.
   `new-template` and `motion-craft` belong in a kit checkout rather than a generated agent:
   they edit `video-templates/` and the gates around it, which a downstream agent does not own.
 - **Skills from elsewhere** (optional): `node scripts/install-skills.mjs --list` shows an SEO

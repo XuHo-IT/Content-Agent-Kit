@@ -10,6 +10,23 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Learn from 8 brands; README previews that show the whole video
+
+- **`brand-lessons` skill** + `scripts/marketing/brand-lesson.mjs` + `templates/BRAND_LESSONS.template.json`:
+  eight marketing methods named after the brand known for each — Grab (insight), Biti's Hunter
+  (positioning, storytelling), PNJ (insight → campaign → revenue), Cocoon (community), Vinamilk
+  (repositioning), MoMo (growth, viral), Highlands Coffee (CRM, retention), Coca-Cola (cultural
+  marketing). `--goal` suggests a lesson from plain Vietnamese (accent-insensitive); `--brand`
+  prints a worksheet for the user's brand. Case notes about the model brands are flagged "cần
+  kiểm chứng" and carry no figures. Method: `docs/32-bai-hoc-thuong-hieu.md`. `story-video`,
+  `design-campaign`, `audience-plan`, `ugc-koc-brief`, `promo-calendar`, `competitor-analysis`
+  and `creator-start` point to the matching lesson.
+- **`make-preview.mjs --highlights N`**: instead of the first seven seconds, N short windows
+  spread over the whole video, each the most animated stretch of its part — motion from frame
+  differences, weighted by edge detail so a scene transition (motion over an empty frame) does
+  not beat a chart drawing itself on. `--columns K` plays K sequences side by side in one wide
+  image; several inputs make a showreel. All README previews regenerated with it.
+
 ### Talking-head edits with illustrations; transcription; a second local voice route
 
 - **EDL `cards`** in `talking-head.mjs`: any kit template, rendered with the caller's inputs and

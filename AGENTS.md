@@ -8,7 +8,7 @@
 Claude Code loads skills only from `.claude/skills/`, `~/.claude/skills/` or a plugin — **not**
 from this repo's `skills/`. Two routes (newcomer walkthrough: `docs/29-bat-dau-nhanh.md`):
 ```bash
-node scripts/install-skills.mjs --kit --global     # copy all 30, each with a .kit-root file
+node scripts/install-skills.mjs --kit --global     # copy all 31, each with a .kit-root file
 # or, inside Claude Code:  /plugin marketplace add XuHo-IT/Content-Agent-Kit
 #                          /plugin install content-agent-kit@content-agent-kit
 ```
@@ -116,6 +116,19 @@ node scripts/video/template-sheet.mjs --preset story --out /tmp/story.jpg   # wh
 ```
 Never invent a customer, a quote or a letter — `frame-story-letter` is for a real message,
 used with permission. Method: `docs/27-storytelling.md`.
+
+## When the user wants to learn from a brand — "học cách Grab tìm insight", "chiến dịch kiểu Biti's Hunter", "định vị", "giữ chân khách"
+Follow `skills/brand-lessons/SKILL.md`. Eight methods, each learnt from a brand known for it —
+Grab (insight), Biti's Hunter (positioning, storytelling), PNJ (insight → campaign → revenue),
+Cocoon (community), Vinamilk (repositioning), MoMo (growth, viral), Highlands Coffee (CRM,
+retention), Coca-Cola (cultural marketing):
+```bash
+node scripts/marketing/brand-lesson.mjs --goal "khách mua một lần rồi không quay lại"
+node scripts/marketing/brand-lesson.mjs --brand grab --business "Tên shop" --out brand/lesson.md
+```
+Teach the method, never copy the campaign. The case notes about these brands are marked "cần
+kiểm chứng": a claim about them reaches content only with a source; no figures about them, no
+use of their names, logos, music or slogans as the user's. Method: `docs/32-bai-hoc-thuong-hieu.md`.
 
 ## When the user runs Facebook ads — "chạy ads", "canh ads", "trả lời comment", "feed catalog", "tệp khách", "lịch sale"
 `docs/28-facebook-ads.md` maps every stage of the work to a skill. All of it runs offline on

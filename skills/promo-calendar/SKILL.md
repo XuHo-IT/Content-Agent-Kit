@@ -65,3 +65,5 @@ spend from conversion to awareness after it.
 `brain/promo-plan-<quarter>.md`: the date table, monthly budget split, per-event checklist with
 owners and deadlines, and open questions (offer, stock). Queue the content items with
 `scripts/scheduler/build-queue.mjs` only after the user approves the plan.
+
+**A date is not a campaign.** For each peak, `brand-lessons` → `pnj` turns an insight into one big idea and something concrete to buy; `momo` adds a share loop for a cultural moment; `coca-cola` gives the brand a natural role in it (`docs/32-bai-hoc-thuong-hieu.md`).

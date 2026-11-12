@@ -79,7 +79,9 @@ bản dựng này không thuộc và không được Đài PTTH Thanh Hoá xác 
 node scripts/video/talking-head.mjs gplx.ogv --edl edl.json --transcript transcript.json \
      --style pop --hook "Đổi bằng lái: KHÔNG PHẢI ĐI LẠI" \
      --credit "Nguồn: Đài PTTH Thanh Hoá · CC BY 3.0 · đã cắt ghép, thêm phụ đề"
-node scripts/video/make-preview.mjs gplx.short.mp4 --out pop.webp --mp4 pop.mp4
+node scripts/video/make-preview.mjs gplx.short.mp4 --highlights 5 --out pop.webp --mp4 pop.mp4
+# bản rộng ở README chính: 3 cột, mỗi cột 4 khoảnh khắc
+node scripts/video/make-preview.mjs hoan-chinh.mp4 --highlights 4 --columns 3 --width 300 --out hoan-chinh-wide.webp
 ```
 
 Tham số chính xác của từng bản nằm trong `<phong-cách>.cuts.json`.

@@ -77,3 +77,5 @@ cuts, with the creator credit kept as agreed.
 ## 4. Output
 
 `briefs/<creator>-<product>-<date>.md`. The agent does not message creators or agree fees.
+
+**Community, not only creators.** When the goal is customers who speak for the brand over time — values with proof, rituals people do together — pair this with `brand-lessons` → `cocoon` (`docs/32-bai-hoc-thuong-hieu.md`).

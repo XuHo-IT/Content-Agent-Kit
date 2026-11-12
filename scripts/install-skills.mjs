@@ -2,7 +2,7 @@
 //   node scripts/install-skills.mjs --list
 //   node scripts/install-skills.mjs seo taste
 //   node scripts/install-skills.mjs --all --global
-//   node scripts/install-skills.mjs --kit             # this kit's OWN 30 skills → ./.claude/skills/
+//   node scripts/install-skills.mjs --kit             # this kit's OWN 31 skills → ./.claude/skills/
 //   node scripts/install-skills.mjs --kit --global    # … → ~/.claude/skills/, usable from any folder
 //   node scripts/install-skills.mjs seo --dry-run
 //

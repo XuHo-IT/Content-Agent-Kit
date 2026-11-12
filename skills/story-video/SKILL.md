@@ -150,3 +150,5 @@ answered, is there a turn, is the proof real.
 `cinematic` or `kinetic-doc` for a story, `launch` for a product origin, `meme` only for comedy.
 
 Method and sources: `docs/27-storytelling.md`.
+
+**Before the story, the position.** If the user has not decided who the brand is for and which feeling it should own, run `brand-lessons` → `bitis-hunter` first (positioning sentence, one emotional territory, a series rather than one-offs) — `docs/32-bai-hoc-thuong-hieu.md`.
