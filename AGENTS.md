@@ -8,7 +8,7 @@
 Claude Code loads skills only from `.claude/skills/`, `~/.claude/skills/` or a plugin — **not**
 from this repo's `skills/`. Two routes (newcomer walkthrough: `docs/29-bat-dau-nhanh.md`):
 ```bash
-node scripts/install-skills.mjs --kit --global     # copy all 31, each with a .kit-root file
+node scripts/install-skills.mjs --kit --global     # copy all 32, each with a .kit-root file
 # or, inside Claude Code:  /plugin marketplace add XuHo-IT/Content-Agent-Kit
 #                          /plugin install content-agent-kit@content-agent-kit
 ```
@@ -144,6 +144,30 @@ node scripts/ads/promo-plan.mjs --quarter 2027-Q1 --budget 60000000   # promo-ca
 ```
 Plus `skills/ugc-koc-brief` (creator briefs, usage rights, paid-partnership disclosure). Run
 `policy-lint` on any ad copy before the review gate passes it.
+
+## Paid providers — optional, always quoted first
+Voices: `TTS_PROVIDER` = `vbee` · `fptai` · `viettel` (VND) · `elevenlabs` · `google` · `azure`
+(50+/140+ languages — use these for an English or other-language version). AI footage:
+`--backend api` (Veo) · `fal` (Kling, Hailuo, Seedance via fal.ai) · `higgsfield`. Posting:
+`SOCIAL_PUBLISHER=ayrshare`. Before any paid call: run `--dry-run`, then `--estimate`, show the
+user the price, and wait for a yes; never raise `costCeilingUsd` on your own. These adapters have
+not been run against live accounts from this repo — say so if one fails. `docs/20`, `docs/14`, `docs/11`.
+```bash
+node scripts/providers-check.mjs --live        # which keys are set and actually work (free calls only)
+node scripts/analytics/spend.mjs               # this month's paid spend; profile monthlyCeilingUsd caps it
+node scripts/video/render.mjs s.json --backend higgsfield --estimate   # real quote, then a FINISHED video
+```
+An AI-footage render ends as a finished video (narration, captions, music via script.finished.json);
+`--clips-only` stops at the clips.
+
+## When the user wants another language — "làm bản tiếng Anh", "English version"
+Follow `skills/localize-video/SKILL.md`: `localize.mjs <script> --to en` → translate every string
+within its `max` → `--apply` (refuses over-long or untranslated lines, switches the voice) →
+validate → render into `<lang>/`. Example: `examples/niche-samples/marketing/en/script.json`.
+
+## Zalo, Shopee, TikTok Shop — no posting API
+`node scripts/social/upload-pack.mjs video.mp4 --post cap.txt --platforms zalo,shopee-video,tiktok-shop`
+builds a folder per platform (file within limits, caption, cover, steps). Never scrape a seller centre.
 
 ## Palette — every video gets one
 Set `"theme"` in `script.json` to the vertical's preset from `templates/INDUSTRIES.template.json`

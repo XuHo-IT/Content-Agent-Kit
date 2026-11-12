@@ -125,3 +125,9 @@ The queue item must be `type: "video"` and carry `videoPath` (already rendered),
   Actions** — see `docs/06-scheduling.md`.
 - The Make.com scenario is a Webhook → Router, one filtered route per platform. Payload
   contract: `docs/11-social-posting.md`.
+
+**Zalo, Shopee Video, Shopee product pages, TikTok Shop** have no posting API. Instead of
+stopping there, build the upload pack — one folder per platform with the file re-encoded to its
+limits, the caption, the cover and the steps — and hand it to the user:
+`node scripts/social/upload-pack.mjs video.mp4 --post caption.txt --hashtags "…" --cover cover.jpg --platforms zalo,shopee-video`.
+For TikTok, Facebook, Instagram, YouTube: `make-post.mjs` (Make webhook, or `--via ayrshare`).

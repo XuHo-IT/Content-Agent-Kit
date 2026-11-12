@@ -63,13 +63,14 @@ if (argv.includes("--help") || argv.length === 0) {
       `  --caption-font <n>  font libass uses when burning (default Arial)\n` +
       `  --caption-style <s> box (default, boxed sentence chunks) | active (2–3 big words,\n` +
       `                      the spoken word lit in the theme accent — 2026 short-form style)\n` +
-      `  --backend <id>      html (default) | api | remotion — see --list-backends\n` +
+      `  --backend <id>      html (default) | api | remotion | fal | higgsfield — see --list-backends\n` +
       `  --profile <name>    a profile in profiles/ (personal, business), or a path\n` +
       `  --cost-ceiling <n>  refuse an api render estimated above this many USD\n` +
       `  --list-backends     what each backend costs and needs, then stop\n` +
       `env: VIDEO_BACKEND, VIDEO_PROFILE, TTS_PROVIDER, TTS_VOICE_ID, TTS_SPEED,\n` +
       `     TTS_CONCURRENCY, VIDEO_TEMPLATES_DIR, VIDEO_SFX_DIR, PEXELS_API_KEY,\n` +
-      `     PIXABAY_API_KEY, GEMINI_API_KEY (api backend, + the TTS provider's key)`,
+      `     PIXABAY_API_KEY, GEMINI_API_KEY (api), FAL_KEY (fal),\n` +
+      `     HIGGSFIELD_KEY_ID + HIGGSFIELD_KEY_SECRET (higgsfield), + the TTS provider's key`,
   );
   process.exit(argv.length === 0 ? 1 : 0);
 }

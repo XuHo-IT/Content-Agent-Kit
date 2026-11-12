@@ -1,0 +1,384 @@
+{
+  "_how": "Fill every \"translation\" in en. Respect \"max\" (characters on screen). Keep numbers, prices and names exact; spoken text in voiceText, no emoji. Then: node scripts/video/localize.mjs mk-script.json --to en --apply",
+  "lang": "en",
+  "strings": [
+    {
+      "key": "metadata.title",
+      "text": "Ba giây đầu: cách viết câu mở đầu giữ người xem",
+      "max": 100,
+      "translation": "The first three seconds: writing an opening that keeps viewers"
+    },
+    {
+      "key": "scenes.0.voiceText",
+      "text": "Người xem quyết định ở lại hay lướt đi chỉ trong vài giây đầu. Nội dung phía sau hay đến đâu cũng vô nghĩa nếu không ai xem tới. Đây là cách viết câu mở đầu giữ họ lại.",
+      "max": null,
+      "translation": "Viewers decide whether to stay or scroll within the first few seconds. However good the rest is, it means nothing if nobody gets there. Here is how to write an opening that holds them."
+    },
+    {
+      "key": "scenes.0.inputs.top_tag",
+      "text": "MARKETING · VIDEO NGẮN",
+      "max": 32,
+      "translation": "MARKETING · SHORT VIDEO"
+    },
+    {
+      "key": "scenes.0.inputs.counter_badge",
+      "text": "3 GIÂY",
+      "max": 12,
+      "translation": "3 SECONDS"
+    },
+    {
+      "key": "scenes.0.inputs.line_1",
+      "text": "NGƯỜI XEM QUYẾT ĐỊNH",
+      "max": 28,
+      "translation": "VIEWERS DECIDE"
+    },
+    {
+      "key": "scenes.0.inputs.line_2",
+      "text": "Ở LẠI HAY LƯỚT ĐI",
+      "max": 28,
+      "translation": "TO STAY OR SCROLL"
+    },
+    {
+      "key": "scenes.0.inputs.line_3",
+      "text": "TRONG VÀI GIÂY ĐẦU",
+      "max": 28,
+      "translation": "IN THE FIRST SECONDS"
+    },
+    {
+      "key": "scenes.0.inputs.punchline",
+      "text": "Đây là cách viết câu mở đầu giữ được họ lại",
+      "max": 68,
+      "translation": "Here is how to write an opening that holds them"
+    },
+    {
+      "key": "scenes.1.voiceText",
+      "text": "Mở phần số liệu của bất kỳ video nào, bạn sẽ thấy một cái phễu. Phần lớn người xem rơi ra ngay đầu. Vì vậy sửa ba giây đầu thường hiệu quả hơn sửa bất cứ đoạn nào phía sau.",
+      "max": null,
+      "translation": "Open the analytics of any video and you will see a funnel. Most viewers drop out right at the start. That is why fixing the first three seconds usually pays off more than fixing anything after it."
+    },
+    {
+      "key": "scenes.1.inputs.kicker",
+      "text": "Ví dụ minh hoạ",
+      "max": 22,
+      "translation": "An illustration"
+    },
+    {
+      "key": "scenes.1.inputs.title",
+      "text": "Người xem rơi rụng ở đâu",
+      "max": 34,
+      "translation": "Where viewers drop off"
+    },
+    {
+      "key": "scenes.1.inputs.stages",
+      "text": "Lướt qua:10000|Xem quá 3 giây:4000|Xem hết:1200|Bình luận:80",
+      "max": null,
+      "translation": "Scrolled past:10000|Watched 3s+:4000|Watched all:1200|Commented:80"
+    },
+    {
+      "key": "scenes.1.inputs.note",
+      "text": "Số minh hoạ — xem số thật trong trang quản lý",
+      "max": 50,
+      "translation": "Illustrative — check your real numbers"
+    },
+    {
+      "key": "scenes.2.voiceText",
+      "text": "Một khung gợi ý cho video ba mươi giây. Ba giây mở đầu, bảy giây nêu vấn đề, mười lăm giây cho cách giải quyết, năm giây kêu gọi hành động. Phần ngắn nhất lại là phần quan trọng nhất.",
+      "max": null,
+      "translation": "A suggested shape for a thirty-second video. Three seconds of opening, seven for the problem, fifteen for the fix, five for the call to action. The shortest part is the one that matters most."
+    },
+    {
+      "key": "scenes.2.inputs.title",
+      "text": "Một video 30 giây chia thế nào",
+      "max": 60,
+      "translation": "How to split a 30-second video"
+    },
+    {
+      "key": "scenes.2.inputs.unit",
+      "text": "giây",
+      "max": 40,
+      "translation": "seconds"
+    },
+    {
+      "key": "scenes.2.inputs.bars",
+      "text": "Mở đầu:3|Vấn đề:7|Cách giải quyết:15|Kêu gọi:5",
+      "max": null,
+      "translation": "Opening:3|Problem:7|Fix:15|Call to action:5"
+    },
+    {
+      "key": "scenes.2.inputs.source",
+      "text": "Gợi ý cấu trúc, điều chỉnh theo nội dung",
+      "max": 60,
+      "translation": "A suggested structure — adjust to your content"
+    },
+    {
+      "key": "scenes.3.voiceText",
+      "text": "Hai kiểu mở đầu. Kiểu yếu: chào hỏi, giới thiệu bản thân, chiếu logo. Kiểu mạnh vào thẳng vấn đề: nói ngay kết quả, hỏi điều người xem đang tự hỏi, hoặc cho thấy một hình ảnh lạ.",
+      "max": null,
+      "translation": "Two kinds of opening. The weak one: a greeting, an introduction, a logo. The strong one goes straight in: say the result now, ask what the viewer is already wondering, or show something unexpected."
+    },
+    {
+      "key": "scenes.3.inputs.title",
+      "text": "Mở đầu yếu vs mở đầu mạnh",
+      "max": 48,
+      "translation": "Weak opening vs strong opening"
+    },
+    {
+      "key": "scenes.3.inputs.left_label",
+      "text": "YẾU",
+      "max": null,
+      "translation": "WEAK"
+    },
+    {
+      "key": "scenes.3.inputs.left_1",
+      "text": "Xin chào, hôm nay mình sẽ...",
+      "max": null,
+      "translation": "Hi everyone, today I'm going to..."
+    },
+    {
+      "key": "scenes.3.inputs.left_2",
+      "text": "Giới thiệu bản thân trước",
+      "max": null,
+      "translation": "Introducing yourself first"
+    },
+    {
+      "key": "scenes.3.inputs.left_3",
+      "text": "Logo xoay 3 giây",
+      "max": null,
+      "translation": "A 3-second spinning logo"
+    },
+    {
+      "key": "scenes.3.inputs.right_label",
+      "text": "MẠNH",
+      "max": null,
+      "translation": "STRONG"
+    },
+    {
+      "key": "scenes.3.inputs.right_1",
+      "text": "Nói ngay kết quả người xem muốn",
+      "max": null,
+      "translation": "Say the result viewers want, now"
+    },
+    {
+      "key": "scenes.3.inputs.right_2",
+      "text": "Câu hỏi họ đang tự hỏi",
+      "max": null,
+      "translation": "The question they are asking themselves"
+    },
+    {
+      "key": "scenes.3.inputs.right_3",
+      "text": "Hình ảnh lạ ngay khung đầu",
+      "max": null,
+      "translation": "An unexpected image in the first frame"
+    },
+    {
+      "key": "scenes.3.inputs.verdict",
+      "text": "Vào thẳng điều người xem quan tâm",
+      "max": 44,
+      "translation": "Go straight to what viewers care about"
+    },
+    {
+      "key": "scenes.4.voiceText",
+      "text": "Công thức dễ nhất: nói kết quả trước, kể cách làm sau. Thay vì hôm nay mình hướng dẫn làm bánh, hãy nói chiếc bánh này chỉ cần ba nguyên liệu. Người xem ở lại để biết cách.",
+      "max": null,
+      "translation": "The easiest formula: give the result first, explain how after. Instead of today I'll show you how to bake a cake, say this cake needs only three ingredients. Viewers stay to find out how."
+    },
+    {
+      "key": "scenes.4.inputs.script",
+      "text": "rồi mới kể cách",
+      "max": 20,
+      "translation": "then explain how"
+    },
+    {
+      "key": "scenes.4.inputs.caption",
+      "text": "Công thức mở đầu dễ áp dụng nhất",
+      "max": 60,
+      "translation": "The easiest opening formula to use"
+    },
+    {
+      "key": "scenes.5.voiceText",
+      "text": "Ai làm video cũng từng như vậy. Mất năm giây đầu để chào hỏi, rồi thắc mắc tại sao không ai xem hết. Người xem không ghét bạn, họ chỉ chưa thấy lý do để ở lại.",
+      "max": null,
+      "translation": "Everyone who makes videos has done this. Spend the first five seconds saying hello, then wonder why nobody watches to the end. Viewers don't dislike you, they just haven't seen a reason to stay."
+    },
+    {
+      "key": "scenes.5.inputs.chip",
+      "text": "Meme",
+      "max": 22,
+      "translation": "Meme"
+    },
+    {
+      "key": "scenes.5.inputs.kicker",
+      "text": "Ai làm video cũng từng",
+      "max": 30,
+      "translation": "Every video maker has done it"
+    },
+    {
+      "key": "scenes.5.inputs.caption",
+      "text": "Chào hỏi năm giây đầu, rồi thắc mắc sao không ai xem hết",
+      "max": 90,
+      "translation": "Five seconds of hello, then wondering why nobody watches to the end"
+    },
+    {
+      "key": "scenes.6.voiceText",
+      "text": "Có nhiều kiểu mở đầu, nhưng nếu mới bắt đầu, hãy thử câu hỏi đúng nỗi đau của người xem. Nó vừa dễ làm, chỉ cần một câu, vừa khiến người ta muốn biết câu trả lời.",
+      "max": null,
+      "translation": "There are many kinds of opening, but if you are starting out, try a question that hits the viewer's pain point. It is easy, just one sentence, and it makes people want the answer."
+    },
+    {
+      "key": "scenes.6.inputs.kicker",
+      "text": "CHỌN KIỂU MỞ ĐẦU",
+      "max": 34,
+      "translation": "PICK AN OPENING"
+    },
+    {
+      "key": "scenes.6.inputs.card_title",
+      "text": "Câu hỏi trúng nỗi đau",
+      "max": 40,
+      "translation": "A question that hits the pain"
+    },
+    {
+      "key": "scenes.6.inputs.card_tier",
+      "text": "DỄ LÀM · GÂY TÒ MÒ",
+      "max": 30,
+      "translation": "EASY · SPARKS CURIOSITY"
+    },
+    {
+      "key": "scenes.6.inputs.feature_1",
+      "text": "Chỉ cần một câu, không cần quay thêm cảnh",
+      "max": 60,
+      "translation": "Just one sentence, no extra footage needed"
+    },
+    {
+      "key": "scenes.6.inputs.feature_2",
+      "text": "Người xem tự thấy mình trong câu hỏi",
+      "max": 60,
+      "translation": "Viewers see themselves in the question"
+    },
+    {
+      "key": "scenes.6.inputs.feature_3",
+      "text": "Ví dụ: Bạn có đang phí 5 giây đầu?",
+      "max": 60,
+      "translation": "Example: Are you wasting your first 5 seconds?"
+    },
+    {
+      "key": "scenes.6.inputs.card_chip",
+      "text": "THỬ TRƯỚC",
+      "max": 20,
+      "translation": "TRY FIRST"
+    },
+    {
+      "key": "scenes.6.inputs.card_id",
+      "text": "KIỂU 01",
+      "max": 20,
+      "translation": "TYPE 01"
+    },
+    {
+      "key": "scenes.6.inputs.takeaway",
+      "text": "Câu hỏi trúng nỗi đau của người xem vừa dễ làm vừa gây tò mò, nên là kiểu đáng thử đầu tiên.",
+      "max": 140,
+      "translation": "A question that hits the viewer's pain point is easy to write and sparks curiosity, so it is the first one worth trying."
+    },
+    {
+      "key": "scenes.7.voiceText",
+      "text": "Còn bạn, thường lướt qua một video vì điều gì? Mở đầu dài dòng, hay tiêu đề quá lố mà nội dung không có gì? Câu trả lời của bạn cũng là điều người xem của bạn đang nghĩ.",
+      "max": null,
+      "translation": "And you, why do you usually scroll past a video? A long-winded opening, or an overblown title with nothing behind it? Your answer is what your own viewers are thinking too."
+    },
+    {
+      "key": "scenes.7.inputs.question",
+      "text": "Bạn hay lướt qua video vì điều gì?",
+      "max": 44,
+      "translation": "Why do you scroll past a video?"
+    },
+    {
+      "key": "scenes.7.inputs.option_a",
+      "text": "Mở đầu dài dòng",
+      "max": null,
+      "translation": "Long-winded opening"
+    },
+    {
+      "key": "scenes.7.inputs.option_b",
+      "text": "Tiêu đề quá lố",
+      "max": null,
+      "translation": "Overblown title"
+    },
+    {
+      "key": "scenes.7.inputs.vs",
+      "text": "VS",
+      "max": 4,
+      "translation": "VS"
+    },
+    {
+      "key": "scenes.7.inputs.cta",
+      "text": "Bình luận lý do của bạn",
+      "max": 44,
+      "translation": "Tell us your reason in the comments"
+    },
+    {
+      "key": "scenes.7.inputs.comment_1",
+      "text": "Chào hỏi lâu quá là lướt",
+      "max": null,
+      "translation": "Long hellos and I'm gone"
+    },
+    {
+      "key": "scenes.7.inputs.comment_2",
+      "text": "Giật tít xong không có gì",
+      "max": null,
+      "translation": "Clickbait title, nothing inside"
+    },
+    {
+      "key": "scenes.8.voiceText",
+      "text": "Bài tập cho hôm nay: lấy video gần nhất của bạn, chỉ viết lại đúng câu mở đầu, giữ nguyên phần còn lại. Đăng bản mới và so số người xem quá ba giây. Con số sẽ tự trả lời.",
+      "max": null,
+      "translation": "Today's exercise: take your latest video and rewrite only the opening line, keep everything else. Post the new version and compare how many viewers stay past three seconds. The numbers will answer for you."
+    },
+    {
+      "key": "scenes.8.inputs.eyebrow",
+      "text": "Bài tập hôm nay",
+      "max": 20,
+      "translation": "Today's exercise"
+    },
+    {
+      "key": "scenes.8.inputs.hero",
+      "text": "Viết lại",
+      "max": 10,
+      "translation": "Rewrite"
+    },
+    {
+      "key": "scenes.8.inputs.desc",
+      "text": "Lấy video gần nhất, viết lại đúng một câu mở đầu, đăng lại và so số người xem quá 3 giây.",
+      "max": 90,
+      "translation": "Rewrite only the opening line of your latest video, repost, compare viewers past 3s."
+    },
+    {
+      "key": "scenes.8.inputs.side_left",
+      "text": "Kênh Mẫu",
+      "max": 20,
+      "translation": "Sample Channel"
+    },
+    {
+      "key": "scenes.8.inputs.side_right",
+      "text": "Marketing",
+      "max": 20,
+      "translation": "Marketing"
+    },
+    {
+      "key": "scenes.9.voiceText",
+      "text": "Theo dõi kênh để xem thêm công thức mở đầu cho từng ngành.",
+      "max": null,
+      "translation": "Follow the channel for more opening formulas for every industry."
+    },
+    {
+      "key": "scenes.9.inputs.cta",
+      "text": "Theo dõi để xem thêm công thức",
+      "max": 60,
+      "translation": "Follow for more opening formulas"
+    },
+    {
+      "key": "scenes.9.inputs.channel",
+      "text": "Kênh Mẫu",
+      "max": 24,
+      "translation": "Sample Channel"
+    }
+  ]
+}

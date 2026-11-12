@@ -11,9 +11,10 @@ import * as manual from "./manual.mjs";
 import * as geo from "./geo.mjs";
 import * as meme from "./meme.mjs";
 import * as social from "./social.mjs";
+import * as file from "./file.mjs";
 import { optionalEnv } from "../../../lib/env.mjs";
 
-export const SOURCES = { pexels, pixabay, manual, geo, meme, social };
+export const SOURCES = { pexels, pixabay, manual, geo, meme, social, file };
 export const SOURCE_IDS = Object.keys(SOURCES);
 
 export function getSource(name) {

@@ -7,11 +7,15 @@
 //   node scripts/social/make-post.mjs --queue queue.json --id 3 // send item from a queue file
 //   ... --dry-run                                               // print the payload, send nothing
 // ENV: MAKE_WEBHOOK_URL, SOCIAL_PLATFORMS (default), MEDIA_HOST (+ host vars for local files).
+//      SOCIAL_PUBLISHER=ayrshare + AYRSHARE_API_KEY posts directly through Ayrshare (paid)
+//      instead of a webhook — no Make scenario to build. See scripts/social/lib/ayrshare.mjs.
 import fs from "node:fs";
 import { requireEnv, optionalEnv } from "../lib/env.mjs";
 import { postJson, uploadMedia } from "../lib/http.mjs";
 import { queueSetStatus } from "../lib/state.mjs";
 import { validatePost } from "./lib/clean-text.mjs";
+import { ayrshareBody, AYRSHARE_URL } from "./lib/ayrshare.mjs";
+import { recordSpend } from "../lib/spend.mjs";
 
 const argv = process.argv.slice(2);
 if (argv.includes("--help") || argv.length === 0) {
@@ -31,7 +35,9 @@ if (argv.includes("--help") || argv.length === 0) {
       `  --dry-run                print the payload instead of sending it\n` +
       `  --no-validate            skip the plain-text check (captions render no Markdown)\n` +
       `  --webhook-env <NAME>     read the webhook from this env var instead of the default\n` +
-      `env: MAKE_WEBHOOK_URL, MAKE_WEBHOOK_VIDEO (video posts), SOCIAL_PLATFORMS, MEDIA_HOST`,
+      `  --via <make|ayrshare>    who publishes (default SOCIAL_PUBLISHER, else make)\n` +
+      `env: MAKE_WEBHOOK_URL, MAKE_WEBHOOK_VIDEO (video posts), SOCIAL_PLATFORMS, MEDIA_HOST,\n` +
+      `     SOCIAL_PUBLISHER, AYRSHARE_API_KEY, AYRSHARE_PROFILE_KEY`,
   );
   process.exit(argv.length === 0 ? 1 : 0);
 }
@@ -153,7 +159,7 @@ if (!post) throw new Error("Missing post text.");
 // Errors block the send; ambiguous cases are warnings, because "- Chào anh." is dialogue
 // in Vietnamese prose, not a bullet.
 if (!argv.includes("--no-validate")) {
-  const { errors, warnings } = validatePost({ title, post, comment });
+  const { errors, warnings } = validatePost({ title, post, comment, ...(hashtags ? { hashtags } : {}) });
   for (const w of warnings) console.warn(`[social] ! ${w}`);
   if (errors.length) {
     for (const e of errors) console.error(`[social] ✗ ${e}`);
@@ -178,9 +184,14 @@ if (platforms.length === 0) platforms = parsePlatforms(optionalEnv("SOCIAL_PLATF
 //
 // Resolved AFTER the args are parsed so a missing variable stops the run before an upload,
 // not after — but late enough to know whether this is a video.
+// Who publishes: a webhook scenario (Make/n8n/Zapier, the default) or Ayrshare's API directly.
+const via = (flag("--via") || optionalEnv("SOCIAL_PUBLISHER", "make")).toLowerCase();
+if (!["make", "ayrshare"].includes(via)) refuse(`--via / SOCIAL_PUBLISHER must be make or ayrshare, got "${via}"`);
+const ayrKey = via === "ayrshare" && !dryRun ? requireEnv("AYRSHARE_API_KEY") : "";
+
 const webhookEnv =
   flag("--webhook-env") || (video && optionalEnv("MAKE_WEBHOOK_VIDEO") ? "MAKE_WEBHOOK_VIDEO" : "MAKE_WEBHOOK_URL");
-const webhook = dryRun ? "(dry-run)" : requireEnv(webhookEnv);
+const webhook = dryRun || via === "ayrshare" ? "(not used)" : requireEnv(webhookEnv);
 
 // A Make webhook can be locked with an API key ("API key restriction" in its settings). When
 // it is, EVERY request without the key comes back 401 — an empty POST too, which is the quick
@@ -261,7 +272,22 @@ try {
   //
   // Nothing keeps the loop alive once the fetch settles, so a natural exit is immediate and
   // returns 0. Keep it that way — do not "tidy" this back into an explicit exit.
-  if (dryRun) {
+  if (via === "ayrshare") {
+    const { body: ayr, warnings } = ayrshareBody(body);
+    for (const w of warnings) console.warn(`[social] ! ${w}`);
+    if (dryRun) {
+      console.log(JSON.stringify(ayr, null, 2));
+      console.log(`[social] ✓ dry-run — nothing sent (would POST ${AYRSHARE_URL})`);
+    } else {
+      const profileKey = optionalEnv("AYRSHARE_PROFILE_KEY");
+      const headers = { Authorization: `Bearer ${ayrKey}`, ...(profileKey ? { "Profile-Key": profileKey } : {}) };
+      const { ok, status, text } = await postJson(AYRSHARE_URL, ayr, { headers });
+      if (!ok) throw new Error(`Ayrshare ${status}: ${text.slice(0, 300)}`);
+      onDone(true);
+      recordSpend({ provider: "ayrshare", kind: "post", units: ayr.platforms.length, unit: "platform posts" });
+      console.log(`[social] ✓ posted ${kind} via Ayrshare → ${ayr.platforms.join(", ")}`);
+    }
+  } else if (dryRun) {
     console.log(JSON.stringify(body, null, 2));
     console.log(
       `[social] ✓ dry-run — nothing sent (would use $${webhookEnv}` +

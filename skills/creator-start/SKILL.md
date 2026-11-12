@@ -33,6 +33,7 @@ một**, bằng lời thường, rồi chuyển sang đúng skill và nói trư�
 | **Chữ quảng cáo** cần kiểm | `ads-policy-check` | 1–2 phút |
 | **Số liệu kênh** (file xuất từ TikTok/Meta/YouTube Studio) | `performance-review` | 2–5 phút |
 | Muốn **làm thương hiệu**: tìm insight, định vị, chiến dịch, giữ chân khách ("học cách Grab / Biti's Hunter…") | `brand-lessons` | 10–20 phút |
+| Video đã có, cần **bản tiếng Anh** (hoặc ngôn ngữ khác) | `localize-video` | 10–15 phút |
 | Muốn dựng **cả một agent** chạy hằng ngày | `bootstrap-content-agent` | 20–40 phút |
 
 ### Câu 2 — "Bạn muốn nhận được gì?"

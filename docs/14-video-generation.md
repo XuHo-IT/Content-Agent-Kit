@@ -340,7 +340,8 @@ entry rather than new code:
 
 | Shape | How it answers | Providers |
 |---|---|---|
-| `bytes` | the response body **is** the audio | omnivoice, elevenlabs, vbee |
+| `bytes` | the response body **is** the audio | omnivoice, elevenlabs, azure |
+| `jsonBase64` | JSON holding the audio as base64 | google |
 | `asyncUrl` | JSON holding a link you download 5s–2min later | fptai, viettel |
 
 | Provider | Needs | Notes |
@@ -351,6 +352,8 @@ entry rather than new code:
 | `vbee` | `VBEE_API_KEY` + voice_code | Vietnamese specialist, 200+ regional voices (North/Central/South). |
 | `fptai` | `FPTAI_API_KEY` + voice | Voices: `banmai lannhi leminh myan thuminh giahuy linhsan`. Params go in headers, body is raw text. |
 | `viettel` | `VIETTEL_TOKEN` + voice | **Experimental** — public docs are thin, so the field names are a best guess. Verify before relying on it. |
+| `google` | `GOOGLE_TTS_API_KEY` | Google Cloud TTS. Vietnamese (vi-VN Standard / WaveNet / Neural2 / Chirp 3 HD) **and 50+ languages** — the language is read from the voice name (`vi-VN-Neural2-A`, `en-US-Chirp3-HD-Charon`). Free monthly tier, then per character. |
+| `azure` | `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION` | Azure AI Speech. `vi-VN-HoaiMyNeural`, `vi-VN-NamMinhNeural` + 140+ languages; SSML with the text escaped. Free tier (F0), then per character. |
 | `http` | whatever you configure | Generic escape hatch — describe any HTTP TTS API purely in env vars. |
 
 ```bash
@@ -421,7 +424,7 @@ node scripts/social/make-post.mjs --video brain/<id>/video.mp4 --post caption.tx
 
 | Var | Default | Meaning |
 |---|---|---|
-| `TTS_PROVIDER` | `omnivoice` | `omnivoice` \| `openai-speech` \| `elevenlabs` \| `vbee` \| `fptai` \| `viettel` \| `http` |
+| `TTS_PROVIDER` | `omnivoice` | `omnivoice` \| `openai-speech` \| `elevenlabs` \| `vbee` \| `fptai` \| `viettel` \| `google` \| `azure` \| `http` |
 | `TTS_VOICE_ID` | — | required by every provider except `omnivoice` |
 | `TTS_SPEED` | `1.0` | 0.5–2.0 |
 | `TTS_CONCURRENCY` | `1` | parallel TTS calls |
@@ -693,7 +696,8 @@ một dòng vào bảng, không phải viết code mới:
 
 | Khuôn | Cách trả | Ai dùng |
 |---|---|---|
-| `bytes` | thân phản hồi **chính là** audio | omnivoice, elevenlabs, vbee |
+| `bytes` | thân phản hồi **chính là** audio | omnivoice, elevenlabs, azure |
+| `jsonBase64` | JSON chứa audio dạng base64 | google |
 | `asyncUrl` | JSON chứa link, tải lại sau 5s–2 phút | fptai, viettel |
 
 | Provider | Cần gì | Ghi chú |
@@ -704,6 +708,8 @@ một dòng vào bảng, không phải viết code mới:
 | `vbee` | `VBEE_API_KEY` + voice_code | Chuyên tiếng Việt, 200+ giọng Bắc/Trung/Nam. |
 | `fptai` | `FPTAI_API_KEY` + voice | Giọng: `banmai lannhi leminh myan thuminh giahuy linhsan`. Tham số nằm ở header, body là text thô. |
 | `viettel` | `VIETTEL_TOKEN` + voice | **Thử nghiệm** — tài liệu public mỏng nên tên trường là suy đoán. Kiểm trước khi tin dùng. |
+| `google` | `GOOGLE_TTS_API_KEY` | Google Cloud TTS. Giọng Việt (vi-VN Standard / WaveNet / Neural2 / Chirp 3 HD) **và 50+ ngôn ngữ** — ngôn ngữ đọc từ tên giọng (`vi-VN-Neural2-A`, `en-US-Chirp3-HD-Charon`). Có hạn mức miễn phí hằng tháng, sau đó tính theo ký tự. |
+| `azure` | `AZURE_SPEECH_KEY` + `AZURE_SPEECH_REGION` | Azure AI Speech. `vi-VN-HoaiMyNeural`, `vi-VN-NamMinhNeural` + 140+ ngôn ngữ; gửi SSML, chữ đã được escape. Có gói miễn phí (F0), sau đó tính theo ký tự. |
 | `http` | tuỳ bạn cấu hình | Cửa thoát tổng quát — mô tả bất kỳ API TTS nào hoàn toàn bằng env. |
 
 ```bash

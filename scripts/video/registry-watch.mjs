@@ -38,7 +38,7 @@ const SNAPSHOT = path.join(KIT, "video-templates", "registry-snapshot.json");
  */
 const COUNT_SITES = [
   { file: "docs/00-huong-dan-chi-tiet.md", re: /(\d+) template nữa chỉ cách một câu lệnh/ },
-  { file: "README.en.md", re: /(\d+) more are one command away/ },
+  { file: "docs/00-detailed-guide.md", re: /(\d+) more are one command away/ },
   { file: "docs/16-template-registry.md", re: /\*\*(\d+) more\*\* — pull any of them/ },
   { file: "docs/16-template-registry.md", re: /\*\*(\d+) mục\*\* — kéo về bằng lệnh/ },
   { file: "scripts/video/add-template.mjs", re: /Apache-2\.0\) publishes (\d+) items/ },

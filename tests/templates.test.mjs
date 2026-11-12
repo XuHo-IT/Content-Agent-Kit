@@ -263,11 +263,11 @@ test("the documented template count matches the folder", () => {
     { file: "docs/00-huong-dan-chi-tiet.md", re: /dùng 14 trong số (\d+) template/ },
     { file: "docs/00-huong-dan-chi-tiet.md", re: /\| (\d+) template video HTML một-file/ },
     { file: "docs/00-huong-dan-chi-tiet.md", re: /\| \*\*(\d+) template, \d+ thể loại\*\* \|/ },
-    { file: "README.en.md", re: /\| (\d+) single-file HTML video templates/ },
+    { file: "docs/00-detailed-guide.md", re: /\| (\d+) single-file HTML video templates/ },
     // The English twin of the Vietnamese row two lines up. It was NOT in this list, so it
     // sat at 18 through 22 new templates while its counterpart was updated each time. Every
     // sentence carrying this number needs its own entry; one per file is not enough.
-    { file: "README.en.md", re: /\| \*\*(\d+) templates, \d+ genres\*\* \|/ },
+    { file: "docs/00-detailed-guide.md", re: /\| \*\*(\d+) templates, \d+ genres\*\* \|/ },
     { file: "docs/16-template-registry.md", re: /The kit ships (\d+) scene templates\./ },
     { file: "docs/16-template-registry.md", re: /Kit có sẵn (\d+) template cho scene\./ },
     { file: ".github/repo-about.json", re: /9:16 với (\d+) template/ },
@@ -291,7 +291,7 @@ test("the documented genre count matches the presets", () => {
   const n = Object.keys(genres).length;
   const SITES = [
     { file: "docs/00-huong-dan-chi-tiet.md", re: /\| \*\*\d+ template, (\d+) thể loại\*\* \|/ },
-    { file: "README.en.md", re: /\| \*\*\d+ templates, (\d+) genres\*\* \|/ },
+    { file: "docs/00-detailed-guide.md", re: /\| \*\*\d+ templates, (\d+) genres\*\* \|/ },
   ];
   for (const s of SITES) {
     const m = fs.readFileSync(path.join(KIT, s.file), "utf8").match(s.re);

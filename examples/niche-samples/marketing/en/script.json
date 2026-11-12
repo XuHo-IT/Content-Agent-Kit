@@ -1,0 +1,175 @@
+{
+  "_niche": "Marketing",
+  "version": "1.0",
+  "renderer": "hyperframes",
+  "aspect": "9:16",
+  "theme": "riso-pink",
+  "metadata": {
+    "title": "The first three seconds: writing an opening that keeps viewers",
+    "source": {
+      "url": "https://example.com",
+      "domain": "example.com",
+      "image": null
+    },
+    "channel": "Kênh Mẫu"
+  },
+  "voice": {
+    "provider": "google",
+    "speed": 1,
+    "voiceId": "en-US-Neural2-F"
+  },
+  "scenes": [
+    {
+      "id": "hook",
+      "type": "hook",
+      "templateId": "frame-opus-kinetic-reel",
+      "voiceText": "Viewers decide whether to stay or scroll within the first few seconds. However good the rest is, it means nothing if nobody gets there. Here is how to write an opening that holds them.",
+      "inputs": {
+        "top_tag": "MARKETING · SHORT VIDEO",
+        "counter_badge": "3 SECONDS",
+        "line_1": "VIEWERS DECIDE",
+        "line_2": "TO STAY OR SCROLL",
+        "line_3": "IN THE FIRST SECONDS",
+        "punchline": "Here is how to write an opening that holds them",
+        "footer": ""
+      }
+    },
+    {
+      "id": "funnel",
+      "type": "body",
+      "templateId": "frame-funnel",
+      "voiceText": "Open the analytics of any video and you will see a funnel. Most viewers drop out right at the start. That is why fixing the first three seconds usually pays off more than fixing anything after it.",
+      "inputs": {
+        "kicker": "An illustration",
+        "title": "Where viewers drop off",
+        "stages": "Scrolled past:10000|Watched 3s+:4000|Watched all:1200|Commented:80",
+        "note": "Illustrative — check your real numbers"
+      }
+    },
+    {
+      "id": "bars",
+      "type": "body",
+      "templateId": "frame-chart-bars",
+      "voiceText": "A suggested shape for a thirty-second video. Three seconds of opening, seven for the problem, fifteen for the fix, five for the call to action. The shortest part is the one that matters most.",
+      "inputs": {
+        "title": "How to split a 30-second video",
+        "unit": "seconds",
+        "bars": "Opening:3|Problem:7|Fix:15|Call to action:5",
+        "highlight": "Mở đầu",
+        "source": "A suggested structure — adjust to your content"
+      }
+    },
+    {
+      "id": "compare",
+      "type": "body",
+      "templateId": "frame-trend-compare-wipe",
+      "voiceText": "Two kinds of opening. The weak one: a greeting, an introduction, a logo. The strong one goes straight in: say the result now, ask what the viewer is already wondering, or show something unexpected.",
+      "inputs": {
+        "title": "Weak opening vs strong opening",
+        "left_label": "WEAK",
+        "left_1": "Hi everyone, today I'm going to...",
+        "left_2": "Introducing yourself first",
+        "left_3": "A 3-second spinning logo",
+        "right_label": "STRONG",
+        "right_1": "Say the result viewers want, now",
+        "right_2": "The question they are asking themselves",
+        "right_3": "An unexpected image in the first frame",
+        "verdict": "Go straight to what viewers care about"
+      }
+    },
+    {
+      "id": "formula",
+      "type": "body",
+      "templateId": "frame-creative-voltage",
+      "voiceText": "The easiest formula: give the result first, explain how after. Instead of today I'll show you how to bake a cake, say this cake needs only three ingredients. Viewers stay to find out how.",
+      "inputs": {
+        "meta": "// CÔNG THỨC · 01",
+        "display_lines": [
+          "Nói",
+          "kết quả",
+          "trước."
+        ],
+        "accent_index": 1,
+        "script": "then explain how",
+        "caption": "The easiest opening formula to use"
+      }
+    },
+    {
+      "id": "meme",
+      "type": "body",
+      "templateId": "frame-meme",
+      "voiceText": "Everyone who makes videos has done this. Spend the first five seconds saying hello, then wonder why nobody watches to the end. Viewers don't dislike you, they just haven't seen a reason to stay.",
+      "inputs": {
+        "chip": "Meme",
+        "kicker": "Every video maker has done it",
+        "caption": "Five seconds of hello, then wondering why nobody watches to the end",
+        "media_kind": "image"
+      },
+      "media": {
+        "kind": "image",
+        "source": "meme",
+        "id": "pooh|Xin chào mọi người, hôm nay mình sẽ...|Chiếc bánh này chỉ cần 3 nguyên liệu",
+        "fit": "contain"
+      }
+    },
+    {
+      "id": "quadrant",
+      "type": "body",
+      "templateId": "frame-3d-perspective-card",
+      "voiceText": "There are many kinds of opening, but if you are starting out, try a question that hits the viewer's pain point. It is easy, just one sentence, and it makes people want the answer.",
+      "inputs": {
+        "kicker": "PICK AN OPENING",
+        "card_title": "A question that hits the pain",
+        "card_tier": "EASY · SPARKS CURIOSITY",
+        "feature_1": "Just one sentence, no extra footage needed",
+        "feature_2": "Viewers see themselves in the question",
+        "feature_3": "Example: Are you wasting your first 5 seconds?",
+        "card_chip": "TRY FIRST",
+        "card_id": "TYPE 01",
+        "takeaway": "A question that hits the viewer's pain point is easy to write and sparks curiosity, so it is the first one worth trying."
+      }
+    },
+    {
+      "id": "poll",
+      "type": "body",
+      "templateId": "frame-trend-live-poll",
+      "voiceText": "And you, why do you usually scroll past a video? A long-winded opening, or an overblown title with nothing behind it? Your answer is what your own viewers are thinking too.",
+      "inputs": {
+        "question": "Why do you scroll past a video?",
+        "option_a": "Long-winded opening",
+        "option_b": "Overblown title",
+        "pct_a": "50",
+        "vs": "VS",
+        "cta": "Tell us your reason in the comments",
+        "comment_1": "Long hellos and I'm gone",
+        "comment_2": "Clickbait title, nothing inside",
+        "comment_3": ""
+      }
+    },
+    {
+      "id": "task",
+      "type": "body",
+      "templateId": "frame-build-minimal",
+      "voiceText": "Today's exercise: take your latest video and rewrite only the opening line, keep everything else. Post the new version and compare how many viewers stay past three seconds. The numbers will answer for you.",
+      "inputs": {
+        "eyebrow": "Today's exercise",
+        "hero": "Rewrite",
+        "desc": "Rewrite only the opening line of your latest video, repost, compare viewers past 3s.",
+        "side_left": "Sample Channel",
+        "side_right": "Marketing"
+      }
+    },
+    {
+      "id": "outro",
+      "type": "outro",
+      "voiceText": "Follow the channel for more opening formulas for every industry.",
+      "templateId": "frame-statement-outro",
+      "inputs": {
+        "cta": "Follow for more opening formulas",
+        "channel": "Sample Channel",
+        "source": ""
+      }
+    }
+  ],
+  "language": "en"
+}

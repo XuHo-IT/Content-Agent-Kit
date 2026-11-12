@@ -10,6 +10,50 @@ required where it was not before. Each one is called out explicitly below.
 
 ## [Unreleased]
 
+### Fixes for where a real user got stuck (docs/30, items 23–29)
+
+- **AI footage ends as a finished video.** `fal`, `higgsfield` and `api` now write
+  `script.finished.json` (each clip behind its scene's own words on `frame-broll`; the outro keeps
+  its card) and run the html pipeline: narration, captions, music, one MP4. New media source
+  `file` for local clips. `--clips-only` keeps the old behaviour.
+- **`scripts/video/localize.mjs` + skill `localize-video`**: every spoken and on-screen string with
+  its frame's character limit (read from CATALOG.md); `--apply` refuses untranslated or over-long
+  lines and switches the voice to the language (Google / Azure defaults per language). Renders
+  into `<lang>/` so the original video is kept. Example: `examples/niche-samples/marketing/en/`.
+- **Spend ledger**: every paid call (AI clip, cloud voice characters, Ayrshare post) appends to
+  `brain/spend.jsonl`; `scripts/analytics/spend.mjs` totals the month; `monthlyCeilingUsd` (profile)
+  / `SPEND_MONTHLY_CEILING_USD` refuses the render that would cross it.
+- **`scripts/providers-check.mjs [--live]`**: which paid providers are configured, and whether the
+  keys work — one free request each (voice lists, Higgsfield's estimate, account info).
+- **`scripts/social/upload-pack.mjs`**: Zalo, Shopee Video, Shopee product pages, TikTok Shop have
+  no posting API, so the kit builds a folder per platform — the file checked and re-encoded to its
+  limits (delivery-check), the caption, the cover, the upload steps.
+- 32 skills.
+
+### More optional paid providers; README.en is the English copy of README.md
+
+- **TTS `google`** (Google Cloud Text-to-Speech, new `jsonBase64` response shape) and **`azure`**
+  (Azure AI Speech, SSML with escaped text): Vietnamese voices plus 50+ / 140+ languages, so an
+  English or Japanese version of a video is a voice change. The language is read from the voice
+  name (`vi-VN-Neural2-A`, `en-US-AvaMultilingualNeural`).
+- **Video backend `fal`**: fal.ai's queue API, one `FAL_KEY` for Kling, MiniMax Hailuo, Seedance,
+  Wan. Presets with starting-assumption rates; scenes snapped up to the lengths a model makes;
+  a custom `FAL_MODEL_ID` without `FAL_RATE_PER_SEC` is refused rather than estimated.
+- **Video backend `higgsfield`**: Higgsfield AI (Kling 3.0, Seedance 2.0, Hailuo 2.3) per
+  docs.higgsfield.ai — key-pair auth, queue + `status_url`, and the `/estimate` endpoint: every
+  scene is priced by Higgsfield for the user's account and checked against `costCeilingUsd`
+  before any submission. Model audio off; the kit lays its own narration.
+- **Posting via Ayrshare**: `SOCIAL_PUBLISHER=ayrshare` / `make-post.mjs --via ayrshare` posts to
+  TikTok, Facebook, Instagram, YouTube, Threads, LinkedIn, X… without a Make scenario
+  (`scripts/social/lib/ayrshare.mjs`). Also: `--hashtags` now counts in the caption check.
+- None of the five has been run against a live account from this repo; all print their requests
+  with `--dry-run`. Tests: `tests/paid-providers.test.mjs`.
+- **`README.en.md` is now the English copy of `README.md`** — same media, links and sections,
+  enforced by a test. The former English technical README moved to `docs/00-detailed-guide.md`,
+  the twin of `docs/00-huong-dan-chi-tiet.md`.
+- **docs/30**: a user-side gap review (items 23–30) — AI clips are not yet a finished video,
+  no localisation flow, Vietnamese platforms (Zalo OA, Shopee Video), monthly spend, avatars.
+
 ### Learn from 8 brands; README previews that show the whole video
 
 - **`brand-lessons` skill** + `scripts/marketing/brand-lesson.mjs` + `templates/BRAND_LESSONS.template.json`:
