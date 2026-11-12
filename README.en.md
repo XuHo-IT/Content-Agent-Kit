@@ -25,7 +25,7 @@
 
 A scaffolding kit that lets agentic IDEs (**Claude Code**, **Antigravity / Gemini**) build and
 run a complete content agent: topic research, competitor analysis, writing, quality gating,
-social publishing, and **vertical 9:16 video** from 133 single-file HTML templates with
+social publishing, and **vertical 9:16 video** from 135 single-file HTML templates with
 natural Vietnamese TTS, active-word captions, stock B-roll and live web captures.
 No `npm install`; most features need no API key. The primary README is Vietnamese — this is
 its English twin.
@@ -60,7 +60,7 @@ its English twin.
 | 📄 **Article** | [Sample Post](examples/ai-news-social/sample-output/) — SEO/GEO-compliant article with engagement prompts and a 10-point quality audit |
 | 🖼️ **Cover Image** | [Cover Image](examples/ai-news-social/sample-output/cover.jpg) — 1024×1024 visual matching the article |
 | 🎬 **9:16 Video** | [Sample Video](examples/ai-video-social/sample-output/) — 2m 12s, natural TTS narration, Pexels footage, live website capture |
-| 🎨 **Theme Repainting** | [Paper-Blue Sample](examples/ai-video-social/sample-output-paper-blue/) — 16 scenes across 14 of the 133 templates, repainted via `"theme": "paper-blue"` |
+| 🎨 **Theme Repainting** | [Paper-Blue Sample](examples/ai-video-social/sample-output-paper-blue/) — 16 scenes across 14 of the 135 templates, repainted via `"theme": "paper-blue"` |
 
 > **Download Sample MP4:** [Releases v0.1.0](https://github.com/XuHo-IT/Content-Agent-Kit/releases/tag/v0.1.0) or render locally:
 > `node scripts/video/render.mjs examples/ai-video-social/sample-output/script.json`
@@ -141,10 +141,10 @@ rather than generated: [`docs/25-palettes.md`](docs/25-palettes.md).
 
 ---
 
-## The 133-template library
+## The 135-template library
 
 Every template ships 16:9 and 9:16, an ambient motion layer, and Vietnamese-capable fonts.
-Galleries (Vietnamese labels) are in the [detailed guide](docs/00-huong-dan-chi-tiet.md#thư-viện-133-template-theo-nhóm) — the newest is the [storytelling set](examples/gallery/gallery-story.jpg);
+Galleries (Vietnamese labels) are in the [detailed guide](docs/00-huong-dan-chi-tiet.md#thư-viện-135-template-theo-nhóm) — the newest is the [storytelling set](examples/gallery/gallery-story.jpg);
 the full slot contracts and character limits are in
 **[`video-templates/CATALOG.md`](video-templates/CATALOG.md)**, and scene sequences for the 19
 genres in **[`docs/21-video-genres.md`](docs/21-video-genres.md)** &
@@ -157,7 +157,7 @@ genres in **[`docs/21-video-genres.md`](docs/21-video-genres.md)** &
 | Capability | Details |
 |---|---|
 | **6 voice providers** | OmniVoice (local, free), Vbee, Viettel AI, FPT AI, ElevenLabs, HTTP custom adapter |
-| **133 templates, 20 genres** | Review, Tutorial, News, Listicle, Launch, Testimonial, Local, Vox Explainer, GEO Answer, Technical Deep-Dive, Growth Strategy, GEO Itinerary, **Comment Reply, Flash Deal, Data Story, Brand Story, Customer Story, Legend, Case Breakdown, Comment Story** |
+| **135 templates, 20 genres** | Review, Tutorial, News, Listicle, Launch, Testimonial, Local, Vox Explainer, GEO Answer, Technical Deep-Dive, Growth Strategy, GEO Itinerary, **Comment Reply, Flash Deal, Data Story, Brand Story, Customer Story, Legend, Case Breakdown, Comment Story** |
 | **Captions & transitions** | `--captions burn` + `--caption-style active`; 12 transitions (fade, swipe, slide, iris, pixelize, zoom, whip, radial, slice, squeeze, reveal, cover) |
 | **Auto-edit your footage** | `autocut.mjs` — silence removal, punch-ins, -16 LUFS, 9:16, a reviewable cut list |
 | **Topic & competitor research** | `topic-radar.mjs` (HN, GitHub, Google News, **Google Trends VN**, Reddit) and `competitor-scan.mjs` (YouTube + RSS), keyless. Add `APIFY_TOKEN` for **TikTok, Instagram, YouTube, Facebook** via Apify (optional, paid) |
@@ -175,7 +175,7 @@ genres in **[`docs/21-video-genres.md`](docs/21-video-genres.md)** &
 | `docs/` | 26 methodology guides (bilingual VI + EN): writing, GEO, topic radar, competitor analysis, video pipeline, palettes, auto-edit, ad MCPs, Canva |
 | `templates/` | Scaffolds: `PLAYBOOK`, `WRITING_CRAFT`, `VIDEO_CRAFT`, `KNOWLEDGE`, `VIDEO_SCRIPT.json`, `sources.yaml`, `INDUSTRIES.template.json` (16 industries, one palette each) |
 | `scripts/` | Zero-dependency CLIs: crawl, social publish, quality audit, video render, autocut, competitor scan, stock B-roll, screenshots |
-| `video-templates/` | 133 single-file HTML video templates plus **`CATALOG.md`** — self-contained CSS & animation, rendered offline. 456 more are one command away. |
+| `video-templates/` | 135 single-file HTML video templates plus **`CATALOG.md`** — self-contained CSS & animation, rendered offline. 456 more are one command away. |
 | `skills/` | 31 runtime skills: `creator-start`, `bootstrap-content-agent`, `daily-run`, `review-gate`, `audit-and-fix`, `crawl-and-queue`, `topic-radar`, `competitor-analysis`, `daily-topic-video`, `create-video`, `video-and-post`, `research-and-capture`, `repurpose`, `ads-report`, `design-campaign`, `geo-optimize`, `motion-craft`, `new-template`, `story-video`, `talking-head-edit`, `ads-creative-lab`, `ads-fatigue-watch`, `ads-comment-triage`, `ads-policy-check`, `catalog-feed-audit`, `audience-plan`, `ugc-koc-brief`, `promo-calendar`, `freshness-check`, `performance-review`, `brand-lessons` + `registry.json` (48 on-demand skills incl. `lemo-opuscar`, `agent-browser`, `web-video-presentation`, `watch-video`, `ghost-editor`, `opus-55-videos`, `xilo-opus-video`) |
 | `examples/` | 2 end-to-end reference agents: AI news social and vertical video production |
 

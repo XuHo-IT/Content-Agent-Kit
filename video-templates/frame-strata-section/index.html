@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Strata Section · 16:9</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-strata-section — a cut through the ground, one band per layer, drawn top down.
+ *
+ * Original work for this repo.
+ *
+ * Built for stories that go DOWN: vaults under a bridge, levels of a mine, floors of a
+ * building nobody uses any more. The `countdown` spine asks for exactly this shape and
+ * the kit had nothing for it — frame-iceberg-levels is the nearest, and it is a fixed
+ * three-part illustration, not a section drawn from data.
+ *
+ * NO HEIGHTS ARE TYPED. Each band's thickness comes from its `depth` number: the gap
+ * between one layer's depth and the next. Type the depths a source actually states and
+ * the drawing is to scale by construction. A section whose bands are hand-sized is a
+ * picture of strata, not a section of them.
+ *
+ * PAPER, NOT SCREEN. Warm off-white ground, ink lines, a single red for the layer being
+ * pointed at. This is the paper-dominant half of the palette axis, and the ground has to
+ * be genuinely light — a "light" band floating on a dark page reads as a screenshot.
+ *
+ * DRAW-ON, NOT FADE-IN. Every rule and every hatch is a dashed path counting its
+ * stroke-dashoffset to zero, so the section is drawn the way a hand would draw it:
+ * surface first, then down. Fading the whole thing in at once wastes the one motion
+ * that suits a cross-section.
+ *
+ * The last band is left open at the bottom — no closing rule. The vaults do not end,
+ * they stop being surveyed, and an open section says that where a closed box would lie.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1920px; height: 1080px; }
+#root { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #f2ece1; color: #241f1a; display: grid; align-content: center;
+        padding: 0 78px; }
+
+/* Paper tooth. Two crossing gradients at very low alpha read as fibre, not as a pattern. */
+#root::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background:
+        repeating-linear-gradient(48deg, rgba(90,70,45,.035) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(-42deg, rgba(90,70,45,.03) 0 1px, transparent 1px 7px);
+}
+/* Print never sits perfectly flat; a slow warm wash keeps the page from looking dead. */
+#root::after {
+    content: ""; position: absolute; inset: -8%; pointer-events: none; z-index: 0;
+    background: radial-gradient(46% 34% at 32% 26%, rgba(150,105,55,.09), transparent 72%);
+    animation: ambWash 21s ease-in-out infinite alternate;
+}
+@keyframes ambWash { from { transform: translate3d(-2.5%, -1.5%, 0); }
+                     to   { transform: translate3d(2.5%, 1.5%, 0); } }
+
+.kicker, .title, .section, .note { position: relative; z-index: 1; }
+.kicker { font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+          color: #9c3122; font-size: 34px; margin-bottom: 24px;
+          opacity: 0; animation: rise 0.5s ease-out 0.1s both; }
+.title { font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; font-size: 76px;
+         margin-bottom: 56px; opacity: 0; animation: rise 0.55s ease-out 0.25s both; }
+
+.section { position: relative; height: 620px; }
+.svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+/* Every stroke is drawn, never faded — --len is measured per path after layout. */
+.svg path, .svg line { fill: none; stroke-dasharray: var(--len); stroke-dashoffset: var(--len);
+                       animation: draw 0.6s ease-out both; }
+.rule    { stroke: #241f1a; stroke-width: 3; }
+.hatch   { stroke: rgba(36,31,26,.30); stroke-width: 2; }
+.marker  { stroke: #9c3122; stroke-width: 4; }
+.tick    { stroke: #241f1a; stroke-width: 3; }
+
+.labels { position: absolute; inset: 0; }
+.band { position: absolute; left: 0; right: 0; padding: 0 30px 0 34px;
+        display: flex; align-items: center; justify-content: space-between; gap: 26px; }
+.band .name { font-weight: 700; font-size: 37px; line-height: 1.2; letter-spacing: -0.01em;
+              opacity: 0; animation: rise 0.45s ease-out both; }
+.band .sub { font-weight: 400; font-size: 27px; color: rgba(36,31,26,.66); margin-top: 6px; }
+.band .depth { font-weight: 700; font-size: 31px; font-variant-numeric: tabular-nums;
+               white-space: nowrap; color: rgba(36,31,26,.55);
+               opacity: 0; animation: rise 0.45s ease-out both; }
+/* The focus layer is the only red thing in the drawing, so it needs no arrow. */
+.band.focus .name { color: #9c3122; }
+.band.focus .depth { color: #9c3122; }
+
+.note { font-size: 30px; margin-top: 46px; color: rgba(36,31,26,.7);
+        opacity: 0; animation: rise 0.5s ease-out 1.5s both; }
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+</style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"kicker":"Mặt cắt","title":"Bên dưới cây cầu","layers":"0:Mặt đường South Bridge:xe cộ đi qua mỗi ngày|8:Vòm cầu:19 vòm đá xây năm 1788|14:Tầng hầm buôn bán:thợ giày, quán rượu|19:Tầng bỏ hoang:ngập nước, đóng kín 150 năm","focus":"3","note":"Số liệu độ sâu chỉ mang tính minh hoạ tương đối."}'
+        >
+            <div class="kicker"></div>
+            <div class="title"></div>
+            <div class="section">
+                <svg class="svg"></svg>
+                <div class="labels"></div>
+            </div>
+            <div class="note"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".title", v.title);
+                setOrDrop(".note", v.note);
+
+                // "depth:name:sub" — sub is optional. Depth drives geometry, so it is read as
+                // a number; a row whose depth will not parse is dropped rather than guessed at,
+                // because a made-up depth would silently mis-scale every band below it.
+                var rows = String(v.layers || "")
+                    .split("|")
+                    .map(function (s) { return s.trim(); })
+                    .filter(Boolean)
+                    .map(function (s) {
+                        var p = s.split(":");
+                        return { depth: parseFloat(p[0]), name: (p[1] || "").trim(), sub: (p.slice(2).join(":") || "").trim() };
+                    })
+                    .filter(function (r) { return isFinite(r.depth) && r.name; });
+
+                if (rows.length < 2) { drop(".section"); }
+                else {
+                    rows.sort(function (a, b) { return a.depth - b.depth; });
+
+                    var svg = document.querySelector(".svg");
+                    var labels = document.querySelector(".labels");
+                    var W = 1920 - 78 * 2;
+                    var H = 620;
+
+                    // The drawing runs from the shallowest depth to one band past the deepest.
+                    // Without that trailing band the last layer would have no thickness at all.
+                    var top = rows[0].depth;
+                    var spans = [];
+                    for (var i = 0; i < rows.length; i++) {
+                        var next = i + 1 < rows.length ? rows[i + 1].depth : rows[i].depth + (rows[i].depth - (i ? rows[i - 1].depth : top) || 1);
+                        spans.push(Math.max(next - rows[i].depth, 0.001));
+                    }
+                    var total = spans.reduce(function (a, b) { return a + b; }, 0);
+
+                    var focus = parseInt(v.focus, 10);
+                    var y = 0;
+                    var svgNS = "http://www.w3.org/2000/svg";
+                    var mk = function (tag, cls, attrs, delay) {
+                        var el = document.createElementNS(svgNS, tag);
+                        el.setAttribute("class", cls);
+                        for (var k in attrs) el.setAttribute(k, attrs[k]);
+                        el.style.animationDelay = delay.toFixed(2) + "s";
+                        return el;
+                    };
+
+                    rows.forEach(function (r, i) {
+                        var h = (spans[i] / total) * H;
+                        var at = 0.65 + i * 0.3;
+                        var isFocus = i === focus;
+
+                        // Top rule of each band. The FIRST one is the ground surface, so it is
+                        // drawn heavier — everything below it is underground by definition.
+                        var rule = mk("line", "rule", { x1: 0, y1: y, x2: W, y2: y }, at);
+                        if (i === 0) rule.setAttribute("stroke-width", 5);
+                        rule.style.setProperty("--len", W.toFixed(0));
+                        svg.appendChild(rule);
+
+                        // Hatching, at 45°, spaced so a thin band gets fewer strokes rather than
+                        // a denser fill. Only the focus band is hatched — hatching everything
+                        // turns a section into a texture and hides the one layer that matters.
+                        if (isFocus) {
+                            var step = 34;
+                            for (var x = -h; x < W; x += step) {
+                                var x1 = Math.max(x, 0), y1 = y + Math.max(0, -x);
+                                var x2 = Math.min(x + h, W), y2 = y + Math.min(h, W - x);
+                                if (x2 <= x1) continue;
+                                var hl = mk("line", "hatch", { x1: x1, y1: y1, x2: x2, y2: y2 }, at + 0.12);
+                                hl.style.setProperty("--len", Math.hypot(x2 - x1, y2 - y1).toFixed(0));
+                                svg.appendChild(hl);
+                            }
+                        }
+
+                        // Depth tick on the left margin, and a red bracket down the focus band.
+                        var tick = mk("line", "tick", { x1: 0, y1: y, x2: 22, y2: y }, at);
+                        tick.style.setProperty("--len", "22");
+                        svg.appendChild(tick);
+                        if (isFocus) {
+                            var br = mk("path", "marker", { d: "M6," + y + " L6," + (y + h) }, at + 0.2);
+                            br.style.setProperty("--len", h.toFixed(0));
+                            svg.appendChild(br);
+                        }
+
+                        var band = document.createElement("div");
+                        band.className = "band" + (isFocus ? " focus" : "");
+                        band.style.top = y + "px";
+                        band.style.height = h + "px";
+                        var left = document.createElement("div");
+                        var nm = document.createElement("div");
+                        nm.className = "name";
+                        nm.textContent = r.name;
+                        nm.style.animationDelay = (at + 0.15).toFixed(2) + "s";
+                        left.appendChild(nm);
+                        if (r.sub) {
+                            var sb = document.createElement("div");
+                            sb.className = "sub";
+                            sb.textContent = r.sub;
+                            left.appendChild(sb);
+                        }
+                        var dp = document.createElement("div");
+                        dp.className = "depth";
+                        dp.textContent = "−" + r.depth + " m";
+                        dp.style.animationDelay = (at + 0.15).toFixed(2) + "s";
+                        band.appendChild(left);
+                        band.appendChild(dp);
+                        labels.appendChild(band);
+
+                        y += h;
+                    });
+
+                    // No closing rule at the bottom: the section is cut off, not finished.
+                }
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = window.__timelines["portrait"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>

@@ -1008,6 +1008,10 @@ Takes the capture at `assets/media.png`, the same path `frame-screenshot` uses �
 | `subhead` | string | ≤140 | explanatory summary card with yellow accent border |
 | `source` | string | ≤50 | archive or document provenance |
 
+> **Lấy khung hình để soi chữ thì tránh giây đầu và giây cuối của scene.** Scene này mở bằng
+> một cú zoom, nên khung ở ngay mép scene bắt đúng lúc chữ còn đang phóng to và trông như bị
+> cắt hai bên. Không phải lỗi tràn chữ — lấy khung ở GIỮA scene là thấy đúng.
+
 ---
 
 ## frame-vox-data-callout
@@ -2937,6 +2941,42 @@ that put them in order, and `skills/story-video/SKILL.md` explains the arc.
 | `item_4` | string | ≤36 | rundown point 4 (optional) |
 | `current` | string | 1–4 | the point being covered now; earlier ones are ticked off |
 
+
+## frame-strata-section
+
+**Role:** map of a descent. A section drawn top down from data — one band per layer, each band as thick as its real depth gap, the layer being talked about hatched in red.
+**Best for:** stories that go DOWN — vaults under a bridge, levels of a mine, floors of an abandoned building, layers of an iceberg-style explainer; the `countdown` spine's map before its stops.
+**Motion:** draw-on · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `kicker` | string | ≤24 | small uppercase label |
+| `title` | string | ≤40 | the place being cut through |
+| `layers` | string | 2–6 rows | `depth:name:sub` rows joined by `\|`; `depth` in metres drives the geometry — a row that does not parse is dropped, never guessed; `sub` optional (≤40) |
+| `focus` | string | 0-based index | the band to hatch and mark in red |
+| `note` | string | ≤80 | source or "relative depths, illustrative"; empty removes it |
+
+Type depths a source actually states — the drawing is to scale by construction, so an invented
+depth mis-scales every band below it. Pair with `frame-descent-gauge`: the section once, then one
+gauge frame per layer.
+
+## frame-descent-gauge
+
+**Role:** one stop on a descent. A single layer held big enough to read, with a gauge in the margin whose marker sits at `step` of `steps` — computed, not drawn.
+**Best for:** each stop after a `frame-strata-section` map; numbered descents ("level 3 of 5"), countdowns that go deeper rather than higher.
+**Motion:** draw-on · continuous loop
+
+| slot | type | limit | notes |
+| --- | --- | --- | --- |
+| `step` | string | 1-based | which layer this is; clamps into `1..steps` |
+| `steps` | string | 2–9 | how many layers the descent has |
+| `kicker` | string | ≤24 | e.g. "Lớp thứ hai" |
+| `title` | string | ≤36 | the layer's name |
+| `body` | string | ≤140 | what is there, in one or two sentences |
+| `note` | string | ≤60 | source line; empty removes it |
+| `label_here` | string | ≤20 | the marker's label (default "Bạn đang ở đây") |
+
+Same paper, ink and red as `frame-strata-section`, so the two cut together without a flash.
 
 ---
 

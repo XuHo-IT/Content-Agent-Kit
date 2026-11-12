@@ -11,7 +11,7 @@ Không cần biết lập trình. Không cần biết dựng phim. Phần lớn 
 [![CI](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml/badge.svg)](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg?style=flat-square)](LICENSE)
 ![31 skill](https://img.shields.io/badge/skill-31-0ea5e9?style=flat-square)
-![133 khung hình](https://img.shields.io/badge/khung%20h%C3%ACnh%20video-133-f59e0b?style=flat-square)
+![135 khung hình](https://img.shields.io/badge/khung%20h%C3%ACnh%20video-135-f59e0b?style=flat-square)
 ![Tiếng Việt](https://img.shields.io/badge/ng%C3%B4n%20ng%E1%BB%AF-Ti%E1%BA%BFng%20Vi%E1%BB%87t-ef4444?style=flat-square)
 
 **🇻🇳 Tiếng Việt** · [English](README.en.md) · [Bắt đầu nhanh](docs/29-bat-dau-nhanh.md) · [Hướng dẫn kỹ thuật](docs/00-huong-dan-chi-tiet.md)
@@ -57,7 +57,7 @@ Một bài thành nhiều bài cho từng kênh. Tối ưu để Google và Chat
 <td width="33%" valign="top">
 
 ### 🎬 Làm video 9:16
-**133 kiểu khung hình động**, 16 bảng màu theo ngành. Video kể chuyện, giọng đọc tiếng Việt
+**135 kiểu khung hình động**, 16 bảng màu theo ngành. Video kể chuyện, giọng đọc tiếng Việt
 miễn phí, phụ đề sáng từng từ. Dựng video tự quay: cắt khoảng lặng, thêm thẻ minh hoạ.
 
 </td>
@@ -207,7 +207,7 @@ Chi tiết từng bước, cách kiểm tra đã cài được chưa và cách g
 
 | ✅ Miễn phí | 💳 Tuỳ chọn, trả phí |
 |---|---|
-| Làm video: 133 mẫu khung hình, 16 bảng màu, hiệu ứng âm thanh | Giọng đọc cao cấp (Vbee, FPT AI, ElevenLabs…) |
+| Làm video: 135 mẫu khung hình, 16 bảng màu, hiệu ứng âm thanh | Giọng đọc cao cấp (Vbee, FPT AI, ElevenLabs…) |
 | Giọng đọc chạy trên máy (OmniVoice) | Dữ liệu TikTok/Instagram/Facebook qua Apify |
 | Tìm chủ đề hot, phân tích kênh YouTube và báo | Video AI quay như thật (Google Veo) |
 | Cắt khoảng lặng, phụ đề, ảnh bìa | |
