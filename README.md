@@ -10,7 +10,7 @@ Không cần biết lập trình. Không cần biết dựng phim. Phần lớn 
 
 [![CI](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml/badge.svg)](https://github.com/XuHo-IT/Content-Agent-Kit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10b981.svg?style=flat-square)](LICENSE)
-![31 skill](https://img.shields.io/badge/skill-31-0ea5e9?style=flat-square)
+![32 skill](https://img.shields.io/badge/skill-32-0ea5e9?style=flat-square)
 ![135 khung hình](https://img.shields.io/badge/khung%20h%C3%ACnh%20video-135-f59e0b?style=flat-square)
 ![Tiếng Việt](https://img.shields.io/badge/ng%C3%B4n%20ng%E1%BB%AF-Ti%E1%BA%BFng%20Vi%E1%BB%87t-ef4444?style=flat-square)
 
@@ -190,6 +190,10 @@ Chi tiết từng bước, cách kiểm tra đã cài được chưa và cách g
 | Video kể chuyện | *"Làm video **câu chuyện thương hiệu** cho shop, có bước ngoặt và lời khách hàng thật"* |
 | Dựng video tự quay | *"Cắt khoảng lặng và thêm phụ đề cho file **video-cua-toi.mp4**, phong cách **pop**"* |
 | Học từ thương hiệu lớn | *"Làm chiến dịch Tết kiểu **PNJ** cho shop trang sức của tôi"* |
+| Bản tiếng Anh cho khách quốc tế | *"Làm lại video này **bằng tiếng Anh**, giọng Google TTS"* |
+| Đăng Zalo, Shopee, TikTok Shop | *"Làm **gói đăng** Zalo và Shopee Video cho video này"* |
+| Xem đã tiêu bao nhiêu | *"Tháng này tôi đã tiêu bao nhiêu cho video AI?"* |
+| Cảnh quay AI như thật | *"Làm cảnh mở đầu bằng **Higgsfield**, báo giá trước khi chạy"* |
 | Soát quảng cáo | *"Soát chính sách mấy mẫu quảng cáo này"* (dán nội dung) |
 | Canh quảng cáo | *"Mẫu nào đang đuối?"* (gửi file xuất Ads Manager) |
 | Trả lời bình luận | *"Lọc bình luận quảng cáo hôm qua"* (gửi file bình luận) |
@@ -205,17 +209,24 @@ Chi tiết từng bước, cách kiểm tra đã cài được chưa và cách g
 
 ## 💰 Có mất tiền không?
 
-| ✅ Miễn phí | 💳 Tuỳ chọn, trả phí |
-|---|---|
-| Làm video: 135 mẫu khung hình, 16 bảng màu, hiệu ứng âm thanh | Giọng đọc cao cấp (Vbee, FPT AI, ElevenLabs…) |
-| Giọng đọc chạy trên máy (OmniVoice) | Dữ liệu TikTok/Instagram/Facebook qua Apify |
-| Tìm chủ đề hot, phân tích kênh YouTube và báo | Video AI quay như thật (Google Veo) |
-| Cắt khoảng lặng, phụ đề, ảnh bìa | |
-| Toàn bộ công cụ quảng cáo Facebook (chạy trên file xuất) | |
-| 8 bài học marketing từ thương hiệu | |
+**✅ Miễn phí:** làm video với 135 mẫu khung hình, 16 bảng màu, hiệu ứng âm thanh · giọng đọc chạy
+trên máy (OmniVoice) · tìm chủ đề hot, phân tích kênh YouTube và báo · cắt khoảng lặng, phụ đề,
+ảnh bìa · toàn bộ công cụ quảng cáo Facebook (chạy trên file xuất) · 8 bài học marketing.
+
+**💳 Tuỳ chọn trả phí — chọn theo việc bạn cần.** Không bắt buộc; thêm khoá vào `.env` khi muốn dùng.
+
+| Việc | Nhà cung cấp | Hợp với | Thanh toán |
+|---|---|---|---|
+| 🎙️ Giọng đọc tiếng Việt | **Vbee** · **FPT AI** · **Viettel AI** | giọng ba miền, kênh trong nước | VND, dịch vụ trong nước |
+| 🌏 Giọng đọc nhiều ngôn ngữ | **ElevenLabs** · **Google Cloud TTS** (50+ ngôn ngữ) · **Azure Speech** (140+ ngôn ngữ) | kênh quốc tế, lồng tiếng Anh, Nhật, Thái, Hàn… | thẻ quốc tế; Google, Azure có hạn mức miễn phí |
+| 🎥 Video AI quay như thật | **Google Veo** · **fal.ai** (Kling, Hailuo, Seedance, Wan) · **Higgsfield** (Kling 3.0, Seedance 2.0, Hailuo 2.3) | cảnh template không vẽ được: món ăn, phố xá, sản phẩm | thẻ quốc tế; **báo giá trước, dừng khi vượt trần chi phí** |
+| 📤 Đăng bài tự động | **Make.com** (có gói miễn phí) · **Ayrshare** | đăng TikTok, Facebook, Instagram, YouTube, Threads, LinkedIn… không cần dựng kịch bản | thẻ quốc tế |
+| 📊 Dữ liệu mạng xã hội | **Apify** | soi xu hướng TikTok, Instagram, Facebook | thẻ quốc tế |
 
 Bạn vẫn cần trợ lý AI (Claude Code hoặc Antigravity) theo gói của nhà cung cấp đó. Phần trả phí
 của bộ kit luôn **báo giá trước** và chỉ chạy khi bạn tự thêm khoá (key) vào file `.env`.
+Mọi lần gọi trả phí được ghi sổ; đặt **trần chi phí theo tháng** để kit tự dừng trước khi vượt. Kiểm khoá có chạy không (miễn phí): *"kiểm tra các khoá trả phí"*.
+Chi tiết: [giọng đọc](docs/14-video-generation.md) · [video AI](docs/20-video-backends.md) · [đăng bài](docs/11-social-posting.md).
 
 ## ❓ Câu hỏi thường gặp
 

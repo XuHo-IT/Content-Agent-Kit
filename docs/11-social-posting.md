@@ -6,6 +6,16 @@ Push finished posts — **image or video** — to social platforms through an au
 (**Make.com** / n8n / Zapier). The webhook scenario handles the platform APIs; the kit just
 sends a normalized payload.
 
+**No scenario to build? Use Ayrshare (paid).** `SOCIAL_PUBLISHER=ayrshare` + `AYRSHARE_API_KEY`
+(or `--via ayrshare`) sends the same post straight to Ayrshare's `/post` API, which publishes to
+TikTok, Facebook, Instagram, YouTube, Threads, LinkedIn, X, Pinterest and Bluesky — accounts are
+linked once in Ayrshare's dashboard. The kit's platform names are mapped (`youtube_shorts` →
+`youtube` with `shorts: true`, `instagram_reels` → `instagram` with `reels: true`), media must be
+HTTPS (`MEDIA_HOST` gives you that), YouTube needs `--title`, video needs a paid Ayrshare plan,
+and the first comment is not sent (warned, not dropped silently). `--dry-run` prints the exact
+body. The wire format follows Ayrshare's docs and has not been run against a live account from
+this repo. Code: `scripts/social/lib/ayrshare.mjs`.
+
 **Payload** (`scripts/social/make-post.mjs` → `MAKE_WEBHOOK_URL`)
 
 ```json
@@ -157,6 +167,13 @@ safe to retry. A `type: "video"` queue item is rendered ahead of time and posts 
 
 Đẩy bài hoàn chỉnh — **ảnh hoặc video** — lên mạng xã hội qua webhook automation
 (**Make.com**/n8n/Zapier). Kịch bản webhook lo API nền tảng; kit chỉ gửi payload chuẩn hoá.
+
+**Không muốn dựng kịch bản Make? Dùng Ayrshare (trả phí).** `SOCIAL_PUBLISHER=ayrshare` +
+`AYRSHARE_API_KEY` (hoặc `--via ayrshare`) gửi thẳng bài lên API `/post` của Ayrshare, đăng được
+TikTok, Facebook, Instagram, YouTube, Threads, LinkedIn, X, Pinterest, Bluesky — liên kết tài khoản
+một lần trong trang quản lý của Ayrshare. Media phải là HTTPS (`MEDIA_HOST` lo việc này), YouTube
+cần `--title`, đăng video cần gói trả phí của Ayrshare, bình luận đầu tiên không được gửi (có cảnh
+báo). `--dry-run` in đúng nội dung sẽ gửi. Chưa chạy thử với tài khoản thật từ repo này.
 
 **Payload** (`scripts/social/make-post.mjs` → `MAKE_WEBHOOK_URL`): xem khối JSON bản EN.
 

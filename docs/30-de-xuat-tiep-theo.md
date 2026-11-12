@@ -36,6 +36,14 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ` · `chờ quy�
 | 20 | Đo hiệu quả sau khi đăng, học ngược vào kế hoạch | vận hành | M | cao | xong |
 | 21 | Tự kiểm dữ kiện hết hạn (luật, chính sách, thông số) khi dùng kit | vận hành | M | cao | xong |
 | 22 | Màn hình bắt đầu cho người không biết code | vận hành | S | cao | xong |
+| 23 | Video AI ra **video hoàn chỉnh**, không chỉ clip rời | video | M | cao | xong |
+| 24 | Bản địa hoá: một `script.json` → bản tiếng Anh/Nhật/Thái | quốc tế | M | cao | xong |
+| 25 | Chạy thử thật các provider trả phí mới | vận hành | S | cao | đang thử |
+| 26 | Đăng lên nền tảng Việt: Zalo OA, TikTok Shop, Shopee Video | đăng bài | M–L | cao | xong (gói đăng tay) |
+| 27 | Tổng chi phí theo tháng cho mọi provider | vận hành | S–M | trung bình | xong |
+| 28 | Avatar nói / lồng tiếng khớp môi cho kênh không lộ mặt | video | M | trung bình | chưa làm |
+| 29 | Video mẫu tiếng Anh trong README.en | quốc tế | S | trung bình | đang thử |
+| 30 | Tự kéo số liệu TikTok / Facebook thay vì nhập CSV | vận hành | M | trung bình | chưa làm |
 
 ---
 
@@ -227,6 +235,102 @@ Trạng thái: `chưa làm` · `đang thử` · `xong` · `bỏ` · `chờ quy�
 - **Mục 14:** cả ba model (large-v3-turbo, PhoWhisper, bản cũ) đều nghe "chuyển viện" ở giây
   66,8 — vẫn cần một người nghe lại để chốt.
 - **Demo đầu cuối từ file quay điện thoại thật:** cần một clip tự quay (1–2 phút, dọc, chưa cắt).
+
+---
+
+## Thiếu sót nhìn từ người dùng (đánh giá 2026-11-12)
+
+Đánh giá kit từ phía một người làm nội dung — Việt Nam trước, rồi người dùng quốc tế — sau khi
+thêm các provider trả phí (Google TTS, Azure, fal.ai, Higgsfield, Ayrshare). Mỗi mục là chỗ người
+dùng thật sẽ vấp, kèm bằng chứng trong code.
+
+### 23. Video AI ra video hoàn chỉnh, không chỉ clip rời
+
+> **2026-11-12 — xong:** `backends/finish.mjs` + nguồn media `file`. Sau khi tạo clip, backend viết
+> `script.finished.json` (clip → nền `frame-broll`, outro giữ thẻ riêng) và chạy pipeline html. Thử
+> với 3 clip giả: ra video 1080×1920 có giọng, phụ đề, outro. `--clips-only` để dừng ở clip.
+
+
+Các backend `api`, `fal`, `higgsfield` chỉ trả về **một clip cho mỗi cảnh** trong `clips/`; lồng
+giọng đọc, phụ đề, nhạc và ghép lại là việc người dùng tự làm ("Stitch and add narration … with
+ffmpeg" trong `backends/api.mjs`). Người không code dừng ở đây. **Bước đầu:** cho `render.mjs` dùng
+clip AI làm `media` video nền của từng cảnh rồi chạy tiếp pipeline `html` (TTS, phụ đề, nhạc, ghép)
+— clip AI thành B-roll, phần còn lại không đổi.
+
+### 24. Bản địa hoá một video sang ngôn ngữ khác
+
+> **2026-11-12 — xong:** `scripts/video/localize.mjs` + skill `localize-video`. Giới hạn ký tự đọc từ
+> `CATALOG.md`; thử trên video Marketing: 63 chuỗi, `--apply` bắt 2 câu tiếng Anh dài hơn khung, bản
+> sửa qua `validate --strict`. Mẫu: `examples/niche-samples/marketing/en/script.json`.
+
+
+Giờ đã có giọng 50+/140+ ngôn ngữ (`google`, `azure`, `elevenlabs`), nhưng chưa có quy trình: dịch
+`voiceText` và chữ trên khung (giữ giới hạn ký tự của từng slot trong `CATALOG.md`), đổi giọng, kiểm
+font có glyph (`font-check.mjs` mới kiểm tiếng Việt), chạy `validate-script --strict`, render bản
+thứ hai. **Bước đầu:** skill `localize-video` + `scripts/video/localize.mjs --to en` chỉ làm phần
+cơ học (tách chuỗi cần dịch, ghép lại, kiểm độ dài); việc dịch để agent làm.
+
+### 25. Chạy thử thật các provider trả phí mới
+
+> **2026-11-12 — đang thử:** có `scripts/providers-check.mjs --live` (một yêu cầu miễn phí mỗi
+> provider: danh sách giọng, báo giá Higgsfield, thông tin tài khoản). Máy phát triển chưa có khoá
+> nào — cần người dùng chạy với khoá thật và ghi kết quả vào đây.
+
+
+`google`, `azure` (TTS), `fal`, `higgsfield` (video), `ayrshare` (đăng bài) đều viết theo tài liệu
+chính thức, có test offline và `--dry-run`, nhưng **chưa gọi thử bằng tài khoản thật** từ repo này
+(giống `api`/Veo). **Bước đầu:** mỗi provider một lệnh rẻ nhất — `tts-check.mjs` một câu;
+`render.mjs --backend higgsfield --estimate` (miễn phí); một cảnh `hailuo-02` 6 giây (~$0,27); một
+bài ảnh qua Ayrshare — rồi ghi kết quả vào đây.
+
+### 26. Đăng lên nền tảng Việt
+
+> **2026-11-12 — xong phần làm được:** `scripts/social/upload-pack.mjs` — mỗi nền tảng một thư mục:
+> video kiểm/nén theo `delivery-specs.mjs`, caption, ảnh bìa, `HUONG-DAN.md`. Bước bấm đăng vẫn thủ
+> công vì không có API công khai. Zalo OA API (bài viết OA) vẫn để ngỏ.
+
+
+Ayrshare và Make phủ TikTok/Facebook/Instagram/YouTube, nhưng không có **Zalo OA**, **Shopee
+Video**, **TikTok Shop** — nơi shop Việt bán hàng. **Bước đầu:** kiểm Zalo OA API (đăng bài viết,
+gửi tin cho người quan tâm) và điều khoản; Shopee Video hiện chưa thấy API đăng công khai.
+
+### 27. Tổng chi phí theo tháng
+
+> **2026-11-12 — xong:** `scripts/lib/spend.mjs` (sổ `brain/spend.jsonl`), `scripts/analytics/spend.mjs`,
+> `monthlyCeilingUsd` trong profile / `SPEND_MONTHLY_CEILING_USD`. Video AI ghi theo USD báo giá; giọng
+> đọc đám mây và Ayrshare ghi số ký tự / số bài (giá tuỳ gói).
+
+
+Mỗi lệnh trả phí báo giá riêng và dừng ở `costCeilingUsd` của **một** lần render, nhưng không có
+chỗ cộng TTS (theo ký tự) + video AI + đăng bài theo tháng. **Bước đầu:** mỗi lần gọi trả phí ghi
+một dòng vào `brain/spend.jsonl`; `scripts/analytics/spend.mjs` cộng theo tháng/provider và cảnh báo
+khi gần trần tháng trong profile.
+
+### 28. Avatar nói / lồng tiếng khớp môi
+
+Kênh không lộ mặt rất phổ biến; kit có giọng đọc và khung hình nhưng không có người dẫn ảo. Cần
+một provider trả phí (HeyGen, D-ID, Hedra… — kiểm điều khoản dùng thương mại, nhãn AI theo Luật
+Trí tuệ nhân tạo Điều 11 mà `review-gate` đã kiểm). **Bước đầu:** so 2–3 dịch vụ về API, giá, tiếng Việt.
+
+### 29. Video mẫu tiếng Anh
+
+> **2026-11-12 — đang thử:** kịch bản tiếng Anh đã có (`examples/niche-samples/marketing/en/`), qua
+> `--strict`. Còn render: cần `GOOGLE_TTS_API_KEY` (giọng mặc định `en-US-Neural2-F`).
+
+
+README.en giờ cùng nội dung với README tiếng Việt, nhưng mọi video mẫu đều nói tiếng Việt. Khách
+quốc tế không nghe được video làm ra trông thế nào bằng tiếng của họ. **Bước đầu:** làm sau mục 24
+— bản tiếng Anh của 2–3 video ngành.
+
+### 30. Tự kéo số liệu TikTok / Facebook
+
+`performance-review` đọc CSV tải tay từ TikTok Studio / Meta Business Suite; chỉ YouTube tự lấy
+được. **Bước đầu:** Graph API cho Facebook/Instagram Page Insights (token người dùng tự tạo), TikTok
+Display API — kiểm quyền cần xin.
+
+**Ghi chú khác (chưa thành mục):** cài đặt vẫn cần Node + FFmpeg + Chrome (+ Python cho phụ đề) —
+chưa có bản cài một nhấp; người dùng vẫn cần trợ lý AI trả phí (Claude Code) để "nói chuyện" với
+kit; hầu hết dịch vụ quốc tế cần thẻ Visa/Master — Vbee, FPT AI, Viettel AI là lựa chọn trả bằng VND.
 
 ---
 

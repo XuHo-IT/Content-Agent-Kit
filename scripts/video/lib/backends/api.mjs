@@ -25,6 +25,8 @@
 //      VIDEO_API_RESOLUTION (720p | 1080p | 4k), VIDEO_COST_CEILING_USD.
 import fs from "node:fs";
 import path from "node:path";
+import { renderFinished, clipsOnDisk } from "./finish.mjs";
+import { recordSpend, checkMonthly, monthlyCeiling } from "../../../lib/spend.mjs";
 
 const API = "https://generativelanguage.googleapis.com/v1beta";
 
@@ -209,7 +211,7 @@ async function generateVideo({ prompt, model, resolution, durationSec, outFile, 
  *
  * @param {{script, scriptPath, outputDir, argv, settings}} ctx
  */
-export async function render({ script, outputDir, argv = [], settings = {} }) {
+export async function render({ script, scriptPath, outputDir, argv = [], settings = {} }) {
   const model = process.env.VIDEO_API_MODEL || DEFAULT_MODEL;
   const resolution = process.env.VIDEO_API_RESOLUTION || DEFAULT_RESOLUTION;
   const dryRun = argv.includes("--dry-run");
@@ -250,6 +252,12 @@ export async function render({ script, outputDir, argv = [], settings = {} }) {
   // of after the estimate was approved.
   if (!dryRun) await assertModelServed(resolveModelId(model));
 
+  // The month, not just this render: thirty cheap renders are one large bill.
+  const month = checkMonthly(est.totalUsd, { ceiling: monthlyCeiling(settings) });
+  if (!month.ok && !dryRun) {
+    console.error(`[video] ✗ ${month.reason}`);
+    process.exit(1);
+  }
   const clipDir = path.join(outputDir, "clips");
   const made = [];
   for (const scene of script.scenes ?? []) {
@@ -290,6 +298,7 @@ export async function render({ script, outputDir, argv = [], settings = {} }) {
         log: (m) => console.log(`[video]     ${m}`),
       }),
     );
+    recordSpend({ provider: "google-veo", kind: "video", units: billed.billedSec, unit: "s", usd: billed.usd, note: `${model} scene ${scene.id}` });
   }
 
   if (dryRun) {
@@ -299,8 +308,8 @@ export async function render({ script, outputDir, argv = [], settings = {} }) {
 
   console.log(`[video] ✓ ${made.length} clip(s) in ${clipDir}`);
   console.log(`[video]   Clips are kept and reused — each one was paid for. Delete to regenerate.`);
-  console.log(`[video]   Stitch and add narration with the html backend's later steps, or with ffmpeg.`);
-  return { clips: made, ...est };
+  const finished = renderFinished({ script, scriptPath, outputDir, clips: clipsOnDisk(script, outputDir), argv });
+  return { clips: made, finished, ...est };
 }
 
 export { DEFAULT_MODEL, DEFAULT_IMAGE_MODEL, DEFAULT_RESOLUTION, MIN_CLIP_SEC };

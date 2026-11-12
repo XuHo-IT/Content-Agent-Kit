@@ -1,18 +1,20 @@
 // tts.mjs — text-to-speech provider registry.
 //
-// Every TTS service this kit talks to falls into one of THREE response shapes:
+// Every TTS service this kit talks to falls into one of FOUR response shapes:
 //
-//   "bytes"     POST -> the response body IS the audio            (omnivoice, elevenlabs)
-//   "asyncUrl"  POST -> JSON holding a URL you download after     (fptai, viettel)
-//   "asyncJob"  POST -> a job id you poll until it yields a URL   (vbee)
+//   "bytes"      POST -> the response body IS the audio            (omnivoice, elevenlabs, azure)
+//   "jsonBase64" POST -> JSON holding the audio as base64          (google)
+//   "asyncUrl"   POST -> JSON holding a URL you download after     (fptai, viettel)
+//   "asyncJob"   POST -> a job id you poll until it yields a URL   (vbee)
 //
 // So a provider is just DATA: which shape, which env vars, how to build the request.
-// Three shared executors do the work, which means adding a provider is one table entry.
+// Four shared executors do the work, which means adding a provider is one table entry.
 //
 // ENV: TTS_PROVIDER (default omnivoice), TTS_VOICE_ID, TTS_SPEED, TTS_CONCURRENCY
 //      + the per-provider keys listed in `PROVIDER_SPECS` below.
 import { writeFile } from "node:fs/promises";
 import { optionalEnv, requireEnv } from "../../lib/env.mjs";
+import { recordSpend } from "../../lib/spend.mjs";
 
 // eleven_multilingual_v2 was the default here, and it does not cover Vietnamese (29 languages,
 // Vietnamese not among them) — a Vietnamese script came back in an anglicised accent or
@@ -26,6 +28,16 @@ const RETRY_DELAYS = [1000, 2000, 4000];
 /** How long to wait for an async provider to finish writing its file.
  *  FPT.AI documents "5 seconds to 2 minutes" — this ladder sums to ~2 minutes. */
 const POLL_DELAYS = [3000, 5000, 8000, 12000, 20000, 30000, 40000];
+
+/** Escape text for an SSML body — a stray "&" or "<" in a caption would break the XML. */
+export const xmlEscape = (s) =>
+  String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+
+/** "vi-VN-HoaiMyNeural" → "vi-VN"; the locale is the first two parts of every Azure/Google voice name. */
+export const localeOf = (voice, fallback = "vi-VN") => {
+  const m = String(voice || "").match(/^([a-z]{2,3}-[A-Z]{2})-/);
+  return m ? m[1] : fallback;
+};
 
 /** Clamp the schema's 0.5–2.0 speed onto a provider's own scale. */
 const toFptSpeed = (s) => Math.max(-3, Math.min(3, Math.round((s - 1) * 3)));
@@ -237,6 +249,74 @@ export const PROVIDER_SPECS = {
     },
   },
 
+  // Google Cloud Text-to-Speech. Vietnamese voices (vi-VN Standard/WaveNet/Neural2/Chirp 3 HD)
+  // and 50+ other languages, so the same script can be voiced for an international channel.
+  // Free monthly tier, then billed per character (WaveNet ≈ $4 / 1M, Chirp 3 HD ≈ $30 / 1M at
+  // the time of writing — check cloud.google.com/text-to-speech/pricing). An API key restricted
+  // to the Text-to-Speech API is enough; no service account needed.
+  google: {
+    shape: "jsonBase64",
+    needsVoiceId: false,
+    keys: ["GOOGLE_TTS_API_KEY"],
+    nativeSpeed: true,
+    maxChars: 5000,
+    defaultVoice: "vi-VN-Neural2-A",
+    note:
+      "Google Cloud TTS. TTS_VOICE_ID like vi-VN-Neural2-A, vi-VN-Wavenet-B, en-US-Chirp3-HD-Charon — " +
+      "the language is read from the voice name. List: node scripts/video/tts-check.mjs --voices",
+    voicesUrl: () =>
+      `https://texttospeech.googleapis.com/v1/voices?key=${requireEnv("GOOGLE_TTS_API_KEY")}` +
+      (optionalEnv("GOOGLE_TTS_LANGUAGE") ? `&languageCode=${optionalEnv("GOOGLE_TTS_LANGUAGE")}` : ""),
+    voicesHeaders: () => ({}),
+    mapVoice: (v) => ({ id: v.name, name: v.name, labels: [v.ssmlGender, ...(v.languageCodes ?? [])].join(", ") }),
+    build(text, cfg) {
+      const name = cfg.voiceId || optionalEnv("GOOGLE_TTS_VOICE", "vi-VN-Neural2-A");
+      return {
+        url: `https://texttospeech.googleapis.com/v1/text:synthesize?key=${requireEnv("GOOGLE_TTS_API_KEY")}`,
+        method: "POST",
+        headers: { "Content-Type": "application/json; charset=utf-8" },
+        body: JSON.stringify({
+          input: { text },
+          voice: { languageCode: localeOf(name), name },
+          audioConfig: { audioEncoding: "MP3", speakingRate: cfg.speed },
+        }),
+      };
+    },
+    // { audioContent: "<base64 mp3>" }
+    pickBase64: (json) => json?.audioContent,
+  },
+
+  // Azure AI Speech. vi-VN-HoaiMyNeural (female) and vi-VN-NamMinhNeural (male), plus 140+
+  // languages. Free tier (F0), then billed per character. Body is SSML, so the text is escaped.
+  azure: {
+    shape: "bytes",
+    needsVoiceId: false,
+    keys: ["AZURE_SPEECH_KEY", "AZURE_SPEECH_REGION"],
+    nativeSpeed: true,
+    knownVoices: ["vi-VN-HoaiMyNeural", "vi-VN-NamMinhNeural"],
+    note:
+      "Azure AI Speech. TTS_VOICE_ID like vi-VN-HoaiMyNeural, en-US-AvaMultilingualNeural, ja-JP-NanamiNeural. " +
+      "AZURE_SPEECH_REGION is the resource's region, e.g. southeastasia.",
+    build(text, cfg) {
+      const voice = cfg.voiceId || optionalEnv("AZURE_SPEECH_VOICE", "vi-VN-HoaiMyNeural");
+      const rate = `${cfg.speed >= 1 ? "+" : ""}${Math.round((cfg.speed - 1) * 100)}%`;
+      const ssml =
+        `<speak version="1.0" xmlns="http://www.w3.org/2001/10/synthesis" xml:lang="${localeOf(voice)}">` +
+        `<voice name="${xmlEscape(voice)}"><prosody rate="${rate}">${xmlEscape(text)}</prosody></voice></speak>`;
+      return {
+        url: `https://${requireEnv("AZURE_SPEECH_REGION")}.tts.speech.microsoft.com/cognitiveservices/v1`,
+        method: "POST",
+        headers: {
+          "Ocp-Apim-Subscription-Key": requireEnv("AZURE_SPEECH_KEY"),
+          "Content-Type": "application/ssml+xml",
+          "X-Microsoft-OutputFormat": "audio-24khz-48kbitrate-mono-mp3",
+          "User-Agent": "content-agent-kit",
+        },
+        body: ssml,
+      };
+    },
+  },
+
   // Fully env-driven escape hatch. Covers any provider without a built-in adapter —
   // e.g. Vivibe, which ships no public API (/api, /docs, /developer all 404), so if you
   // obtain private access you can wire it here rather than patching this file.
@@ -322,7 +402,7 @@ export function ttsConfig(overrides = {}) {
   }
 
   const shape = spec.shape ?? optionalEnv("TTS_HTTP_SHAPE", "bytes");
-  if (!["bytes", "asyncUrl", "asyncJob"].includes(shape)) {
+  if (!["bytes", "asyncUrl", "asyncJob", "jsonBase64"].includes(shape)) {
     throw new Error(`TTS_HTTP_SHAPE must be "bytes" or "asyncUrl", got "${shape}"`);
   }
 
@@ -420,6 +500,21 @@ async function runBytes(cfg, text, outPath) {
   await writeFile(outPath, buf);
 }
 
+/** Shape D — the response is JSON with the audio inside it as base64. */
+async function runJsonBase64(cfg, text, outPath) {
+  const res = await request(cfg, text);
+  const json = await res.json();
+  const b64 = cfg.spec.pickBase64(json);
+  if (!b64) {
+    throw Object.assign(new Error(`${cfg.provider}: no audio in the response: ${JSON.stringify(json).slice(0, 300)}`), {
+      fatal: true,
+    });
+  }
+  const buf = Buffer.from(b64, "base64");
+  if (buf.length === 0) throw new Error(`${cfg.provider} returned empty audio`);
+  await writeFile(outPath, buf);
+}
+
 /** Download a URL, retrying while it is still being written. */
 async function downloadWhenReady(cfg, url, outPath) {
   for (let i = 0; i <= POLL_DELAYS.length; i++) {
@@ -487,11 +582,14 @@ class TtsClient {
 
   async generate(text, outPath) {
     const run =
-      { bytes: runBytes, asyncUrl: runAsyncUrl, asyncJob: runAsyncJob }[this.cfg.shape] ?? runBytes;
+      { bytes: runBytes, asyncUrl: runAsyncUrl, asyncJob: runAsyncJob, jsonBase64: runJsonBase64 }[this.cfg.shape] ?? runBytes;
     let lastErr;
     for (let attempt = 0; attempt < 4; attempt++) {
       try {
         await run(this.cfg, text, outPath);
+        // Cloud voices bill per character on your plan; the kit cannot price that exactly,
+        // so it counts what was sent (usd null) for the monthly report.
+        if (!this.cfg.spec.local) recordSpend({ provider: this.cfg.provider, kind: "tts", units: [...text].length, unit: "chars" });
         return;
       } catch (e) {
         if (e?.fatal) throw e;
@@ -528,12 +626,14 @@ export async function listVoices(cfg) {
       ? cfg.spec.knownVoices.map((name) => ({ id: name, name }))
       : null;
   }
-  const res = await fetch(cfg.spec.voicesUrl, {
+  const voicesUrl = typeof cfg.spec.voicesUrl === "function" ? cfg.spec.voicesUrl() : cfg.spec.voicesUrl;
+  const res = await fetch(voicesUrl, {
     headers: cfg.spec.voicesHeaders(),
     signal: AbortSignal.timeout(30000),
   });
   if (!res.ok) throw new Error(`Could not list voices (status ${res.status})`);
   const j = await res.json();
+  if (cfg.spec.mapVoice) return (j.voices ?? []).map(cfg.spec.mapVoice);
   return (j.voices ?? []).map((v) => ({
     id: v.voice_id,
     name: v.name,

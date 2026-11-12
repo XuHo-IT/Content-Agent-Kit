@@ -92,5 +92,9 @@ export function resolveSettings({ script = {}, profile = null, flags = {}, env =
         p.costCeilingUsd,
         env.VIDEO_COST_CEILING_USD ? Number(env.VIDEO_COST_CEILING_USD) : undefined,
       ) ?? null,
+    // Per MONTH, across every paid render — scripts/lib/spend.mjs keeps the ledger. Same
+    // null-means-unset rule as costCeilingUsd.
+    monthlyCeilingUsd:
+      pick(p.monthlyCeilingUsd, env.SPEND_MONTHLY_CEILING_USD ? Number(env.SPEND_MONTHLY_CEILING_USD) : undefined) ?? null,
   };
 }

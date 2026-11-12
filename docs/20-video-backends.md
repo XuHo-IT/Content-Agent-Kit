@@ -17,6 +17,8 @@ node scripts/video/render.mjs script.json --backend remotion
 | **`html`** *(default)* | free | ffmpeg, Chrome | everything the kit already did — deterministic, offline once fonts cache |
 | `api` | **$0.03–$0.60 per second** | `GEMINI_API_KEY` | photoreal footage a template cannot draw |
 | `remotion` | free **for individuals and small companies** — see below | a separate npm project | motion design past what CSS keyframes reach |
+| `fal` | **~$0.045–$0.14 per second** (per clip) | `FAL_KEY` | one key for Kling, MiniMax Hailuo, Seedance, Wan… — usually cheaper than Veo |
+| `higgsfield` | **quoted per scene by Higgsfield before anything runs** | `HIGGSFIELD_KEY_ID` + `HIGGSFIELD_KEY_SECRET` | cinematic shots (Kling 3.0, Seedance 2.0, Hailuo 2.3) from one Higgsfield balance |
 
 `html` stayed the default in **both** shipped profiles, including `business`. The others are
 for a deliberate choice, not for a daily queue.
@@ -65,6 +67,41 @@ subject. The backend refuses rather than guessing.
 > bodies, the long-running-operation shape — is written from Google's published docs and has
 > not been run from this repo. `--dry-run` prints every request so you can check it first.
 > Same disclosure `scripts/lib/media-hosts/r2.mjs` makes about its S3 wiring.
+
+### `fal` and `higgsfield` — more AI video models, same safety rails
+
+Both generate one clip per scene from its `videoPrompt` (never the narration), print the bill
+first, honour `costCeilingUsd`, ask for `--yes` above $1 with no ceiling, keep and reuse every
+paid clip, and print every request with `--dry-run`.
+
+- **`fal`** (`scripts/video/lib/backends/fal.mjs`): presets `hailuo-02` (default, ~$0.045/s),
+  `kling-2.5-turbo` (~$0.07/s), `kling-v3` (~$0.14/s). A scene is snapped **up** to a length the
+  model makes (5/10 s, 6/10 s) and billed for it. Any other fal video model: `FAL_MODEL_ID` +
+  `FAL_RATE_PER_SEC` — without a rate it refuses rather than print a made-up estimate. Rates are
+  starting assumptions from fal's pages (November 2026); check before budgeting.
+- **`higgsfield`** (`scripts/video/lib/backends/higgsfield.mjs`): presets `kling-3` (3–15 s),
+  `seedance-2` (4–15 s, 720p), `hailuo-2.3` (6/10 s, fixed 768p, no documented aspect ratio).
+  `--estimate` asks Higgsfield's `/estimate` endpoint for the **real USD price** of each scene
+  for your account; the ceiling is checked against that sum before any submission. Failed and
+  moderated (`nsfw`) requests are not charged. Model audio is switched off — the kit lays its
+  own narration and music. Higgsfield deletes outputs after 7 days; the clips on disk are yours.
+
+Neither wire format has been run against a live account from this repo — start with
+`--dry-run`, then `--estimate`.
+
+**The result is a finished video, not a folder of clips.** After the clips are made (Veo, fal or
+Higgsfield), the backend writes `script.finished.json` — every scene with a clip becomes
+`frame-broll` with that clip behind the scene's own words, the outro keeps its card — and runs the
+html pipeline on it: narration, captions, music, one MP4. `--clips-only` stops at the clips.
+
+**Spend per month.** Every paid clip is logged to `brain/spend.jsonl`; `node scripts/analytics/spend.mjs`
+totals the month, and `monthlyCeilingUsd` in the profile (or `SPEND_MONTHLY_CEILING_USD`) refuses the
+render that would cross it. `node scripts/providers-check.mjs --live` checks keys with free calls.
+
+```bash
+node scripts/video/render.mjs script.json --backend fal --estimate
+node scripts/video/render.mjs script.json --backend higgsfield --dry-run
+```
 
 ### `remotion`
 
@@ -171,6 +208,8 @@ chỉ quyết định pixel được tạo ra bằng cách nào.
 | **`html`** *(mặc định)* | miễn phí | ffmpeg, Chrome | mọi thứ kit vẫn làm — tất định, cache font xong là chạy offline |
 | `api` | **$0,03–$0,60 mỗi giây** | `GEMINI_API_KEY` | cảnh quay như thật mà template không vẽ được |
 | `remotion` | miễn phí **với cá nhân và công ty nhỏ** — xem bên dưới | một project npm riêng | chuyển động vượt ngoài tầm CSS keyframes |
+| `fal` | **~$0,045–$0,14 mỗi giây** (theo clip) | `FAL_KEY` | một khoá cho Kling, MiniMax Hailuo, Seedance, Wan… — thường rẻ hơn Veo |
+| `higgsfield` | **Higgsfield báo giá từng cảnh trước khi chạy** | `HIGGSFIELD_KEY_ID` + `HIGGSFIELD_KEY_SECRET` | cảnh điện ảnh (Kling 3.0, Seedance 2.0, Hailuo 2.3) từ một tài khoản Higgsfield |
 
 `html` vẫn là mặc định ở **cả hai** profile, kể cả `business`. Hai cái kia dành cho lựa chọn
 có chủ đích, không dành cho hàng đợi chạy hằng ngày.
@@ -207,6 +246,32 @@ từ chối chứ không đoán.
 > hình dạng long-running operation — viết theo tài liệu Google công bố, chưa chạy thật từ repo
 > này. `--dry-run` in ra từng request để bạn kiểm trước. Đúng kiểu `media-hosts/r2.mjs` đã nói
 > về phần nối S3 của nó.
+
+### `fal` và `higgsfield` — thêm model video AI, cùng hàng rào an toàn
+
+Cả hai tạo một clip cho mỗi cảnh từ `videoPrompt` (không phải lời đọc), in hoá đơn trước, tôn
+trọng `costCeilingUsd`, đòi `--yes` khi trên $1 mà chưa đặt trần, giữ và dùng lại mọi clip đã trả
+tiền, và in mọi request với `--dry-run`.
+
+- **`fal`**: `hailuo-02` (mặc định, ~$0,045/giây), `kling-2.5-turbo` (~$0,07/giây), `kling-v3`
+  (~$0,14/giây). Cảnh được làm tròn **lên** độ dài model tạo được (5/10 giây, 6/10 giây) và tính
+  tiền theo đó. Model fal khác: `FAL_MODEL_ID` + `FAL_RATE_PER_SEC` — thiếu giá thì từ chối, không
+  đoán. Giá là giả định ban đầu (11/2026); kiểm trang model trên fal.ai trước khi lập ngân sách.
+- **`higgsfield`**: `kling-3` (3–15 giây), `seedance-2` (4–15 giây, 720p), `hailuo-2.3` (6/10 giây,
+  768p cố định, tài liệu không có tỷ lệ khung). `--estimate` hỏi endpoint `/estimate` của
+  Higgsfield **giá USD thật** cho từng cảnh với tài khoản của bạn; trần chi phí được so với tổng đó
+  trước khi gửi bất kỳ yêu cầu nào. Yêu cầu lỗi hoặc bị kiểm duyệt (`nsfw`) không tính tiền. Âm
+  thanh của model bị tắt — kit tự lồng giọng đọc và nhạc. Higgsfield xoá file sau 7 ngày.
+
+Cả hai chưa chạy thử với tài khoản thật từ repo này — chạy `--dry-run` trước, rồi `--estimate`.
+
+**Kết quả là video hoàn chỉnh, không phải thư mục clip.** Tạo clip xong (Veo, fal, Higgsfield), backend
+viết `script.finished.json` — cảnh có clip thành `frame-broll` với clip làm nền dưới chữ của cảnh, outro
+giữ thẻ riêng — rồi chạy pipeline html: giọng đọc, phụ đề, nhạc, một file MP4. `--clips-only` để dừng ở clip.
+
+**Chi tiêu theo tháng.** Mọi clip trả phí được ghi vào `brain/spend.jsonl`; `node scripts/analytics/spend.mjs`
+cộng theo tháng; `monthlyCeilingUsd` trong profile (hoặc `SPEND_MONTHLY_CEILING_USD`) chặn lần render vượt
+trần tháng. `node scripts/providers-check.mjs --live` kiểm khoá bằng yêu cầu miễn phí.
 
 ### `remotion` — source-available, không phải open source
 

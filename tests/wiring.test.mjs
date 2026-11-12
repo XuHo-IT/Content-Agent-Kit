@@ -53,7 +53,7 @@ const skillDirs = fs
   .map((d) => d.name);
 
 const bootstrap = read("skills/bootstrap-content-agent/SKILL.md");
-const readmes = read("README.md") + read("docs/00-huong-dan-chi-tiet.md") + read("README.en.md") + read("AGENTS.md");
+const readmes = read("README.md") + read("docs/00-huong-dan-chi-tiet.md") + read("README.en.md") + read("docs/00-detailed-guide.md") + read("AGENTS.md");
 
 test("every skill has a SKILL.md with frontmatter", () => {
   for (const n of skillDirs) {
@@ -264,12 +264,32 @@ test("the two READMEs name the same tools", () => {
   // November 2026: README.md is Vietnamese again (the kit is tuned for Vietnamese creators)
   // and English lives in README.en.md; README.vi.md is a pointer kept so old links resolve.
   // README.md is now the short non-technical page; its technical twin is docs/00.
+  // November 2026, later: README.en.md became the English copy of the SHORT page (international
+  // readers saw a different, older document than Vietnamese ones), and the technical English
+  // moved to docs/00-detailed-guide.md — so the technical pair is compared here, and the two
+  // short pages by the test below.
   const vi = named("docs/00-huong-dan-chi-tiet.md");
-  const en = named("README.en.md");
+  const en = named("docs/00-detailed-guide.md");
   const noEn = [...vi].filter((n) => !en.has(n)).sort();
   const noVi = [...en].filter((n) => !vi.has(n)).sort();
-  assert.deepEqual(noEn, [], `docs/00 names these and README.en.md does not: ${noEn.join(", ")}`);
-  assert.deepEqual(noVi, [], `README.en.md names these and docs/00 does not: ${noVi.join(", ")}`);
+  assert.deepEqual(noEn, [], `docs/00 names these and docs/00-detailed-guide.md does not: ${noEn.join(", ")}`);
+  assert.deepEqual(noVi, [], `docs/00-detailed-guide.md names these and docs/00 does not: ${noVi.join(", ")}`);
+});
+
+test("README.md and README.en.md are the same page in two languages", () => {
+  // Same media, same links, same sections. Prose can differ; what a reader can SEE and CLICK
+  // cannot — the English page once showed a different video set than the Vietnamese one.
+  const targets = (f) => (read(f).match(/(?:\]\(|src=")[^)"#\s]+/g) ?? [])
+    .map((m) => m.replace(/^\]\(|^src="/, ""))
+    .filter((u) => !/^https?:/.test(u) && !/^README(\.en)?\.md$/.test(u) && !/^docs\/00-/.test(u));
+  const vi = new Set(targets("README.md"));
+  const en = new Set(targets("README.en.md"));
+  const noEn = [...vi].filter((u) => !en.has(u)).sort();
+  const noVi = [...en].filter((u) => !vi.has(u)).sort();
+  assert.deepEqual(noEn, [], `README.md shows or links these and README.en.md does not: ${noEn.join(", ")}`);
+  assert.deepEqual(noVi, [], `README.en.md shows or links these and README.md does not: ${noVi.join(", ")}`);
+  const h2 = (f) => (read(f).match(/^## /gm) ?? []).length;
+  assert.equal(h2("README.en.md"), h2("README.md"), "the two READMEs have a different number of sections");
 });
 
 test("every doc is linked from somewhere", () => {

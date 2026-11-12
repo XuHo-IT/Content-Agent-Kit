@@ -162,6 +162,8 @@ From `templates/` + `scripts/`, produce:
   itself — insight, positioning, a campaign, community, retention — install `brand-lessons`
   (`docs/32-bai-hoc-thuong-hieu.md`): eight methods learnt from Grab, Biti's Hunter, PNJ, Cocoon,
   Vinamilk, MoMo, Highlands Coffee and Coca-Cola, turned into an interview on their own brand.
+  For an agent that also serves viewers in another language, install `localize-video`: an
+  English (or other) version of each video, with every on-screen line checked against its frame.
   `new-template` and `motion-craft` belong in a kit checkout rather than a generated agent:
   they edit `video-templates/` and the gates around it, which a downstream agent does not own.
 - **Skills from elsewhere** (optional): `node scripts/install-skills.mjs --list` shows an SEO
