@@ -46,7 +46,7 @@ sẽ thành hai lớp chữ chồng nhau. Phụ đề sáng từng từ dành ch
 node examples/niche-samples/make-scripts.mjs tai-chinh             # ghi script.json (bỏ tên = cả 16)
 node scripts/video/validate-script.mjs examples/niche-samples/tai-chinh/script.json --strict
 node scripts/video/render.mjs examples/niche-samples/tai-chinh/script.json --captions off
-node scripts/video/make-preview.mjs examples/niche-samples/tai-chinh/video.mp4      --mp4 examples/niche-samples/tai-chinh/video.mp4               # preview.webp + bản nén 540p
+node scripts/video/make-preview.mjs examples/niche-samples/tai-chinh/video.mp4 --highlights 7 --mp4 examples/niche-samples/tai-chinh/video.mp4   # preview.webp (7 khoảnh khắc đẹp nhất, trải đều cả video) + bản nén 540p
 ```
 
 Kịch bản nằm ở [`niches-1.mjs`](niches-1.mjs) (công nghệ, kinh doanh, game) và

@@ -125,3 +125,5 @@ it a revision means starting over.
 - **Do not use someone else's brand assets** because they were in the template. That is the
   same mistake the vendored video templates shipped with — a default that quietly published
   another project's URL on your video.
+
+**A new look is a repositioning.** When the ask is a rebrand or "làm mới thương hiệu", run `brand-lessons` → `vinamilk` first: keep the assets customers already recognise, change what has aged, say why, change every touchpoint at once (`docs/32-bai-hoc-thuong-hieu.md`).

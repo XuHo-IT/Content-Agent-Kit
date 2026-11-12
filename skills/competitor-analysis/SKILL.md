@@ -110,3 +110,5 @@ Method and caveats: `docs/24-competitor-analysis.md`.
 skill once (`node scripts/install-skills.mjs watch-video`, MIT) and give it the video's URL. It
 returns timestamped frames and a transcript, so the report can name the hook in the first three
 seconds, the cut rhythm and what is on screen. Take the device; never reuse the footage.
+
+**From gaps to insight.** A topic gap says what competitors do not cover; it does not say what customers struggle with. Feed their low-star reviews and repeated questions into `brand-lessons` → `grab` ("Khách muốn ___, nhưng ___, vì ___") — `docs/32-bai-hoc-thuong-hieu.md`.

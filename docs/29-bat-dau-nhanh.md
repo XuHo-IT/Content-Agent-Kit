@@ -34,7 +34,7 @@ Khởi động lại Claude Code. Skill hiện với tên có tiền tố, ví d
 `git clone`, mở thư mục kit, rồi chạy:
 
 ```bash
-node scripts/install-skills.mjs --kit --global   # cài cả 30 skill, dùng được ở mọi thư mục
+node scripts/install-skills.mjs --kit --global   # cài cả 31 skill, dùng được ở mọi thư mục
 node scripts/install-skills.mjs --kit            # hoặc: chỉ dùng trong thư mục kit này
 node scripts/install-skills.mjs --kit story-video ads-policy-check   # hoặc: chỉ vài skill
 ```
@@ -101,7 +101,7 @@ Thời gian tham khảo: soát kịch bản vài giây; dựng một video 60–
 
 ## English
 
-Three ways to get the kit's 30 skills into your assistant. Claude Code only loads skills from
+Three ways to get the kit's 31 skills into your assistant. Claude Code only loads skills from
 `.claude/skills/`, `~/.claude/skills/` or a plugin, so opening the folder is not enough:
 
 - **Plugin** — `/plugin marketplace add XuHo-IT/Content-Agent-Kit`, then

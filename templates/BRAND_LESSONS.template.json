@@ -1,0 +1,286 @@
+{
+  "_about": "Tám bài học marketing, mỗi bài gắn với một thương hiệu nổi tiếng vì làm tốt đúng việc đó. Đây là PHƯƠNG PHÁP để áp vào thương hiệu của người dùng, không phải tư liệu để trích. 'case_notes' là điều thường được kể về thương hiệu đó — trước khi đưa bất kỳ câu nào vào bài đăng hay video, tìm nguồn gốc (trang chính thức, báo uy tín) và ghi nguồn; không có nguồn thì không dùng. Không gắn tên, logo, nhạc, khẩu hiệu của các thương hiệu này vào nội dung của người dùng như thể là của mình. Đọc: docs/32-bai-hoc-thuong-hieu.md. Dùng: skills/brand-lessons/SKILL.md, scripts/marketing/brand-lesson.mjs.",
+  "lessons": [
+    {
+      "id": "grab",
+      "brand": "Grab",
+      "topic": "Tìm insight và giải quyết vấn đề khách hàng",
+      "keywords": ["insight", "vấn đề", "nỗi đau", "pain point", "khách phàn nàn", "hiểu khách", "nhu cầu", "problem"],
+      "one_line": "Bắt đầu từ một khoảnh khắc khó chịu có thật của khách, sửa nó bằng sản phẩm hoặc dịch vụ, rồi mới nói về nó.",
+      "case_notes": [
+        "Thường được kể: khi vào Việt Nam, Grab nhắm đúng nỗi ngại của người đi xe ôm — phải mặc cả, không biết trước giá, không biết người chở là ai — và trả lời bằng giá báo trước, tên và biển số tài xế, theo dõi chuyến đi.",
+        "Sau đó mở rộng sang giao đồ ăn, giao hàng, thanh toán: mỗi dịch vụ gắn với một việc hằng ngày khách đang phải tự xoay xở."
+      ],
+      "method": [
+        "Vẽ hành trình của khách: trước khi mua, lúc mua, sau khi mua. Ở mỗi chặng ghi khách đang làm gì và khó chịu ở đâu.",
+        "Gom bằng chứng thật cho từng điểm khó chịu: bình luận, tin nhắn hỏi, đánh giá 1–3 sao của mình và của đối thủ. Không có bằng chứng thì chưa phải insight.",
+        "Viết insight theo khung: 'Khách muốn ___, nhưng ___, vì ___.' Vế 'nhưng' là mâu thuẫn — insight không có mâu thuẫn chỉ là mô tả.",
+        "Thử insight: đọc lên cho 3–5 khách thật; họ phải phản ứng 'đúng là vậy', không phải 'cũng được'.",
+        "Sửa vấn đề trước khi quảng cáo: đổi sản phẩm, quy trình, chính sách (đổi trả, báo giá, giao hàng) để insight có câu trả lời thật.",
+        "Kể lại bằng nội dung 'vấn đề → cách giải': một video, một bài, một câu trả lời bình luận cho mỗi insight."
+      ],
+      "questions": [
+        "Khách hay hỏi đi hỏi lại câu gì nhất trong tin nhắn hoặc bình luận?",
+        "Lúc nào khách do dự lâu nhất trước khi mua, và họ nói gì lúc đó?",
+        "Trước khi biết đến bạn, khách đang tự xoay xở chuyện này thế nào?",
+        "Đánh giá thấp nhất của bạn và của đối thủ phàn nàn điều gì?"
+      ],
+      "kit_route": {
+        "skills": ["ads-comment-triage", "competitor-analysis", "create-video"],
+        "scripts": ["scripts/ads/comment-triage.mjs", "scripts/research/competitor-scan.mjs"],
+        "genres": ["comment-reply", "vox-explainer", "testimonial"],
+        "frames": ["frame-trend-comment-reply", "frame-split-compare", "frame-checklist"]
+      },
+      "metrics": ["số câu hỏi lặp lại giảm sau khi sửa", "tỷ lệ chuyển đổi trang sản phẩm", "điểm đánh giá trung bình"],
+      "pitfalls": [
+        "Lấy insight từ cảm giác của chủ shop thay vì lời khách.",
+        "Quảng cáo một lời hứa mà sản phẩm chưa sửa xong — khách thử một lần rồi bỏ."
+      ]
+    },
+    {
+      "id": "bitis-hunter",
+      "brand": "Biti's Hunter",
+      "topic": "Định vị thương hiệu và storytelling",
+      "keywords": ["định vị", "positioning", "storytelling", "kể chuyện", "trẻ hoá", "câu chuyện thương hiệu", "người trẻ", "cảm xúc"],
+      "one_line": "Chọn một vùng cảm xúc rõ ràng cho đúng một nhóm khách, rồi kể nhiều câu chuyện trong đúng vùng đó, năm này qua năm khác.",
+      "case_notes": [
+        "Thường được kể: Biti's vốn gắn với dép sandal và khẩu hiệu 'Nâng niu bàn chân Việt'; dòng Biti's Hunter được làm riêng cho người trẻ.",
+        "Dịp Tết 2017, Biti's Hunter xuất hiện trong MV 'Lạc trôi' (Sơn Tùng M-TP) và 'Đi để trở về' (Soobin Hoàng Sơn) — câu chuyện người trẻ đi xa rồi về nhà ăn Tết; 'Đi để trở về' sau đó thành một chuỗi nhiều phần."
+      ],
+      "method": [
+        "Viết câu định vị: 'Với [nhóm khách], [thương hiệu] là [loại sản phẩm] giúp [lợi ích chính], vì [lý do để tin].' Mỗi ô một cụm, không 'và'.",
+        "Chọn một vùng cảm xúc thương hiệu muốn sở hữu (ví dụ: hành trình, về nhà, tự tin lần đầu). Kiểm: đối thủ chưa chiếm, sản phẩm có lý do để đứng ở đó.",
+        "Tìm câu chuyện (ai · muốn gì · vướng gì · bước ngoặt · sau đó ra sao) rồi đặt lên sáu nhịp của story-video: mở · bối cảnh · trở ngại · BƯỚC NGOẶT · bằng chứng · kết/kêu gọi.",
+        "Cho sản phẩm làm bạn đồng hành của nhân vật, không làm nhân vật chính; câu chuyện phải đứng được kể cả khi bỏ logo ra.",
+        "Lặp lại vùng cảm xúc thành một chuỗi (phần 1, 2, 3 hoặc mỗi mùa một chuyện) thay vì mỗi chiến dịch một ý mới."
+      ],
+      "questions": [
+        "Khách lý tưởng của bạn là ai, cụ thể đến độ tuổi, nơi sống, đang ở giai đoạn nào của đời?",
+        "Bạn muốn khách nhớ tới mình bằng một cảm giác nào?",
+        "Có câu chuyện thật nào của khách hoặc của người làm ra sản phẩm mà bạn được phép kể?",
+        "Đối thủ đang nói về cảm xúc nào — để mình tránh?"
+      ],
+      "kit_route": {
+        "skills": ["story-video", "competitor-analysis", "repurpose"],
+        "scripts": ["scripts/research/competitor-scan.mjs"],
+        "genres": ["brand-story", "customer-story", "legend"],
+        "frames": ["frame-story-one-line", "frame-story-page-turn", "frame-story-letter", "frame-story-world-pan"]
+      },
+      "metrics": ["lượt xem hết video (completion)", "lượt chia sẻ và lưu", "tìm kiếm tên thương hiệu tăng sau chiến dịch"],
+      "pitfalls": [
+        "Mỗi chiến dịch một cảm xúc khác — khách không nhớ thương hiệu đứng cho điều gì.",
+        "Bịa nhân vật hoặc lời khách để câu chuyện 'cảm động' hơn — kit cấm; dùng chuyện thật, có cho phép."
+      ]
+    },
+    {
+      "id": "pnj",
+      "brand": "PNJ",
+      "topic": "Biến insight thành chiến dịch và doanh thu",
+      "keywords": ["chiến dịch", "campaign", "doanh thu", "revenue", "bán hàng", "dịp lễ", "quà tặng", "chuyển đổi"],
+      "one_line": "Một chiến dịch là một chuỗi nối liền: insight → ý tưởng lớn → sản phẩm/ưu đãi cho đúng dịp → kênh → con số doanh thu đo được.",
+      "case_notes": [
+        "Thường được kể: trang sức là hàng mua theo dịp — cưới hỏi, quà tặng (8/3, 20/10, Valentine), ngày vía Thần Tài — nên PNJ được nhắc tới như ví dụ về chiến dịch gắn với dịp, có bộ sưu tập và ưu đãi riêng, bán cả cửa hàng lẫn online.",
+        "Con số doanh thu của từng chiến dịch chỉ lấy từ báo cáo chính thức của doanh nghiệp; không ước đoán."
+      ],
+      "method": [
+        "Chọn một dịp có nhu cầu thật (lịch sale của kit: Tết, 8/3, 20/10, mùa cưới…) và một insight đã kiểm (bài Grab).",
+        "Viết ý tưởng lớn trong một câu, nối insight với sản phẩm: 'Vì khách ___, chúng ta ___.'",
+        "Gắn ý tưởng vào thứ bán được: một bộ sưu tập, một combo, một ưu đãi có hạn — ghi giá gốc và giá giảm rõ ràng.",
+        "Lên kênh và lịch: nội dung khơi gợi trước dịp, quảng cáo chuyển đổi đúng dịp, chăm sóc sau dịp.",
+        "Đặt mục tiêu bằng số trước khi chạy (doanh thu, số đơn, giá trị đơn trung bình) và đo lại sau; ghi bài học cho dịp năm sau."
+      ],
+      "questions": [
+        "Dịp nào trong năm bạn bán được nhiều nhất, và vì sao khách mua vào dịp đó?",
+        "Khách mua cho mình hay mua làm quà? Người nhận là ai?",
+        "Bạn có thể làm riêng một bộ sản phẩm, combo hoặc ưu đãi cho dịp đó không?",
+        "Mục tiêu doanh thu hoặc số đơn của chiến dịch này là bao nhiêu?"
+      ],
+      "kit_route": {
+        "skills": ["promo-calendar", "ads-creative-lab", "design-campaign", "ads-report", "performance-review"],
+        "scripts": ["scripts/ads/promo-plan.mjs", "scripts/ads/creative-matrix.mjs", "scripts/ads/policy-lint.mjs"],
+        "genres": ["launch", "flash-deal", "data-story"],
+        "frames": ["frame-funnel", "frame-trend-stat-odometer", "frame-timeline"]
+      },
+      "metrics": ["doanh thu và số đơn theo chiến dịch", "giá trị đơn trung bình", "chi phí quảng cáo trên mỗi đơn"],
+      "pitfalls": [
+        "Chiến dịch đẹp nhưng không có thứ cụ thể để mua — khách khen rồi đi.",
+        "Ghi giảm giá mà không có giá gốc — vi phạm quy định khuyến mại và chính sách quảng cáo (chạy ads-policy-check)."
+      ]
+    },
+    {
+      "id": "cocoon",
+      "brand": "Cocoon",
+      "topic": "Xây dựng thương hiệu và cộng đồng",
+      "keywords": ["cộng đồng", "community", "giá trị", "thuần chay", "bền vững", "ugc", "fan", "trung thành", "local brand"],
+      "one_line": "Đứng cho một giá trị chứng minh được, rồi để cộng đồng khách nói thay mình.",
+      "case_notes": [
+        "Thường được kể: Cocoon là mỹ phẩm thuần chay của Việt Nam, dùng nguyên liệu bản địa (bí đao, cà phê Đắk Lắk, bưởi…) và cam kết không thử nghiệm trên động vật; truyền thông xoay quanh giá trị đó nhiều hơn là giảm giá.",
+        "Các chương trình cộng đồng cụ thể của Cocoon: chỉ nhắc khi đã kiểm trên kênh chính thức của họ."
+      ],
+      "method": [
+        "Viết 1–3 giá trị thương hiệu, mỗi giá trị kèm bằng chứng (chứng nhận, nguồn nguyên liệu, quy trình). Giá trị không chứng minh được thì bỏ.",
+        "Kể câu chuyện nguồn gốc: nguyên liệu từ đâu, ai làm, vì sao chọn cách làm khó hơn.",
+        "Tạo nghi thức cho cộng đồng: chia sẻ quy trình dùng, thử thách theo tuần, đổi trả bao bì, nhóm hỏi đáp — thứ khách làm cùng nhau, không chỉ mua.",
+        "Mời khách làm nội dung (UGC) có quyền sử dụng rõ ràng; trả lời bình luận bằng video.",
+        "Đo sức khoẻ cộng đồng bằng tương tác thật, không chỉ lượt theo dõi."
+      ],
+      "questions": [
+        "Thương hiệu của bạn đứng cho điều gì mà bạn chứng minh được bằng giấy tờ hoặc quy trình?",
+        "Nguyên liệu hoặc cách làm của bạn có câu chuyện nguồn gốc nào?",
+        "Khách hiện tại có đang tự đăng gì về sản phẩm không? Ở đâu?",
+        "Khách có thể cùng làm gì với nhau quanh sản phẩm của bạn?"
+      ],
+      "kit_route": {
+        "skills": ["ugc-koc-brief", "story-video", "repurpose", "ads-comment-triage"],
+        "scripts": ["scripts/ads/comment-triage.mjs"],
+        "genres": ["brand-story", "comment-reply", "comment-story", "testimonial"],
+        "frames": ["frame-quote-testimonial", "frame-trend-comment-reply", "frame-story-letter"]
+      },
+      "metrics": ["số bài khách tự đăng (UGC) mỗi tháng", "tỷ lệ bình luận trên lượt xem", "tỷ lệ khách mua lại"],
+      "pitfalls": [
+        "Nói 'xanh', 'sạch', 'tự nhiên' mà không có bằng chứng — khách và cơ quan quản lý đều bắt lỗi.",
+        "Dùng ảnh hoặc video của khách để quảng cáo khi chưa có sự đồng ý bằng văn bản."
+      ]
+    },
+    {
+      "id": "vinamilk",
+      "brand": "Vinamilk",
+      "topic": "Brand strategy và tái định vị thương hiệu",
+      "keywords": ["tái định vị", "repositioning", "rebrand", "đổi logo", "nhận diện", "brand strategy", "chiến lược thương hiệu", "làm mới"],
+      "one_line": "Tái định vị là giữ lại tài sản khách đã tin, đổi phần đã cũ, và nói rõ vì sao đổi.",
+      "case_notes": [
+        "Thường được kể: năm 2023 Vinamilk ra mắt bộ nhận diện mới (logo, bao bì) sau nhiều thập kỷ, hướng tới hình ảnh trẻ trung hơn trong khi vẫn giữ tên và niềm tin đã có.",
+        "Cách công chúng đón nhận lần đổi mới này: chỉ dẫn khi có nguồn khảo sát hoặc báo cáo cụ thể."
+      ],
+      "method": [
+        "Kiểm tra thương hiệu: khách đang nghĩ gì về mình (từ bình luận, đánh giá, khảo sát nhanh) so với điều mình muốn họ nghĩ.",
+        "Liệt kê tài sản thương hiệu khách nhận ra ngay (tên, màu, hình, câu nói, âm thanh). Thứ khách đã nhớ thì giữ hoặc làm mới nhẹ, không vứt.",
+        "Viết định vị mới (khung câu định vị ở bài Biti's Hunter) và một câu giải thích vì sao đổi, nói bằng lợi ích cho khách.",
+        "Đổi đồng loạt trên mọi điểm chạm: bao bì, trang, video, bảng màu video của kit — đổi một nửa trông như hai thương hiệu.",
+        "Đo lại nhận thức sau 1–3 tháng bằng đúng câu hỏi lúc đầu."
+      ],
+      "questions": [
+        "Khách hiện nghĩ gì về thương hiệu của bạn — hãy dán vài bình luận hoặc đánh giá thật?",
+        "Bạn muốn khách nghĩ gì sau khi đổi?",
+        "Thứ gì của thương hiệu khách nhận ra ngay mà không cần đọc tên?",
+        "Vì sao phải đổi bây giờ — khách mới, sản phẩm mới, hay hình ảnh đã cũ?"
+      ],
+      "kit_route": {
+        "skills": ["competitor-analysis", "design-campaign", "story-video", "performance-review"],
+        "scripts": ["scripts/research/competitor-scan.mjs", "scripts/video/theme-from-url.mjs"],
+        "genres": ["brand-story", "launch", "data-story"],
+        "frames": ["frame-split-compare", "frame-trend-compare-wipe", "frame-timeline"]
+      },
+      "metrics": ["tỷ lệ khách nhận ra thương hiệu mới", "cảm nhận trong bình luận trước/sau", "doanh số nhóm khách mới nhắm tới"],
+      "pitfalls": [
+        "Đổi logo nhưng không đổi lời hứa — chỉ là sơn lại.",
+        "Bỏ hết tài sản cũ, khách quen không nhận ra mình trên kệ hay trên feed."
+      ]
+    },
+    {
+      "id": "momo",
+      "brand": "MoMo",
+      "topic": "Growth marketing và viral marketing",
+      "keywords": ["growth", "tăng trưởng", "viral", "lan truyền", "giới thiệu bạn bè", "referral", "game", "mini game", "người dùng mới"],
+      "one_line": "Thiết kế vòng tăng trưởng: mỗi người dùng mới có lý do và cách dễ để kéo thêm người khác, gắn với một dịp ai cũng đang quan tâm.",
+      "case_notes": [
+        "Thường được kể: ví MoMo dùng trò chơi theo mùa (ví dụ trò chơi lì xì dịp Tết) và thưởng khi giới thiệu bạn bè để kéo người dùng mới, cùng các trò chơi giữ người dùng quay lại hằng ngày.",
+        "Số người dùng hay số lượt chơi của từng chiến dịch: chỉ dẫn từ công bố chính thức."
+      ],
+      "method": [
+        "Vẽ phễu AARRR: thu hút → kích hoạt (lần dùng đầu có giá trị) → giữ chân → giới thiệu → doanh thu. Tìm chặng rò nhiều nhất trước.",
+        "Thiết kế vòng lặp chia sẻ: người dùng được gì khi rủ bạn, người bạn được gì khi vào, và chia sẻ mất mấy chạm (càng ít càng tốt).",
+        "Gắn cơ chế với một dịp văn hoá ai cũng chơi (Tết lì xì, Trung thu, 9/9…) để lý do chia sẻ có sẵn.",
+        "Ước hệ số lan truyền K = số lời mời mỗi người × tỷ lệ người được mời tham gia; K < 1 thì vẫn cần quảng cáo đẩy.",
+        "Kiểm quy định khuyến mại hiện hành (giải thưởng, trò chơi có thưởng) trước khi chạy, qua freshness-check."
+      ],
+      "questions": [
+        "Khách được gì nếu rủ thêm một người, và người được rủ được gì?",
+        "Từ lúc thấy bài đến lúc chia sẻ, khách phải bấm mấy lần?",
+        "Dịp nào sắp tới mà khách của bạn đang háo hức?",
+        "Chặng nào trong phễu đang rơi rụng nhiều nhất (có số liệu không)?"
+      ],
+      "kit_route": {
+        "skills": ["promo-calendar", "topic-radar", "performance-review", "ads-policy-check", "freshness-check"],
+        "scripts": ["scripts/ads/promo-plan.mjs", "scripts/research/topic-radar.mjs", "scripts/ads/policy-lint.mjs"],
+        "genres": ["growth-strategy", "flash-deal", "comment-reply"],
+        "frames": ["frame-funnel", "frame-trend-live-poll", "frame-trend-stat-odometer"]
+      },
+      "metrics": ["hệ số lan truyền K", "chi phí cho mỗi người dùng mới", "tỷ lệ quay lại sau 7 và 30 ngày"],
+      "pitfalls": [
+        "Thưởng to kéo về người săn quà rồi bỏ — đo giữ chân, không chỉ đo lượt tham gia.",
+        "Trò chơi có thưởng chưa đăng ký hoặc thông báo theo quy định khuyến mại."
+      ]
+    },
+    {
+      "id": "highlands",
+      "brand": "Highlands Coffee",
+      "topic": "CRM và giữ chân khách hàng",
+      "keywords": ["crm", "giữ chân", "retention", "khách quay lại", "loyalty", "thành viên", "tích điểm", "khách cũ", "mua lại"],
+      "one_line": "Biến lần mua thành thói quen: biết khách là ai, chia nhóm theo hành vi, nói đúng câu với đúng nhóm vào đúng lúc.",
+      "case_notes": [
+        "Thường được kể: chuỗi cà phê có mạng lưới cửa hàng rộng, gắn với thói quen cà phê hằng ngày, có chương trình thành viên tích điểm qua ứng dụng.",
+        "Chi tiết chương trình thành viên (hạng, quyền lợi) thay đổi theo thời gian — kiểm trên ứng dụng hoặc trang chính thức trước khi nhắc."
+      ],
+      "method": [
+        "Gom dữ liệu khách có đồng ý (Nghị định 13/2023): ai mua, mua gì, lần cuối khi nào, bao nhiêu lần, bao nhiêu tiền.",
+        "Chia nhóm RFM (gần đây · tần suất · giá trị) bằng rfm-segments.mjs: VIP, trung thành, mới, tiềm năng, sắp rời, ngủ đông.",
+        "Viết hành trình cho từng nhóm: chào mừng → lần mua thứ hai → thói quen → giữ khách sắp rời → gọi lại khách đã rời.",
+        "Thiết kế phần thưởng gắn với thói quen (tích điểm, hạng thành viên, quà sinh nhật) thay vì giảm giá đại trà.",
+        "Đo tỷ lệ mua lại theo nhóm khách theo tháng (cohort), không chỉ doanh thu tổng."
+      ],
+      "questions": [
+        "Bạn đang có danh sách khách nào (đơn hàng, Zalo, số điện thoại) — khách có đồng ý nhận tin không?",
+        "Bao lâu thì một khách bình thường mua lại?",
+        "Bạn có gì cho khách quay lại lần thứ hai ngoài giảm giá?",
+        "Khách đã lâu không mua: bạn có biết vì sao không?"
+      ],
+      "kit_route": {
+        "skills": ["audience-plan", "promo-calendar", "performance-review"],
+        "scripts": ["scripts/ads/rfm-segments.mjs", "scripts/ads/promo-plan.mjs"],
+        "genres": ["customer-story", "testimonial", "flash-deal"],
+        "frames": ["frame-step-list", "frame-checklist", "frame-quote-testimonial"]
+      },
+      "metrics": ["tỷ lệ mua lại sau 30/60/90 ngày", "giá trị vòng đời khách", "số khách nhóm 'sắp rời' quay lại"],
+      "pitfalls": [
+        "Gửi cùng một tin giảm giá cho mọi khách — khách tốt nhất được dạy chờ giảm giá.",
+        "Lưu số điện thoại, email thô vào file — kit chỉ xuất bản đã băm SHA-256, và chỉ khi khách đồng ý."
+      ]
+    },
+    {
+      "id": "coca-cola",
+      "brand": "Coca-Cola",
+      "topic": "Cultural marketing và brand experience",
+      "keywords": ["văn hoá", "cultural", "trải nghiệm", "experience", "tết", "sum họp", "cá nhân hoá", "sự kiện", "khoảnh khắc"],
+      "one_line": "Tìm một khoảnh khắc văn hoá người ta vốn đã sống, cho thương hiệu một vai tự nhiên trong đó, và để khách tự tay tham gia.",
+      "case_notes": [
+        "Thường được kể: chiến dịch 'Share a Coke' in tên riêng lên vỏ chai ở nhiều nước, biến lon nước thành thứ để tặng và chụp ảnh chia sẻ.",
+        "Coca-Cola gắn thương hiệu với các dịp sum họp như Tết, Giáng sinh, giữ màu đỏ và dáng chai nhất quán qua nhiều thập kỷ."
+      ],
+      "method": [
+        "Chọn khoảnh khắc văn hoá khách của bạn thật sự sống (bữa cơm Tết, mùa thi, Trung thu, trận bóng, giờ tan làm…).",
+        "Hỏi: trong khoảnh khắc đó thương hiệu đóng vai gì cho tự nhiên — chất xúc tác, món quà, người dẫn chuyện? Không chen ngang.",
+        "Cho khách tự tay tham gia: cá nhân hoá (tên, lời chúc), cùng sáng tạo, trải nghiệm tại chỗ có thứ để chụp và chia sẻ.",
+        "Giữ mã thương hiệu nhất quán ở mọi trải nghiệm: màu, hình, âm thanh, câu nói — kit giữ bằng bảng màu theo ngành.",
+        "Tôn trọng văn hoá: không đùa với tín ngưỡng, không dùng biểu tượng quốc gia sai quy định; nhờ người trong cộng đồng đọc lại."
+      ],
+      "questions": [
+        "Khách của bạn có khoảnh khắc nào trong năm mà cả nhà, cả nhóm cùng làm một việc?",
+        "Sản phẩm của bạn đã có mặt tự nhiên trong khoảnh khắc đó chưa?",
+        "Khách có thể tự cá nhân hoá hoặc tự làm một phần trải nghiệm không?",
+        "Thứ gì của thương hiệu bạn nhất quán đủ để khách nhận ra ở mọi nơi?"
+      ],
+      "kit_route": {
+        "skills": ["promo-calendar", "story-video", "design-campaign", "ugc-koc-brief"],
+        "scripts": ["scripts/ads/promo-plan.mjs"],
+        "genres": ["brand-story", "legend", "local"],
+        "frames": ["frame-story-world-pan", "frame-story-sand", "frame-story-frieze"]
+      },
+      "metrics": ["lượt tham gia (bài khách tự đăng, lượt cá nhân hoá)", "độ nhận biết trong mùa chiến dịch", "doanh số mùa so với cùng kỳ"],
+      "pitfalls": [
+        "Mượn một dịp văn hoá chỉ để dán logo — khách thấy bị chen ngang.",
+        "Dùng nhạc, nhân vật, hình ảnh của thương hiệu khác hoặc của người khác khi chưa có quyền."
+      ]
+    }
+  ]
+}
