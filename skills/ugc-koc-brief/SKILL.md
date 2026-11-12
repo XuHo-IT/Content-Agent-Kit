@@ -64,6 +64,12 @@ Run the script/talking points through `ads-policy-check` before sending.
 - **Disclosure:** organic posts use the platform's paid-partnership label; ads made with
   partnership ads carry it automatically. Never present a paid review as an unprompted customer.
 - Payment, deadline, revision rounds (max 1–2), who owns raw files.
+- **Livestream selling:** under the e-commerce law (122/2025/QH15) and Nghị định 248/2026/NĐ-CP
+  (reported in force 2026-07-01) the person selling on a live stream must be identity-verified
+  on the platform BEFORE going live, and is answerable for the claims they make. Put it in the
+  brief; claims on a live follow the same rules as an ad (`ads-policy-check`).
+- **AI in the content:** a cloned voice or AI-altered face of the creator needs their written
+  consent AND the AI label (Luật Trí tuệ nhân tạo, Điều 11) — see `review-gate` → Policy.
 
 The footage then goes through `talking-head` / `autocut` (`docs/26-auto-edit.md`) for captions and
 cuts, with the creator credit kept as agreed.

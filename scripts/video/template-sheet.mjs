@@ -73,6 +73,8 @@ const ROLE_ORDER = [
   "frame-trend-word-pop", "frame-trend-search-morph", "frame-trend-bar-race", "frame-trend-stat-odometer", "frame-trend-compare-wipe", "frame-trend-exploded-layers", "frame-trend-infinite-zoom",
   "frame-trend-phone-notifs", "frame-trend-live-poll", "frame-trend-price-drop", "frame-trend-code-diff", "frame-trend-comment-reply", "frame-trend-timeline-flight",  // storytelling set — scripts/video/lib/build-story-templates.mjs
   "frame-story-one-line", "frame-story-world-pan", "frame-story-page-turn", "frame-story-halftone-case", "frame-story-comic-panels", "frame-story-swiss-chapter", "frame-story-step-numeral", "frame-story-letter", "frame-story-sand", "frame-story-telestrator", "frame-story-pencil-chart", "frame-story-frieze", "frame-story-silent-film", "frame-story-kinetic-floor", "frame-story-rundown",
+  // AI & social set — scripts/video/lib/build-social-templates.mjs
+  "frame-ai-prompt-reveal", "frame-ai-answer-rank", "frame-follow-cta",
 ];
 
 const PRESETS = {
@@ -100,7 +102,7 @@ const PRESETS = {
     "frame-screenshot", "frame-3d-device", "frame-terminal", "frame-ui-terminal-ide", "frame-broll", "frame-media-inset", "frame-meme", "frame-3d-flip", "frame-3d-stack", "frame-3d-perspective-card", "frame-opus-cursor-flow"
   ],
   "geo": [
-    "frame-geo-markers", "frame-geo-route", "frame-geo-region-stat", "frame-geo-local-card", "frame-geo-faq-direct", "frame-geo-itinerary", "frame-geo-versus-city", "frame-geo-pin-detail", "frame-geo-sonar-radar"
+    "frame-geo-markers", "frame-geo-route", "frame-geo-region-stat", "frame-geo-local-card", "frame-geo-faq-direct", "frame-geo-itinerary", "frame-geo-versus-city", "frame-geo-pin-detail", "frame-geo-sonar-radar", "frame-ai-answer-rank"
   ],
   "sequences": [
     "frame-step-list", "frame-checklist", "frame-myth-fact", "frame-aicoding-list", "frame-aicoding-comparison", "frame-quote-testimonial", "frame-chat-bubbles", "frame-review-verdict", "frame-fitness-workout", "frame-whiteboard-doodle", "frame-opus-handdrawn", "frame-product-reveal", "frame-logo-outro", "frame-statement-outro"
@@ -127,10 +129,13 @@ const PRESETS = {
     "frame-thermal-cam", "frame-ballistics-path", "frame-dispatch-waveform", "frame-forensic-chat"
   ],
   "viral": [
-    "frame-trend-word-pop", "frame-trend-comment-reply", "frame-trend-live-poll", "frame-trend-phone-notifs", "frame-opus-collage-stopmo", "frame-opus-pixel-arcade"
+    "frame-trend-word-pop", "frame-trend-comment-reply", "frame-trend-live-poll", "frame-trend-phone-notifs", "frame-opus-collage-stopmo", "frame-opus-pixel-arcade", "frame-follow-cta"
   ],
   "saas": [
-    "frame-trend-code-diff", "frame-trend-search-morph", "frame-opus-cursor-flow"
+    "frame-trend-code-diff", "frame-trend-search-morph", "frame-opus-cursor-flow", "frame-ai-prompt-reveal"
+  ],
+  "ai": [
+    "frame-ai-prompt-reveal", "frame-ai-answer-rank", "frame-follow-cta"
   ],
   "story": [
     "frame-story-one-line", "frame-story-world-pan", "frame-story-page-turn", "frame-story-halftone-case", "frame-story-comic-panels", "frame-story-swiss-chapter", "frame-story-step-numeral", "frame-story-letter", "frame-story-sand", "frame-story-telestrator", "frame-story-pencil-chart", "frame-story-frieze", "frame-story-silent-film", "frame-story-kinetic-floor", "frame-story-rundown"

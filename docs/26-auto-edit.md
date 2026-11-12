@@ -177,13 +177,24 @@ node scripts/video/render-batch.mjs tuan-46.txt            # dựng cả danh s�
 | gợi ý cho giọng đọc | `suggest-cards --voice-only`: toàn `full`, 12 thẻ/phút, cách 1,5 s, câu không khớp luật nào nhận `frame-kinetic-type` / `frame-trend-word-pop` xen kẽ | câu không có thẻ chỉ là nền trơn |
 | tránh mặt (`--faces`) | YuNet dò mặt 4 khung mỗi cửa sổ ~2 s; hộp mặt nới lên tóc 45%, xuống cằm 20%; phụ đề và hook dời xuống dưới cằm hoặc lên trên đầu nếu còn chỗ trong vùng an toàn, không thì để nguyên | gộp một hộp cho cả đoạn thì hộp phình ra hết khung (một đoạn có nhiều cảnh) |
 | chữ sau lưng | EDL `"behind": [{ "at": "gấp", "dur": 2.5, "text": "GẤP 3" }]` — chữ vẽ lên khung đã chỉnh màu, người được tách bằng mặt nạ (MediaPipe selfie segmenter) rồi đặt lại lên trên | người và nền cùng một màu grade, không cần video có kênh alpha |
+| người bật khỏi khung | EDL `"popout": [{ "at": "nhất", "dur": 2 }]` — khung hình thu còn 80% trong một thẻ viền trắng, mép trên ngang cằm người nói (`--faces` đo), người qua mặt nạ đặt đè lên nên đầu tràn qua mép thẻ; nền là chính khung hình làm mờ | hiệu ứng "dựng xịn" người xem nhận ra ngay; dùng chung mặt nạ với `behind`, không cùng lúc với thẻ hay `behind` |
 | âm thanh thẻ tự động | thẻ không ghi `"sfx"` nhận `transition/cc0-paper-flip` (template kiểu myth/error → `error-beep`, verdict/result → `tada`) nếu tiếng trước đã cách ≥ 3 s; `"sfx": false` hoặc `--no-card-sfx` để tắt | một tiếng lật trang nhẹ là thẻ "đã đến", không thành ồn |
 | kiểm slot thẻ | `inputs` của thẻ đối chiếu với slot template thật đọc; sai tên → dừng ngay, gợi ý tên đúng | tên slot sai không làm hỏng render — template âm thầm hiện **chữ mẫu** của nó |
 | ảnh bìa (`--cover`) | khung lấy **trước** khi đốt phụ đề, qua cùng grade; mặt to nhất trong 40% đầu, không rơi vào thẻ; tiêu đề ≤ 60 ký tự theo kiểu hook, to hơn 30%, dời khỏi mặt | lưới nền tảng cắt tiêu đề dài; mặt người làm người ta dừng lướt |
 | bản nháp đăng bài | `<out>.post.md`: lời đã nói *sau khi cắt*, theo câu; giới hạn Facebook (125 ký tự trước "Xem thêm"), TikTok (≤ 150 đọc hết), YouTube (tiêu đề ≤ 100); dòng ghi nguồn nếu có `--credit` | chất liệu để agent viết caption — không phải caption |
 
+**Nhận dạng giọng nói — số liệu thật (2026-11-11, phóng sự 63 s, so với transcript đã sửa tay):**
+
+| | WER | từ lệch < 150 ms | ghi chú |
+|---|---|---|---|
+| faster-whisper `large-v3-turbo` | **7,4%** | **96%** | mặc định; nghe sai "bưu"→"mưu" ×4 — sửa bằng `"fix"` trong EDL |
+| … + `--prompt "bưu điện, …"` | 25,7% | 97% | hết lỗi "bưu" nhưng **bỏ sót 14 s đầu** — `transcribe.mjs` giờ tự báo đoạn có tiếng mà không có chữ |
+| PhoWhisper-medium (CTranslate2) | 17,4% | 40% | viết số thành chữ, mốc từng từ lệch xa → không hợp phụ đề từng từ |
+
+So một model mới với transcript đã sửa tay trước khi đổi: `node scripts/video/transcript-diff.mjs checked.json model-a.json model-b.json`.
+
 Thị giác máy chạy bằng Python, **tuỳ chọn** như `transcribe.mjs`: cài một lần
-`python -m venv .venv-vision && .venv-vision\Scripts\pip install mediapipe` (kéo theo OpenCV).
+`python -m venv .venv-vision && .venv-vision\Scripts\pip install mediapipe` (kéo theo OpenCV). Trên Linux không giao diện cài thêm `sudo apt-get install -y libegl1 libgles2` (mediapipe cần dù chạy CPU). CI chạy trên Windows, macOS và Linux.
 Model tải lần đầu vào `assets/models/`, ghim URL và kiểm sha256: YuNet (opencv_zoo, model MIT,
 code Apache-2.0), selfie segmenter (Apache-2.0). **Không dùng** RobustVideoMatting (GPL-3.0) và
 `bria-rmbg` (phi thương mại). Chữ sau lưng đẹp nhất ở cảnh trung; cận cảnh thì đầu che gần hết

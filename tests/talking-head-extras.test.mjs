@@ -219,3 +219,15 @@ test("render-batch: list parsing, the done check, and what a failure shows", () 
   assert.deepEqual(failureLines(tail), ['[video] ! no "theme"', "[video] ✗ renderable, but --strict fails"]);
   assert.deepEqual(failureLines("a\nb\nc\nd\ne\n"), ["b", "c", "d", "e"]);
 });
+
+test("popout: 1–6 s, inside a segment, one effect at a time, needs a speaker", () => {
+  const seg = { segments: [{ from: 0, to: 30 }] };
+  assert.deepEqual(validateEdl({ ...seg, popout: [{ at: 4, dur: 2.5 }] }), []);
+  assert.match(validateEdl({ ...seg, popout: [{ at: 4, dur: 8 }] }).join(), /1–6 s/);
+  assert.match(validateEdl({ ...seg, popout: [{ at: 29, dur: 2 }] }).join(), /inside one segment/);
+  assert.match(validateEdl({ ...seg, popout: [{ at: 4, dur: 2 }], cards: [{ at: 5, dur: 3, templateId: "frame-checklist", layout: "pip" }] }).join(), /one effect at a time/);
+  assert.match(validateEdl({ ...seg, popout: [{ at: 4, dur: 2 }], behind: [{ at: 5, dur: 2, text: "A" }] }).join(), /one effect at a time/);
+  assert.match(validateEdl({ ...seg, popout: [{ at: 4, dur: 2 }] }, { audioOnly: true }).join(), /needs a speaker/);
+  const words = [{ w: "nhất", start: 6, end: 6.3 }];
+  assert.equal(resolveAnchors({ ...seg, popout: [{ at: "nhất", dur: 2 }] }, words).edl.popout[0].at, 5.85);
+});

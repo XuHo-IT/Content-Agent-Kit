@@ -263,7 +263,9 @@ const lookup = (id) => THEME_PRESETS[id] ?? loadUserThemes()[id];
  * @returns {object|null} null when no theme is set (render the template as authored)
  */
 export function resolveTheme(theme) {
-  if (theme == null) return null;
+  // "native": each template keeps its own palette ON PURPOSE (a one-off, or an example
+  // rendered before themes existed) — same as no theme, minus validate's "you forgot" warning
+  if (theme == null || theme === "native") return null;
 
   let base = {};
   let extra = {};

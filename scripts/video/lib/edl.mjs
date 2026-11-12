@@ -45,6 +45,17 @@ export function validateEdl(edl, { audioOnly = false } = {}) {
   for (let i = 1; i < spans.length; i++) {
     if (spans[i].a < spans[i - 1].b - 0.01) p.push(`${spans[i - 1].k} and ${spans[i].k} overlap`);
   }
+  // "popout": the frame shrinks into a white-bordered card and the speaker's head breaks out
+  // over its top edge (person mask laid over the card). Same span rules as "behind".
+  (edl.popout ?? []).forEach((b, i) => {
+    if (![b.at, b.dur].every(Number.isFinite) || b.dur < 1 || b.dur > 6) p.push(`popout[${i}]: needs numeric at and dur 1–6 s`);
+    else if (!segs.some((s) => b.at >= s.from && b.at + b.dur <= s.to + 0.05)) p.push(`popout[${i}] must sit entirely inside one segment`);
+    if (audioOnly) p.push(`popout[${i}]: needs a speaker — a voice-only input has none`);
+    const j = (edl.cards ?? []).findIndex((c) => b.at < c.at + c.dur && b.at + b.dur > c.at);
+    if (j >= 0) p.push(`popout[${i}] overlaps cards[${j}] — one effect at a time`);
+    const k = (edl.behind ?? []).findIndex((x) => b.at < x.at + x.dur && b.at + b.dur > x.at);
+    if (k >= 0) p.push(`popout[${i}] overlaps behind[${k}] — one effect at a time`);
+  });
   // text behind the speaker is hidden by a full card on top of it
   for (const [i, b] of (edl.behind ?? []).entries()) {
     const j = (edl.cards ?? []).findIndex((c) => (c.layout ?? "full") === "full" && b.at < c.at + c.dur && b.at + b.dur > c.at);

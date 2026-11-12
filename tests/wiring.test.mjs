@@ -174,7 +174,7 @@ test("every committed image is referenced from something a reader opens", () => 
   // An image nobody links to is weight in the clone for no reader.
   const walk = (d, a = []) => {
     for (const e of fs.readdirSync(d, { withFileTypes: true })) {
-      if (e.name === "node_modules" || e.name === ".git") continue;
+      if (e.name === "node_modules" || e.name === ".git" || e.name.startsWith(".venv")) continue;
       const p = path.join(d, e.name);
       e.isDirectory() ? walk(p, a) : a.push(p);
     }
@@ -183,7 +183,7 @@ test("every committed image is referenced from something a reader opens", () => 
   // "Committed" means what git would ship: drop gitignored files (scratch/, output/, …) so a
   // developer's local renders do not fail the test. Without git, fall back to the whole tree.
   const shipped = (files) => {
-    const r = spawnSync("git", ["check-ignore", "--stdin"], { cwd: KIT, input: files.map((f) => path.relative(KIT, f).replace(/\\/g, "/")).join("\n"), encoding: "utf8" });
+    const r = spawnSync("git", ["check-ignore", "--stdin"], { cwd: KIT, input: files.map((f) => path.relative(KIT, f).replace(/\\/g, "/")).join("\n"), encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
     if (r.error || (r.status !== 0 && r.status !== 1)) return files;
     const ignored = new Set(r.stdout.split(/\r?\n/).filter(Boolean).map((p) => path.resolve(KIT, p)));
     return files.filter((f) => !ignored.has(path.resolve(f)));
@@ -208,7 +208,7 @@ test("an image's bytes agree with its extension", () => {
   const MAGIC = { jpg: "ffd8ff", jpeg: "ffd8ff", png: "89504e" };
   const walk = (d, a = []) => {
     for (const e of fs.readdirSync(d, { withFileTypes: true })) {
-      if (e.name === "node_modules" || e.name === ".git") continue;
+      if (e.name === "node_modules" || e.name === ".git" || e.name.startsWith(".venv")) continue;
       const p = path.join(d, e.name);
       e.isDirectory() ? walk(p, a) : a.push(p);
     }

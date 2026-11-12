@@ -22,19 +22,45 @@
 // ALWAYS read the transcript before publishing captions: models mishear names and rare words
 // (the demo's "chuyển về" came back as "chuyển viện" from two models). Fix the JSON by hand.
 //
-// ENV: TRANSCRIBE_ENDPOINT, TRANSCRIBE_MODEL, TRANSCRIBE_API_KEY (all optional). Needs ffmpeg.
+// ENV: TRANSCRIBE_ENDPOINT, TRANSCRIBE_MODEL, TRANSCRIBE_API_KEY, TRANSCRIBE_PYTHON (all optional). Needs ffmpeg.
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { spawnSync } from "node:child_process";
 import { run } from "./lib/proc.mjs";
+import { spawn } from "node:child_process";
+import { parseSilences } from "./lib/autocut.mjs";
 import { optionalEnv } from "../lib/env.mjs";
+import { findPython } from "./lib/vision.mjs";
 
 /**
  * Any OpenAI-style verbose_json (segments without words + a top-level words[]), or a
  * faster-whisper dump (segments with words), → the kit's transcript. Words are put back into
  * the segment whose span holds their midpoint; `offset` shifts everything (for --from).
  */
+/**
+ * Speech the transcript has no words for. `speech` = [{start, end}] where the audio is not
+ * silent (the complement of silencedetect); `words` = [{start, end}]. → the stretches longer
+ * than `minGap` seconds that are speech yet hold no word.
+ *
+ * Why: on the demo, prompting faster-whisper with topic words fixed every misheard name and
+ * silently DROPPED the first 14 s of speech — the transcript looked fine, it was just short.
+ * A model that skips audio never says so; this does.
+ */
+export function uncoveredSpeech(speech, words, { minGap = 2 } = {}) {
+  const out = [];
+  for (const sp of speech) {
+    let t = sp.start;
+    const inside = words.filter((w) => w.end > sp.start && w.start < sp.end).sort((a, b) => a.start - b.start);
+    for (const w of inside) {
+      if (w.start - t >= minGap) out.push({ start: +t.toFixed(2), end: +w.start.toFixed(2) });
+      t = Math.max(t, w.end);
+    }
+    if (sp.end - t >= minGap) out.push({ start: +t.toFixed(2), end: +sp.end.toFixed(2) });
+  }
+  return out;
+}
+
 export function normalizeTranscription(json, { offset = 0, model = null } = {}) {
   const r = (x) => +(Number(x) + offset).toFixed(3);
   const segs = (json?.segments ?? []).map((s) => ({ start: r(s.start), end: r(s.end), text: String(s.text ?? "").trim(), words: [] }));
@@ -59,23 +85,39 @@ export function normalizeTranscription(json, { offset = 0, model = null } = {}) 
   };
 }
 
+// The WAV is read here with the standard library and handed over as samples: faster-whisper's
+// own decoder goes through PyAV, and faster-whisper 1.2.1 + PyAV 16 fail on a removed keyword
+// (`metadata_errors`) — the first real run hit exactly that. A GPU without its CUDA libraries
+// (cuBLAS/cuDNN not installed) fails at the first decode, not at load, so the fallback to CPU
+// wraps the transcription itself.
 const FW_PY = `
-import json, sys
+import json, sys, wave
+import numpy as np
 from faster_whisper import WhisperModel
 audio, model, lang = sys.argv[1], sys.argv[2], sys.argv[3]
-m = WhisperModel(model, device="auto", compute_type="auto")
-segs, info = m.transcribe(audio, language=lang, word_timestamps=True, vad_filter=True)
-out = {"segments": [{"start": s.start, "end": s.end, "text": s.text,
-        "words": [{"word": w.word, "start": w.start, "end": w.end, "probability": w.probability} for w in (s.words or [])]}
-       for s in segs]}
-sys.stdout.write(json.dumps(out, ensure_ascii=False))
+prompt = sys.argv[4] if len(sys.argv) > 4 and sys.argv[4] else None
+with wave.open(audio, "rb") as w:
+    pcm = np.frombuffer(w.readframes(w.getnframes()), dtype=np.int16).astype(np.float32) / 32768.0
+def run(device, compute):
+    m = WhisperModel(model, device=device, compute_type=compute)
+    segs, info = m.transcribe(pcm, language=lang, word_timestamps=True, vad_filter=True, hotwords=prompt)
+    return [{"start": s.start, "end": s.end, "text": s.text,
+             "words": [{"word": w.word, "start": w.start, "end": w.end, "probability": w.probability} for w in (s.words or [])]}
+            for s in segs]
+try:
+    segments, used = run("auto", "auto"), "auto"
+except Exception as e:
+    sys.stderr.write("GPU path failed (%s) - retrying on CPU\\n" % str(e).splitlines()[0][:160])
+    segments, used = run("cpu", "int8"), "cpu"
+sys.stdout.write(json.dumps({"segments": segments, "device": used}))
 `;
 
-async function viaHttp(audio, { endpoint, model, lang }) {
+async function viaHttp(audio, { endpoint, model, lang, prompt = "" }) {
   const form = new FormData();
   form.append("file", new Blob([fs.readFileSync(audio)], { type: "audio/wav" }), path.basename(audio));
   form.append("model", model);
   form.append("language", lang);
+  if (prompt) form.append("prompt", prompt);
   form.append("response_format", "verbose_json");
   form.append("timestamp_granularities[]", "word");
   form.append("timestamp_granularities[]", "segment");
@@ -89,9 +131,12 @@ async function viaHttp(audio, { endpoint, model, lang }) {
   return res.json();
 }
 
-function viaFasterWhisper(audio, { model, lang }) {
-  const py = process.platform === "win32" ? "python" : "python3";
-  const r = spawnSync(py, ["-I", "-c", FW_PY, audio, model, lang], { encoding: "utf8", maxBuffer: 256 * 1024 * 1024 });
+function viaFasterWhisper(audio, { model, lang, prompt = "" }) {
+  // TRANSCRIBE_PYTHON, then the kit's own .venv-vision (pip install faster-whisper there), then PATH
+  const py = findPython(["TRANSCRIBE_PYTHON", "VISION_PYTHON"]);
+  if (!py) throw new Error(`no Python 3 found — install Python, then: pip install faster-whisper (or set TRANSCRIBE_PYTHON)`);
+  // Windows Python writes cp1252 to a pipe by default; Vietnamese in an error message would crash it
+  const r = spawnSync(py, ["-I", "-c", FW_PY, audio, model, lang, prompt], { encoding: "utf8", maxBuffer: 256 * 1024 * 1024, env: { ...process.env, PYTHONIOENCODING: "utf-8" } });
   if (r.error) throw new Error(`could not start ${py}: ${r.error.message}`);
   if (r.status !== 0) {
     const err = String(r.stderr || "");
@@ -110,13 +155,15 @@ async function main() {
         `  --engine <e>         http | faster-whisper (default: http if TRANSCRIBE_ENDPOINT is set)\n` +
         `  --model <name>       default large-v3-turbo (or TRANSCRIBE_MODEL)\n` +
         `  --lang <code>        default vi\n` +
+        `  --prompt "<words>"   names and topic words the model should expect ("bưu điện, bưu cục, giấy phép lái xe")\n` +
         `  --from <s> --to <s>  only this part of the input (times in the output stay in the input's seconds)\n` +
         `  --out <file>         default <input>.transcript.json\n` +
         `env: TRANSCRIBE_ENDPOINT, TRANSCRIBE_MODEL, TRANSCRIBE_API_KEY (optional). Needs ffmpeg.`,
     );
     process.exit(argv.length ? 0 : 1);
   }
-  const VALUE = new Set(["--engine", "--model", "--lang", "--from", "--to", "--out"]);
+  const VALUE = new Set(["--engine", "--model", "--lang", "--from", "--to", "--out", "--prompt"]);
+  const prompt = String(argv.includes("--prompt") ? argv[argv.indexOf("--prompt") + 1] ?? "" : "");
   const flag = (n, d = null) => (argv.includes(n) ? argv[argv.indexOf(n) + 1] : d);
   const input = argv.find((a, i) => !a.startsWith("--") && !VALUE.has(argv[i - 1]));
   if (!input || !fs.existsSync(input)) {
@@ -141,10 +188,28 @@ async function main() {
     await run("ffmpeg", ["-hide_banner", "-v", "error", "-y", ...(from ? ["-ss", String(from)] : []), "-i", input,
       ...(flag("--to") ? ["-t", String(Number(flag("--to")) - from)] : []), "-vn", "-ac", "1", "-ar", "16000", wav]);
     console.log(`[transcribe] ${engine} · ${model} · ${lang} …`);
-    const raw = engine === "http" ? await viaHttp(wav, { endpoint, model, lang }) : viaFasterWhisper(wav, { model, lang });
+    const raw = engine === "http" ? await viaHttp(wav, { endpoint, model, lang, prompt }) : viaFasterWhisper(wav, { model, lang, prompt });
     const t = normalizeTranscription(raw, { offset: from, model });
     const n = t.segments.reduce((a, s) => a + s.words.length, 0);
     if (!n) throw new Error(`no word timings came back — the ${engine} engine/model may not support word timestamps`);
+    // did the model skip any speech? (silencedetect on the same WAV; times back in input seconds)
+    const sd = await new Promise((resolve) => {
+      const p = spawn("ffmpeg", ["-hide_banner", "-nostats", "-i", wav, "-af", "silencedetect=noise=-35dB:d=0.4", "-f", "null", "-"]);
+      let e = ""; p.stderr.on("data", (d) => (e += d)); p.on("close", () => resolve(e)); p.on("error", () => resolve(""));
+    });
+    const wavDur = Number((await run("ffprobe", ["-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", wav])).trim()) || 0;
+    const sil = parseSilences(sd).map((x) => ({ start: x.start + from, end: (Number.isFinite(x.end) ? x.end : wavDur) + from }));
+    const speech = [];
+    let t0 = from;
+    for (const x of sil) { if (x.start > t0) speech.push({ start: t0, end: x.start }); t0 = x.end; }
+    if (wavDur && from + wavDur > t0) speech.push({ start: t0, end: from + wavDur });
+    const gaps = uncoveredSpeech(speech, t.segments.flatMap((sg) => sg.words));
+    if (gaps.length) {
+      const total = gaps.reduce((a, g) => a + g.end - g.start, 0);
+      console.warn(`[transcribe] ⚠ ${total.toFixed(1)} s of speech has no words: ${gaps.map((g) => `${g.start}–${g.end}s`).join(", ")}` +
+        (prompt ? " — --prompt is known to make Whisper skip audio; re-run without it and fix names with the EDL's \"fix\"" : " — listen there, the model may have skipped it"));
+      t._uncovered = gaps;
+    }
     fs.writeFileSync(out, JSON.stringify(t, null, 2) + "\n", "utf8");
     console.log(`[transcribe] ✓ ${t.segments.length} segments, ${n} words → ${out}`);
     console.log(`[transcribe]   read it before publishing: names and rare words are often misheard`);

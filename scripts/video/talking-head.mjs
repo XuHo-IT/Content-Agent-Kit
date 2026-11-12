@@ -21,6 +21,7 @@
 //     "cards":    [ { "at": 78.0, "dur": 4, "templateId": "frame-trend-stat-odometer",
 //                     "inputs": { "value": "30–50", … }, "layout": "full" | "pip" | "split" }, … ],
 //     "behind":   [ { "at": "gấp", "dur": 2.5, "text": "GẤP 3" } ],   ← big text BEHIND the speaker
+//     "popout":   [ { "at": "nhất", "dur": 2 } ],   ← the frame shrinks into a card, the head breaks out
 //     "fix":      [ ["Cờ lốt", "Claude"] ] }    ← caption corrections, regex per word
 // A card's (or B-roll's) `at` may be a SPOKEN WORD instead of seconds — "at": "tăng", with
 // "near": 70 when the word is said more than once — resolved against --transcript.
@@ -152,7 +153,7 @@ if (flag("--edl")) {
 }
 // the transcript, read once: anchors, word cuts and captions all come from it
 const srcWords = flag("--transcript") ? wordsFromTranscript(JSON.parse(fs.readFileSync(flag("--transcript"), "utf8"))) : null;
-const hasWordAnchor = [...(edl.cards ?? []), ...(edl.broll ?? []), ...(edl.behind ?? [])].some((c) => typeof c.at === "string");
+const hasWordAnchor = [...(edl.cards ?? []), ...(edl.broll ?? []), ...(edl.behind ?? []), ...(edl.popout ?? [])].some((c) => typeof c.at === "string");
 if (hasWordAnchor) {
   if (!srcWords) die("the EDL anchors cards to spoken words — pass --transcript");
   const r = resolveAnchors(edl, srcWords);
@@ -400,15 +401,18 @@ try {
   // "behind": text between the speaker and the wall. Drawn on the graded frame, then the person
   // (same graded frame through a mask) laid back over it — one grade, no alpha video.
   const behind = cardsOnCut(edl.behind ?? [], segFiles, (t) => remapTime(t, keep), cutDur);
+  const popout = cardsOnCut(edl.popout ?? [], segFiles, (t) => remapTime(t, keep), cutDur);
   let maskFile = null;
   if (behind.length && flag("--hook") && behind.some((b) => b.start < 2.6))
     console.warn(`[talking-head] ⚠ behind text starts under the --hook title (first 2.6 s) — the hook will cover it; anchor it later`);
-  if (behind.length) {
+  if (behind.length || popout.length) {
     maskFile = path.join(work, "mask.mp4");
-    console.log(`[talking-head] behind: masking the speaker for ${behind.length} text(s) …`);
+    console.log(`[talking-head] masking the speaker for ${behind.length} behind-text(s), ${popout.length} pop-out(s) …`);
     const info = await personMatte(cut, maskFile);
-    if (info.cover < 0.03) console.warn(`[talking-head] ⚠ behind: almost no person found — the text will simply sit on top`);
-    if (info.cover > 0.6) console.warn(`[talking-head] ⚠ behind: the speaker fills ${Math.round(info.cover * 100)}% of the frame (a close-up) — most of the text will be hidden; it works best on a medium shot`);
+    if (info.cover < 0.03) console.warn(`[talking-head] ⚠ almost no person found — behind text sits on top, pop-outs show no head breaking out`);
+    if (behind.length && info.cover > 0.6) console.warn(`[talking-head] ⚠ behind: the speaker fills ${Math.round(info.cover * 100)}% of the frame (a close-up) — most of the text will be hidden; it works best on a medium shot`);
+  }
+  if (behind.length) {
     const longest = Math.max(...behind.map((b) => [...String(b.text)].length));
     // as big as fits: ≈ 0.62 em per bold capital, 92% of the width
     const size = Math.round(Math.min(H * 0.15, (W * 0.92) / (longest * 0.62)));
@@ -430,15 +434,35 @@ try {
   }
 
   const spk = placed.filter((c) => c.layout === "pip" || c.layout === "split").length;
-  const outs = ["[g0src]", ...Array.from({ length: spk }, (_, k) => `[spk${k}]`), ...(behind.length ? ["[fgsrc]"] : [])];
+  const outs = ["[g0src]", ...Array.from({ length: spk }, (_, k) => `[spk${k}]`), ...(behind.length ? ["[fgsrc]"] : []), ...(popout.length ? ["[posrc]"] : [])];
   const fc = [`[0:v]${style.grade ? style.grade + "," : "null,"}split=${outs.length}${outs.join("")}`];
   const maskIn = placed.length + 1;
+  if (maskFile) fc.push(`[${maskIn}:v]format=gray,scale=${W}:${H},split=2[mk][mk2]`);
   if (behind.length) {
     const on = behind.map((b) => `between(t,${b.start.toFixed(3)},${b.end.toFixed(3)})`).join("+");
     fc.push(`[g0src]subtitles='${escapeSubtitlePath(path.join(work, "behind.ass"))}'[btxt]`,
-      `[${maskIn}:v]format=gray,scale=${W}:${H}[mk]`, `[fgsrc][mk]alphamerge[fg]`,
-      `[btxt][fg]overlay=enable='${on}'[g0]`);
-  } else fc.push(`[g0src]null[g0]`);
+      `[fgsrc][mk]alphamerge[fg]`,
+      `[btxt][fg]overlay=enable='${on}'[g0a]`);
+  } else fc.push(`[g0src]null[g0a]`, ...(maskFile ? [`[mk]nullsink`] : []));
+  if (popout.length) {
+    // the frame at 80% in a white-bordered card whose top edge sits at the speaker's chin; the
+    // same 80% frame through the person mask on top, uncropped — so the head breaks out over
+    // the edge. Background: the frame itself, blurred and dimmed. One card height for every
+    // pop-out (from the first one's head; without --faces, a third of the way down).
+    const k = 0.8, SW = Math.round((W * k) / 2) * 2, SH = Math.round((H * k) / 2) * 2;
+    const ox = (W - SW) / 2, oy = (H - SH) / 2;
+    const head = cutWindows.find((w) => popout[0].start >= w.start && popout[0].start < w.end)?.head;
+    const cy = Math.round(Math.max(SH * 0.12, Math.min(SH * 0.6, head ? (head.y + head.h * 0.62) * k : SH * 0.32)) / 2) * 2;
+    const on = popout.map((b) => `between(t,${b.start.toFixed(3)},${b.end.toFixed(3)})`).join("+");
+    fc.push(
+      `[posrc]split=3[pbg][pcs][pps]`,
+      `[pbg]boxblur=24:2,eq=brightness=-0.16:saturation=0.8[pob]`,
+      `[pcs]scale=${SW}:${SH},crop=${SW}:${SH - cy}:0:${cy},pad=${SW + 16}:${SH - cy + 16}:8:8:white[poc]`,
+      `[mk2]scale=${SW}:${SH}[pmk]`, `[pps]scale=${SW}:${SH},format=yuva420p[ppf]`, `[ppf][pmk]alphamerge[pop]`,
+      `[pob][poc]overlay=${ox - 8}:${oy + cy - 8}[po1]`, `[po1][pop]overlay=${ox}:${oy}[po]`,
+      `[g0a][po]overlay=enable='${on}'[g0]`,
+    );
+  } else fc.push(`[g0a]null[g0]`, ...(maskFile && behind.length ? [`[mk2]nullsink`] : []));
   let last = 0, pipK = 0;
   placed.forEach((c, j) => {
     const a = c.start.toFixed(3), e = c.end.toFixed(3);
@@ -531,7 +555,7 @@ try {
       music: music ? path.basename(music) : null, sfx: sfxEvents, voiceOnly: audioOnly,
       faces: useFaces ? { windows: faceWins, ...facesUsed } : null,
       splitCards: placed.filter((c) => c.layout === "split").map((c) => ({ templateId: c.templateId, start: c.start, speakerY: c.speakerY, band: c.band, fit: c.fit })),
-      behind: behind.map((b) => ({ text: b.text, start: b.start, end: b.end })), edl, summary: sum, keep }, null, 2) + "\n",
+      behind: behind.map((b) => ({ text: b.text, start: b.start, end: b.end })), popout: popout.map((b) => ({ start: b.start, end: b.end })), edl, summary: sum, keep }, null, 2) + "\n",
   );
   console.log(`[talking-head] ✓ ${out}  (${cutDur.toFixed(1)}s)`);
 

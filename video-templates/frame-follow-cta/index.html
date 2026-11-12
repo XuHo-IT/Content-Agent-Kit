@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920, height=1080">
+  <title>Social · Follow CTA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,500;0,700;0,800;0,900;1,800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    html, body { width: 1920px; height: 1080px; overflow: hidden; background: #0d0e11; }
+    
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --spring: linear(0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%, 0.997 69.8%, 1.003 76.9%, 1);
+    --snap: cubic-bezier(.2,.9,.1,1);
+    --out: cubic-bezier(.16,1,.3,1);
+  }
+  #root { position: relative; overflow: hidden; width: 100%; height: 100%; font-family: 'Be Vietnam Pro', sans-serif; }
+  #root::after {
+    content: ""; position: absolute; inset: -30%; pointer-events: none; z-index: 0; opacity: .55;
+    animation: ambient 16s linear infinite;
+  }
+  @keyframes ambient { from { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } to { transform: rotate(360deg) scale(1); } }
+  .stage { position: relative; z-index: 1; width: 100%; height: 100%; display: flex; flex-direction: column; }
+  .mono { font-family: 'Roboto Mono', monospace; }
+  @keyframes rise { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: none; } }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes pop { 0% { opacity: 0; transform: scale(.4); } 60% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  @keyframes wipeIn { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+
+    
+      #root { background: #0d0e11; color: #ffffff; }
+      #root.pf-tiktok { --ac: #fe2c55; --ac2: #25f4ee; --acx: #ffffff; }
+      #root.pf-facebook { --ac: #1877f2; --ac2: #1877f2; --acx: #ffffff; }
+      #root.pf-youtube { --ac: #ff0033; --ac2: #ff0033; --acx: #ffffff; }
+      #root::after { background: radial-gradient(closest-side at 30% 35%, rgba(255,255,255,.07), transparent 70%), radial-gradient(closest-side at 70% 70%, rgba(255,255,255,.05), transparent 70%); opacity: 1; }
+      .stage { display: grid; }
+      .chip { display: inline-flex; align-items: center; font-weight: 800; color: #c9cbd1; background: #1b1d22; border-radius: 999px; opacity: 0; animation: fade .4s ease .1s forwards; }
+      .chip::before { content: ""; width: .55em; height: .55em; border-radius: 50%; background: var(--ac); }
+      .avw { grid-area: av; position: relative; justify-self: center; }
+      .ring, .ring2 { position: absolute; inset: -14px; border-radius: 50%; border: 8px solid var(--ac); clip-path: circle(0% at 50% 50%); animation: ringIn .6s var(--out) .45s forwards; }
+      .ring2 { border-color: var(--ac2); transform: translate(-8px, -6px); animation-delay: .55s; }
+      .pf-facebook .ring2, .pf-youtube .ring2 { display: none; }
+      @keyframes ringIn { to { clip-path: circle(75% at 50% 50%); } }
+      .av { position: relative; width: 100%; height: 100%; border-radius: 50%; display: grid; place-items: center; background: #23252b; color: #ffffff; font-weight: 900; line-height: 1; transform: scale(0); animation: pop .55s var(--spring) .25s forwards; }
+      .badge { position: absolute; left: 50%; bottom: -10px; translate: -50% 0; border-radius: 50%; background: var(--ac); color: var(--acx); display: grid; place-items: center; font-weight: 900; border: 6px solid #0d0e11; transform: scale(0); animation: pop .4s var(--spring) .8s forwards, flipBg .01s linear 2.75s forwards; }
+      .badge::before, .badge::after { grid-area: 1 / 1; line-height: 1; }
+      .badge::before { content: "+"; animation: gone .1s linear 2.75s forwards; }
+      .badge::after { content: "✓"; opacity: 0; animation: fade .2s ease 2.8s forwards; }
+      @keyframes gone { to { opacity: 0; } }
+      @keyframes flipBg { to { background: #3a3d45; } }
+      .name { grid-area: name; text-wrap: balance; font-weight: 900; letter-spacing: -.02em; line-height: 1.08; opacity: 0; animation: rise .5s var(--out) .55s forwards; }
+      .handle { grid-area: handle; font-family: 'Roboto Mono', monospace; font-weight: 500; color: #9a9ca4; opacity: 0; animation: rise .5s var(--out) .7s forwards; }
+      .stat { grid-area: stat; font-weight: 700; color: #d8d9dd; opacity: 0; animation: rise .5s var(--out) .85s forwards; }
+      .cta { grid-area: cta; text-wrap: balance; font-weight: 800; line-height: 1.2; opacity: 0; animation: rise .5s var(--out) 1.1s forwards; }
+      .bw { grid-area: btn; position: relative; opacity: 0; animation: rise .5s var(--out) 1.3s forwards; }
+      .btn { position: relative; display: grid; place-items: center; background: var(--ac); color: var(--acx); font-weight: 900; border-radius: 22px; animation: press .4s ease 2.6s both, flipBg .2s linear 2.72s forwards; }
+      @keyframes press { 0% { transform: scale(1); } 35% { transform: scale(.92); } 100% { transform: scale(1); } }
+      .btn span { grid-area: 1 / 1; white-space: nowrap; }
+      .btn .b1 { animation: out .14s ease 2.7s forwards; }
+      .btn .b2 { opacity: 0; animation: in .3s var(--out) 2.84s forwards; }
+      .btn .b2::before { content: "✓ "; }
+      @keyframes out { to { opacity: 0; transform: translateY(-40%); } }
+      @keyframes in { from { opacity: 0; transform: translateY(40%); } to { opacity: 1; transform: none; } }
+      .rip { position: absolute; left: 50%; top: 50%; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; border: 6px solid #ffffff; opacity: 0; animation: rip .7s var(--out) 2.65s forwards; pointer-events: none; }
+      @keyframes rip { 0% { opacity: .9; transform: scale(.3); } 100% { opacity: 0; transform: scale(4.2); } }
+      .tap { position: absolute; left: 50%; top: 50%; width: 110px; height: 110px; margin: -55px 0 0 -55px; border-radius: 50%; background: rgba(255,255,255,.35); border: 5px solid #ffffff; opacity: 0; animation: tap 1.5s var(--out) 1.9s forwards; pointer-events: none; z-index: 2; }
+      @keyframes tap { 0% { opacity: 0; transform: translate(260px, 300px) scale(1); } 20% { opacity: 1; } 50% { opacity: 1; transform: translate(40px, 30px) scale(1); } 60% { transform: translate(40px, 30px) scale(.78); } 72% { opacity: 1; transform: translate(40px, 30px) scale(1); } 100% { opacity: 0; transform: translate(120px, 170px) scale(1); } }
+      .burst { position: absolute; left: 50%; top: 50%; width: 0; height: 0; pointer-events: none; }
+      .burst i { position: absolute; left: -8px; top: -8px; width: 16px; height: 16px; border-radius: 50%; background: var(--ac2); opacity: 0; animation: burst .7s var(--out) 2.72s forwards; }
+      .burst i:nth-child(even) { background: #ffffff; }
+      @keyframes burst { 0% { opacity: 1; transform: rotate(var(--a)) translateX(40px) scale(1); } 100% { opacity: 0; transform: rotate(var(--a)) translateX(var(--r)) scale(.4); } }
+    
+    
+      .stage { padding: 0 220px; align-content: center; justify-content: center; column-gap: 90px; row-gap: 14px; text-align: left; justify-items: start;
+        grid-template-columns: 380px auto;
+        grid-template-areas: "av chip" "av name" "av handle" "av stat" "av cta" "av btn"; }
+      .chip { grid-area: chip; font-size: 26px; gap: 12px; padding: 10px 22px; margin-bottom: 10px; }
+      .avw { width: 340px; height: 340px; align-self: center; }
+      .av { font-size: 170px; }
+      .badge { width: 88px; height: 88px; font-size: 52px; }
+      .name { font-size: 84px; max-width: 1100px; }
+      .handle { font-size: 34px; }
+      .stat { font-size: 32px; }
+      .cta { font-size: 44px; max-width: 1100px; margin-top: 24px; }
+      .bw { margin-top: 18px; }
+      .btn { min-width: 420px; height: 110px; padding: 0 50px; font-size: 44px; }
+      .burst i { --r: 200px; }
+    
+  </style>
+</head>
+<body>
+  <div id="root" class="L" data-composition-id="main" data-width="1920" data-height="1080" data-start="0" data-duration="6" data-composition-variables='{"platform":"tiktok","handle":"@ghichu.congnghe","name":"Ghi Chú Công Nghệ","stat":"12,4K người theo dõi · 86 video","cta":"Theo dõi để nhận mẹo AI mỗi ngày","button":"Theo dõi","button_done":"Đang theo dõi"}'>
+    <div class="stage">
+        <div class="chip" id="chip"></div>
+        <div class="avw"><span class="ring2"></span><span class="ring"></span><div class="av" id="av"></div><span class="badge"></span></div>
+        <div class="name" data-slot="name"></div>
+        <div class="handle" data-slot="handle"></div>
+        <div class="stat" data-slot="stat"></div>
+        <div class="cta" data-slot="cta"></div>
+        <div class="bw" data-slot-box>
+          <div class="btn"><span class="b1" data-slot="button"></span><span class="b2" id="b2"></span></div>
+          <span class="rip"></span>
+          <span class="burst" id="burst"></span>
+          <span class="tap"></span>
+        </div>
+      </div>
+  </div>
+  <script>
+    // Caller values: window.__hyperframes.getVariables(), merged over the declared defaults
+    // so the file still previews on its own. Built once, before the first seek.
+    function getVariables() {
+      let d = {};
+      try { d = JSON.parse(document.getElementById("root").getAttribute("data-composition-variables") || "{}"); } catch (e) {}
+      const hf = window.__hyperframes;
+      const p = hf && typeof hf.getVariables === "function" ? hf.getVariables() || {} : {};
+      return Object.assign({}, d, p);
+    }
+    const v = getVariables();
+    const has = (k) => v[k] !== undefined && v[k] !== null && String(v[k]).trim() !== "";
+    document.querySelectorAll("[data-slot]").forEach((el) => {
+      const k = el.getAttribute("data-slot");
+      if (!has(k)) { (el.closest("[data-slot-box]") || el).remove(); return; }
+      el.textContent = String(v[k]);
+    });
+    /** One span per character, each starting `step` seconds after the last — a typewriter. */
+    function typeInto(el, text, start, step) {
+      el.textContent = "";
+      [...String(text)].forEach((ch, i) => {
+        const s = document.createElement("span");
+        s.className = "ch";
+        s.textContent = ch;
+        s.style.animationDelay = (start + i * step).toFixed(3) + "s";
+        el.appendChild(s);
+      });
+      return start + [...String(text)].length * step;
+    }
+    /** Odometer: every digit becomes a 0–9 column that rolls to its value. */
+    function odometer(el, text, start) {
+      el.textContent = "";
+      let n = 0;
+      [...String(text)].forEach((ch) => {
+        if (/[0-9]/.test(ch)) {
+          const col = document.createElement("span");
+          col.className = "odo";
+          const strip = document.createElement("span");
+          strip.className = "odo-strip";
+          for (let d = 0; d <= 9; d++) { const x = document.createElement("span"); x.textContent = d; strip.appendChild(x); }
+          strip.style.setProperty("--d", ch);
+          strip.style.animationDelay = (start + n++ * 0.07).toFixed(2) + "s";
+          const size = document.createElement("span");
+          size.className = "odo-size";
+          size.textContent = ch;
+          col.appendChild(size);
+          col.appendChild(strip);
+          el.appendChild(col);
+        } else {
+          const s = document.createElement("span");
+          s.className = "odo-sep";
+          s.textContent = ch;
+          el.appendChild(s);
+        }
+      });
+    }
+    
+      (function () {
+        const NAMES = { tiktok: "TikTok", facebook: "Facebook", youtube: "YouTube" };
+        let pf = String(v.platform || "tiktok").trim().toLowerCase();
+        if (!NAMES[pf]) pf = "tiktok";
+        document.getElementById("root").classList.add("pf-" + pf);
+        document.getElementById("chip").textContent = NAMES[pf];
+        const src = String(v.name || "").trim() || String(v.handle || "").replace(/^@/, "").trim();
+        document.getElementById("av").textContent = src ? [...src][0].toUpperCase() : "";
+        const b2 = document.getElementById("b2");
+        if (b2) b2.textContent = String(v.button_done || "").trim() || String(v.button || "");
+        const burst = document.getElementById("burst");
+        if (burst) for (let i = 0; i < 12; i++) {
+          const d = document.createElement("i");
+          d.style.setProperty("--a", (i * 30 + 8) + "deg");
+          burst.appendChild(d);
+        }
+      })();
+    
+    window.__timelines = window.__timelines || {};
+    window.__timelines["main"] = window.__timelines["portrait"] = {
+      duration: 6,
+      seek(t) { document.getAnimations().forEach((a) => { a.pause(); a.currentTime = t * 1000; }); },
+    };
+  </script>
+</body>
+</html>

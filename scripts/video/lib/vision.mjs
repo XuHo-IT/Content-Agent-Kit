@@ -38,9 +38,14 @@ export const MODELS = {
   },
 };
 
-/** The Python to use, or null. Checked in order: VISION_PYTHON, ./.venv-vision, PATH. */
-export function findPython() {
-  const env = optionalEnv("VISION_PYTHON");
+/**
+ * The Python to use, or null. Checked in order: the env vars given (default VISION_PYTHON),
+ * ./.venv-vision, then python / python3 on PATH. On Windows a bare `python` is often the
+ * Microsoft Store alias, which prints an install hint and exits 9009 — the version check
+ * below is what rejects it.
+ */
+export function findPython(envVars = ["VISION_PYTHON"]) {
+  const env = envVars.map((v) => optionalEnv(v)).find(Boolean);
   const venv = process.platform === "win32"
     ? path.join(KIT, ".venv-vision", "Scripts", "python.exe")
     : path.join(KIT, ".venv-vision", "bin", "python");
@@ -81,11 +86,13 @@ export async function ensureModel(key) {
 export function runPython(code, args = [], { what = "vision" } = {}) {
   const py = findPython();
   if (!py) throw new Error(`no Python 3 found — ${what} needs it. Set up once:\n  ${SETUP}`);
-  const r = spawnSync(py, ["-I", "-c", code, ...args.map(String)], { encoding: "utf8", maxBuffer: 256 * 1024 * 1024 });
+  const r = spawnSync(py, ["-I", "-c", code, ...args.map(String)], { encoding: "utf8", maxBuffer: 256 * 1024 * 1024, env: { ...process.env, PYTHONIOENCODING: "utf-8" } });
   if (r.error) throw new Error(`could not start ${py}: ${r.error.message}`);
   if (r.status !== 0) {
     const err = String(r.stderr || "");
     if (/No module named '(cv2|mediapipe|numpy)'/.test(err)) throw new Error(`${what} needs mediapipe (it brings OpenCV) — set up once:\n  ${SETUP}`);
+    // headless Linux: MediaPipe's segmenter loads EGL/GLES even on CPU (found by the vision CI)
+    if (/lib(EGL|GLESv2)\.so/.test(err)) throw new Error(`${what}: MediaPipe needs the system GL libraries on Linux — install them once:\n  sudo apt-get install -y libegl1 libgles2`);
     throw new Error(err.trim().split("\n").slice(-4).join("\n"));
   }
   const line = r.stdout.trim().split("\n").at(-1);
