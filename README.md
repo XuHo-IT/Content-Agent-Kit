@@ -152,7 +152,7 @@ Nguồn: Đài PTTH Thanh Hoá, giấy phép CC BY 3.0 — [chi tiết](examples
 
 | Miễn phí | Tuỳ chọn, trả phí |
 |---|---|
-| Làm video: 133 mẫu khung hình, 16 bảng màu, hiệu ứng âm thanh | Giọng đọc cao cấp (Vbee, FPT AI, ElevenLabs…) |
+| Làm video: 135 mẫu khung hình, 16 bảng màu, hiệu ứng âm thanh | Giọng đọc cao cấp (Vbee, FPT AI, ElevenLabs…) |
 | Giọng đọc chạy trên máy (OmniVoice) | Dữ liệu TikTok/Instagram/Facebook qua Apify |
 | Tìm chủ đề hot, phân tích kênh YouTube và báo | Video AI quay như thật (Google Veo) |
 | Cắt khoảng lặng, phụ đề, ảnh bìa | |

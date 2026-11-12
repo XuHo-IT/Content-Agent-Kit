@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=1920, height=1080" />
+        <title>Descent Gauge · 16:9</title>
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet" />
+        <style>
+/*
+ * frame-descent-gauge — one layer of a descent, held on the page while the depth counts down.
+ *
+ * Original work for this repo.
+ *
+ * The companion to frame-strata-section: that one shows every layer at once, this one
+ * shows a SINGLE layer big enough to read, with a gauge down the margin saying where in
+ * the descent it sits. A `countdown` spine wants both — the map, then each stop on it —
+ * and the kit had only frame-iceberg-levels, which is one fixed picture of three.
+ *
+ * THE GAUGE IS COMPUTED, NOT DRAWN BY HAND. `steps` says how many layers exist and `step`
+ * says which one this is; the marker's position is that ratio down the rail. Type a step
+ * out of range and it clamps rather than sliding off the page, because a marker floating
+ * past the end of its own rail is worse than a marker at the end.
+ *
+ * PAPER, NOT SCREEN — same ground as frame-strata-section so the two cut together without
+ * a flash. One red, used only for the current step.
+ *
+ * DRAW-ON: the rail is a dashed path counting to zero, and the tick for each passed step
+ * lands in sequence, so the gauge fills the way a descent actually goes — one level at a
+ * time, downward. The number itself counts down from `steps` rather than appearing, which
+ * is the whole reason this frame exists next to a plain title card.
+ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow: hidden; }
+html, body { width: 1920px; height: 1080px; }
+#root { position: relative; width: 1920px; height: 1080px; overflow: hidden;
+        font-family: "Be Vietnam Pro", sans-serif; }
+#root { background: #f2ece1; color: #241f1a; display: grid; align-content: center;
+        padding: 0 78px 0 168px; }
+
+/* Same paper tooth as frame-strata-section — the two are meant to cut together. */
+#root::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background:
+        repeating-linear-gradient(48deg, rgba(90,70,45,.035) 0 1px, transparent 1px 5px),
+        repeating-linear-gradient(-42deg, rgba(90,70,45,.03) 0 1px, transparent 1px 7px);
+}
+#root::after {
+    content: ""; position: absolute; inset: -8%; pointer-events: none; z-index: 0;
+    background: radial-gradient(46% 34% at 30% 70%, rgba(150,105,55,.09), transparent 72%);
+    animation: ambWash 23s ease-in-out infinite alternate;
+}
+@keyframes ambWash { from { transform: translate3d(-2.5%, 1.5%, 0); }
+                     to   { transform: translate3d(2.5%, -1.5%, 0); } }
+
+/* The gauge lives in the left margin the padding reserved for it. */
+.gauge { position: absolute; left: 74px; top: 150px; bottom: 150px; width: 60px; z-index: 1; }
+.gauge svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.gauge path, .gauge line { fill: none; stroke-dasharray: var(--len); stroke-dashoffset: var(--len);
+                           animation: draw 0.6s ease-out both; }
+.rail { stroke: rgba(36,31,26,.35); stroke-width: 3; }
+.past { stroke: #241f1a; stroke-width: 3; }
+.here { stroke: #9c3122; stroke-width: 5; }
+.dot  { position: absolute; left: 9px; width: 22px; height: 22px; border-radius: 50%;
+        background: #9c3122; margin-top: -11px;
+        opacity: 0; animation: pop 0.4s cubic-bezier(0.16,1,0.3,1) 1.05s both; }
+
+.count, .kicker, .title, .body, .note { position: relative; z-index: 1; }
+.count { font-weight: 900; font-size: 132px; line-height: 1; letter-spacing: -0.04em;
+         color: #9c3122; font-variant-numeric: tabular-nums;
+         opacity: 0; animation: rise 0.5s ease-out 0.15s both; }
+.count .of { font-size: 44px; font-weight: 700; color: rgba(36,31,26,.45); margin-left: 14px;
+             letter-spacing: 0; }
+.kicker { font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase;
+          color: rgba(36,31,26,.55); font-size: 32px; margin-top: 26px;
+          opacity: 0; animation: rise 0.5s ease-out 0.3s both; }
+.title { font-weight: 800; letter-spacing: -0.02em; line-height: 1.08; font-size: 88px;
+         margin-top: 18px; opacity: 0; animation: rise 0.55s ease-out 0.45s both; }
+/* A rule under the title, drawn rather than faded, tying the text to the gauge. */
+.underline { height: 5px; background: #9c3122; margin-top: 30px; width: 190px;
+             transform-origin: left center; transform: scaleX(0);
+             animation: wipe 0.6s cubic-bezier(0.16,1,0.3,1) 0.8s both; }
+.body { font-size: 40px; line-height: 1.42; margin-top: 42px; color: rgba(36,31,26,.86);
+        opacity: 0; animation: rise 0.55s ease-out 0.95s both; }
+.note { font-size: 29px; margin-top: 40px; color: rgba(36,31,26,.6);
+        opacity: 0; animation: rise 0.5s ease-out 1.3s both; }
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes wipe { to { transform: scaleX(1); } }
+@keyframes pop  { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+</style>
+    </head>
+    <body>
+        <div
+            id="root"
+            data-composition-id="main"
+            data-start="0"
+            data-duration="6"
+            data-width="1920"
+            data-height="1080"
+            data-composition-variables='{"step":"2","steps":"4","kicker":"Lớp thứ hai","title":"Tầng hầm buôn bán","body":"Thợ giày, thợ rèn, quán rượu. Trong khoảng ba mươi năm, đây là một khu phố nằm dưới mặt đường.","note":"","label_here":"Bạn đang ở đây"}'
+        >
+            <div class="gauge"><svg></svg></div>
+            <div class="count"></div>
+            <div class="kicker"></div>
+            <div class="title"></div>
+            <div class="underline"></div>
+            <div class="body"></div>
+            <div class="note"></div>
+        </div>
+        <script>
+            (function () {
+                var v =
+                    window.__hyperframes && typeof window.__hyperframes.getVariables === "function"
+                        ? window.__hyperframes.getVariables()
+                        : {};
+                var set = function (sel, text) {
+                    var el = document.querySelector(sel);
+                    if (el && text != null && String(text).length) el.textContent = String(text);
+                };
+                var drop = function (sel) {
+                    var el = document.querySelector(sel);
+                    if (el) el.remove();
+                };
+                // A slot left empty removes its element rather than rendering a gap. An empty
+                // heading reads as missing data; an absent one reads as a deliberate omission.
+                var setOrDrop = function (sel, text) {
+                    if (text == null || !String(text).trim()) return drop(sel);
+                    set(sel, text);
+                };
+                setOrDrop(".kicker", v.kicker);
+                setOrDrop(".title", v.title);
+                setOrDrop(".body", v.body);
+                setOrDrop(".note", v.note);
+
+                var steps = parseInt(v.steps, 10);
+                var step = parseInt(v.step, 10);
+                if (!isFinite(steps) || steps < 1) steps = 1;
+                // Clamp rather than let the marker slide off its own rail — a gauge pointing
+                // past its end is worse than one pinned to the end.
+                if (!isFinite(step)) step = 1;
+                step = Math.min(Math.max(step, 1), steps);
+
+                var countEl = document.querySelector(".count");
+                if (countEl) {
+                    countEl.textContent = String(step);
+                    var of = document.createElement("span");
+                    of.className = "of";
+                    of.textContent = "/ " + steps;
+                    countEl.appendChild(of);
+                }
+
+                var gauge = document.querySelector(".gauge");
+                var svg = gauge && gauge.querySelector("svg");
+                if (!svg) return;
+
+                // Measured after layout so the rail matches the box the CSS actually gave it,
+                // rather than a height typed here that any padding change would falsify.
+                requestAnimationFrame(function () {
+                    var H = gauge.getBoundingClientRect().height;
+                    if (!H) return;
+                    var X = 20;
+                    var svgNS = "http://www.w3.org/2000/svg";
+                    var mk = function (tag, cls, attrs, delay, len) {
+                        var el = document.createElementNS(svgNS, tag);
+                        el.setAttribute("class", cls);
+                        for (var k in attrs) el.setAttribute(k, attrs[k]);
+                        el.style.animationDelay = delay.toFixed(2) + "s";
+                        el.style.setProperty("--len", len.toFixed(0));
+                        return el;
+                    };
+
+                    svg.appendChild(mk("line", "rail", { x1: X, y1: 0, x2: X, y2: H }, 0.35, H));
+
+                    // One tick per step. Ticks above the current one are ink; the current one is
+                    // red and longer, so the eye finds the position without needing a legend.
+                    var gap = steps > 1 ? H / (steps - 1) : 0;
+                    for (var i = 1; i <= steps; i++) {
+                        var y = steps > 1 ? (i - 1) * gap : H / 2;
+                        var isHere = i === step;
+                        var w = isHere ? 34 : 20;
+                        var cls = isHere ? "here" : (i < step ? "past" : "rail");
+                        svg.appendChild(mk("line", cls,
+                            { x1: X - w / 2, y1: y, x2: X + w / 2, y2: y },
+                            0.5 + i * 0.09, w));
+                    }
+
+                    var y0 = steps > 1 ? (step - 1) * gap : H / 2;
+                    var dot = document.createElement("div");
+                    dot.className = "dot";
+                    dot.style.top = y0 + "px";
+                    gauge.appendChild(dot);
+                });
+            })();
+            window.__timelines = window.__timelines || {};
+            window.__timelines["main"] = window.__timelines["portrait"] = {
+                pause: function () {},
+                seek: function () {},
+                paused: function () { return true; },
+            };
+        </script>
+    </body>
+</html>
