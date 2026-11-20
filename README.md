@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/logo/logo-512.png" width="120" alt="Logo content-agent-kit: bong bóng chat có nút play, hai quỹ đạo và ba chấm màu">
+
 # 🎬 content-agent-kit
 
 ### Trợ lý làm nội dung bằng tiếng Việt — bạn chỉ cần nói với AI
