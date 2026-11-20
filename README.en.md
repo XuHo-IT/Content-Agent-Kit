@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="assets/logo/logo-512.png" width="120" alt="content-agent-kit logo: a speech bubble with a play button, two orbits and three coloured dots">
+
 # 🎬 content-agent-kit
 
 ### A content assistant you talk to — built for Vietnamese creators, open to everyone
